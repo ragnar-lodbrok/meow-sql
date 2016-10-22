@@ -1,0 +1,192 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file alias="icon-question.ico">resources/icons/icon-question.ico</file>
+        <file alias="server-azure.png">resources/icons/server-azure.png</file>
+        <file alias="arrow_left.png">resources/icons/arrow_left.png</file>
+        <file alias="server-postgresql.png">resources/icons/server-postgresql.png</file>
+        <file alias="chart_pie.png">resources/icons/chart_pie.png</file>
+        <file alias="paypal.png">resources/icons/paypal.png</file>
+        <file alias="arrow_refresh_full.png">resources/icons/arrow_refresh_full.png</file>
+        <file alias="bullet_star_gray.png">resources/icons/bullet_star_gray.png</file>
+        <file alias="bricks_overlay.png">resources/icons/bricks_overlay.png</file>
+        <file alias="overlay_world.png">resources/icons/overlay_world.png</file>
+        <file alias="overlay_page_white_text.png">resources/icons/overlay_page_white_text.png</file>
+        <file alias="overlay_mariadb.png">resources/icons/overlay_mariadb.png</file>
+        <file alias="overlay_lightbulb.png">resources/icons/overlay_lightbulb.png</file>
+        <file alias="overlay_bullet_purple.png">resources/icons/overlay_bullet_purple.png</file>
+        <file alias="gridcheckbox_disabled_unchecked.png">resources/icons/gridcheckbox_disabled_unchecked.png</file>
+        <file alias="gridcheckbox_disabled_checked.png">resources/icons/gridcheckbox_disabled_checked.png</file>
+        <file alias="folder.png">resources/icons/folder.png</file>
+        <file alias="server-tokudb.png">resources/icons/server-tokudb.png</file>
+        <file alias="server-infobright.png">resources/icons/server-infobright.png</file>
+        <file alias="server-infinidb.png">resources/icons/server-infinidb.png</file>
+        <file alias="application_xp_terminal.png">resources/icons/application_xp_terminal.png</file>
+        <file alias="server-percona.png">resources/icons/server-percona.png</file>
+        <file alias="bullet_star.png">resources/icons/bullet_star.png</file>
+        <file alias="bullet_black.png">resources/icons/bullet_black.png</file>
+        <file alias="server-mariadb.png">resources/icons/server-mariadb.png</file>
+        <file alias="text_padding_left.png">resources/icons/text_padding_left.png</file>
+        <file alias="server-mysql.png">resources/icons/server-mysql.png</file>
+        <file alias="bullet_error.png">resources/icons/bullet_error.png</file>
+        <file alias="edit_marker.png">resources/icons/edit_marker.png</file>
+        <file alias="bullet_add_marker.png">resources/icons/bullet_add_marker.png</file>
+        <file alias="cancel_blink.png">resources/icons/cancel_blink.png</file>
+        <file alias="cancel.png">resources/icons/cancel.png</file>
+        <file alias="tick_marker.png">resources/icons/tick_marker.png</file>
+        <file alias="cross_marker.png">resources/icons/cross_marker.png</file>
+        <file alias="page_white_paste_columns.png">resources/icons/page_white_paste_columns.png</file>
+        <file alias="page_copy_columns.png">resources/icons/page_copy_columns.png</file>
+        <file alias="wikipedia-icon.png">resources/icons/wikipedia-icon.png</file>
+        <file alias="latex.png">resources/icons/latex.png</file>
+        <file alias="page_white_delete.png">resources/icons/page_white_delete.png</file>
+        <file alias="photo.png">resources/icons/photo.png</file>
+        <file alias="time.png">resources/icons/time.png</file>
+        <file alias="hourglass.png">resources/icons/hourglass.png</file>
+        <file alias="bullet_green.png">resources/icons/bullet_green.png</file>
+        <file alias="money.png">resources/icons/money.png</file>
+        <file alias="lock_blue.png">resources/icons/lock_blue.png</file>
+        <file>resources/icons/magnifier.png</file>
+        <file>resources/icons/lock.png</file>
+        <file>resources/icons/chart_bar.png</file>
+        <file>resources/icons/arrows_showall.png</file>
+        <file>resources/icons/modifiedcell.png</file>
+        <file>resources/icons/gridcheckbox_unchecked.png</file>
+        <file>resources/icons/gridcheckbox_checked.png</file>
+        <file>resources/icons/find_again.png</file>
+        <file>resources/icons/page_white_text_hex.png</file>
+        <file>resources/icons/page_white_paint.png</file>
+        <file>resources/icons/table_sort.png</file>
+        <file>resources/icons/arrow_switch.png</file>
+        <file>resources/icons/cog.png</file>
+        <file>resources/icons/table_relationship.png</file>
+        <file>resources/icons/server_edit.png</file>
+        <file>resources/icons/cross_small.png</file>
+        <file>resources/icons/tab_delete.png</file>
+        <file>resources/icons/tab_add.png</file>
+        <file>resources/icons/application_form_edit.png</file>
+        <file>resources/icons/application_form_delete.png</file>
+        <file>resources/icons/application_form_add.png</file>
+        <file>resources/icons/key_unique.png</file>
+        <file>resources/icons/key_spatial.png</file>
+        <file>resources/icons/key_index.png</file>
+        <file>resources/icons/key_fulltext.png</file>
+        <file>resources/icons/os_windows.png</file>
+        <file>resources/icons/os_unix.png</file>
+        <file>resources/icons/os_mac.png</file>
+        <file>resources/icons/script_gear.png</file>
+        <file>resources/icons/go_right.png</file>
+        <file>resources/icons/go_left.png</file>
+        <file>resources/icons/go_both.png</file>
+        <file>resources/icons/selectall.png</file>
+        <file>resources/icons/tab_previous.png</file>
+        <file>resources/icons/tab_next.png</file>
+        <file>resources/icons/color_swatch.png</file>
+        <file>resources/icons/script_lightning.png</file>
+        <file>resources/icons/star_grey.png</file>
+        <file alias="star.png">resources/icons/star.png</file>
+        <file>resources/icons/sort_desc.png</file>
+        <file>resources/icons/sort_ascending.png</file>
+        <file>resources/icons/arrow_up.png</file>
+        <file>resources/icons/arrow_right.png</file>
+        <file>resources/icons/arrow_down.png</file>
+        <file>resources/icons/arrows_righttoleft.png</file>
+        <file>resources/icons/arrows_lefttoright.png</file>
+        <file>resources/icons/dropdown_normal.png</file>
+        <file>resources/icons/dropdown_highlight.png</file>
+        <file>resources/icons/delimiter.png</file>
+        <file>resources/icons/execute_selection.png</file>
+        <file>resources/icons/execute_line.png</file>
+        <file>resources/icons/wrench_orange.png</file>
+        <file>resources/icons/wordwrap.png</file>
+        <file>resources/icons/view_highlight.png</file>
+        <file>resources/icons/view_edit.png</file>
+        <file>resources/icons/view_add.png</file>
+        <file>resources/icons/view.png</file>
+        <file>resources/icons/user_comment.png</file>
+        <file>resources/icons/transmit_blue.png</file>
+        <file>resources/icons/information.png</file>
+        <file>resources/icons/import_settings.png</file>
+        <file>resources/icons/export_settings.png</file>
+        <file>resources/icons/error_delete.png</file>
+        <file>resources/icons/comments.png</file>
+        <file>resources/icons/bug.png</file>
+        <file>resources/icons/resultset_last.png</file>
+        <file>resources/icons/resultset_first.png</file>
+        <file>resources/icons/bullet_toggle_plus.png</file>
+        <file>resources/icons/bullet_toggle_minus.png</file>
+        <file>resources/icons/bullet_white.png</file>
+        <file>resources/icons/group_delete.png</file>
+        <file>resources/icons/group_add.png</file>
+        <file>resources/icons/group_edit.png</file>
+        <file>resources/icons/user_edit.png</file>
+        <file>resources/icons/user_delete.png</file>
+        <file>resources/icons/text_columns.png</file>
+        <file>resources/icons/page_white_put.png</file>
+        <file>resources/icons/calendar_view_day.png</file>
+        <file>resources/icons/table_highlight.png</file>
+        <file>resources/icons/database_highlight.png</file>
+        <file>resources/icons/bullet_arrow_down.png</file>
+        <file alias="wrench.png">resources/icons/wrench.png</file>
+        <file>resources/icons/world_go.png</file>
+        <file>resources/icons/user_add.png</file>
+        <file>resources/icons/user.png</file>
+        <file>resources/icons/toggle_log.png</file>
+        <file>resources/icons/tick.png</file>
+        <file>resources/icons/text_replace.png</file>
+        <file>resources/icons/table_save.png</file>
+        <file>resources/icons/table_multiple.png</file>
+        <file>resources/icons/table_key.png</file>
+        <file>resources/icons/table_edit.png</file>
+        <file>resources/icons/table_delete.png</file>
+        <file>resources/icons/table_add.png</file>
+        <file>resources/icons/table.png</file>
+        <file>resources/icons/server_go.png</file>
+        <file>resources/icons/server_connect.png</file>
+        <file>resources/icons/server_add.png</file>
+        <file>resources/icons/server.png</file>
+        <file>resources/icons/script_save.png</file>
+        <file>resources/icons/script_go.png</file>
+        <file>resources/icons/resultset_previous.png</file>
+        <file>resources/icons/resultset_next.png</file>
+        <file>resources/icons/printer.png</file>
+        <file>resources/icons/paste_plain.png</file>
+        <file>resources/icons/page_white_text.png</file>
+        <file>resources/icons/page_excel.png</file>
+        <file>resources/icons/page_edit.png</file>
+        <file>resources/icons/page_copy.png</file>
+        <file>resources/icons/page_code.png</file>
+        <file>resources/icons/note_go.png</file>
+        <file>resources/icons/lightning.png</file>
+        <file>resources/icons/images.png</file>
+        <file>resources/icons/html.png</file>
+        <file>resources/icons/help.png</file>
+        <file>resources/icons/group.png</file>
+        <file>resources/icons/folder_explore.png</file>
+        <file>resources/icons/find.png</file>
+        <file>resources/icons/filter.png</file>
+        <file>resources/icons/fileopen.png</file>
+        <file>resources/icons/editclear.png</file>
+        <file>resources/icons/disk.png</file>
+        <file>resources/icons/disconnect.png</file>
+        <file>resources/icons/delete.png</file>
+        <file>resources/icons/database_save.png</file>
+        <file>resources/icons/database_refresh.png</file>
+        <file>resources/icons/database_go.png</file>
+        <file>resources/icons/database_edit.png</file>
+        <file>resources/icons/database_delete.png</file>
+        <file>resources/icons/database_add.png</file>
+        <file>resources/icons/database.png</file>
+        <file>resources/icons/cut_red.png</file>
+        <file>resources/icons/cross.png</file>
+        <file>resources/icons/computer.png</file>
+        <file>resources/icons/check_none.png</file>
+        <file>resources/icons/check_all.png</file>
+        <file>resources/icons/bullet_key.png</file>
+        <file>resources/icons/book_open.png</file>
+        <file>resources/icons/book.png</file>
+        <file>resources/icons/artsbuilderexecute.png</file>
+        <file>resources/icons/arrow_undo.png</file>
+        <file>resources/icons/arrow_refresh.png</file>
+        <file>resources/icons/add.png</file>
+    </qresource>
+</RCC>
