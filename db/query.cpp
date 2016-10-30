@@ -14,6 +14,11 @@ Query::~Query()
 
 }
 
+void Query::setSQL(const QString & SQL)
+{
+    _SQL = SQL;
+}
+
 } // namespace db
 } // namespace meow
 

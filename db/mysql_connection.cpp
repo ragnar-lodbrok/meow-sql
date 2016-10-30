@@ -19,10 +19,11 @@ MySQLConnection::MySQLConnection(const ConnectionParameters & params)
 
 }
 
-Query * MySQLConnection::createQuery() const // override
+QueryPtr MySQLConnection::createQuery() // override
 {
-    return NULL;
-    //return new MySQLQuery(this);
+    MySQLQuery * query = new MySQLQuery(this);
+
+    return QueryPtr(query);
 }
 
 void MySQLConnection::setActive(bool active) // override
@@ -107,6 +108,18 @@ void MySQLConnection::setActive(bool active) // override
         }
 
         QString curCharSet = fetchCharacterSet();
+
+        // H: show status
+        // H: mysql_get_server_info
+        // H: set database
+
+        doAfterConnect();
+    } else if (!active && _handle != nullptr) {
+        mysql_close(_handle);
+        _active = false;
+        // H: ClearCache(False);
+        _handle = nullptr;
+        qDebug() << "[MySQLConnection] " << "Closed";
     }
 }
 
@@ -165,6 +178,79 @@ bool MySQLConnection::ping(bool reconnect) // override
     return _active;
 }
 
+void MySQLConnection::query(const QString & SQL, bool storeResult) // override
+{
+    // TODO: H: FLockedByThread
+    
+    qDebug() << "[MySQLConnection] " << "Query: " << SQL;
+    
+    ping(true);    
+    // TODO: H: FLastQuerySQL
+
+    QByteArray nativeSQL;
+
+    if (isUnicode()) {
+        nativeSQL = SQL.toUtf8();
+    } else {
+        nativeSQL = SQL.toLatin1();
+    }
+
+    int queryStatus = mysql_real_query(_handle, nativeSQL.constData(), nativeSQL.size());
+
+    if (queryStatus != 0) {
+        QString error = getLastError();
+        qDebug() << "[MySQLConnection] " << "Query failed: " << error;
+        throw db::Exception(error);
+    }
+
+    // TODO: H: FWarningCount := mysql_warning_count(FHandle);
+
+    MYSQL_RES * queryResult = mysql_store_result(_handle);
+
+    if (queryResult == nullptr && mysql_affected_rows(_handle) == -1) {
+        // TODO: the doc stands to check mysql_error(), no mysql_affected_rows ?
+        QString error = getLastError();
+        qDebug() << "[MySQLConnection] " << "Query (store) failed: " << error;
+        throw db::Exception(error);
+    }
+
+    // TODO: H: if QueryResult = nil then DetectUSEQuery(SQL);
+
+    my_ulonglong rowsFound = 0;
+    my_ulonglong rowsAffected = 0;
+
+    while (queryStatus == 0) {
+        if (queryResult != nullptr) {
+            // Statement returned a result set
+            rowsFound += mysql_num_rows(queryResult);
+            if (storeResult) {
+                // TODO:
+            } else {
+                mysql_free_result(queryResult);
+            }
+        } else {
+            // No result, but probably affected rows
+            rowsAffected += mysql_affected_rows(_handle);
+        }
+
+        // H: Inc(FStatementNum);
+
+        // more results? -1 = no, >0 = error, 0 = yes (keep looping)
+        queryStatus = mysql_next_result(_handle);
+        if (queryStatus == 0) {
+            queryResult = mysql_store_result(_handle);
+        } else if (queryStatus > 0) { // err
+            // MySQL stops executing a multi-query when an error occurs. So do we here by raising an exception.
+            QString error = getLastError();
+            qDebug() << "[MySQLConnection] " << "Query (next) failed: " << error;
+            throw db::Exception(error);
+        }
+    }
+    // H:     FResultCount := Length(FLastRawResults);
+
+    qDebug() << "rows found: " << rowsFound;
+}
+
 /*
 function TMySQLConnection.GetAllDatabases: TStringList;
 begin
@@ -190,7 +276,9 @@ end;
 
 QStringList MySQLConnection::fetchDatabases() // override
 {
-    return QStringList();
+    return getColumn("SHOW DATABASES");
+
+    //return QStringList();
 }
 
 } // namespace db

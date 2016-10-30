@@ -18,7 +18,7 @@ public:
 
     virtual bool ping(bool reconnect) override;
 
-    virtual Query * createQuery() const override;
+    virtual QueryPtr createQuery() override;
 
     virtual QStringList fetchDatabases() override;
 
@@ -27,6 +27,8 @@ public:
     virtual QString fetchCharacterSet() override;
 
     virtual void setCharacterSet(const QString & characterSet) override;
+    
+    virtual void query(const QString & SQL, bool storeResult = false) override;
 
 private:
     MYSQL * _handle;

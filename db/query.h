@@ -11,8 +11,11 @@ class Connection;
 class Query
 {
 public:
-    Query(Connection * connection);
+    Query(Connection * connection = nullptr);
     virtual ~Query();
+
+    void setSQL(const QString & SQL);
+    void setConnection(Connection * connection) { _connection = connection; }
 
     const QString & SQL() const { return _SQL; }
     Connection * connection() const { return _connection; }

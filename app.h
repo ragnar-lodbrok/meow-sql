@@ -1,7 +1,7 @@
 #ifndef MEOW_APP_H
 #define MEOW_APP_H
 
-#import "db/connection_params_manager.h"
+#include "db/connection_params_manager.h"
 
 namespace meow {
 

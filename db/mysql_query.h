@@ -2,6 +2,7 @@
 #define DB_MYSQLQUERY_H
 
 #include "query.h"
+#include "mysql_connection.h"
 
 namespace meow {
 namespace db {
@@ -9,7 +10,7 @@ namespace db {
 class MySQLQuery : public Query
 {
 public:
-    MySQLQuery(Connection * connection);
+    MySQLQuery(Connection * connection = nullptr);
     virtual ~MySQLQuery();
 
     virtual void execute(bool addResult = false, int useRawResult = -1) override;
