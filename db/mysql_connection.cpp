@@ -195,6 +195,7 @@ void MySQLConnection::query(const QString & SQL, bool storeResult) // override
         nativeSQL = SQL.toLatin1();
     }
 
+    _statementNum = 1;
     int queryStatus = mysql_real_query(_handle, nativeSQL.constData(), nativeSQL.size());
 
     if (queryStatus != 0) {
@@ -204,10 +205,13 @@ void MySQLConnection::query(const QString & SQL, bool storeResult) // override
     }
 
     // TODO: H: FWarningCount := mysql_warning_count(FHandle);
+    _rowsAffected = 0;
+    _rowsFound = 0;
+    _lastRawResults.clear();
 
     MYSQL_RES * queryResult = mysql_store_result(_handle);
 
-    if (queryResult == nullptr && mysql_affected_rows(_handle) == -1) {
+    if (queryResult == nullptr && mysql_affected_rows(_handle) == (my_ulonglong)-1) {
         // TODO: the doc stands to check mysql_error(), no mysql_affected_rows ?
         QString error = getLastError();
         qDebug() << "[MySQLConnection] " << "Query (store) failed: " << error;
@@ -216,31 +220,28 @@ void MySQLConnection::query(const QString & SQL, bool storeResult) // override
 
     // TODO: H: if QueryResult = nil then DetectUSEQuery(SQL);
 
-    my_ulonglong rowsFound = 0;
-    my_ulonglong rowsAffected = 0;
-
     while (queryStatus == 0) {
         if (queryResult != nullptr) {
             // Statement returned a result set
-            rowsFound += mysql_num_rows(queryResult);
+            _rowsFound += mysql_num_rows(queryResult);
             if (storeResult) {
-                // TODO:
+                _lastRawResults.push_back(queryResult); // smells, but just copy now till understand
             } else {
                 mysql_free_result(queryResult);
             }
         } else {
             // No result, but probably affected rows
-            rowsAffected += mysql_affected_rows(_handle);
+            _rowsAffected += mysql_affected_rows(_handle);
         }
-
-        // H: Inc(FStatementNum);
 
         // more results? -1 = no, >0 = error, 0 = yes (keep looping)
         queryStatus = mysql_next_result(_handle);
         if (queryStatus == 0) {
+            ++_statementNum; // H does it above if
             queryResult = mysql_store_result(_handle);
         } else if (queryStatus > 0) { // err
             // MySQL stops executing a multi-query when an error occurs. So do we here by raising an exception.
+            _lastRawResults.clear(); // TODO: mysql_free_result for prevs ?
             QString error = getLastError();
             qDebug() << "[MySQLConnection] " << "Query (next) failed: " << error;
             throw db::Exception(error);
@@ -248,37 +249,37 @@ void MySQLConnection::query(const QString & SQL, bool storeResult) // override
     }
     // H:     FResultCount := Length(FLastRawResults);
 
-    qDebug() << "rows found: " << rowsFound;
-}
+    qDebug() << "[MySQLConnection] " << "Query rows found/affected: " << _rowsFound << "/" << _rowsAffected;
 
-/*
-function TMySQLConnection.GetAllDatabases: TStringList;
-begin
-  Result := inherited;
-  if not Assigned(Result) then begin
-    try
-      FAllDatabases := GetCol('SHOW DATABASES');
-    except on E:EDatabaseError do
-      try
-        FAllDatabases := GetCol('SELECT '+QuoteIdent('SCHEMA_NAME')+' FROM '
-        +QuoteIdent('information_schema')+'.'+QuoteIdent('SCHEMATA')+' ORDER BY '+QuoteIdent('SCHEMA_NAME'));
-      except
-        on E:EDatabaseError do begin
-          FAllDatabases := TStringList.Create;
-          Log(lcError, f_('Database names not available due to missing privileges for user %s.', [CurrentUserHostCombination]));
-        end;
-      end;
-    end;
-    Result := FAllDatabases;
-  end;
-end;
-*/
+    // TODO: we should simply return raw results as new type (call free in dtor)?
+}
 
 QStringList MySQLConnection::fetchDatabases() // override
 {
-    return getColumn("SHOW DATABASES");
 
-    //return QStringList();
+    try {
+        return getColumn("SHOW DATABASES");
+    } catch(meow::db::Exception & ex1) {
+        try {
+            return getColumn("SELECT `SCHEMA_NAME` FROM `information_schema`.`SCHEMATA` ORDER BY `SCHEMA_NAME`");
+        } catch(meow::db::Exception & ex2) {
+            qDebug() << "[MySQLConnection] " << "Database names not available due to missing privileges: " << ex2.message();
+        }
+    }
+
+    return QStringList();
+}
+
+
+std::size_t MySQLConnection::lastResultsCount() const // override
+{
+    // listening: Killswitch Engage - The End Of Heartache
+    return _lastRawResults.size();
+}
+
+MYSQL_RES * MySQLConnection::lastRawResultAt(std::size_t index) const
+{
+    return _lastRawResults.at(index);
 }
 
 } // namespace db

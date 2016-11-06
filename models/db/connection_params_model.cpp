@@ -188,13 +188,16 @@ ConnectionParamsModel::selectFormAt(int row)
 
     try {
         connection.setActive(true);
+
+        qDebug() << "Fetched DBs: \n" << connection.allDatabases();
+
     } catch(meow::db::Exception & ex) {
-        qDebug() << "Failed to connect: " << ex.message();
+        qDebug() << "Exc: " << ex.message();
     }
 
 
 
-    qDebug() << "Fetched DBs: \n" << connection.allDatabases();
+
 
     _selectedForm.reset(form);
     _selectedFormModified = false;

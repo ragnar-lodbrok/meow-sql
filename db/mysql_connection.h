@@ -1,6 +1,7 @@
 #ifndef DB_MYSQLCONNECTION_H
 #define DB_MYSQLCONNECTION_H
 
+#include <vector>
 #include <mysql/mysql.h>
 #include "connection.h"
 
@@ -30,8 +31,13 @@ public:
     
     virtual void query(const QString & SQL, bool storeResult = false) override;
 
+    virtual std::size_t lastResultsCount() const override;
+
+    MYSQL_RES * lastRawResultAt(std::size_t index) const;
+
 private:
     MYSQL * _handle;
+    std::vector<MYSQL_RES *> _lastRawResults;
 };
 
 } // namespace db

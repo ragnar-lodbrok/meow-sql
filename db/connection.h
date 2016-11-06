@@ -14,6 +14,8 @@ class Query;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
+typedef unsigned long long ulonglong;
+
 class Connection
 {
 public:
@@ -41,9 +43,16 @@ public:
     virtual void doAfterConnect();
     virtual QString fetchCharacterSet() = 0;
     virtual void query(const QString & SQL, bool storeResult = false) = 0; // H: add LogCategory
- 
+    virtual std::size_t lastResultsCount() const { return 0; } // H: ResultCount
+
 protected:
     bool _active;
+    db::ulonglong _rowsFound;
+    db::ulonglong _rowsAffected;
+    int _statementNum; // TODO: why signed, usage?
+
+    QString quoteIdentifier(const char * identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
+    QString quoteIdentifier(QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
 private:
     //int _connectionStarted;
     //int _serverUptime;
