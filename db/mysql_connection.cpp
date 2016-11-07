@@ -225,7 +225,9 @@ void MySQLConnection::query(const QString & SQL, bool storeResult) // override
             // Statement returned a result set
             _rowsFound += mysql_num_rows(queryResult);
             if (storeResult) {
-                _lastRawResults.push_back(queryResult); // smells, but just copy now till understand
+                _lastRawResults.push_back(
+                   createSharedMySQLResultFromNative(queryResult)
+                ); // smells, but just copy now till understand
             } else {
                 mysql_free_result(queryResult);
             }
@@ -241,7 +243,7 @@ void MySQLConnection::query(const QString & SQL, bool storeResult) // override
             queryResult = mysql_store_result(_handle);
         } else if (queryStatus > 0) { // err
             // MySQL stops executing a multi-query when an error occurs. So do we here by raising an exception.
-            _lastRawResults.clear(); // TODO: mysql_free_result for prevs ?
+            _lastRawResults.clear();
             QString error = getLastError();
             qDebug() << "[MySQLConnection] " << "Query (next) failed: " << error;
             throw db::Exception(error);
@@ -277,9 +279,19 @@ std::size_t MySQLConnection::lastResultsCount() const // override
     return _lastRawResults.size();
 }
 
-MYSQL_RES * MySQLConnection::lastRawResultAt(std::size_t index) const
+MySQLResult MySQLConnection::lastRawResultAt(std::size_t index) const
 {
     return _lastRawResults.at(index);
+}
+
+MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)
+{
+    return std::shared_ptr<MYSQL_RES> (nativeMySQLRes, [](MYSQL_RES * nativeMySQLRes) {
+        if (nativeMySQLRes) {
+           mysql_free_result(nativeMySQLRes);
+           //qDebug() << "mysql_free_result: " << nativeMySQLRes;
+        }
+    });
 }
 
 } // namespace db

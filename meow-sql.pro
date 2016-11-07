@@ -54,7 +54,8 @@ HEADERS  += mainwindow.h \
     db/mysql_connection.h \
     db/query.h \
     db/mysql_query.h \
-    db/exception.h
+    db/exception.h \
+    db/common.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

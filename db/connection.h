@@ -4,6 +4,7 @@
 #include <memory>
 #include <QString>
 #include <QStringList>
+#include "common.h"
 #include "connection_parameters.h"
 #include "exception.h"
 
@@ -13,8 +14,6 @@ namespace db {
 class Query;
 
 typedef std::shared_ptr<Query> QueryPtr;
-
-typedef unsigned long long ulonglong;
 
 class Connection
 {

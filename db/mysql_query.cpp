@@ -20,12 +20,34 @@ void MySQLQuery::execute(bool addResult /*= false*/, int useRawResult /*= -1*/) 
         useRawResult = 0;
     }
 
-    MYSQL_RES * lastResult = nullptr;
+    MySQLResult lastResult = nullptr;
     if (connection()->lastResultsCount() > useRawResult) {
         lastResult = static_cast<MySQLConnection *>(connection())->lastRawResultAt(useRawResult);
     }
 
-    //connection()->query(this->SQL());
+    if (addResult) {
+        throw std::runtime_error("not implemented");
+    } else {
+        _resultList.clear();
+        _recordCount = 0;
+        // H: ...
+    }
+
+    if (lastResult) {
+        _resultList.push_back(lastResult);
+        _recordCount += lastResult.get()->row_count;
+    }
+
+    if (!addResult) {
+        if (_resultList.empty() == false) {
+
+        }
+    }
+}
+
+bool MySQLQuery::hasResult() // override
+{
+    return _resultList.empty() == false;
 }
 
 MySQLQuery::~MySQLQuery()

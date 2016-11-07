@@ -15,6 +15,11 @@ public:
 
     virtual void execute(bool addResult = false, int useRawResult = -1) override;
 
+    virtual bool hasResult() override;
+
+private:
+    std::vector<MySQLResult> _resultList;
+
 };
 
 } // namespace db
