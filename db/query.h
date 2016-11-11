@@ -2,6 +2,7 @@
 #define DB_QUERY_H
 
 #include <QString>
+#include <QStringList>
 #include "common.h"
 
 namespace meow {
@@ -28,6 +29,8 @@ public:
 
 protected:
     db::ulonglong _recordCount;
+    QStringList _columnNames;
+    QStringList _columnOrgNames;
 
 private:
     QString _SQL;

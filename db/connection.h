@@ -25,6 +25,7 @@ public:
     ConnectionParameters * connectionParams() { return &_connectionParams; }
     QString & characterSet() { return _characterSet; }
     bool isUnicode() const { return _isUnicode; }
+    unsigned long serverVersionInt() const { return _serverVersionInt; }
 
     virtual void setCharacterSet(const QString & characterSet);
     void setIsUnicode(bool isUnicode) { _isUnicode = isUnicode; }
@@ -49,6 +50,8 @@ protected:
     db::ulonglong _rowsFound;
     db::ulonglong _rowsAffected;
     int _statementNum; // TODO: why signed, usage?
+    QString _serverVersionString;
+    unsigned long _serverVersionInt;
 
     QString quoteIdentifier(const char * identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
     QString quoteIdentifier(QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null);

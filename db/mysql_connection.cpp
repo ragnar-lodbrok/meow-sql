@@ -110,7 +110,9 @@ void MySQLConnection::setActive(bool active) // override
         QString curCharSet = fetchCharacterSet();
 
         // H: show status
-        // H: mysql_get_server_info
+        _serverVersionString = QString(mysql_get_server_info(_handle));
+        _serverVersionInt = mysql_get_server_version(_handle);
+
         // H: set database
 
         doAfterConnect();

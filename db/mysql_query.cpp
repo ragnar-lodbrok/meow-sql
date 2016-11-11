@@ -40,7 +40,26 @@ void MySQLQuery::execute(bool addResult /*= false*/, int useRawResult /*= -1*/) 
 
     if (!addResult) {
         if (_resultList.empty() == false) {
+            // FCurrentResults is normally done in SetRecNo, but never if result has no rows
+            // H: FCurrentResults := LastResult;
 
+            unsigned int numFields = mysql_num_fields(lastResult.get());
+
+            //H: SetLength(FColumnTypes, NumFields);
+            //H: SetLength(FColumnLengths, NumFields);
+            //H: SetLength(FColumnFlags, NumFields);
+
+            _columnNames.clear(); // TODO: try reserve() ?
+            _columnOrgNames.clear();
+            for (unsigned int i=0; i < numFields; ++i) {
+                MYSQL_FIELD * field = mysql_fetch_field_direct(lastResult.get(), i);
+                _columnNames.append(QString(field->name));
+                if (connection()->serverVersionInt() >= 40100) {
+                    _columnOrgNames.append(QString(field->org_name));
+                } else {
+                    _columnOrgNames.append(QString(field->name));
+                }
+            }
         }
     }
 }
