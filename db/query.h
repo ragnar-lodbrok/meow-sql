@@ -22,15 +22,25 @@ public:
     const QString & SQL() const { return _SQL; }
     Connection * connection() const { return _connection; }
 
+    db::ulonglong recordCount() const { return _recordCount; }
+    bool isEof() const { return _eof; }
+
     // H: procedure Execute(AddResult: Boolean=False; UseRawResult: Integer=-1); virtual; abstract;
-    virtual void execute(bool addResult = false, int useRawResult = -1) = 0;
+    virtual void execute(bool addResult = false, std::size_t useRawResult = -1) = 0;
 
     virtual bool hasResult() = 0;
 
+    virtual void seekRecNo(db::ulonglong value) = 0; // H: SetRecNo
+
+    void seekFirst();
+    void seekNext();
+
 protected:
     db::ulonglong _recordCount;
+    db::ulonglong  _curRecNo; // H: FRecNo
     QStringList _columnNames;
     QStringList _columnOrgNames;
+    bool _eof; // H: FEof
 
 private:
     QString _SQL;

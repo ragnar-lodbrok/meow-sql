@@ -13,13 +13,17 @@ public:
     MySQLQuery(Connection * connection = nullptr);
     virtual ~MySQLQuery();
 
-    virtual void execute(bool addResult = false, int useRawResult = -1) override;
+    virtual void execute(bool addResult = false, std::size_t useRawResult = -1) override;
 
     virtual bool hasResult() override;
 
+    virtual void seekRecNo(db::ulonglong value) override;
+
 private:
     std::vector<MySQLResult> _resultList;
-
+    MYSQL_ROW _curRow;
+    MySQLResult _currentResult; // TODO: really need this? H: FCurrentResults
+    std::vector<unsigned int> _columnLengths; // FColumnLengths
 };
 
 } // namespace db

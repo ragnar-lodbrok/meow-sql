@@ -5,17 +5,18 @@ namespace meow {
 namespace db {
 
 MySQLQuery::MySQLQuery(Connection *connection)
-    :Query(connection)
+    :Query(connection),
+     _curRow(nullptr)
 {
 
 }
 
-void MySQLQuery::execute(bool addResult /*= false*/, int useRawResult /*= -1*/) // override
+void MySQLQuery::execute(bool addResult /*= false*/, std::size_t useRawResult /*= -1*/) // override
 {
     qDebug() << "[MySQLQuery] " << "Executing: " << SQL();
 
     // Execute a query, or just take over one of the last result pointers
-    if (useRawResult == -1) {
+    if (useRawResult == (std::size_t)-1) {
         connection()->query(this->SQL(), true); //H: FStoreResult seems always true?
         useRawResult = 0;
     }
@@ -46,8 +47,9 @@ void MySQLQuery::execute(bool addResult /*= false*/, int useRawResult /*= -1*/) 
             unsigned int numFields = mysql_num_fields(lastResult.get());
 
             //H: SetLength(FColumnTypes, NumFields);
-            //H: SetLength(FColumnLengths, NumFields);
             //H: SetLength(FColumnFlags, NumFields);
+
+            _columnLengths.resize(numFields);
 
             _columnNames.clear(); // TODO: try reserve() ?
             _columnOrgNames.clear();
@@ -60,6 +62,10 @@ void MySQLQuery::execute(bool addResult /*= false*/, int useRawResult /*= -1*/) 
                     _columnOrgNames.append(QString(field->name));
                 }
             }
+
+            seekFirst();
+        } else {
+            _columnLengths.clear();
         }
     }
 }
@@ -67,6 +73,60 @@ void MySQLQuery::execute(bool addResult /*= false*/, int useRawResult /*= -1*/) 
 bool MySQLQuery::hasResult() // override
 {
     return _resultList.empty() == false;
+}
+
+void MySQLQuery::seekRecNo(db::ulonglong value) // override
+{
+    if (value == _curRecNo) {
+        return;
+    }
+    bool editingPrepared = false; // TODO
+    if (!editingPrepared && (value >= _recordCount) ) {
+        _curRecNo = _recordCount;
+        _eof = true;
+        return;
+    }
+    bool rowFound = false;
+    if (editingPrepared) {
+        // TODO
+    }
+
+    if (!rowFound) {
+        db::ulonglong numRows = 0;
+        for (auto result : _resultList) {
+            numRows += result.get()->row_count;
+            if (numRows > value) {
+                _currentResult = result; // TODO: why ?
+                MYSQL_RES * curResPtr = _currentResult.get();
+                // TODO: using unsigned with "-" is risky
+                db::ulonglong wantedLocalRecNo = curResPtr->row_count - (numRows - value);
+                // H: Do not seek if FCurrentRow points to the previous row of the wanted row
+                if (wantedLocalRecNo == 0 || (_curRecNo+1 != value) || _curRow == nullptr) {
+                    // TODO: it does not seems we need 3rd condition?
+                    mysql_data_seek(curResPtr, wantedLocalRecNo);
+                }
+
+                _curRow = mysql_fetch_row(curResPtr);
+
+                qDebug() << _curRow[0];
+
+                // H: FCurrentUpdateRow := nil;
+
+                // H: Remember length of column contents. Important for Col() so contents
+                // of cells with #0 chars are not cut off
+                unsigned long * lengths = mysql_fetch_lengths(curResPtr);
+
+                for (size_t i=0; i<_columnLengths.size(); ++i) {
+                    _columnLengths[i] = lengths[i];
+                }
+
+                break;
+            }
+        }
+    }
+
+    _curRecNo = value;
+    _eof = false;
 }
 
 MySQLQuery::~MySQLQuery()

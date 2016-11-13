@@ -45,9 +45,20 @@ QStringList Connection::getColumn(const QString & SQL, int index)
 {
     QueryPtr query = getResults(SQL);
 
+    QStringList result;
+
     Q_UNUSED(index);
 
-    return QStringList();
+    Query * queryPtr = query.get();
+
+    if (queryPtr->recordCount() > 0) {
+        while (queryPtr->isEof() == false) {
+            //  Result.Add(Results.Col(Column));
+            queryPtr->seekNext();
+        }
+    }
+
+    return result;
 }
 
 QueryPtr Connection::getResults(const QString & SQL)
