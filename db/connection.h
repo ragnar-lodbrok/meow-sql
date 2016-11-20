@@ -19,7 +19,7 @@ class Connection
 {
 public:
     Connection(const ConnectionParameters & params);
-    ~Connection();
+    virtual ~Connection();
 
     bool active() const { return _active; }
     ConnectionParameters * connectionParams() { return &_connectionParams; }
@@ -30,7 +30,8 @@ public:
     virtual void setCharacterSet(const QString & characterSet);
     void setIsUnicode(bool isUnicode) { _isUnicode = isUnicode; }
 
-    QStringList getColumn(const QString & SQL, int index = 0); // H: GetCol
+    QStringList getColumn(const QString & SQL, std::size_t index = 0); // H: GetCol
+    QString getCell(const QString & SQL, std::size_t index = 0); //H:  GetVar
     QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String): TDBQuery;
     QStringList allDatabases();
 

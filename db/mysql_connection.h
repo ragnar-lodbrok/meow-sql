@@ -19,6 +19,8 @@ class MySQLConnection : public Connection
 public:
     MySQLConnection(const ConnectionParameters & params);
 
+    virtual ~MySQLConnection();
+
     virtual void setActive(bool active) override;
 
     virtual bool ping(bool reconnect) override;

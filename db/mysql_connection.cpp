@@ -19,6 +19,13 @@ MySQLConnection::MySQLConnection(const ConnectionParameters & params)
 
 }
 
+MySQLConnection::~MySQLConnection()
+{
+    if (active()) {
+        setActive(false);
+    }
+}
+
 QueryPtr MySQLConnection::createQuery() // override
 {
     MySQLQuery * query = new MySQLQuery(this);

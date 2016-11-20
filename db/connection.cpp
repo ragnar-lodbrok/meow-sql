@@ -15,7 +15,7 @@ Connection::Connection(const ConnectionParameters & params)
 
 Connection::~Connection()
 {
-
+    // H: clears
 }
 
 void Connection::doBeforeConnect()
@@ -41,24 +41,35 @@ void Connection::setCharacterSet(const QString & characterSet)
    _characterSet = characterSet;
 }
 
-QStringList Connection::getColumn(const QString & SQL, int index)
+QStringList Connection::getColumn(const QString & SQL, std::size_t index)
 {
     QueryPtr query = getResults(SQL);
 
     QStringList result;
 
-    Q_UNUSED(index);
-
     Query * queryPtr = query.get();
 
     if (queryPtr->recordCount() > 0) {
         while (queryPtr->isEof() == false) {
-            //  Result.Add(Results.Col(Column));
+            result.append(queryPtr->curRowColumn(index));
             queryPtr->seekNext();
         }
     }
 
     return result;
+}
+
+QString Connection::getCell(const QString & SQL, std::size_t index /*= 0*/)
+{
+    QueryPtr query = getResults(SQL);
+
+    Query * queryPtr = query.get();
+
+    if (queryPtr->recordCount() > 0) {
+        return queryPtr->curRowColumn(index);
+    }
+
+    return QString();
 }
 
 QueryPtr Connection::getResults(const QString & SQL)

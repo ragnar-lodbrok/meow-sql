@@ -25,12 +25,16 @@ public:
     db::ulonglong recordCount() const { return _recordCount; }
     bool isEof() const { return _eof; }
 
+    std::size_t columnCount() const { return _columnNames.size(); }
+
     // H: procedure Execute(AddResult: Boolean=False; UseRawResult: Integer=-1); virtual; abstract;
     virtual void execute(bool addResult = false, std::size_t useRawResult = -1) = 0;
 
     virtual bool hasResult() = 0;
 
     virtual void seekRecNo(db::ulonglong value) = 0; // H: SetRecNo
+
+    virtual QString curRowColumn(std::size_t index, bool ignoreErrors = false) = 0;
 
     void seekFirst();
     void seekNext();

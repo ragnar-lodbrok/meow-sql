@@ -19,6 +19,8 @@ public:
 
     virtual void seekRecNo(db::ulonglong value) override;
 
+    virtual QString curRowColumn(std::size_t index, bool ignoreErrors = false) override;
+
 private:
     std::vector<MySQLResult> _resultList;
     MYSQL_ROW _curRow;

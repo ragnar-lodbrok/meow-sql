@@ -108,8 +108,6 @@ void MySQLQuery::seekRecNo(db::ulonglong value) // override
 
                 _curRow = mysql_fetch_row(curResPtr);
 
-                qDebug() << _curRow[0];
-
                 // H: FCurrentUpdateRow := nil;
 
                 // H: Remember length of column contents. Important for Col() so contents
@@ -127,6 +125,27 @@ void MySQLQuery::seekRecNo(db::ulonglong value) // override
 
     _curRecNo = value;
     _eof = false;
+}
+
+QString MySQLQuery::curRowColumn(std::size_t index, bool ignoreErrors /*= false*/) // override
+{
+    if (index < columnCount()) {
+        // H: if FEditingPrepared
+        // H: if Datatype(Column).Category in [dtcBinary, dtcSpatial] then
+        QString result = QString::fromUtf8(_curRow[index], _columnLengths[index]);
+
+        // H: if Datatype(Column).Index = dtBit
+
+        return result;
+
+    } else if (!ignoreErrors) {
+        throw db::Exception(
+            QString("Column #%1 not available. Query returned %2 columns and %3 rows.")
+                    .arg(index).arg(columnCount()).arg(recordCount())
+        );
+    }
+
+    return QString();
 }
 
 MySQLQuery::~MySQLQuery()
