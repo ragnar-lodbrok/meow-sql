@@ -25,6 +25,7 @@ public:
     QString hostName() const { return _connectionParams.hostName(); }
     QString userName() const { return _connectionParams.userName(); }
     QString password() const { return _connectionParams.password(); }
+    QString databases() const { return _connectionParams.databases(); }
     bool isLoginPrompt() const { return _connectionParams.isLoginPrompt(); }
     qint16 port() const { return _connectionParams.port(); }
     int index() const;
@@ -35,6 +36,7 @@ public:
     void setHostName(const QString &hostName);
     void setUserName(const QString &userName);
     void setPassword(const QString &password);
+    void setDatabases(const QString &databases);
     void setLoginPrompt(bool loginPrompt);
     void setPort(qint16 port);
 

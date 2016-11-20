@@ -57,6 +57,14 @@ void ConnectionParametersForm::setPassword(const QString &password)
     }
 }
 
+void ConnectionParametersForm::setDatabases(const QString &databases)
+{
+    if (_connectionParams.databases() != databases) {
+        _connectionParams.setDatabases(databases);
+        emit changed();
+    }
+}
+
 void ConnectionParametersForm::setLoginPrompt(bool loginPrompt)
 {
     if (_connectionParams.isLoginPrompt() != loginPrompt) {

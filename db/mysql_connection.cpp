@@ -189,8 +189,9 @@ bool MySQLConnection::ping(bool reconnect) // override
 
 void MySQLConnection::query(const QString & SQL, bool storeResult) // override
 {
-    // TODO: H: FLockedByThread
-    
+    // H: FLockedByThread
+    // TODO: need mutex when multithreading
+
     qDebug() << "[MySQLConnection] " << "Query: " << SQL;
     
     ping(true);    

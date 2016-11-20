@@ -19,6 +19,7 @@ private:
 
     void fillDataFromForm();
     void onLoginPromptUpdate();
+    void onShowDatabaseListAction();
 
     QGridLayout * _mainGridLayout;
 
@@ -38,6 +39,9 @@ private:
 
     QLabel * _portLabel;
     QSpinBox * _portSpinBox;
+
+    QLabel * _databasesLabel;
+    QLineEdit * _databasesEdit;
 
     models::forms::ConnectionParametersForm * _form;
 };

@@ -7,6 +7,7 @@ meow::db::ConnectionParameters::ConnectionParameters(ConnectionParamsManager * m
     _hostName("127.0.0.1"),
     _userName("root"),
     _password(""),
+    _databases(""),
     _loginPrompt(false),
     _port(3306),
     _manager(manager)
@@ -21,6 +22,7 @@ bool meow::db::ConnectionParameters::operator==(const meow::db::ConnectionParame
         && _hostName == other._hostName
         && _userName == other._userName
         && _password == other._password
+        && _databases == other._databases
         && _loginPrompt == other._loginPrompt
         && _port == other._port;
 }

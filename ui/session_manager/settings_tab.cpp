@@ -102,6 +102,24 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent) {
             });
     row++;
 
+    // Databases
+    _databasesLabel = new QLabel(tr("Databases:"));
+    _mainGridLayout->addWidget(_databasesLabel, row, MEOW_FIRST_COL);
+    _databasesEdit = new QLineEdit();
+    _databasesEdit->setToolTip(tr("Separated by semicolon"));
+    QAction * showListAction = _databasesEdit->addAction(QIcon(":/icons/dropdown_highlight.png"), QLineEdit::TrailingPosition);
+    connect(showListAction, &QAction::triggered, this, &SettingsTab::onShowDatabaseListAction);
+
+    _databasesLabel->setBuddy(_databasesEdit);
+    _mainGridLayout->addWidget(_databasesEdit, row, MEOW_SECOND_COL);
+    connect(_databasesEdit, &QLineEdit::textEdited,
+            [=](const QString &newDatabaseList) {
+                if (_form) {
+                    _form->setDatabases(newDatabaseList);
+                }
+            });
+    row++;
+
 
     _mainGridLayout->setColumnMinimumWidth(MEOW_FIRST_COL, 150);
     _mainGridLayout->setColumnStretch(MEOW_SECOND_COL, 2);
@@ -128,6 +146,7 @@ void SettingsTab::fillDataFromForm()
     _loginPromptCheckBox->setChecked(_form->isLoginPrompt());
     _userEdit->setText(_form->userName());
     _passwordEdit->setText(_form->password());
+    _databasesEdit->setText(_form->databases());
     _portSpinBox->setValue(_form->port());
 }
 
@@ -138,6 +157,11 @@ void SettingsTab::onLoginPromptUpdate()
     _userLabel->setDisabled(loginChecked);
     _passwordEdit->setDisabled(loginChecked);
     _passwordLabel->setDisabled(loginChecked);
+}
+
+void SettingsTab::onShowDatabaseListAction()
+{
+    qDebug() << "onShowDatabaseListAction";
 }
 
 } // namespace session_manager

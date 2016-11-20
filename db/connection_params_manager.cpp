@@ -85,6 +85,7 @@ void meow::db::ConnectionParamsManager::load()
                 loadedParams.setHostName(settings.value("hostName", loadedParams.hostName()).toString());
                 loadedParams.setUserName(settings.value("userName", loadedParams.userName()).toString());
                 loadedParams.setPassword(settings.value("password", loadedParams.password()).toString());
+                loadedParams.setDatabases(settings.value("databases", loadedParams.databases()).toString());
                 loadedParams.setLoginPrompt(settings.value("isLoginPrompt", loadedParams.isLoginPrompt()).toBool());
                 loadedParams.setPort(settings.value("port", loadedParams.port()).toInt());
                 add(loadedParams);
@@ -111,6 +112,7 @@ void meow::db::ConnectionParamsManager::saveParams(const ConnectionParameters & 
                 settings.setValue("hostName", params.hostName());
                 settings.setValue("userName", params.userName());
                 settings.setValue("password", params.password()); // TODO: encrypt
+                settings.setValue("databases", params.databases());
                 settings.setValue("isLoginPrompt", params.isLoginPrompt());
                 settings.setValue("port", params.port());
 
