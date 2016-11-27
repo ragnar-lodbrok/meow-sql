@@ -112,7 +112,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent) {
 
     _databasesLabel->setBuddy(_databasesEdit);
     _mainGridLayout->addWidget(_databasesEdit, row, MEOW_SECOND_COL);
-    connect(_databasesEdit, &QLineEdit::textEdited,
+    connect(_databasesEdit, &QLineEdit::textChanged,
             [=](const QString &newDatabaseList) {
                 if (_form) {
                     _form->setDatabases(newDatabaseList);
@@ -161,8 +161,56 @@ void SettingsTab::onLoginPromptUpdate()
 
 void SettingsTab::onShowDatabaseListAction()
 {
-    qDebug() << "onShowDatabaseListAction";
+    // listening: Dark Tranquillity - Focus Shift
+
+    if (_form) {
+
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+
+        QStringList allDatabases = _form->allDatabases();
+
+        if (!allDatabases.isEmpty()) {
+
+            QStringList enteredDatabases = _databasesEdit->text()
+                .remove(' ')
+                .split(db::databasesSeparator, QString::SkipEmptyParts); // hate regexps, but better rm all whitespaces
+
+            QMenu * listMenu = new QMenu;
+
+            for (auto dbName : allDatabases) {
+                QAction * nameAction = new QAction(dbName, listMenu);
+                nameAction->setCheckable(true);
+                nameAction->setChecked(enteredDatabases.contains(dbName));
+                listMenu->addAction(nameAction);
+            }
+
+            int menuXPos = _databasesEdit->width() - listMenu->sizeHint().width();
+            int menuYPos = _databasesEdit->height() - 1;
+
+            QApplication::restoreOverrideCursor();
+
+            QAction * executedAction = listMenu->exec(_databasesEdit->mapToGlobal(QPoint(menuXPos, menuYPos)));
+
+            if (executedAction) {
+
+                QStringList checkedNames;
+
+                for (auto action : listMenu->actions()) {
+                    if (action->isChecked()) {
+                        checkedNames.append(action->text());
+                    }
+                }
+                _databasesEdit->setText(checkedNames.join(db::databasesSeparator));
+            }
+
+            delete listMenu;
+        } else {
+            QApplication::restoreOverrideCursor();
+        }
+    }
+
 }
+
 
 } // namespace session_manager
 } // namespace ui

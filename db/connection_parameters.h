@@ -1,6 +1,7 @@
 #ifndef DB_CONNECTION_PARAMETERS_H
 #define DB_CONNECTION_PARAMETERS_H
 
+#include <memory>
 #include <QString>
 #include <QStringList>
 
@@ -8,6 +9,7 @@ namespace meow {
 namespace db {
 
 class ConnectionParamsManager;
+class Connection;
 
 enum class NetworkType {
     MySQL_TCPIP,
@@ -17,6 +19,10 @@ enum class NetworkType {
 
 QString networkTypeName(const NetworkType & networkType, bool longFormat = true);
 QStringList networkTypeNames();
+
+typedef std::shared_ptr<Connection> ConnectionPtr;
+
+const char databasesSeparator = ';';
 
 class ConnectionParameters
 {
@@ -47,6 +53,8 @@ public:
     bool operator==(const ConnectionParameters & other);
     operator QString() const;
     int index() const;
+
+    ConnectionPtr createConnection();
 
 private:
     NetworkType _networkType;

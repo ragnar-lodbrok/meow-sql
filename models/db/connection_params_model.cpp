@@ -184,7 +184,7 @@ ConnectionParamsModel::selectFormAt(int row)
         _connectionParamsManager->at(row)
     );
 
-    meow::db::MySQLConnection connection(_connectionParamsManager->at(row));
+    /*meow::db::MySQLConnection connection(_connectionParamsManager->at(row));
 
     try {
         connection.setActive(true);
@@ -193,7 +193,7 @@ ConnectionParamsModel::selectFormAt(int row)
 
     } catch(meow::db::Exception & ex) {
         qDebug() << "Exc: " << ex.message();
-    }
+    }*/
 
 
 

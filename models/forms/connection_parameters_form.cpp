@@ -1,4 +1,6 @@
+#include <QDebug>
 #include "connection_parameters_form.h"
+#include "db/connection.h"
 
 namespace meow {
 namespace models {
@@ -84,6 +86,26 @@ void ConnectionParametersForm::setPort(qint16 port)
 int ConnectionParametersForm::index() const
 {
     return _connectionParams.index();
+}
+
+QStringList ConnectionParametersForm::allDatabases()
+{
+
+    if (_allDatabases.first == false) { // cache is empty
+
+        _allDatabases.first = true;
+
+        db::ConnectionPtr connection = _connectionParams.createConnection();
+
+        try {
+            connection->setActive(true);
+            _allDatabases.second = connection->fetchDatabases();
+        } catch(meow::db::Exception & ex) {
+            qDebug() << "Failed to fetch db names: " << ex.message();
+        }
+    }
+
+    return _allDatabases.second;
 }
 
 } // namespace forms

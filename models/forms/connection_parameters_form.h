@@ -31,6 +31,8 @@ public:
     int index() const;
     const meow::db::ConnectionParameters & connectionParams() const { return _connectionParams; }
 
+    QStringList allDatabases(); // returns all database names available for this connection
+
     void setNetworkType(db::NetworkType networkType);
     void setSessionName(const QString &sessionName);
     void setHostName(const QString &hostName);
@@ -46,6 +48,7 @@ public:
 
 private:
     meow::db::ConnectionParameters _connectionParams; // store a copy, so we can edit freely, not affecting real data
+    std::pair<bool, QStringList> _allDatabases; // < cached?, data >
 };
 
 } // namespace forms
