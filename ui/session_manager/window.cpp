@@ -75,8 +75,6 @@ void Window::createLeftSubWidgets()
 void Window::createSessionsList()
 {
 
-
-
     _connectionParamsModel.reset(
         new meow::models::db::ConnectionParamsModel(
             meow::app()->dbConnectionManager()
