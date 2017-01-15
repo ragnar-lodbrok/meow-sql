@@ -10,9 +10,14 @@ App::App()
     _dbConnectionParamsManager.load();
 }
 
-db::ConnectionParamsManager * App::dbConnectionManager()
+db::ConnectionParamsManager * App::dbConnectionParamsManager()
 {
     return &_dbConnectionParamsManager;
+}
+
+db::ConnectionsManager * App::dbConnectionsManager()
+{
+    return &_dbConnectionsManager;
 }
 
 App * app()

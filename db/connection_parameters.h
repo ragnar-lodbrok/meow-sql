@@ -24,6 +24,7 @@ typedef std::shared_ptr<Connection> ConnectionPtr;
 
 const char databasesSeparator = ';';
 
+// Intent: holds single db connection param
 class ConnectionParameters
 {
 public:

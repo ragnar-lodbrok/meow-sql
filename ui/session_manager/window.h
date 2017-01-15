@@ -9,6 +9,11 @@
 
 namespace meow {
 namespace ui {
+
+namespace main_window {
+    class Window;
+}
+
 namespace session_manager {
 
 class Window : public QDialog
@@ -16,8 +21,11 @@ class Window : public QDialog
     Q_OBJECT
 
 public:
-    explicit Window(QWidget *parent = nullptr);
+    explicit Window(meow::ui::main_window::Window * mainWindow);
 private:
+
+    main_window::Window * _mainWindow;
+
     // main layout
     QHBoxLayout * _mainLayout;
     QSplitter   * _mainSplitter;
@@ -38,7 +46,6 @@ private:
     QPushButton * _cancelButton;
     QPushButton * _moreButton;
 
-
     void createMainLayout();
     // left widget
     void createLeftSubWidgets();
@@ -53,6 +60,7 @@ private:
     Q_SLOT void saveCurrentSession();
     Q_SLOT void createNewSession();
     Q_SLOT void deleteCurrentSession();
+    Q_SLOT void openCurrentSession();
     void validateControls();
     bool finalizeCurModifications();
     void selectSessionAt(int rowIndex);

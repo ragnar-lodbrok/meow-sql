@@ -7,6 +7,7 @@
 namespace meow {
 namespace db {
 
+// Intent: holds db connection params (mngmnt and storage)
 class ConnectionParamsManager
 {
 public:

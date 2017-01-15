@@ -1,7 +1,6 @@
 #include <QApplication>
 #include "app.h"
 #include "ui/main_window/main_window.h"
-#include "ui/session_manager/window.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,8 +14,7 @@ int main(int argc, char *argv[])
     meow::ui::main_window::Window w;
     w.show();
 
-    meow::ui::session_manager::Window sessionManagerWindow(&w);
-    sessionManagerWindow.show();
+    w.showSessionManagerDialog();
 
     return a.exec();
 }

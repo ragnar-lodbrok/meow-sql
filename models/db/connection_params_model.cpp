@@ -184,21 +184,6 @@ ConnectionParamsModel::selectFormAt(int row)
         _connectionParamsManager->at(row)
     );
 
-    /*meow::db::MySQLConnection connection(_connectionParamsManager->at(row));
-
-    try {
-        connection.setActive(true);
-
-        qDebug() << "Fetched DBs: \n" << connection.allDatabases();
-
-    } catch(meow::db::Exception & ex) {
-        qDebug() << "Exc: " << ex.message();
-    }*/
-
-
-
-
-
     _selectedForm.reset(form);
     _selectedFormModified = false;
 

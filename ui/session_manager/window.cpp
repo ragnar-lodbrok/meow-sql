@@ -1,13 +1,16 @@
 #include "ui/session_manager/window.h"
 #include "app.h"
+#include "ui/main_window/main_window.h"
+
 
 namespace meow {
 namespace ui {
 namespace session_manager {
 
-Window::Window(QWidget *parent)
-:QDialog(parent),
-_saveConfirmCanceled(false)
+Window::Window(main_window::Window * mainWindow)
+    :QDialog(mainWindow),
+    _mainWindow(mainWindow),
+    _saveConfirmCanceled(false)
 {
 
     setMinimumSize(QSize(665, 400));
@@ -36,6 +39,8 @@ _saveConfirmCanceled(false)
                 showErrorMessage(tr("Session \"%1\" already exists!").arg(newName));
                 // TODO: rm ! from the message above
             });
+
+    validateControls();
 }
 
 void Window::createMainLayout()
@@ -77,7 +82,7 @@ void Window::createSessionsList()
 
     _connectionParamsModel.reset(
         new meow::models::db::ConnectionParamsModel(
-            meow::app()->dbConnectionManager()
+            meow::app()->dbConnectionParamsManager()
         )
     );
 
@@ -157,6 +162,11 @@ void Window::createRightWidgetButtons()
 
     _openSessionButton = new QPushButton(tr("Open"));
     _rightWidgetButtonsLayout->addWidget(_openSessionButton);
+    connect(_openSessionButton,
+            &QAbstractButton::clicked,
+            this,
+            &Window::openCurrentSession
+    );
 
     _cancelButton = new QPushButton(tr("Cancel"));
     _rightWidgetButtonsLayout->addWidget(_cancelButton);
@@ -164,6 +174,7 @@ void Window::createRightWidgetButtons()
     _moreButton = new QPushButton(tr("More"));
     _rightWidgetButtonsLayout->addWidget(_moreButton);
 
+    // TODO: add `Test` button to test a connection?
 }
 
 // returns true if can proceed
@@ -209,8 +220,6 @@ void Window::currentSessionDetailsChanged(
     const QItemSelection &selected,
     const QItemSelection &deselected)
 {
-
-    qDebug() << "currentSessionDetailsChanged";
 
     if (_saveConfirmCanceled) {
         _saveConfirmCanceled = false;
@@ -272,7 +281,6 @@ void Window::saveCurrentSession()
 
 void Window::createNewSession()
 {
-    //qDebug() << "createNewSession";
 
     if (finalizeCurModifications() == false) {
         return;
@@ -298,8 +306,6 @@ void Window::createNewSession()
 void Window::deleteCurrentSession()
 {
     // BUG: removing of just added row loses focus if off screen
-
-    //qDebug() << "\n\ndeleteCurrentSession()";
 
     meow::models::forms::ConnectionParametersForm * curForm = _connectionParamsModel->selectedForm();
 
@@ -348,6 +354,31 @@ void Window::deleteCurrentSession()
     _sessionsList->setFocus();
 
     return;
+}
+
+void Window::openCurrentSession()
+{
+
+    meow::models::forms::ConnectionParametersForm * curForm = _connectionParamsModel->selectedForm();
+
+    if (!curForm) {
+        return;
+    }
+
+    bool curModified = _connectionParamsModel->isSelectedConnectionParamModified();
+
+    if (curModified) { // need to save bc we use name to id
+        // TODO: allow to open unsaved connection?
+        saveCurrentSession();
+    }
+
+    meow::db::ConnectionParameters connectionParams = curForm->connectionParams();
+
+    bool opened = _mainWindow->openDBConnection(connectionParams);
+
+    if (opened) {
+        accept(); // close this dialog
+    }
 }
 
 void Window::selectSessionAt(int rowIndex)

@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     ui/main_window/central_widget.cpp \
     ui/main_window/main_window.cpp \
     ui/main_window/central_left_widget.cpp \
-    ui/main_window/central_right_widget.cpp
+    ui/main_window/central_right_widget.cpp \
+    db/connections_manager.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -61,7 +62,8 @@ HEADERS  += app.h \
     ui/main_window/central_widget.h \
     ui/main_window/main_window.h \
     ui/main_window/central_left_widget.h \
-    ui/main_window/central_right_widget.h
+    ui/main_window/central_right_widget.h \
+    db/connections_manager.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

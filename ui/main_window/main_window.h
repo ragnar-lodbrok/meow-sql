@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "central_widget.h"
+#include "db/connection_parameters.h"
 
 namespace meow {
 namespace ui {
@@ -15,8 +16,13 @@ class Window : public QMainWindow
 public:
     Window(QWidget *parent = 0);
     ~Window();
+    void showSessionManagerDialog();
+    bool openDBConnection(db::ConnectionParameters & params);
 private:
     void createMenus();
+
+    void showErrorMessage(const QString& message);
+
     CentralWidget * _centralWidget;
 };
 

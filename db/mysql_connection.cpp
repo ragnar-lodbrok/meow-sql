@@ -299,7 +299,6 @@ MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)
     return std::shared_ptr<MYSQL_RES> (nativeMySQLRes, [](MYSQL_RES * nativeMySQLRes) {
         if (nativeMySQLRes) {
            mysql_free_result(nativeMySQLRes);
-           //qDebug() << "mysql_free_result: " << nativeMySQLRes;
         }
     });
 }
