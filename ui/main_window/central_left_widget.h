@@ -2,6 +2,7 @@
 #define UI_CENTRALLEFTWIDGET_H
 
 #include <QtWidgets>
+#include "models/db/entities_tree_model.h"
 
 namespace meow {
 namespace ui {
@@ -11,12 +12,15 @@ class CentralLeftWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CentralLeftWidget(QWidget *parent = 0);
+    explicit CentralLeftWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel,
+                               QWidget * parent = 0);
 private:
-    QVBoxLayout * _mainLayout;
-    QTreeView * _dbTree;
+
     void createMainLayout();
 
+    QVBoxLayout * _mainLayout;
+    QTreeView * _dbTree;
+    models::db::EntitiesTreeModel * _dbEntitiesTreeModel;
 };
 
 

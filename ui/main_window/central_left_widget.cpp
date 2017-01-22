@@ -4,7 +4,10 @@ namespace meow {
 namespace ui {
 namespace main_window {
 
-CentralLeftWidget::CentralLeftWidget(QWidget *parent) : QWidget(parent)
+CentralLeftWidget::CentralLeftWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel,
+        QWidget * parent)
+    :QWidget(parent),
+     _dbEntitiesTreeModel(dbEntitiesTreeModel)
 {
     createMainLayout();
 }
@@ -16,6 +19,7 @@ void CentralLeftWidget::createMainLayout()
     this->setLayout(_mainLayout);
 
     _dbTree = new QTreeView();
+    _dbTree->setModel(_dbEntitiesTreeModel);
     _mainLayout->addWidget(_dbTree);
 }
 

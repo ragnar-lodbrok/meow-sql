@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "central_widget.h"
 #include "db/connection_parameters.h"
+#include "models/db/entities_tree_model.h"
 
 namespace meow {
 namespace ui {
@@ -24,6 +25,8 @@ private:
     void showErrorMessage(const QString& message);
 
     CentralWidget * _centralWidget;
+
+    models::db::EntitiesTreeModel _dbEntitiesTreeModel;
 };
 
 } // namespace main_window

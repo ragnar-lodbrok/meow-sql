@@ -4,8 +4,10 @@ namespace meow {
 namespace ui {
 namespace main_window {
 
-CentralWidget::CentralWidget(QWidget * parent)
-    :QWidget(parent)
+CentralWidget::CentralWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel,
+                             QWidget * parent)
+    :QWidget(parent),
+     _dbEntitiesTreeModel(dbEntitiesTreeModel)
 {
     createMainLayout();
 }
@@ -20,7 +22,7 @@ void CentralWidget::createMainLayout()
     _mainHorizontalSplitter->setChildrenCollapsible(false);
     _mainLayout->addWidget(_mainHorizontalSplitter);
 
-    _mainLeftWidget = new CentralLeftWidget();
+    _mainLeftWidget = new CentralLeftWidget(_dbEntitiesTreeModel);
     _mainLeftWidget->setMinimumSize(QSize(200, 400));
 
     _mainRightWidget = new CentralRightWidget();

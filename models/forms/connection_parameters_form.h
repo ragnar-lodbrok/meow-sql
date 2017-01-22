@@ -20,7 +20,7 @@ public:
     );
     virtual ~ConnectionParametersForm() {}
 
-    db::NetworkType networkType() const { return _connectionParams.networkType(); }
+    meow::db::NetworkType networkType() const { return _connectionParams.networkType(); }
     QString sessionName() const { return _connectionParams.sessionName(); }
     QString hostName() const { return _connectionParams.hostName(); }
     QString userName() const { return _connectionParams.userName(); }
@@ -33,7 +33,7 @@ public:
 
     QStringList allDatabases(); // returns all database names available for this connection
 
-    void setNetworkType(db::NetworkType networkType);
+    void setNetworkType(meow::db::NetworkType networkType);
     void setSessionName(const QString &sessionName);
     void setHostName(const QString &hostName);
     void setUserName(const QString &userName);
