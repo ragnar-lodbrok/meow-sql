@@ -1,20 +1,35 @@
 #ifndef DB_CONNECTIONS_MANAGER_H
 #define DB_CONNECTIONS_MANAGER_H
 
-#include <QVector>
+#include <QObject>
+#include <QList>
 #include "connection_parameters.h"
+#include "session_entity.h"
 
 namespace meow {
 namespace db {
 
 // Intent: holds active db connections
-class ConnectionsManager
+class ConnectionsManager : public QObject, public Entity // root db entity
 {
+    Q_OBJECT
+
 public:
     ConnectionsManager();
+    ~ConnectionsManager();
+
     ConnectionPtr openDBConnection(db::ConnectionParameters & params);
+
+    // Entity
+    virtual int childCount() const override;
+    virtual SessionEntity * child(int row) const override;
+    int indexOf(SessionEntity * session) const;
+    // Entity (end)
+
+    Q_SIGNAL void connectionOpened(SessionEntity * newSession);
+
 private:
-    QVector<ConnectionPtr> _connections;
+    QList <SessionEntity *> _connections;
 };
 
 } // namespace db

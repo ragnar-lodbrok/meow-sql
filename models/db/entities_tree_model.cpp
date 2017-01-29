@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "entities_tree_model.h"
 
 namespace meow {
@@ -10,13 +11,22 @@ EntitiesTreeModel::EntitiesTreeModel(
     :QAbstractItemModel(parent),
      _dbConnectionsManager(dbConnectionsManager)
 {
-    Q_UNUSED(_dbConnectionsManager);
+
+    connect(_dbConnectionsManager,
+            &meow::db::ConnectionsManager::connectionOpened,
+            [=](meow::db::SessionEntity * newSession) {
+                // temp to test
+                Q_UNUSED(newSession);
+                //emit dataChanged(QModelIndex(), QModelIndex());
+            });
+
 }
 
 Qt::ItemFlags EntitiesTreeModel::flags(const QModelIndex &index) const // override
 {
-    if (!index.isValid())
+    if (!index.isValid()) {
         return 0;
+    }
 
     return QAbstractItemModel::flags(index);
 }
@@ -29,7 +39,20 @@ QModelIndex EntitiesTreeModel::index(int row,
         return QModelIndex();
     }
 
-    return QModelIndex();
+    meow::db::Entity * parentItem;
+
+    if (!parent.isValid()) {
+        parentItem = rootItem();
+    } else {
+        parentItem = static_cast<meow::db::Entity *>(parent.internalPointer());
+    }
+
+    meow::db::Entity * childItem = parentItem->child(row);
+    if (childItem) {
+        return createIndex(row, column, childItem);
+    } else {
+        return QModelIndex();
+    }
 }
 
 QModelIndex EntitiesTreeModel::parent(const QModelIndex &index) const // override
@@ -38,39 +61,53 @@ QModelIndex EntitiesTreeModel::parent(const QModelIndex &index) const // overrid
         return QModelIndex();
     }
 
-    return QModelIndex();
+    meow::db::Entity * childItem = static_cast<meow::db::Entity *>(index.internalPointer());
+    meow::db::Entity * parentItem = childItem->parent();
+
+    if (parentItem == rootItem()) {
+        return QModelIndex();
+    }
+
+    return createIndex(parentItem->row(), 0, parentItem);
 }
 
 int EntitiesTreeModel::rowCount(const QModelIndex &parent) const // override
 {
-;
+    meow::db::Entity * parentItem;
     if (parent.column() > 0) {
         return 0;
     }
 
-    return 1;
+    if (!parent.isValid()) {
+        parentItem = rootItem();
+    } else {
+        parentItem = static_cast<meow::db::Entity *>(parent.internalPointer());
+    }
+
+    return parentItem->childCount();
 }
 
 int EntitiesTreeModel::columnCount(const QModelIndex &parent) const // override
 {
-    if (parent.isValid()) {
-        return 1; // TODO: add size column later
-    } else {
-        return 0;
-    }
+    Q_UNUSED(parent);
+
+    return 1; // TODO: add size column later
 }
 
 QVariant EntitiesTreeModel::data(const QModelIndex &index, int role) const // override
 {
 
-
-    if (!index.isValid())
+    if (!index.isValid()) {
         return QVariant();
+    }
 
-    if (role != Qt::DisplayRole)
+    if (role != Qt::DisplayRole) {
         return QVariant();
+    }
 
-    return QVariant(QString("test session name"));
+    meow::db::Entity * item = static_cast<meow::db::Entity *>(index.internalPointer());
+
+    return item->name();
 }
 
 } // namespace db

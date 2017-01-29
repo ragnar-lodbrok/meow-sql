@@ -1,7 +1,4 @@
 #include "connection_params_model.h"
-
-#include "db/mysql_connection.h" // test
-
 #include <QDebug>
 
 namespace meow {

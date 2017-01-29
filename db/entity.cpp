@@ -3,8 +3,7 @@
 namespace meow {
 namespace db {
 
-Entity::Entity(Connection * connection, Entity * parent /* = nullptr */):
-    _connection(connection),
+Entity::Entity(Entity * parent /* = nullptr */):
     _parent(parent)
 {
 

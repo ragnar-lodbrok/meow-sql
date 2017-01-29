@@ -10,6 +10,8 @@ namespace db {
 
 class EntitiesTreeModel : public QAbstractItemModel
 {
+    Q_OBJECT
+
 public:
     EntitiesTreeModel(meow::db::ConnectionsManager * dbConnectionsManager,
                       QObject * parent = nullptr);
@@ -24,6 +26,8 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
 private:
+    meow::db::Entity * rootItem() const { return _dbConnectionsManager; }
+
     meow::db::ConnectionsManager * _dbConnectionsManager;
 };
 

@@ -5,9 +5,16 @@ namespace meow {
 namespace db {
 
 ConnectionsManager::ConnectionsManager()
-    :_connections()
+    :QObject(),
+     Entity(),
+     _connections()
 {
 
+}
+
+ConnectionsManager::~ConnectionsManager()
+{
+    qDeleteAll(_connections);
 }
 
 ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & params)
@@ -16,9 +23,28 @@ ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & pa
 
     connection->setActive(true);
 
-    _connections.push_back(connection);
+    SessionEntity * newSession = new SessionEntity(connection, this);
+
+    _connections.push_back(newSession);
+
+    emit connectionOpened(newSession);
 
     return connection;
+}
+
+int ConnectionsManager::childCount() const // override
+{
+    return _connections.size();
+}
+
+SessionEntity * ConnectionsManager::child(int row) const // override
+{
+    return _connections.value(row); // returns null if out of bounds
+}
+
+int ConnectionsManager::indexOf(SessionEntity * session) const
+{
+    return _connections.indexOf(session);
 }
 
 } // namespace db
