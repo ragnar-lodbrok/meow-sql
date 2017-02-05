@@ -21,8 +21,8 @@ public:
     ConnectionPtr openDBConnection(db::ConnectionParameters & params);
 
     // Entity
-    virtual int childCount() const override;
-    virtual SessionEntity * child(int row) const override;
+    virtual int childCount() override;
+    virtual SessionEntity * child(int row) override;
     int indexOf(SessionEntity * session) const;
     // Entity (end)
 

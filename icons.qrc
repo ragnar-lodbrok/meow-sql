@@ -45,8 +45,8 @@
         <file alias="bullet_green.png">resources/icons/bullet_green.png</file>
         <file alias="money.png">resources/icons/money.png</file>
         <file alias="lock_blue.png">resources/icons/lock_blue.png</file>
-        <file>resources/icons/magnifier.png</file>
-        <file>resources/icons/lock.png</file>
+        <file alias="magnifier.png">resources/icons/magnifier.png</file>
+        <file alias="lock.png">resources/icons/lock.png</file>
         <file>resources/icons/chart_bar.png</file>
         <file>resources/icons/arrows_showall.png</file>
         <file>resources/icons/modifiedcell.png</file>
@@ -175,7 +175,7 @@
         <file>resources/icons/database_edit.png</file>
         <file>resources/icons/database_delete.png</file>
         <file>resources/icons/database_add.png</file>
-        <file>resources/icons/database.png</file>
+        <file alias="database.png">resources/icons/database.png</file>
         <file>resources/icons/cut_red.png</file>
         <file>resources/icons/cross.png</file>
         <file>resources/icons/computer.png</file>

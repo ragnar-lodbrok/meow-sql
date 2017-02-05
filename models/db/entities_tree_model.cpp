@@ -15,9 +15,7 @@ EntitiesTreeModel::EntitiesTreeModel(
     connect(_dbConnectionsManager,
             &meow::db::ConnectionsManager::connectionOpened,
             [=](meow::db::SessionEntity * newSession) {
-                // temp to test
                 Q_UNUSED(newSession);
-                //emit dataChanged(QModelIndex(), QModelIndex());
             });
 
 }
@@ -101,13 +99,18 @@ QVariant EntitiesTreeModel::data(const QModelIndex &index, int role) const // ov
         return QVariant();
     }
 
-    if (role != Qt::DisplayRole) {
-        return QVariant();
+    if (role == Qt::DisplayRole || role == Qt::DecorationRole) {
+
+        meow::db::Entity * item = static_cast<meow::db::Entity *>(index.internalPointer());
+
+        if (role == Qt::DecorationRole) {
+            return item->icon();
+        } else if (role == Qt::DisplayRole) {
+            return item->name();
+        }
     }
 
-    meow::db::Entity * item = static_cast<meow::db::Entity *>(index.internalPointer());
-
-    return item->name();
+    return QVariant();
 }
 
 } // namespace db

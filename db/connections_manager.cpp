@@ -32,12 +32,12 @@ ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & pa
     return connection;
 }
 
-int ConnectionsManager::childCount() const // override
+int ConnectionsManager::childCount() // override
 {
     return _connections.size();
 }
 
-SessionEntity * ConnectionsManager::child(int row) const // override
+SessionEntity * ConnectionsManager::child(int row) // override
 {
     return _connections.value(row); // returns null if out of bounds
 }

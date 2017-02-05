@@ -30,9 +30,14 @@ void Connection::doAfterConnect()
     // H:
 }
 
-QStringList Connection::allDatabases()
+QStringList Connection::allDatabases(bool refresh /*= false */)
 {
-    return fetchDatabases();
+    if (_allDatabasesCashed.first == false || refresh) { // cache is empty or F5
+        _allDatabasesCashed.second = fetchDatabases();
+        _allDatabasesCashed.first = true;
+    }
+
+    return _allDatabasesCashed.second;
 }
 
 // virtual

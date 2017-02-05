@@ -45,7 +45,8 @@ SOURCES += main.cpp\
     db/connections_manager.cpp \
     db/entity.cpp \
     models/db/entities_tree_model.cpp \
-    db/session_entity.cpp
+    db/session_entity.cpp \
+    db/database_entity.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -69,7 +70,8 @@ HEADERS  += app.h \
     db/connections_manager.h \
     db/entity.h \
     models/db/entities_tree_model.h \
-    db/session_entity.h
+    db/session_entity.h \
+    db/database_entity.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

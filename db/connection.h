@@ -33,7 +33,7 @@ public:
     QStringList getColumn(const QString & SQL, std::size_t index = 0); // H: GetCol
     QString getCell(const QString & SQL, std::size_t index = 0); //H:  GetVar
     QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String): TDBQuery;
-    QStringList allDatabases();
+    QStringList allDatabases(bool refresh = false);
 
     virtual QStringList fetchDatabases() = 0;
     virtual QueryPtr createQuery() = 0;
@@ -64,6 +64,7 @@ private:
     bool _isUnicode;
     //bool _loginPromptDone;
     //QString _databaseName;
+    std::pair<bool, QStringList> _allDatabasesCashed; // < cached?, data >
 };
 
 } // namespace db

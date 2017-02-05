@@ -3,9 +3,14 @@
 
 #include "connection.h"
 #include <QString>
+#include <QVariant>
 
 // see http://doc.qt.io/qt-5/qtwidgets-itemviews-simpletreemodel-example.html,
 // TreeItem class
+
+// root (ConnectionsManager : Entity)
+//   + session (SessionEntity : Entity)
+//     + database (DataBaseEntity : Entity)
 
 namespace meow {
 namespace db {
@@ -15,6 +20,14 @@ namespace db {
 class Entity // TODO: :public QObject
 {
 public:
+
+    enum class Type {
+        None,
+        Session,
+        Database,
+        COUNT
+    };
+
     explicit Entity(Entity * parent = nullptr);
     virtual ~Entity() {}
 
@@ -22,9 +35,11 @@ public:
 
     virtual Connection * connection() const { return nullptr; }
     virtual QString name() const { return ""; }
-    virtual int childCount() const { return 0; }
-    virtual Entity * child(int row) const { Q_UNUSED(row); return nullptr; }
+    virtual int childCount() { return 0; }
+    virtual Entity * child(int row) { Q_UNUSED(row); return nullptr; }
     virtual int row() const { return 0; }
+    virtual Type type() const { return Type::None; }
+    virtual QVariant icon() const { return QVariant(); }
 
 protected:
     Entity * _parent;
