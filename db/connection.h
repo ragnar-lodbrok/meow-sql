@@ -4,9 +4,11 @@
 #include <memory>
 #include <QString>
 #include <QStringList>
+#include <QMap>
 #include "common.h"
 #include "connection_parameters.h"
 #include "exception.h"
+#include "entity/entity_list_for_database.h"
 
 namespace meow {
 namespace db {
@@ -34,6 +36,7 @@ public:
     QString getCell(const QString & SQL, std::size_t index = 0); //H:  GetVar
     QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String): TDBQuery;
     QStringList allDatabases(bool refresh = false);
+    EntityListForDataBase * getDbEntities(const QString & dbName, bool refresh = false);
 
     virtual QStringList fetchDatabases() = 0;
     virtual QueryPtr createQuery() = 0;
@@ -44,7 +47,10 @@ public:
     virtual void doAfterConnect();
     virtual QString fetchCharacterSet() = 0;
     virtual void query(const QString & SQL, bool storeResult = false) = 0; // H: add LogCategory
-    virtual std::size_t lastResultsCount() const { return 0; } // H: ResultCount
+    virtual std::size_t lastResultsCount() const { return 0; } // H: ResultCount    
+
+    QString quoteIdentifier(const char * identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
+    QString quoteIdentifier(QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
 
 protected:
     bool _active;
@@ -53,9 +59,7 @@ protected:
     int _statementNum; // TODO: why signed, usage?
     QString _serverVersionString;
     unsigned long _serverVersionInt;
-
-    QString quoteIdentifier(const char * identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
-    QString quoteIdentifier(QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
+    QMap<QString, EntityListForDataBase *> _databaseEntitiesCache; // db name : db's entities
 private:
     //int _connectionStarted;
     //int _serverUptime;
@@ -64,7 +68,9 @@ private:
     bool _isUnicode;
     //bool _loginPromptDone;
     //QString _databaseName;
-    std::pair<bool, QStringList> _allDatabasesCashed; // < cached?, data >
+    std::pair<bool, QStringList> _allDatabasesCached; // < cached?, data >
+
+    //virtual void fetchDbEntities(const QString & dbName, EntityListForDataBase * toList) = 0;
 };
 
 } // namespace db

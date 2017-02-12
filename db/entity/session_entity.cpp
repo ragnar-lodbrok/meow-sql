@@ -1,5 +1,5 @@
 #include "session_entity.h"
-#include "connections_manager.h"
+#include "db/connections_manager.h"
 #include "database_entity.h"
 #include <QIcon>
 

@@ -16,6 +16,7 @@ Connection::Connection(const ConnectionParameters & params)
 Connection::~Connection()
 {
     // H: clears
+    qDeleteAll(_databaseEntitiesCache);
 }
 
 void Connection::doBeforeConnect()
@@ -32,12 +33,33 @@ void Connection::doAfterConnect()
 
 QStringList Connection::allDatabases(bool refresh /*= false */)
 {
-    if (_allDatabasesCashed.first == false || refresh) { // cache is empty or F5
-        _allDatabasesCashed.second = fetchDatabases();
-        _allDatabasesCashed.first = true;
+    if (_allDatabasesCached.first == false || refresh) { // cache is empty or F5
+        _allDatabasesCached.second = fetchDatabases();
+        _allDatabasesCached.first = true;
     }
 
-    return _allDatabasesCashed.second;
+    return _allDatabasesCached.second;
+}
+
+EntityListForDataBase * Connection::getDbEntities(const QString & dbName, bool refresh /*= false*/)
+{
+    bool hasInCache = _databaseEntitiesCache.contains(dbName);
+
+    if (refresh && hasInCache) {
+        auto list = _databaseEntitiesCache.value(dbName);
+        _databaseEntitiesCache.remove(dbName);
+        delete list;
+        hasInCache = false;
+    }
+
+    if (hasInCache) {
+        return _databaseEntitiesCache.value(dbName);
+    } else {
+        // fetch
+        EntityListForDataBase * newList = new EntityListForDataBase();
+        _databaseEntitiesCache.insert(dbName, newList);
+        return newList;
+    }
 }
 
 // virtual

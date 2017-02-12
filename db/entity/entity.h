@@ -1,7 +1,7 @@
 #ifndef DB_ENTITY_H
 #define DB_ENTITY_H
 
-#include "connection.h"
+#include "db/connection.h"
 #include <QString>
 #include <QVariant>
 
@@ -25,6 +25,7 @@ public:
         None,
         Session,
         Database,
+        Table,
         COUNT
     };
 

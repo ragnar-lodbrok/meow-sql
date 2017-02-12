@@ -39,6 +39,7 @@ public:
     QString databases() const { return _databases; }
     bool isLoginPrompt() const { return _loginPrompt; }
     quint16 port() const { return _port; }
+    bool fullTableStatus() const { return true; }
 
     // setters
     void setNetworkType(NetworkType networkType) { _networkType = networkType; }

@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QList>
 #include "connection_parameters.h"
-#include "session_entity.h"
+#include "entity/session_entity.h"
 
 namespace meow {
 namespace db {
