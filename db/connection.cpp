@@ -1,5 +1,6 @@
 #include "connection.h"
 #include "query.h"
+#include "entity/entities_fetcher.h"
 
 namespace meow {
 namespace db {
@@ -58,6 +59,13 @@ EntityListForDataBase * Connection::getDbEntities(const QString & dbName, bool r
         // fetch
         EntityListForDataBase * newList = new EntityListForDataBase();
         _databaseEntitiesCache.insert(dbName, newList);
+
+        DataBaseEntitiesFetcher * fetcherPtr = createDbEntitiesFetcher();
+
+        std::shared_ptr<DataBaseEntitiesFetcher> fetcher(fetcherPtr);
+
+        fetcherPtr->run(dbName, newList);
+
         return newList;
     }
 }
@@ -115,7 +123,7 @@ QString Connection::quoteIdentifier(const char * identifier, bool alwaysQuote /*
     return quoteIdentifier(id, alwaysQuote, glue);
 }
 
-QString Connection::quoteIdentifier(QString & identifier, bool alwaysQuote /*= true*/, QChar glue /*= QChar::Null*/)
+QString Connection::quoteIdentifier(const QString & identifier, bool alwaysQuote /*= true*/, QChar glue /*= QChar::Null*/)
 {
     if (glue != QChar::Null) {
         // TODO
@@ -124,8 +132,8 @@ QString Connection::quoteIdentifier(QString & identifier, bool alwaysQuote /*= t
     if (alwaysQuote) {
 
         QChar quoteChar('`');
-
-        QString quoteReplaced = identifier.replace(quoteChar, "``"); // TODO: H: diff chars for diff db types
+        QString id(identifier);
+        QString quoteReplaced = id.replace(quoteChar, "``"); // TODO: H: diff chars for diff db types
         return quoteChar + quoteReplaced + quoteChar;
     } else {
         // TODO

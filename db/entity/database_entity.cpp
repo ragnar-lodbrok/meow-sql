@@ -58,7 +58,9 @@ void DataBaseEntity::initEntitiesIfNeed()
 
         _entities = connection()->getDbEntities(_dbName);
 
-        qDebug() << "cnt: " << _entities->list()->count();
+        for (auto entity : *(_entities->list())) {
+            entity->setParent(this);
+        }
 
         _entitiesWereInit = true;
     }

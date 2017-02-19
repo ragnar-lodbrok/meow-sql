@@ -14,6 +14,9 @@ public:
     MySQLEntitiesFetcher(MySQLConnection * connection);
     virtual void run(const QString & dbName,
              EntityListForDataBase * toList) override;
+private:
+    void fetchTablesViews(const QString & dbName,
+                          EntityListForDataBase * toList);
 };
 
 } // namespace db

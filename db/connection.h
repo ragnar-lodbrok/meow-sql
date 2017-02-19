@@ -14,6 +14,7 @@ namespace meow {
 namespace db {
 
 class Query;
+class DataBaseEntitiesFetcher;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
@@ -50,7 +51,7 @@ public:
     virtual std::size_t lastResultsCount() const { return 0; } // H: ResultCount    
 
     QString quoteIdentifier(const char * identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
-    QString quoteIdentifier(QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
+    QString quoteIdentifier(const QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
 
 protected:
     bool _active;
@@ -60,6 +61,8 @@ protected:
     QString _serverVersionString;
     unsigned long _serverVersionInt;
     QMap<QString, EntityListForDataBase *> _databaseEntitiesCache; // db name : db's entities
+
+    virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() = 0;
 private:
     //int _connectionStarted;
     //int _serverUptime;
@@ -69,8 +72,6 @@ private:
     //bool _loginPromptDone;
     //QString _databaseName;
     std::pair<bool, QStringList> _allDatabasesCached; // < cached?, data >
-
-    //virtual void fetchDbEntities(const QString & dbName, EntityListForDataBase * toList) = 0;
 };
 
 } // namespace db

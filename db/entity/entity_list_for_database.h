@@ -13,6 +13,7 @@ class EntityListForDataBase
 {
 public:
     EntityListForDataBase();
+    ~EntityListForDataBase();
     QList<Entity *> * list() { return &_entities; }
 private:
     QList<Entity *> _entities;

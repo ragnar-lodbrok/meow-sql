@@ -3,7 +3,7 @@
 
 #include "mysql_connection.h"
 #include "mysql_query.h"
-
+#include "entity/mysql_entities_fetcher.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -301,6 +301,11 @@ MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)
            mysql_free_result(nativeMySQLRes);
         }
     });
+}
+
+DataBaseEntitiesFetcher * MySQLConnection::createDbEntitiesFetcher() // override
+{
+    return new MySQLEntitiesFetcher(this);
 }
 
 } // namespace db

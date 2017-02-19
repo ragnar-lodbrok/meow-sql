@@ -11,7 +11,7 @@ class DataBaseEntity;
 class TableEntity : public Entity
 {
 public:
-    TableEntity(const QString & tableName, DataBaseEntity * parent);
+    TableEntity(const QString & tableName, DataBaseEntity * parent = nullptr);
     virtual QString name() const override;
 
 private:

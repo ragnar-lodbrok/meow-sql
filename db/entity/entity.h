@@ -33,6 +33,7 @@ public:
     virtual ~Entity() {}
 
     Entity * parent() const { return _parent; }
+    void setParent(Entity * parent) { _parent = parent; }
 
     virtual Connection * connection() const { return nullptr; }
     virtual QString name() const { return ""; }

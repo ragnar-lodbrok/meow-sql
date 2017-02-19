@@ -41,6 +41,9 @@ public:
 
     MySQLResult lastRawResultAt(std::size_t index) const;
 
+protected:
+    virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() override;
+
 private:
     MYSQL * _handle;
     std::vector<MySQLResult> _lastRawResults;

@@ -21,11 +21,15 @@ public:
 
     virtual QString curRowColumn(std::size_t index, bool ignoreErrors = false) override;
 
+    virtual bool isNull(std::size_t index) override;
+
 private:
     std::vector<MySQLResult> _resultList;
     MYSQL_ROW _curRow;
     MySQLResult _currentResult; // TODO: really need this? H: FCurrentResults
     std::vector<unsigned int> _columnLengths; // FColumnLengths
+
+    void throwOnInvalidColumnIndex(std::size_t index);
 };
 
 } // namespace db

@@ -11,6 +11,11 @@ MySQLQuery::MySQLQuery(Connection *connection)
 
 }
 
+MySQLQuery::~MySQLQuery()
+{
+
+}
+
 void MySQLQuery::execute(bool addResult /*= false*/, std::size_t useRawResult /*= -1*/) // override
 {
     qDebug() << "[MySQLQuery] " << "Executing: " << SQL();
@@ -53,13 +58,16 @@ void MySQLQuery::execute(bool addResult /*= false*/, std::size_t useRawResult /*
 
             _columnNames.clear(); // TODO: try reserve() ?
             _columnOrgNames.clear();
+            _columnIndexes.clear();
             for (unsigned int i=0; i < numFields; ++i) {
                 MYSQL_FIELD * field = mysql_fetch_field_direct(lastResult.get(), i);
-                _columnNames.append(QString(field->name));
+                QString fieldName = QString(field->name);
+                _columnNames.append(fieldName);
+                _columnIndexes.insert(fieldName, i);
                 if (connection()->serverVersionInt() >= 40100) {
                     _columnOrgNames.append(QString(field->org_name));
                 } else {
-                    _columnOrgNames.append(QString(field->name));
+                    _columnOrgNames.append(fieldName);
                 }
             }
 
@@ -148,9 +156,21 @@ QString MySQLQuery::curRowColumn(std::size_t index, bool ignoreErrors /*= false*
     return QString();
 }
 
-MySQLQuery::~MySQLQuery()
+bool MySQLQuery::isNull(std::size_t index) // override
 {
+    throwOnInvalidColumnIndex(index);
 
+    return _curRow[index] == nullptr;
+}
+
+void MySQLQuery::throwOnInvalidColumnIndex(std::size_t index)
+{
+    if (index >= columnCount()) {
+        throw db::Exception(
+            QString("Column #%1 not available. Query returned %2 columns.")
+                    .arg(index).arg(columnCount())
+        );
+    }
 }
 
 } // namespace db

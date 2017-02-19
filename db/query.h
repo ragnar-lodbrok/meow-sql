@@ -4,6 +4,7 @@
 #include <QString>
 #include <QStringList>
 #include "common.h"
+#include <QMap>
 
 namespace meow {
 namespace db {
@@ -36,14 +37,22 @@ public:
 
     virtual QString curRowColumn(std::size_t index, bool ignoreErrors = false) = 0;
 
+    QString curRowColumn(const QString & colName, bool ignoreErrors = false);
+
+    virtual bool isNull(std::size_t index) = 0;
+
     void seekFirst();
     void seekNext();
 
 protected:
+
+    std::size_t indexOfColumn(const QString & colName);
+
     db::ulonglong _recordCount;
     db::ulonglong  _curRecNo; // H: FRecNo
     QStringList _columnNames;
     QStringList _columnOrgNames;
+    QMap<QString, std::size_t> _columnIndexes; // Column name -> column index
     bool _eof; // H: FEof
 
 private:
