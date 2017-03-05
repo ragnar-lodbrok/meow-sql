@@ -294,6 +294,32 @@ MySQLResult MySQLConnection::lastRawResultAt(std::size_t index) const
     return _lastRawResults.at(index);
 }
 
+QString MySQLConnection::escapeString(const QString & str, bool processJokerChars, bool doQuote /*= true*/) const // override
+{
+
+    QString res = str;
+
+    if (processJokerChars) {
+        throw std::runtime_error("not implemented");
+    }
+
+    // https://dev.mysql.com/doc/refman/5.7/en/mysql-real-escape-string-quote.html
+    // Strictly speaking, MySQL requires only that backslash and the quote
+    // character used to quote the string in the query be escaped.
+
+    res.replace(QLatin1Char('\''), QLatin1String("''"));
+    res.replace(QLatin1String("\\"), QLatin1String("\\\\"));
+
+    if (doQuote) {
+        QLatin1Char singleQuote('\'');
+        res = singleQuote + res + singleQuote;
+    }
+
+    return res;
+
+    // TODO: NO_BACKSLASH_ESCAPES ?
+}
+
 MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)
 {
     return std::shared_ptr<MYSQL_RES> (nativeMySQLRes, [](MYSQL_RES * nativeMySQLRes) {

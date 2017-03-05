@@ -53,8 +53,10 @@ Entity * SessionEntity::child(int row) // override
 }
 
 QVariant SessionEntity::icon() const // override
-{
-    return QIcon(":/icons/server-mysql.png");
+{    
+    static const QIcon icon = QIcon(":/icons/server-mysql.png");
+
+    return icon;
 }
 
 int SessionEntity::indexOf(DataBaseEntity * session) const

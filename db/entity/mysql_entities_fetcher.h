@@ -17,6 +17,12 @@ public:
 private:
     void fetchTablesViews(const QString & dbName,
                           EntityListForDataBase * toList);
+    void fetchStoredFunctions(const QString & dbName,
+                          EntityListForDataBase * toList);
+    void fetchStoredProcedures(const QString & dbName,
+                          EntityListForDataBase * toList);
+    void fetchTriggers(const QString & dbName,
+                       EntityListForDataBase * toList);
 };
 
 } // namespace db

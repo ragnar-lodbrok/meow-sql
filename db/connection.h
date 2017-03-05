@@ -50,8 +50,9 @@ public:
     virtual void query(const QString & SQL, bool storeResult = false) = 0; // H: add LogCategory
     virtual std::size_t lastResultsCount() const { return 0; } // H: ResultCount    
 
-    QString quoteIdentifier(const char * identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
-    QString quoteIdentifier(const QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null);
+    QString quoteIdentifier(const char * identifier, bool alwaysQuote = true, QChar glue = QChar::Null) const;
+    QString quoteIdentifier(const QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null) const;
+    virtual QString escapeString(const QString & str, bool processJokerChars = false, bool doQuote = true) const = 0;
 
 protected:
     bool _active;

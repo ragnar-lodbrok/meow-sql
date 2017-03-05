@@ -57,7 +57,7 @@
         <file>resources/icons/page_white_paint.png</file>
         <file>resources/icons/table_sort.png</file>
         <file>resources/icons/arrow_switch.png</file>
-        <file>resources/icons/cog.png</file>
+        <file alias="trigger.png">resources/icons/cog.png</file>
         <file>resources/icons/table_relationship.png</file>
         <file>resources/icons/server_edit.png</file>
         <file>resources/icons/cross_small.png</file>
@@ -73,7 +73,7 @@
         <file>resources/icons/os_windows.png</file>
         <file>resources/icons/os_unix.png</file>
         <file>resources/icons/os_mac.png</file>
-        <file>resources/icons/script_gear.png</file>
+        <file alias="stored_procedure.png">resources/icons/script_gear.png</file>
         <file>resources/icons/go_right.png</file>
         <file>resources/icons/go_left.png</file>
         <file>resources/icons/go_both.png</file>
@@ -101,7 +101,7 @@
         <file>resources/icons/view_highlight.png</file>
         <file>resources/icons/view_edit.png</file>
         <file>resources/icons/view_add.png</file>
-        <file>resources/icons/view.png</file>
+        <file alias="view.png">resources/icons/view.png</file>
         <file>resources/icons/user_comment.png</file>
         <file>resources/icons/transmit_blue.png</file>
         <file>resources/icons/information.png</file>
@@ -139,13 +139,13 @@
         <file>resources/icons/table_edit.png</file>
         <file>resources/icons/table_delete.png</file>
         <file>resources/icons/table_add.png</file>
-        <file>resources/icons/table.png</file>
+        <file alias="table.png">resources/icons/table.png</file>
         <file>resources/icons/server_go.png</file>
         <file>resources/icons/server_connect.png</file>
         <file>resources/icons/server_add.png</file>
         <file>resources/icons/server.png</file>
         <file>resources/icons/script_save.png</file>
-        <file>resources/icons/script_go.png</file>
+        <file alias="stored_function.png">resources/icons/script_go.png</file>
         <file>resources/icons/resultset_previous.png</file>
         <file>resources/icons/resultset_next.png</file>
         <file>resources/icons/printer.png</file>

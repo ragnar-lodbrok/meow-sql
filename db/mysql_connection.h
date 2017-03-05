@@ -39,6 +39,8 @@ public:
 
     virtual std::size_t lastResultsCount() const override;
 
+    virtual QString escapeString(const QString & str, bool processJokerChars = false, bool doQuote = true) const override;
+
     MySQLResult lastRawResultAt(std::size_t index) const;
 
 protected:

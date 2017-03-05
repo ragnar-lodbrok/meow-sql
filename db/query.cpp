@@ -50,7 +50,7 @@ QString Query::curRowColumn(const QString & colName, bool ignoreErrors /* = fals
     return curRowColumn(index, ignoreErrors);
 }
 
-std::size_t Query::indexOfColumn(const QString & colName)
+std::size_t Query::indexOfColumn(const QString & colName) const
 {
     if (_columnIndexes.contains(colName)) {
         return _columnIndexes.value(colName);

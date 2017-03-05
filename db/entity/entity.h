@@ -11,6 +11,8 @@
 // root (ConnectionsManager : Entity)
 //   + session (SessionEntity : Entity)
 //     + database (DataBaseEntity : Entity)
+//       + table/view
+//       + func/proc
 
 namespace meow {
 namespace db {
@@ -26,6 +28,11 @@ public:
         Session,
         Database,
         Table,
+        View,
+        Function,
+        Procedure,
+        Trigger,
+        Event,
         COUNT
     };
 

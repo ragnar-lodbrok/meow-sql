@@ -117,13 +117,13 @@ QueryPtr Connection::getResults(const QString & SQL)
     return query;
 }
 
-QString Connection::quoteIdentifier(const char * identifier, bool alwaysQuote /*= true*/, QChar glue /*= QChar::Null*/)
+QString Connection::quoteIdentifier(const char * identifier, bool alwaysQuote /*= true*/, QChar glue /*= QChar::Null*/) const
 {
     QString id(identifier);
     return quoteIdentifier(id, alwaysQuote, glue);
 }
 
-QString Connection::quoteIdentifier(const QString & identifier, bool alwaysQuote /*= true*/, QChar glue /*= QChar::Null*/)
+QString Connection::quoteIdentifier(const QString & identifier, bool alwaysQuote /*= true*/, QChar glue /*= QChar::Null*/) const
 {
     if (glue != QChar::Null) {
         // TODO
@@ -131,10 +131,10 @@ QString Connection::quoteIdentifier(const QString & identifier, bool alwaysQuote
 
     if (alwaysQuote) {
 
-        QChar quoteChar('`');
+        QLatin1Char quoteChar('`');
         QString id(identifier);
         QString quoteReplaced = id.replace(quoteChar, "``"); // TODO: H: diff chars for diff db types
-        return quoteChar + quoteReplaced + quoteChar;
+        return quoteChar + quoteReplaced + quoteChar; // TODO: replace "." with "`.`"
     } else {
         // TODO
     }

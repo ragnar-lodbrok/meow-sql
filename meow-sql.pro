@@ -50,7 +50,11 @@ SOURCES += main.cpp\
     db/entity/entity_list_for_database.cpp \
     db/entity/table_entity.cpp \
     db/entity/entities_fetcher.cpp \
-    db/entity/mysql_entities_fetcher.cpp
+    db/entity/mysql_entities_fetcher.cpp \
+    db/entity/view_entity.cpp \
+    db/entity/function_entity.cpp \
+    db/entity/procedure_entity.cpp \
+    db/entity/trigger_entity.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -79,7 +83,11 @@ HEADERS  += app.h \
     db/entity/entity_list_for_database.h \
     db/entity/table_entity.h \
     db/entity/entities_fetcher.h \
-    db/entity/mysql_entities_fetcher.h
+    db/entity/mysql_entities_fetcher.h \
+    db/entity/view_entity.h \
+    db/entity/function_entity.h \
+    db/entity/procedure_entity.h \
+    db/entity/trigger_entity.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

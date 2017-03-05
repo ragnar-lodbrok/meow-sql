@@ -44,9 +44,9 @@ public:
     void seekFirst();
     void seekNext();
 
-protected:
+    std::size_t indexOfColumn(const QString & colName) const;
 
-    std::size_t indexOfColumn(const QString & colName);
+protected:
 
     db::ulonglong _recordCount;
     db::ulonglong  _curRecNo; // H: FRecNo

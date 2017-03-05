@@ -13,7 +13,8 @@ class TableEntity : public Entity
 public:
     TableEntity(const QString & tableName, DataBaseEntity * parent = nullptr);
     virtual QString name() const override;
-
+    virtual QVariant icon() const override;
+    virtual Type type() const override { return Type::Table; }
 private:
     QString _tableName;
 };
