@@ -24,8 +24,7 @@ public:
     QModelIndex parent(const QModelIndex &index) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
-
-    //bool hasChildren(const QModelIndex &parent = QModelIndex()) const; // TODO
+    bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
 
 private:
     meow::db::Entity * rootItem() const { return _dbConnectionsManager; }
