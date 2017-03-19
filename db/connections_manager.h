@@ -20,16 +20,21 @@ public:
 
     ConnectionPtr openDBConnection(db::ConnectionParameters & params);
 
-    // Entity
+    // Entity interface
     virtual int childCount() override;
     virtual SessionEntity * child(int row) override;
     int indexOf(SessionEntity * session) const;
-    // Entity (end)
+    // Entity interface (end)
+
+    Entity * activeEntity() const { return _activeEntity; }
+    void setActiveEntity(Entity * activeEntity);
 
     Q_SIGNAL void connectionOpened(SessionEntity * newSession);
+    Q_SIGNAL void activeEntityChanged(Entity * newEntity);
 
 private:
     QList <SessionEntity *> _connections;
+    Entity * _activeEntity;
 };
 
 } // namespace db

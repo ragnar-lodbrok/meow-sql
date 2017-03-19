@@ -50,8 +50,13 @@ public:
     virtual Type type() const { return Type::None; }
     virtual QVariant icon() const { return QVariant(); }
 
+    bool wasSelected() const { return _wasSelected; }
+    void setWasSelected(bool wasSelected) { _wasSelected = wasSelected; }
+
 protected:
     Entity * _parent;
+private:
+    bool _wasSelected;
 };
 
 } // namespace db

@@ -26,6 +26,8 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
 
+    void selectEntityAt(const QModelIndex &index);
+
 private:
     meow::db::Entity * rootItem() const { return _dbConnectionsManager; }
 

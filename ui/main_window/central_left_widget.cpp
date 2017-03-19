@@ -1,4 +1,5 @@
 #include "central_left_widget.h"
+#include <QDebug>
 
 namespace meow {
 namespace ui {
@@ -22,6 +23,30 @@ void CentralLeftWidget::createMainLayout()
     _dbTree->setHeaderHidden(true);
     _dbTree->setModel(_dbEntitiesTreeModel);
     _mainLayout->addWidget(_dbTree);
+
+    connect(_dbTree->selectionModel(),
+            &QItemSelectionModel::selectionChanged,
+            this,
+            &CentralLeftWidget::selectedDbEntityChanged
+    );
+}
+
+void CentralLeftWidget::selectedDbEntityChanged(
+    const QItemSelection &selected,
+    const QItemSelection &deselected)
+{
+
+    Q_UNUSED(deselected);
+
+    QModelIndex index;
+    QModelIndexList items = selected.indexes();
+
+    if (!items.isEmpty()) {
+        index = items.at(0);
+        _dbEntitiesTreeModel->selectEntityAt(index);
+    } else {
+        qDebug() << "Tree: selection is empty";
+    }
 }
 
 } // namespace meow

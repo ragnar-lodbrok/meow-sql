@@ -4,7 +4,8 @@ namespace meow {
 namespace db {
 
 Entity::Entity(Entity * parent /* = nullptr */):
-    _parent(parent)
+    _parent(parent),
+    _wasSelected(false)
 {
 
 }

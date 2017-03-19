@@ -17,6 +17,10 @@ public:
 private:
 
     void createMainLayout();
+    void selectedDbEntityChanged(
+        const QItemSelection &selected,
+        const QItemSelection &deselected);
+
 
     QVBoxLayout * _mainLayout;
     QTreeView * _dbTree;

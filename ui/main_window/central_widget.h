@@ -15,6 +15,8 @@ class CentralWidget : public QWidget
 public:
     explicit CentralWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel,
                            QWidget * parent = nullptr);
+
+    void setActiveDBEntity(db::Entity * entity);
 private:
 
     void createMainLayout();

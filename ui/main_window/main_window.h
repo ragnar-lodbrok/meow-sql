@@ -24,6 +24,8 @@ private:
 
     void showErrorMessage(const QString& message);
 
+    void activeDBEntityChanged(db::Entity * newEntity);
+
     CentralWidget * _centralWidget;
 
     models::db::EntitiesTreeModel _dbEntitiesTreeModel;

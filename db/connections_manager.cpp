@@ -7,7 +7,8 @@ namespace db {
 ConnectionsManager::ConnectionsManager()
     :QObject(),
      Entity(),
-     _connections()
+     _connections(),
+     _activeEntity(nullptr)
 {
 
 }
@@ -45,6 +46,15 @@ SessionEntity * ConnectionsManager::child(int row) // override
 int ConnectionsManager::indexOf(SessionEntity * session) const
 {
     return _connections.indexOf(session);
+}
+
+void ConnectionsManager::setActiveEntity(Entity * activeEntity)
+{
+    bool changed = _activeEntity != activeEntity;
+    _activeEntity = activeEntity;
+    if (changed) {
+        emit activeEntityChanged(_activeEntity);
+    }
 }
 
 } // namespace db

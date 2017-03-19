@@ -29,9 +29,14 @@ void CentralWidget::createMainLayout()
     _mainRightWidget->setMinimumSize(QSize(350, 400));
 
     _mainHorizontalSplitter->addWidget(_mainLeftWidget);
-    //_mainHorizontalSplitter->setStretchFactor(0, 1);
+    _mainHorizontalSplitter->setStretchFactor(0, 1);
     _mainHorizontalSplitter->addWidget(_mainRightWidget);
-    //_mainHorizontalSplitter->setStretchFactor(1, 2);
+    _mainHorizontalSplitter->setStretchFactor(1, 4);
+}
+
+void CentralWidget::setActiveDBEntity(db::Entity * entity)
+{
+    _mainRightWidget->setActiveDBEntity(entity);
 }
 
 } // namespace main_window

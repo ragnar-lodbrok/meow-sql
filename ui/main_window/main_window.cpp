@@ -1,5 +1,6 @@
 #include "main_window.h"
 #include <QMenuBar>
+#include <QDebug>
 #include "ui/session_manager/window.h"
 #include "app.h"
 #include "db/exception.h"
@@ -16,13 +17,19 @@ Window::Window(QWidget *parent)
 {
     setMinimumSize(QSize(600, 400));
     setWindowTitle("MeowSQL");
-    resize(QSize(600, 400));
+    resize(QSize(800, 600));
 
     createMenus();
     _centralWidget = new CentralWidget(&_dbEntitiesTreeModel);
     setCentralWidget(_centralWidget);
 
     statusBar();
+
+    connect(meow::app()->dbConnectionsManager(),
+            &meow::db::ConnectionsManager::activeEntityChanged,
+            this,
+            &Window::activeDBEntityChanged);
+
 }
 
 Window::~Window()
@@ -78,6 +85,11 @@ void Window::showErrorMessage(const QString& message)
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.setIcon(QMessageBox::Critical);
     msgBox.exec();
+}
+
+void Window::activeDBEntityChanged(db::Entity * newEntity)
+{
+    _centralWidget->setActiveDBEntity(newEntity);
 }
 
 } // namespace main_window

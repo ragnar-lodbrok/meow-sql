@@ -54,7 +54,9 @@ SOURCES += main.cpp\
     db/entity/view_entity.cpp \
     db/entity/function_entity.cpp \
     db/entity/procedure_entity.cpp \
-    db/entity/trigger_entity.cpp
+    db/entity/trigger_entity.cpp \
+    ui/main_window/central_right/host/central_right_host_tab.cpp \
+    models/ui/central_right_widget_model.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -87,7 +89,9 @@ HEADERS  += app.h \
     db/entity/view_entity.h \
     db/entity/function_entity.h \
     db/entity/procedure_entity.h \
-    db/entity/trigger_entity.h
+    db/entity/trigger_entity.h \
+    ui/main_window/central_right/host/central_right_host_tab.h \
+    models/ui/central_right_widget_model.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

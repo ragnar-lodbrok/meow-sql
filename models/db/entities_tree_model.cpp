@@ -134,6 +134,26 @@ QVariant EntitiesTreeModel::data(const QModelIndex &index, int role) const // ov
     return QVariant();
 }
 
+void EntitiesTreeModel::selectEntityAt(const QModelIndex &index)
+{
+    if (!index.isValid()) {
+        qDebug() << "Tree: invalid index selected";
+        return;
+    }
+
+    meow::db::Entity * selectedEntity = static_cast<meow::db::Entity *>(index.internalPointer());
+
+    if (selectedEntity == nullptr) {
+        qDebug() << "Tree: empty entity selected";
+        return;
+    }
+
+    qDebug() << "Tree: selected item" << selectedEntity->name();
+
+    selectedEntity->setWasSelected(true);
+    _dbConnectionsManager->setActiveEntity(selectedEntity);
+}
+
 } // namespace db
 } // namespace models
 } // namespace meow
