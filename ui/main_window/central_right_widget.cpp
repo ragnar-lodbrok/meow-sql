@@ -22,10 +22,13 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
         return;
     }
 
-    hostTab();
-
-    _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Host, _model.titleForHostTab());
-
+    if (_model.connectionChanged()) {
+        db::SessionEntity * sessionEntity = static_cast<db::SessionEntity *>(
+            entity->findParentOfType(db::Entity::Type::Session)
+        );
+        hostTab()->setCurrentEntity(sessionEntity);
+        _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Host, _model.titleForHostTab());
+    }
 
     if (entity->type() == db::Entity::Type::Session) {
         _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Host);
@@ -45,9 +48,6 @@ void CentralRightWidget::createRootTabs()
     layout->addWidget(_rootTabs);
 
     _rootTabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-
-    //_startTab = new StartTab();
-    //_detailsTabs->addTab(_startTab, QIcon(":/icons/star.png"), tr("Start"));
 
 }
 

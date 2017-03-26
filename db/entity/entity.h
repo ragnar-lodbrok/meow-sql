@@ -42,13 +42,14 @@ public:
     Entity * parent() const { return _parent; }
     void setParent(Entity * parent) { _parent = parent; }
 
-    virtual Connection * connection() const { return nullptr; }
+    virtual Connection * connection() const;
     virtual QString name() const { return ""; }
     virtual int childCount() { return 0; }
     virtual Entity * child(int row) { Q_UNUSED(row); return nullptr; }
     virtual int row() const { return 0; }
     virtual Type type() const { return Type::None; }
     virtual QVariant icon() const { return QVariant(); }
+    Entity * findParentOfType(Type type) const;
 
     bool wasSelected() const { return _wasSelected; }
     void setWasSelected(bool wasSelected) { _wasSelected = wasSelected; }

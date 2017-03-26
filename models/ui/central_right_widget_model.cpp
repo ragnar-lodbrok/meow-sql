@@ -1,24 +1,39 @@
 #include "central_right_widget_model.h"
 #include <QObject> // tr()
+#include <QDebug>
 
 namespace meow {
 namespace models {
 namespace ui {
 
 CentralRightWidgetModel::CentralRightWidgetModel()
-    :_currentEntity(nullptr)
+    : _prevEntity(nullptr),
+      _currentEntity(nullptr)
 {
 
 }
 
 bool CentralRightWidgetModel::setCurrentEntity(db::Entity * currentEntity)
 {
-    bool changed = _currentEntity != currentEntity;
+    _prevEntity = _currentEntity;
     _currentEntity = currentEntity;
-    return changed;
+    return _prevEntity != _currentEntity;
 }
 
-QString CentralRightWidgetModel::titleForHostTab()
+bool CentralRightWidgetModel::connectionChanged() const
+{
+    if (_prevEntity == _currentEntity) {
+        return false;
+    }
+
+    if (_prevEntity == nullptr || _currentEntity == nullptr) {
+        return true;
+    }
+
+    return _currentEntity->connection() != _prevEntity->connection();
+}
+
+QString CentralRightWidgetModel::titleForHostTab() const
 {
     if (_currentEntity) {
 
