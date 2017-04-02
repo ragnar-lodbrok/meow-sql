@@ -49,6 +49,7 @@ public:
     virtual int row() const { return 0; }
     virtual Type type() const { return Type::None; }
     virtual QVariant icon() const { return QVariant(); }
+    virtual db::ulonglong dataSize() const { return 0; }
     Entity * findParentOfType(Type type) const;
 
     bool wasSelected() const { return _wasSelected; }

@@ -25,7 +25,7 @@ public:
 private:
 
     void createRootTabs();
-    void onSessionChanged();
+    void onSessionChanged(meow::db::SessionEntity * session);
 
     QTabWidget  * _rootTabs;
     HostDatabasesTab * _databasesTab;

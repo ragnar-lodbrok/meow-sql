@@ -21,6 +21,7 @@ public:
 
     virtual Type type() const override { return Type::Database; }
     virtual QVariant icon() const override;
+    virtual db::ulonglong dataSize() const override;
 
 private:
 

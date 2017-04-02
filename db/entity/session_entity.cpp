@@ -64,6 +64,17 @@ int SessionEntity::indexOf(DataBaseEntity * session) const
     return _databases.indexOf(session);
 }
 
+db::ulonglong SessionEntity::dataSize() const // override
+{
+    db::ulonglong sum = 0;
+
+    foreach (const DataBaseEntity * entity, _databases) {
+        sum += entity->dataSize();
+    }
+
+    return sum;
+}
+
 void SessionEntity::initDatabasesListIfNeed()
 {
     if (_databasesWereInit == false) {

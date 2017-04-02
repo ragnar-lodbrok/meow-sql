@@ -17,7 +17,7 @@ void HostTab::createRootTabs()
 
     QHBoxLayout * layout = new QHBoxLayout();
     layout->setSpacing(0);
-    layout->setContentsMargins(0,0,0,0);
+    layout->setContentsMargins(2,2,2,2);
     this->setLayout(layout);
 
     layout->addWidget(_rootTabs);
@@ -34,13 +34,14 @@ void HostTab::setCurrentEntity(meow::db::SessionEntity * curEntity)
 {
     bool sessionChanged = _model.setCurrentEntity(curEntity);
     if (sessionChanged) {
-        onSessionChanged();
+        onSessionChanged(curEntity);
     }
 }
 
-void HostTab::onSessionChanged()
+void HostTab::onSessionChanged(meow::db::SessionEntity * session)
 {
     _rootTabs->setTabText(Tabs::Databases, _model.titleForDatabasesTab());
+    _databasesTab->setSession(session);
 }
 
 } // namespace central_right

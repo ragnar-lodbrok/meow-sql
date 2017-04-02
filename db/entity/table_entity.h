@@ -15,8 +15,13 @@ public:
     virtual QString name() const override;
     virtual QVariant icon() const override;
     virtual Type type() const override { return Type::Table; }
+
+    virtual db::ulonglong dataSize() const override { return _dataSize; }
+    void setDataSize(db::ulonglong dataSize) { _dataSize = dataSize; }
+
 private:
     QString _tableName;
+    db::ulonglong _dataSize;
 };
 
 } // namespace db

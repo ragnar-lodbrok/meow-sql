@@ -9,7 +9,7 @@ namespace db {
 DataBaseEntity::DataBaseEntity(const QString & dbName, SessionEntity * parent)
     :Entity(parent),
      _dbName(dbName),
-     _entities(),
+     _entities(nullptr),
      _entitiesWereInit(false)
 {
 
@@ -52,6 +52,19 @@ Entity * DataBaseEntity::child(int row) // override
 {
     initEntitiesIfNeed();
     return _entities->list()->value(row); // null if out of bounds
+}
+
+db::ulonglong DataBaseEntity::dataSize() const // override
+{
+    db::ulonglong sum = 0;
+
+    if (_entities) {
+        for (auto entity : *(_entities->list())) {
+            sum += entity->dataSize();
+        }
+    }
+
+    return sum;
 }
 
 void DataBaseEntity::initEntitiesIfNeed()

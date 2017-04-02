@@ -7,7 +7,8 @@ namespace db {
 
 TableEntity::TableEntity(const QString & tableName, DataBaseEntity * parent)
     :Entity(parent),
-     _tableName(tableName)
+     _tableName(tableName),
+     _dataSize(0)
 {
 
 }

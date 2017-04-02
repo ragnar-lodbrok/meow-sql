@@ -57,9 +57,11 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
 
     if (resPtr) {
 
-        std::size_t indexOfName    = resPtr->indexOfColumn("Name");
-        std::size_t indexOfEngine  = resPtr->indexOfColumn("Engine");
-        std::size_t indexOfVersion = resPtr->indexOfColumn("Version");
+        std::size_t indexOfName     = resPtr->indexOfColumn("Name");
+        std::size_t indexOfEngine   = resPtr->indexOfColumn("Engine");
+        std::size_t indexOfVersion  = resPtr->indexOfColumn("Version");
+        std::size_t indexOfDataLen  = resPtr->indexOfColumn("Data_length");
+        std::size_t indexOfIndexLen = resPtr->indexOfColumn("Index_length");
 
         while (resPtr->isEof() == false) {
 
@@ -72,6 +74,13 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
                 toList->list()->append(view);
             } else {
                 TableEntity * table = new TableEntity(name);
+
+                if (!resPtr->isNull(indexOfDataLen) && !resPtr->isNull(indexOfIndexLen)) {
+                    auto dataLen = resPtr->curRowColumn(indexOfDataLen).toULongLong();
+                    auto indexLen = resPtr->curRowColumn(indexOfIndexLen).toULongLong();
+                    table->setDataSize(dataLen + indexLen);
+                }
+
                 toList->list()->append(table);
             }
 

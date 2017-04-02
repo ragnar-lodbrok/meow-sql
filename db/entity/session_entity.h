@@ -24,6 +24,7 @@ public:
     virtual Entity * child(int row) override;
     virtual Type type() const override { return Type::Session; }
     virtual QVariant icon() const override;
+    virtual db::ulonglong dataSize() const override;
 
     int indexOf(DataBaseEntity * session) const;
 
