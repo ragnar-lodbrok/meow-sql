@@ -81,5 +81,10 @@ void DataBaseEntity::initEntitiesIfNeed()
     }
 }
 
+bool DataBaseEntity::childrenFetched() const
+{
+    return _entitiesWereInit;
+}
+
 } // namespace db
 } // namespace meow

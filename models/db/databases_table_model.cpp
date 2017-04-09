@@ -1,6 +1,7 @@
+#include <QDebug>
 #include "databases_table_model.h"
 #include "db/entity/database_entity.h"
-#include <QDebug>
+#include "helpers/formatting.h"
 
 namespace meow {
 namespace models {
@@ -105,14 +106,53 @@ QVariant DatabasesTableModel::data(const QModelIndex &index, int role) const
                 _session->child(index.row())
             );
 
+        bool childrenFetched = database->childrenFetched();
+
         switch (static_cast<Columns>(index.column())) {
 
         case Columns::Database:
             return database->name();
 
         case Columns::Size:
-            return QString::number(database->dataSize());
+            if (childrenFetched) {
+                return helpers::formatByteSize(database->dataSize());
+            }
+        case Columns::Items:
+            return childrenFetched ? database->childCount() : QVariant();
 
+        case Columns::LastModification:
+            return QVariant();
+
+        case Columns::Tables:
+            if (childrenFetched) {
+                return childCountOfType(database, meow::db::Entity::Type::Table);
+            }
+
+        case Columns::Views:
+            if (childrenFetched) {
+                return childCountOfType(database, meow::db::Entity::Type::View);
+            }
+
+        case Columns::Functions:
+            if (childrenFetched) {
+                return childCountOfType(database, meow::db::Entity::Type::Function);
+            }
+
+        case Columns::Procedures:
+            if (childrenFetched) {
+                return childCountOfType(database, meow::db::Entity::Type::Procedure);
+            }
+
+        case Columns::Triggers:
+            if (childrenFetched) {
+                return childCountOfType(database, meow::db::Entity::Type::Trigger);
+            }
+
+        case Columns::Events:
+            //if (childrenFetched) {
+            //    return childCountOfType(database, meow::db::Entity::Type::Event);
+            //}
+            return QVariant();
         default:
             break;
         }

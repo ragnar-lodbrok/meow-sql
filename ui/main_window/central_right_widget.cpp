@@ -24,7 +24,7 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
 
     if (_model.connectionChanged()) {
         db::SessionEntity * sessionEntity = static_cast<db::SessionEntity *>(
-            entity->findParentOfType(db::Entity::Type::Session)
+            findParentEntityOfType(entity, db::Entity::Type::Session)
         );
         hostTab()->setCurrentEntity(sessionEntity);
         _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Host, _model.titleForHostTab());

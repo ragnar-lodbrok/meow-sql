@@ -18,17 +18,32 @@ Connection * Entity::connection() const
     return nullptr;
 }
 
-Entity * Entity::findParentOfType(Type type) const
+// --------------------------------------------------------------
+
+Entity * findParentEntityOfType(Entity * entity, Entity::Type type)
 {
-    if (type == Type::None) {
+    if (type == Entity::Type::None) {
         return nullptr;
-    } else if (this->type() == type) {
-        return const_cast<Entity *>(this);
-    } else if (_parent) {
-        return _parent->findParentOfType(type);
+    } else if (entity->type() == type) {
+        return entity;
+    } else if (entity->parent()) {
+        return findParentEntityOfType(entity->parent(), type);
     } else {
         return nullptr;
     }
+}
+
+int childCountOfType(Entity * entity, Entity::Type type)
+{
+    int childCountTotal = entity->childCount();
+    int childCountOfType = 0;
+    for (int i=0; i<childCountTotal; ++i) {
+        Entity * child = entity->child(i);
+        if (child->type() == type) {
+            ++childCountOfType;
+        }
+    }
+    return childCountOfType;
 }
 
 } // namespace db

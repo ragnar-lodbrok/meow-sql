@@ -50,7 +50,6 @@ public:
     virtual Type type() const { return Type::None; }
     virtual QVariant icon() const { return QVariant(); }
     virtual db::ulonglong dataSize() const { return 0; }
-    Entity * findParentOfType(Type type) const;
 
     bool wasSelected() const { return _wasSelected; }
     void setWasSelected(bool wasSelected) { _wasSelected = wasSelected; }
@@ -60,6 +59,18 @@ protected:
 private:
     bool _wasSelected;
 };
+
+
+// -----------------------------------------------------------------------------
+// Helpers
+
+
+// finds nearest parent (or itself) entity of passed type (nullptr if not)
+// checks until root, ignores children
+Entity * findParentEntityOfType(Entity * entity, Entity::Type type);
+
+// returns count of children of passed type (1 level)
+int childCountOfType(Entity * entity, Entity::Type type);
 
 } // namespace db
 } // namespace meow

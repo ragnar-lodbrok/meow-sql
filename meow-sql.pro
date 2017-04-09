@@ -59,7 +59,8 @@ SOURCES += main.cpp\
     models/ui/central_right_widget_model.cpp \
     ui/main_window/central_right/host/cr_host_databases_tab.cpp \
     models/ui/central_right_host_widget_model.cpp \
-    models/db/databases_table_model.cpp
+    models/db/databases_table_model.cpp \
+    helpers/formatting.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -97,7 +98,8 @@ HEADERS  += app.h \
     models/ui/central_right_widget_model.h \
     ui/main_window/central_right/host/cr_host_databases_tab.h \
     models/ui/central_right_host_widget_model.h \
-    models/db/databases_table_model.h
+    models/db/databases_table_model.h \
+    helpers/formatting.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

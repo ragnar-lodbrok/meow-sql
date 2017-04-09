@@ -19,6 +19,8 @@ MySQLEntitiesFetcher::MySQLEntitiesFetcher(MySQLConnection * connection)
 
 void MySQLEntitiesFetcher::run(const QString & dbName, EntityListForDataBase * toList) // override
 {
+    // TODO SELECT DEFAULT_COLLATION_NAME
+
     fetchTablesViews(dbName, toList);
 
     unsigned long serverVersion = _connection->serverVersionInt();
