@@ -46,6 +46,18 @@ int childCountOfType(Entity * entity, Entity::Type type)
     return childCountOfType;
 }
 
+QString databaseName(Entity * entity)
+{
+    Entity * databaseEntity =
+        findParentEntityOfType(entity, db::Entity::Type::Database);
+
+    if (databaseEntity) {
+        return databaseEntity->name();
+    }
+
+    return QString();
+}
+
 } // namespace db
 } // namespace meow
 

@@ -43,7 +43,15 @@ void CentralLeftWidget::selectedDbEntityChanged(
 
     if (!items.isEmpty()) {
         index = items.at(0);
-        _dbEntitiesTreeModel->selectEntityAt(index);
+
+        try {
+            _dbEntitiesTreeModel->selectEntityAt(index);
+        } catch(meow::db::Exception & ex) {
+            qDebug() << "Tree error: " << ex.message();
+            // TODO: show error
+            // revert selection
+        }
+
     } else {
         qDebug() << "Tree: selection is empty";
     }

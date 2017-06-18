@@ -41,6 +41,8 @@ public:
 
     virtual QString escapeString(const QString & str, bool processJokerChars = false, bool doQuote = true) const override;
 
+    virtual void setDatabase(const QString & database) override;
+
     MySQLResult lastRawResultAt(std::size_t index) const;
 
 protected:

@@ -320,6 +320,23 @@ QString MySQLConnection::escapeString(const QString & str, bool processJokerChar
     // TODO: NO_BACKSLASH_ESCAPES ?
 }
 
+void MySQLConnection::setDatabase(const QString & database) // override
+{
+    if (database == _database) {
+        return;
+    }
+
+    // TODO: FOnDatabaseChanged
+    // TODO: clear database
+
+    query(QString("USE ") + quoteIdentifier(database));
+    _database = database;
+    emitDatabaseChanged(database);
+
+    // TODO: DetectUSEQuery
+    // TODO: SetObjectNamesInSelectedDB
+}
+
 MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)
 {
     return std::shared_ptr<MYSQL_RES> (nativeMySQLRes, [](MYSQL_RES * nativeMySQLRes) {

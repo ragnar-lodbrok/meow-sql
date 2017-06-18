@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include "models/ui/central_right_widget_model.h"
 #include "central_right/host/central_right_host_tab.h"
+#include "central_right/database/central_right_database_tab.h"
 
 namespace meow {
 namespace ui {
@@ -22,11 +23,13 @@ private:
     void createRootTabs();
 
     central_right::HostTab * hostTab();
+    central_right::DatabaseTab * databaseTab();
 
     models::ui::CentralRightWidgetModel _model;
 
     QTabWidget  * _rootTabs;
     central_right::HostTab * _hostTab;
+    central_right::DatabaseTab * _databaseTab;
 
 };
 

@@ -9,7 +9,9 @@ namespace main_window {
 
 CentralRightWidget::CentralRightWidget(QWidget *parent)
     : QWidget(parent),
-      _model()
+      _model(),
+      _hostTab(nullptr),
+      _databaseTab(nullptr)
 {
     createRootTabs();
 }
@@ -28,6 +30,10 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
         );
         hostTab()->setCurrentEntity(sessionEntity);
         _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Host, _model.titleForHostTab());
+    } else { // TODO: if db changed
+
+        databaseTab();
+        _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Database, _model.titleForDatabaseTab());
     }
 
     if (entity->type() == db::Entity::Type::Session) {
@@ -59,6 +65,16 @@ central_right::HostTab * CentralRightWidget::hostTab()
     }
 
     return _hostTab;
+}
+
+central_right::DatabaseTab * CentralRightWidget::databaseTab()
+{
+    if (!_databaseTab) {
+        _databaseTab = new central_right::DatabaseTab();
+        _rootTabs->insertTab(models::ui::CentralRightWidgetTabs::Database, _databaseTab, QIcon(":/icons/database.png"), _model.titleForDatabaseTab());
+    }
+
+    return _databaseTab;
 }
 
 } // namespace meow

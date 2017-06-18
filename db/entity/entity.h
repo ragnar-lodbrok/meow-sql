@@ -72,6 +72,9 @@ Entity * findParentEntityOfType(Entity * entity, Entity::Type type);
 // returns count of children of passed type (1 level)
 int childCountOfType(Entity * entity, Entity::Type type);
 
+
+QString databaseName(Entity * entity);
+
 } // namespace db
 } // namespace meow
 

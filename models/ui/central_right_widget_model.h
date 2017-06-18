@@ -22,7 +22,10 @@ class CentralRightWidgetModel
 public:
     CentralRightWidgetModel();
     bool setCurrentEntity(meow::db::Entity * currentEntity);
+
     QString titleForHostTab() const;
+    QString titleForDatabaseTab() const;
+
     bool connectionChanged() const;
 private:
     meow::db::Entity * _prevEntity;

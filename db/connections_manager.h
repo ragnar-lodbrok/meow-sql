@@ -29,12 +29,15 @@ public:
     Entity * activeEntity() const { return _activeEntity; }
     void setActiveEntity(Entity * activeEntity);
 
+    Connection * activeConnection() const;
+
     Q_SIGNAL void connectionOpened(SessionEntity * newSession);
     Q_SIGNAL void activeEntityChanged(Entity * newEntity);
 
 private:
     QList <SessionEntity *> _connections;
     Entity * _activeEntity;
+    SessionEntity * _activeSession;
 };
 
 } // namespace db

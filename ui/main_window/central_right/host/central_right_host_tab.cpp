@@ -1,5 +1,4 @@
 #include "central_right_host_tab.h"
-#include <QtWidgets>
 
 namespace meow {
 namespace ui {

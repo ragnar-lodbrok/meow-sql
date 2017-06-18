@@ -45,6 +45,18 @@ QString CentralRightWidgetModel::titleForHostTab() const
     }
 }
 
+QString CentralRightWidgetModel::titleForDatabaseTab() const
+{
+    if (_currentEntity) {
+
+        QString database = _currentEntity->connection()->database();
+
+        return QObject::tr("Database") + ": " + database;
+    }
+
+    return QObject::tr("Database");
+}
+
 } // namespace ui
 } // namespace models
 } // namespace meow

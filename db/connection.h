@@ -2,6 +2,7 @@
 #define DB_CONNECTION_H
 
 #include <memory>
+#include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QMap>
@@ -18,8 +19,10 @@ class DataBaseEntitiesFetcher;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
-class Connection
+class Connection //: public QObject
 {
+    //Q_OBJECT
+
 public:
     Connection(const ConnectionParameters & params);
     virtual ~Connection();
@@ -29,6 +32,7 @@ public:
     QString & characterSet() { return _characterSet; }
     bool isUnicode() const { return _isUnicode; }
     unsigned long serverVersionInt() const { return _serverVersionInt; }
+    QString database() { return _database; }
 
     virtual void setCharacterSet(const QString & characterSet);
     void setIsUnicode(bool isUnicode) { _isUnicode = isUnicode; }
@@ -49,10 +53,13 @@ public:
     virtual QString fetchCharacterSet() = 0;
     virtual void query(const QString & SQL, bool storeResult = false) = 0; // H: add LogCategory
     virtual std::size_t lastResultsCount() const { return 0; } // H: ResultCount    
+    virtual void setDatabase(const QString & database) = 0;
 
     QString quoteIdentifier(const char * identifier, bool alwaysQuote = true, QChar glue = QChar::Null) const;
     QString quoteIdentifier(const QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null) const;
     virtual QString escapeString(const QString & str, bool processJokerChars = false, bool doQuote = true) const = 0;
+
+    //Q_SIGNAL void databaseChanged(const QString & database);
 
 protected:
     bool _active;
@@ -62,6 +69,9 @@ protected:
     QString _serverVersionString;
     unsigned long _serverVersionInt;
     QMap<QString, EntityListForDataBase *> _databaseEntitiesCache; // db name : db's entities
+    QString _database;
+
+    void emitDatabaseChanged(const QString& newName);
 
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() = 0;
 private:

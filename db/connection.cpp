@@ -6,7 +6,8 @@ namespace meow {
 namespace db {
 
 Connection::Connection(const ConnectionParameters & params)
-    :_active(false),
+    ://QObject(nullptr),
+      _active(false),
      _connectionParams(params),
      _characterSet(),
      _isUnicode(false)
@@ -140,6 +141,11 @@ QString Connection::quoteIdentifier(const QString & identifier, bool alwaysQuote
     }
 
     return identifier;
+}
+
+void Connection::emitDatabaseChanged(const QString& newName)
+{
+    //emit databaseChanged(newName);
 }
 
 } // namespace db
