@@ -59,11 +59,13 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
 
     if (resPtr) {
 
-        std::size_t indexOfName     = resPtr->indexOfColumn("Name");
-        std::size_t indexOfEngine   = resPtr->indexOfColumn("Engine");
-        std::size_t indexOfVersion  = resPtr->indexOfColumn("Version");
-        std::size_t indexOfDataLen  = resPtr->indexOfColumn("Data_length");
-        std::size_t indexOfIndexLen = resPtr->indexOfColumn("Index_length");
+        std::size_t indexOfName      = resPtr->indexOfColumn("Name");
+        std::size_t indexOfEngine    = resPtr->indexOfColumn("Engine");
+        std::size_t indexOfVersion   = resPtr->indexOfColumn("Version");
+        std::size_t indexOfDataLen   = resPtr->indexOfColumn("Data_length");
+        std::size_t indexOfIndexLen  = resPtr->indexOfColumn("Index_length");
+        std::size_t indexOfRows      = resPtr->indexOfColumn("Rows");
+        std::size_t indexOfCollation = resPtr->indexOfColumn("Collation");
 
         while (resPtr->isEof() == false) {
 
@@ -76,12 +78,27 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
                 toList->list()->append(view);
             } else {
                 TableEntity * table = new TableEntity(name);
-
+                // data size
                 if (!resPtr->isNull(indexOfDataLen) && !resPtr->isNull(indexOfIndexLen)) {
                     auto dataLen = resPtr->curRowColumn(indexOfDataLen).toULongLong();
                     auto indexLen = resPtr->curRowColumn(indexOfIndexLen).toULongLong();
                     table->setDataSize(dataLen + indexLen);
                 }
+                // engine
+                table->setEngine(resPtr->curRowColumn(indexOfEngine));
+                // rows count
+                if (!resPtr->isNull(indexOfRows)) {
+                    table->setRowsCount(
+                        resPtr->curRowColumn(indexOfRows).toULongLong()
+                    );
+                }
+                // collation
+                if (!resPtr->isNull(indexOfCollation)) {
+                    table->setCollation(
+                        resPtr->curRowColumn(indexOfCollation)
+                    );
+                }
+
 
                 toList->list()->append(table);
             }

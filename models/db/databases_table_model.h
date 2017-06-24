@@ -6,6 +6,12 @@
 #include <QAbstractTableModel>
 #include "db/entity/session_entity.h"
 
+// Main Window
+//   Central Right Widget
+//     Host Tab
+//       Databases Tab
+//         Table Model
+
 namespace meow {
 namespace models {
 namespace db {

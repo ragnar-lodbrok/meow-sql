@@ -33,6 +33,35 @@ bool CentralRightWidgetModel::connectionChanged() const
     return _currentEntity->connection() != _prevEntity->connection();
 }
 
+bool CentralRightWidgetModel::databaseChanged() const
+{
+    if (_prevEntity == _currentEntity) {
+        return false;
+    }
+
+    if (_prevEntity == nullptr || _currentEntity == nullptr) {
+        return true;
+    }
+
+    db::Entity * prevDatabaseEntity =
+        db::findParentEntityOfType(_prevEntity, db::Entity::Type::Database);
+
+    db::Entity * curDatabaseEntity =
+        db::findParentEntityOfType(_currentEntity, db::Entity::Type::Database);
+
+    return prevDatabaseEntity != curDatabaseEntity;
+}
+
+bool CentralRightWidgetModel::hasDatabase() const
+{
+    if (_currentEntity == nullptr) {
+        return false;
+    }
+
+    return db::findParentEntityOfType(
+        _currentEntity, db::Entity::Type::Database) != nullptr;
+}
+
 QString CentralRightWidgetModel::titleForHostTab() const
 {
     if (_currentEntity) {

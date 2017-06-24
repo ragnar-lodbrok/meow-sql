@@ -145,7 +145,7 @@ QString Connection::quoteIdentifier(const QString & identifier, bool alwaysQuote
 
 void Connection::emitDatabaseChanged(const QString& newName)
 {
-    //emit databaseChanged(newName);
+    emit databaseChanged(newName);
 }
 
 } // namespace db

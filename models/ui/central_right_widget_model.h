@@ -27,6 +27,8 @@ public:
     QString titleForDatabaseTab() const;
 
     bool connectionChanged() const;
+    bool databaseChanged() const;
+    bool hasDatabase() const;
 private:
     meow::db::Entity * _prevEntity;
     meow::db::Entity * _currentEntity;

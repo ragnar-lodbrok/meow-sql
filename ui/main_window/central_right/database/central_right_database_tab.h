@@ -2,6 +2,7 @@
 #define UI_CENTRALRIGHT_DATABASETAB_H
 
 #include <QtWidgets>
+#include "models/db/database_entities_table_model.h"
 
 namespace meow {
 namespace ui {
@@ -14,9 +15,16 @@ class DatabaseTab : public QWidget
 public:
     explicit DatabaseTab(QWidget *parent = 0);
 
-signals:
+    void setDataBase(meow::db::DataBaseEntity * database);
 
-public slots:
+private:
+
+    void createEntitiesTable();
+
+    models::db::DatabaseEntitiesTableModel _model;
+
+    QVBoxLayout * _mainLayout;
+    QTableView  * _entitiesTable;
 };
 
 } // namespace central_right

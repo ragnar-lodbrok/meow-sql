@@ -61,7 +61,8 @@ SOURCES += main.cpp\
     models/ui/central_right_host_widget_model.cpp \
     models/db/databases_table_model.cpp \
     helpers/formatting.cpp \
-    ui/main_window/central_right/database/central_right_database_tab.cpp
+    ui/main_window/central_right/database/central_right_database_tab.cpp \
+    models/db/database_entities_table_model.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -101,7 +102,8 @@ HEADERS  += app.h \
     models/ui/central_right_host_widget_model.h \
     models/db/databases_table_model.h \
     helpers/formatting.h \
-    ui/main_window/central_right/database/central_right_database_tab.h
+    ui/main_window/central_right/database/central_right_database_tab.h \
+    models/db/database_entities_table_model.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

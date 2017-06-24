@@ -50,6 +50,7 @@ public:
     virtual Type type() const { return Type::None; }
     virtual QVariant icon() const { return QVariant(); }
     virtual db::ulonglong dataSize() const { return 0; }
+    virtual bool hasDataSize() const { return false; }
 
     bool wasSelected() const { return _wasSelected; }
     void setWasSelected(bool wasSelected) { _wasSelected = wasSelected; }

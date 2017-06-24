@@ -19,9 +19,9 @@ class DataBaseEntitiesFetcher;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
-class Connection //: public QObject
+class Connection : public QObject
 {
-    //Q_OBJECT
+    Q_OBJECT
 
 public:
     Connection(const ConnectionParameters & params);
@@ -59,7 +59,7 @@ public:
     QString quoteIdentifier(const QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null) const;
     virtual QString escapeString(const QString & str, bool processJokerChars = false, bool doQuote = true) const = 0;
 
-    //Q_SIGNAL void databaseChanged(const QString & database);
+    Q_SIGNAL void databaseChanged(const QString & database);
 
 protected:
     bool _active;

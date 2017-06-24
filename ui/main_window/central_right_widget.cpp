@@ -29,15 +29,30 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
             findParentEntityOfType(entity, db::Entity::Type::Session)
         );
         hostTab()->setCurrentEntity(sessionEntity);
-        _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Host, _model.titleForHostTab());
-    } else { // TODO: if db changed
+        _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Host,
+                              _model.titleForHostTab());
+    }
 
-        databaseTab();
-        _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Database, _model.titleForDatabaseTab());
+    if (_model.databaseChanged()) {
+
+        db::DataBaseEntity * dbEntity = static_cast<db::DataBaseEntity *>(
+            findParentEntityOfType(entity, db::Entity::Type::Database)
+        );
+
+        databaseTab()->setDataBase(dbEntity);
+
+        if (_model.hasDatabase()) {
+            _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Database,
+                                  _model.titleForDatabaseTab());
+        } else {
+            //_rootTabs->removeTab(models::ui::CentralRightWidgetTabs::Database);
+        }
     }
 
     if (entity->type() == db::Entity::Type::Session) {
         _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Host);
+    } else if (entity->type() == db::Entity::Type::Database) {
+        _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Database);
     }
 }
 
@@ -53,7 +68,8 @@ void CentralRightWidget::createRootTabs()
 
     layout->addWidget(_rootTabs);
 
-    _rootTabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    _rootTabs->setSizePolicy(
+                QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
 }
 
@@ -61,7 +77,10 @@ central_right::HostTab * CentralRightWidget::hostTab()
 {
     if (!_hostTab) {
         _hostTab = new central_right::HostTab();
-        _rootTabs->insertTab(models::ui::CentralRightWidgetTabs::Host, _hostTab, QIcon(":/icons/host.png"), _model.titleForHostTab());
+        _rootTabs->insertTab(models::ui::CentralRightWidgetTabs::Host,
+                             _hostTab,
+                             QIcon(":/icons/host.png"),
+                             _model.titleForHostTab());
     }
 
     return _hostTab;
@@ -71,7 +90,10 @@ central_right::DatabaseTab * CentralRightWidget::databaseTab()
 {
     if (!_databaseTab) {
         _databaseTab = new central_right::DatabaseTab();
-        _rootTabs->insertTab(models::ui::CentralRightWidgetTabs::Database, _databaseTab, QIcon(":/icons/database.png"), _model.titleForDatabaseTab());
+        _rootTabs->insertTab(models::ui::CentralRightWidgetTabs::Database,
+                             _databaseTab,
+                             QIcon(":/icons/database.png"),
+                             _model.titleForDatabaseTab());
     }
 
     return _databaseTab;
