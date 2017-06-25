@@ -34,18 +34,22 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     }
 
     if (_model.databaseChanged()) {
-
-        db::DataBaseEntity * dbEntity = static_cast<db::DataBaseEntity *>(
-            findParentEntityOfType(entity, db::Entity::Type::Database)
-        );
-
-        databaseTab()->setDataBase(dbEntity);
-
         if (_model.hasDatabase()) {
+
+            db::DataBaseEntity * dbEntity = static_cast<db::DataBaseEntity *>(
+                findParentEntityOfType(entity, db::Entity::Type::Database)
+            );
+
+            databaseTab()->setDataBase(dbEntity);
+
             _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Database,
                                   _model.titleForDatabaseTab());
         } else {
-            //_rootTabs->removeTab(models::ui::CentralRightWidgetTabs::Database);
+            if (_databaseTab) {
+                _rootTabs->removeTab(models::ui::CentralRightWidgetTabs::Database);
+                delete _databaseTab;
+                _databaseTab = nullptr;
+            }
         }
     }
 
@@ -98,6 +102,7 @@ central_right::DatabaseTab * CentralRightWidget::databaseTab()
 
     return _databaseTab;
 }
+
 
 } // namespace meow
 } // namespace ui

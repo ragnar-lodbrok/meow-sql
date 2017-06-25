@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QAbstractTableModel>
 #include "db/entity/database_entity.h"
-#include "helpers/formatting.h"
 
 // Main Window
 //   Central Right Widget

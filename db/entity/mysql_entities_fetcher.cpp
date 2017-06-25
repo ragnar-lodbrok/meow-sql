@@ -7,6 +7,7 @@
 #include "function_entity.h"
 #include "procedure_entity.h"
 #include "trigger_entity.h"
+#include "helpers/parsing.h"
 
 namespace meow {
 namespace db {
@@ -59,13 +60,14 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
 
     if (resPtr) {
 
-        std::size_t indexOfName      = resPtr->indexOfColumn("Name");
-        std::size_t indexOfEngine    = resPtr->indexOfColumn("Engine");
-        std::size_t indexOfVersion   = resPtr->indexOfColumn("Version");
-        std::size_t indexOfDataLen   = resPtr->indexOfColumn("Data_length");
-        std::size_t indexOfIndexLen  = resPtr->indexOfColumn("Index_length");
-        std::size_t indexOfRows      = resPtr->indexOfColumn("Rows");
-        std::size_t indexOfCollation = resPtr->indexOfColumn("Collation");
+        std::size_t indexOfName       = resPtr->indexOfColumn("Name");
+        std::size_t indexOfEngine     = resPtr->indexOfColumn("Engine");
+        std::size_t indexOfVersion    = resPtr->indexOfColumn("Version");
+        std::size_t indexOfDataLen    = resPtr->indexOfColumn("Data_length");
+        std::size_t indexOfIndexLen   = resPtr->indexOfColumn("Index_length");
+        std::size_t indexOfRows       = resPtr->indexOfColumn("Rows");
+        std::size_t indexOfCollation  = resPtr->indexOfColumn("Collation");
+        std::size_t indexOfCreateTime = resPtr->indexOfColumn("Create_time");
 
         while (resPtr->isEof() == false) {
 
@@ -98,7 +100,14 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
                         resPtr->curRowColumn(indexOfCollation)
                     );
                 }
-
+                // create time
+                if (!resPtr->isNull(indexOfCreateTime)) {
+                    table->setCreated(
+                        helpers::parseDateTime(
+                            resPtr->curRowColumn(indexOfCreateTime)
+                        )
+                    );
+                }
 
                 toList->list()->append(table);
             }
@@ -124,13 +133,23 @@ void MySQLEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
 
     if (resPtr) {
 
-        std::size_t indexOfName = resPtr->indexOfColumn("Name");
+        std::size_t indexOfName    = resPtr->indexOfColumn("Name");
+        std::size_t indexOfCreated = resPtr->indexOfColumn("Created");
 
         while (resPtr->isEof() == false) {
 
             QString name = resPtr->curRowColumn(indexOfName);
 
             FunctionEntity * func = new FunctionEntity(name);
+
+            if (!resPtr->isNull(indexOfCreated)) {
+                func->setCreated(
+                    helpers::parseDateTime(
+                        resPtr->curRowColumn(indexOfCreated)
+                    )
+                );
+            }
+
             toList->list()->append(func);
 
             resPtr->seekNext();
@@ -154,13 +173,23 @@ void MySQLEntitiesFetcher::fetchStoredProcedures(const QString & dbName,
 
     if (resPtr) {
 
-        std::size_t indexOfName = resPtr->indexOfColumn("Name");
+        std::size_t indexOfName    = resPtr->indexOfColumn("Name");
+        std::size_t indexOfCreated = resPtr->indexOfColumn("Created");
 
         while (resPtr->isEof() == false) {
 
             QString name = resPtr->curRowColumn(indexOfName);
 
             ProcedureEntity * proc = new ProcedureEntity(name);
+
+            if (!resPtr->isNull(indexOfCreated)) {
+                proc->setCreated(
+                    helpers::parseDateTime(
+                        resPtr->curRowColumn(indexOfCreated)
+                    )
+                );
+            }
+
             toList->list()->append(proc);
 
             resPtr->seekNext();
@@ -186,12 +215,22 @@ void MySQLEntitiesFetcher::fetchTriggers(const QString & dbName,
     if (resPtr) {
 
         std::size_t indexOfTrigger = resPtr->indexOfColumn("Trigger");
+        std::size_t indexOfCreated = resPtr->indexOfColumn("Created");
 
         while (resPtr->isEof() == false) {
 
             QString name = resPtr->curRowColumn(indexOfTrigger);
 
             TriggerEntity * trigger = new TriggerEntity(name);
+
+            if (!resPtr->isNull(indexOfCreated)) {
+                trigger->setCreated(
+                    helpers::parseDateTime(
+                        resPtr->curRowColumn(indexOfCreated)
+                    )
+                );
+            }
+
             toList->list()->append(trigger);
 
             resPtr->seekNext();

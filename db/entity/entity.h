@@ -4,6 +4,7 @@
 #include "db/connection.h"
 #include <QString>
 #include <QVariant>
+#include <QDateTime>
 
 // see http://doc.qt.io/qt-5/qtwidgets-itemviews-simpletreemodel-example.html,
 // TreeItem class
@@ -55,10 +56,14 @@ public:
     bool wasSelected() const { return _wasSelected; }
     void setWasSelected(bool wasSelected) { _wasSelected = wasSelected; }
 
+    QDateTime created() const { return _created; }
+    void setCreated(const QDateTime & created) { _created = created; }
+
 protected:
     Entity * _parent;
 private:
     bool _wasSelected;
+    QDateTime _created;
 };
 
 

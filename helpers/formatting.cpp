@@ -1,5 +1,6 @@
 #include "formatting.h"
 #include <QStringList>
+#include <QLocale>
 
 namespace meow {
 namespace helpers {
@@ -21,6 +22,16 @@ QString formatByteSize(byteSize bytes, int decimals)
     }
 
     return QString().setNum(num,'f', decimals) + " " + unit;
+}
+
+QString formatNumber(unsigned long long number)
+{
+    return QLocale().toString(number);
+}
+
+QString formatDateTime(const QDateTime & dateTime)
+{
+    return QLocale().toString(dateTime, "yyyy-MM-dd HH:mm:ss");
 }
 
 } // namespace helpers

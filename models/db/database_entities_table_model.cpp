@@ -1,5 +1,7 @@
 #include "database_entities_table_model.h"
 #include "db/entity/table_entity.h"
+#include "helpers/formatting.h"
+#include <QDebug>
 
 namespace meow {
 namespace models {
@@ -91,66 +93,83 @@ QVariant DatabaseEntitiesTableModel::data(const QModelIndex &index, int role) co
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole && _database && _database->childrenFetched()) {
+    if (_database && _database->childrenFetched()) {
+        if (role == Qt::DisplayRole) {
 
-        meow::db::Entity * entity = _database->child(index.row());
+            meow::db::Entity * entity = _database->child(index.row());
 
-        if (!entity) {
-            return QVariant();
+            if (!entity) {
+                return QVariant();
+            }
+
+            meow::db::TableEntity * table = nullptr;
+
+            if (entity->type() == meow::db::Entity::Type::Table) {
+                table = static_cast<meow::db::TableEntity *>(entity);
+            }
+
+            switch (static_cast<Columns>(index.column())) {
+            case Columns::Name:
+                return entity->name();
+
+            case Columns::Rows:
+                if (table) {
+                    return helpers::formatNumber(table->rowsCount());
+                } else {
+                    return QVariant();
+                }
+
+            case Columns::Size:
+                if (entity->hasDataSize()) {
+                    return helpers::formatByteSize(entity->dataSize());
+                } else {
+                    return QVariant();
+                }
+
+            case Columns::Created: {
+                QDateTime created = entity->created();
+                if (created.isValid()) {
+                    return helpers::formatDateTime(created);
+                } else {
+                    return QVariant();
+                }
+            }
+
+            case Columns::Updated:
+                return QVariant(); // TODO
+
+            case Columns::Engine:
+                if (table) {
+                    return table->engine();
+                } else {
+                    return QVariant();
+                }
+
+            case Columns::Comment:
+
+            case Columns::Version:
+                return QVariant(); // TODO
+
+            case Columns::Collation:
+                if (table) {
+                    return table->collation();
+                } else {
+                    return QVariant();
+                }
+
+            default:
+                break;
+            }
+
+        } else if (role == Qt::DecorationRole) {
+
+            if (static_cast<Columns>(index.column()) == Columns::Name) {
+                meow::db::Entity * entity = _database->child(index.row());
+                if (entity) {
+                    return entity->icon();
+                }
+            }
         }
-
-        meow::db::TableEntity * table = nullptr;
-
-        if (entity->type() == meow::db::Entity::Type::Table) {
-            table = static_cast<meow::db::TableEntity *>(entity);
-        }
-
-        switch (static_cast<Columns>(index.column())) {
-        case Columns::Name:
-            return entity->name();
-
-        case Columns::Rows:
-            if (table) {
-                return table->rowsCount(); // TODO format
-            } else {
-                return QVariant();
-            }
-
-        case Columns::Size:
-            if (entity->hasDataSize()) {
-                return helpers::formatByteSize(entity->dataSize());
-            } else {
-                return QVariant();
-            }
-
-        case Columns::Created:
-
-        case Columns::Updated:
-            return QVariant(); // TODO
-
-        case Columns::Engine:
-            if (table) {
-                return table->engine();
-            } else {
-                return QVariant();
-            }
-
-        case Columns::Comment:
-
-        case Columns::Version:
-            return QVariant(); // TODO
-
-        case Columns::Collation:
-            if (table) {
-                return table->collation();
-            } else {
-                return QVariant();
-            }
-
-        default:
-            break;
-        }
-
     }
 
     return QVariant();
@@ -161,8 +180,12 @@ int DatabaseEntitiesTableModel::columnWidth(int column) const
 {
     switch (static_cast<Columns>(column)) {
     case Columns::Name:
-    case Columns::Collation:
         return 180;
+    case Columns::Collation:
+        return 140;
+    case Columns::Created:
+    case Columns::Updated:
+        return 130;
     default:
         return 80;
     }
