@@ -59,11 +59,15 @@ public:
     QDateTime created() const { return _created; }
     void setCreated(const QDateTime & created) { _created = created; }
 
+    QDateTime updated() const { return _updated; }
+    void setUpdated(const QDateTime & updated) { _updated = updated; }
+
 protected:
     Entity * _parent;
 private:
     bool _wasSelected;
     QDateTime _created;
+    QDateTime _updated;
 };
 
 

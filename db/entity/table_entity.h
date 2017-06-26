@@ -29,12 +29,16 @@ public:
     db::ulonglong rowsCount() const { return _rowsCount; }
     void setRowsCount(db::ulonglong rowsCount) { _rowsCount = rowsCount; }
 
+    db::ulonglong version() const { return _version; }
+    void setVersion(db::ulonglong version) { _version = version; }
+
 private:
     QString _collation;
     QString _tableName;
     QString _engine;
     db::ulonglong _rowsCount;
     db::ulonglong _dataSize;
+    db::ulonglong _version;
 };
 
 } // namespace db

@@ -61,13 +61,14 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
     if (resPtr) {
 
         std::size_t indexOfName       = resPtr->indexOfColumn("Name");
-        std::size_t indexOfEngine     = resPtr->indexOfColumn("Engine");
-        std::size_t indexOfVersion    = resPtr->indexOfColumn("Version");
+        std::size_t indexOfEngine     = resPtr->indexOfColumn("Engine");;
         std::size_t indexOfDataLen    = resPtr->indexOfColumn("Data_length");
         std::size_t indexOfIndexLen   = resPtr->indexOfColumn("Index_length");
         std::size_t indexOfRows       = resPtr->indexOfColumn("Rows");
         std::size_t indexOfCollation  = resPtr->indexOfColumn("Collation");
         std::size_t indexOfCreateTime = resPtr->indexOfColumn("Create_time");
+        std::size_t indexOfUpdateTime = resPtr->indexOfColumn("Update_time");
+        std::size_t indexOfVersion    = resPtr->indexOfColumn("Version");
 
         while (resPtr->isEof() == false) {
 
@@ -108,6 +109,20 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
                         )
                     );
                 }
+                // update time
+                if (!resPtr->isNull(indexOfUpdateTime)) {
+                    table->setUpdated(
+                        helpers::parseDateTime(
+                            resPtr->curRowColumn(indexOfUpdateTime)
+                        )
+                    );
+                }
+                // version
+                if (!resPtr->isNull(indexOfVersion)) {
+                    table->setVersion(
+                        resPtr->curRowColumn(indexOfVersion).toULongLong()
+                    );
+                }
 
                 toList->list()->append(table);
             }
@@ -133,8 +148,9 @@ void MySQLEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
 
     if (resPtr) {
 
-        std::size_t indexOfName    = resPtr->indexOfColumn("Name");
-        std::size_t indexOfCreated = resPtr->indexOfColumn("Created");
+        std::size_t indexOfName     = resPtr->indexOfColumn("Name");
+        std::size_t indexOfCreated  = resPtr->indexOfColumn("Created");
+        std::size_t indexOfModified = resPtr->indexOfColumn("Modified");
 
         while (resPtr->isEof() == false) {
 
@@ -146,6 +162,14 @@ void MySQLEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
                 func->setCreated(
                     helpers::parseDateTime(
                         resPtr->curRowColumn(indexOfCreated)
+                    )
+                );
+            }
+
+            if (!resPtr->isNull(indexOfModified)) {
+                func->setUpdated(
+                    helpers::parseDateTime(
+                        resPtr->curRowColumn(indexOfModified)
                     )
                 );
             }
@@ -175,6 +199,7 @@ void MySQLEntitiesFetcher::fetchStoredProcedures(const QString & dbName,
 
         std::size_t indexOfName    = resPtr->indexOfColumn("Name");
         std::size_t indexOfCreated = resPtr->indexOfColumn("Created");
+        std::size_t indexOfModified = resPtr->indexOfColumn("Modified");
 
         while (resPtr->isEof() == false) {
 
@@ -186,6 +211,14 @@ void MySQLEntitiesFetcher::fetchStoredProcedures(const QString & dbName,
                 proc->setCreated(
                     helpers::parseDateTime(
                         resPtr->curRowColumn(indexOfCreated)
+                    )
+                );
+            }
+
+            if (!resPtr->isNull(indexOfModified)) {
+                proc->setUpdated(
+                    helpers::parseDateTime(
+                        resPtr->curRowColumn(indexOfModified)
                     )
                 );
             }

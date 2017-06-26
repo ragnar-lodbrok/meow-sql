@@ -135,8 +135,14 @@ QVariant DatabaseEntitiesTableModel::data(const QModelIndex &index, int role) co
                 }
             }
 
-            case Columns::Updated:
-                return QVariant(); // TODO
+            case Columns::Updated: {
+                QDateTime updated = entity->updated();
+                if (updated.isValid()) {
+                    return helpers::formatDateTime(updated);
+                } else {
+                    return QVariant();
+                }
+            }
 
             case Columns::Engine:
                 if (table) {
@@ -146,9 +152,14 @@ QVariant DatabaseEntitiesTableModel::data(const QModelIndex &index, int role) co
                 }
 
             case Columns::Comment:
+                return QVariant();
 
             case Columns::Version:
-                return QVariant(); // TODO
+                if (table && table->version()) {
+                    return table->version();
+                } else {
+                    return QVariant();
+                }
 
             case Columns::Collation:
                 if (table) {
