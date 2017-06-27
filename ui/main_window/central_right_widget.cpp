@@ -11,7 +11,8 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
     : QWidget(parent),
       _model(),
       _hostTab(nullptr),
-      _databaseTab(nullptr)
+      _databaseTab(nullptr),
+      _tableTab(nullptr)
 {
     createRootTabs();
 }
@@ -57,6 +58,11 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
         _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Host);
     } else if (entity->type() == db::Entity::Type::Database) {
         _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Database);
+    } else if (entity->type() == db::Entity::Type::Table) {
+        tableTab();
+        _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Entity,
+                              _model.titleForTableTab());
+        _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Entity);
     }
 }
 
@@ -103,6 +109,18 @@ central_right::DatabaseTab * CentralRightWidget::databaseTab()
     return _databaseTab;
 }
 
+central_right::TableTab * CentralRightWidget::tableTab()
+{
+    if (!_tableTab) {
+        _tableTab = new central_right::TableTab();
+        _rootTabs->insertTab(models::ui::CentralRightWidgetTabs::Entity,
+                             _tableTab,
+                             QIcon(":/icons/table.png"),
+                             _model.titleForTableTab());
+    }
+
+    return _tableTab;
+}
 
 } // namespace meow
 } // namespace ui

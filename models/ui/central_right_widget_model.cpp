@@ -86,6 +86,16 @@ QString CentralRightWidgetModel::titleForDatabaseTab() const
     return QObject::tr("Database");
 }
 
+
+QString CentralRightWidgetModel::titleForTableTab() const
+{
+    if (_currentEntity && _currentEntity->type() == meow::db::Entity::Type::Table) {
+        return QObject::tr("Table") + ": " + _currentEntity->name();
+    }
+
+    return QObject::tr("Table");
+}
+
 } // namespace ui
 } // namespace models
 } // namespace meow

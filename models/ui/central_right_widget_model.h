@@ -14,7 +14,8 @@ namespace ui {
 
 enum CentralRightWidgetTabs {
     Host,
-    Database
+    Database,
+    Entity,
 };
 
 class CentralRightWidgetModel
@@ -25,6 +26,7 @@ public:
 
     QString titleForHostTab() const;
     QString titleForDatabaseTab() const;
+    QString titleForTableTab() const;
 
     bool connectionChanged() const;
     bool databaseChanged() const;

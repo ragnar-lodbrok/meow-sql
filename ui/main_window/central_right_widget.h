@@ -5,6 +5,7 @@
 #include "models/ui/central_right_widget_model.h"
 #include "central_right/host/central_right_host_tab.h"
 #include "central_right/database/central_right_database_tab.h"
+#include "central_right/table/central_right_table_tab.h"
 
 namespace meow {
 namespace ui {
@@ -24,13 +25,14 @@ private:
 
     central_right::HostTab * hostTab();
     central_right::DatabaseTab * databaseTab();
+    central_right::TableTab * tableTab();
 
     models::ui::CentralRightWidgetModel _model;
 
     QTabWidget  * _rootTabs;
     central_right::HostTab * _hostTab;
     central_right::DatabaseTab * _databaseTab;
-
+    central_right::TableTab * _tableTab;
 };
 
 
