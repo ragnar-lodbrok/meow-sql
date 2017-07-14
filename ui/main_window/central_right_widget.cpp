@@ -12,7 +12,8 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
       _model(),
       _hostTab(nullptr),
       _databaseTab(nullptr),
-      _tableTab(nullptr)
+      _tableTab(nullptr),
+      _dataTab(nullptr)
 {
     createRootTabs();
 }
@@ -52,6 +53,16 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
                 _databaseTab = nullptr;
             }
         }
+    }
+
+    if (_model.hasDataTab()) {
+        dataTab();
+        _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Data,
+                              _model.titleForDataTab());
+    } else if (_dataTab) {
+        _rootTabs->removeTab(models::ui::CentralRightWidgetTabs::Data);
+        delete _dataTab;
+        _dataTab = nullptr;
     }
 
     if (entity->type() == db::Entity::Type::Session) {
@@ -120,6 +131,19 @@ central_right::TableTab * CentralRightWidget::tableTab()
     }
 
     return _tableTab;
+}
+
+central_right::DataTab * CentralRightWidget::dataTab()
+{
+    if (!_dataTab) {
+        _dataTab = new central_right::DataTab();
+        _rootTabs->insertTab(models::ui::CentralRightWidgetTabs::Data,
+                             _dataTab,
+                             QIcon(":/icons/data.png"),
+                             _model.titleForDataTab());
+    }
+
+    return _dataTab;
 }
 
 } // namespace meow

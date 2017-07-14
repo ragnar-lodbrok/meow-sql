@@ -6,6 +6,8 @@ namespace db {
 
 typedef unsigned long long ulonglong;
 
+const int DATA_ROWS_PER_STEP = 1000;
+
 } // namespace db
 } // namespace meow
 

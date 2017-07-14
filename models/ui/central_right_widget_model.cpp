@@ -62,6 +62,16 @@ bool CentralRightWidgetModel::hasDatabase() const
         _currentEntity, db::Entity::Type::Database) != nullptr;
 }
 
+bool CentralRightWidgetModel::hasDataTab() const
+{
+    if (_currentEntity == nullptr) {
+        return false;
+    }
+
+    return _currentEntity->type() == db::Entity::Type::Table ||
+           _currentEntity->type() == db::Entity::Type::View;
+}
+
 QString CentralRightWidgetModel::titleForHostTab() const
 {
     if (_currentEntity) {
@@ -94,6 +104,11 @@ QString CentralRightWidgetModel::titleForTableTab() const
     }
 
     return QObject::tr("Table");
+}
+
+QString CentralRightWidgetModel::titleForDataTab() const
+{
+    return QObject::tr("Data");
 }
 
 } // namespace ui

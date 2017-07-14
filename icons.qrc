@@ -48,7 +48,7 @@
         <file alias="magnifier.png">resources/icons/magnifier.png</file>
         <file alias="lock.png">resources/icons/lock.png</file>
         <file>resources/icons/chart_bar.png</file>
-        <file>resources/icons/arrows_showall.png</file>
+        <file alias="show_all.png">resources/icons/arrows_showall.png</file>
         <file>resources/icons/modifiedcell.png</file>
         <file>resources/icons/gridcheckbox_unchecked.png</file>
         <file>resources/icons/gridcheckbox_checked.png</file>
@@ -90,7 +90,7 @@
         <file>resources/icons/arrow_right.png</file>
         <file>resources/icons/arrow_down.png</file>
         <file>resources/icons/arrows_righttoleft.png</file>
-        <file>resources/icons/arrows_lefttoright.png</file>
+        <file alias="next.png">resources/icons/arrows_lefttoright.png</file>
         <file>resources/icons/dropdown_normal.png</file>
         <file alias="dropdown_highlight.png">resources/icons/dropdown_highlight.png</file>
         <file>resources/icons/delimiter.png</file>
@@ -120,7 +120,7 @@
         <file>resources/icons/group_edit.png</file>
         <file>resources/icons/user_edit.png</file>
         <file>resources/icons/user_delete.png</file>
-        <file>resources/icons/text_columns.png</file>
+        <file alias="data.png">resources/icons/text_columns.png</file>
         <file>resources/icons/page_white_put.png</file>
         <file>resources/icons/calendar_view_day.png</file>
         <file>resources/icons/table_highlight.png</file>

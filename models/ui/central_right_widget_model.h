@@ -16,6 +16,7 @@ enum CentralRightWidgetTabs {
     Host,
     Database,
     Entity,
+    Data
 };
 
 class CentralRightWidgetModel
@@ -27,10 +28,12 @@ public:
     QString titleForHostTab() const;
     QString titleForDatabaseTab() const;
     QString titleForTableTab() const;
+    QString titleForDataTab() const;
 
     bool connectionChanged() const;
     bool databaseChanged() const;
     bool hasDatabase() const;
+    bool hasDataTab() const;
 private:
     meow::db::Entity * _prevEntity;
     meow::db::Entity * _currentEntity;
