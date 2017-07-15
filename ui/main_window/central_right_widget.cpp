@@ -55,8 +55,8 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
         }
     }
 
-    if (_model.hasDataTab()) {
-        dataTab();
+    if (_model.hasDataTab()) {       
+        dataTab()->setDBEntity(entity);
         _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Data,
                               _model.titleForDataTab());
     } else if (_dataTab) {

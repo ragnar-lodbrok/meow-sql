@@ -43,6 +43,14 @@ public:
 
     virtual void setDatabase(const QString & database) override;
 
+    virtual QString applyQueryLimit(
+            const QString & queryType,
+            const QString & queryBody,
+            db::ulonglong limit,
+            db::ulonglong offset = 0) override;
+
+    virtual QueryDataFetcher * createQueryDataFetcher() override;
+
     MySQLResult lastRawResultAt(std::size_t index) const;
 
 protected:

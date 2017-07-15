@@ -4,6 +4,7 @@
 #include "mysql_connection.h"
 #include "mysql_query.h"
 #include "entity/mysql_entities_fetcher.h"
+#include "mysql_query_data_fetcher.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -337,11 +338,31 @@ void MySQLConnection::setDatabase(const QString & database) // override
     // TODO: SetObjectNamesInSelectedDB
 }
 
+QString MySQLConnection::applyQueryLimit(
+        const QString & queryType,
+        const QString & queryBody,
+        db::ulonglong limit,
+        db::ulonglong offset) // override
+{
+    QString res = queryType + " " + queryBody + " LIMIT ";
+    if (offset > 0) {
+        res += QString::number(offset) + ", ";
+    }
+    res += QString::number(limit);
+
+    return res;
+}
+
+QueryDataFetcher * MySQLConnection::createQueryDataFetcher() // override
+{
+    return new MySQLQueryDataFetcher(this);
+}
+
 MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)
 {
     return std::shared_ptr<MYSQL_RES> (nativeMySQLRes, [](MYSQL_RES * nativeMySQLRes) {
         if (nativeMySQLRes) {
-           mysql_free_result(nativeMySQLRes);
+            mysql_free_result(nativeMySQLRes);
         }
     });
 }

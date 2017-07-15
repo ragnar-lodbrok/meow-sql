@@ -7,7 +7,7 @@ namespace main_window {
 namespace central_right {
 
 
-DataTab::DataTab(QWidget *parent) : QWidget(parent)
+DataTab::DataTab(QWidget *parent) : QWidget(parent), _model()
 {
     _mainLayout = new QVBoxLayout();
     _mainLayout->setContentsMargins(2, 2, 2, 2);
@@ -45,7 +45,9 @@ void DataTab::createToolBar()
     _toolBar->addAction(_nextRowsAction);
 
 
-    _showAllRowsAction = new QAction(QIcon(":/icons/show_all.png"), tr("Show all"), this);
+    _showAllRowsAction = new QAction(QIcon(":/icons/show_all.png"),
+                                     tr("Show all"),
+                                     this);
     _showAllRowsAction->setToolTip(
         tr("Show all rows")
     ); // TODO: hot keys
@@ -60,10 +62,14 @@ void DataTab::createDataTable()
     _dataTable->verticalHeader()->hide();
     _dataTable->horizontalHeader()->setHighlightSections(false);
 
-    //_dataTable->setModel(&_model);
+    _dataTable->setModel(&_model);
     _mainLayout->addWidget(_dataTable);
     _dataTable->setSortingEnabled(false); // TODO
+}
 
+void DataTab::setDBEntity(db::Entity * tableOrViewEntity)
+{
+    _model.setEntity(tableOrViewEntity);
 }
 
 } // namespace central_right

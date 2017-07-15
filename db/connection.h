@@ -16,6 +16,7 @@ namespace db {
 
 class Query;
 class DataBaseEntitiesFetcher;
+class QueryDataFetcher;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
@@ -58,6 +59,14 @@ public:
     QString quoteIdentifier(const char * identifier, bool alwaysQuote = true, QChar glue = QChar::Null) const;
     QString quoteIdentifier(const QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null) const;
     virtual QString escapeString(const QString & str, bool processJokerChars = false, bool doQuote = true) const = 0;
+
+    virtual QString applyQueryLimit(
+            const QString & queryType,
+            const QString & queryBody,
+            db::ulonglong limit,
+            db::ulonglong offset = 0) = 0;
+
+    virtual QueryDataFetcher * createQueryDataFetcher() = 0;
 
     Q_SIGNAL void databaseChanged(const QString & database);
 

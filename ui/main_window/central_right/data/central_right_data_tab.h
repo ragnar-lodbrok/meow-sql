@@ -2,6 +2,7 @@
 #define CENTRAL_RIGHT_DATA_TAB_H
 
 #include <QtWidgets>
+#include "models/db/data_table_model.h"
 
 namespace meow {
 namespace ui {
@@ -13,6 +14,9 @@ class DataTab : public QWidget
 
 public:
     explicit DataTab(QWidget *parent = 0);
+
+    void setDBEntity(db::Entity * tableOrViewEntity);
+
 private:
 
     void createDataTable();
@@ -28,6 +32,8 @@ private:
     QAction * _showAllRowsAction;
     // bottom:
     QTableView  * _dataTable;
+
+    models::db::DataTableModel _model;
 };
 
 } // namespace central_right

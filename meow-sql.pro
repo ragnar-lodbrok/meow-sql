@@ -65,7 +65,12 @@ SOURCES += main.cpp\
     models/db/database_entities_table_model.cpp \
     helpers/parsing.cpp \
     ui/main_window/central_right/table/central_right_table_tab.cpp \
-    ui/main_window/central_right/data/central_right_data_tab.cpp
+    ui/main_window/central_right/data/central_right_data_tab.cpp \
+    models/db/data_table_model.cpp \
+    db/query_criteria.cpp \
+    db/query_data.cpp \
+    db/query_data_fetcher.cpp \
+    db/mysql_query_data_fetcher.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -109,7 +114,12 @@ HEADERS  += app.h \
     models/db/database_entities_table_model.h \
     helpers/parsing.h \
     ui/main_window/central_right/table/central_right_table_tab.h \
-    ui/main_window/central_right/data/central_right_data_tab.h
+    ui/main_window/central_right/data/central_right_data_tab.h \
+    models/db/data_table_model.h \
+    db/query_criteria.h \
+    db/query_data.h \
+    db/query_data_fetcher.h \
+    db/mysql_query_data_fetcher.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql
