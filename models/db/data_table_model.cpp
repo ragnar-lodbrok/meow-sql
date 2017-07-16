@@ -20,13 +20,13 @@ DataTableModel::DataTableModel(QObject *parent)
 int DataTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 3;
+    return _queryData.columnCount();
 }
 
 int DataTableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 3;
+    return _queryData.rowCount();
 }
 
 Qt::ItemFlags DataTableModel::flags(const QModelIndex &index) const
@@ -47,7 +47,7 @@ QVariant DataTableModel::headerData(int section,
     }
 
     if (orientation == Qt::Horizontal) {
-
+        return _queryData.columnName(section);
     }
 
     return QVariant();
@@ -60,17 +60,14 @@ QVariant DataTableModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    //if (index.row() >= entitiesCount()) {
-    //    return QVariant();
-    //}
+    if (index.row() >= rowCount()) {
+        return QVariant();
+    }
 
 
     if (role == Qt::DisplayRole) {
-
-
-
+        return _queryData.rawDataAt(index.row(), index.column());
     } else if (role == Qt::DecorationRole) {
-
 
     }
 
@@ -80,6 +77,16 @@ QVariant DataTableModel::data(const QModelIndex &index, int role) const
 
 void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity)
 {
+    if (rowCount()) {
+        beginRemoveRows(QModelIndex(), 0, rowCount()-1);
+        endRemoveRows();
+    }
+
+    if (columnCount()) {
+        beginRemoveColumns(QModelIndex(), 0, columnCount()-1);
+        endRemoveColumns();
+    }
+
     // Listening: As I Lay Dying - Defender
     _dbEntity = tableOrViewEntity;
 
@@ -97,6 +104,14 @@ void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity)
 
     queryDataFetcher->run(&queryCritera, &_queryData);
 
+    if (rowCount() && columnCount()) {
+
+        beginInsertColumns(QModelIndex(), 0, columnCount()-1);
+        endInsertColumns();
+
+        beginInsertRows(QModelIndex(), 0, rowCount()-1);
+        endInsertRows();
+    }
 }
 
 

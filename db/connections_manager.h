@@ -5,6 +5,7 @@
 #include <QList>
 #include "connection_parameters.h"
 #include "entity/session_entity.h"
+#include "db/entity/entity_holder.h"
 
 namespace meow {
 namespace db {
@@ -26,7 +27,7 @@ public:
     int indexOf(SessionEntity * session) const;
     // Entity interface (end)
 
-    Entity * activeEntity() const { return _activeEntity; }
+    Entity * activeEntity() const { return _activeEntity.currentEntity(); }
     void setActiveEntity(Entity * activeEntity);
 
     Connection * activeConnection() const;
@@ -36,7 +37,7 @@ public:
 
 private:
     QList <SessionEntity *> _connections;
-    Entity * _activeEntity;
+    EntityHolder _activeEntity;
     SessionEntity * _activeSession;
 };
 

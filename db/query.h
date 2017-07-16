@@ -28,6 +28,10 @@ public:
 
     std::size_t columnCount() const { return _columnNames.size(); }
 
+    QString columnName(std::size_t index) const { return _columnNames.at(index); }
+
+    QString columnOrgName(std::size_t index) const { return _columnOrgNames.at(index); }
+
     // H: procedure Execute(AddResult: Boolean=False; UseRawResult: Integer=-1); virtual; abstract;
     virtual void execute(bool addResult = false, std::size_t useRawResult = -1) = 0;
 

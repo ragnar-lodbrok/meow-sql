@@ -8,7 +8,7 @@ ConnectionsManager::ConnectionsManager()
     :QObject(),
      Entity(),
      _connections(),
-     _activeEntity(nullptr)
+     _activeEntity()
 {
 
 }
@@ -59,21 +59,19 @@ Connection * ConnectionsManager::activeConnection() const
 
 void ConnectionsManager::setActiveEntity(Entity * activeEntity)
 {
-    bool changed = _activeEntity != activeEntity;
-    _activeEntity = activeEntity;
+    bool changed = _activeEntity.setCurrentEntity(activeEntity);
     if (changed) {
+        // TODO: Session changed
 
-        if (_activeEntity->type() == db::Entity::Type::Session) {
-            // TODO: Session changed
-        } else if (_activeEntity->type() == db::Entity::Type::Database) {
+        if (_activeEntity.databaseChanged()) {
             Connection * connection = activeConnection();
             if (connection) {
-                QString dbName = databaseName(_activeEntity);
+                QString dbName = databaseName(activeEntity);
                 connection->setDatabase(dbName);
             }
         }
 
-        emit activeEntityChanged(_activeEntity);
+        emit activeEntityChanged(activeEntity);
     }
 }
 

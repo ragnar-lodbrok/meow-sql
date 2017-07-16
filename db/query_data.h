@@ -15,6 +15,11 @@ public:
     db::Query * query() const { return _queryPtr.get(); }
     void setQueryPtr(db::QueryPtr queryPtr) { _queryPtr = queryPtr; }
 
+    int rowCount() const;
+    int columnCount() const;
+    QString rawDataAt(int row, int column) const;
+    QString columnName(int index) const;
+
 private:
     db::QueryPtr _queryPtr;
 };

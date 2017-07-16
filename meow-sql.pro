@@ -70,7 +70,8 @@ SOURCES += main.cpp\
     db/query_criteria.cpp \
     db/query_data.cpp \
     db/query_data_fetcher.cpp \
-    db/mysql_query_data_fetcher.cpp
+    db/mysql_query_data_fetcher.cpp \
+    db/entity/entity_holder.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -119,7 +120,8 @@ HEADERS  += app.h \
     db/query_criteria.h \
     db/query_data.h \
     db/query_data_fetcher.h \
-    db/mysql_query_data_fetcher.h
+    db/mysql_query_data_fetcher.h \
+    db/entity/entity_holder.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

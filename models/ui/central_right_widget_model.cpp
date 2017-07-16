@@ -7,76 +7,47 @@ namespace models {
 namespace ui {
 
 CentralRightWidgetModel::CentralRightWidgetModel()
-    : _prevEntity(nullptr),
-      _currentEntity(nullptr)
+    : _entityHolder()
 {
 
 }
 
 bool CentralRightWidgetModel::setCurrentEntity(db::Entity * currentEntity)
 {
-    _prevEntity = _currentEntity;
-    _currentEntity = currentEntity;
-    return _prevEntity != _currentEntity;
+    return _entityHolder.setCurrentEntity(currentEntity);
 }
 
 bool CentralRightWidgetModel::connectionChanged() const
 {
-    if (_prevEntity == _currentEntity) {
-        return false;
-    }
-
-    if (_prevEntity == nullptr || _currentEntity == nullptr) {
-        return true;
-    }
-
-    return _currentEntity->connection() != _prevEntity->connection();
+    return _entityHolder.connectionChanged();
 }
 
 bool CentralRightWidgetModel::databaseChanged() const
 {
-    if (_prevEntity == _currentEntity) {
-        return false;
-    }
-
-    if (_prevEntity == nullptr || _currentEntity == nullptr) {
-        return true;
-    }
-
-    db::Entity * prevDatabaseEntity =
-        db::findParentEntityOfType(_prevEntity, db::Entity::Type::Database);
-
-    db::Entity * curDatabaseEntity =
-        db::findParentEntityOfType(_currentEntity, db::Entity::Type::Database);
-
-    return prevDatabaseEntity != curDatabaseEntity;
+    return _entityHolder.databaseChanged();
 }
 
 bool CentralRightWidgetModel::hasDatabase() const
 {
-    if (_currentEntity == nullptr) {
-        return false;
-    }
-
-    return db::findParentEntityOfType(
-        _currentEntity, db::Entity::Type::Database) != nullptr;
+    return _entityHolder.hasDatabase();
 }
 
 bool CentralRightWidgetModel::hasDataTab() const
 {
-    if (_currentEntity == nullptr) {
+    if (_entityHolder.currentEntity() == nullptr) {
         return false;
     }
 
-    return _currentEntity->type() == db::Entity::Type::Table ||
-           _currentEntity->type() == db::Entity::Type::View;
+    return _entityHolder.currentEntity()->type() == db::Entity::Type::Table ||
+           _entityHolder.currentEntity()->type() == db::Entity::Type::View;
 }
 
 QString CentralRightWidgetModel::titleForHostTab() const
 {
-    if (_currentEntity) {
+    if (_entityHolder.currentEntity()) {
 
-        QString host = _currentEntity->connection()->connectionParams()->hostName();
+        QString host = _entityHolder.currentEntity()
+                ->connection()->connectionParams()->hostName();
 
         return QObject::tr("Host") + ": " + host;
     } else {
@@ -86,9 +57,10 @@ QString CentralRightWidgetModel::titleForHostTab() const
 
 QString CentralRightWidgetModel::titleForDatabaseTab() const
 {
-    if (_currentEntity) {
+    if (_entityHolder.currentEntity()) {
 
-        QString database = _currentEntity->connection()->database();
+        QString database = _entityHolder.currentEntity()
+                ->connection()->database();
 
         return QObject::tr("Database") + ": " + database;
     }
@@ -99,8 +71,9 @@ QString CentralRightWidgetModel::titleForDatabaseTab() const
 
 QString CentralRightWidgetModel::titleForTableTab() const
 {
-    if (_currentEntity && _currentEntity->type() == meow::db::Entity::Type::Table) {
-        return QObject::tr("Table") + ": " + _currentEntity->name();
+    if (_entityHolder.currentEntity()
+        && _entityHolder.currentEntity()->type() == meow::db::Entity::Type::Table) {
+        return QObject::tr("Table") + ": " + _entityHolder.currentEntity()->name();
     }
 
     return QObject::tr("Table");

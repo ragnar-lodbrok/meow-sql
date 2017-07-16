@@ -1,8 +1,8 @@
 #ifndef UI_CENTRAL_RIGHT_WIDGET_MODEL_H
 #define UI_CENTRAL_RIGHT_WIDGET_MODEL_H
 
-#include "db/entity/entity.h"
 #include <QString>
+#include "db/entity/entity_holder.h"
 
 // Main Window
 //   Central Right Widget
@@ -35,8 +35,7 @@ public:
     bool hasDatabase() const;
     bool hasDataTab() const;
 private:
-    meow::db::Entity * _prevEntity;
-    meow::db::Entity * _currentEntity;
+    meow::db::EntityHolder _entityHolder;
 };
 
 } // namespace ui
