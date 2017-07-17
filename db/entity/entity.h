@@ -85,6 +85,13 @@ int childCountOfType(Entity * entity, Entity::Type type);
 
 QString databaseName(Entity * entity);
 
+QString quotedName(Entity * entity);
+
+QString quotedDatabaseName(Entity * entity);
+
+// ex. `databaseName`.`entityName`
+QString quotedFullName(Entity * entity);
+
 } // namespace db
 } // namespace meow
 

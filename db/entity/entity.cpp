@@ -58,6 +58,42 @@ QString databaseName(Entity * entity)
     return QString();
 }
 
+QString quotedName(Entity * entity)
+{
+    Connection * conn = entity->connection();
+    if (conn) {
+        return conn->quoteIdentifier(entity->name());
+    }
+    return entity->name();
+}
+
+QString quotedDatabaseName(Entity * entity)
+{
+    QString database = databaseName(entity);
+    Connection * conn = entity->connection();
+    if (conn && database.length()) {
+        return conn->quoteIdentifier(database);
+    }
+    return database;
+}
+
+QString quotedFullName(Entity * entity)
+{
+    if (entity->type() == db::Entity::Type::Session ||
+        entity->type() == db::Entity::Type::Database) {
+        return quotedName(entity);
+    }
+
+    QString qName = quotedName(entity);
+    QString qDatabaseName = quotedDatabaseName(entity);
+
+    if (qName.length() && qDatabaseName.length()) {
+        return qDatabaseName + "." + qName;
+    } else {
+        return qName;
+    }
+}
+
 } // namespace db
 } // namespace meow
 

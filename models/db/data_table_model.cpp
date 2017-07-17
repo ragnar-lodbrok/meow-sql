@@ -100,7 +100,7 @@ void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity)
     std::shared_ptr<meow::db::QueryDataFetcher> fetcher(queryDataFetcher);
 
     meow::db::QueryCriteria queryCritera;
-    queryCritera.quotedDbAndTableName = _dbEntity->name(); // TODO
+    queryCritera.quotedDbAndTableName = meow::db::quotedFullName(_dbEntity);
 
     queryDataFetcher->run(&queryCritera, &_queryData);
 
