@@ -28,9 +28,13 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    void setEntity(meow::db::Entity * tableOrViewEntity);
+    void setEntity(meow::db::Entity * tableOrViewEntity, bool loadData = true);
+    void removeData();
+    void loadData(bool force = false);
+    void refresh();
 
 private:
+    bool _dataLoaded;
     meow::db::Entity * _dbEntity;
     meow::db::QueryData _queryData;
 };

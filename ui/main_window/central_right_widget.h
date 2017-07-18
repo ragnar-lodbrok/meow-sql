@@ -23,6 +23,9 @@ public:
 private:
 
     void createRootTabs();
+    bool onDataTab() const;
+
+    Q_SLOT void rootTabChanged(int index);
 
     central_right::HostTab * hostTab();
     central_right::DatabaseTab * databaseTab();

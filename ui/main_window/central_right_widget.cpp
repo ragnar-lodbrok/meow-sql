@@ -55,8 +55,9 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
         }
     }
 
-    if (_model.hasDataTab()) {       
-        dataTab()->setDBEntity(entity);
+    if (_model.hasDataTab()) {
+        bool loadData = onDataTab();
+        dataTab()->setDBEntity(entity, loadData);
         _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Data,
                               _model.titleForDataTab());
     } else if (_dataTab) {
@@ -73,14 +74,26 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
         tableTab();
         _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Entity,
                               _model.titleForTableTab());
-        _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Entity);
+        if ( ! onDataTab()) {
+            _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Entity);
+        }
     }
+}
+
+bool CentralRightWidget::onDataTab() const
+{
+    return _rootTabs->currentIndex() == models::ui::CentralRightWidgetTabs::Data;
 }
 
 void CentralRightWidget::createRootTabs()
 {
     // http://doc.qt.io/qt-5/qtwidgets-dialogs-tabdialog-example.html
     _rootTabs = new QTabWidget();
+
+    connect(_rootTabs,
+            &QTabWidget::currentChanged,
+            this,
+            &CentralRightWidget::rootTabChanged);
 
     QHBoxLayout * layout = new QHBoxLayout();
     layout->setSpacing(0);
@@ -92,6 +105,14 @@ void CentralRightWidget::createRootTabs()
     _rootTabs->setSizePolicy(
                 QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
+}
+
+void CentralRightWidget::rootTabChanged(int index)
+{
+    Q_UNUSED(index);
+    if (onDataTab()) {
+        dataTab()->loadData();
+    }
 }
 
 central_right::HostTab * CentralRightWidget::hostTab()

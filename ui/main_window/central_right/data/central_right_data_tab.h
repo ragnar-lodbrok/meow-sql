@@ -15,7 +15,9 @@ class DataTab : public QWidget
 public:
     explicit DataTab(QWidget *parent = 0);
 
-    void setDBEntity(db::Entity * tableOrViewEntity);
+    void setDBEntity(db::Entity * tableOrViewEntity, bool loadData = true);
+
+    void loadData();
 
 private:
 

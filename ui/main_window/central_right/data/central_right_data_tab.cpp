@@ -67,9 +67,14 @@ void DataTab::createDataTable()
     _dataTable->setSortingEnabled(false); // TODO
 }
 
-void DataTab::setDBEntity(db::Entity * tableOrViewEntity)
+void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
 {
-    _model.setEntity(tableOrViewEntity);
+    _model.setEntity(tableOrViewEntity, loadData);
+}
+
+void DataTab::loadData()
+{
+    _model.loadData();
 }
 
 } // namespace central_right

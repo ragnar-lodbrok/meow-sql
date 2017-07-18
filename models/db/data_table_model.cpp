@@ -11,6 +11,7 @@ namespace db {
 
 DataTableModel::DataTableModel(QObject *parent)
     :QAbstractTableModel(parent),
+      _dataLoaded(false),
      _dbEntity(nullptr),
      _queryData()
 {
@@ -75,7 +76,20 @@ QVariant DataTableModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity)
+void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity, bool loadData)
+{
+    removeData();
+
+    // Listening: As I Lay Dying - Defender
+    _dbEntity = tableOrViewEntity;
+    _dataLoaded = false; // not loaded since last entity change
+
+    if (loadData) {
+        this->loadData(true);
+    }
+}
+
+void DataTableModel::removeData()
 {
     if (rowCount()) {
         beginRemoveRows(QModelIndex(), 0, rowCount()-1);
@@ -86,11 +100,15 @@ void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity)
         beginRemoveColumns(QModelIndex(), 0, columnCount()-1);
         endRemoveColumns();
     }
+}
 
-    // Listening: As I Lay Dying - Defender
-    _dbEntity = tableOrViewEntity;
-
+void DataTableModel::loadData(bool force)
+{
     if (_dbEntity == nullptr) {
+        return;
+    }
+
+    if (force == false && _dataLoaded) {
         return;
     }
 
@@ -104,6 +122,8 @@ void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity)
 
     queryDataFetcher->run(&queryCritera, &_queryData);
 
+    _dataLoaded = true;
+
     if (rowCount() && columnCount()) {
 
         beginInsertColumns(QModelIndex(), 0, columnCount()-1);
@@ -114,6 +134,11 @@ void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity)
     }
 }
 
+void DataTableModel::refresh()
+{
+    removeData();
+    loadData(true);
+}
 
 } // namespace db
 } // namespace models
