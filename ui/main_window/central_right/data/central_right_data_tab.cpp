@@ -70,11 +70,20 @@ void DataTab::createDataTable()
 void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
 {
     _model.setEntity(tableOrViewEntity, loadData);
+    if (loadData) {
+        refreshDataLabelText();
+    }
 }
 
 void DataTab::loadData()
 {
     _model.loadData();
+    refreshDataLabelText();
+}
+
+void DataTab::refreshDataLabelText()
+{
+    _dataLabel->setText(_model.rowCountStats());
 }
 
 } // namespace central_right

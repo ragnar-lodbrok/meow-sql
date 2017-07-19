@@ -33,6 +33,8 @@ public:
     void loadData(bool force = false);
     void refresh();
 
+    QString rowCountStats() const;
+
 private:
     bool _dataLoaded;
     meow::db::Entity * _dbEntity;

@@ -25,6 +25,8 @@ private:
     void createTopPanel();
     void createToolBar();
 
+    void refreshDataLabelText();
+
     QVBoxLayout * _mainLayout;
     // top panel:
     QHBoxLayout * _topLayout;

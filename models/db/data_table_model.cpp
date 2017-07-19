@@ -4,6 +4,8 @@
 #include "db/common.h"
 #include "db/query_criteria.h"
 #include <QDebug>
+#include "helpers/formatting.h"
+#include "db/entity/table_entity.h"
 
 namespace meow {
 namespace models {
@@ -138,6 +140,42 @@ void DataTableModel::refresh()
 {
     removeData();
     loadData(true);
+}
+
+QString DataTableModel::rowCountStats() const
+{
+    if (_dbEntity == nullptr) {
+        return QString();
+    }
+    QString result = QString("");
+    QString databaseName = meow::db::databaseName(_dbEntity);
+    if (databaseName.length()) {
+        result = databaseName + ".";
+    }
+    result += _dbEntity->name();
+
+    if (_dbEntity->type() == meow::db::Entity::Type::Table) {
+
+        meow::db::TableEntity * table =
+            static_cast<meow::db::TableEntity *>(_dbEntity);
+
+        meow::db::ulonglong rowsCount = 0;
+        if (_dataLoaded) { // TODO: not limited
+            rowsCount = rowCount();
+        } else {
+            rowsCount = table->rowsCount(); // TODO: fetch from DB
+        }
+
+        result += ": " + meow::helpers::formatNumber(rowsCount) + " ";
+        result += QObject::tr("rows total");
+
+        if (table->engine() == "InnoDB") {
+            result += " (" + QObject::tr("approximately") + ")";
+        }
+        // TODO: limit, where
+    }
+
+    return result;
 }
 
 } // namespace db
