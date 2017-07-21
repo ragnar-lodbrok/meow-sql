@@ -27,5 +27,13 @@ QVariant TableEntity::icon() const // override
     return icon;
 }
 
+db::ulonglong TableEntity::rowsCount(bool refresh /*= false*/)
+{
+    if (refresh) {
+        _rowsCount = connection()->getRowCount(this);
+    }
+    return _rowsCount;
+}
+
 } // namespace db
 } // namespace meow

@@ -43,6 +43,8 @@ public:
 
     virtual void setDatabase(const QString & database) override;
 
+    virtual db::ulonglong getRowCount(const TableEntity * table) override;
+
     virtual QString applyQueryLimit(
             const QString & queryType,
             const QString & queryBody,

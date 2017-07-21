@@ -17,6 +17,7 @@ namespace db {
 class Query;
 class DataBaseEntitiesFetcher;
 class QueryDataFetcher;
+class TableEntity;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
@@ -40,9 +41,15 @@ public:
 
     QStringList getColumn(const QString & SQL, std::size_t index = 0); // H: GetCol
     QString getCell(const QString & SQL, std::size_t index = 0); //H:  GetVar
+    QString getCell(const QString & SQL,const QString & columnName);
     QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String): TDBQuery;
     QStringList allDatabases(bool refresh = false);
     EntityListForDataBase * getDbEntities(const QString & dbName, bool refresh = false);
+
+    QString quoteIdentifier(const char * identifier, bool alwaysQuote = true,
+                            QChar glue = QChar::Null) const;
+    QString quoteIdentifier(const QString & identifier, bool alwaysQuote = true,
+                            QChar glue = QChar::Null) const;
 
     virtual QStringList fetchDatabases() = 0;
     virtual QueryPtr createQuery() = 0;
@@ -55,11 +62,10 @@ public:
     virtual void query(const QString & SQL, bool storeResult = false) = 0; // H: add LogCategory
     virtual std::size_t lastResultsCount() const { return 0; } // H: ResultCount    
     virtual void setDatabase(const QString & database) = 0;
-
-    QString quoteIdentifier(const char * identifier, bool alwaysQuote = true, QChar glue = QChar::Null) const;
-    QString quoteIdentifier(const QString & identifier, bool alwaysQuote = true, QChar glue = QChar::Null) const;
-    virtual QString escapeString(const QString & str, bool processJokerChars = false, bool doQuote = true) const = 0;
-
+    virtual db::ulonglong getRowCount(const TableEntity * table) = 0;
+    virtual QString escapeString(const QString & str,
+                                 bool processJokerChars = false,
+                                 bool doQuote = true) const = 0;
     virtual QString applyQueryLimit(
             const QString & queryType,
             const QString & queryBody,

@@ -163,7 +163,7 @@ QString DataTableModel::rowCountStats() const
         if (_dataLoaded) { // TODO: not limited
             rowsCount = rowCount();
         } else {
-            rowsCount = table->rowsCount(); // TODO: fetch from DB
+            rowsCount = table->rowsCount(true);
         }
 
         result += ": " + meow::helpers::formatNumber(rowsCount) + " ";

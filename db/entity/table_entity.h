@@ -26,7 +26,7 @@ public:
     QString collation() const { return _collation; }
     void setCollation(const QString & collation) { _collation = collation; }
 
-    db::ulonglong rowsCount() const { return _rowsCount; }
+    db::ulonglong rowsCount(bool refresh = false);
     void setRowsCount(db::ulonglong rowsCount) { _rowsCount = rowsCount; }
 
     db::ulonglong version() const { return _version; }

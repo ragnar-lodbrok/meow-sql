@@ -5,6 +5,7 @@
 #include "mysql_query.h"
 #include "entity/mysql_entities_fetcher.h"
 #include "mysql_query_data_fetcher.h"
+#include "db/entity/table_entity.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -295,7 +296,9 @@ MySQLResult MySQLConnection::lastRawResultAt(std::size_t index) const
     return _lastRawResults.at(index);
 }
 
-QString MySQLConnection::escapeString(const QString & str, bool processJokerChars, bool doQuote /*= true*/) const // override
+QString MySQLConnection::escapeString(const QString & str,
+                                      bool processJokerChars,
+                                      bool doQuote /*= true*/) const // override
 {
 
     QString res = str;
@@ -336,6 +339,12 @@ void MySQLConnection::setDatabase(const QString & database) // override
 
     // TODO: DetectUSEQuery
     // TODO: SetObjectNamesInSelectedDB
+}
+
+db::ulonglong MySQLConnection::getRowCount(const TableEntity * table) // override
+{
+    const QString SQL = "SHOW TABLE STATUS LIKE " + escapeString(table->name());
+    return getCell(SQL, "Rows").toULongLong();
 }
 
 QString MySQLConnection::applyQueryLimit(

@@ -108,6 +108,19 @@ QString Connection::getCell(const QString & SQL, std::size_t index /*= 0*/)
     return QString();
 }
 
+QString Connection::getCell(const QString & SQL,const QString & columnName)
+{
+    QueryPtr query = getResults(SQL);
+
+    Query * queryPtr = query.get();
+
+    if (queryPtr->recordCount() > 0) {
+        return queryPtr->curRowColumn(columnName);
+    }
+
+    return QString();
+}
+
 QueryPtr Connection::getResults(const QString & SQL)
 {
     QueryPtr query = createQuery();
