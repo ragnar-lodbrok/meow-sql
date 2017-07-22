@@ -3,6 +3,7 @@
 #include "query_data.h"
 #include "query.h"
 #include "mysql_connection.h"
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -17,8 +18,12 @@ void MySQLQueryDataFetcher::run(
         QueryCriteria * queryCriteria,
         QueryData * toData) // override
 {
-    // just test stuff
-    QString select = "SELECT * FROM " + queryCriteria->quotedDbAndTableName;
+
+    QString select = "* FROM " + queryCriteria->quotedDbAndTableName;
+
+    select = _connection->applyQueryLimit("SELECT", select,
+                                          queryCriteria->limit,
+                                          queryCriteria->offset);
 
     Query * query = toData->query();
     if (query == nullptr) {

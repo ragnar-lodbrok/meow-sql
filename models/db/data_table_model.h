@@ -5,6 +5,7 @@
 #include <QAbstractTableModel>
 #include "db/entity/entity.h"
 #include "db/query_data.h"
+#include "db/common.h"
 
 // Main Window
 //   Central Right Widget
@@ -33,12 +34,17 @@ public:
     void loadData(bool force = false);
     void refresh();
 
+    void setNoRowsCountLimit();
+    void incRowsCountForOneStep(bool reset = false);
+    bool isLimited() const;
+
     QString rowCountStats() const;
 
 private:
     bool _dataLoaded;
     meow::db::Entity * _dbEntity;
     meow::db::QueryData _queryData;
+    meow::db::ulonglong _wantedRowsCount;
 };
 
 

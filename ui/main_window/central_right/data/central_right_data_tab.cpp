@@ -51,7 +51,7 @@ void DataTab::createToolBar()
     _showAllRowsAction->setToolTip(
         tr("Show all rows")
     ); // TODO: hot keys
-    //connect(newAct, &QAction::triggered, this, &DataTab::actionNextRows);
+    connect(_showAllRowsAction, &QAction::triggered, this, &DataTab::actionAllRows);
     _toolBar->addAction(_showAllRowsAction);
 }
 
@@ -67,8 +67,15 @@ void DataTab::createDataTable()
     _dataTable->setSortingEnabled(false); // TODO
 }
 
+void DataTab::actionAllRows(bool checked)
+{
+    Q_UNUSED(checked);
+    qDebug() << "all";
+}
+
 void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
 {
+    _model.incRowsCountForOneStep(true);
     _model.setEntity(tableOrViewEntity, loadData);
     if (loadData) {
         refreshDataLabelText();

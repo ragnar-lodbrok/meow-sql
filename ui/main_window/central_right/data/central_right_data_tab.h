@@ -21,6 +21,8 @@ public:
 
 private:
 
+    Q_SLOT void actionAllRows(bool checked);
+
     void createDataTable();
     void createTopPanel();
     void createToolBar();

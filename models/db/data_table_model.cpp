@@ -15,7 +15,8 @@ DataTableModel::DataTableModel(QObject *parent)
     :QAbstractTableModel(parent),
       _dataLoaded(false),
      _dbEntity(nullptr),
-     _queryData()
+     _queryData(),
+     _wantedRowsCount(meow::db::DATA_MAX_ROWS)
 {
 
 }
@@ -119,8 +120,12 @@ void DataTableModel::loadData(bool force)
 
     std::shared_ptr<meow::db::QueryDataFetcher> fetcher(queryDataFetcher);
 
+    meow::db::ulonglong offset = 0;
+
     meow::db::QueryCriteria queryCritera;
     queryCritera.quotedDbAndTableName = meow::db::quotedFullName(_dbEntity);
+    queryCritera.limit = _wantedRowsCount - offset;
+    queryCritera.offset = 0;
 
     queryDataFetcher->run(&queryCritera, &_queryData);
 
@@ -160,10 +165,10 @@ QString DataTableModel::rowCountStats() const
             static_cast<meow::db::TableEntity *>(_dbEntity);
 
         meow::db::ulonglong rowsCount = 0;
-        if (_dataLoaded) { // TODO: not limited
+        if (_dataLoaded && !isLimited()) {
             rowsCount = rowCount();
         } else {
-            rowsCount = table->rowsCount(true);
+            rowsCount = table->rowsCount(true);// TODO: rm extra query
         }
 
         result += ": " + meow::helpers::formatNumber(rowsCount) + " ";
@@ -176,6 +181,31 @@ QString DataTableModel::rowCountStats() const
     }
 
     return result;
+}
+
+void DataTableModel::setNoRowsCountLimit()
+{
+    _wantedRowsCount = meow::db::DATA_MAX_ROWS;
+}
+
+void DataTableModel::incRowsCountForOneStep(bool reset)
+{
+    if (reset) {
+        _wantedRowsCount = 0;
+    }
+    _wantedRowsCount += meow::db::DATA_ROWS_PER_STEP;
+    if (_wantedRowsCount > meow::db::DATA_MAX_ROWS) {
+        _wantedRowsCount = meow::db::DATA_MAX_ROWS;
+    }
+}
+
+bool DataTableModel::isLimited() const
+{
+    if (!_dataLoaded) {
+        return false;
+    }
+
+    return _wantedRowsCount <= (meow::db::ulonglong)rowCount();
 }
 
 } // namespace db
