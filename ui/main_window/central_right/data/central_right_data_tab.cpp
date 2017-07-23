@@ -41,7 +41,7 @@ void DataTab::createToolBar()
     _nextRowsAction->setToolTip(
         QString(tr("Show next %1 rows ...")).arg(meow::db::DATA_ROWS_PER_STEP)
     ); // TODO: hot keys
-    //connect(newAct, &QAction::triggered, this, &DataTab::actionNextRows);
+    connect(_nextRowsAction, &QAction::triggered, this, &DataTab::actionNextRows);
     _toolBar->addAction(_nextRowsAction);
 
 
@@ -70,7 +70,20 @@ void DataTab::createDataTable()
 void DataTab::actionAllRows(bool checked)
 {
     Q_UNUSED(checked);
-    qDebug() << "all";
+    _model.setNoRowsCountLimit();
+    _model.loadData(true);
+    refreshDataLabelText();
+    validateToolBarState();
+}
+
+void DataTab::actionNextRows(bool checked)
+{
+    Q_UNUSED(checked);
+    _model.incRowsCountForOneStep();
+    _model.loadData(true);
+    // TODO: select addition
+    refreshDataLabelText();
+    validateToolBarState();
 }
 
 void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
@@ -79,6 +92,7 @@ void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
     _model.setEntity(tableOrViewEntity, loadData);
     if (loadData) {
         refreshDataLabelText();
+        validateToolBarState();
     }
 }
 
@@ -86,11 +100,18 @@ void DataTab::loadData()
 {
     _model.loadData();
     refreshDataLabelText();
+    validateToolBarState();
 }
 
 void DataTab::refreshDataLabelText()
 {
     _dataLabel->setText(_model.rowCountStats());
+}
+
+void DataTab::validateToolBarState()
+{
+    _nextRowsAction->setDisabled(_model.allDataLoaded());
+    _showAllRowsAction->setDisabled(_model.allDataLoaded());
 }
 
 } // namespace central_right

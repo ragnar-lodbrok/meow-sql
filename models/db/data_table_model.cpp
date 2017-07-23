@@ -13,7 +13,7 @@ namespace db {
 
 DataTableModel::DataTableModel(QObject *parent)
     :QAbstractTableModel(parent),
-      _dataLoaded(false),
+      _entityChangedProcessed(false),
      _dbEntity(nullptr),
      _queryData(),
      _wantedRowsCount(meow::db::DATA_MAX_ROWS)
@@ -75,7 +75,6 @@ QVariant DataTableModel::data(const QModelIndex &index, int role) const
 
     }
 
-
     return QVariant();
 }
 
@@ -85,7 +84,7 @@ void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity, bool loadDa
 
     // Listening: As I Lay Dying - Defender
     _dbEntity = tableOrViewEntity;
-    _dataLoaded = false; // not loaded since last entity change
+    _entityChangedProcessed = false;
 
     if (loadData) {
         this->loadData(true);
@@ -111,7 +110,7 @@ void DataTableModel::loadData(bool force)
         return;
     }
 
-    if (force == false && _dataLoaded) {
+    if (force == false && _entityChangedProcessed) {
         return;
     }
 
@@ -121,22 +120,31 @@ void DataTableModel::loadData(bool force)
     std::shared_ptr<meow::db::QueryDataFetcher> fetcher(queryDataFetcher);
 
     meow::db::ulonglong offset = 0;
+    int prevColCount = 0;
+    int prevRowCount = 0;
+
+    if (_entityChangedProcessed) { // load from the same table/view
+        offset = rowCount();
+        prevColCount = columnCount();
+        prevRowCount = rowCount();
+    }
 
     meow::db::QueryCriteria queryCritera;
     queryCritera.quotedDbAndTableName = meow::db::quotedFullName(_dbEntity);
     queryCritera.limit = _wantedRowsCount - offset;
-    queryCritera.offset = 0;
+    queryCritera.offset = offset;
 
     queryDataFetcher->run(&queryCritera, &_queryData);
 
-    _dataLoaded = true;
+    _entityChangedProcessed = true;
 
-    if (rowCount() && columnCount()) {
-
-        beginInsertColumns(QModelIndex(), 0, columnCount()-1);
+    if (columnCount() > prevColCount) {
+        beginInsertColumns(QModelIndex(), prevColCount, columnCount()-1);
         endInsertColumns();
+    }
 
-        beginInsertRows(QModelIndex(), 0, rowCount()-1);
+    if (rowCount() > prevRowCount) {
+        beginInsertRows(QModelIndex(), prevRowCount, rowCount()-1);
         endInsertRows();
     }
 }
@@ -165,7 +173,7 @@ QString DataTableModel::rowCountStats() const
             static_cast<meow::db::TableEntity *>(_dbEntity);
 
         meow::db::ulonglong rowsCount = 0;
-        if (_dataLoaded && !isLimited()) {
+        if (_entityChangedProcessed && !isLimited()) {
             rowsCount = rowCount();
         } else {
             rowsCount = table->rowsCount(true);// TODO: rm extra query
@@ -176,8 +184,13 @@ QString DataTableModel::rowCountStats() const
 
         if (table->engine() == "InnoDB") {
             result += " (" + QObject::tr("approximately") + ")";
+        }        
+        if (isLimited()) {
+            result += ", " + QObject::tr("limited to");
+            result += " " + meow::helpers::formatNumber(rowCount());
         }
-        // TODO: limit, where
+
+        // TODO: where
     }
 
     return result;
@@ -201,11 +214,12 @@ void DataTableModel::incRowsCountForOneStep(bool reset)
 
 bool DataTableModel::isLimited() const
 {
-    if (!_dataLoaded) {
-        return false;
-    }
-
     return _wantedRowsCount <= (meow::db::ulonglong)rowCount();
+}
+
+bool DataTableModel::allDataLoaded() const
+{
+    return !isLimited() || (_wantedRowsCount == meow::db::DATA_MAX_ROWS);
 }
 
 } // namespace db

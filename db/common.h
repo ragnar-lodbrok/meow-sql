@@ -1,7 +1,6 @@
 #ifndef DB_COMMON
 #define DB_COMMON
 
-#include <limits>
 
 namespace meow {
 namespace db {

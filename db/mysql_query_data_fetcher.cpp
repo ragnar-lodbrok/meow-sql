@@ -34,7 +34,7 @@ void MySQLQueryDataFetcher::run(
 
     query->setSQL(select);
 
-    query->execute();
+    query->execute(queryCriteria->offset > 0);
 }
 
 } // namespace db

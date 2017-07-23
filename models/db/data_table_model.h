@@ -37,11 +37,12 @@ public:
     void setNoRowsCountLimit();
     void incRowsCountForOneStep(bool reset = false);
     bool isLimited() const;
+    bool allDataLoaded() const;
 
     QString rowCountStats() const;
 
 private:
-    bool _dataLoaded;
+    bool _entityChangedProcessed;
     meow::db::Entity * _dbEntity;
     meow::db::QueryData _queryData;
     meow::db::ulonglong _wantedRowsCount;

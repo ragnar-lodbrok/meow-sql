@@ -31,9 +31,11 @@ void MySQLQuery::execute(bool addResult /*= false*/, std::size_t useRawResult /*
         lastResult = static_cast<MySQLConnection *>(connection())->lastRawResultAt(useRawResult);
     }
 
-    if (addResult) {
-        throw std::runtime_error("not implemented");
-    } else {
+    if (addResult && _resultList.size() == 0) {
+        addResult = false;
+    }
+
+    if (addResult == false) {
         _resultList.clear();
         _recordCount = 0;
         // H: ...
@@ -43,6 +45,8 @@ void MySQLQuery::execute(bool addResult /*= false*/, std::size_t useRawResult /*
         _resultList.push_back(lastResult);
         _recordCount += lastResult.get()->row_count;
     }
+
+    qDebug() << "record count" << _recordCount;
 
     if (!addResult) {
         if (_resultList.empty() == false) {

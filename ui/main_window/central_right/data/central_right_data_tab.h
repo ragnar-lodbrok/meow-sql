@@ -22,12 +22,14 @@ public:
 private:
 
     Q_SLOT void actionAllRows(bool checked);
+    Q_SLOT void actionNextRows(bool checked);
 
     void createDataTable();
     void createTopPanel();
     void createToolBar();
 
     void refreshDataLabelText();
+    void validateToolBarState();
 
     QVBoxLayout * _mainLayout;
     // top panel:
