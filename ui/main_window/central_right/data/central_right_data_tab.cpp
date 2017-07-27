@@ -93,6 +93,7 @@ void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
     if (loadData) {
         refreshDataLabelText();
         validateToolBarState();
+        //_dataTable->resizeColumnsToContents(); // Too slow,write own
     }
 }
 
@@ -101,6 +102,7 @@ void DataTab::loadData()
     _model.loadData();
     refreshDataLabelText();
     validateToolBarState();
+    //_dataTable->resizeColumnsToContents();
 }
 
 void DataTab::refreshDataLabelText()

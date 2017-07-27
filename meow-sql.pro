@@ -121,7 +121,8 @@ HEADERS  += app.h \
     db/query_data.h \
     db/query_data_fetcher.h \
     db/mysql_query_data_fetcher.h \
-    db/entity/entity_holder.h
+    db/entity/entity_holder.h \
+    db/data_type/data_type.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

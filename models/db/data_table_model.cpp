@@ -6,6 +6,7 @@
 #include <QDebug>
 #include "helpers/formatting.h"
 #include "db/entity/table_entity.h"
+#include <QColor>
 
 namespace meow {
 namespace models {
@@ -74,6 +75,10 @@ QVariant DataTableModel::data(const QModelIndex &index, int role) const
     } else if (role == Qt::DecorationRole) {
 
     }
+
+    // TODO
+    //if (role == Qt::ForegroundRole && index.column() == 1)
+    //    return QVariant::fromValue(QColor(Qt::blue));
 
     return QVariant();
 }
