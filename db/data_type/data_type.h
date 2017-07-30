@@ -1,6 +1,7 @@
 #ifndef DB_DATA_TYPE_H
 #define DB_DATA_TYPE_H
 
+#include "data_type_category.h"
 
 namespace meow {
 namespace db {
@@ -74,16 +75,6 @@ enum DataTypeIndex {
     Multilinestring,
     Multipolygon,
     Geometrycollection
-};
-
-enum DataTypeCategoryIndex {
-    Integer,
-    Real,
-    Text,
-    Binary,
-    Temporal,
-    Spatial,
-    Other
 };
 
 typedef struct DataType {

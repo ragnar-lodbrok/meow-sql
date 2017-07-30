@@ -7,6 +7,7 @@
 #include "helpers/formatting.h"
 #include "db/entity/table_entity.h"
 #include <QColor>
+#include "app.h"
 
 namespace meow {
 namespace models {
@@ -69,16 +70,17 @@ QVariant DataTableModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-
     if (role == Qt::DisplayRole) {
         return _queryData.rawDataAt(index.row(), index.column());
     } else if (role == Qt::DecorationRole) {
 
+    } else if (role == Qt::ForegroundRole) {
+        //meow::settings::Text * textSettings = meow::app()->settings()->textSettings();
+
+        //return QVariant::fromValue(textSettings->colorForDataTypeNULL( (meow::db::DataTypeCategoryIndex) index.row()));
+
     }
 
-    // TODO
-    //if (role == Qt::ForegroundRole && index.column() == 1)
-    //    return QVariant::fromValue(QColor(Qt::blue));
 
     return QVariant();
 }
