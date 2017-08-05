@@ -75,10 +75,16 @@ QVariant DataTableModel::data(const QModelIndex &index, int role) const
     } else if (role == Qt::DecorationRole) {
 
     } else if (role == Qt::ForegroundRole) {
-        //meow::settings::Text * textSettings = meow::app()->settings()->textSettings();
-
-        //return QVariant::fromValue(textSettings->colorForDataTypeNULL( (meow::db::DataTypeCategoryIndex) index.row()));
-
+        auto textSettings = meow::app()->settings()->textSettings();
+        auto dataType = _queryData.columnDataTypeCategory(index.column());
+        if (dataType != meow::db::DataTypeCategoryIndex::None) {
+            bool isNull = _queryData.isNullAt(index.row(), index.column());
+            if (isNull == false) {
+                return textSettings->colorForDataType(dataType);
+            } else {
+                return textSettings->colorForDataTypeNULL(dataType);
+            }
+        }
     }
 
 

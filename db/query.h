@@ -1,10 +1,14 @@
 #ifndef DB_QUERY_H
 #define DB_QUERY_H
 
+
+
 #include <QString>
-#include <QStringList>
-#include "common.h"
+#include <vector>
 #include <QMap>
+
+#include "common.h"
+#include "query_column.h"
 
 namespace meow {
 namespace db {
@@ -26,11 +30,11 @@ public:
     db::ulonglong recordCount() const { return _recordCount; }
     bool isEof() const { return _eof; }
 
-    std::size_t columnCount() const { return _columnNames.size(); }
+    std::size_t columnCount() const { return _columns.size(); }
 
-    QString columnName(std::size_t index) const { return _columnNames.at(index); }
+    QString columnName(std::size_t index) const { return _columns[index].name; }
 
-    QString columnOrgName(std::size_t index) const { return _columnOrgNames.at(index); }
+    QueryColumn & column(std::size_t index) { return _columns[index]; }
 
     // H: procedure Execute(AddResult: Boolean=False; UseRawResult: Integer=-1); virtual; abstract;
     virtual void execute(bool addResult = false, std::size_t useRawResult = -1) = 0;
@@ -54,8 +58,7 @@ protected:
 
     db::ulonglong _recordCount;
     db::ulonglong  _curRecNo; // H: FRecNo
-    QStringList _columnNames;
-    QStringList _columnOrgNames;
+    std::vector<QueryColumn> _columns;
     QMap<QString, std::size_t> _columnIndexes; // Column name -> column index
     bool _eof; // H: FEof
 

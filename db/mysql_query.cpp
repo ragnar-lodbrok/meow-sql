@@ -1,5 +1,6 @@
 #include <QDebug>
 #include "mysql_query.h"
+#include "data_type/mysql_data_type.h"
 
 namespace meow {
 namespace db {
@@ -46,41 +47,56 @@ void MySQLQuery::execute(bool addResult /*= false*/, std::size_t useRawResult /*
         _recordCount += lastResult.get()->row_count;
     }
 
-    qDebug() << "record count" << _recordCount;
-
     if (!addResult) {
+        _columns.clear();
+        _columnLengths.clear();
+        _columnIndexes.clear();
         if (_resultList.empty() == false) {
             // FCurrentResults is normally done in SetRecNo, but never if result has no rows
             // H: FCurrentResults := LastResult;
 
             unsigned int numFields = mysql_num_fields(lastResult.get());
 
-            //H: SetLength(FColumnTypes, NumFields);
-            //H: SetLength(FColumnFlags, NumFields);
-
             _columnLengths.resize(numFields);
+            // TODO: skip columns parsing when we don't need them (e.g. sample queries)
 
-            _columnNames.clear(); // TODO: try reserve() ?
-            _columnOrgNames.clear();
-            _columnIndexes.clear();
+            _columns.resize(numFields);
+
             for (unsigned int i=0; i < numFields; ++i) {
                 MYSQL_FIELD * field = mysql_fetch_field_direct(lastResult.get(), i);
+                QueryColumn & column = _columns[i];
                 QString fieldName = QString(field->name);
-                _columnNames.append(fieldName);
+                column.name = fieldName;
                 _columnIndexes.insert(fieldName, i);
                 if (connection()->serverVersionInt() >= 40100) {
-                    _columnOrgNames.append(QString(field->org_name));
+                    column.orgName = QString(field->org_name);
                 } else {
-                    _columnOrgNames.append(fieldName);
+                    column.orgName = fieldName;
                 }
+                column.flags = field->flags;
+                column.dataTypeIndex = dataTypeOfField(field);
+                column.dataTypeCategoryIndex
+                    = meow::db::categoryOfDataType(column.dataTypeIndex);
             }
 
             seekFirst();
-        } else {
-            _columnLengths.clear();
         }
     }
 }
+
+DataTypeIndex MySQLQuery::dataTypeOfField(MYSQL_FIELD * field)
+{
+    if (field->flags & ENUM_FLAG) {
+        return DataTypeIndex::Enum;
+    } else if (field->flags & SET_FLAG) {
+        return DataTypeIndex::Set;
+    }
+
+    // TODO: detect binary
+
+    return dataTypeFromMySQLDataType(field->type);
+}
+
 
 bool MySQLQuery::hasResult() // override
 {

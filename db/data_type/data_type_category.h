@@ -5,7 +5,8 @@
 namespace meow {
 namespace db {
 
-enum DataTypeCategoryIndex {
+enum class DataTypeCategoryIndex {
+    None,
     Integer,
     Float,// H: Real
     Text,

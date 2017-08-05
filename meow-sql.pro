@@ -73,7 +73,8 @@ SOURCES += main.cpp\
     db/mysql_query_data_fetcher.cpp \
     db/entity/entity_holder.cpp \
     settings/settings_core.cpp \
-    settings/settings_text.cpp
+    settings/settings_text.cpp \
+    db/data_type/data_type.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -127,7 +128,9 @@ HEADERS  += app.h \
     db/data_type/data_type.h \
     settings/settings_core.h \
     db/data_type/data_type_category.h \
-    settings/settings_text.h
+    settings/settings_text.h \
+    db/query_column.h \
+    db/data_type/mysql_data_type.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

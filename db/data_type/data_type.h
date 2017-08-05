@@ -1,19 +1,20 @@
 #ifndef DB_DATA_TYPE_H
 #define DB_DATA_TYPE_H
 
+#include <QString>
 #include "data_type_category.h"
 
 namespace meow {
 namespace db {
 
-enum DataTypeIndex {
+enum class DataTypeIndex {
 
     None,
     TinyInt,
-    Smallint,
-    Mediumint,
+    SmallInt,
+    MediumInt,
     Int,
-    Bigint,
+    BigInt,
     Serial,
     BigSerial,
     Float,
@@ -23,12 +24,12 @@ enum DataTypeIndex {
     Real,
     DoublePrecision,
     Money,
-    Smallmoney,
+    SmallMoney,
     Date,
     Time,
     Year,
-    Datetime,
-    Datetime2,
+    DateTime,
+    DateTime2,
     Smalldatetime,
     Timestamp,
     Interval,
@@ -36,11 +37,11 @@ enum DataTypeIndex {
     Nchar,
     Varchar,
     Nvarchar,
-    Tinytext,
+    TinyText,
     Text,
-    Ntext,
-    Mediumtext,
-    Longtext,
+    NText,
+    MediumText,
+    LongText,
     Json,
     Cidr,
     Inet,
@@ -77,12 +78,15 @@ enum DataTypeIndex {
     Geometrycollection
 };
 
+DataTypeCategoryIndex categoryOfDataType(DataTypeIndex type);
+
 typedef struct DataType {
 
-    DataType() : index(None), nativeType(-1), name(), names(),
+    DataType() : index(DataTypeIndex::None), nativeType(-1), name(), names(),
                  description(), hasLength(false), requiresLength(false),
                  hasBinary(false), hasDefault(false), loadPart(false),
-                 defLengthSet(), format(), categoryIndex(Other) { }
+                 defLengthSet(), format(),
+                 categoryIndex(DataTypeCategoryIndex::None) { }
 
     DataTypeIndex index;
     int nativeType;

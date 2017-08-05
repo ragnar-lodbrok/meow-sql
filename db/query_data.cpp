@@ -36,6 +36,15 @@ QString QueryData::columnName(int index) const
     return QString();
 }
 
+DataTypeCategoryIndex QueryData::columnDataTypeCategory(int index) const
+{
+    db::Query * query = _queryPtr.get();
+    if (query) {
+        return query->column(index).dataTypeCategoryIndex;
+    }
+    return DataTypeCategoryIndex::Other;
+}
+
 QString QueryData::rawDataAt(int row, int column) const
 {
     db::Query * query = _queryPtr.get();
@@ -49,6 +58,16 @@ QString QueryData::rawDataAt(int row, int column) const
         }
     }
     return QString();
+}
+
+bool QueryData::isNullAt(int row, int column) const
+{
+    db::Query * query = _queryPtr.get();
+    if (query) {
+        query->seekRecNo(row);
+        return query->isNull(column);
+    }
+    return false;
 }
 
 } // namespace db

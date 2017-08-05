@@ -24,12 +24,16 @@ public:
     virtual bool isNull(std::size_t index) override;
 
 private:
+
+    DataTypeIndex dataTypeOfField(MYSQL_FIELD * field);
+    void throwOnInvalidColumnIndex(std::size_t index);
+
     std::vector<MySQLResult> _resultList;
     MYSQL_ROW _curRow;
     MySQLResult _currentResult; // TODO: really need this? H: FCurrentResults
     std::vector<unsigned int> _columnLengths; // FColumnLengths
 
-    void throwOnInvalidColumnIndex(std::size_t index);
+
 };
 
 } // namespace db

@@ -16,7 +16,7 @@ void  Text::setupColorForDataTypes()
     _colorsDataTypes[db::DataTypeCategoryIndex::Float]    = QColor(72, 0, 255);
     _colorsDataTypes[db::DataTypeCategoryIndex::Text]     = QColor(0, 128, 0);
     _colorsDataTypes[db::DataTypeCategoryIndex::Binary]   = QColor(128, 0, 128);
-    _colorsDataTypes[db::DataTypeCategoryIndex::Temporal] = QColor(128, 0, 255);
+    _colorsDataTypes[db::DataTypeCategoryIndex::Temporal] = QColor(128, 0, 0);
     _colorsDataTypes[db::DataTypeCategoryIndex::Spatial]  = QColor(0, 128, 128);
     _colorsDataTypes[db::DataTypeCategoryIndex::Other]    = QColor(128, 128, 0);
 
