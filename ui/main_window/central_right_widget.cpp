@@ -13,7 +13,8 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
       _hostTab(nullptr),
       _databaseTab(nullptr),
       _tableTab(nullptr),
-      _dataTab(nullptr)
+      _dataTab(nullptr),
+      _queryTab(nullptr)
 {
     createRootTabs();
 }

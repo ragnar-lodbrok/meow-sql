@@ -1,5 +1,5 @@
-#ifndef UI_CENTRALRIGHTHOSTTAB_H
-#define UI_CENTRALRIGHTHOSTTAB_H
+#ifndef UI_CENTRAL_RIGHT_HOST_TAB_H
+#define UI_CENTRAL_RIGHT_HOST_TAB_H
 
 #include <QtWidgets>
 #include "cr_host_databases_tab.h"
@@ -39,4 +39,4 @@ private:
 } // namespace ui
 } // namespace meow
 
-#endif // UI_CENTRALRIGHTHOSTTAB_H
+#endif // UI_CENTRAL_RIGHT_HOST_TAB_H

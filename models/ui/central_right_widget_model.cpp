@@ -42,6 +42,15 @@ bool CentralRightWidgetModel::hasDataTab() const
            _entityHolder.currentEntity()->type() == db::Entity::Type::View;
 }
 
+bool CentralRightWidgetModel::hasEntityTab() const
+{
+    if (_entityHolder.currentEntity() == nullptr) {
+        return false;
+    }
+    // TODO: other types
+    return _entityHolder.currentEntity()->type() == db::Entity::Type::Table;
+}
+
 QString CentralRightWidgetModel::titleForHostTab() const
 {
     if (_entityHolder.currentEntity()) {
@@ -82,6 +91,19 @@ QString CentralRightWidgetModel::titleForTableTab() const
 QString CentralRightWidgetModel::titleForDataTab() const
 {
     return QObject::tr("Data");
+}
+
+int CentralRightWidgetModel::indexForQueryTab() const
+{
+    if (hasDataTab()) {
+        return CentralRightWidgetTabs::Data + 1;
+    } else if (hasEntityTab()) {
+        return CentralRightWidgetTabs::Entity + 1;
+    } else if (hasDatabase()) {
+        return CentralRightWidgetTabs::Database + 1;
+    }
+
+    return CentralRightWidgetTabs::Host + 1;
 }
 
 } // namespace ui

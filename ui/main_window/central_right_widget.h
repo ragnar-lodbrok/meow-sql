@@ -7,6 +7,7 @@
 #include "central_right/database/central_right_database_tab.h"
 #include "central_right/table/central_right_table_tab.h"
 #include "central_right/data/central_right_data_tab.h"
+#include "central_right/query/central_right_query_tab.h"
 
 namespace meow {
 namespace ui {
@@ -39,6 +40,7 @@ private:
     central_right::DatabaseTab * _databaseTab;
     central_right::TableTab * _tableTab;
     central_right::DataTab * _dataTab;
+    central_right::QueryTab * _queryTab;
 };
 
 

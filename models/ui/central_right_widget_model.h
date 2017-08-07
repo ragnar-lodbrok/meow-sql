@@ -30,10 +30,14 @@ public:
     QString titleForTableTab() const;
     QString titleForDataTab() const;
 
+    int indexForQueryTab() const;
+
     bool connectionChanged() const;
     bool databaseChanged() const;
     bool hasDatabase() const;
     bool hasDataTab() const;
+    bool hasEntityTab() const;
+
 private:
     meow::db::EntityHolder _entityHolder;
 };
