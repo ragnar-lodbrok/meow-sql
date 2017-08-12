@@ -29,14 +29,17 @@ public:
     QString titleForDatabaseTab() const;
     QString titleForTableTab() const;
     QString titleForDataTab() const;
+    QString titleForQueryTab() const;
 
     int indexForQueryTab() const;
+    int indexForDataTab() const;
 
     bool connectionChanged() const;
     bool databaseChanged() const;
     bool hasDatabase() const;
     bool hasDataTab() const;
     bool hasEntityTab() const;
+    bool hasQueryTab() const;
 
 private:
     meow::db::EntityHolder _entityHolder;

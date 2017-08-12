@@ -48,23 +48,25 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
             _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Database,
                                   _model.titleForDatabaseTab());
         } else {
-            if (_databaseTab) {
-                _rootTabs->removeTab(models::ui::CentralRightWidgetTabs::Database);
-                delete _databaseTab;
-                _databaseTab = nullptr;
-            }
+            removeDatabaseTab();
         }
+    }
+
+    if (_model.hasEntityTab()) {
+        if (entity->type() == db::Entity::Type::Table) {
+            tableTab();
+        }
+    } else {
+        removeTableTab();
     }
 
     if (_model.hasDataTab()) {
         bool loadData = onDataTab();
         dataTab()->setDBEntity(entity, loadData);
-        _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Data,
+        _rootTabs->setTabText(_model.indexForDataTab(),
                               _model.titleForDataTab());
-    } else if (_dataTab) {
-        _rootTabs->removeTab(models::ui::CentralRightWidgetTabs::Data);
-        delete _dataTab;
-        _dataTab = nullptr;
+    } else {
+        removeDataTab();
     }
 
     if (entity->type() == db::Entity::Type::Session) {
@@ -72,18 +74,27 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     } else if (entity->type() == db::Entity::Type::Database) {
         _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Database);
     } else if (entity->type() == db::Entity::Type::Table) {
-        tableTab();
+
         _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Entity,
                               _model.titleForTableTab());
-        if ( ! onDataTab()) {
+        if ( !onDataTab() && !onQueryTab() ) {
             _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Entity);
         }
+    }
+
+    if (_model.hasQueryTab()) {
+        queryTab();
     }
 }
 
 bool CentralRightWidget::onDataTab() const
 {
-    return _rootTabs->currentIndex() == models::ui::CentralRightWidgetTabs::Data;
+    return _rootTabs->currentIndex() == _model.indexForDataTab();
+}
+
+bool CentralRightWidget::onQueryTab() const
+{
+    return _rootTabs->currentIndex() == _model.indexForQueryTab();
 }
 
 void CentralRightWidget::createRootTabs()
@@ -159,13 +170,69 @@ central_right::DataTab * CentralRightWidget::dataTab()
 {
     if (!_dataTab) {
         _dataTab = new central_right::DataTab();
-        _rootTabs->insertTab(models::ui::CentralRightWidgetTabs::Data,
+        _rootTabs->insertTab(_model.indexForDataTab(),
                              _dataTab,
                              QIcon(":/icons/data.png"),
                              _model.titleForDataTab());
     }
 
     return _dataTab;
+}
+
+
+central_right::QueryTab * CentralRightWidget::queryTab()
+{
+    if (!_queryTab) {
+        _queryTab = new central_right::QueryTab();
+        _rootTabs->insertTab(_model.indexForQueryTab(),
+                             _queryTab,
+                             QIcon(":/icons/execute.png"),
+                             _model.titleForQueryTab());
+    }
+
+    return _queryTab;
+}
+
+bool CentralRightWidget::removeDatabaseTab()
+{
+    if (_databaseTab) {
+        int tabIndex = _rootTabs->indexOf(_databaseTab);
+        if (tabIndex >= 0) {
+            _rootTabs->removeTab(tabIndex);
+        }
+        delete _databaseTab;
+        _databaseTab = nullptr;
+        return (tabIndex >= 0);
+    }
+    return false;
+}
+
+bool CentralRightWidget::removeTableTab()
+{
+    if (_tableTab) {
+        int tabIndex = _rootTabs->indexOf(_tableTab);
+        if (tabIndex >= 0) {
+            _rootTabs->removeTab(tabIndex);
+        }
+        delete _tableTab;
+        _tableTab = nullptr;
+        return (tabIndex >= 0);
+    }
+    return false;
+}
+
+bool CentralRightWidget::removeDataTab()
+{
+    if (_dataTab) {
+        int tabIndex = _rootTabs->indexOf(_dataTab);
+        if (tabIndex >= 0) {
+            _rootTabs->removeTab(tabIndex);
+        }
+        delete _dataTab;
+        _dataTab = nullptr;
+        return (tabIndex >= 0);
+    }
+    return false;
 }
 
 } // namespace meow

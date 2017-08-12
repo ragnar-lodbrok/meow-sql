@@ -51,6 +51,11 @@ bool CentralRightWidgetModel::hasEntityTab() const
     return _entityHolder.currentEntity()->type() == db::Entity::Type::Table;
 }
 
+bool CentralRightWidgetModel::hasQueryTab() const
+{
+    return _entityHolder.currentEntity() != nullptr;
+}
+
 QString CentralRightWidgetModel::titleForHostTab() const
 {
     if (_entityHolder.currentEntity()) {
@@ -93,6 +98,11 @@ QString CentralRightWidgetModel::titleForDataTab() const
     return QObject::tr("Data");
 }
 
+QString CentralRightWidgetModel::titleForQueryTab() const
+{
+    return QObject::tr("Query");
+}
+
 int CentralRightWidgetModel::indexForQueryTab() const
 {
     if (hasDataTab()) {
@@ -104,6 +114,18 @@ int CentralRightWidgetModel::indexForQueryTab() const
     }
 
     return CentralRightWidgetTabs::Host + 1;
+}
+
+int CentralRightWidgetModel::indexForDataTab() const
+{
+    if (hasDataTab()) {
+        if (_entityHolder.currentEntity()->type() == db::Entity::Type::Table) {
+            return CentralRightWidgetTabs::Entity + 1;
+        } else if (_entityHolder.currentEntity()->type() == db::Entity::Type::View) {
+            return CentralRightWidgetTabs::Database + 1;
+        }
+    }
+    return -1;
 }
 
 } // namespace ui

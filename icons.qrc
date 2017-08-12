@@ -184,7 +184,7 @@
         <file>resources/icons/bullet_key.png</file>
         <file>resources/icons/book_open.png</file>
         <file>resources/icons/book.png</file>
-        <file>resources/icons/artsbuilderexecute.png</file>
+        <file alias="execute.png">resources/icons/artsbuilderexecute.png</file>
         <file>resources/icons/arrow_undo.png</file>
         <file>resources/icons/arrow_refresh.png</file>
         <file>resources/icons/add.png</file>

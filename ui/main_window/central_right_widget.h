@@ -25,6 +25,7 @@ private:
 
     void createRootTabs();
     bool onDataTab() const;
+    bool onQueryTab() const;
 
     Q_SLOT void rootTabChanged(int index);
 
@@ -32,6 +33,11 @@ private:
     central_right::DatabaseTab * databaseTab();
     central_right::TableTab * tableTab();
     central_right::DataTab * dataTab();
+    central_right::QueryTab * queryTab();
+
+    bool removeDatabaseTab();
+    bool removeTableTab();
+    bool removeDataTab();
 
     models::ui::CentralRightWidgetModel _model;
 
