@@ -8,12 +8,24 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
+class QueryPanel;
+class QueryResult;
+
 class QueryTab : public QWidget
 {
     Q_OBJECT
 public:
     explicit QueryTab(QWidget *parent = 0);
 
+private:
+
+    void createWidgets();
+
+    QHBoxLayout * _mainLayout;
+    QSplitter * _mainVerticalSplitter;
+
+    QueryPanel * _queryPanel;
+    QueryResult * _queryResult;
 };
 
 } // namespace central_right
