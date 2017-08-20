@@ -28,6 +28,7 @@ void DataTab::createTopPanel()
     _topLayout->addWidget(_dataLabel, 0, Qt::AlignVCenter);
 
     createToolBar();
+
 }
 
 void DataTab::createToolBar()

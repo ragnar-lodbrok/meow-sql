@@ -1,4 +1,5 @@
 #include "cr_query_panel.h"
+#include "db/user_query/sentences_parser.h" // test
 
 namespace meow {
 namespace ui {
@@ -42,7 +43,8 @@ void QueryPanel::createToolBar()
 void QueryPanel::onActionRun(bool checked)
 {
     Q_UNUSED(checked);
-    qDebug() << "Run";
+    meow::db::user_query::SentencesParser parser;
+    qDebug() << "Run" << parser.parseByDelimiter(_queryTextEdit->toPlainText());
 }
 
 } // namespace central_right
