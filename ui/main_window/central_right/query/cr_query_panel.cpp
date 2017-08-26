@@ -1,12 +1,14 @@
 #include "cr_query_panel.h"
-#include "db/user_query/sentences_parser.h" // test
+#include "central_right_query_tab.h"
 
 namespace meow {
 namespace ui {
 namespace main_window {
 namespace central_right {
 
-QueryPanel::QueryPanel(QWidget *parent) : QWidget(parent)
+QueryPanel::QueryPanel(QueryTab * queryTab) 
+    : QWidget(queryTab), 
+      _queryTab(queryTab)
 {
     createWidgets();
 }
@@ -34,17 +36,15 @@ void QueryPanel::createToolBar()
     _runAction = new QAction(QIcon(":/icons/execute.png"), tr("Run"), this);
     _runAction->setToolTip(tr("Execute SQL..."));
     _runAction->setShortcut(QKeySequence(Qt::Key_F9));
-    connect(_runAction, &QAction::triggered, this, &QueryPanel::onActionRun);
+    connect(_runAction, &QAction::triggered, _queryTab, &QueryTab::onActionRun);
     _toolBar->addAction(_runAction);
 
     _mainLayout->addWidget(_toolBar, 0 , Qt::AlignTop);
 }
 
-void QueryPanel::onActionRun(bool checked)
+QString QueryPanel::queryPlainText() const
 {
-    Q_UNUSED(checked);
-    meow::db::user_query::SentencesParser parser;
-    qDebug() << "Run" << parser.parseByDelimiter(_queryTextEdit->toPlainText());
+    return _queryTextEdit->toPlainText();
 }
 
 } // namespace central_right

@@ -1,5 +1,6 @@
 #include "connections_manager.h"
 #include "connection.h"
+#include "user_query/user_query.h"
 
 namespace meow {
 namespace db {
@@ -8,7 +9,8 @@ ConnectionsManager::ConnectionsManager()
     :QObject(),
      Entity(),
      _connections(),
-     _activeEntity()
+     _activeEntity(),
+     _userQueries()
 {
 
 }
@@ -16,6 +18,7 @@ ConnectionsManager::ConnectionsManager()
 ConnectionsManager::~ConnectionsManager()
 {
     qDeleteAll(_connections);
+    qDeleteAll(_userQueries);
 }
 
 ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & params)
@@ -55,6 +58,17 @@ Connection * ConnectionsManager::activeConnection() const
         return _activeSession->connection();
     }
     return nullptr;
+}
+
+UserQuery * ConnectionsManager::userQueryAt(size_t index)
+{
+    if (index + 1 > _userQueries.size()) {
+        _userQueries.resize(index + 1, nullptr);
+    }
+    if (!_userQueries[index]) {
+        _userQueries[index] = new UserQuery(this);
+    }
+    return _userQueries[index];
 }
 
 void ConnectionsManager::setActiveEntity(Entity * activeEntity)

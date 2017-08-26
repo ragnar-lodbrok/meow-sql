@@ -11,7 +11,11 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = meow-sql
 TEMPLATE = app
 
-CONFIG  += c++14
+greaterThan(QT_MINOR_VERSION, 4) { # >= 5.5
+    CONFIG  += c++14
+} else {
+    CONFIG  += c++11
+}
 
 QMAKE_LFLAGS += -Wl,--no-as-needed # ?
 
@@ -78,7 +82,9 @@ SOURCES += main.cpp\
     ui/main_window/central_right/query/central_right_query_tab.cpp \
     ui/main_window/central_right/query/cr_query_panel.cpp \
     ui/main_window/central_right/query/cr_query_result.cpp \
-    db/user_query/sentences_parser.cpp
+    db/user_query/sentences_parser.cpp \
+    db/user_query/batch_executor.cpp \
+    db/user_query/user_query.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -138,7 +144,9 @@ HEADERS  += app.h \
     ui/main_window/central_right/query/central_right_query_tab.h \
     ui/main_window/central_right/query/cr_query_panel.h \
     ui/main_window/central_right/query/cr_query_result.h \
-    db/user_query/sentences_parser.h
+    db/user_query/sentences_parser.h \
+    db/user_query/batch_executor.h \
+    db/user_query/user_query.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

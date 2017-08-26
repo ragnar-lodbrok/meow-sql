@@ -3,12 +3,15 @@
 
 #include <QObject>
 #include <QList>
+#include <vector>
 #include "connection_parameters.h"
 #include "entity/session_entity.h"
 #include "db/entity/entity_holder.h"
 
 namespace meow {
 namespace db {
+
+class UserQuery;
 
 // Intent: holds active db connections
 class ConnectionsManager : public QObject, public Entity // root db entity
@@ -32,6 +35,8 @@ public:
 
     Connection * activeConnection() const;
 
+    UserQuery * userQueryAt(size_t index);
+
     Q_SIGNAL void connectionOpened(SessionEntity * newSession);
     Q_SIGNAL void activeEntityChanged(Entity * newEntity);
 
@@ -39,6 +44,7 @@ private:
     QList <SessionEntity *> _connections;
     EntityHolder _activeEntity;
     SessionEntity * _activeSession;
+    std::vector <UserQuery *> _userQueries;
 };
 
 } // namespace db

@@ -1,4 +1,5 @@
 #include "sentences_parser.h"
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -96,8 +97,10 @@ QStringList SentencesParser::parseByDelimiter(const QString &SQL,
             QStringRef queryTest =
                     str.midRef(lastLeftOffset, rightOffset-lastLeftOffset)
                     .trimmed();
-            if (queryTest.length() != 0 && queryTest != curDelim) {
-                list.append(queryTest.toString());
+            if (queryTest.length() != 0) {
+                if (queryTest != curDelim) {
+                    list.append(queryTest.toString());
+                }
                 lastLeftOffset = i+1;
             }
 

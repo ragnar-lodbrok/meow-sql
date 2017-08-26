@@ -1,5 +1,6 @@
 #include "central_right_widget.h"
 #include "db/entity/entity.h"
+#include "app.h"
 #include <QDebug>
 
 
@@ -183,7 +184,8 @@ central_right::DataTab * CentralRightWidget::dataTab()
 central_right::QueryTab * CentralRightWidget::queryTab()
 {
     if (!_queryTab) {
-        _queryTab = new central_right::QueryTab();
+        auto conMngr = meow::app()->dbConnectionsManager();
+        _queryTab = new central_right::QueryTab(conMngr->userQueryAt(0));
         _rootTabs->insertTab(_model.indexForQueryTab(),
                              _queryTab,
                              QIcon(":/icons/execute.png"),

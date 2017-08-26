@@ -1,13 +1,17 @@
 #include "central_right_query_tab.h"
 #include "cr_query_panel.h"
 #include "cr_query_result.h"
+#include "db/user_query/user_query.h"
+#include "db/user_query/sentences_parser.h"
 
 namespace meow {
 namespace ui {
 namespace main_window {
 namespace central_right {
 
-QueryTab::QueryTab(QWidget *parent) : QWidget(parent)
+QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) : 
+    QWidget(parent),
+    _query(query)
 {
     createWidgets();
 }
@@ -22,7 +26,7 @@ void QueryTab::createWidgets()
     _mainVerticalSplitter->setChildrenCollapsible(false);
     _mainLayout->addWidget(_mainVerticalSplitter);
 
-    _queryPanel = new QueryPanel();
+    _queryPanel = new QueryPanel(this);
     _queryPanel->setMinimumHeight(80);
     _mainVerticalSplitter->addWidget(_queryPanel);
     _mainVerticalSplitter->setStretchFactor(0, 1);
@@ -31,6 +35,24 @@ void QueryTab::createWidgets()
     _queryResult->setMinimumHeight(40);
     _mainVerticalSplitter->addWidget(_queryResult);
     _mainVerticalSplitter->setStretchFactor(1, 2);
+}
+
+void QueryTab::onActionRun(bool checked)
+{
+    Q_UNUSED(checked);
+    meow::db::user_query::SentencesParser parser;
+    QStringList queries = parser.parseByDelimiter(_queryPanel->queryPlainText());
+    // Listening: Arch Enemy - On And On
+    bool success = _query->runInCurrentConnection(queries);
+    if (!success) {
+        QMessageBox msgBox;
+        msgBox.setText(_query->lastError());
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+    }
+
 }
 
 } // namespace central_right

@@ -8,19 +8,23 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
+class QueryTab;
+
 class QueryPanel : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QueryPanel(QWidget *parent = 0);
+    explicit QueryPanel(QueryTab * queryTab);
 
+    QString queryPlainText() const;
+    
 private:
 
     void createWidgets();
     void createToolBar();
 
-    Q_SLOT void onActionRun(bool checked);
-
+    QueryTab * _queryTab;
+    
     QHBoxLayout * _mainLayout;
     QTextEdit * _queryTextEdit;
 

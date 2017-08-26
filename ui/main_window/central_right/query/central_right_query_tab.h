@@ -4,6 +4,13 @@
 #include <QtWidgets>
 
 namespace meow {
+
+namespace db {
+
+class UserQuery;
+
+}
+
 namespace ui {
 namespace main_window {
 namespace central_right {
@@ -15,7 +22,9 @@ class QueryTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QueryTab(QWidget *parent = 0);
+    explicit QueryTab(db::UserQuery * query, QWidget *parent = 0);
+
+    Q_SLOT void onActionRun(bool checked);
 
 private:
 
@@ -26,6 +35,8 @@ private:
 
     QueryPanel * _queryPanel;
     QueryResult * _queryResult;
+    
+    db::UserQuery * _query;
 };
 
 } // namespace central_right

@@ -17,7 +17,7 @@ Window::Window(QWidget *parent)
 {
     setMinimumSize(QSize(600, 400));
     setWindowTitle("MeowSQL");
-    resize(QSize(800, 600));
+    resize(QSize(800, 500));
 
     createMenus();
     _centralWidget = new CentralWidget(&_dbEntitiesTreeModel);
