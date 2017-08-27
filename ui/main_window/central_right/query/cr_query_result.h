@@ -6,7 +6,7 @@
 namespace meow {
 
 namespace db {
-class UserQuery;
+    class UserQuery;
 }
 
 namespace ui {
@@ -18,11 +18,18 @@ class QueryResult : public QWidget
     Q_OBJECT
 public:
     explicit QueryResult(db::UserQuery * userQuery, QWidget *parent = 0);
+    ~QueryResult();
 
     void showQueryData();
 
 private:
+
+    QString dataTabCaption(int index) const;
+    void removeAllDataTabs();
+
     db::UserQuery * _userQuery;
+
+    QTabWidget  * _dataTabs;
 };
 
 } // namespace central_right

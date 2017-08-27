@@ -14,81 +14,17 @@ namespace models {
 namespace db {
 
 DataTableModel::DataTableModel(QObject *parent)
-    :QAbstractTableModel(parent),
+    :BaseDataTableModel(new meow::db::QueryData(), parent),
       _entityChangedProcessed(false),
-     _dbEntity(nullptr),
-     _queryData(),
-     _wantedRowsCount(meow::db::DATA_MAX_ROWS)
+      _dbEntity(nullptr),
+      _wantedRowsCount(meow::db::DATA_MAX_ROWS)
 {
 
 }
 
-int DataTableModel::columnCount(const QModelIndex &parent) const
+DataTableModel::~DataTableModel()
 {
-    Q_UNUSED(parent);
-    return _queryData.columnCount();
-}
-
-int DataTableModel::rowCount(const QModelIndex &parent) const
-{
-    Q_UNUSED(parent);
-    return _queryData.rowCount();
-}
-
-Qt::ItemFlags DataTableModel::flags(const QModelIndex &index) const
-{
-    if (!index.isValid()) {
-        return Qt::ItemIsEnabled;
-    }
-
-    return QAbstractItemModel::flags(index);
-}
-
-QVariant DataTableModel::headerData(int section,
-                                    Qt::Orientation orientation,
-                                    int role) const
-{
-    if (role != Qt::DisplayRole) {
-        return QVariant();
-    }
-
-    if (orientation == Qt::Horizontal) {
-        return _queryData.columnName(section);
-    }
-
-    return QVariant();
-}
-
-QVariant DataTableModel::data(const QModelIndex &index, int role) const
-{
-
-    if (!index.isValid()) {
-        return QVariant();
-    }
-
-    if (index.row() >= rowCount()) {
-        return QVariant();
-    }
-
-    if (role == Qt::DisplayRole) {
-        return _queryData.rawDataAt(index.row(), index.column());
-    } else if (role == Qt::DecorationRole) {
-
-    } else if (role == Qt::ForegroundRole) {
-        auto textSettings = meow::app()->settings()->textSettings();
-        auto dataType = _queryData.columnDataTypeCategory(index.column());
-        if (dataType != meow::db::DataTypeCategoryIndex::None) {
-            bool isNull = _queryData.isNullAt(index.row(), index.column());
-            if (isNull == false) {
-                return textSettings->colorForDataType(dataType);
-            } else {
-                return textSettings->colorForDataTypeNULL(dataType);
-            }
-        }
-    }
-
-
-    return QVariant();
+    delete queryData(); // oh shit
 }
 
 void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity, bool loadData)
@@ -147,7 +83,7 @@ void DataTableModel::loadData(bool force)
     queryCritera.limit = _wantedRowsCount - offset;
     queryCritera.offset = offset;
 
-    queryDataFetcher->run(&queryCritera, &_queryData);
+    queryDataFetcher->run(&queryCritera, queryData());
 
     _entityChangedProcessed = true;
 
