@@ -31,7 +31,7 @@ void QueryTab::createWidgets()
     _mainVerticalSplitter->addWidget(_queryPanel);
     _mainVerticalSplitter->setStretchFactor(0, 1);
 
-    _queryResult = new QueryResult();
+    _queryResult = new QueryResult(_query);
     _queryResult->setMinimumHeight(40);
     _mainVerticalSplitter->addWidget(_queryResult);
     _mainVerticalSplitter->setStretchFactor(1, 2);
@@ -44,6 +44,7 @@ void QueryTab::onActionRun(bool checked)
     QStringList queries = parser.parseByDelimiter(_queryPanel->queryPlainText());
     // Listening: Arch Enemy - On And On
     bool success = _query->runInCurrentConnection(queries);
+    _queryResult->showQueryData();
     if (!success) {
         QMessageBox msgBox;
         msgBox.setText(_query->lastError());
@@ -52,7 +53,6 @@ void QueryTab::onActionRun(bool checked)
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
     }
-
 }
 
 } // namespace central_right

@@ -22,6 +22,7 @@ public:
     QString lastError() const;
 
     int resultsDataCount() const { return _resultsData.length(); }
+    QueryData * resultsDataAt(int index) const { return _resultsData[index]; }
 
 private:
     ConnectionsManager * _connectionsManager;

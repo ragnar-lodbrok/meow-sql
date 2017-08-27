@@ -5,7 +5,14 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-QueryResult::QueryResult(QWidget *parent) : QWidget(parent)
+QueryResult::QueryResult(db::UserQuery * userQuery, QWidget *parent)
+    : QWidget(parent),
+      _userQuery(userQuery)
+{
+
+}
+
+void QueryResult::showQueryData()
 {
 
 }

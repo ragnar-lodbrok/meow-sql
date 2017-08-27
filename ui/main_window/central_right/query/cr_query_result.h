@@ -4,6 +4,11 @@
 #include <QtWidgets>
 
 namespace meow {
+
+namespace db {
+class UserQuery;
+}
+
 namespace ui {
 namespace main_window {
 namespace central_right {
@@ -12,9 +17,12 @@ class QueryResult : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QueryResult(QWidget *parent = 0);
+    explicit QueryResult(db::UserQuery * userQuery, QWidget *parent = 0);
+
+    void showQueryData();
 
 private:
+    db::UserQuery * _userQuery;
 };
 
 } // namespace central_right
