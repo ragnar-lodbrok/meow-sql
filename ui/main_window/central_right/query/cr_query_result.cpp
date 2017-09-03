@@ -1,6 +1,7 @@
 #include "cr_query_result.h"
 #include "db/user_query/user_query.h"
 #include "cr_query_data_tab.h"
+#include "helpers/formatting.h"
 
 namespace meow {
 namespace ui {
@@ -42,7 +43,12 @@ void QueryResult::showQueryData()
 
 QString QueryResult::dataTabCaption(int index) const
 {
-    return QObject::tr("Result") + " #" + QString::number(index);
+    meow::db::QueryData * queryData = _userQuery->resultsDataAt(index);
+    QString caption =  QObject::tr("Result") + " #" + QString::number(index+1);
+    caption += QString(" (%1×%2)")
+            .arg(helpers::formatNumber(queryData->columnCount()))
+            .arg(helpers::formatNumber(queryData->rowCount()));
+    return caption;
 }
 
 void QueryResult::removeAllDataTabs()

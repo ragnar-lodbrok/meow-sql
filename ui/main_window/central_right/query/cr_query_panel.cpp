@@ -26,6 +26,8 @@ void QueryPanel::createWidgets()
     // http://doc.qt.io/qt-5/qtwidgets-richtext-syntaxhighlighter-example.html
     _queryTextEdit = new QTextEdit();
     _mainLayout->addWidget(_queryTextEdit);
+
+    setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 }
 
 void QueryPanel::createToolBar()

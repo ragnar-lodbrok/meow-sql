@@ -29,12 +29,12 @@ void QueryTab::createWidgets()
     _queryPanel = new QueryPanel(this);
     _queryPanel->setMinimumHeight(80);
     _mainVerticalSplitter->addWidget(_queryPanel);
-    _mainVerticalSplitter->setStretchFactor(0, 1);
 
     _queryResult = new QueryResult(_query);
-    _queryResult->setMinimumHeight(40);
+    _queryResult->setMinimumHeight(80);
     _mainVerticalSplitter->addWidget(_queryResult);
-    _mainVerticalSplitter->setStretchFactor(1, 2);
+
+    _mainVerticalSplitter->setSizes({150, 500});
 }
 
 void QueryTab::onActionRun(bool checked)
