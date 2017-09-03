@@ -1,5 +1,6 @@
 #include "cr_query_panel.h"
 #include "central_right_query_tab.h"
+#include "ui/common/sql_editor.h"
 
 namespace meow {
 namespace ui {
@@ -24,7 +25,7 @@ void QueryPanel::createWidgets()
     // TODO
     // http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html
     // http://doc.qt.io/qt-5/qtwidgets-richtext-syntaxhighlighter-example.html
-    _queryTextEdit = new QTextEdit();
+    _queryTextEdit = new ui::common::SQLEditor();
     _mainLayout->addWidget(_queryTextEdit);
 
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));

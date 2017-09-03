@@ -5,6 +5,11 @@
 
 namespace meow {
 namespace ui {
+
+namespace common {
+class SQLEditor;
+}
+
 namespace main_window {
 namespace central_right {
 
@@ -26,7 +31,7 @@ private:
     QueryTab * _queryTab;
     
     QHBoxLayout * _mainLayout;
-    QTextEdit * _queryTextEdit;
+    ui::common::SQLEditor * _queryTextEdit;
 
     QToolBar * _toolBar;
     QAction * _runAction;
