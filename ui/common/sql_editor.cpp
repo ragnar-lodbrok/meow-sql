@@ -1,6 +1,7 @@
 #include "sql_editor.h"
 #include <QtWidgets>
 #include <QFontDatabase>
+#include "sql_syntax_highlighter.h"
 
 namespace meow {
 namespace ui {
@@ -25,6 +26,8 @@ SQLEditor::SQLEditor(QWidget *parent)
 
     updateLineNumberAreaWidth(0);
     //highlightCurrentLine();
+
+    _syntaxHighlighter = new SQLSyntaxHighlighter(this->document());
 }
 
 int SQLEditor::lineNumberAreaWidth()

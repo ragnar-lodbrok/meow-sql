@@ -3,6 +3,7 @@
 
 // http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html
 
+
 #include <QPlainTextEdit>
 #include <QObject>
 
@@ -16,6 +17,7 @@ namespace ui {
 namespace common {
 
 class LineNumberArea;
+class SQLSyntaxHighlighter;
 
 class SQLEditor : public QPlainTextEdit
 {
@@ -37,6 +39,7 @@ private slots:
 
 private:
     QWidget * _lineNumberArea;
+    SQLSyntaxHighlighter * _syntaxHighlighter;
 };
 
 

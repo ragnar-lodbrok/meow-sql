@@ -87,7 +87,8 @@ SOURCES += main.cpp\
     db/user_query/user_query.cpp \
     ui/main_window/central_right/query/cr_query_data_tab.cpp \
     models/db/base_data_table_model.cpp \
-    ui/common/sql_editor.cpp
+    ui/common/sql_editor.cpp \
+    ui/common/sql_syntax_highlighter.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -152,7 +153,9 @@ HEADERS  += app.h \
     db/user_query/user_query.h \
     ui/main_window/central_right/query/cr_query_data_tab.h \
     models/db/base_data_table_model.h \
-    ui/common/sql_editor.h
+    ui/common/sql_editor.h \
+    ui/common/sql_syntax_highlighter.h \
+    ui/common/mysql_syntax.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql
