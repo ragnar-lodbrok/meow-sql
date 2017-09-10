@@ -1,6 +1,7 @@
 #include "sql_syntax_highlighter.h"
 #include "mysql_syntax.h"
-
+#include "db/user_query/sentences_parser.h"
+#include <QDebug>
 
 namespace meow {
 namespace ui {
@@ -12,6 +13,9 @@ SQLSyntaxHighlighter::SQLSyntaxHighlighter(QTextDocument * parent)
     addReservedKeywordsRules();
 
     _singleLineCommentFormat.setForeground(QColor(149, 149, 158));
+    _multiLineCommentFormat = _singleLineCommentFormat;
+    _quotationFormat.setForeground(QColor(102, 153, 0));
+    _reservedKeywordFormat.setForeground(QColor(0, 119, 170));
 }
 
 void SQLSyntaxHighlighter::addReservedKeywordsRules()
@@ -34,40 +38,67 @@ void SQLSyntaxHighlighter::addReservedKeywordsRules()
 
 void SQLSyntaxHighlighter::highlightBlock(const QString &text)
 {
-    int signleLineCommentStart = findSingleLineCommentStart(text);
 
-    QString textWithoutComment = text;
+    meow::db::user_query::SentencesParser parser;
+    auto tokens = parser.parseToTokens(text);
 
-    if (signleLineCommentStart > 0) {
-        textWithoutComment = text.left(signleLineCommentStart);
-    }
+    for (const auto & token : tokens) {
 
-    for (const HighlightingRule &rule : _reservedKeywordsRules) {
-        QRegularExpressionMatchIterator matchIterator =
-                rule.pattern.globalMatch(text);
-        while (matchIterator.hasNext()) {
-            QRegularExpressionMatch match = matchIterator.next();
+        switch (token->type) {
 
-            if (isQuotedId(text, match)) {
-                continue;
+        case meow::db::user_query::SentenceTokenType::Text: {
+
+            QString tokenText = text.mid(token->startIndex, token->len);
+
+            for (const HighlightingRule &rule : _reservedKeywordsRules) {
+                QRegularExpressionMatchIterator matchIterator =
+                        rule.pattern.globalMatch(tokenText);
+
+                while (matchIterator.hasNext()) {
+
+                    QRegularExpressionMatch match = matchIterator.next();
+
+                    //if (isQuotedId(tokenText, match)) {
+                    //    continue;
+                    //}
+
+                    setFormat(
+                                match.capturedStart() + token->startIndex,
+                                match.capturedLength(),
+                                rule.format);
+                }
             }
-
-            setFormat(
-                        match.capturedStart(),
-                        match.capturedLength(),
-                        rule.format);
+            break;
         }
-    }
 
-    if (signleLineCommentStart >= 0) {
-        setFormat(
-                    signleLineCommentStart,
-                    text.length() - signleLineCommentStart,
-                    _singleLineCommentFormat);
+        case meow::db::user_query::SentenceTokenType::SingleLineComment:
+            setFormat(
+                        token->startIndex,
+                        token->len,
+                        _singleLineCommentFormat);
+            break;
+
+        case meow::db::user_query::SentenceTokenType::MultipleLineComment:
+            setFormat(
+                        token->startIndex,
+                        token->len,
+                        _multiLineCommentFormat);
+            break;
+
+        case meow::db::user_query::SentenceTokenType::QuotedString:
+            setFormat(
+                        token->startIndex,
+                        token->len,
+                        _quotationFormat);
+            break;
+
+        default:
+            break;
+        }
     }
 }
 
-bool SQLSyntaxHighlighter::isQuotedId(
+bool SQLSyntaxHighlighter::isQuotedId( // rm
         const QString & text,
         const QRegularExpressionMatch & match) const
 {
@@ -85,48 +116,6 @@ bool SQLSyntaxHighlighter::isQuotedId(
     }
 
     return false;
-}
-
-int SQLSyntaxHighlighter::findSingleLineCommentStart(const QString &text)
-{
-    int len = text.length();
-
-    bool inEscape = false;
-    bool inString = false;
-    QChar lastStringEncloser = QChar::Null;
-
-    for (int i=0; i<len; ++i) {
-        QChar curChar = text.at(i);
-
-        if (!inEscape) {
-            if (curChar == QChar('"') ||
-                curChar == QChar('\'') ||
-                curChar == QChar('`')) { // str or id enclosers
-                if (!inString || (inString && curChar == lastStringEncloser)) {
-                    inString = !inString;
-                    lastStringEncloser = curChar;
-                }
-            }
-        }
-
-        if (!inString) {
-            QChar nextChar = ((i+1) < len) ? text.at(i+1) : QChar::Null;
-            bool inLineComment = (curChar == QChar('#'))
-                || (curChar == QChar('-') && nextChar == QChar('-'));
-            if (inLineComment) {
-                return i;
-            }
-        }
-
-        if (!inEscape) {
-            inEscape = (curChar == QChar('\\'));
-        } else {
-            inEscape = false;
-        }
-    }
-
-
-    return -1;
 }
 
 } // namespace common

@@ -30,8 +30,6 @@ private:
     bool isQuotedId(const QString &text,
                     const QRegularExpressionMatch & match) const;
 
-    int findSingleLineCommentStart(const QString &text);
-
     struct HighlightingRule
     {
         QRegularExpression pattern;
@@ -40,15 +38,13 @@ private:
     QVector<HighlightingRule> _reservedKeywordsRules;
 
     QTextCharFormat _singleLineCommentFormat;
+    QTextCharFormat _quotationFormat;
+    QTextCharFormat _reservedKeywordFormat;
+    QTextCharFormat _multiLineCommentFormat;
 
     //QRegularExpression commentStartExpression;
     //QRegularExpression commentEndExpression;
 
-    //QTextCharFormat keywordFormat;
-    //QTextCharFormat singleLineCommentFormat;
-    //QTextCharFormat multiLineCommentFormat;
-    //QTextCharFormat quotationFormat;
-    //QTextCharFormat functionFormat;
 };
 
 } // namespace common
