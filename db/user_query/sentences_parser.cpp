@@ -130,6 +130,26 @@ QList<SentenceTokenPtr> SentencesParser::parseToTokens(
     if (leftOpenType != SentenceTokenType::None) {
         curToken.reset(new SentenceToken(0, leftOpenType));
         curToken->leftOpen = true;
+
+        switch (leftOpenType) {
+        case SentenceTokenType::MultipleLineComment:
+            inBigComment = true;
+            break;
+        case SentenceTokenType::QuotedString:
+            inString = true;
+            lastStringEncloser = QChar('\'');
+            break;
+        case SentenceTokenType::DoubleQuotedString:
+            inString = true;
+            lastStringEncloser = QChar('"');
+            break;
+        case SentenceTokenType::QuotedIdentifier:
+            inString = true;
+            lastStringEncloser = QChar('`');
+            break;
+        default:
+            break;
+        }
     }
 
     for (int i=0; i<allLen; ++i) {
@@ -204,6 +224,8 @@ QList<SentenceTokenPtr> SentencesParser::parseToTokens(
                         auto tokenType = SentenceTokenType::QuotedString;
                         if (curChar == QChar('`')) {
                             tokenType = SentenceTokenType::QuotedIdentifier;
+                        } else if (curChar == QChar('"')) {
+                            tokenType = SentenceTokenType::DoubleQuotedString;
                         }
                         curToken.reset(new SentenceToken(i, tokenType));
                     }

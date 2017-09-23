@@ -13,7 +13,8 @@ enum class SentenceTokenType {
     Text, // any not matching below
     SingleLineComment, // # or --
     MultipleLineComment, // /* comment */
-    QuotedString, // "string" or  'str'
+    QuotedString, // 'str'
+    DoubleQuotedString, // "str"
     QuotedIdentifier // `user_id`
 };
 

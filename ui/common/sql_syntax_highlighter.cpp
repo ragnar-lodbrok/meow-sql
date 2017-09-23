@@ -39,14 +39,25 @@ void SQLSyntaxHighlighter::addReservedKeywordsRules()
 void SQLSyntaxHighlighter::highlightBlock(const QString &text)
 {
 
-    meow::db::user_query::SentencesParser parser;
-    auto tokens = parser.parseToTokens(text);
+    namespace uq = meow::db::user_query;
+
+    uq::SentenceTokenType prevOpenType = uq::SentenceTokenType::None;
+
+    int prevBlockState = previousBlockState();
+    if (prevBlockState != -1) {
+        prevOpenType = static_cast<uq::SentenceTokenType>(prevBlockState);
+    }
+
+    setCurrentBlockState(-1);
+
+    uq::SentencesParser parser;
+    auto tokens = parser.parseToTokens(text, prevOpenType);
 
     for (const auto & token : tokens) {
 
         switch (token->type) {
 
-        case meow::db::user_query::SentenceTokenType::Text: {
+        case uq::SentenceTokenType::Text: {
 
             QString tokenText = text.mid(token->startIndex, token->len);
 
@@ -71,21 +82,22 @@ void SQLSyntaxHighlighter::highlightBlock(const QString &text)
             break;
         }
 
-        case meow::db::user_query::SentenceTokenType::SingleLineComment:
+        case uq::SentenceTokenType::SingleLineComment:
             setFormat(
                         token->startIndex,
                         token->len,
                         _singleLineCommentFormat);
             break;
 
-        case meow::db::user_query::SentenceTokenType::MultipleLineComment:
+        case uq::SentenceTokenType::MultipleLineComment:
             setFormat(
                         token->startIndex,
                         token->len,
                         _multiLineCommentFormat);
             break;
 
-        case meow::db::user_query::SentenceTokenType::QuotedString:
+        case uq::SentenceTokenType::QuotedString:
+        case uq::SentenceTokenType::DoubleQuotedString:
             setFormat(
                         token->startIndex,
                         token->len,
@@ -95,6 +107,15 @@ void SQLSyntaxHighlighter::highlightBlock(const QString &text)
         default:
             break;
         }
+    }
+
+    if (!tokens.isEmpty()) {
+        auto lastToken = tokens.last();
+        if (lastToken->rightOpen) {
+            setCurrentBlockState(static_cast<int>(lastToken->type));
+        }
+    } else { // empty text
+        setCurrentBlockState(previousBlockState());
     }
 }
 
