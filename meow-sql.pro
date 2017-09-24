@@ -88,7 +88,8 @@ SOURCES += main.cpp\
     ui/main_window/central_right/query/cr_query_data_tab.cpp \
     models/db/base_data_table_model.cpp \
     ui/common/sql_editor.cpp \
-    ui/common/sql_syntax_highlighter.cpp
+    ui/common/sql_syntax_highlighter.cpp \
+    db/table_column.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -155,7 +156,8 @@ HEADERS  += app.h \
     models/db/base_data_table_model.h \
     ui/common/sql_editor.h \
     ui/common/sql_syntax_highlighter.h \
-    ui/common/mysql_syntax.h
+    ui/common/mysql_syntax.h \
+    db/table_column.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

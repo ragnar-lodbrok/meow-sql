@@ -24,27 +24,29 @@ protected:
 
 private:
 
-    void addReservedKeywordsRules();
+    void addKeywordsRules();
     void createSingleLineCommentRules();
 
     bool isQuotedId(const QString &text,
                     const QRegularExpressionMatch & match) const;
+
+    void appendKeywords(const QStringList & words,
+                        const QTextCharFormat & format);
 
     struct HighlightingRule
     {
         QRegularExpression pattern;
         QTextCharFormat format;
     };
-    QVector<HighlightingRule> _reservedKeywordsRules;
+    QVector<HighlightingRule> _keywordsRules;
 
     QTextCharFormat _singleLineCommentFormat;
     QTextCharFormat _quotationFormat;
     QTextCharFormat _reservedKeywordFormat;
     QTextCharFormat _multiLineCommentFormat;
-
-    //QRegularExpression commentStartExpression;
-    //QRegularExpression commentEndExpression;
-
+    QTextCharFormat _boolLiteralsFormat;
+    QTextCharFormat _numericFormat;
+    QTextCharFormat _functionFormat;
 };
 
 } // namespace common

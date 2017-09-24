@@ -43,6 +43,12 @@ QStringList Connection::allDatabases(bool refresh /*= false */)
     return _allDatabasesCached.second;
 }
 
+void Connection::setAllDatabases(const QStringList & databases)
+{
+    _allDatabasesCached.first = true;
+    _allDatabasesCached.second = databases;
+}
+
 EntityListForDataBase * Connection::getDbEntities(const QString & dbName, bool refresh /*= false*/)
 {
     bool hasInCache = _databaseEntitiesCache.contains(dbName);

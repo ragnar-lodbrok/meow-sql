@@ -36,7 +36,8 @@ public:
     QString hostName() const { return _hostName; }
     QString userName() const { return _userName; }
     QString password() const { return _password; }
-    QString databases() const { return _databases; }
+    QString databases() const { return _databases; }   
+    QStringList databaseList() const;
     bool isLoginPrompt() const { return _loginPrompt; }
     quint16 port() const { return _port; }
     bool fullTableStatus() const { return true; }

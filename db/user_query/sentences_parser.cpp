@@ -256,7 +256,6 @@ QList<SentenceTokenPtr> SentencesParser::parseToTokens(
         // TODO detect identifiers started with "." e.g db.table_name
         // TODO detect numbers, (dates?) etc
         // TODO session vars & functions https://dev.mysql.com/doc/refman/5.6/en/hexadecimal-literals.html
-        // TODO TRUE/FALSE/NULL https://dev.mysql.com/doc/refman/5.6/en/expressions.html
         // TODO types
     }
 

@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <QRegularExpression>
 #include "db/connection_parameters.h"
 #include "db/connection_params_manager.h"
 #include "db/mysql_connection.h"
@@ -53,6 +54,7 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
     switch (_networkType) {
     case NetworkType::MySQL_TCPIP: {
         MySQLConnection * connection = new MySQLConnection(*this);
+        connection->setAllDatabases(databaseList());
         return ConnectionPtr(connection);
     }
     default:
@@ -60,6 +62,16 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
     }
     return nullptr;
 }
+
+QStringList meow::db::ConnectionParameters::databaseList() const
+{
+    QStringList list = _databases.split(
+        QRegularExpression(R"((\s)*;(\s)*)"), // by ";" and rm spaces
+        QString::SkipEmptyParts);
+    list.removeDuplicates();
+    return list;
+}
+
 
 namespace meow {
 namespace db {
@@ -100,7 +112,6 @@ QStringList networkTypeNames()
 
     return names;
 }
-
 
 } // namespace db
 } // namespace meow

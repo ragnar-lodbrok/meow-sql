@@ -44,6 +44,7 @@ public:
     QString getCell(const QString & SQL,const QString & columnName);
     QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String): TDBQuery;
     QStringList allDatabases(bool refresh = false);
+    void setAllDatabases(const QStringList & databases);
     EntityListForDataBase * getDbEntities(const QString & dbName, bool refresh = false);
 
     QString quoteIdentifier(const char * identifier, bool alwaysQuote = true,

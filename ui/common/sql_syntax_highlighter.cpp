@@ -10,29 +10,51 @@ namespace common {
 SQLSyntaxHighlighter::SQLSyntaxHighlighter(QTextDocument * parent)
     :QSyntaxHighlighter(parent)
 {
-    addReservedKeywordsRules();
-
     _singleLineCommentFormat.setForeground(QColor(149, 149, 158));
     _multiLineCommentFormat = _singleLineCommentFormat;
     _quotationFormat.setForeground(QColor(102, 153, 0));
     _reservedKeywordFormat.setForeground(QColor(0, 119, 170));
+    _boolLiteralsFormat.setForeground(QColor(153, 0, 85));
+    _numericFormat.setForeground(QColor(153, 0, 85));
+    _functionFormat.setForeground(QColor(221, 74, 104));
+
+    addKeywordsRules();
 }
 
-void SQLSyntaxHighlighter::addReservedKeywordsRules()
+void SQLSyntaxHighlighter::addKeywordsRules()
+{
+
+    QStringList reservedKeywords = meow::db::common::mySqlReservedKeywords();
+    QStringList boolLiterals = meow::db::common::mySqlBoolLiterals();
+
+    for (const QString &word : boolLiterals) {
+        reservedKeywords.removeOne(word);
+    }
+
+    appendKeywords(reservedKeywords, _reservedKeywordFormat);
+    appendKeywords(boolLiterals,     _boolLiteralsFormat);
+
+    //TODO: this is stupid but better than nothing
+    QString floatPattern(R"([-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)");
+    HighlightingRule rule;
+    rule.pattern = QRegularExpression(QString(R"(\b%1\b)").arg(floatPattern));
+    rule.format = _numericFormat;
+
+    _keywordsRules.append(rule);
+}
+
+void SQLSyntaxHighlighter::appendKeywords(
+    const QStringList & words,
+    const QTextCharFormat & format)
 {
     HighlightingRule rule;
 
-    QTextCharFormat keywordFormat;
-    keywordFormat.setForeground(QColor(0, 119, 170));
-
-    QStringList keywords = meow::db::common::mySqlReservedKeywords();
-
-    for (const QString &keyword : keywords) {
+    for (const QString &keyword : words) {
         QString pattern = QString(R"(\b%1\b)").arg(keyword);
         rule.pattern = QRegularExpression
                 (pattern, QRegularExpression::CaseInsensitiveOption);
-        rule.format = keywordFormat;
-        _reservedKeywordsRules.append(rule);
+        rule.format = format;
+        _keywordsRules.append(rule);
     }
 }
 
@@ -61,7 +83,7 @@ void SQLSyntaxHighlighter::highlightBlock(const QString &text)
 
             QString tokenText = text.mid(token->startIndex, token->len);
 
-            for (const HighlightingRule &rule : _reservedKeywordsRules) {
+            for (const HighlightingRule &rule : _keywordsRules) {
                 QRegularExpressionMatchIterator matchIterator =
                         rule.pattern.globalMatch(tokenText);
 

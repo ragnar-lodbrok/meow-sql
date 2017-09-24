@@ -174,6 +174,7 @@ void SettingsTab::onShowDatabaseListAction()
             QStringList enteredDatabases = _databasesEdit->text()
                 .remove(' ')
                 .split(db::databasesSeparator, QString::SkipEmptyParts); // hate regexps, but better rm all whitespaces
+            enteredDatabases.removeDuplicates();
 
             QMenu * listMenu = new QMenu;
 

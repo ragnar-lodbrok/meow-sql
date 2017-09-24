@@ -44,6 +44,12 @@ QStringList mySqlReservedKeywords()
     return list.split(",", QString::SkipEmptyParts);
 }
 
+QStringList mySqlBoolLiterals()
+{
+    QString list = "TRUE,FALSE,NULL";
+    return list.split(",", QString::SkipEmptyParts);
+}
+
 
 } // namespace common
 } // namespace db
