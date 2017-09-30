@@ -20,12 +20,12 @@ Connection * Entity::connection() const
 
 // --------------------------------------------------------------
 
-Entity * findParentEntityOfType(Entity * entity, Entity::Type type)
+Entity * findParentEntityOfType(const Entity * entity, Entity::Type type)
 {
     if (type == Entity::Type::None) {
         return nullptr;
     } else if (entity->type() == type) {
-        return entity;
+        return const_cast<Entity *>(entity);
     } else if (entity->parent()) {
         return findParentEntityOfType(entity->parent(), type);
     } else {
@@ -46,7 +46,7 @@ int childCountOfType(Entity * entity, Entity::Type type)
     return childCountOfType;
 }
 
-QString databaseName(Entity * entity)
+QString databaseName(const Entity *entity)
 {
     Entity * databaseEntity =
         findParentEntityOfType(entity, db::Entity::Type::Database);
@@ -58,7 +58,7 @@ QString databaseName(Entity * entity)
     return QString();
 }
 
-QString quotedName(Entity * entity)
+QString quotedName(const Entity * entity)
 {
     Connection * conn = entity->connection();
     if (conn) {
@@ -67,7 +67,7 @@ QString quotedName(Entity * entity)
     return entity->name();
 }
 
-QString quotedDatabaseName(Entity * entity)
+QString quotedDatabaseName(const Entity * entity)
 {
     QString database = databaseName(entity);
     Connection * conn = entity->connection();
@@ -77,7 +77,7 @@ QString quotedDatabaseName(Entity * entity)
     return database;
 }
 
-QString quotedFullName(Entity * entity)
+QString quotedFullName(const Entity * entity)
 {
     if (entity->type() == db::Entity::Type::Session ||
         entity->type() == db::Entity::Type::Database) {

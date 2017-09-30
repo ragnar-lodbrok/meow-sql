@@ -367,6 +367,41 @@ QueryDataFetcher * MySQLConnection::createQueryDataFetcher() // override
     return new MySQLQueryDataFetcher(this);
 }
 
+QString MySQLConnection::getCreateCode(const Entity * entity) // override
+{
+    QString typeStr;
+    int column = 1;
+
+    switch (entity->type()) {
+    case Entity::Type::Table:
+        typeStr = QString("TABLE");
+        column = 1;
+        break;
+    case Entity::Type::Function:
+        typeStr = QString("FUNCTION");
+        column = 2;
+        break;
+    case Entity::Type::Procedure:
+        typeStr = QString("PROCEDURE");
+        column = 2;
+        break;
+    case Entity::Type::Trigger:
+        typeStr = QString("TRIGGER");
+        column = 2;
+        break;
+    default:
+        qDebug() << "Unimplemented type in " << __FUNCTION__;
+        return QString();
+        break;
+    }
+
+    QString SQL = QString("SHOW CREATE %1 %2")
+            .arg(typeStr)
+            .arg(quotedFullName(entity));
+
+    return getCell(SQL, column);
+}
+
 MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)
 {
     return std::shared_ptr<MYSQL_RES> (nativeMySQLRes, [](MYSQL_RES * nativeMySQLRes) {

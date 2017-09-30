@@ -77,20 +77,20 @@ private:
 
 // finds nearest parent (or itself) entity of passed type (nullptr if not)
 // checks until root, ignores children
-Entity * findParentEntityOfType(Entity * entity, Entity::Type type);
+Entity * findParentEntityOfType(const Entity * entity, Entity::Type type);
 
 // returns count of children of passed type (1 level)
 int childCountOfType(Entity * entity, Entity::Type type);
 
 
-QString databaseName(Entity * entity);
+QString databaseName(const Entity * entity);
 
-QString quotedName(Entity * entity);
+QString quotedName(const Entity * entity);
 
-QString quotedDatabaseName(Entity * entity);
+QString quotedDatabaseName(const Entity * entity);
 
 // ex. `databaseName`.`entityName`
-QString quotedFullName(Entity * entity);
+QString quotedFullName(const Entity * entity);
 
 } // namespace db
 } // namespace meow

@@ -74,6 +74,7 @@ public:
             db::ulonglong offset = 0) = 0;
 
     virtual QueryDataFetcher * createQueryDataFetcher() = 0;
+    virtual QString getCreateCode(const Entity * entity) = 0;
 
     Q_SIGNAL void databaseChanged(const QString & database);
 
