@@ -91,7 +91,9 @@ SOURCES += main.cpp\
     ui/common/sql_syntax_highlighter.cpp \
     db/table_column.cpp \
     db/table_index.cpp \
-    db/foreign_key.cpp
+    db/foreign_key.cpp \
+    db/table_structure.cpp \
+    db/table_structure_parser.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -161,7 +163,9 @@ HEADERS  += app.h \
     ui/common/mysql_syntax.h \
     db/table_column.h \
     db/table_index.h \
-    db/foreign_key.h
+    db/foreign_key.h \
+    db/table_structure.h \
+    db/table_structure_parser.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

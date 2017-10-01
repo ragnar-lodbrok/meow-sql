@@ -1,6 +1,7 @@
 #include "connection.h"
 #include "query.h"
 #include "entity/entities_fetcher.h"
+#include "table_structure_parser.h"
 
 namespace meow {
 namespace db {
@@ -165,6 +166,12 @@ QString Connection::quoteIdentifier(const QString & identifier, bool alwaysQuote
 void Connection::emitDatabaseChanged(const QString& newName)
 {
     emit databaseChanged(newName);
+}
+
+void Connection::parseTableStructure(TableEntity * table) const
+{
+    TableStructureParser parser;
+    parser.run(table);
 }
 
 } // namespace db

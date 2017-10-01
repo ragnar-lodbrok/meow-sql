@@ -1,6 +1,7 @@
 #include "connections_manager.h"
 #include "connection.h"
 #include "user_query/user_query.h"
+#include "db/entity/table_entity.h"
 
 namespace meow {
 namespace db {
@@ -82,6 +83,12 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity)
             if (connection) {
                 QString dbName = databaseName(activeEntity);
                 connection->setDatabase(dbName);
+
+                // test only
+                if (activeEntity->type() == Entity::Type::Table) {
+                    TableEntity * table = static_cast<TableEntity *>(activeEntity);
+                    connection->parseTableStructure(table);
+                }
             }
         }
 

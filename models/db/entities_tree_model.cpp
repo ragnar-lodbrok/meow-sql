@@ -152,6 +152,7 @@ void EntitiesTreeModel::selectEntityAt(const QModelIndex &index)
 
     selectedEntity->setWasSelected(true);
     _dbConnectionsManager->setActiveEntity(selectedEntity);
+
 }
 
 } // namespace db

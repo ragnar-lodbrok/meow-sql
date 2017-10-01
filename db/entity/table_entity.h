@@ -2,6 +2,7 @@
 #define DB_TABLE_ENTITY_H
 
 #include "entity.h"
+#include "db/table_structure.h"
 
 namespace meow {
 namespace db {
@@ -32,6 +33,8 @@ public:
     db::ulonglong version() const { return _version; }
     void setVersion(db::ulonglong version) { _version = version; }
 
+    db::TableStructure * structure() const;
+
 private:
     QString _collation;
     QString _tableName;
@@ -39,6 +42,7 @@ private:
     db::ulonglong _rowsCount;
     db::ulonglong _dataSize;
     db::ulonglong _version;
+    mutable db::TableStructure * _structure;
 };
 
 } // namespace db

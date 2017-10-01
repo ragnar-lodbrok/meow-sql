@@ -62,12 +62,15 @@ public:
     QDateTime updated() const { return _updated; }
     void setUpdated(const QDateTime & updated) { _updated = updated; }
 
+    QString createCode(bool refresh = false);
+
 protected:
     Entity * _parent;
 private:
     bool _wasSelected;
     QDateTime _created;
     QDateTime _updated;
+    std::pair<bool, QString> _createCodeCached; // < cached?, data >
 };
 
 

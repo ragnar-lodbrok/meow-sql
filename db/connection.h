@@ -76,6 +76,8 @@ public:
     virtual QueryDataFetcher * createQueryDataFetcher() = 0;
     virtual QString getCreateCode(const Entity * entity) = 0;
 
+    void parseTableStructure(TableEntity * table) const;
+
     Q_SIGNAL void databaseChanged(const QString & database);
 
 protected:

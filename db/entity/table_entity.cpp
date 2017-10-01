@@ -10,7 +10,8 @@ TableEntity::TableEntity(const QString & tableName, DataBaseEntity * parent)
      _tableName(tableName),
      _rowsCount(0),
      _dataSize(0),
-     _version(0)
+     _version(0),
+     _structure(nullptr)
 {
 
 }
@@ -33,6 +34,14 @@ db::ulonglong TableEntity::rowsCount(bool refresh /*= false*/)
         _rowsCount = connection()->getRowCount(this);
     }
     return _rowsCount;
+}
+
+db::TableStructure * TableEntity::structure() const
+{
+    if (!_structure) {
+        _structure = new TableStructure();
+    }
+    return _structure;
 }
 
 } // namespace db

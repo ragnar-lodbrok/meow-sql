@@ -5,7 +5,8 @@ namespace db {
 
 Entity::Entity(Entity * parent /* = nullptr */):
     _parent(parent),
-    _wasSelected(false)
+    _wasSelected(false),
+    _createCodeCached(false, QString())
 {
 
 }
@@ -16,6 +17,18 @@ Connection * Entity::connection() const
         return _parent->connection();
     }
     return nullptr;
+}
+
+QString Entity::createCode(bool refresh)
+{
+    if (_createCodeCached.first == false || refresh) {
+        if (connection()) {
+            _createCodeCached.second = connection()->getCreateCode(this);
+            _createCodeCached.first = true;
+        }
+    }
+
+    return _createCodeCached.second;
 }
 
 // --------------------------------------------------------------
