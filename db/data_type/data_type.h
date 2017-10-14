@@ -2,6 +2,7 @@
 #define DB_DATA_TYPE_H
 
 #include <QString>
+#include <QMap>
 #include "data_type_category.h"
 
 namespace meow {
@@ -65,7 +66,7 @@ enum class DataTypeIndex {
     Uniqueidentifier,
     Hierarchyid,
     Point,
-    Linestring,
+    Linestring, // TODO: => LineString
     LineSegment,
     Polygon,
     Geometry,
@@ -79,6 +80,9 @@ enum class DataTypeIndex {
 };
 
 DataTypeCategoryIndex categoryOfDataType(DataTypeIndex type);
+
+using dataTypeNamesMap = QMap<DataTypeIndex, QString>;
+const dataTypeNamesMap & dataTypeNames();
 
 typedef struct DataType {
 

@@ -78,20 +78,21 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity)
     if (changed) {
         // TODO: Session changed
 
-        if (_activeEntity.databaseChanged()) {
-            Connection * connection = activeConnection();
-            if (connection) {
+        Connection * connection = activeConnection();
+
+        if (connection) {
+            if (_activeEntity.databaseChanged()) {
                 QString dbName = databaseName(activeEntity);
                 connection->setDatabase(dbName);
+            }
 
-                // test only
-                if (activeEntity->type() == Entity::Type::Table) {
-                    TableEntity * table = static_cast<TableEntity *>(activeEntity);
-                    connection->parseTableStructure(table);
-                }
+
+            // test only
+            if (activeEntity->type() == Entity::Type::Table) {
+                TableEntity * table = static_cast<TableEntity *>(activeEntity);
+                connection->parseTableStructure(table);
             }
         }
-
         emit activeEntityChanged(activeEntity);
     }
 }

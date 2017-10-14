@@ -22,6 +22,11 @@ class TableColumn
 {
 public:
     TableColumn();
+
+    void setName(const QString & name) { _name = name; }
+    QString name() const { return _name; }
+
+    operator QString() const;
 private:
     QString _name;
     DataTypeIndex _dataType; // TODO: DataType?

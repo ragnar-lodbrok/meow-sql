@@ -15,6 +15,7 @@ public:
     void run(TableEntity * table);
 private:
     void parseColumns(const QString & createSQL, QList<TableColumn *> & columns);
+    QString extractId(QString & columnString);
 };
 
 } // namespace db

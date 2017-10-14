@@ -54,7 +54,11 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
     switch (_networkType) {
     case NetworkType::MySQL_TCPIP: {
         MySQLConnection * connection = new MySQLConnection(*this);
-        connection->setAllDatabases(databaseList());
+        if (_databases.length() > 0) {
+            connection->setAllDatabases(databaseList());
+        } else {
+            connection->setUseAllDatabases();
+        }
         return ConnectionPtr(connection);
     }
     default:

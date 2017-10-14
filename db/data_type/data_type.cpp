@@ -82,3 +82,49 @@ meow::db::DataTypeCategoryIndex meow::db::categoryOfDataType(meow::db::DataTypeI
         return DataTypeCategoryIndex::None;
     }
 }
+
+const meow::db::dataTypeNamesMap & meow::db::dataTypeNames()
+{
+    // TODO: pass db type, now for mysql only
+    static dataTypeNamesMap map = {
+        {DataTypeIndex::TinyInt , "TINYINT"},
+        {DataTypeIndex::SmallInt , "SMALLINT"},
+        {DataTypeIndex::MediumInt , "MEDIUMINT"},
+        {DataTypeIndex::Int , "INT"},
+        {DataTypeIndex::BigInt , "BIGINT"},
+        {DataTypeIndex::Float , "FLOAT"},
+        {DataTypeIndex::Double , "DOUBLE"},
+        {DataTypeIndex::Decimal , "DECIMAL"},
+        {DataTypeIndex::Date , "DATE"},
+        {DataTypeIndex::Time , "TIME"},
+        {DataTypeIndex::Year , "YEAR"},
+        {DataTypeIndex::DateTime , "DATETIME"},
+        {DataTypeIndex::Timestamp , "TIMESTAMP"},
+        {DataTypeIndex::Char , "CHAR"},
+        {DataTypeIndex::Varchar , "VARCHAR"},
+        {DataTypeIndex::TinyText , "TINYTEXT"},
+        {DataTypeIndex::Text , "TEXT"},
+        {DataTypeIndex::MediumText , "MEDIUMTEXT"},
+        {DataTypeIndex::LongText , "LONGTEXT"},
+        {DataTypeIndex::Json , "JSON"},
+        {DataTypeIndex::Binary , "BINARY"},
+        {DataTypeIndex::Varbinary , "VARBINARY"},
+        {DataTypeIndex::Tinyblob , "TINYBLOB"},
+        {DataTypeIndex::Blob , "BLOB"},
+        {DataTypeIndex::Mediumblob , "MEDIUMBLOB"},
+        {DataTypeIndex::Longblob , "LONGBLOB"},
+        {DataTypeIndex::Enum , "ENUM"},
+        {DataTypeIndex::Set , "SET"},
+        {DataTypeIndex::Bit , "BIT"},
+        {DataTypeIndex::Point , "POINT"},
+        {DataTypeIndex::Linestring , "LINESTRING"},
+        {DataTypeIndex::Polygon , "POLYGON"},
+        {DataTypeIndex::Geometry , "GEOMETRY"},
+        {DataTypeIndex::Multipoint , "MULTIPOINT"},
+        {DataTypeIndex::Multilinestring , "MULTILINESTRING"},
+        {DataTypeIndex::Multipolygon , "MULTIPOLYGON"},
+        {DataTypeIndex::Geometrycollection , "GEOMETRYCOLLECTION"}
+    };
+
+    return map;
+}

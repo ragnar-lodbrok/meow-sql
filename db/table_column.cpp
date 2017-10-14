@@ -13,5 +13,10 @@ TableColumn::TableColumn()
 
 }
 
+TableColumn::operator QString() const
+{
+    return QString("name: %1").arg(_name);
+}
+
 } // namespace db
 } // namespace meow
