@@ -1,7 +1,7 @@
 #include "connection.h"
 #include "query.h"
 #include "entity/entities_fetcher.h"
-#include "table_structure_parser.h"
+
 
 namespace meow {
 namespace db {
@@ -176,8 +176,7 @@ void Connection::emitDatabaseChanged(const QString& newName)
 
 void Connection::parseTableStructure(TableEntity * table) const
 {
-    TableStructureParser parser;
-    parser.run(table);
+    _tableStructureParser.run(table);
 }
 
 } // namespace db

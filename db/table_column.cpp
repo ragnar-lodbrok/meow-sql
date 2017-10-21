@@ -15,7 +15,23 @@ TableColumn::TableColumn()
 
 TableColumn::operator QString() const
 {
-    return QString("name: %1").arg(_name);
+    QString str = QString("name: %1 type: %2")
+        .arg(_name)
+        .arg(dataTypeName(_dataType));
+
+    if (!_lengthSet.isEmpty()) {
+        str += QString(" len/set: ") + _lengthSet;
+    }
+
+    if (_unsigned) {
+        str += " UNSIGNED";
+    }
+
+    if (_zeroFill) {
+        str += " ZEROFILL";
+    }
+
+    return str;
 }
 
 } // namespace db

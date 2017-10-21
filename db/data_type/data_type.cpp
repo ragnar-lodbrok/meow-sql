@@ -128,3 +128,9 @@ const meow::db::dataTypeNamesMap & meow::db::dataTypeNames()
 
     return map;
 }
+
+const QString meow::db::dataTypeName(meow::db::DataTypeIndex typeIndex)
+{
+    const meow::db::dataTypeNamesMap & types = dataTypeNames();
+    return types.value(typeIndex, QString("UNKNOWN"));
+}

@@ -10,6 +10,7 @@
 #include "connection_parameters.h"
 #include "exception.h"
 #include "entity/entity_list_for_database.h"
+#include "table_structure_parser.h"
 
 namespace meow {
 namespace db {
@@ -103,6 +104,7 @@ private:
     //bool _loginPromptDone;
     //QString _databaseName;
     std::pair<bool, QStringList> _allDatabasesCached; // < cached?, data >
+    TableStructureParser _tableStructureParser;
 };
 
 } // namespace db

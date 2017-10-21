@@ -84,6 +84,8 @@ DataTypeCategoryIndex categoryOfDataType(DataTypeIndex type);
 using dataTypeNamesMap = QMap<DataTypeIndex, QString>;
 const dataTypeNamesMap & dataTypeNames();
 
+const QString dataTypeName(DataTypeIndex typeIndex);
+
 typedef struct DataType {
 
     DataType() : index(DataTypeIndex::None), nativeType(-1), name(), names(),
