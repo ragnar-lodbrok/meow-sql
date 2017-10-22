@@ -156,7 +156,7 @@ int ConnectionParamsModel::columnWidth(int column) const
     case Columns::Session:
         return 130;
     case Columns::Host:
-        return 80;
+        return 100;
     default:
         break;
     }

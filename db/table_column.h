@@ -38,6 +38,12 @@ public:
     void setIsZeroFill(bool isZeroFill) { _zeroFill = isZeroFill; }
     bool isZeroFill() const { return _zeroFill; }
 
+    void setCharset(const QString & charset) { _charset = charset; }
+    QString charset() const { return _charset; }
+
+    void setCollation(const QString & collation) { _collation = collation; }
+    QString collation() const { return _collation; }
+
     operator QString() const;
 private:
     QString _name;

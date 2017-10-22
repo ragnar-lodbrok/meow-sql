@@ -20,7 +20,7 @@ Window::Window(main_window::Window * mainWindow)
     createLeftSubWidgets();
     createRightSubWidgets();
 
-    resize(QSize(750, 364));
+    resize(QSize(760, 364));
 
     connect(_connectionParamsModel.data(),
             &meow::models::db::ConnectionParamsModel::selectedFormDataModified,
@@ -55,7 +55,7 @@ void Window::createMainLayout()
     _mainLayout->addWidget(_mainSplitter);
 
     _mainLeftWidget = new QWidget();
-    _mainLeftWidget->setMinimumSize(QSize(240, 400));
+    _mainLeftWidget->setMinimumSize(QSize(250, 400));
 
     _mainRightWidget = new QWidget();
     _mainRightWidget->setMinimumSize(QSize(350, 400));

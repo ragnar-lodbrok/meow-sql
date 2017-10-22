@@ -1,6 +1,5 @@
 #include "table_structure_parser.h"
 #include "db/entity/table_entity.h"
-#include <QRegularExpression>
 #include <QDebug>
 #include <algorithm>
 
@@ -8,16 +7,43 @@ namespace meow {
 namespace db {
 
 TableStructureParser::TableStructureParser()
+    :_wasInit(false),
+     _charsetRegexp(nullptr),
+     _collateRegexp(nullptr)
 {
+
 }
 
-void TableStructureParser::run(TableEntity * table) const
+TableStructureParser::~TableStructureParser()
 {
+    delete _charsetRegexp;
+    delete _collateRegexp;
+}
+
+void TableStructureParser::run(TableEntity * table)
+{
+    init();
 
     TableStructure * structure = table->structure();
     QString createSQL = table->createCode();
 
     parseColumns(createSQL, structure->columns());
+}
+
+void TableStructureParser::init()
+{
+    if (_wasInit) return;
+    _wasInit = true;
+
+    prepareTypes();
+
+    QString charsetRegexpStr = QString(R"(^CHARACTER SET (\w+)\b\s*)");
+    _charsetRegexp = new QRegularExpression(charsetRegexpStr,
+                     QRegularExpression::CaseInsensitiveOption);
+
+    QString collateRegexpStr = QString(R"(^COLLATE (\w+)\b\s*)");
+    _collateRegexp = new QRegularExpression(collateRegexpStr,
+                     QRegularExpression::CaseInsensitiveOption);
 }
 
 void TableStructureParser::parseColumns(const QString & createSQL,
@@ -59,6 +85,18 @@ void TableStructureParser::parseColumns(const QString & createSQL,
         column->setIsZeroFill(
             isStartsFromString(columnString, QString("ZEROFILL")));
 
+        columnString = columnString.trimmed();
+        column->setCharset(extractCharset(columnString));
+
+        columnString = columnString.trimmed();
+        column->setCollation(extractCollate(columnString));
+
+        // TODO: default collation when no collate
+        // TODO: virtual columns
+
+        columnString = columnString.trimmed();
+        column->setAllowNull(detectAllowNull(columnString));
+
         //qDebug() << "a:" << columnString;
 
         columns.append(column);
@@ -88,7 +126,7 @@ QString TableStructureParser::extractId(QString & columnString) const
 DataTypeIndex TableStructureParser::extractDataTypeByName(
     QString & columnString) const
 {
-    prepareTypes();
+
 
     int startPos = 0;
     int len = columnString.length();
@@ -109,7 +147,7 @@ DataTypeIndex TableStructureParser::extractDataTypeByName(
     return DataTypeIndex::None;
 }
 
-void TableStructureParser::prepareTypes() const
+void TableStructureParser::prepareTypes()
 {
     if (!_types.empty()) return;
 
@@ -184,6 +222,40 @@ bool TableStructureParser::isStartsFromString(
 
     columnString.remove(0, startPos);
     return false;
+}
+
+QString TableStructureParser::extractCharset(QString & columnString) const
+{
+    QRegularExpressionMatch match = _charsetRegexp->match(columnString);
+    if (match.hasMatch()) {
+        QString entireMatch = match.captured(0);
+        QString charsetMatch = match.captured(1);
+        columnString.remove(0, entireMatch.length());
+        return charsetMatch;
+    }
+    return QString();
+}
+
+QString TableStructureParser::extractCollate(QString & columnString) const
+{
+    QRegularExpressionMatch match = _collateRegexp->match(columnString);
+    if (match.hasMatch()) {
+        QString entireMatch = match.captured(0);
+        QString collateMatch = match.captured(1);
+        columnString.remove(0, entireMatch.length());
+        return collateMatch;
+    }
+    return QString();
+}
+
+bool TableStructureParser::detectAllowNull(QString & columnString) const
+{
+    if (isStartsFromString(columnString, "NOT NULL")) {
+        return false;
+    } else {
+        isStartsFromString(columnString, "NULL"); // to remove
+        return true;
+    }
 }
 
 } // namespace db

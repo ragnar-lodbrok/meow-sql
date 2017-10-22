@@ -174,7 +174,7 @@ void Connection::emitDatabaseChanged(const QString& newName)
     emit databaseChanged(newName);
 }
 
-void Connection::parseTableStructure(TableEntity * table) const
+void Connection::parseTableStructure(TableEntity * table)
 {
     _tableStructureParser.run(table);
 }

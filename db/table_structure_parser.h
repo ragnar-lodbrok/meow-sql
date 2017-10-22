@@ -4,6 +4,7 @@
 #include <QList>
 #include <QPair>
 #include "db/data_type/data_type.h"
+#include <QRegularExpression>
 
 namespace meow {
 namespace db {
@@ -15,16 +16,23 @@ class TableStructureParser
 {
 public:
     TableStructureParser();
-    void run(TableEntity * table) const;
+    ~TableStructureParser();
+    void run(TableEntity * table);
 private:
     void parseColumns(const QString & createSQL, QList<TableColumn *> & columns) const;
     QString extractId(QString & columnString) const;
     DataTypeIndex extractDataTypeByName(QString & columnString) const;
-    void prepareTypes() const;
+    void prepareTypes();
     QString extractLengthSet(QString & columnString) const;
     bool isStartsFromString(QString & columnString, const QString & needle) const;
+    void init();
+    QString extractCharset(QString & columnString) const;
+    QString extractCollate(QString & columnString) const;
 
-    mutable QList<QPair<QString, DataTypeIndex>> _types;
+    QList<QPair<QString, DataTypeIndex>> _types;
+    bool _wasInit;
+    QRegularExpression * _charsetRegexp;
+    QRegularExpression * _collateRegexp;
 };
 
 } // namespace db

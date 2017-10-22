@@ -31,6 +31,14 @@ TableColumn::operator QString() const
         str += " ZEROFILL";
     }
 
+    if (!_charset.isEmpty()) {
+        str += " charset: " + _charset;
+    }
+
+    if (!_collation.isEmpty()) {
+        str += " collate: " + _collation;
+    }
+
     return str;
 }
 
