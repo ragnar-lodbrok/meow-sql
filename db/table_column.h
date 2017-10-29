@@ -18,6 +18,8 @@ enum class ColumnDefaultType {
     AutoInc
 };
 
+const QString columnDefaultType2String(ColumnDefaultType type);
+
 class TableColumn
 {
 public:
@@ -43,6 +45,15 @@ public:
 
     void setCollation(const QString & collation) { _collation = collation; }
     QString collation() const { return _collation; }
+
+    void setAllowNull(bool allowNull) { _allowNull = allowNull; }
+    bool isAllowNull() const { return _allowNull; }
+
+    void setDefaultType(ColumnDefaultType type) { _defaultType = type; }
+    ColumnDefaultType defaultType() const { return _defaultType; }
+
+    void setDefaultText(const QString & text) { _defaultText = text; }
+    QString defaultText() const { return _defaultText; }
 
     operator QString() const;
 private:

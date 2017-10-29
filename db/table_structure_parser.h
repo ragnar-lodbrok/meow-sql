@@ -28,11 +28,18 @@ private:
     void init();
     QString extractCharset(QString & columnString) const;
     QString extractCollate(QString & columnString) const;
+    bool detectAllowNull(QString & columnString) const;
+    void parseDefault(QString & columnString, TableColumn * column) const;
+    bool checkForOnUpdateCurTs(QString & columnString) const;
 
     QList<QPair<QString, DataTypeIndex>> _types;
     bool _wasInit;
     QRegularExpression * _charsetRegexp;
     QRegularExpression * _collateRegexp;
+    QRegularExpression * _defaultCurTSRegexp;
+    QRegularExpression * _qoutedStrRegexp;
+    QRegularExpression * _defaultOnUpdCurTSRegexp;
+    QRegularExpression * _firstWordRegexp;
 };
 
 } // namespace db

@@ -15,12 +15,12 @@ TableColumn::TableColumn()
 
 TableColumn::operator QString() const
 {
-    QString str = QString("name: %1 type: %2")
+    QString str = QString("name:%1 type:%2")
         .arg(_name)
         .arg(dataTypeName(_dataType));
 
     if (!_lengthSet.isEmpty()) {
-        str += QString(" len/set: ") + _lengthSet;
+        str += QString(" len/set:") + _lengthSet;
     }
 
     if (_unsigned) {
@@ -32,14 +32,54 @@ TableColumn::operator QString() const
     }
 
     if (!_charset.isEmpty()) {
-        str += " charset: " + _charset;
+        str += " charset:" + _charset;
     }
 
     if (!_collation.isEmpty()) {
-        str += " collate: " + _collation;
+        str += " collate:" + _collation;
+    }
+
+    if (_defaultType != ColumnDefaultType::None) {
+        str += " default:" + columnDefaultType2String(_defaultType);
+        if (_defaultType == ColumnDefaultType::Text
+                || _defaultType == ColumnDefaultType::TextUpdateTS) {
+            str += " '" + _defaultText + "'";
+        }
     }
 
     return str;
+}
+
+const QString columnDefaultType2String(ColumnDefaultType type)
+{
+    switch (type) {
+    case ColumnDefaultType::None:
+        return "None";
+
+    case ColumnDefaultType::Text:
+        return "Text";
+
+    case ColumnDefaultType::TextUpdateTS:
+        return "Text ON UPDATE CURRENT_TIMESTAMP";
+
+    case ColumnDefaultType::Null:
+        return "NULL";
+
+    case ColumnDefaultType::NullUpdateTS:
+        return "NULL ON UPDATE CURRENT_TIMESTAMP";
+
+    case ColumnDefaultType::CurTS:
+        return "CURRENT_TIMESTAMP";
+
+    case ColumnDefaultType::CurTSUpdateTS:
+        return "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP";
+
+    case ColumnDefaultType::AutoInc:
+        return "AUTO_INCREMENT";
+
+    default:
+        return "UNKNOWN";
+    }
 }
 
 } // namespace db

@@ -9,7 +9,11 @@ namespace db {
 TableStructureParser::TableStructureParser()
     :_wasInit(false),
      _charsetRegexp(nullptr),
-     _collateRegexp(nullptr)
+     _collateRegexp(nullptr),
+     _defaultCurTSRegexp(nullptr),
+     _qoutedStrRegexp(nullptr),
+     _defaultOnUpdCurTSRegexp(nullptr),
+     _firstWordRegexp(nullptr)
 {
 
 }
@@ -18,6 +22,9 @@ TableStructureParser::~TableStructureParser()
 {
     delete _charsetRegexp;
     delete _collateRegexp;
+    delete _defaultCurTSRegexp;
+    delete _qoutedStrRegexp;
+    delete _defaultOnUpdCurTSRegexp;
 }
 
 void TableStructureParser::run(TableEntity * table)
@@ -44,6 +51,21 @@ void TableStructureParser::init()
     QString collateRegexpStr = QString(R"(^COLLATE (\w+)\b\s*)");
     _collateRegexp = new QRegularExpression(collateRegexpStr,
                      QRegularExpression::CaseInsensitiveOption);
+
+    // DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+    QString defaultRegexpStrCurTS = R"(CURRENT_TIMESTAMP(\(\d+\))?)";
+    QString defaultRegexpStrQuotedStr = R"(\'(\\.|[^\'])\')"; // TODO: eg 'jon''s' does not work
+    QString defaultRegexpStrOnUpdCurTs = R"(\s+ON\s+UPDATE\s+CURRENT_TIMESTAMP(\(\d+\))?)";
+    QString firstWordRegexp = R"(^(\w+))";
+
+    _defaultCurTSRegexp = new QRegularExpression(defaultRegexpStrCurTS,
+                          QRegularExpression::CaseInsensitiveOption);
+    _defaultOnUpdCurTSRegexp = new QRegularExpression(defaultRegexpStrOnUpdCurTs,
+                               QRegularExpression::CaseInsensitiveOption);
+    _qoutedStrRegexp = new QRegularExpression(defaultRegexpStrQuotedStr,
+                       QRegularExpression::CaseInsensitiveOption);
+
+    _firstWordRegexp = new QRegularExpression(firstWordRegexp);
 }
 
 void TableStructureParser::parseColumns(const QString & createSQL,
@@ -55,7 +77,7 @@ void TableStructureParser::parseColumns(const QString & createSQL,
     //     `phone` VARCHAR(20) NOT NULL, #1
 
     QString quotesRegexpStr = "[`]"; // TODO: mysql specific!
-    QString columnLineRegexpStr = QString(
+    QString columnLineRegexpStr = QString( // TODO: create regexp once
         R"(^\s+(%1.+),?$)" // #1
     ).arg(quotesRegexpStr);
     QRegularExpression columnLineRegexp =
@@ -67,15 +89,21 @@ void TableStructureParser::parseColumns(const QString & createSQL,
         QRegularExpressionMatch columnMatch = regExpIt.next();
         QString columnString = columnMatch.captured(1);
 
-        //qDebug () << columnString;
+        //qDebug () << "\n\n" << columnString;
 
         TableColumn * column = new TableColumn();
 
         column->setName(extractId(columnString));
-        if (column->name().isEmpty()) continue;
+        if (column->name().isEmpty()) {
+            delete column;
+            continue;
+        }
 
         column->setDataType(extractDataTypeByName(columnString));
-        if (column->dataType() == DataTypeIndex::None) continue;
+        if (column->dataType() == DataTypeIndex::None) {
+            delete column;
+            continue;
+        }
 
         column->setLengthSet(extractLengthSet(columnString));
 
@@ -96,6 +124,8 @@ void TableStructureParser::parseColumns(const QString & createSQL,
 
         columnString = columnString.trimmed();
         column->setAllowNull(detectAllowNull(columnString));
+
+        parseDefault(columnString, column);
 
         //qDebug() << "a:" << columnString;
 
@@ -256,6 +286,87 @@ bool TableStructureParser::detectAllowNull(QString & columnString) const
         isStartsFromString(columnString, "NULL"); // to remove
         return true;
     }
+}
+
+void TableStructureParser::parseDefault(QString & columnString, TableColumn * column) const
+{
+    // AUTO_INCREMENT
+    // DEFAULT NULL,
+    // DEFAULT '19.99'
+    // DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    bool isAutoIncrement = isStartsFromString(columnString, "AUTO_INCREMENT");
+
+    if (isAutoIncrement) {
+        column->setDefaultType(ColumnDefaultType::AutoInc);
+        column->setDefaultText("AUTO_INCREMENT");
+        return;
+    }
+
+    bool hasDefault = isStartsFromString(columnString, "DEFAULT ");
+    if (hasDefault == false) {
+        return;
+    }
+
+    bool inLiteral = columnString.startsWith("'")
+                  || columnString.startsWith("b'")
+                  || columnString.startsWith("('"); //?
+
+    if (!inLiteral) {
+        if (isStartsFromString(columnString, "NULL")) {
+            column->setDefaultType(ColumnDefaultType::Null);
+            column->setDefaultText("NULL");
+            if (checkForOnUpdateCurTs(columnString)) {
+                column->setDefaultType(ColumnDefaultType::NullUpdateTS);
+            }
+            return;
+        }
+        QRegularExpressionMatch matchCurTS = _defaultCurTSRegexp->match(columnString);
+        if (matchCurTS.hasMatch()) {
+            columnString.remove(0, matchCurTS.capturedLength(0));
+            column->setDefaultType(ColumnDefaultType::CurTS);
+            column->setDefaultText("CURRENT_TIMESTAMP");
+            if (checkForOnUpdateCurTs(columnString)) {
+                column->setDefaultType(ColumnDefaultType::CurTSUpdateTS);
+            }
+            return;
+        }
+        auto matchFirstWord = _firstWordRegexp->match(columnString);
+        if (matchFirstWord.hasMatch()) {
+            QString defaultText = matchFirstWord.captured(0);
+            column->setDefaultType(ColumnDefaultType::Text);
+            column->setDefaultText(defaultText);
+            columnString.remove(0, matchFirstWord.capturedLength(0));
+            if (checkForOnUpdateCurTs(columnString)) {
+                column->setDefaultType(ColumnDefaultType::TextUpdateTS);
+            }
+            return;
+        }
+    } else {
+        QRegularExpressionMatch matchText = _qoutedStrRegexp->match(columnString);
+        if (matchText.hasMatch()) {
+            column->setDefaultType(ColumnDefaultType::Text);
+            QString defaultText = matchText.captured(1);
+            // TODO: unescape text
+            column->setDefaultText(defaultText);
+            columnString.remove(0, matchText.capturedLength(0));
+        }
+        if (checkForOnUpdateCurTs(columnString)) {
+            column->setDefaultType(ColumnDefaultType::TextUpdateTS);
+        }
+        return;
+    }
+
+}
+
+bool TableStructureParser::checkForOnUpdateCurTs(QString & columnString) const
+{
+    auto match = _defaultOnUpdCurTSRegexp->match(columnString);
+    if (match.hasMatch()) {
+        columnString.remove(0, match.capturedLength(0));
+        return true;
+    }
+    return false;
 }
 
 } // namespace db
