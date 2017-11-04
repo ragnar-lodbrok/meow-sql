@@ -11,9 +11,9 @@ TableStructureParser::TableStructureParser()
      _charsetRegexp(nullptr),
      _collateRegexp(nullptr),
      _defaultCurTSRegexp(nullptr),
-     _qoutedStrRegexp(nullptr),
      _defaultOnUpdCurTSRegexp(nullptr),
-     _firstWordRegexp(nullptr)
+     _firstWordRegexp(nullptr),
+     _indiciesKeysRegexp(nullptr)
 {
 
 }
@@ -23,8 +23,9 @@ TableStructureParser::~TableStructureParser()
     delete _charsetRegexp;
     delete _collateRegexp;
     delete _defaultCurTSRegexp;
-    delete _qoutedStrRegexp;
     delete _defaultOnUpdCurTSRegexp;
+    delete _firstWordRegexp;
+    delete _indiciesKeysRegexp;
 }
 
 void TableStructureParser::run(TableEntity * table)
@@ -35,6 +36,7 @@ void TableStructureParser::run(TableEntity * table)
     QString createSQL = table->createCode();
 
     parseColumns(createSQL, structure->columns());
+    parseKeysIndicies(createSQL, structure->indicies());
 }
 
 void TableStructureParser::init()
@@ -54,18 +56,22 @@ void TableStructureParser::init()
 
     // DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
     QString defaultRegexpStrCurTS = R"(CURRENT_TIMESTAMP(\(\d+\))?)";
-    QString defaultRegexpStrQuotedStr = R"(\'(\\.|[^\'])\')"; // TODO: eg 'jon''s' does not work
     QString defaultRegexpStrOnUpdCurTs = R"(\s+ON\s+UPDATE\s+CURRENT_TIMESTAMP(\(\d+\))?)";
     QString firstWordRegexp = R"(^(\w+))";
+
+    QString quotesStr = "`";
+    QString keysRegexpStr1 =
+        QString(R"(^\s+((\w+)\s+)?KEY\s+([%1]?([^%1]+)[%1]?\s+)?)").arg(quotesStr);
+    QString keysRegexpStr2 =
+        QString(R"(((USING|TYPE)\s+(\w+)\s+)?\((.+)\)(\s+USING\s+(\w+))?(\s+KEY_BLOCK_SIZE(\s|\=)+\d+)?,?$)");
 
     _defaultCurTSRegexp = new QRegularExpression(defaultRegexpStrCurTS,
                           QRegularExpression::CaseInsensitiveOption);
     _defaultOnUpdCurTSRegexp = new QRegularExpression(defaultRegexpStrOnUpdCurTs,
                                QRegularExpression::CaseInsensitiveOption);
-    _qoutedStrRegexp = new QRegularExpression(defaultRegexpStrQuotedStr,
-                       QRegularExpression::CaseInsensitiveOption);
-
     _firstWordRegexp = new QRegularExpression(firstWordRegexp);
+    _indiciesKeysRegexp = new QRegularExpression(keysRegexpStr1 + keysRegexpStr2,
+        QRegularExpression::CaseInsensitiveOption | QRegularExpression::MultilineOption);
 }
 
 void TableStructureParser::parseColumns(const QString & createSQL,
@@ -88,8 +94,6 @@ void TableStructureParser::parseColumns(const QString & createSQL,
     while (regExpIt.hasNext()) {
         QRegularExpressionMatch columnMatch = regExpIt.next();
         QString columnString = columnMatch.captured(1);
-
-        //qDebug () << "\n\n" << columnString;
 
         TableColumn * column = new TableColumn();
 
@@ -125,13 +129,53 @@ void TableStructureParser::parseColumns(const QString & createSQL,
         columnString = columnString.trimmed();
         column->setAllowNull(detectAllowNull(columnString));
 
-        parseDefault(columnString, column);
+        columnString = parseDefault(columnString, column);
 
-        //qDebug() << "a:" << columnString;
+        columnString = parseComment(columnString, column);
 
         columns.append(column);
 
         //qDebug() << column->operator QString();
+    }
+}
+
+void TableStructureParser::parseKeysIndicies(
+    const QString & createSQL,
+    QList<TableIndex *> & indicies) const
+{
+    auto regExpIt = _indiciesKeysRegexp->globalMatch(createSQL);
+
+    while (regExpIt.hasNext()) {
+        QRegularExpressionMatch keyMatch = regExpIt.next();
+        QString keyName = keyMatch.captured(4);
+        QString indexClassStr = keyMatch.captured(2);
+        QString indexTypeStr;
+        if ( ! keyMatch.captured(6).isEmpty()) {
+            indexTypeStr = keyMatch.captured(7);
+        } else {
+            indexTypeStr = keyMatch.captured(10);
+        }
+        QString indexColumns = keyMatch.captured(8);
+
+        if (keyName.isEmpty()) {
+            keyName = indexClassStr;
+        }
+        if (keyName.isEmpty()) continue;
+
+        TableIndex * index = new TableIndex;
+        index->setName(keyName);
+        index->setClassType(indexClassStr);
+        if (index->classType() == TableIndexClass::None) {
+            index->setClassType(TableIndexClass::Key);
+        }
+        index->setIndexType(indexTypeStr);
+        index->columns() = indexColumns.split(',', QString::SkipEmptyParts);
+
+        // TODO: subparts
+
+        //qDebug() << index->operator QString();
+
+        indicies.append(index);
     }
 }
 
@@ -156,7 +200,6 @@ QString TableStructureParser::extractId(QString & columnString) const
 DataTypeIndex TableStructureParser::extractDataTypeByName(
     QString & columnString) const
 {
-
 
     int startPos = 0;
     int len = columnString.length();
@@ -288,7 +331,9 @@ bool TableStructureParser::detectAllowNull(QString & columnString) const
     }
 }
 
-void TableStructureParser::parseDefault(QString & columnString, TableColumn * column) const
+QString TableStructureParser::parseDefault(
+        QString & columnString,
+        TableColumn * column) const
 {
     // AUTO_INCREMENT
     // DEFAULT NULL,
@@ -300,12 +345,12 @@ void TableStructureParser::parseDefault(QString & columnString, TableColumn * co
     if (isAutoIncrement) {
         column->setDefaultType(ColumnDefaultType::AutoInc);
         column->setDefaultText("AUTO_INCREMENT");
-        return;
+        return columnString;
     }
 
     bool hasDefault = isStartsFromString(columnString, "DEFAULT ");
     if (hasDefault == false) {
-        return;
+        return columnString;
     }
 
     bool inLiteral = columnString.startsWith("'")
@@ -319,7 +364,7 @@ void TableStructureParser::parseDefault(QString & columnString, TableColumn * co
             if (checkForOnUpdateCurTs(columnString)) {
                 column->setDefaultType(ColumnDefaultType::NullUpdateTS);
             }
-            return;
+            return columnString;
         }
         QRegularExpressionMatch matchCurTS = _defaultCurTSRegexp->match(columnString);
         if (matchCurTS.hasMatch()) {
@@ -329,7 +374,7 @@ void TableStructureParser::parseDefault(QString & columnString, TableColumn * co
             if (checkForOnUpdateCurTs(columnString)) {
                 column->setDefaultType(ColumnDefaultType::CurTSUpdateTS);
             }
-            return;
+            return columnString;
         }
         auto matchFirstWord = _firstWordRegexp->match(columnString);
         if (matchFirstWord.hasMatch()) {
@@ -340,23 +385,80 @@ void TableStructureParser::parseDefault(QString & columnString, TableColumn * co
             if (checkForOnUpdateCurTs(columnString)) {
                 column->setDefaultType(ColumnDefaultType::TextUpdateTS);
             }
-            return;
+            return columnString;
         }
     } else {
-        QRegularExpressionMatch matchText = _qoutedStrRegexp->match(columnString);
-        if (matchText.hasMatch()) {
-            column->setDefaultType(ColumnDefaultType::Text);
-            QString defaultText = matchText.captured(1);
+        columnString = columnString.trimmed();
+        QString defaultText = matchQuotedStr(columnString);
+        if (!defaultText.isNull()) {
             // TODO: unescape text
             column->setDefaultText(defaultText);
-            columnString.remove(0, matchText.capturedLength(0));
+            column->setDefaultType(ColumnDefaultType::Text);
         }
+        columnString = columnString.trimmed();
         if (checkForOnUpdateCurTs(columnString)) {
             column->setDefaultType(ColumnDefaultType::TextUpdateTS);
         }
-        return;
+        return columnString;
     }
 
+    return columnString;
+}
+
+QString TableStructureParser::parseComment(
+        QString & columnString,
+        TableColumn * column) const
+{
+    if (isStartsFromString(columnString, "COMMENT")) {
+        QString str = columnString.trimmed();
+        QString commentStr = matchQuotedStr(str);
+        if (!commentStr.isNull()) {
+            column->setComment(commentStr);
+        }
+        return str;
+    }
+
+    return columnString;
+}
+
+QString TableStructureParser::matchQuotedStr(QString & str) const
+{
+    // 'string'
+    // 'str''ing'
+    // TODO: more eg escapes?
+
+    int start = -1;
+    int stop = -1;
+    int len = str.length();
+    bool inString = false;
+    const QChar QUOTE = QChar('\'');
+
+    for (int i=0; i<len; ++i) {
+        const QChar curChar = str.at(i);
+        if (curChar == QUOTE) {
+            if (!inString) {
+                inString = true;
+                start = i;
+            } else {
+                const QChar nextChar = ((i+1) < len) ? str.at(i+1) : QChar();
+                if (nextChar != QUOTE) {
+                    stop = i;
+                    break;
+                } else {
+                    i += 2;
+                }
+            }
+        }
+    }
+
+    int matchLen = stop - start - 1;
+    if (matchLen >= 0) {
+         QString match = str.mid(start + 1, matchLen);
+         str.remove(0, stop + 1);
+         return match;
+    }
+
+    return QString();
 }
 
 bool TableStructureParser::checkForOnUpdateCurTs(QString & columnString) const

@@ -55,6 +55,9 @@ public:
     void setDefaultText(const QString & text) { _defaultText = text; }
     QString defaultText() const { return _defaultText; }
 
+    void setComment(const QString & comment) { _comment = comment; }
+    QString comment() const { return _comment; }
+
     operator QString() const;
 private:
     QString _name;

@@ -11,6 +11,8 @@ namespace db {
 
 class TableEntity;
 class TableColumn;
+class TableIndex;
+class ForeignKey;
 
 class TableStructureParser
 {
@@ -20,6 +22,8 @@ public:
     void run(TableEntity * table);
 private:
     void parseColumns(const QString & createSQL, QList<TableColumn *> & columns) const;
+    void parseKeysIndicies(const QString & createSQL, QList<TableIndex *> & indicies) const;
+
     QString extractId(QString & columnString) const;
     DataTypeIndex extractDataTypeByName(QString & columnString) const;
     void prepareTypes();
@@ -29,17 +33,19 @@ private:
     QString extractCharset(QString & columnString) const;
     QString extractCollate(QString & columnString) const;
     bool detectAllowNull(QString & columnString) const;
-    void parseDefault(QString & columnString, TableColumn * column) const;
+    QString parseDefault(QString & columnString, TableColumn * column) const;
     bool checkForOnUpdateCurTs(QString & columnString) const;
+    QString matchQuotedStr(QString & columnString) const;
+    QString parseComment(QString & columnString, TableColumn * column) const;
 
     QList<QPair<QString, DataTypeIndex>> _types;
     bool _wasInit;
     QRegularExpression * _charsetRegexp;
     QRegularExpression * _collateRegexp;
     QRegularExpression * _defaultCurTSRegexp;
-    QRegularExpression * _qoutedStrRegexp;
     QRegularExpression * _defaultOnUpdCurTSRegexp;
     QRegularExpression * _firstWordRegexp;
+    QRegularExpression * _indiciesKeysRegexp;
 };
 
 } // namespace db

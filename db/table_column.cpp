@@ -47,6 +47,10 @@ TableColumn::operator QString() const
         }
     }
 
+    if (!_comment.isNull()) {
+        str += " comment:" + _comment;
+    }
+
     return str;
 }
 
