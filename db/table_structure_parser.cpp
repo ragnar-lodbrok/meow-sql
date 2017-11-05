@@ -13,7 +13,8 @@ TableStructureParser::TableStructureParser()
      _defaultCurTSRegexp(nullptr),
      _defaultOnUpdCurTSRegexp(nullptr),
      _firstWordRegexp(nullptr),
-     _indiciesKeysRegexp(nullptr)
+     _indiciesKeysRegexp(nullptr),
+     _foreignKeysRegexp(nullptr)
 {
 
 }
@@ -26,6 +27,7 @@ TableStructureParser::~TableStructureParser()
     delete _defaultOnUpdCurTSRegexp;
     delete _firstWordRegexp;
     delete _indiciesKeysRegexp;
+    delete _foreignKeysRegexp;
 }
 
 void TableStructureParser::run(TableEntity * table)
@@ -37,6 +39,7 @@ void TableStructureParser::run(TableEntity * table)
 
     parseColumns(createSQL, structure->columns());
     parseKeysIndicies(createSQL, structure->indicies());
+    parseForeignKeys(createSQL, structure->foreighKeys());
 }
 
 void TableStructureParser::init()
@@ -45,6 +48,8 @@ void TableStructureParser::init()
     _wasInit = true;
 
     prepareTypes();
+
+    // many thanks to this site: https://regex101.com/ :)
 
     QString charsetRegexpStr = QString(R"(^CHARACTER SET (\w+)\b\s*)");
     _charsetRegexp = new QRegularExpression(charsetRegexpStr,
@@ -65,6 +70,18 @@ void TableStructureParser::init()
     QString keysRegexpStr2 =
         QString(R"(((USING|TYPE)\s+(\w+)\s+)?\((.+)\)(\s+USING\s+(\w+))?(\s+KEY_BLOCK_SIZE(\s|\=)+\d+)?,?$)");
 
+    // CONSTRAINT `FK1` FOREIGN KEY (`which`)
+    // REFERENCES `fk1` (`id`)
+    // ON DELETE SET NULL ON UPDATE CASCADE
+    QString fKeysRegexpStrFK =
+        QString(R"(\s+CONSTRAINT\s+[%1]([^%1]+)[%1]\sFOREIGN KEY\s+\(([^\)]+)\))").arg(quotesStr);
+    QString fKeysRegexpStrRef =
+        QString(R"(\s+REFERENCES\s+[%1]([^\(]+)[%1]\s\(([^\)]+)\))").arg(quotesStr);
+    QString fKeysRegexpStrRefOnDel =
+        QString(R"((\s+ON DELETE (RESTRICT|CASCADE|SET NULL|NO ACTION|SET DEFAULT))?)");
+    QString fKeysRegexpStrRefOnUpd =
+        QString(R"((\s+ON UPDATE (RESTRICT|CASCADE|SET NULL|NO ACTION|SET DEFAULT))?)");
+
     _defaultCurTSRegexp = new QRegularExpression(defaultRegexpStrCurTS,
                           QRegularExpression::CaseInsensitiveOption);
     _defaultOnUpdCurTSRegexp = new QRegularExpression(defaultRegexpStrOnUpdCurTs,
@@ -72,6 +89,10 @@ void TableStructureParser::init()
     _firstWordRegexp = new QRegularExpression(firstWordRegexp);
     _indiciesKeysRegexp = new QRegularExpression(keysRegexpStr1 + keysRegexpStr2,
         QRegularExpression::CaseInsensitiveOption | QRegularExpression::MultilineOption);
+
+    _foreignKeysRegexp = new QRegularExpression(
+        fKeysRegexpStrFK + fKeysRegexpStrRef + fKeysRegexpStrRefOnDel + fKeysRegexpStrRefOnUpd,
+        QRegularExpression::CaseInsensitiveOption);
 }
 
 void TableStructureParser::parseColumns(const QString & createSQL,
@@ -179,18 +200,49 @@ void TableStructureParser::parseKeysIndicies(
     }
 }
 
-QString TableStructureParser::extractId(QString & columnString) const
+void TableStructureParser::parseForeignKeys(
+    const QString & createSQL,
+    QList<ForeignKey *> & fKeys) const
+{
+    auto regExpIt = _foreignKeysRegexp->globalMatch(createSQL);
+
+    while (regExpIt.hasNext()) {
+        QRegularExpressionMatch keyMatch = regExpIt.next();
+
+        QString keyName = keyMatch.captured(1);
+        QString columnsStr = keyMatch.captured(2);
+        QString refTable = keyMatch.captured(3);
+        QString fColumnsStr = keyMatch.captured(4);
+        QString onDeleteStr = keyMatch.captured(6);
+        QString onUpdateStr = keyMatch.captured(8);
+
+        ForeignKey * fKey = new ForeignKey;
+        fKey->setName(keyName);
+        fKey->setReferenceTable(refTable);
+        fKey->columns() = explodeQuotedList(columnsStr);
+        fKey->referenceColumns() = explodeQuotedList(fColumnsStr);
+        fKey->setOnDelete(onDeleteStr);
+        fKey->setOnUpdate(onUpdateStr);
+
+        fKeys.append(fKey);
+
+    }
+}
+
+QString TableStructureParser::extractId(QString & str, bool remove) const
 {
     const QChar quote('`');
 
-    const int leftPos = columnString.indexOf(quote, 0, Qt::CaseInsensitive) + 1;
+    const int leftPos = str.indexOf(quote, 0, Qt::CaseInsensitive) + 1;
 
     if (leftPos > 0) {
         const int rightPos =
-            columnString.indexOf(quote, leftPos, Qt::CaseInsensitive) - 1;
+            str.indexOf(quote, leftPos, Qt::CaseInsensitive) - 1;
         if (rightPos > leftPos) {
-            QString result = columnString.mid(leftPos, rightPos - leftPos + 1);
-            columnString.remove(0, rightPos + 2);
+            QString result = str.mid(leftPos, rightPos - leftPos + 1);
+            if (remove) {
+                str.remove(0, rightPos + 2);
+            }
             return result;
         }
     }
@@ -469,6 +521,19 @@ bool TableStructureParser::checkForOnUpdateCurTs(QString & columnString) const
         return true;
     }
     return false;
+}
+
+QStringList TableStructureParser::explodeQuotedList(QString & str) const
+{
+    QStringList result;
+    QStringList rawRes = str.split(',');
+    for (auto & rawItem : rawRes) {
+        QString item = extractId(rawItem);
+        if (item.length()) {
+            result.append(item);
+        }
+    }
+    return result;
 }
 
 } // namespace db

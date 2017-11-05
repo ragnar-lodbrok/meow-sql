@@ -23,8 +23,9 @@ public:
 private:
     void parseColumns(const QString & createSQL, QList<TableColumn *> & columns) const;
     void parseKeysIndicies(const QString & createSQL, QList<TableIndex *> & indicies) const;
+    void parseForeignKeys(const QString & createSQL, QList<ForeignKey *> & fKeys) const;
 
-    QString extractId(QString & columnString) const;
+    QString extractId(QString & str, bool remove = true) const;
     DataTypeIndex extractDataTypeByName(QString & columnString) const;
     void prepareTypes();
     QString extractLengthSet(QString & columnString) const;
@@ -37,6 +38,7 @@ private:
     bool checkForOnUpdateCurTs(QString & columnString) const;
     QString matchQuotedStr(QString & columnString) const;
     QString parseComment(QString & columnString, TableColumn * column) const;
+    QStringList explodeQuotedList(QString & str) const;
 
     QList<QPair<QString, DataTypeIndex>> _types;
     bool _wasInit;
@@ -46,6 +48,7 @@ private:
     QRegularExpression * _defaultOnUpdCurTSRegexp;
     QRegularExpression * _firstWordRegexp;
     QRegularExpression * _indiciesKeysRegexp;
+    QRegularExpression * _foreignKeysRegexp;
 };
 
 } // namespace db

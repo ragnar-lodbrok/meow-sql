@@ -13,7 +13,7 @@ class ForeignKey
 public:
 
     enum class ReferenceOption {
-        NoAction,  // NO ACTION
+        NoAction = 0,  // NO ACTION
         Restrict,  // RESTRICT
         Cascade,   // CASCADE
         SetNull,   // SET NULL
@@ -21,6 +21,28 @@ public:
     };
 
     ForeignKey();
+
+    QString name() const { return _name; }
+    void setName(const QString & name) { _name = name; }
+
+    QString referenceTable() const { return _referenceTable; }
+    void setReferenceTable(const QString & refTable) {
+        _referenceTable = refTable;
+    }
+
+    QStringList & columns() { return _columns; }
+    QStringList & referenceColumns() { return _referenceColumns; }
+
+    ReferenceOption onUpdate() const { return _onUpdate; }
+    void setOnUpdate(ReferenceOption & opt) { _onUpdate = opt; }
+    void setOnUpdate(const QString & opt);
+
+    ReferenceOption onDelete() const { return _onDelete; }
+    void setOnDelete(ReferenceOption & opt) { _onDelete = opt; }
+    void setOnDelete(const QString & opt);
+
+    operator QString() const;
+
 private:
     QString _name;
     QString _referenceTable;
@@ -30,6 +52,9 @@ private:
     QStringList _referenceColumns;
 
 };
+
+ForeignKey::ReferenceOption strToReferenceOption(const QString & str);
+QString referenceOptionToStr(ForeignKey::ReferenceOption opt);
 
 } // namespace db
 } // namespace meow

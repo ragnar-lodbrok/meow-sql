@@ -6,3 +6,5 @@ MeowSQL is an attempt to port HeidiSQL to C++/Qt (linux)
 ![Main window](screenshots/main_window.png)
 
 ![Query Tab](screenshots/query_tab.png)
+
+[How to build](dev_build.txt)
