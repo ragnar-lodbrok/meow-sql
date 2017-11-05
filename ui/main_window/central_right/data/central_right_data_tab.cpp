@@ -23,7 +23,7 @@ void DataTab::createTopPanel()
     _topLayout->setContentsMargins(0, 0, 0, 0);
     _mainLayout->addLayout(_topLayout);
 
-    _dataLabel = new QLabel("Data");
+    _dataLabel = new QLabel(tr("Data"));
     _dataLabel->setWordWrap(true);
     _topLayout->addWidget(_dataLabel, 0, Qt::AlignVCenter);
 

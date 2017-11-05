@@ -93,7 +93,10 @@ SOURCES += main.cpp\
     db/table_index.cpp \
     db/foreign_key.cpp \
     db/table_structure.cpp \
-    db/table_structure_parser.cpp
+    db/table_structure_parser.cpp \
+    ui/main_window/central_right/table/cr_table_columns.cpp \
+    ui/main_window/central_right/table/cr_table_columns_tools.cpp \
+    models/db/table_columns_model.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -165,7 +168,10 @@ HEADERS  += app.h \
     db/table_index.h \
     db/foreign_key.h \
     db/table_structure.h \
-    db/table_structure_parser.h
+    db/table_structure_parser.h \
+    ui/main_window/central_right/table/cr_table_columns.h \
+    ui/main_window/central_right/table/cr_table_columns_tools.h \
+    models/db/table_columns_model.h
 
 
 QMAKE_CFLAGS += -I/usr/include/mysql

@@ -8,18 +8,19 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
+class TableColumns;
+
 class TableTab : public QWidget
 {
     Q_OBJECT
 public:
 
-    enum Tabs {
-        Basic,
-        Count
-    };
+    explicit TableTab(QWidget * parent = 0);
+private:
 
-    explicit TableTab(QWidget *parent = 0);
+    void createWidgets();
 
+    TableColumns * _columns;
 };
 
 } // namespace central_right
