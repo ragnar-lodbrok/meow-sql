@@ -17,6 +17,9 @@ class TableColumns : public QWidget
 {
 public:
     TableColumns(TableTab * parent);
+
+    void setTable(db::TableEntity * table);
+
 private:
 
     void createWidgets();

@@ -12,6 +12,11 @@ TableColumns::TableColumns(TableTab * parent) : QWidget(parent)
     createWidgets();
 }
 
+void TableColumns::setTable(db::TableEntity * table)
+{
+    _model.setTable(table);
+}
+
 void TableColumns::createWidgets()
 {
     QVBoxLayout * mainLayout = new QVBoxLayout();

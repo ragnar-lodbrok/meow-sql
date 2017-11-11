@@ -30,6 +30,7 @@ public:
 
     void setDataType(DataTypeIndex type) { _dataType = type; }
     DataTypeIndex dataType() const { return _dataType; }
+    QString dataTypeName() const { return meow::db::dataTypeName(_dataType); }
 
     void setLengthSet(const QString & len) { _lengthSet = len; }
     QString lengthSet() const { return _lengthSet; }

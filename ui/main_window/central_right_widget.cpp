@@ -2,7 +2,7 @@
 #include "db/entity/entity.h"
 #include "app.h"
 #include <QDebug>
-
+#include "db/entity/table_entity.h"
 
 namespace meow {
 namespace ui {
@@ -55,7 +55,8 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
 
     if (_model.hasEntityTab()) {
         if (entity->type() == db::Entity::Type::Table) {
-            tableTab();
+            auto tableEntity = static_cast<db::TableEntity *>(entity);
+            tableTab()->setTable(tableEntity);
         }
     } else {
         removeTableTab();
@@ -77,7 +78,7 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     } else if (entity->type() == db::Entity::Type::Table) {
 
         _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Entity,
-                              _model.titleForTableTab());
+                              _model.titleForTableTab());       
         if ( !onDataTab() && !onQueryTab() ) {
             _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Entity);
         }

@@ -4,6 +4,11 @@
 #include <QtWidgets>
 
 namespace meow {
+
+namespace db {
+    class TableEntity;
+}
+
 namespace ui {
 namespace main_window {
 namespace central_right {
@@ -16,6 +21,8 @@ class TableTab : public QWidget
 public:
 
     explicit TableTab(QWidget * parent = 0);
+
+    void setTable(db::TableEntity * table);
 private:
 
     void createWidgets();

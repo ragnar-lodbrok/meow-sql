@@ -11,6 +11,11 @@ TableTab::TableTab(QWidget * parent) : QWidget(parent)
     createWidgets();
 }
 
+void TableTab::setTable(db::TableEntity * table)
+{
+     _columns->setTable(table);
+}
+
 void TableTab::createWidgets()
 {
     QHBoxLayout * mainLayout = new QHBoxLayout();

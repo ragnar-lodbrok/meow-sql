@@ -17,7 +17,7 @@ TableColumn::operator QString() const
 {
     QString str = QString("name:%1 type:%2")
         .arg(_name)
-        .arg(dataTypeName(_dataType));
+        .arg(this->dataTypeName());
 
     if (!_lengthSet.isEmpty()) {
         str += QString(" len/set:") + _lengthSet;
