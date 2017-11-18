@@ -19,6 +19,8 @@ public:
     QList<TableIndex  *> & indicies() { return _indicies; }
     QList<ForeignKey  *> & foreighKeys() { return _foreignKeys; }
 
+    bool hasIndexForColumn(const QString & columnName, TableIndexClass indexClass);
+
 private:
     QList<TableColumn *>  _columns;
     QList<TableIndex  *>  _indicies;

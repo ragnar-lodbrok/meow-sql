@@ -47,6 +47,9 @@ public:
 private:
 
     QString textDataAt(int row, int col) const;
+    QVariant checkStateAt(int row, int col) const;
+    bool isBoolColumn(int col) const;
+    bool isEditingAllowed(int row, int col) const;
 
     void removeData();
     void insertData();

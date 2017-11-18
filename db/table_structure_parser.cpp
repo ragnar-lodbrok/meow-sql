@@ -190,7 +190,7 @@ void TableStructureParser::parseKeysIndicies(
             index->setClassType(TableIndexClass::Key);
         }
         index->setIndexType(indexTypeStr);
-        index->columns() = indexColumns.split(',', QString::SkipEmptyParts);
+        index->columns() = explodeQuotedList(indexColumns);
 
         // TODO: subparts
 

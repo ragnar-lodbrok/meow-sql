@@ -1,6 +1,7 @@
 #include "table_columns_model.h"
 #include "db/entity/table_entity.h"
 #include "db/table_structure.h"
+#include <QDebug>
 
 namespace meow {
 namespace models {
@@ -41,7 +42,13 @@ Qt::ItemFlags TableColumnsModel::flags(const QModelIndex &index) const
         return Qt::ItemIsEnabled;
     }
 
-    return QAbstractItemModel::flags(index);
+    Qt::ItemFlags flags = Qt::ItemIsSelectable;
+
+    if (isEditingAllowed(index.row(), index.column())) {
+        flags |= Qt::ItemIsEnabled;
+    }
+
+    return flags;
 }
 
 QVariant TableColumnsModel::headerData(int section,
@@ -105,8 +112,21 @@ QVariant TableColumnsModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole) {
+    switch (role) {
+
+    case Qt::DisplayRole:
         return textDataAt(index.row(), index.column());
+
+    case Qt::CheckStateRole:
+        return checkStateAt(index.row(), index.column());
+
+    /*case Qt::TextAlignmentRole:
+        if (isBoolColumn(index.column())) { // does not work
+            return Qt::AlignCenter;
+        }
+        break;*/
+    default:
+        break;
     }
 
     return QVariant();
@@ -151,7 +171,7 @@ QString TableColumnsModel::textDataAt(int row, int col) const
     case Columns::Unsigned:
     case Columns::AllowNull:
     case Columns::Zerofill:
-        return QString("");
+        return QString();
 
     case Columns::Default: {
         using colDef = meow::db::ColumnDefaultType;
@@ -200,6 +220,62 @@ QString TableColumnsModel::textDataAt(int row, int col) const
 
     default:
        return QString();
+    }
+}
+
+QVariant TableColumnsModel::checkStateAt(int row, int col) const
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+
+    switch (static_cast<Columns>(col)) {
+
+    case Columns::Unsigned:
+        return tableColumn->isUnsigned() ? Qt::Checked : Qt::Unchecked;
+
+    case Columns::AllowNull:
+        return tableColumn->isAllowNull() ? Qt::Checked : Qt::Unchecked;
+
+    case Columns::Zerofill:
+        return tableColumn->isZeroFill() ? Qt::Checked : Qt::Unchecked;
+
+    default:
+        return QVariant();
+    }
+}
+
+inline bool TableColumnsModel::isBoolColumn(int col) const
+{
+    switch (static_cast<Columns>(col)) {
+
+    case Columns::Unsigned:
+    case Columns::AllowNull:
+    case Columns::Zerofill:
+        return true;
+    default:
+        return false;
+    }
+}
+
+bool TableColumnsModel::isEditingAllowed(int row, int col) const
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+
+    switch (static_cast<Columns>(col)) {
+
+    case Columns::Unsigned:
+        return meow::db::dataTypeCanBeUnsigned(tableColumn->dataType());
+
+    case Columns::AllowNull: {
+        bool isColumnInPK = _table->structure()->hasIndexForColumn(
+            tableColumn->name(), meow::db::TableIndexClass::PrimaryKey);
+        return !isColumnInPK;
+    }
+
+    case Columns::Zerofill:
+        return meow::db::dataTypeCanBeZeroFill(tableColumn->dataType());
+
+    default:
+        return true;
     }
 }
 

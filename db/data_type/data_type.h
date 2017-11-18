@@ -81,6 +81,9 @@ enum class DataTypeIndex {
 
 DataTypeCategoryIndex categoryOfDataType(DataTypeIndex type);
 
+bool dataTypeCanBeUnsigned(DataTypeIndex type);
+bool dataTypeCanBeZeroFill(DataTypeIndex type);
+
 using dataTypeNamesMap = QMap<DataTypeIndex, QString>;
 const dataTypeNamesMap & dataTypeNames();
 

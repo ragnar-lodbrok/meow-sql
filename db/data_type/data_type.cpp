@@ -83,6 +83,58 @@ meow::db::DataTypeCategoryIndex meow::db::categoryOfDataType(meow::db::DataTypeI
     }
 }
 
+bool meow::db::dataTypeCanBeUnsigned(DataTypeIndex type)
+{
+    switch (type) {
+    case DataTypeIndex::TinyInt:
+    case DataTypeIndex::SmallInt:
+    case DataTypeIndex::MediumInt:
+    case DataTypeIndex::Int:
+    case DataTypeIndex::BigInt:
+    case DataTypeIndex::Serial:
+    case DataTypeIndex::BigSerial:
+    //case DataTypeIndex::Bit:
+    //case DataTypeIndex::VarBit:
+    case DataTypeIndex::Float:
+    case DataTypeIndex::Double:
+    case DataTypeIndex::Decimal:
+    case DataTypeIndex::Numeric:
+    case DataTypeIndex::Real:
+    case DataTypeIndex::DoublePrecision:
+    case DataTypeIndex::Money:
+    case DataTypeIndex::SmallMoney:
+        return true;
+    default:
+        return false;
+    }
+}
+
+bool meow::db::dataTypeCanBeZeroFill(DataTypeIndex type)
+{
+    switch (type) {
+    case DataTypeIndex::TinyInt:
+    case DataTypeIndex::SmallInt:
+    case DataTypeIndex::MediumInt:
+    case DataTypeIndex::Int:
+    case DataTypeIndex::BigInt:
+    case DataTypeIndex::Serial:
+    case DataTypeIndex::BigSerial:
+    //case DataTypeIndex::Bit:
+    //case DataTypeIndex::VarBit:
+    case DataTypeIndex::Float:
+    case DataTypeIndex::Double:
+    case DataTypeIndex::Decimal:
+    case DataTypeIndex::Numeric:
+    case DataTypeIndex::Real:
+    case DataTypeIndex::DoublePrecision:
+    case DataTypeIndex::Money:
+    case DataTypeIndex::SmallMoney:
+        return true;
+    default:
+        return false;
+    }
+}
+
 const meow::db::dataTypeNamesMap & meow::db::dataTypeNames()
 {
     // TODO: pass db type, now for mysql only
