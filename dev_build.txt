@@ -1,8 +1,0 @@
-Installation: Dev Env
-
-1. Qt Creator (QMake)
-2. gcc (or other compiler), c++11
-3. Clone repo
-4. Debian: apt-get install libmysqlclient-dev
-5. (Optional) Debian: sudo apt-get install mysql-server
-6. (Optional) Install test db: https://dev.mysql.com/doc/sakila/en/
