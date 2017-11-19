@@ -44,10 +44,15 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
+    int columnWidth(int column) const;
+
 private:
 
     QString textDataAt(int row, int col) const;
     QVariant checkStateAt(int row, int col) const;
+    QVariant fontAt(int row, int col) const;
+    QVariant foregroundAt(int row, int col) const;
+
     bool isBoolColumn(int col) const;
     bool isEditingAllowed(int row, int col) const;
 

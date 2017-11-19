@@ -6,6 +6,11 @@
 #include <QMap>
 
 namespace meow {
+
+namespace db {
+    enum class ColumnDefaultType;
+}
+
 namespace settings {
 
 class Text
@@ -14,6 +19,7 @@ public:
     Text();
     const QColor colorForDataType(db::DataTypeCategoryIndex type) const;
     const QColor colorForDataTypeNULL(db::DataTypeCategoryIndex type) const;
+    const QColor colorForDefaultType(db::ColumnDefaultType type) const;
 private:
 
     void setupColorForDataTypes();

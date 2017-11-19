@@ -2,6 +2,8 @@
 #include "db/entity/table_entity.h"
 #include "db/table_structure.h"
 #include <QDebug>
+#include <QFont>
+#include "app.h"
 
 namespace meow {
 namespace models {
@@ -120,6 +122,11 @@ QVariant TableColumnsModel::data(const QModelIndex &index, int role) const
     case Qt::CheckStateRole:
         return checkStateAt(index.row(), index.column());
 
+    case Qt::FontRole:
+        return fontAt(index.row(), index.column());
+
+    case Qt::ForegroundRole:
+        return foregroundAt(index.row(), index.column());
     /*case Qt::TextAlignmentRole:
         if (isBoolColumn(index.column())) { // does not work
             return Qt::AlignCenter;
@@ -243,6 +250,45 @@ QVariant TableColumnsModel::checkStateAt(int row, int col) const
     }
 }
 
+QVariant TableColumnsModel::fontAt(int row, int col) const
+{
+    Q_UNUSED(col);
+
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+    bool isColumnInPK = _table->structure()->hasIndexForColumn(
+        tableColumn->name(), meow::db::TableIndexClass::PrimaryKey);
+
+    bool isBold = isColumnInPK;
+
+    if (isBold) {
+        QFont font;
+        font.setBold(true);
+        return font;
+    }
+
+    return QVariant();
+}
+
+QVariant TableColumnsModel::foregroundAt(int row, int col) const
+{
+    if (static_cast<Columns>(col) == Columns::DataType) {
+        meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+        auto textSettings = meow::app()->settings()->textSettings();
+        auto dataType = tableColumn->dataType();
+        if (dataType != meow::db::DataTypeIndex::None) {
+            return textSettings->colorForDataType(
+                meow::db::categoryOfDataType(dataType)
+            );
+        }
+    } else if (static_cast<Columns>(col) == Columns::Default) {
+        meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+        auto textSettings = meow::app()->settings()->textSettings();
+        return textSettings->colorForDefaultType(tableColumn->defaultType());
+    }
+
+    return QVariant();
+}
+
 inline bool TableColumnsModel::isBoolColumn(int col) const
 {
     switch (static_cast<Columns>(col)) {
@@ -277,6 +323,39 @@ bool TableColumnsModel::isEditingAllowed(int row, int col) const
     default:
         return true;
     }
+}
+
+int TableColumnsModel::columnWidth(int column) const
+{
+    switch (static_cast<Columns>(column)) {
+
+    case Columns::Name:
+        return 150;
+    case Columns::DataType:
+        return 140;
+    case Columns::Length:
+        return 140;
+    case Columns::Unsigned:
+        return 100;
+    case Columns::AllowNull:
+        return 100;
+    case Columns::Zerofill:
+        return 100;
+    case Columns::Default:
+        return 150;
+    case Columns::Comment:
+        return 180;
+    case Columns::Collation:
+        return 150;
+    case Columns::Expression:
+        return 150;
+    case Columns::Virtuality:
+        return 150;
+
+    default:
+        break;
+    }
+    return 0;
 }
 
 } // namespace db

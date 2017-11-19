@@ -27,7 +27,12 @@ void TableColumns::createWidgets()
     mainLayout->addWidget(_tools);
 
     _columnsTable = new QTableView(this);
+    _columnsTable->horizontalHeader()->setHighlightSections(false);
+    _columnsTable->verticalHeader()->setHighlightSections(false);
     _columnsTable->setModel(&_model);
+    for (int i=0; i<_model.columnCount(); ++i) {
+        _columnsTable->setColumnWidth(i, _model.columnWidth(i));
+    }
     mainLayout->addWidget(_columnsTable);
 }
 

@@ -62,7 +62,7 @@ QVariant BaseDataTableModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DisplayRole) {
         return _queryData->rawDataAt(index.row(), index.column());
-    } else if (role == Qt::DecorationRole) {
+    //} else if (role == Qt::DecorationRole) {
 
     } else if (role == Qt::ForegroundRole) {
         auto textSettings = meow::app()->settings()->textSettings();
