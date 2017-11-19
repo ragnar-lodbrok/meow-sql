@@ -2,7 +2,7 @@
 
 MeowSQL is an attempt to port a very useful GUI database client [HeidiSQL](https://www.heidisql.com/) to C++/Qt (that can be run natively at least on Linux)
 
-![MeowSQL Gif](meowsql.gif)
+![MeowSQL Gif](screenshots/meowsql.gif)
 
 ## How to build (for developers)
 
