@@ -13,6 +13,14 @@ MeowSQL is an attempt to port a very useful GUI database client [HeidiSQL](https
 5. (Optional) Debian: sudo apt-get install mysql-server
 6. (Optional) Install test db: https://dev.mysql.com/doc/sakila/en/
 
+## Version
+
+Current stable version is 0.0.0, but it can connect, show some database info (read-only) and perform your queries
+
+Current development version is 0.0.1
+
+See [roadmap](ROADMAP.md)
+
 ## License
 
 This project is licensed under the GPL 2.0 License
