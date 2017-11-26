@@ -105,7 +105,7 @@ QStringList networkTypeNames()
 {
     QStringList names;
 
-    using IntType = typename std::underlying_type<NetworkType>::type;
+    using IntType = int; //typename std::underlying_type<NetworkType>::type;
 
     IntType start = 0; //static_cast<IntType>(NetworkType::MySQL_TCPIP);
     IntType end = static_cast<IntType>(NetworkType::COUNT);

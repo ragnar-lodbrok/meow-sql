@@ -20,12 +20,13 @@ greaterThan(QT_MINOR_VERSION, 4) { # >= 5.5
 QMAKE_LFLAGS += -Wl,--no-as-needed # ?
 
 # (mysql_config --libs)
-LIBS += -lpthread # pthread
-LIBS += -lrt
-LIBS += -lmysqlclient # mysql client
-LIBS += -lz # zlib - compression/decompression library
-LIBS += -lm # math?
-LIBS += -ldl # dynamic link
+unix:LIBS += -lpthread # pthread
+unix:LIBS += -lrt
+unix:LIBS += -lmysqlclient # mysql client
+win32:LIBS += -l"$$PWD\third_party\libmysql\windows\libmysql"
+unix:LIBS += -lz # zlib - compression/decompression library
+unix:LIBS += -lm # math?
+unix:LIBS += -ldl # dynamic link
 
 SOURCES += main.cpp\
     app.cpp \
@@ -174,7 +175,10 @@ HEADERS  += app.h \
     models/db/table_columns_model.h
 
 
-QMAKE_CFLAGS += -I/usr/include/mysql
+win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"
+unix:INCLUDEPATH += /usr/include/mysql
+
+#QMAKE_CFLAGS += -I/usr/include/mysql
 
 RESOURCES += \
     icons.qrc
