@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/icons">
+        <file alias="logo.png">resources/icons/logo.png</file>
         <file alias="icon-question.ico">resources/icons/icon-question.ico</file>
         <file alias="server-azure.png">resources/icons/server-azure.png</file>
         <file alias="arrow_left.png">resources/icons/arrow_left.png</file>

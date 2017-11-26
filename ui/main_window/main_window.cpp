@@ -17,6 +17,7 @@ Window::Window(QWidget *parent)
 {
     setMinimumSize(QSize(600, 400));
     setWindowTitle("MeowSQL");
+    setWindowIcon(QIcon(":/icons/logo.png"));
     resize(QSize(800, 500));
 
     createMenus();
