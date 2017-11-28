@@ -18,13 +18,13 @@ Window::Window(QWidget *parent)
     setMinimumSize(QSize(600, 400));
     setWindowTitle("MeowSQL");
     setWindowIcon(QIcon(":/icons/logo.png"));
-    resize(QSize(800, 500));
+    resize(QSize(880, 500));
 
-    createMenus();
+    //createMenus(); // no actions
     _centralWidget = new CentralWidget(&_dbEntitiesTreeModel);
     setCentralWidget(_centralWidget);
 
-    statusBar();
+    //statusBar(); // hide as we have nothing to show
 
     connect(meow::app()->dbConnectionsManager(),
             &meow::db::ConnectionsManager::activeEntityChanged,
@@ -41,6 +41,11 @@ Window::~Window()
 void Window::showSessionManagerDialog()
 {
     meow::ui::session_manager::Window sessionManagerWindow(this);
+    connect(&sessionManagerWindow,
+            &meow::ui::session_manager::Window::rejected,
+            this,
+            &Window::sessionManagerDialogCanceled
+    );
     sessionManagerWindow.exec();
 }
 
@@ -68,6 +73,14 @@ bool Window::openDBConnection(db::ConnectionParameters & params)
 }
 
 // private: --------------------------------------------------------------------
+
+
+void Window::sessionManagerDialogCanceled()
+{
+    if (meow::app()->dbConnectionsManager()->isNoOpenedConnections()) {
+        QMetaObject::invokeMethod(this, "close", Qt::QueuedConnection);
+    }
+}
 
 void Window::createMenus()
 {

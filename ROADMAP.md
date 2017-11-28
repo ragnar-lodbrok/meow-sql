@@ -40,6 +40,14 @@ Table Tab: Indexes Tab (r/o)
 
 Table Tab: Foreign Keys Tab (r/o)
 
+Connection password encryption
+
+Data Tab: auto-column size
+
+Table columns: keys icons
+
+Table columns: editable columns
+
 ...
 
 Host Tab: Variables (r/o), minimal

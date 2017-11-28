@@ -12,19 +12,22 @@ namespace main_window {
 
 class Window : public QMainWindow
 {
-    //Q_OBJECT
+    Q_OBJECT
 
 public:
     Window(QWidget *parent = 0);
     ~Window();
     void showSessionManagerDialog();
     bool openDBConnection(db::ConnectionParameters & params);
+
 private:
     void createMenus();
 
     void showErrorMessage(const QString& message);
 
     void activeDBEntityChanged(db::Entity * newEntity);
+
+    Q_SLOT void sessionManagerDialogCanceled();
 
     CentralWidget * _centralWidget;
 

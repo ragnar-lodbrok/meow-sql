@@ -42,7 +42,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent) {
     row++;
 
     // Prompt for credentials
-    _loginPromptCheckBox = new QCheckBox(tr("Prompt for credentials"));
+    /*_loginPromptCheckBox = new QCheckBox(tr("Prompt for credentials"));
     _mainGridLayout->addWidget(_loginPromptCheckBox, row, MEOW_SECOND_COL);
     connect(_loginPromptCheckBox, &QCheckBox::stateChanged,
             [=](int newState) {
@@ -51,7 +51,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent) {
                     _form->setLoginPrompt(newState == Qt::Checked);
                 }
             });
-    row++;
+    row++;*/ // hide as not finished
 
     // User
     _userLabel = new QLabel(tr("User:"));
@@ -143,7 +143,7 @@ void SettingsTab::fillDataFromForm()
     }
 
     _hostEdit->setText(_form->hostName());
-    _loginPromptCheckBox->setChecked(_form->isLoginPrompt());
+    //_loginPromptCheckBox->setChecked(_form->isLoginPrompt());
     _userEdit->setText(_form->userName());
     _passwordEdit->setText(_form->password());
     _databasesEdit->setText(_form->databases());
@@ -152,6 +152,7 @@ void SettingsTab::fillDataFromForm()
 
 void SettingsTab::onLoginPromptUpdate()
 {
+    return; // temp
     bool loginChecked = _loginPromptCheckBox->isChecked();
     _userEdit->setDisabled(loginChecked);
     _userLabel->setDisabled(loginChecked);

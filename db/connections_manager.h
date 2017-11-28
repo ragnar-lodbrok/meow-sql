@@ -37,6 +37,8 @@ public:
 
     UserQuery * userQueryAt(size_t index);
 
+    bool isNoOpenedConnections() const { return _connections.isEmpty(); }
+
     Q_SIGNAL void connectionOpened(SessionEntity * newSession);
     Q_SIGNAL void activeEntityChanged(Entity * newEntity);
 

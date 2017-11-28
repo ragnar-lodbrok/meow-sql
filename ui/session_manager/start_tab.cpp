@@ -17,9 +17,10 @@ StartTab::StartTab(QWidget *parent) : QWidget(parent) {
     _mainLayout->addStretch(1);
 
     QHBoxLayout * importSettingsButtonLayout = new QHBoxLayout();
-    _importSettingsButton = new QPushButton(tr("Import settings file ..."));
-    importSettingsButtonLayout->addWidget(_importSettingsButton);
-    importSettingsButtonLayout->addStretch(1);
+    // temp hide as not implemented
+    //_importSettingsButton = new QPushButton(tr("Import settings file ..."));
+    //importSettingsButtonLayout->addWidget(_importSettingsButton);
+    //importSettingsButtonLayout->addStretch(1);
     _mainLayout->addLayout(importSettingsButtonLayout);
 
     _mainLayout->addStretch(2);

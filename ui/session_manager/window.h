@@ -22,6 +22,7 @@ class Window : public QDialog
 
 public:
     explicit Window(meow::ui::main_window::Window * mainWindow);
+
 private:
 
     main_window::Window * _mainWindow;

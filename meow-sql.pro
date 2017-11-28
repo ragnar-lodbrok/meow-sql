@@ -178,7 +178,5 @@ HEADERS  += app.h \
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"
 unix:INCLUDEPATH += /usr/include/mysql
 
-#QMAKE_CFLAGS += -I/usr/include/mysql
-
 RESOURCES += \
     icons.qrc

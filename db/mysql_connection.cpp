@@ -274,6 +274,7 @@ QStringList MySQLConnection::fetchDatabases() // override
     try {
         return getColumn("SHOW DATABASES");
     } catch(meow::db::Exception & ex1) {
+        Q_UNUSED(ex1);
         try {
             return getColumn("SELECT `SCHEMA_NAME` FROM `information_schema`.`SCHEMATA` ORDER BY `SCHEMA_NAME`");
         } catch(meow::db::Exception & ex2) {

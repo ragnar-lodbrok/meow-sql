@@ -81,10 +81,10 @@ void SQLEditor::highlightCurrentLine()
         QColor background = palette().color(QPalette::Window);
         background = background.toHsl();
         float newLightness = background.lightnessF();
-        if (newLightness > 0.5) {
-            newLightness -= 0.005;
+        if (newLightness > 0.5f) {
+            newLightness -= 0.005f;
         } else {
-            newLightness += 0.005;
+            newLightness += 0.005f;
         }
         background.setHslF(background.hueF(),
                            background.saturationF(),

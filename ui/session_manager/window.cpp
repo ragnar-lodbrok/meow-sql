@@ -170,9 +170,15 @@ void Window::createRightWidgetButtons()
 
     _cancelButton = new QPushButton(tr("Cancel"));
     _rightWidgetButtonsLayout->addWidget(_cancelButton);
+    connect(_cancelButton,
+            &QAbstractButton::clicked,
+            this,
+            &Window::reject
+    );
 
-    _moreButton = new QPushButton(tr("More"));
-    _rightWidgetButtonsLayout->addWidget(_moreButton);
+    // temp hide as not implemented
+    //_moreButton = new QPushButton(tr("More"));
+    //_rightWidgetButtonsLayout->addWidget(_moreButton);
 
     // TODO: add `Test` button to test a connection?
 }
