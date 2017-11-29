@@ -1,4 +1,5 @@
 #include "cr_query_data_tab.h"
+#include "app.h"
 
 namespace meow {
 namespace ui {
@@ -16,6 +17,9 @@ QueryDataTab::QueryDataTab(db::QueryData * queryData, QWidget *parent)
     _dataTable = new QTableView();
     _dataTable->verticalHeader()->hide();
     _dataTable->horizontalHeader()->setHighlightSections(false);
+    auto geometrySettings = meow::app()->settings()->geometrySettings();
+    _dataTable->verticalHeader()->setDefaultSectionSize(
+       geometrySettings->tableViewDefaultRowHeight());
 
     _dataTable->setModel(&_model);
     mainLayout->addWidget(_dataTable);

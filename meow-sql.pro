@@ -97,7 +97,8 @@ SOURCES += main.cpp\
     db/table_structure_parser.cpp \
     ui/main_window/central_right/table/cr_table_columns.cpp \
     ui/main_window/central_right/table/cr_table_columns_tools.cpp \
-    models/db/table_columns_model.cpp
+    models/db/table_columns_model.cpp \
+    settings/settings_geometry.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -172,7 +173,8 @@ HEADERS  += app.h \
     db/table_structure_parser.h \
     ui/main_window/central_right/table/cr_table_columns.h \
     ui/main_window/central_right/table/cr_table_columns_tools.h \
-    models/db/table_columns_model.h
+    models/db/table_columns_model.h \
+    settings/settings_geometry.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

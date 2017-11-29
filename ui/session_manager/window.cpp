@@ -89,6 +89,9 @@ void Window::createSessionsList()
     _sessionsList = new QTableView();
     _sessionsList->verticalHeader()->hide();
     _sessionsList->horizontalHeader()->setHighlightSections(false);
+    auto geometrySettings = meow::app()->settings()->geometrySettings();
+   _sessionsList->verticalHeader()->setDefaultSectionSize(
+       geometrySettings->tableViewDefaultRowHeight());
 
     //_proxySortModel.setSourceModel(_connectionParamsModel.data());
     //_sessionsList->setModel(&_proxySortModel);

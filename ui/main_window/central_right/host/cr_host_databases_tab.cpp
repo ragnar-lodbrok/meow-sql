@@ -1,4 +1,5 @@
 #include "cr_host_databases_tab.h"
+#include "app.h"
 
 namespace meow {
 namespace ui {
@@ -22,6 +23,9 @@ void HostDatabasesTab::createDatabasesTable()
     _databasesTable = new QTableView();
     _databasesTable->verticalHeader()->hide();
     _databasesTable->horizontalHeader()->setHighlightSections(false);
+    auto geometrySettings = meow::app()->settings()->geometrySettings();
+    _databasesTable->verticalHeader()->setDefaultSectionSize(
+       geometrySettings->tableViewDefaultRowHeight());
 
     _databasesTable->setModel(&_model);
     _mainLayout->addWidget(_databasesTable);

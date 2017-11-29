@@ -1,6 +1,7 @@
 #include "cr_table_columns.h"
 #include "central_right_table_tab.h"
 #include "cr_table_columns_tools.h"
+#include "app.h"
 
 namespace meow {
 namespace ui {
@@ -29,6 +30,9 @@ void TableColumns::createWidgets()
     _columnsTable = new QTableView(this);
     _columnsTable->horizontalHeader()->setHighlightSections(false);
     _columnsTable->verticalHeader()->setHighlightSections(false);
+    auto geometrySettings = meow::app()->settings()->geometrySettings();
+    _columnsTable->verticalHeader()->setDefaultSectionSize(
+       geometrySettings->tableViewDefaultRowHeight());
     _columnsTable->setModel(&_model);
     for (int i=0; i<_model.columnCount(); ++i) {
         _columnsTable->setColumnWidth(i, _model.columnWidth(i));

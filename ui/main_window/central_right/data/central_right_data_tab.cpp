@@ -1,5 +1,6 @@
 #include "central_right_data_tab.h"
 #include "db/common.h"
+#include "app.h"
 
 namespace meow {
 namespace ui {
@@ -61,6 +62,9 @@ void DataTab::createDataTable()
 
     _dataTable = new QTableView();
     _dataTable->verticalHeader()->hide();
+     auto geometrySettings = meow::app()->settings()->geometrySettings();
+    _dataTable->verticalHeader()->setDefaultSectionSize(
+        geometrySettings->tableViewDefaultRowHeight());
     _dataTable->horizontalHeader()->setHighlightSections(false);
 
     _dataTable->setModel(&_model);
