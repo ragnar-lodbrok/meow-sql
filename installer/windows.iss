@@ -7,6 +7,8 @@
 #define MyAppURL "https://github.com/ragnar-lodbrok/meow-sql"
 #define MyAppExeName "meow-sql.exe"
 
+#define SourceDir "C:\data\work\projects\build-meow-sql-Desktop_Qt_5_6_2_MSVC2013_32bit-Release\release"
+
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
@@ -21,8 +23,8 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile=C:\data\work\projects\meowsql\license.txt
-OutputBaseFilename=setup-MeowSql
+LicenseFile=C:\data\work\projects\meowsql\gpl.txt
+OutputBaseFilename=Setup-MeowSql-{#MyAppVersion}
 Compression=lzma
 SolidCompression=yes
 
@@ -60,12 +62,25 @@ Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\data\work\projects\build-meow-sql-Desktop_Qt_5_6_2_MSVC2013_32bit-Release\release\meow-sql.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\data\work\projects\build-meow-sql-Desktop_Qt_5_6_2_MSVC2013_32bit-Release\release\libmysql.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\data\work\projects\build-meow-sql-Desktop_Qt_5_6_2_MSVC2013_32bit-Release\release\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\data\work\projects\build-meow-sql-Desktop_Qt_5_6_2_MSVC2013_32bit-Release\release\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\data\work\projects\build-meow-sql-Desktop_Qt_5_6_2_MSVC2013_32bit-Release\release\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\data\work\projects\build-meow-sql-Desktop_Qt_5_6_2_MSVC2013_32bit-Release\release\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#SourceDir}\meow-sql.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\libmysql.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Do we need GL dlls?
+Source: "{#SourceDir}\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
+; VC 2013 runtime
+Source: "{#SourceDir}\msvcp120.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\msvcr120.dll"; DestDir: "{app}"; Flags: ignoreversion
+;
+Source: "{#SourceDir}\gpl.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\license.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#SourceDir}\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#SourceDir}\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -74,4 +89,3 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
-

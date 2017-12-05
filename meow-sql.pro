@@ -182,3 +182,5 @@ unix:INCLUDEPATH += /usr/include/mysql
 
 RESOURCES += \
     icons.qrc
+
+RC_FILE = meowsqlico.ico
