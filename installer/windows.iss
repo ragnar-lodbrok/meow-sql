@@ -25,6 +25,7 @@ DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile=C:\data\work\projects\meowsql\gpl.txt
 OutputBaseFilename=Setup-MeowSql-{#MyAppVersion}
+SetupIconFile=C:\data\work\projects\meowsql\meowsqlico.ico
 Compression=lzma
 SolidCompression=yes
 
