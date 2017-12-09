@@ -24,13 +24,9 @@ Buildable and deployable on Linux
 
 Buildable and deployable on Windows
 
-Buildable and deployable on macOS
+## 0.0.2
 
-## Task pool (by priority)
-
-Multiple connections (open session manager from main window)
-
-Tree: mark current database
+**Full-featured Table Tab (r/o?)**
 
 Table Tab: Basic Tab (r/o)
 
@@ -46,7 +42,15 @@ Data Tab: auto-column size
 
 Table columns: keys icons
 
+## Task pool (by priority)
+
+Multiple connections (open session manager from main window)
+
+Tree: mark current database
+
 Table columns: editable columns
+
+Buildable and deployable on macOS
 
 ...
 

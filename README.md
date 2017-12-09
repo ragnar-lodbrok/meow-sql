@@ -4,6 +4,10 @@ MeowSQL is an attempt to port a very useful GUI database client [HeidiSQL](https
 
 ![MeowSQL Gif](screenshots/meowsql.gif)
 
+## Download/Install
+
+Download installer for Windows or AppImage for Linux on [releases](https://github.com/ragnar-lodbrok/meow-sql/releases) page.
+
 ## How to build (for developers)
 
 Linux:
@@ -22,20 +26,12 @@ Version that worked for me is Qt 5.6.2 win32-msvc2013
 2. You would need a cpp compiler of course, I've got MS Visual Studio 2013 (Community)
 3. You should have QMake (plus I used Qt Creator)
 4. I've downloaded MySQL Connector C 6.1 (C not C++), and seems put all necessary files into third_party/
-5. After build (only release worked for me), copy these dlls to the .exe folder:
-  Qt5Widgets.dll
-  Qt5Gui.dll
-  Qt5Core.dll
-  libmysql.dll
-  platforms/qwindows.dll
+5. After build (only release worked for me), run windeployqt
 
-## Version
+## Contributing
 
-Current stable version is 0.0.0, but it can connect, show some database info (read-only) and perform your queries
-
-Current development version is 0.0.1
-
-See [roadmap](ROADMAP.md)
+Pick up any issue or any feature from [roadmap](ROADMAP.md).
+Use/subbranch develop, not master branch.
 
 ## License
 
@@ -43,3 +39,6 @@ This project is licensed under the GPL 2.0 License
 
 ## Acknowledgments
 * HeidiSQL developers - now on [github](https://github.com/HeidiSQL/HeidiSQL)
+* [peek](https://github.com/phw/peek) was used for GIF recording
+* [linuxdeployqt](https://github.com/probonopd/linuxdeployqt) was used for AppImage creation
+
