@@ -13,6 +13,7 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
+class TableInfo;
 class TableColumns;
 
 class TableTab : public QWidget
@@ -27,6 +28,9 @@ private:
 
     void createWidgets();
 
+    QSplitter * _mainSplitter;
+
+    TableInfo * _tableInfo;
     TableColumns * _columns;
 };
 

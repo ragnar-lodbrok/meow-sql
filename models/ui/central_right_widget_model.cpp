@@ -106,23 +106,23 @@ QString CentralRightWidgetModel::titleForQueryTab() const
 int CentralRightWidgetModel::indexForQueryTab() const
 {
     if (hasDataTab()) {
-        return CentralRightWidgetTabs::Data + 1;
+        return static_cast<int>(CentralRightWidgetTabs::Data) + 1;
     } else if (hasEntityTab()) {
-        return CentralRightWidgetTabs::Entity + 1;
+        return static_cast<int>(CentralRightWidgetTabs::Entity) + 1;
     } else if (hasDatabase()) {
-        return CentralRightWidgetTabs::Database + 1;
+        return static_cast<int>(CentralRightWidgetTabs::Database) + 1;
     }
 
-    return CentralRightWidgetTabs::Host + 1;
+    return static_cast<int>(CentralRightWidgetTabs::Host) + 1;
 }
 
 int CentralRightWidgetModel::indexForDataTab() const
 {
     if (hasDataTab()) {
         if (_entityHolder.currentEntity()->type() == db::Entity::Type::Table) {
-            return CentralRightWidgetTabs::Entity + 1;
+            return static_cast<int>(CentralRightWidgetTabs::Entity) + 1;
         } else if (_entityHolder.currentEntity()->type() == db::Entity::Type::View) {
-            return CentralRightWidgetTabs::Database + 1;
+            return static_cast<int>(CentralRightWidgetTabs::Database) + 1;
         }
     }
     return -1;

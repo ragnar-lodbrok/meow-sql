@@ -98,7 +98,14 @@ SOURCES += main.cpp\
     ui/main_window/central_right/table/cr_table_columns.cpp \
     ui/main_window/central_right/table/cr_table_columns_tools.cpp \
     models/db/table_columns_model.cpp \
-    settings/settings_geometry.cpp
+    settings/settings_geometry.cpp \
+    ui/main_window/central_right/table/cr_table_info.cpp \
+    ui/main_window/central_right/table/cr_table_info_basic_tab.cpp \
+    ui/main_window/central_right/table/cr_table_info_options_tab.cpp \
+    ui/main_window/central_right/table/cr_table_info_indexes_tab.cpp \
+    ui/main_window/central_right/table/cr_table_info_foreign_keys_tab.cpp \
+    models/ui/table_info_widget_model.cpp \
+    models/forms/table_info_form.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -174,7 +181,14 @@ HEADERS  += app.h \
     ui/main_window/central_right/table/cr_table_columns.h \
     ui/main_window/central_right/table/cr_table_columns_tools.h \
     models/db/table_columns_model.h \
-    settings/settings_geometry.h
+    settings/settings_geometry.h \
+    ui/main_window/central_right/table/cr_table_info.h \
+    ui/main_window/central_right/table/cr_table_info_basic_tab.h \
+    ui/main_window/central_right/table/cr_table_info_options_tab.h \
+    ui/main_window/central_right/table/cr_table_info_indexes_tab.h \
+    ui/main_window/central_right/table/cr_table_info_foreign_keys_tab.h \
+    models/ui/table_info_widget_model.h \
+    models/forms/table_info_form.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

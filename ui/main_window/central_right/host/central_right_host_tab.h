@@ -14,7 +14,7 @@ class HostTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit HostTab(QWidget *parent = 0);
+    explicit HostTab(QWidget *parent = nullptr);
     void setCurrentEntity(meow::db::SessionEntity * curEntity);
 
     enum Tabs {

@@ -1,5 +1,23 @@
 # Roadmap
 
+## 0.0.2 (Current)
+
+**Full-featured Table Tab (r/o?)**
+
+Table Tab: Basic Tab (r/o)
+
+Table Tab: Options Tab (r/o)
+
+Table Tab: Indexes Tab (r/o)
+
+Table Tab: Foreign Keys Tab (r/o)
+
+Connection password encryption
+
+Data Tab: auto-column size
+
+Table columns: keys icons
+
 ## 0.0.1
 
 **Minimal working and useful read-only version**
@@ -24,23 +42,6 @@ Buildable and deployable on Linux
 
 Buildable and deployable on Windows
 
-## 0.0.2
-
-**Full-featured Table Tab (r/o?)**
-
-Table Tab: Basic Tab (r/o)
-
-Table Tab: Options Tab (r/o)
-
-Table Tab: Indexes Tab (r/o)
-
-Table Tab: Foreign Keys Tab (r/o)
-
-Connection password encryption
-
-Data Tab: auto-column size
-
-Table columns: keys icons
 
 ## Task pool (by priority)
 

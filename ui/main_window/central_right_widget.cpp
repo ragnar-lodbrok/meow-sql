@@ -33,7 +33,7 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
             findParentEntityOfType(entity, db::Entity::Type::Session)
         );
         hostTab()->setCurrentEntity(sessionEntity);
-        _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Host,
+        _rootTabs->setTabText((int)models::ui::CentralRightWidgetTabs::Host,
                               _model.titleForHostTab());
     }
 
@@ -46,7 +46,7 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
 
             databaseTab()->setDataBase(dbEntity);
 
-            _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Database,
+            _rootTabs->setTabText((int)models::ui::CentralRightWidgetTabs::Database,
                                   _model.titleForDatabaseTab());
         } else {
             removeDatabaseTab();
@@ -72,15 +72,15 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     }
 
     if (entity->type() == db::Entity::Type::Session) {
-        _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Host);
+        _rootTabs->setCurrentIndex((int)models::ui::CentralRightWidgetTabs::Host);
     } else if (entity->type() == db::Entity::Type::Database) {
-        _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Database);
+        _rootTabs->setCurrentIndex((int)models::ui::CentralRightWidgetTabs::Database);
     } else if (entity->type() == db::Entity::Type::Table) {
 
-        _rootTabs->setTabText(models::ui::CentralRightWidgetTabs::Entity,
+        _rootTabs->setTabText((int)models::ui::CentralRightWidgetTabs::Entity,
                               _model.titleForTableTab());       
         if ( !onDataTab() && !onQueryTab() ) {
-            _rootTabs->setCurrentIndex(models::ui::CentralRightWidgetTabs::Entity);
+            _rootTabs->setCurrentIndex((int)models::ui::CentralRightWidgetTabs::Entity);
         }
     }
 
@@ -133,7 +133,7 @@ central_right::HostTab * CentralRightWidget::hostTab()
 {
     if (!_hostTab) {
         _hostTab = new central_right::HostTab();
-        _rootTabs->insertTab(models::ui::CentralRightWidgetTabs::Host,
+        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Host,
                              _hostTab,
                              QIcon(":/icons/host.png"),
                              _model.titleForHostTab());
@@ -146,7 +146,7 @@ central_right::DatabaseTab * CentralRightWidget::databaseTab()
 {
     if (!_databaseTab) {
         _databaseTab = new central_right::DatabaseTab();
-        _rootTabs->insertTab(models::ui::CentralRightWidgetTabs::Database,
+        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Database,
                              _databaseTab,
                              QIcon(":/icons/database.png"),
                              _model.titleForDatabaseTab());
@@ -159,7 +159,7 @@ central_right::TableTab * CentralRightWidget::tableTab()
 {
     if (!_tableTab) {
         _tableTab = new central_right::TableTab();
-        _rootTabs->insertTab(models::ui::CentralRightWidgetTabs::Entity,
+        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Entity,
                              _tableTab,
                              QIcon(":/icons/table.png"),
                              _model.titleForTableTab());

@@ -59,7 +59,7 @@
         <file>resources/icons/table_sort.png</file>
         <file>resources/icons/arrow_switch.png</file>
         <file alias="trigger.png">resources/icons/cog.png</file>
-        <file>resources/icons/table_relationship.png</file>
+        <file alias="table_relationship.png">resources/icons/table_relationship.png</file>
         <file>resources/icons/server_edit.png</file>
         <file>resources/icons/cross_small.png</file>
         <file>resources/icons/tab_delete.png</file>
@@ -157,7 +157,7 @@
         <file>resources/icons/page_copy.png</file>
         <file>resources/icons/page_code.png</file>
         <file>resources/icons/note_go.png</file>
-        <file>resources/icons/lightning.png</file>
+        <file alias="lightning.png">resources/icons/lightning.png</file>
         <file>resources/icons/images.png</file>
         <file>resources/icons/html.png</file>
         <file>resources/icons/help.png</file>

@@ -1,18 +1,21 @@
 #ifndef UI_CENTRAL_RIGHT_WIDGET_MODEL_H
 #define UI_CENTRAL_RIGHT_WIDGET_MODEL_H
 
-#include <QString>
-#include "db/entity/entity_holder.h"
 
 // Main Window
 //   Central Right Widget
 //      Root Model
 
+#include <QString>
+#include "db/entity/entity_holder.h"
+
 namespace meow {
 namespace models {
 namespace ui {
 
-enum CentralRightWidgetTabs {
+// TODO: get rid of CentralRight or move into namespace ?
+
+enum class CentralRightWidgetTabs {
     Host,
     Database,
     Entity,
