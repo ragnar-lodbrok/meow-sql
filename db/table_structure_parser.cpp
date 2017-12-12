@@ -98,6 +98,8 @@ void TableStructureParser::init()
 void TableStructureParser::parseColumns(const QString & createSQL,
                                         QList<TableColumn *> & columns) const
 {
+
+    qDeleteAll(columns);
     columns.clear();
 
     // CREATE TABLE `address` (
@@ -164,6 +166,10 @@ void TableStructureParser::parseKeysIndicies(
     const QString & createSQL,
     QList<TableIndex *> & indicies) const
 {
+
+    qDeleteAll(indicies);
+    indicies.clear();
+
     auto regExpIt = _indiciesKeysRegexp->globalMatch(createSQL);
 
     while (regExpIt.hasNext()) {
@@ -204,6 +210,10 @@ void TableStructureParser::parseForeignKeys(
     const QString & createSQL,
     QList<ForeignKey *> & fKeys) const
 {
+
+    qDeleteAll(fKeys);
+    fKeys.clear();
+
     auto regExpIt = _foreignKeysRegexp->globalMatch(createSQL);
 
     while (regExpIt.hasNext()) {

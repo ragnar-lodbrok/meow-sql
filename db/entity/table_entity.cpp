@@ -16,6 +16,11 @@ TableEntity::TableEntity(const QString & tableName, DataBaseEntity * parent)
 
 }
 
+TableEntity::~TableEntity()
+{
+    delete _structure;
+}
+
 QString TableEntity::name() const // override
 {
     return _tableName;

@@ -40,7 +40,7 @@ void MySQLConnection::setActive(bool active) // override
     if (active && _handle == nullptr) {
         doBeforeConnect();
 
-        _handle = mysql_init(nullptr);
+        _handle = mysql_init(nullptr); // TODO: valgrind says it leaks?
         // TODO _handle== NULL
 
         // TODO: H: SSL, named pipe, SSH
