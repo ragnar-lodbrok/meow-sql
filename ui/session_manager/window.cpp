@@ -20,7 +20,7 @@ Window::Window(main_window::Window * mainWindow)
     createLeftSubWidgets();
     createRightSubWidgets();
 
-    resize(QSize(760, 364));
+    resize(QSize(760, 410));
 
     connect(_connectionParamsModel.data(),
             &meow::models::db::ConnectionParamsModel::selectedFormDataModified,

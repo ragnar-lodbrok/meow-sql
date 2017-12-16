@@ -15,7 +15,7 @@ Window::Window(QWidget *parent)
     : QMainWindow(parent),
       _dbEntitiesTreeModel(meow::app()->dbConnectionsManager())
 {
-    setMinimumSize(QSize(600, 400));
+    setMinimumSize(QSize(700, 400));
     setWindowTitle("MeowSQL");
     setWindowIcon(QIcon(":/icons/logo.png"));
     resize(QSize(880, 500));

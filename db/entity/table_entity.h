@@ -35,12 +35,16 @@ public:
     db::ulonglong version() const { return _version; }
     void setVersion(db::ulonglong version) { _version = version; }
 
+    QString comment() const { return _comment; }
+    void setComment(const QString & comment) { _comment = comment; }
+
     db::TableStructure * structure() const;
 
 private:
     QString _collation;
     QString _tableName;
     QString _engine;
+    QString _comment;
     db::ulonglong _rowsCount;
     db::ulonglong _dataSize;
     db::ulonglong _version;

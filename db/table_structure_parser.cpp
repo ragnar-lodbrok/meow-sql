@@ -14,7 +14,8 @@ TableStructureParser::TableStructureParser()
      _defaultOnUpdCurTSRegexp(nullptr),
      _firstWordRegexp(nullptr),
      _indiciesKeysRegexp(nullptr),
-     _foreignKeysRegexp(nullptr)
+     _foreignKeysRegexp(nullptr),
+     _tableOptionsRegexp(nullptr)
 {
 
 }
@@ -28,10 +29,13 @@ TableStructureParser::~TableStructureParser()
     delete _firstWordRegexp;
     delete _indiciesKeysRegexp;
     delete _foreignKeysRegexp;
+    delete _tableOptionsRegexp;
 }
 
 void TableStructureParser::run(TableEntity * table)
 {
+    // TODO: using regexps for parsing is very shitty
+
     init();
 
     TableStructure * structure = table->structure();
@@ -40,6 +44,7 @@ void TableStructureParser::run(TableEntity * table)
     parseColumns(createSQL, structure->columns());
     parseKeysIndicies(createSQL, structure->indicies());
     parseForeignKeys(createSQL, structure->foreighKeys());
+    parseTableOptions(table);
 }
 
 void TableStructureParser::init()
@@ -92,6 +97,12 @@ void TableStructureParser::init()
 
     _foreignKeysRegexp = new QRegularExpression(
         fKeysRegexpStrFK + fKeysRegexpStrRef + fKeysRegexpStrRefOnDel + fKeysRegexpStrRefOnUpd,
+        QRegularExpression::CaseInsensitiveOption);
+
+    QString optionsPairsRegexp =
+        QString(R"(\s(\S+)\s*=\s*(\S+))");
+    _tableOptionsRegexp = new QRegularExpression(
+        optionsPairsRegexp,
         QRegularExpression::CaseInsensitiveOption);
 }
 
@@ -237,6 +248,26 @@ void TableStructureParser::parseForeignKeys(
         fKeys.append(fKey);
 
     }
+}
+
+void TableStructureParser::parseTableOptions(TableEntity * table)
+{
+    QString comment;
+
+    QString createSQL = table->createCode();
+
+    auto regExpIt = _tableOptionsRegexp->globalMatch(createSQL);
+
+    while (regExpIt.hasNext()) {
+        QRegularExpressionMatch optionMatch = regExpIt.next();
+        QString optName = optionMatch.captured(1).toUpper();
+        QString optValue = optionMatch.captured(2);
+        if (optName == "COMMENT") {
+            comment = matchQuotedStr(optValue);
+        }
+    }
+
+    table->setComment(comment);
 }
 
 QString TableStructureParser::extractId(QString & str, bool remove) const

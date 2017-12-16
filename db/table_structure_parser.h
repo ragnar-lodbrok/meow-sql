@@ -24,6 +24,7 @@ private:
     void parseColumns(const QString & createSQL, QList<TableColumn *> & columns) const;
     void parseKeysIndicies(const QString & createSQL, QList<TableIndex *> & indicies) const;
     void parseForeignKeys(const QString & createSQL, QList<ForeignKey *> & fKeys) const;
+    void parseTableOptions(TableEntity * table);
 
     QString extractId(QString & str, bool remove = true) const;
     DataTypeIndex extractDataTypeByName(QString & columnString) const;
@@ -49,6 +50,7 @@ private:
     QRegularExpression * _firstWordRegexp;
     QRegularExpression * _indiciesKeysRegexp;
     QRegularExpression * _foreignKeysRegexp;
+    QRegularExpression * _tableOptionsRegexp;
 };
 
 } // namespace db

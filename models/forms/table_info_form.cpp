@@ -22,7 +22,7 @@ const QString TableInfoForm::tableName() const
 
 const QString TableInfoForm::tableComment() const
 {
-    return QString(); // TODO
+    return _table ? _table->comment() : QString();
 }
 
 } // namespace forms
