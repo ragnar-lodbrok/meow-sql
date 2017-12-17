@@ -253,10 +253,20 @@ void TableStructureParser::parseForeignKeys(
 void TableStructureParser::parseTableOptions(TableEntity * table)
 {
     QString comment;
+    QString engineStr;
+    QString collation;
+    QString rowFormatStr;
+    db::ulonglong avgRowLen = 0;
+    db::ulonglong autoInc = 0;
+    db::ulonglong maxRows = 0;
+    bool isCheckSum = false;
 
+    TableStructure * structure = table->structure();
     QString createSQL = table->createCode();
 
     auto regExpIt = _tableOptionsRegexp->globalMatch(createSQL);
+
+    // TODO we already read some data like Engine, Collation in TableStructureParser
 
     while (regExpIt.hasNext()) {
         QRegularExpressionMatch optionMatch = regExpIt.next();
@@ -264,10 +274,34 @@ void TableStructureParser::parseTableOptions(TableEntity * table)
         QString optValue = optionMatch.captured(2);
         if (optName == "COMMENT") {
             comment = matchQuotedStr(optValue);
-        }
+        } else if (optName == "ENGINE" || optName == "TYPE") {
+            engineStr = optValue;
+        } else if (optName == "COLLATE") {
+            collation = optValue;
+        } else if (optName == "AVG_ROW_LENGTH") {
+            avgRowLen = optValue.toULongLong();
+        } else if (optName == "AUTO_INCREMENT") {
+            autoInc = optValue.toULongLong();
+        } else if (optName == "ROW_FORMAT") {
+            rowFormatStr = optValue;
+        } else if (optName == "CHECKSUM") {
+            isCheckSum = optValue == "1";
+        } else if (optName == "MAX_ROWS") {
+            maxRows = optValue.toULongLong();
+        } // TODO "INSERT_METHOD", "UNION"
+
     }
 
-    table->setComment(comment);
+    table->setEngine(engineStr);
+    table->setCollation(collation);
+
+    // Put additional (info-like) attributes into structure
+    structure->setComment(comment);
+    structure->setAvgRowLen(avgRowLen);
+    structure->setAutoInc(autoInc);
+    structure->setRowFormat(rowFormatStr);
+    structure->setCheckSum(isCheckSum);
+    structure->setMaxRows(maxRows);
 }
 
 QString TableStructureParser::extractId(QString & str, bool remove) const

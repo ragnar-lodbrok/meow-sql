@@ -4,7 +4,12 @@ namespace meow {
 namespace db {
 
 TableStructure::TableStructure()
+    : _avgRowLen(0),
+      _autoInc(0),
+      _maxRows(0),
+      _isCheckSum(false)
 {
+
 }
 
 TableStructure::~TableStructure()

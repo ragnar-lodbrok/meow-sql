@@ -146,7 +146,7 @@ QVariant DatabaseEntitiesTableModel::data(const QModelIndex &index, int role) co
 
             case Columns::Engine:
                 if (table) {
-                    return table->engine();
+                    return table->engineStr();
                 } else {
                     return QVariant();
                 }

@@ -1,4 +1,5 @@
 #include "cr_table_info_options_tab.h"
+#include "models/forms/table_info_form.h"
 
 namespace meow {
 namespace ui {
@@ -43,9 +44,6 @@ void OptionsTab::createWidgets()
     _defaultCollationComboBox->setToolTip("Readonly");
     _defaultCollationLabel->setBuddy(_defaultCollationComboBox);
     _mainGridLayout->addWidget(_defaultCollationComboBox, row, 3);
-    QStringList collations;
-    collations << "utf8_general_ci";
-    _defaultCollationComboBox->insertItems(0, collations);
 
     ++row; // ------------------------------------------------------------------
 
@@ -80,54 +78,76 @@ void OptionsTab::createWidgets()
     _maxRowCountLabel->setBuddy(_maxRowCountEdit);
     _mainGridLayout->addWidget(_maxRowCountEdit, row, 1);
 
-    // Union tables
-    _unionTablesLabel = new QLabel(tr("Union tables:"));
-    _mainGridLayout->addWidget(_unionTablesLabel, row, 2);
+    // Row format
+    _rowFormatLabel = new QLabel(tr("Row format:"));
+    _mainGridLayout->addWidget(_rowFormatLabel, row, 2);
 
-    _unionTablesEdit = new QPlainTextEdit();
-    _unionTablesEdit->setReadOnly(true);
-    _unionTablesEdit->setToolTip("Readonly"); // temp
-    _unionTablesLabel->setBuddy(_unionTablesEdit);
-    _mainGridLayout->addWidget(_unionTablesEdit, row, 3 , 2, 1);
+    _rowFormatComboBox = new QComboBox();
+    _rowFormatComboBox->setToolTip("Readonly");
+    _rowFormatLabel->setBuddy(_rowFormatComboBox);
+    _mainGridLayout->addWidget(_rowFormatComboBox, row, 3);
+
+    // Union tables
+    //_unionTablesLabel = new QLabel(tr("Union tables:"));
+    //_mainGridLayout->addWidget(_unionTablesLabel, row, 2);
+
+    //_unionTablesEdit = new QPlainTextEdit();
+    //_unionTablesEdit->setReadOnly(true);
+    //_unionTablesEdit->setToolTip("Readonly"); // temp
+    //_unionTablesLabel->setBuddy(_unionTablesEdit);
+    //_mainGridLayout->addWidget(_unionTablesEdit, row, 3 , 2, 1);
 
     ++row; // ------------------------------------------------------------------
 
     // Checksum for rows
     _checksumForRowsCheckBox = new QCheckBox(tr("Checksum for rows")); // ":" removed from the label
+    // readonly
+    _checksumForRowsCheckBox->setAttribute(Qt::WA_TransparentForMouseEvents);
+    _checksumForRowsCheckBox->setFocusPolicy(Qt::NoFocus);
+    _checksumForRowsCheckBox->setToolTip("Readonly");
+    // readonly
     _mainGridLayout->addWidget(_checksumForRowsCheckBox, row, 0, 1, 2);
 
-    ++row; // ------------------------------------------------------------------
-
-    // Row format
-    _rowFormatLabel = new QLabel(tr("Row format:"));
-    _mainGridLayout->addWidget(_rowFormatLabel, row, 0);
-
-    _rowFormatComboBox = new QComboBox();
-    _rowFormatComboBox->setToolTip("Readonly");
-    _rowFormatLabel->setBuddy(_rowFormatComboBox);
-    _mainGridLayout->addWidget(_rowFormatComboBox, row, 1);
+    //++row; // ------------------------------------------------------------------
 
     // INSERT method
-    _insertMethodLabel = new QLabel(tr("INSERT method:"));
-    _mainGridLayout->addWidget(_insertMethodLabel, row, 2);
+    //_insertMethodLabel = new QLabel(tr("INSERT method:"));
+    //_mainGridLayout->addWidget(_insertMethodLabel, row, 2);
 
-    _insertMethodComboBox = new QComboBox();
-    _insertMethodComboBox->setToolTip("Readonly");
-    _insertMethodLabel->setBuddy(_insertMethodComboBox);
-    _mainGridLayout->addWidget(_insertMethodComboBox, row, 3);
+    //_insertMethodComboBox = new QComboBox();
+    //_insertMethodComboBox->setToolTip("Readonly");
+    //_insertMethodLabel->setBuddy(_insertMethodComboBox);
+    //_mainGridLayout->addWidget(_insertMethodComboBox, row, 3);
 
     _mainGridLayout->setColumnStretch(0, 0);
     _mainGridLayout->setColumnStretch(1, 1);
     _mainGridLayout->setColumnStretch(2, 0);
-    _mainGridLayout->setColumnStretch(3, 1);
+    _mainGridLayout->setColumnStretch(3, 2);
     _mainGridLayout->setAlignment(Qt::AlignTop);
     this->setLayout(_mainGridLayout);
 }
 
 void OptionsTab::fillDataFromForm()
 {
-    //_nameEdit->setText(_tableForm->tableName());
-    //_commentEdit->setPlainText(_tableForm->tableComment());
+    _autoIncEdit->setText(_tableForm->autoInc());
+    _avgRowLenEdit->setText(_tableForm->avgRowLen());
+    _maxRowCountEdit->setText(_tableForm->maxRows());
+    _checksumForRowsCheckBox->setChecked(_tableForm->isCheckSum());
+
+    QStringList collations;
+    collations << _tableForm->collation();
+    _defaultCollationComboBox->clear();
+    _defaultCollationComboBox->addItems(collations);
+
+    QStringList engines;
+    engines << _tableForm->engine();
+    _engineComboBox->clear();
+    _engineComboBox->addItems(engines);
+
+    QStringList rowFormats;
+    rowFormats << _tableForm->rowFormat();
+    _rowFormatComboBox->clear();
+    _rowFormatComboBox->addItems(rowFormats);
 }
 
 } // namespace table_info

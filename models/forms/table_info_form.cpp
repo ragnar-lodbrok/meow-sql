@@ -22,7 +22,48 @@ const QString TableInfoForm::tableName() const
 
 const QString TableInfoForm::tableComment() const
 {
-    return _table ? _table->comment() : QString();
+    return _table ? _table->structure()->comment() : QString();
+}
+
+const QString TableInfoForm::autoInc() const
+{
+    auto autoInc = _table ? _table->structure()->autoInc() : 0;
+    return autoInc > 0 ? QString::number(autoInc) : QString();
+}
+
+const QString TableInfoForm::avgRowLen() const
+{
+    auto avgRowLen = _table ? _table->structure()->avgRowLen() : 0;
+    return avgRowLen > 0 ? QString::number(avgRowLen) : QString();
+}
+
+const QString TableInfoForm::maxRows() const
+{
+    auto maxRows = _table ? _table->structure()->maxRows() : 0;
+    return maxRows > 0 ? QString::number(maxRows) : QString();
+}
+
+const QString TableInfoForm::collation() const
+{
+    return _table ? _table->collation() : QString();
+}
+
+const QString TableInfoForm::engine() const
+{
+    return _table ? _table->engineStr() : QString();
+}
+
+const QString TableInfoForm::rowFormat() const
+{
+    if (_table && !_table->structure()->rowFormatStr().isEmpty()) {
+        return _table->structure()->rowFormatStr();
+    }
+    return QString("DEFAULT");
+}
+
+bool TableInfoForm::isCheckSum() const
+{
+    return _table ? _table->structure()->isCheckSum() : false;
 }
 
 } // namespace forms

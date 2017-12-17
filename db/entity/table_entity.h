@@ -23,8 +23,9 @@ public:
     virtual db::ulonglong dataSize() const override { return _dataSize; }
     void setDataSize(db::ulonglong dataSize) { _dataSize = dataSize; }
 
-    QString engine() const { return _engine; }
-    void setEngine(const QString & engine) { _engine = engine; }
+    // TODO: enum?
+    QString engineStr() const { return _engineStr; }
+    void setEngine(const QString & engine) { _engineStr = engine; }
 
     QString collation() const { return _collation; }
     void setCollation(const QString & collation) { _collation = collation; }
@@ -35,19 +36,17 @@ public:
     db::ulonglong version() const { return _version; }
     void setVersion(db::ulonglong version) { _version = version; }
 
-    QString comment() const { return _comment; }
-    void setComment(const QString & comment) { _comment = comment; }
-
     db::TableStructure * structure() const;
 
 private:
     QString _collation;
     QString _tableName;
-    QString _engine;
-    QString _comment;
+    QString _engineStr;
+
     db::ulonglong _rowsCount;
     db::ulonglong _dataSize;
     db::ulonglong _version;
+
     mutable db::TableStructure * _structure;
 };
 

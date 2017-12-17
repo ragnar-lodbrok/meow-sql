@@ -31,7 +31,7 @@ void TableTab::createWidgets()
     _tableInfo = new TableInfo(this);
     _tableInfo->setSizePolicy(
                 QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred));
-    _tableInfo->setMinimumSize(QSize(300, 220));
+    _tableInfo->setMinimumSize(QSize(300, 200));
 
     _columns = new TableColumns(this);
     _columns->setSizePolicy(

@@ -48,16 +48,16 @@ private:
     QLabel * _maxRowCountLabel;
     QLineEdit * _maxRowCountEdit;
 
-    QLabel * _unionTablesLabel;
-    QPlainTextEdit * _unionTablesEdit;
+    //QLabel * _unionTablesLabel;
+    //QPlainTextEdit * _unionTablesEdit;
 
     QCheckBox * _checksumForRowsCheckBox;
 
     QLabel * _rowFormatLabel;
     QComboBox * _rowFormatComboBox;
 
-    QLabel * _insertMethodLabel;
-    QComboBox * _insertMethodComboBox;
+    //QLabel * _insertMethodLabel;
+    //QComboBox * _insertMethodComboBox;
 
 };
 

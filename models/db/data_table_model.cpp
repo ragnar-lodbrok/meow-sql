@@ -131,7 +131,7 @@ QString DataTableModel::rowCountStats() const
         result += ": " + meow::helpers::formatNumber(rowsCount) + " ";
         result += QObject::tr("rows total");
 
-        if (table->engine() == "InnoDB") {
+        if (table->engineStr() == "InnoDB") {
             result += " (" + QObject::tr("approximately") + ")";
         }        
         if (isLimited()) {

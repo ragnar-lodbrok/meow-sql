@@ -24,6 +24,14 @@ public:
     const QString tableName() const;
     const QString tableComment() const;
 
+    const QString autoInc() const;
+    const QString avgRowLen() const;
+    const QString maxRows() const;
+    const QString collation() const;
+    const QString engine() const;
+    const QString rowFormat() const;
+    bool isCheckSum() const;
+
 private:
     db::TableEntity * _table;
 };
