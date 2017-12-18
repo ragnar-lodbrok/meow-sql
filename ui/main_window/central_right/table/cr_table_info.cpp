@@ -19,6 +19,7 @@ void TableInfo::setTable(db::TableEntity * table)
     _form.setTable(table);
     _basicTab->refreshData();
     _optionsTab->refreshData();
+    _indexesTab->refreshData();
 }
 
 void TableInfo::createTabs()
@@ -37,7 +38,7 @@ void TableInfo::createTabs()
 
     _basicTab = new table_info::BasicTab(&_form, this);
     _optionsTab = new table_info::OptionsTab(&_form, this);
-    _indexesTab = new table_info::IndexesTab(this);
+    _indexesTab = new table_info::IndexesTab(&_form, this);
     _fKeysTab = new table_info::ForeignKeysTab(this);
 
     using TableInfoTabs = models::ui::TableInfoWidgetTabs;

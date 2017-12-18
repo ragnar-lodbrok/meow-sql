@@ -4,6 +4,13 @@
 #include <QtWidgets>
 
 namespace meow {
+
+namespace models {
+namespace forms {
+    class TableInfoForm;
+}
+}
+
 namespace ui {
 namespace main_window {
 namespace central_right {
@@ -13,9 +20,18 @@ class IndexesTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit IndexesTab(QWidget *parent = nullptr);
+    explicit IndexesTab(models::forms::TableInfoForm * form,
+                        QWidget *parent = nullptr);
 
+    void refreshData();
 
+private:
+    void createWidgets();
+    void fillDataFromForm();
+
+    models::forms::TableInfoForm * _tableForm;
+    QTreeView * _indexesTree;
+    QHBoxLayout * _mainLayout;
 };
 
 } // namespace table_info

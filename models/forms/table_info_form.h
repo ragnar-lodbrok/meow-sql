@@ -11,6 +11,11 @@ namespace db {
 }
 
 namespace models {
+
+namespace db {
+    class TableIndexesModel;
+}
+
 namespace forms {
 
 class TableInfoForm : public QObject
@@ -18,8 +23,9 @@ class TableInfoForm : public QObject
     Q_OBJECT
 public:
     explicit TableInfoForm(QObject *parent = nullptr);
+    ~TableInfoForm();
 
-    void setTable(db::TableEntity * table);
+    void setTable(meow::db::TableEntity * table);
 
     const QString tableName() const;
     const QString tableComment() const;
@@ -32,8 +38,11 @@ public:
     const QString rowFormat() const;
     bool isCheckSum() const;
 
+    meow::models::db::TableIndexesModel * indexesModel();
+
 private:
-    db::TableEntity * _table;
+    meow::db::TableEntity * _table;
+    meow::models::db::TableIndexesModel * _indexesModel;
 };
 
 } // namespace forms

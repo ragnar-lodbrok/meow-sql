@@ -1,16 +1,25 @@
 #include "table_info_form.h"
 #include "db/entity/table_entity.h"
+#include "models/db/table_indexes_model.h"
 
 namespace meow {
 namespace models {
 namespace forms {
 
-TableInfoForm::TableInfoForm(QObject *parent) : QObject(parent), _table(nullptr)
+TableInfoForm::TableInfoForm(QObject *parent)
+    : QObject(parent),
+      _table(nullptr),
+      _indexesModel(nullptr)
 {
 
 }
 
-void TableInfoForm::setTable(db::TableEntity * table)
+TableInfoForm::~TableInfoForm()
+{
+    delete _indexesModel;
+}
+
+void TableInfoForm::setTable(meow::db::TableEntity * table)
 {
     _table = table;
 }
@@ -64,6 +73,14 @@ const QString TableInfoForm::rowFormat() const
 bool TableInfoForm::isCheckSum() const
 {
     return _table ? _table->structure()->isCheckSum() : false;
+}
+
+db::TableIndexesModel * TableInfoForm::indexesModel()
+{
+    if (!_indexesModel) {
+        _indexesModel = new models::db::TableIndexesModel();
+    }
+    return _indexesModel;
 }
 
 } // namespace forms
