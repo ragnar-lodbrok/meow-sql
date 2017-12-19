@@ -1,6 +1,6 @@
 #include "table_info_form.h"
 #include "db/entity/table_entity.h"
-#include "models/db/table_indexes_model.h"
+#include "models/forms/table_indexes_model.h"
 
 namespace meow {
 namespace models {
@@ -75,10 +75,10 @@ bool TableInfoForm::isCheckSum() const
     return _table ? _table->structure()->isCheckSum() : false;
 }
 
-db::TableIndexesModel * TableInfoForm::indexesModel()
+TableIndexesModel * TableInfoForm::indexesModel()
 {
     if (!_indexesModel) {
-        _indexesModel = new models::db::TableIndexesModel();
+        _indexesModel = new TableIndexesModel();
     }
     return _indexesModel;
 }

@@ -1,11 +1,23 @@
 #include "table_indexes_model.h"
+#include "db/entity/table_entity.h"
 
 namespace meow {
 namespace models {
-namespace db {
+namespace forms {
 
 TableIndexesModel::TableIndexesModel(QObject * parent)
-    : QAbstractItemModel(parent)
+    : QAbstractItemModel(parent),
+      _table(nullptr)
+{
+
+}
+
+void TableIndexesModel::setTable(meow::db::TableEntity * table)
+{
+    _table = table;
+}
+
+void TableIndexesModel::refresh()
 {
 
 }
@@ -40,7 +52,7 @@ QModelIndex TableIndexesModel::parent(const QModelIndex &index) const // overrid
     return QModelIndex();
 }
 
-QVariant TableIndexesModel::data(const QModelIndex &index, int role) const // override
+QVariant TableIndexesModel::data(const QModelIndex &index, int role) const
 {
 
     Q_UNUSED(role);
@@ -111,6 +123,6 @@ int TableIndexesModel::columnWidth(int column) const
     }
 }
 
-} // namespace db
+} // namespace forms
 } // namespace models
 } // namespace meow

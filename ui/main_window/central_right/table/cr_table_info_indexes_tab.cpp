@@ -1,6 +1,6 @@
 #include "cr_table_info_indexes_tab.h"
 #include "models/forms/table_info_form.h"
-#include "models/db/table_indexes_model.h"
+#include "models/forms/table_indexes_model.h"
 
 namespace meow {
 namespace ui {

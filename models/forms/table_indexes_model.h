@@ -1,7 +1,8 @@
-#ifndef MODELS_DB_TABLE_INDEXES_MODEL_H
-#define MODELS_DB_TABLE_INDEXES_MODEL_H
+#ifndef MODELS_FORMS_TABLE_INDEXES_MODEL_H
+#define MODELS_FORMS_TABLE_INDEXES_MODEL_H
 
 #include <QAbstractItemModel>
+#include "table_indexes_model_item.h"
 
 namespace meow {
 
@@ -10,7 +11,8 @@ class TableEntity;
 }
 
 namespace models {
-namespace db {
+namespace forms {
+
 
 class TableIndexesModel : public QAbstractItemModel
 {
@@ -24,6 +26,9 @@ public:
     };
 
     TableIndexesModel(QObject * parent = nullptr);
+
+    void setTable(meow::db::TableEntity * table);
+    void refresh();
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -42,11 +47,11 @@ public:
     //bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
 
 private:
-
+    meow::db::TableEntity * _table;
 };
 
-} // namespace db
+} // namespace forms
 } // namespace models
 } // namespace meow
 
-#endif // MODELS_DB_TABLE_INDEXES_MODEL_H
+#endif // MODELS_FORMS_TABLE_INDEXES_MODEL_H
