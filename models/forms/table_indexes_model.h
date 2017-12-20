@@ -14,7 +14,8 @@ namespace models {
 namespace forms {
 
 
-class TableIndexesModel : public QAbstractItemModel
+class TableIndexesModel : public QAbstractItemModel,
+                          public ITableIndexesModelItem
 {
 public:
 
@@ -26,15 +27,16 @@ public:
     };
 
     TableIndexesModel(QObject * parent = nullptr);
+    ~TableIndexesModel();
 
     void setTable(meow::db::TableEntity * table);
-    void refresh();
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
 
-    QModelIndex index(int row, int column,
-                      const QModelIndex &parent = QModelIndex()) const override;
+    QModelIndex index(
+            int row, int column,
+            const QModelIndex &parentIndex = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex &index) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -46,8 +48,24 @@ public:
 
     //bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
 
+    virtual int childCount() const override { return _items.size(); }
+    virtual Type type() const override { return Type::Root; }
+
+    virtual ITableIndexesModelItem * child(int row) const override;
+    virtual int rowOf(ITableIndexesModelItem * child) const override;
+
+
 private:
+
+    void reinitItems();
+    ITableIndexesModelItem * rootItem() const;
+
+    void removeData();
+    void insertData();
+
     meow::db::TableEntity * _table;
+    QList<ITableIndexesModelItem *> _items;
+
 };
 
 } // namespace forms

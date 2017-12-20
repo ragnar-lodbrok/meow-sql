@@ -22,6 +22,9 @@ TableInfoForm::~TableInfoForm()
 void TableInfoForm::setTable(meow::db::TableEntity * table)
 {
     _table = table;
+    if (_indexesModel) {
+        _indexesModel->setTable(_table);
+    }
 }
 
 const QString TableInfoForm::tableName() const
@@ -79,6 +82,7 @@ TableIndexesModel * TableInfoForm::indexesModel()
 {
     if (!_indexesModel) {
         _indexesModel = new TableIndexesModel();
+        _indexesModel->setTable(_table);
     }
     return _indexesModel;
 }
