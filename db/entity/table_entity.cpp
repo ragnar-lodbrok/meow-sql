@@ -28,6 +28,7 @@ QString TableEntity::name() const // override
 
 QVariant TableEntity::icon() const // override
 {
+    // TODO: move to Settings::icons
     static const QIcon icon = QIcon(":/icons/table.png");
 
     return icon;

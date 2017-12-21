@@ -81,14 +81,16 @@ QModelIndex TableIndexesModel::parent(const QModelIndex &index) const
 QVariant TableIndexesModel::data(const QModelIndex &index, int role) const
 {
 
-    if (role == Qt::DisplayRole /*|| role == Qt::DecorationRole*/) {
+    if (role == Qt::DisplayRole || role == Qt::DecorationRole) {
 
         ITableIndexesModelItem * item
              = static_cast<ITableIndexesModelItem *>(index.internalPointer());
 
-        /*if (role == Qt::DecorationRole) {
+        bool isNameCol = static_cast<Columns>(index.column()) == Columns::Name;
+
+        if (role == Qt::DecorationRole && isNameCol) {
             return item->icon();
-        } else */if (role == Qt::DisplayRole) {
+        } else if (role == Qt::DisplayRole) {
             return item->data(index.column());
         }
     }

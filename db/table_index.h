@@ -19,7 +19,7 @@ enum class TableIndexClass {
     Spatial
 };
 
-enum class TableIndexType {
+enum class TableIndexType { // == H: Algorithm
     None,
     BTREE,
     HASH,
@@ -38,21 +38,28 @@ class TableIndex
 public:
     TableIndex();
 
-    QString name() const { return _name; }
+    QString name() const;
     void setName(const QString & name) { _name = name; }
 
     TableIndexClass classType() const { return _class; }
+    QString classTypeStr() const {
+        return tableIndexClassToStr(_class);
+    }
     void setClassType(TableIndexClass cls) { _class = cls; }
     void setClassType(const QString & clsStr) {
         _class = strToTableIndexClass(clsStr);
     }
 
     TableIndexType indexType() const { return _type; }
+    QString indexTypeStr() const {
+        return tableIndexTypeToStr(_type);
+    }
     void setIndexType(TableIndexType type) { _type = type; }
     void setIndexType(const QString & typeStr) {
         _type = strToTableIndexType(typeStr);
     }
 
+    int columnsCount() const { return _columns.size(); }
     QStringList & columns() { return _columns; }
     QStringList & subParts() { return _subParts; }
 

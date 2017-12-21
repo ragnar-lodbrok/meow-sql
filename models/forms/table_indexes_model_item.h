@@ -13,6 +13,12 @@ class TableIndex;
 namespace models {
 namespace forms {
 
+
+// Intent: table indexes (tree) model item
+// These classes should not contain any data, only refer it, so we can
+// easily modify their order/data, thus we don't pass rows and strings.
+// We may (pbly) get rid of these classes, but this approach worked for me before.
+
 class ITableIndexesModelItem
 {
 public:
@@ -52,13 +58,13 @@ public:
         Q_UNUSED(child);
         return 0;
     }
-    //virtual QVariant icon() const { return QVariant(); }
+    virtual QVariant icon() const { return QVariant(); }
 
 protected:
     ITableIndexesModelItem * _parent;
 };
 
-
+// -----------------------------------------------------------------------------
 
 // Item of type Index
 class TableIndexesModelItemIndex : public ITableIndexesModelItem
@@ -71,27 +77,42 @@ public:
 
     virtual QString data(int col) const override;
 
+    virtual int rowOf(ITableIndexesModelItem * child) const override;
+
     virtual int childCount() const override { return _columns.size(); }
 
     virtual ITableIndexesModelItem * child(int row) const override {
         return _columns.value(row);
     }
     virtual Type type() const { return Type::Index; }
+
+    virtual QVariant icon() const override;
+
+    void reinitColumns();
 private:
     db::TableIndex * _index;
     QList<ITableIndexesModelItem *> _columns;
 };
 
 
-// Item of type index column
-/*class TableIndexesModelItemColumn : public ITableIndexesModelItem
+// -----------------------------------------------------------------------------
+
+// Item of type index's column
+class TableIndexesModelItemColumn : public ITableIndexesModelItem
 {
 public:
     TableIndexesModelItemColumn(db::TableIndex * index,
                                 ITableIndexesModelItem * parent = nullptr);
+
+    virtual QString data(int col) const override;
+
+    virtual Type type() const { return Type::Column; }
+
+    virtual QVariant icon() const override;
+
 private:
     db::TableIndex * _index;
-};*/
+};
 
 } // namespace forms
 } // namespace models

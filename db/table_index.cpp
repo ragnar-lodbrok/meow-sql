@@ -86,5 +86,13 @@ TableIndex::operator QString() const
     return str;
 }
 
+QString TableIndex::name() const
+{
+    if (_class == TableIndexClass::PrimaryKey) {
+        return "PRIMARY KEY";
+    }
+    return _name;
+}
+
 } // namespace db
 } // namespace meow

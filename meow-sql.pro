@@ -107,7 +107,8 @@ SOURCES += main.cpp\
     models/ui/table_info_widget_model.cpp \
     models/forms/table_info_form.cpp \
     models/forms/table_indexes_model.cpp \
-    models/forms/table_indexes_model_item.cpp
+    models/forms/table_indexes_model_item.cpp \
+    settings/settings_icons.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -192,7 +193,8 @@ HEADERS  += app.h \
     models/ui/table_info_widget_model.h \
     models/forms/table_info_form.h \
     models/forms/table_indexes_model.h \
-    models/forms/table_indexes_model_item.h
+    models/forms/table_indexes_model_item.h \
+    settings/settings_icons.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

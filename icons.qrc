@@ -67,10 +67,11 @@
         <file>resources/icons/application_form_edit.png</file>
         <file>resources/icons/application_form_delete.png</file>
         <file>resources/icons/application_form_add.png</file>
-        <file>resources/icons/key_unique.png</file>
-        <file>resources/icons/key_spatial.png</file>
-        <file>resources/icons/key_index.png</file>
-        <file>resources/icons/key_fulltext.png</file>
+        <file alias="key_primary.png">resources/icons/bullet_key.png</file>
+        <file alias="key_unique.png">resources/icons/key_unique.png</file>
+        <file alias="key_spatial.png">resources/icons/key_spatial.png</file>
+        <file alias="key_index.png">resources/icons/key_index.png</file>
+        <file alias="key_fulltext.png">resources/icons/key_fulltext.png</file>
         <file>resources/icons/os_windows.png</file>
         <file>resources/icons/os_unix.png</file>
         <file>resources/icons/os_mac.png</file>
@@ -115,7 +116,7 @@
         <file>resources/icons/resultset_first.png</file>
         <file>resources/icons/bullet_toggle_plus.png</file>
         <file>resources/icons/bullet_toggle_minus.png</file>
-        <file>resources/icons/bullet_white.png</file>
+        <file alias="bullet_white.png">resources/icons/bullet_white.png</file>
         <file>resources/icons/group_delete.png</file>
         <file>resources/icons/group_add.png</file>
         <file>resources/icons/group_edit.png</file>
@@ -182,7 +183,6 @@
         <file alias="host.png">resources/icons/computer.png</file>
         <file>resources/icons/check_none.png</file>
         <file>resources/icons/check_all.png</file>
-        <file>resources/icons/bullet_key.png</file>
         <file>resources/icons/book_open.png</file>
         <file>resources/icons/book.png</file>
         <file alias="execute.png">resources/icons/artsbuilderexecute.png</file>
