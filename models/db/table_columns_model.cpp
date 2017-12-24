@@ -1,6 +1,5 @@
 #include "table_columns_model.h"
 #include "db/entity/table_entity.h"
-#include "db/table_structure.h"
 #include <QDebug>
 #include <QFont>
 #include "app.h"

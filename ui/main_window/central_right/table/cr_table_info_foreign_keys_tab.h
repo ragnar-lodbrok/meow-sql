@@ -4,6 +4,13 @@
 #include <QtWidgets>
 
 namespace meow {
+
+namespace models {
+namespace forms {
+    class TableInfoForm;
+}
+}
+
 namespace ui {
 namespace main_window {
 namespace central_right {
@@ -13,8 +20,16 @@ class ForeignKeysTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ForeignKeysTab(QWidget *parent = nullptr);
+    explicit ForeignKeysTab(models::forms::TableInfoForm * form,
+                            QWidget *parent = nullptr);
 
+
+private:
+    void createWidgets();
+
+    models::forms::TableInfoForm * _tableForm;
+    QTableView * _fKeysTable;
+    QHBoxLayout * _mainLayout;
 
 };
 

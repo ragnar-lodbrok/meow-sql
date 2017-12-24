@@ -39,7 +39,7 @@ void TableInfo::createTabs()
     _basicTab = new table_info::BasicTab(&_form, this);
     _optionsTab = new table_info::OptionsTab(&_form, this);
     _indexesTab = new table_info::IndexesTab(&_form, this);
-    _fKeysTab = new table_info::ForeignKeysTab(this);
+    _fKeysTab = new table_info::ForeignKeysTab(&_form, this);
 
     using TableInfoTabs = models::ui::TableInfoWidgetTabs;
 

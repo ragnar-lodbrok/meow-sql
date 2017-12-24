@@ -14,6 +14,7 @@ namespace models {
 namespace forms {
 
 class TableIndexesModel;
+class TableForeignKeysModel;
 
 class TableInfoForm : public QObject
 {
@@ -36,10 +37,12 @@ public:
     bool isCheckSum() const;
 
     TableIndexesModel * indexesModel();
+    TableForeignKeysModel * foreignKeysModel();
 
 private:
     meow::db::TableEntity * _table;
     TableIndexesModel * _indexesModel;
+    TableForeignKeysModel * _fKeysModel;
 };
 
 } // namespace forms

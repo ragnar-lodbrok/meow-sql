@@ -1,6 +1,7 @@
 #include "table_info_form.h"
 #include "db/entity/table_entity.h"
 #include "models/forms/table_indexes_model.h"
+#include "models/forms/table_foreign_keys_model.h"
 
 namespace meow {
 namespace models {
@@ -9,7 +10,8 @@ namespace forms {
 TableInfoForm::TableInfoForm(QObject *parent)
     : QObject(parent),
       _table(nullptr),
-      _indexesModel(nullptr)
+      _indexesModel(nullptr),
+      _fKeysModel(nullptr)
 {
 
 }
@@ -17,6 +19,7 @@ TableInfoForm::TableInfoForm(QObject *parent)
 TableInfoForm::~TableInfoForm()
 {
     delete _indexesModel;
+    delete _fKeysModel;
 }
 
 void TableInfoForm::setTable(meow::db::TableEntity * table)
@@ -24,6 +27,9 @@ void TableInfoForm::setTable(meow::db::TableEntity * table)
     _table = table;
     if (_indexesModel) {
         _indexesModel->setTable(_table);
+    }
+    if (_fKeysModel) {
+        _fKeysModel->setTable(_table);
     }
 }
 
@@ -85,6 +91,15 @@ TableIndexesModel * TableInfoForm::indexesModel()
         _indexesModel->setTable(_table);
     }
     return _indexesModel;
+}
+
+TableForeignKeysModel * TableInfoForm::foreignKeysModel()
+{
+    if (!_fKeysModel) {
+        _fKeysModel = new TableForeignKeysModel();
+        _fKeysModel->setTable(_table);
+    }
+    return _fKeysModel;
 }
 
 } // namespace forms

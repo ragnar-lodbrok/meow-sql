@@ -108,7 +108,8 @@ SOURCES += main.cpp\
     models/forms/table_info_form.cpp \
     models/forms/table_indexes_model.cpp \
     models/forms/table_indexes_model_item.cpp \
-    settings/settings_icons.cpp
+    settings/settings_icons.cpp \
+    models/forms/table_foreign_keys_model.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -194,7 +195,8 @@ HEADERS  += app.h \
     models/forms/table_info_form.h \
     models/forms/table_indexes_model.h \
     models/forms/table_indexes_model_item.h \
-    settings/settings_icons.h
+    settings/settings_icons.h \
+    models/forms/table_foreign_keys_model.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"
