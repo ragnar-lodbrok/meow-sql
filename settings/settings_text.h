@@ -17,6 +17,10 @@ class Text
 {
 public:
     Text();
+
+    int tableAutoResizeRowsLookupCount() const { return 10; }
+    bool autoResizeTableColumns() const { return true; }
+
     const QColor colorForDataType(db::DataTypeCategoryIndex type) const;
     const QColor colorForDataTypeNULL(db::DataTypeCategoryIndex type) const;
     const QColor colorForDefaultType(db::ColumnDefaultType type) const;

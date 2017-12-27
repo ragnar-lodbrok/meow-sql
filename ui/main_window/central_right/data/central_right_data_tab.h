@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 #include "models/db/data_table_model.h"
+#include "ui/common/table_view.h"
 
 namespace meow {
 namespace ui {
@@ -39,7 +40,7 @@ private:
     QAction * _nextRowsAction;
     QAction * _showAllRowsAction;
     // bottom:
-    QTableView  * _dataTable;
+    TableView  * _dataTable;
 
     models::db::DataTableModel _model;
 };

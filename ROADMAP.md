@@ -53,6 +53,10 @@ Table columns: editable columns
 
 Buildable and deployable on macOS
 
+Remember UI geometry (sizes/positions)
+
+Translations
+
 ...
 
 Host Tab: Variables (r/o), minimal

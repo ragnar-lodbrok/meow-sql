@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QVariant>
 
 namespace meow {
 

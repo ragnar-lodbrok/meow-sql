@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 #include "models/db/base_data_table_model.h"
+#include "ui/common/table_view.h"
 
 namespace meow {
 
@@ -21,7 +22,7 @@ public:
     virtual ~QueryDataTab();
 private:
     models::db::BaseDataTableModel _model;
-    QTableView  * _dataTable;
+    TableView  * _dataTable;
 };
 
 } // namespace central_right

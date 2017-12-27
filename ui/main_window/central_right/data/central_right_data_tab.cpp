@@ -60,12 +60,15 @@ void DataTab::createToolBar()
 void DataTab::createDataTable()
 {
 
-    _dataTable = new QTableView();
+    _dataTable = new TableView();
     _dataTable->verticalHeader()->hide();
      auto geometrySettings = meow::app()->settings()->geometrySettings();
     _dataTable->verticalHeader()->setDefaultSectionSize(
         geometrySettings->tableViewDefaultRowHeight());
     _dataTable->horizontalHeader()->setHighlightSections(false);
+    _dataTable->horizontalHeader()->setResizeContentsPrecision(
+        meow::app()->settings()->textSettings()->tableAutoResizeRowsLookupCount()
+    );
 
     _dataTable->setModel(&_model);
     _mainLayout->addWidget(_dataTable);
@@ -98,7 +101,9 @@ void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
     if (loadData) {
         refreshDataLabelText();
         validateToolBarState();
-        //_dataTable->resizeColumnsToContents(); // Too slow,write own
+        if (meow::app()->settings()->textSettings()->autoResizeTableColumns()) {
+            _dataTable->resizeColumnsToContents();
+        }
     }
 }
 
@@ -107,7 +112,9 @@ void DataTab::loadData()
     _model.loadData();
     refreshDataLabelText();
     validateToolBarState();
-    //_dataTable->resizeColumnsToContents();
+    if (meow::app()->settings()->textSettings()->autoResizeTableColumns()) {
+        _dataTable->resizeColumnsToContents();
+    }
 }
 
 void DataTab::refreshDataLabelText()

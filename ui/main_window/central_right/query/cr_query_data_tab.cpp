@@ -14,16 +14,23 @@ QueryDataTab::QueryDataTab(db::QueryData * queryData, QWidget *parent)
     mainLayout->setContentsMargins(2, 2, 2, 2);
     setLayout(mainLayout);
 
-    _dataTable = new QTableView();
+    _dataTable = new TableView();
     _dataTable->verticalHeader()->hide();
     _dataTable->horizontalHeader()->setHighlightSections(false);
     auto geometrySettings = meow::app()->settings()->geometrySettings();
     _dataTable->verticalHeader()->setDefaultSectionSize(
        geometrySettings->tableViewDefaultRowHeight());
+    _dataTable->horizontalHeader()->setResizeContentsPrecision(
+        meow::app()->settings()->textSettings()->tableAutoResizeRowsLookupCount()
+    );
 
     _dataTable->setModel(&_model);
     mainLayout->addWidget(_dataTable);
     _dataTable->setSortingEnabled(false); // TODO
+
+    if (meow::app()->settings()->textSettings()->autoResizeTableColumns()) {
+        _dataTable->resizeColumnsToContents();
+    }
 }
 
 QueryDataTab::~QueryDataTab()
