@@ -1,6 +1,20 @@
 # Roadmap
 
-## 0.0.2 (Current)
+## 0.0.3 (Current)
+
+**Table Tab (editable)**
+
+Table Tab: Columns (editable)
+
+Table Tab: Basic Tab (editable)
+
+Table Tab: Options Tab (editable)
+
+Table Tab: Indexes Tab (editable)
+
+Table Tab: Foreign Keys Tab (editable)
+
+## 0.0.2
 
 **Full-featured Table Tab (r/o?)**
 
@@ -12,11 +26,7 @@ Table Tab: Indexes Tab (r/o)
 
 Table Tab: Foreign Keys Tab (r/o)
 
-Connection password encryption
-
 Data Tab: auto-column size
-
-Table columns: keys icons
 
 ## 0.0.1
 
@@ -45,17 +55,19 @@ Buildable and deployable on Windows
 
 ## Task pool (by priority)
 
+Connection password encryption
+
 Multiple connections (open session manager from main window)
 
 Tree: mark current database
-
-Table columns: editable columns
 
 Buildable and deployable on macOS
 
 Remember UI geometry (sizes/positions)
 
 Translations
+
+Table columns: keys icons
 
 ...
 
