@@ -27,11 +27,18 @@ public:
 private:
 
     void createWidgets();
+    void createGeneralButtons();
+
+    Q_SLOT void discardTableEditing();
+    Q_SLOT void saveTableEditing();
 
     QSplitter * _mainSplitter;
 
     TableInfo * _tableInfo;
     TableColumns * _columns;
+
+    QPushButton * _discardButton;
+    QPushButton * _saveButton;
 };
 
 } // namespace central_right

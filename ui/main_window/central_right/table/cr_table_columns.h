@@ -26,6 +26,7 @@ private:
 
     TableColumnsTools * _tools;
     QTableView  * _columnsTable;
+
     models::db::TableColumnsModel _model;
 };
 

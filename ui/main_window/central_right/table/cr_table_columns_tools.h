@@ -17,6 +17,13 @@ private:
     void createWidgets();
 
     QLabel * _columnsLabel;
+
+    QToolBar * _toolBar;
+
+    QAction * _addColumnAction;
+    QAction * _removeColumnAction;
+    QAction * _moveUpColumnAction;
+    QAction * _moveDownColumnAction;
 };
 
 } // namespace central_right
