@@ -31,9 +31,11 @@ void BasicTab::createWidgets()
 
     _nameEdit = new QLineEdit();
     _nameEdit->setMaxLength(64);
-    _nameEdit->setReadOnly(true);
-    _nameEdit->setToolTip("Readonly"); // temp
-    _nameLabel->setBuddy(_nameEdit);
+    connect(_nameEdit, &QLineEdit::textEdited,
+            [=](const QString &name) {
+                _tableForm->setTableName(name);
+            });
+    _nameLabel->setBuddy(_nameEdit);;
     _mainGridLayout->addWidget(_nameEdit, row, 1);
 
     ++row;

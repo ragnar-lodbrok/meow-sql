@@ -2,6 +2,7 @@
 #include "db/entity/table_entity.h"
 #include "models/forms/table_indexes_model.h"
 #include "models/forms/table_foreign_keys_model.h"
+#include "app.h"
 
 namespace meow {
 namespace models {
@@ -10,6 +11,7 @@ namespace forms {
 TableInfoForm::TableInfoForm(QObject *parent)
     : QObject(parent),
       _table(nullptr),
+      _sourceTable(nullptr),
       _indexesModel(nullptr),
       _fKeysModel(nullptr)
 {
@@ -18,13 +20,27 @@ TableInfoForm::TableInfoForm(QObject *parent)
 
 TableInfoForm::~TableInfoForm()
 {
+    delete _table;
     delete _indexesModel;
     delete _fKeysModel;
 }
 
 void TableInfoForm::setTable(meow::db::TableEntity * table)
 {
-    _table = table;
+    // TODO: copy only when we start editing
+
+    if (_indexesModel) {
+        _indexesModel->setTable(nullptr);
+    }
+    if (_fKeysModel) {
+        _fKeysModel->setTable(nullptr);
+    }
+
+    auto oldTable = _table;
+    _sourceTable = table;
+    _table = _sourceTable->deepCopy();
+    delete oldTable;
+
     if (_indexesModel) {
         _indexesModel->setTable(_table);
     }
@@ -36,6 +52,11 @@ void TableInfoForm::setTable(meow::db::TableEntity * table)
 const QString TableInfoForm::tableName() const
 {
     return _table ? _table->name() : QString();
+}
+
+void TableInfoForm::setTableName(const QString & name)
+{
+    _table->setName(name);
 }
 
 const QString TableInfoForm::tableComment() const
@@ -101,6 +122,13 @@ TableForeignKeysModel * TableInfoForm::foreignKeysModel()
     }
     return _fKeysModel;
 }
+
+void TableInfoForm::save()
+{
+    meow::app()->dbConnectionsManager()->activeSession()->editTableInDB(
+        _sourceTable, _table);
+}
+
 
 } // namespace forms
 } // namespace models

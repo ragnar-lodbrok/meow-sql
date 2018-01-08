@@ -50,5 +50,16 @@ db::TableStructure * TableEntity::structure() const
     return _structure;
 }
 
+TableEntity * TableEntity::deepCopy() const
+{
+    TableEntity * copy = new TableEntity(*this);
+    // TODO: deep copy `_structure` too
+    // now reassign (temp)
+    copy->_structure = _structure;
+    this->_structure = nullptr;
+
+    return copy;
+}
+
 } // namespace db
 } // namespace meow

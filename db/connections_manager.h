@@ -34,6 +34,7 @@ public:
     void setActiveEntity(Entity * activeEntity);
 
     Connection * activeConnection() const;
+    SessionEntity * activeSession() const { return _activeSession; }
 
     UserQuery * userQueryAt(size_t index);
 

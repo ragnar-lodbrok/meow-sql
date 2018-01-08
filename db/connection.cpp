@@ -179,5 +179,14 @@ void Connection::parseTableStructure(TableEntity * table)
     _tableStructureParser.run(table);
 }
 
+bool Connection::editTableInDB(TableEntity * oldTable, TableEntity * newTable)
+{
+    Q_UNUSED(oldTable);
+    Q_UNUSED(newTable);
+    // TODO: create table editor and run
+
+    return true;
+}
+
 } // namespace db
 } // namespace meow

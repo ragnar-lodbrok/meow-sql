@@ -2,6 +2,7 @@
 #define UI_CENTRAL_RIGHT_TABLETAB_H
 
 #include <QtWidgets>
+#include "models/forms/table_info_form.h"
 
 namespace meow {
 
@@ -31,6 +32,8 @@ private:
 
     Q_SLOT void discardTableEditing();
     Q_SLOT void saveTableEditing();
+
+    models::forms::TableInfoForm _form; // put it somewere in db layer?
 
     QSplitter * _mainSplitter;
 

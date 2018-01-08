@@ -24,8 +24,11 @@ public:
     ~TableInfoForm();
 
     void setTable(meow::db::TableEntity * table);
+    meow::db::TableEntity * editableTable() const { return _table; }
 
     const QString tableName() const;
+    void setTableName(const QString & name);
+
     const QString tableComment() const;
 
     const QString autoInc() const;
@@ -39,8 +42,12 @@ public:
     TableIndexesModel * indexesModel();
     TableForeignKeysModel * foreignKeysModel();
 
+    void save();
+
 private:
-    meow::db::TableEntity * _table;
+
+    meow::db::TableEntity * _table; // copy of source table to edit
+    meow::db::TableEntity * _sourceTable;
     TableIndexesModel * _indexesModel;
     TableForeignKeysModel * _fKeysModel;
 };

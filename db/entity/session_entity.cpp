@@ -64,6 +64,11 @@ int SessionEntity::indexOf(DataBaseEntity * session) const
     return _databases.indexOf(session);
 }
 
+void SessionEntity::editTableInDB(TableEntity * oldTable, TableEntity * newTable)
+{
+    connection()->editTableInDB(oldTable, newTable);
+}
+
 db::ulonglong SessionEntity::dataSize() const // override
 {
     db::ulonglong sum = 0;

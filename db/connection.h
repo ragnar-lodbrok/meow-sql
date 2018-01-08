@@ -80,6 +80,8 @@ public:
 
     void parseTableStructure(TableEntity * table);
 
+    bool editTableInDB(TableEntity * oldTable, TableEntity * newTable);
+
     Q_SIGNAL void databaseChanged(const QString & database);
 
 protected:

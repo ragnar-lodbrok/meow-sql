@@ -26,13 +26,12 @@ void SessionForm::createDetailsTabs()
 
     layout->addWidget(_detailsTabs);
 
-    _detailsTabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+    _detailsTabs->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,
+                                            QSizePolicy::Expanding));
 
-    _startTab = new StartTab();
-    //_detailsTabs->addTab(_startTab, QIcon(":/icons/star.png"), tr("Start"));
+    _startTab = new StartTab(this);
+    _settingsTab = new SettingsTab(this);
 
-    _settingsTab = new SettingsTab();
-    //_detailsTabs->addTab(_settingsTab, QIcon(":/icons/wrench.png"), tr("Settings"));
 }
 
 void SessionForm::setConnectionParamsForm(models::forms::ConnectionParametersForm * form)
@@ -53,7 +52,9 @@ void SessionForm::fillDataFromForm()
         }
         if (_settingsTabIsHidden) {
             _settingsTabIsHidden = false;
-            _detailsTabs->insertTab(0, _settingsTab, QIcon(":/icons/wrench.png"), tr("Settings"));
+            _detailsTabs->insertTab(0, _settingsTab,
+                                    QIcon(":/icons/wrench.png"),
+                                    tr("Settings"));
         }
     } else {
         if (!_settingsTabIsHidden) {
@@ -62,7 +63,9 @@ void SessionForm::fillDataFromForm()
         }
         if (_startTabIsHidden) {
             _startTabIsHidden = false;
-            _detailsTabs->insertTab(0, _startTab, QIcon(":/icons/star.png"), tr("Start"));
+            _detailsTabs->insertTab(0, _startTab,
+                                    QIcon(":/icons/star.png"),
+                                    tr("Start"));
             _detailsTabs->setCurrentIndex(0);
         }
     }

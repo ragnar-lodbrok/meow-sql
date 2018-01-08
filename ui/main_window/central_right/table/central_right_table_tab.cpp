@@ -1,6 +1,7 @@
 #include "central_right_table_tab.h"
 #include "cr_table_info.h"
 #include "cr_table_columns.h"
+#include "db/exception.h"
 
 namespace meow {
 namespace ui {
@@ -14,8 +15,11 @@ TableTab::TableTab(QWidget * parent) : QWidget(parent)
 
 void TableTab::setTable(db::TableEntity * table)
 {
-    _tableInfo->setTable(table);
-    _columns->setTable(table);
+    _columns->setTable(nullptr); // TODO: dirty
+
+    _form.setTable(table);
+    _tableInfo->refreshData();
+    _columns->setTable(_form.editableTable());
 }
 
 void TableTab::createWidgets()
@@ -28,7 +32,7 @@ void TableTab::createWidgets()
     _mainSplitter->setChildrenCollapsible(false);
     mainLayout->addWidget(_mainSplitter);
 
-    _tableInfo = new TableInfo(this);
+    _tableInfo = new TableInfo(&_form, this);
     _tableInfo->setSizePolicy(
                 QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred));
     _tableInfo->setMinimumSize(QSize(300, 200));
@@ -78,7 +82,16 @@ void TableTab::discardTableEditing()
 
 void TableTab::saveTableEditing()
 {
-
+    try {
+        _form.save();
+    } catch(meow::db::Exception & ex) {
+        QMessageBox msgBox;
+        msgBox.setText(ex.message());
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+    }
 }
 
 

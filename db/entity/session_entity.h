@@ -10,6 +10,7 @@ namespace db {
 
 class ConnectionsManager;
 class DataBaseEntity;
+class TableEntity;
 
 class SessionEntity : public Entity
 {
@@ -27,6 +28,8 @@ public:
 
     virtual db::ulonglong dataSize() const override;
     virtual bool hasDataSize() const override { return true; }
+
+    void editTableInDB(TableEntity * oldTable, TableEntity * newTable);
 
     int indexOf(DataBaseEntity * session) const;
 
