@@ -77,21 +77,40 @@ void DataTab::createDataTable()
 
 void DataTab::actionAllRows(bool checked)
 {
-    Q_UNUSED(checked);
-    _model.setNoRowsCountLimit();
-    _model.loadData(true);
-    refreshDataLabelText();
-    validateToolBarState();
+
+    try {
+        Q_UNUSED(checked);
+        _model.setNoRowsCountLimit();
+        _model.loadData(true);
+        refreshDataLabelText();
+        validateToolBarState();
+    } catch(meow::db::Exception & ex) {
+        QMessageBox msgBox;
+        msgBox.setText(ex.message());
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+    }
 }
 
 void DataTab::actionNextRows(bool checked)
 {
-    Q_UNUSED(checked);
-    _model.incRowsCountForOneStep();
-    _model.loadData(true);
-    // TODO: select addition
-    refreshDataLabelText();
-    validateToolBarState();
+    try {
+        Q_UNUSED(checked);
+        _model.incRowsCountForOneStep();
+        _model.loadData(true);
+        // TODO: select addition
+        refreshDataLabelText();
+        validateToolBarState();
+    } catch(meow::db::Exception & ex) {
+        QMessageBox msgBox;
+        msgBox.setText(ex.message());
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+    }
 }
 
 void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)

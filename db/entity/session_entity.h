@@ -12,8 +12,10 @@ class ConnectionsManager;
 class DataBaseEntity;
 class TableEntity;
 
-class SessionEntity : public Entity
+class SessionEntity : public QObject, public Entity
 {
+    Q_OBJECT
+
 public:
     explicit SessionEntity(ConnectionPtr connection, ConnectionsManager * parent);
     virtual ~SessionEntity();
@@ -29,9 +31,11 @@ public:
     virtual db::ulonglong dataSize() const override;
     virtual bool hasDataSize() const override { return true; }
 
-    void editTableInDB(TableEntity * oldTable, TableEntity * newTable);
+    void editTableInDB(TableEntity * table, TableEntity * newData);
 
     int indexOf(DataBaseEntity * session) const;
+
+    Q_SIGNAL void entityEdited(Entity * entity);
 
 private:
     ConnectionsManager * connectionsManager() const;

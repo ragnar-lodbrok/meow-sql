@@ -6,6 +6,7 @@
 #include "entity/mysql_entities_fetcher.h"
 #include "mysql_query_data_fetcher.h"
 #include "db/entity/table_entity.h"
+#include "mysql_table_editor.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -405,16 +406,23 @@ QString MySQLConnection::getCreateCode(const Entity * entity) // override
 
 MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)
 {
-    return std::shared_ptr<MYSQL_RES> (nativeMySQLRes, [](MYSQL_RES * nativeMySQLRes) {
-        if (nativeMySQLRes) {
-            mysql_free_result(nativeMySQLRes);
+    return std::shared_ptr<MYSQL_RES> (nativeMySQLRes,
+        [](MYSQL_RES * nativeMySQLRes) {
+            if (nativeMySQLRes) {
+                mysql_free_result(nativeMySQLRes);
+            }
         }
-    });
+    );
 }
 
 DataBaseEntitiesFetcher * MySQLConnection::createDbEntitiesFetcher() // override
 {
     return new MySQLEntitiesFetcher(this);
+}
+
+TableEditor * MySQLConnection::createTableEditor()
+{
+    return new MySQLTableEditor(this);
 }
 
 } // namespace db

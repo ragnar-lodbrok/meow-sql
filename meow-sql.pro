@@ -111,7 +111,9 @@ SOURCES += main.cpp\
     settings/settings_icons.cpp \
     models/forms/table_foreign_keys_model.cpp \
     ui/common/table_view.cpp \
-    db/entity/table_entity_comparator.cpp
+    db/entity/table_entity_comparator.cpp \
+    db/table_editor.cpp \
+    db/mysql_table_editor.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -200,7 +202,9 @@ HEADERS  += app.h \
     settings/settings_icons.h \
     models/forms/table_foreign_keys_model.h \
     ui/common/table_view.h \
-    db/entity/table_entity_comparator.h
+    db/entity/table_entity_comparator.h \
+    db/table_editor.h \
+    db/mysql_table_editor.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

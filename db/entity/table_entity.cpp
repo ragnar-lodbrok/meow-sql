@@ -50,6 +50,16 @@ db::TableStructure * TableEntity::structure() const
     return _structure;
 }
 
+bool TableEntity::hasStructure() const
+{
+    return _structure != nullptr;
+}
+
+DataBaseEntity * TableEntity::dataBaseEntity() const
+{
+    return static_cast<DataBaseEntity *>(_parent);
+}
+
 TableEntity * TableEntity::deepCopy() const
 {
     TableEntity * copy = new TableEntity(*this);
@@ -59,6 +69,14 @@ TableEntity * TableEntity::deepCopy() const
     this->_structure = nullptr;
 
     return copy;
+}
+
+void TableEntity::copyData(TableEntity * data)
+{
+    *this = *data;
+    // TODO: deep copy `_structure` too
+    this->_structure = data->_structure;
+    data->_structure = nullptr;
 }
 
 } // namespace db

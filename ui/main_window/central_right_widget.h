@@ -21,6 +21,8 @@ public:
 
     void setActiveDBEntity(db::Entity * entity);
 
+    Q_SLOT void onEntityEdited(db::Entity * entity);
+
 private:
 
     void createRootTabs();

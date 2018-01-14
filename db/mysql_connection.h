@@ -60,6 +60,8 @@ public:
 protected:
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() override;
 
+    virtual TableEditor * createTableEditor() override;
+
 private:
     MYSQL * _handle;
     std::vector<MySQLResult> _lastRawResults;

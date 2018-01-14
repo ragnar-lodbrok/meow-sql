@@ -19,6 +19,7 @@ class Query;
 class DataBaseEntitiesFetcher;
 class QueryDataFetcher;
 class TableEntity;
+class TableEditor;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
@@ -78,9 +79,9 @@ public:
     virtual QueryDataFetcher * createQueryDataFetcher() = 0;
     virtual QString getCreateCode(const Entity * entity) = 0;
 
-    void parseTableStructure(TableEntity * table);
+    void parseTableStructure(TableEntity * table, bool refresh = false);
 
-    bool editTableInDB(TableEntity * oldTable, TableEntity * newTable);
+    bool editTableInDB(TableEntity * table, TableEntity * newData);
 
     Q_SIGNAL void databaseChanged(const QString & database);
 
@@ -97,6 +98,7 @@ protected:
     void emitDatabaseChanged(const QString& newName);
 
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() = 0;
+    virtual TableEditor * createTableEditor() = 0;
 private:
     //int _connectionStarted;
     //int _serverUptime;

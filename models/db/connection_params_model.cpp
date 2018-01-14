@@ -116,8 +116,6 @@ bool ConnectionParamsModel::setData(const QModelIndex &index, const QVariant &va
 
         QString newSessionName = value.toString();
 
-        qDebug() << "setData: " << newSessionName;
-
         if (newSessionName.isEmpty()) {
             emit settingEmptySessionName();
             return false;
@@ -134,8 +132,6 @@ bool ConnectionParamsModel::setData(const QModelIndex &index, const QVariant &va
             emit settingTakenSessionName(newSessionName);
             return false;
         }
-
-        qDebug() << "changedSelectedForm: " << changedSelectedForm;
 
         if (changedSelectedForm) {
 
