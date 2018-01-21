@@ -35,16 +35,29 @@ public:
     TableColumnsModel(QObject * parent = nullptr);
 
     void setTable(meow::db::TableEntity * table);
+    bool hasTable() const { return _table != nullptr; }
     void refresh();
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
+    bool setData(const QModelIndex &index, const QVariant &value,
+                 int role = Qt::EditRole) override;
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     int columnWidth(int column) const;
+
+    int insertEmptyDefaultRow(int afterIndex = -1);
+
+    bool canRemoveRow(int index) const;
+    bool canMoveRowUp(int index) const;
+    bool canMoveRowDown(int index) const;
+
+    bool removeRowAt(int index);
+    bool moveRowUp(int index);
+    bool moveRowDown(int index);
 
 private:
 

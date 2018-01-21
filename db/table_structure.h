@@ -40,6 +40,19 @@ public:
 
     bool hasIndexForColumn(const QString & columnName, TableIndexClass indexClass);
 
+    TableStructure * deepCopy() const;
+
+    int insertEmptyDefaultColumn(int afterIndex = -1);
+
+    bool canRemoveColumn(int index) const;
+    bool removeColumnAt(int index);
+
+    bool canMoveColumnUp(int index) const;
+    bool moveColumnUp(int index);
+
+    bool canMoveColumnDown(int index) const;
+    bool moveColumnDown(int index);
+
 private:
 
     QString _comment;

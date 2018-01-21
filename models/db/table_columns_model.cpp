@@ -47,6 +47,7 @@ Qt::ItemFlags TableColumnsModel::flags(const QModelIndex &index) const
 
     if (isEditingAllowed(index.row(), index.column())) {
         flags |= Qt::ItemIsEnabled;
+        flags |= Qt::ItemIsEditable;
     }
 
     return flags;
@@ -116,6 +117,7 @@ QVariant TableColumnsModel::data(const QModelIndex &index, int role) const
     switch (role) {
 
     case Qt::DisplayRole:
+    case Qt::EditRole: // temp all the same
         return textDataAt(index.row(), index.column());
 
     case Qt::CheckStateRole:
@@ -136,6 +138,101 @@ QVariant TableColumnsModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+bool TableColumnsModel::setData(const QModelIndex &index,
+                                const QVariant &value,
+                                int role)
+{
+    if (!index.isValid() || role != Qt::EditRole) {
+        return false;
+    }
+
+    int row = index.row();
+    int col = index.column();
+
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+
+    switch (static_cast<Columns>(col)) {
+
+    case Columns::Name: {
+
+        tableColumn->setName(value.toString());
+        return true;
+    }
+
+    default:
+        break;
+    }
+
+    //  emit dataChanged(index, index);
+
+    return false;
+
+}
+
+int TableColumnsModel::insertEmptyDefaultRow(int afterIndex)
+{
+    int insertIndex = rowCount();
+    if (afterIndex > -1 && afterIndex < rowCount()) {
+        insertIndex = afterIndex + 1;
+    }
+    beginInsertRows(QModelIndex(), insertIndex, insertIndex);
+    int newRowIndex =  _table->structure()->insertEmptyDefaultColumn(afterIndex);
+    endInsertRows();
+
+    return newRowIndex;
+}
+
+bool TableColumnsModel::removeRowAt(int index)
+{
+    if (!_table->structure()->canRemoveColumn(index)) {
+        return false;
+    }
+
+    beginRemoveRows(QModelIndex(), index, index);
+    _table->structure()->removeColumnAt(index);
+    endRemoveRows();
+
+    return true;
+}
+
+bool TableColumnsModel::moveRowUp(int index)
+{
+    if (_table->structure()->canMoveColumnUp(index)) {
+        beginMoveRows(QModelIndex(), index, index, QModelIndex(), index - 1);
+        _table->structure()->moveColumnUp(index);
+        endMoveRows();
+        return true;
+    }
+    return false;
+}
+
+bool TableColumnsModel::moveRowDown(int index)
+{
+    if (_table->structure()->canMoveColumnDown(index)) {
+        beginMoveRows(QModelIndex(), index, index, QModelIndex(), index + 2);
+        _table->structure()->moveColumnDown(index);
+        endMoveRows();
+        return true;
+    }
+    return false;
+}
+
+bool TableColumnsModel::canRemoveRow(int index) const
+{
+    // Not an error: a row in the table view is a column in the db table ;)
+    return _table->structure()->canRemoveColumn(index);
+}
+
+bool TableColumnsModel::canMoveRowUp(int index) const
+{
+    return _table->structure()->canMoveColumnUp(index);
+}
+
+bool TableColumnsModel::canMoveRowDown(int index) const
+{
+    return _table->structure()->canMoveColumnDown(index);
 }
 
 void TableColumnsModel::removeData()

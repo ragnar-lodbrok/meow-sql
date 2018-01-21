@@ -20,9 +20,20 @@ public:
 
     void setTable(db::TableEntity * table);
 
+    Q_SLOT void actionAddColumn(bool checked);
+    Q_SLOT void actionRemoveColumn(bool checked);
+    Q_SLOT void actionMoveColumnUp(bool checked);
+    Q_SLOT void actionMoveColumnDown(bool checked);
+
+    void validateControls();
+
 private:
 
+    Q_SLOT void currentRowChanged(const QModelIndex &current,
+                                  const QModelIndex &previous);
+
     void createWidgets();
+    void scrollToCurrent();
 
     TableColumnsTools * _tools;
     QTableView  * _columnsTable;

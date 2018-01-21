@@ -63,20 +63,20 @@ DataBaseEntity * TableEntity::dataBaseEntity() const
 TableEntity * TableEntity::deepCopy() const
 {
     TableEntity * copy = new TableEntity(*this);
-    // TODO: deep copy `_structure` too
-    // now reassign (temp)
-    copy->_structure = _structure;
-    this->_structure = nullptr;
+    if (this->_structure) {
+        copy->_structure = this->_structure->deepCopy();
+    }
 
     return copy;
 }
 
 void TableEntity::copyData(TableEntity * data)
 {
+    delete this->_structure;
     *this = *data;
-    // TODO: deep copy `_structure` too
-    this->_structure = data->_structure;
-    data->_structure = nullptr;
+    if (data->_structure) {
+        this->_structure = data->_structure->deepCopy();
+    }
 }
 
 } // namespace db
