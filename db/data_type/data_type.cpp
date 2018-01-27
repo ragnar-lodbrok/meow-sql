@@ -135,10 +135,10 @@ bool meow::db::dataTypeCanBeZeroFill(DataTypeIndex type)
     }
 }
 
-const meow::db::dataTypeNamesMap & meow::db::dataTypeNames()
+const meow::db::DataTypeNamesMap & meow::db::dataTypeNames()
 {
     // TODO: pass db type, now for mysql only
-    static dataTypeNamesMap map = {
+    static DataTypeNamesMap map = {
         {DataTypeIndex::TinyInt , "TINYINT"},
         {DataTypeIndex::SmallInt , "SMALLINT"},
         {DataTypeIndex::MediumInt , "MEDIUMINT"},
@@ -183,6 +183,6 @@ const meow::db::dataTypeNamesMap & meow::db::dataTypeNames()
 
 const QString meow::db::dataTypeName(meow::db::DataTypeIndex typeIndex)
 {
-    const meow::db::dataTypeNamesMap & types = dataTypeNames();
+    const meow::db::DataTypeNamesMap & types = dataTypeNames();
     return types.value(typeIndex, QString("UNKNOWN"));
 }

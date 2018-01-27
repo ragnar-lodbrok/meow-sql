@@ -161,6 +161,15 @@ bool TableColumnsModel::setData(const QModelIndex &index,
         return true;
     }
 
+    case Columns::DataType: {
+        if (value.canConvert<int>()) {
+            auto dataType = static_cast<meow::db::DataTypeIndex>(value.toInt());
+            tableColumn->setDataType(dataType);
+            return true;
+        }
+        return false;
+    }
+
     default:
         break;
     }

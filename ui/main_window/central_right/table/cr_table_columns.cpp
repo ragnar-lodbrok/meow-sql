@@ -3,6 +3,7 @@
 #include "cr_table_columns_tools.h"
 #include "app.h"
 #include "models/db/table_columns_model.h"
+#include "models/delegates/table_column_type_delegate.h"
 
 namespace meow {
 namespace ui {
@@ -127,6 +128,12 @@ void TableColumns::createWidgets()
             this,
             &TableColumns::currentRowChanged
     );
+
+    models::delegates::TableColumnTypeDelegate * typeDelegate
+        = new models::delegates::TableColumnTypeDelegate(&_model);
+    _columnsTable->setItemDelegateForColumn(
+        (int)models::db::TableColumnsModel::Columns::DataType,
+        typeDelegate);
 
 }
 

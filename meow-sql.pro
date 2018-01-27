@@ -113,7 +113,9 @@ SOURCES += main.cpp\
     ui/common/table_view.cpp \
     db/entity/table_entity_comparator.cpp \
     db/table_editor.cpp \
-    db/mysql_table_editor.cpp
+    db/mysql_table_editor.cpp \
+    models/delegates/table_column_type_delegate.cpp \
+    ui/common/data_type_combo_box.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -204,7 +206,9 @@ HEADERS  += app.h \
     ui/common/table_view.h \
     db/entity/table_entity_comparator.h \
     db/table_editor.h \
-    db/mysql_table_editor.h
+    db/mysql_table_editor.h \
+    models/delegates/table_column_type_delegate.h \
+    ui/common/data_type_combo_box.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"
