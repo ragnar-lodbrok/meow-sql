@@ -115,7 +115,9 @@ SOURCES += main.cpp\
     db/table_editor.cpp \
     db/mysql_table_editor.cpp \
     models/delegates/table_column_type_delegate.cpp \
-    ui/common/data_type_combo_box.cpp
+    ui/common/data_type_combo_box.cpp \
+    ui/common/table_column_default_editor.cpp \
+    models/delegates/table_column_default_delegate.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -208,7 +210,9 @@ HEADERS  += app.h \
     db/table_editor.h \
     db/mysql_table_editor.h \
     models/delegates/table_column_type_delegate.h \
-    ui/common/data_type_combo_box.h
+    ui/common/data_type_combo_box.h \
+    ui/common/table_column_default_editor.h \
+    models/delegates/table_column_default_delegate.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

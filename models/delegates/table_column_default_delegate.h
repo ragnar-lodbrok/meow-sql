@@ -1,5 +1,5 @@
-#ifndef TABLE_COLUMN_TYPE_DELEGATE_H
-#define TABLE_COLUMN_TYPE_DELEGATE_H
+#ifndef TABLE_COLUMN_DEFAULT_DELEGATE_H
+#define TABLE_COLUMN_DEFAULT_DELEGATE_H
 
 #include <QStyledItemDelegate>
 
@@ -7,11 +7,10 @@ namespace meow {
 namespace models {
 namespace delegates {
 
-class TableColumnTypeDelegate : public QStyledItemDelegate
+class TableColumnDefaultDelegate : public QStyledItemDelegate
 {
-
 public:
-    TableColumnTypeDelegate(QObject * parent = nullptr);
+    TableColumnDefaultDelegate(QObject * parent = nullptr);
 
     QWidget * createEditor(QWidget *parent,
                            const QStyleOptionViewItem &option,
@@ -32,4 +31,4 @@ public:
 } // namespace models
 } // namespace meow
 
-#endif // TABLE_COLUMN_TYPE_DELEGATE_H
+#endif // TABLE_COLUMN_DEFAULT_DELEGATE_H

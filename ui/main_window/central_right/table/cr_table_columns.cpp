@@ -4,6 +4,7 @@
 #include "app.h"
 #include "models/db/table_columns_model.h"
 #include "models/delegates/table_column_type_delegate.h"
+#include "models/delegates/table_column_default_delegate.h"
 
 namespace meow {
 namespace ui {
@@ -134,6 +135,12 @@ void TableColumns::createWidgets()
     _columnsTable->setItemDelegateForColumn(
         (int)models::db::TableColumnsModel::Columns::DataType,
         typeDelegate);
+
+    models::delegates::TableColumnDefaultDelegate * defaultDelegate
+        = new models::delegates::TableColumnDefaultDelegate(&_model);
+    _columnsTable->setItemDelegateForColumn(
+        (int)models::db::TableColumnsModel::Columns::Default,
+        defaultDelegate);
 
 }
 

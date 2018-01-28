@@ -1,6 +1,5 @@
 #include "table_column_type_delegate.h"
 #include "ui/common/data_type_combo_box.h"
-#include <QDebug>
 
 namespace meow {
 namespace models {

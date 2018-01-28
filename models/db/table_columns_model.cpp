@@ -447,7 +447,7 @@ int TableColumnsModel::columnWidth(int column) const
     case Columns::Zerofill:
         return 100;
     case Columns::Default:
-        return 150;
+        return 200;
     case Columns::Comment:
         return 180;
     case Columns::Collation:
