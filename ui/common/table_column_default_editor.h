@@ -4,6 +4,11 @@
 #include <QtWidgets>
 
 namespace meow {
+
+namespace db {
+    enum class ColumnDefaultType;
+}
+
 namespace ui {
 
 class TableColumnDefaultEditor : public QFrame
@@ -11,6 +16,16 @@ class TableColumnDefaultEditor : public QFrame
     Q_OBJECT
 public:
     explicit TableColumnDefaultEditor(QWidget * parent = nullptr);
+
+    void setDefaultValue(db::ColumnDefaultType type);
+    void setDefaultText(const QString & text);
+
+    void setAutoIncEditable(bool editable);
+    void setCurrentTimeStampEditable(bool editable);
+    void setOnUpdCurTsEditable(bool editable);
+
+    db::ColumnDefaultType defaultValue() const;
+    QString defaultText() const;
 
 private:
 
@@ -29,6 +44,10 @@ private:
     QCheckBox * _onUpdCurTSCheckBox;
 
     QRadioButton * _autoIncButton;
+
+    bool _autoIncEditable;
+    bool _curTsEditable;
+    bool _onUpdCurTsEditable;
 
 };
 

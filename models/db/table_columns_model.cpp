@@ -447,7 +447,7 @@ int TableColumnsModel::columnWidth(int column) const
     case Columns::Zerofill:
         return 100;
     case Columns::Default:
-        return 200;
+        return 220;
     case Columns::Comment:
         return 180;
     case Columns::Collation:
@@ -461,6 +461,65 @@ int TableColumnsModel::columnWidth(int column) const
         break;
     }
     return 0;
+}
+
+meow::db::ColumnDefaultType TableColumnsModel::defaultType(int row) const
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+    return tableColumn->defaultType();
+}
+
+const QString TableColumnsModel::defaultText(int row) const
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+
+    using colDef = meow::db::ColumnDefaultType;
+    if (tableColumn->defaultType() == colDef::Text ||
+        tableColumn->defaultType() == colDef::TextUpdateTS) {
+
+        return tableColumn->defaultText();
+    }
+
+    return QString();
+}
+
+bool TableColumnsModel::isDefaultAutoIncEnabled(int row) const
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+    return meow::db::categoryOfDataType(tableColumn->dataType())
+            == meow::db::DataTypeCategoryIndex::Integer;
+}
+
+bool TableColumnsModel::isDefaultCurrentTimeStampEnabled(int row) const
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+
+    if (tableColumn->dataType() == meow::db::DataTypeIndex::Timestamp) {
+        return true;
+    } else if (tableColumn->dataType() == meow::db::DataTypeIndex::DateTime) {
+        return _table->connection()->serverVersionInt() >= 50605;
+    }
+    return false;
+}
+
+bool TableColumnsModel::isDefaultOnUpdCurTsEnabled(int row) const
+{
+    return isDefaultCurrentTimeStampEnabled(row);
+}
+
+bool TableColumnsModel::setDefaultValue(int row,
+                     meow::db::ColumnDefaultType type,
+                     const QString & text)
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+    tableColumn->setDefaultType(type);
+    tableColumn->setDefaultText(text);
+
+    QModelIndex index = createIndex(row, (int)Columns::Default);
+
+    emit dataChanged(index, index);
+
+    return true;
 }
 
 } // namespace db

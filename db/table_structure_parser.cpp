@@ -471,7 +471,7 @@ QString TableStructureParser::parseDefault(
 
     if (isAutoIncrement) {
         column->setDefaultType(ColumnDefaultType::AutoInc);
-        column->setDefaultText("AUTO_INCREMENT");
+        //column->setDefaultText("AUTO_INCREMENT");
         return columnString;
     }
 
@@ -487,7 +487,7 @@ QString TableStructureParser::parseDefault(
     if (!inLiteral) {
         if (isStartsFromString(columnString, "NULL")) {
             column->setDefaultType(ColumnDefaultType::Null);
-            column->setDefaultText("NULL");
+            //column->setDefaultText("NULL");
             if (checkForOnUpdateCurTs(columnString)) {
                 column->setDefaultType(ColumnDefaultType::NullUpdateTS);
             }
@@ -497,7 +497,7 @@ QString TableStructureParser::parseDefault(
         if (matchCurTS.hasMatch()) {
             columnString.remove(0, matchCurTS.capturedLength(0));
             column->setDefaultType(ColumnDefaultType::CurTS);
-            column->setDefaultText("CURRENT_TIMESTAMP");
+            //column->setDefaultText("CURRENT_TIMESTAMP");
             if (checkForOnUpdateCurTs(columnString)) {
                 column->setDefaultType(ColumnDefaultType::CurTSUpdateTS);
             }

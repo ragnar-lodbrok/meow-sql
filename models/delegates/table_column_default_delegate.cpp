@@ -1,5 +1,6 @@
 #include "table_column_default_delegate.h"
 #include "ui/common/table_column_default_editor.h"
+#include "models/db/table_columns_model.h"
 #include <QDebug>
 
 static QRect screenRectForRect(const QRect & rect)
@@ -63,27 +64,30 @@ void TableColumnDefaultDelegate::setEditorData(
         const QModelIndex &index) const
 {
 
-    Q_UNUSED(editor);
-    Q_UNUSED(index);
+    auto defaultEditor = static_cast<ui::TableColumnDefaultEditor *>(editor);
+    auto model = static_cast<const models::db::TableColumnsModel *>(index.model());
 
-    //auto comboBox = static_cast<ui::DataTypeComboBox *>(editor);
-    //comboBox->fillData();
-    //QString value = index.model()->data(index, Qt::EditRole).toString();
-    //comboBox->setCurrentIndex(comboBox->findText(value));
+    defaultEditor->setAutoIncEditable(
+        model->isDefaultAutoIncEnabled(index.row()));
+    defaultEditor->setCurrentTimeStampEditable(
+        model->isDefaultCurrentTimeStampEnabled(index.row()));
+    defaultEditor->setOnUpdCurTsEditable(
+        model->isDefaultOnUpdCurTsEnabled(index.row()));
+
+    defaultEditor->setDefaultText(model->defaultText(index.row()));
+    defaultEditor->setDefaultValue(model->defaultType(index.row()));
 }
 
 void TableColumnDefaultDelegate::setModelData(QWidget *editor,
                   QAbstractItemModel *model,
                   const QModelIndex &index) const
 {
+    auto defaultEditor = static_cast<ui::TableColumnDefaultEditor *>(editor);
+    auto columnsModel = static_cast<models::db::TableColumnsModel *>(model);
 
-    Q_UNUSED(editor);
-    Q_UNUSED(model);
-    Q_UNUSED(index);
-
-    //auto comboBox = static_cast<ui::DataTypeComboBox *>(editor);
-    //QVariant curData = comboBox->currentData();
-    //model->setData(index, curData, Qt::EditRole);
+    columnsModel->setDefaultValue(index.row(),
+                                  defaultEditor->defaultValue(),
+                                  defaultEditor->defaultText());
 }
 
 void TableColumnDefaultDelegate::updateEditorGeometry(

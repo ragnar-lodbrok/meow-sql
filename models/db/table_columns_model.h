@@ -7,6 +7,7 @@ namespace meow {
 
 namespace db {
     class TableEntity;
+    enum class ColumnDefaultType;
 }
 
 namespace models {
@@ -58,6 +59,17 @@ public:
     bool removeRowAt(int index);
     bool moveRowUp(int index);
     bool moveRowDown(int index);
+
+    meow::db::ColumnDefaultType defaultType(int row) const;
+    const QString defaultText(int row) const;
+
+    bool isDefaultAutoIncEnabled(int row) const;
+    bool isDefaultCurrentTimeStampEnabled(int row) const;
+    bool isDefaultOnUpdCurTsEnabled(int row) const;
+
+    bool setDefaultValue(int row,
+                         meow::db::ColumnDefaultType type,
+                         const QString & text);
 
 private:
 
