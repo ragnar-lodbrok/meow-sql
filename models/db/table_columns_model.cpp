@@ -50,6 +50,10 @@ Qt::ItemFlags TableColumnsModel::flags(const QModelIndex &index) const
         flags |= Qt::ItemIsEditable;
     }
 
+    if (isBoolColumn(index.column())) {
+        flags |= Qt::ItemIsUserCheckable;
+    }
+
     return flags;
 }
 
@@ -153,6 +157,8 @@ bool TableColumnsModel::setData(const QModelIndex &index,
 
     meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
 
+    // TODO: add validator/editor that changes other related fields
+
     switch (static_cast<Columns>(col)) {
 
     case Columns::Name: {
@@ -165,6 +171,45 @@ bool TableColumnsModel::setData(const QModelIndex &index,
         if (value.canConvert<int>()) {
             auto dataType = static_cast<meow::db::DataTypeIndex>(value.toInt());
             tableColumn->setDataType(dataType);
+            return true;
+        }
+        return false;
+    }
+
+    case Columns::Length: {
+        tableColumn->setLengthSet(value.toString());
+        return true;
+    }
+
+    case Columns::Comment: {
+        tableColumn->setComment(value.toString());
+        return true;
+    }
+
+    case Columns::Collation: {
+        tableColumn->setCollation(value.toString());
+        return true;
+    }
+
+    case Columns::Unsigned: {
+        if (value.canConvert<bool>()) {
+            tableColumn->setIsUnsigned(value.toBool());
+            return true;
+        }
+        return false;
+    }
+
+    case Columns::AllowNull: {
+        if (value.canConvert<bool>()) {
+            tableColumn->setAllowNull(value.toBool());
+            return true;
+        }
+        return false;
+    }
+
+    case Columns::Zerofill: {
+        if (value.canConvert<bool>()) {
+            tableColumn->setIsZeroFill(value.toBool());
             return true;
         }
         return false;
@@ -265,7 +310,7 @@ void TableColumnsModel::refresh()
     insertData();
 }
 
-QString TableColumnsModel::textDataAt(int row, int col) const
+QVariant TableColumnsModel::textDataAt(int row, int col) const
 {
     meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
 
@@ -283,7 +328,7 @@ QString TableColumnsModel::textDataAt(int row, int col) const
     case Columns::Unsigned:
     case Columns::AllowNull:
     case Columns::Zerofill:
-        return QString();
+        return QVariant();
 
     case Columns::Default: {
         using colDef = meow::db::ColumnDefaultType;
@@ -331,7 +376,7 @@ QString TableColumnsModel::textDataAt(int row, int col) const
         return QString("");
 
     default:
-       return QString();
+       return QVariant();
     }
 }
 
@@ -409,6 +454,8 @@ inline bool TableColumnsModel::isBoolColumn(int col) const
 
 bool TableColumnsModel::isEditingAllowed(int row, int col) const
 {
+    // TODO: add checks
+
     meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
 
     switch (static_cast<Columns>(col)) {
@@ -520,6 +567,11 @@ bool TableColumnsModel::setDefaultValue(int row,
     emit dataChanged(index, index);
 
     return true;
+}
+
+const QStringList TableColumnsModel::collationList() const
+{
+    return _table->connection()->collationList();
 }
 
 } // namespace db

@@ -71,9 +71,11 @@ public:
                          meow::db::ColumnDefaultType type,
                          const QString & text);
 
+    const QStringList collationList() const;
+
 private:
 
-    QString textDataAt(int row, int col) const;
+    QVariant textDataAt(int row, int col) const;
     QVariant checkStateAt(int row, int col) const;
     QVariant fontAt(int row, int col) const;
     QVariant foregroundAt(int row, int col) const;

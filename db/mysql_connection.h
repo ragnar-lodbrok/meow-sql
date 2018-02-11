@@ -53,6 +53,8 @@ public:
 
     virtual QueryDataFetcher * createQueryDataFetcher() override;
 
+    virtual CollationFetcher * createCollationFetcher() override;
+
     virtual QString getCreateCode(const Entity * entity) override;
 
     MySQLResult lastRawResultAt(std::size_t index) const;

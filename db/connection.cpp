@@ -176,6 +176,14 @@ QString Connection::quoteIdentifier(const QString & identifier,
     return identifier;
 }
 
+const QStringList Connection::collationList()
+{
+    if (_collationFetcher == nullptr) {
+        _collationFetcher.reset(createCollationFetcher());
+    }
+    return _collationFetcher->getList();
+}
+
 void Connection::emitDatabaseChanged(const QString& newName)
 {
     emit databaseChanged(newName);

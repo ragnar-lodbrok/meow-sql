@@ -5,6 +5,8 @@
 #include "models/db/table_columns_model.h"
 #include "models/delegates/table_column_type_delegate.h"
 #include "models/delegates/table_column_default_delegate.h"
+#include "models/delegates/table_column_collation_delegate.h"
+#include "models/delegates/checkbox_delegate.h"
 
 namespace meow {
 namespace ui {
@@ -141,6 +143,24 @@ void TableColumns::createWidgets()
     _columnsTable->setItemDelegateForColumn(
         (int)models::db::TableColumnsModel::Columns::Default,
         defaultDelegate);
+
+    models::delegates::TableColumnCollationDelegate * collationDelegate
+        = new models::delegates::TableColumnCollationDelegate(&_model);
+    _columnsTable->setItemDelegateForColumn(
+        (int)models::db::TableColumnsModel::Columns::Collation,
+        collationDelegate);
+
+    models::delegates::CheckboxDelegate * checkboxDelegate
+        = new models::delegates::CheckboxDelegate(&_model);
+    _columnsTable->setItemDelegateForColumn(
+        (int)models::db::TableColumnsModel::Columns::Unsigned,
+        checkboxDelegate);
+    _columnsTable->setItemDelegateForColumn(
+        (int)models::db::TableColumnsModel::Columns::AllowNull,
+        checkboxDelegate);
+    _columnsTable->setItemDelegateForColumn(
+        (int)models::db::TableColumnsModel::Columns::Zerofill,
+        checkboxDelegate);
 
 }
 

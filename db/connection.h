@@ -11,6 +11,7 @@
 #include "exception.h"
 #include "entity/entity_list_for_database.h"
 #include "table_structure_parser.h"
+#include "collation_fetcher.h"
 
 namespace meow {
 namespace db {
@@ -55,6 +56,8 @@ public:
     QString quoteIdentifier(const QString & identifier, bool alwaysQuote = true,
                             QChar glue = QChar::Null) const;
 
+    const QStringList collationList();
+
     virtual QStringList fetchDatabases() = 0;
     virtual QueryPtr createQuery() = 0;
     virtual void setActive(bool active) = 0;
@@ -85,6 +88,7 @@ public:
 
     Q_SIGNAL void databaseChanged(const QString & database);
 
+
 protected:
     bool _active;
     db::ulonglong _rowsFound;
@@ -99,6 +103,7 @@ protected:
 
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() = 0;
     virtual TableEditor * createTableEditor() = 0;
+    virtual CollationFetcher * createCollationFetcher() = 0;
 private:
     //int _connectionStarted;
     //int _serverUptime;
@@ -109,6 +114,7 @@ private:
     //QString _databaseName;
     std::pair<bool, QStringList> _allDatabasesCached; // < cached?, data >
     TableStructureParser _tableStructureParser;
+    std::unique_ptr<CollationFetcher> _collationFetcher;
 };
 
 } // namespace db
