@@ -11,6 +11,14 @@ namespace central_right {
 TableTab::TableTab(QWidget * parent) : QWidget(parent)
 {
     createWidgets();
+
+    connect(&_form,
+            &models::forms::TableInfoForm::unsavedChanged,
+            [=](bool hasUnsavedChanges) {
+                Q_UNUSED(hasUnsavedChanges);
+                validateControls();
+            }
+    );
 }
 
 void TableTab::setTable(db::TableEntity * table)
@@ -42,12 +50,20 @@ void TableTab::createWidgets()
                 QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     _columns->setMinimumSize(QSize(300, 150));
 
+    connect(_columns->model(),
+            &meow::models::db::TableColumnsModel::modified,
+            [=]() {
+                _form.setHasUnsavedChanges(true);
+            }
+    );
+
     _mainSplitter->addWidget(_tableInfo);
     _mainSplitter->setStretchFactor(0, 0);
     _mainSplitter->addWidget(_columns);
     _mainSplitter->setStretchFactor(1, 2);
 
     createGeneralButtons();
+    validateControls();
 }
 
 
@@ -77,7 +93,7 @@ void TableTab::createGeneralButtons()
 
 void TableTab::discardTableEditing()
 {
-
+    this->setTable(_form.sourceTable());
 }
 
 void TableTab::saveTableEditing()
@@ -94,6 +110,11 @@ void TableTab::saveTableEditing()
     }
 }
 
+void TableTab::validateControls()
+{
+    _discardButton->setEnabled(_form.hasUnsavedChanges());
+    _saveButton->setEnabled(_form.hasUnsavedChanges());
+}
 
 
 } // namespace central_right

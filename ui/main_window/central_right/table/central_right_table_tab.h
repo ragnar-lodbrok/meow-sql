@@ -30,6 +30,8 @@ private:
     void createWidgets();
     void createGeneralButtons();
 
+    void validateControls();
+
     Q_SLOT void discardTableEditing();
     Q_SLOT void saveTableEditing();
 

@@ -27,6 +27,8 @@ public:
 
     void validateControls();
 
+    const models::db::TableColumnsModel * model() const { return &_model; }
+
 private:
 
     Q_SLOT void currentRowChanged(const QModelIndex &current,

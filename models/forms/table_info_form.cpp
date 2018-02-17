@@ -13,7 +13,8 @@ TableInfoForm::TableInfoForm(QObject *parent)
       _table(nullptr),
       _sourceTable(nullptr),
       _indexesModel(nullptr),
-      _fKeysModel(nullptr)
+      _fKeysModel(nullptr),
+      _hasUnsavedChanges(false)
 {
 
 }
@@ -47,6 +48,8 @@ void TableInfoForm::setTable(meow::db::TableEntity * table)
     if (_fKeysModel) {
         _fKeysModel->setTable(_table);
     }
+
+    setHasUnsavedChanges(false);
 }
 
 const QString TableInfoForm::tableName() const
@@ -57,6 +60,7 @@ const QString TableInfoForm::tableName() const
 void TableInfoForm::setTableName(const QString & name)
 {
     _table->setName(name);
+    setHasUnsavedChanges(true);
 }
 
 const QString TableInfoForm::tableComment() const
@@ -127,8 +131,16 @@ void TableInfoForm::save()
 {
     meow::app()->dbConnectionsManager()->activeSession()->editTableInDB(
         _sourceTable, _table);
+    setHasUnsavedChanges(false);
 }
 
+void TableInfoForm::setHasUnsavedChanges(bool modified)
+{
+    if (_hasUnsavedChanges != modified) {
+        _hasUnsavedChanges = modified;
+        emit unsavedChanged(_hasUnsavedChanges);
+    }
+}
 
 } // namespace forms
 } // namespace models

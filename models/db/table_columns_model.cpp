@@ -160,76 +160,13 @@ bool TableColumnsModel::setData(const QModelIndex &index,
         return false;
     }
 
-    int row = index.row();
-    int col = index.column();
-
-    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
-
-    switch (static_cast<Columns>(col)) {
-
-    case Columns::Name: {
-
-        tableColumn->setName(value.toString());
+    if (editData(index, value)) {
+        emit dataChanged(index, index);
+        emit modified();
         return true;
     }
-
-    case Columns::DataType: {
-        return setColumnDataType(index, value);
-    }
-
-    case Columns::Length: {
-        tableColumn->setLengthSet(value.toString());
-        return true;
-    }
-
-    case Columns::Comment: {
-        tableColumn->setComment(value.toString());
-        return true;
-    }
-
-    case Columns::Collation: {
-        tableColumn->setCollation(value.toString());
-        return true;
-    }
-
-    case Columns::Unsigned: {
-        if (value.canConvert<int>()) {
-            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
-            tableColumn->setIsUnsigned(checked);
-            return true;
-        }
-        return false;
-    }
-
-    case Columns::AllowNull: {
-        if (value.canConvert<int>()) {
-            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
-            tableColumn->setAllowNull(checked);
-            return true;
-        }
-        return false;
-    }
-
-    case Columns::Zerofill: {
-
-        if (value.canConvert<int>()) {
-            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
-
-            tableColumn->setIsZeroFill(checked);
-
-            return true;
-        }
-        return false;
-    }
-
-    default:
-        break;
-    }
-
-    //  emit dataChanged(index, index);
 
     return false;
-
 }
 
 int TableColumnsModel::insertEmptyDefaultRow(int afterIndex)
@@ -241,6 +178,8 @@ int TableColumnsModel::insertEmptyDefaultRow(int afterIndex)
     beginInsertRows(QModelIndex(), insertIndex, insertIndex);
     int newRowIndex =  _table->structure()->insertEmptyDefaultColumn(afterIndex);
     endInsertRows();
+
+    emit modified();
 
     return newRowIndex;
 }
@@ -255,6 +194,8 @@ bool TableColumnsModel::removeRowAt(int index)
     _table->structure()->removeColumnAt(index);
     endRemoveRows();
 
+    emit modified();
+
     return true;
 }
 
@@ -264,6 +205,9 @@ bool TableColumnsModel::moveRowUp(int index)
         beginMoveRows(QModelIndex(), index, index, QModelIndex(), index - 1);
         _table->structure()->moveColumnUp(index);
         endMoveRows();
+
+        emit modified();
+
         return true;
     }
     return false;
@@ -275,6 +219,7 @@ bool TableColumnsModel::moveRowDown(int index)
         beginMoveRows(QModelIndex(), index, index, QModelIndex(), index + 2);
         _table->structure()->moveColumnDown(index);
         endMoveRows();
+        emit modified();
         return true;
     }
     return false;
@@ -578,6 +523,7 @@ bool TableColumnsModel::setDefaultValue(int row,
     QModelIndex index = createIndex(row, (int)Columns::Default);
 
     emit dataChanged(index, index);
+    emit modified();
 
     return true;
 }
@@ -647,6 +593,77 @@ bool TableColumnsModel::setColumnDataType(const QModelIndex &index,
     }
 
     return true;
+}
+
+bool TableColumnsModel::editData(const QModelIndex &index, const QVariant &value)
+{
+    int row = index.row();
+    int col = index.column();
+
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+
+    switch (static_cast<Columns>(col)) {
+
+    case Columns::Name: {
+
+        tableColumn->setName(value.toString());
+        return true;
+    }
+
+    case Columns::DataType: {
+        return setColumnDataType(index, value);
+    }
+
+    case Columns::Length: {
+        tableColumn->setLengthSet(value.toString());
+        return true;
+    }
+
+    case Columns::Comment: {
+        tableColumn->setComment(value.toString());
+        return true;
+    }
+
+    case Columns::Collation: {
+        tableColumn->setCollation(value.toString());
+        return true;
+    }
+
+    case Columns::Unsigned: {
+        if (value.canConvert<int>()) {
+            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
+            tableColumn->setIsUnsigned(checked);
+            return true;
+        }
+        return false;
+    }
+
+    case Columns::AllowNull: {
+        if (value.canConvert<int>()) {
+            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
+            tableColumn->setAllowNull(checked);
+            return true;
+        }
+        return false;
+    }
+
+    case Columns::Zerofill: {
+
+        if (value.canConvert<int>()) {
+            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
+
+            tableColumn->setIsZeroFill(checked);
+
+            return true;
+        }
+        return false;
+    }
+
+    default:
+        break;
+    }
+
+    return false;
 }
 
 } // namespace db

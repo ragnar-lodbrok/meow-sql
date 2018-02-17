@@ -15,6 +15,8 @@ namespace db {
 
 class TableColumnsModel : public QAbstractTableModel
 {
+    Q_OBJECT
+
 public:
 
     enum class Columns {
@@ -73,7 +75,11 @@ public:
 
     const QStringList collationList() const;
 
+    Q_SIGNAL void modified();
+
 private:
+
+    bool editData(const QModelIndex &index, const QVariant &value);
 
     QVariant textDataAt(int row, int col) const;
     QVariant checkStateAt(int row, int col) const;
