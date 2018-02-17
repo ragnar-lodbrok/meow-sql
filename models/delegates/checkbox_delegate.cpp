@@ -18,6 +18,7 @@ QWidget * CheckboxDelegate::createEditor(
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const
 {
+    // normally is not called, kept just in case
     Q_UNUSED(option);
     Q_UNUSED(index);
 
@@ -28,13 +29,38 @@ void CheckboxDelegate::setEditorData(
         QWidget *editor,
         const QModelIndex &index) const
 {
+    // NU
     auto checkBox = static_cast<QCheckBox *>(editor);
-    int intChecked = index.model()->data(index, Qt::EditRole).toInt();
-    if (static_cast<Qt::CheckState>(intChecked) == Qt::Checked) {
-        checkBox->setChecked(true);
-    } else {
-        checkBox->setChecked(false);
+    checkBox->setChecked(this->isChecked(index));
+}
+
+bool CheckboxDelegate::editorEvent(QEvent * event,
+                 QAbstractItemModel * model,
+                 const QStyleOptionViewItem & option,
+                 const QModelIndex & index)
+{
+    // Using QCheckBox the cell is editable after click (so you click twice)
+    // but it's better to switch checkbox state on single click,
+    // so we dont't use editor
+    // Model should return Qt::ItemIsEnabled if checkbox may be changed
+    // Qt::ItemIsEditable should be false to avoid triggering standard editor
+
+    if (!this->isEnabled(index)) {
+        return QStyledItemDelegate::editorEvent(event, model, option, index);
     }
+
+    if (event->type() == QEvent::MouseButtonRelease) {
+
+        bool isChecked = this->isChecked(index);
+
+        Qt::CheckState checkState = (isChecked ? Qt::Unchecked : Qt::Checked);
+
+        model->setData(index, checkState, Qt::EditRole);
+
+        return true;
+    }
+
+    return QStyledItemDelegate::editorEvent(event, model, option, index);
 }
 
 void CheckboxDelegate::paint(QPainter* painter,
@@ -42,15 +68,18 @@ void CheckboxDelegate::paint(QPainter* painter,
            const QModelIndex& index) const
 {
 
-    bool enabled = (index.model()->flags(index) & Qt::ItemIsEnabled);
-    if (!enabled) {
+    // TODO: not sure this paint() is correct, check this one:
+    // https://github.com/pierreet/BooleanCheckBoxDelegate/blob/master/BooleanCheckBoxDelegate.h#L47
+
+    if (!this->isEnabled(index)) {
         // TODO: paint disabled
         //QStyledItemDelegate::paint(painter, opt, index);
         return;
     }
 
-    int intChecked = index.model()->data(index, Qt::CheckStateRole).toInt();
-    bool checked = (static_cast<Qt::CheckState>(intChecked) == Qt::Checked);
+    // TODO: paint focus, press
+
+    bool checked = this->isChecked(index);
 
     QStyleOptionButton checkbox;
 
@@ -103,6 +132,17 @@ void CheckboxDelegate::updateEditorGeometry(
     checkbox.rect.adjust(newXMiddle, 0, -newXMiddle, 0);
 
     editor->setGeometry(checkbox.rect);
+}
+
+bool CheckboxDelegate::isChecked(const QModelIndex &index) const
+{
+    int intChecked = index.model()->data(index, Qt::CheckStateRole).toInt();
+    return static_cast<Qt::CheckState>(intChecked) == Qt::Checked;
+}
+
+bool CheckboxDelegate::isEnabled(const QModelIndex &index) const
+{
+    return (index.model()->flags(index) & Qt::ItemIsEnabled);
 }
 
 } // namespace delegates

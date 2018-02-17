@@ -28,6 +28,7 @@ void TableColumnCollationDelegate::setEditorData(
         const QModelIndex &index) const
 {
     auto comboBox = static_cast<QComboBox *>(editor);
+    comboBox->setMaxVisibleItems(30);
     auto model = static_cast<const models::db::TableColumnsModel *>(
         index.model());
 

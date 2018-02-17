@@ -6,7 +6,7 @@ namespace ui {
 
 DataTypeComboBox::DataTypeComboBox(QWidget * parent) : QComboBox(parent)
 {
-
+    setMaxVisibleItems(30);
 }
 
 void DataTypeComboBox::fillData()

@@ -83,6 +83,7 @@ DataTypeCategoryIndex categoryOfDataType(DataTypeIndex type);
 
 bool dataTypeCanBeUnsigned(DataTypeIndex type);
 bool dataTypeCanBeZeroFill(DataTypeIndex type);
+bool dataTypeHasLength(DataTypeIndex type);
 
 using DataTypeNamesMap = QMap<DataTypeIndex, QString>;
 const DataTypeNamesMap & dataTypeNames();

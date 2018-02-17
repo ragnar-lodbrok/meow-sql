@@ -45,13 +45,21 @@ Qt::ItemFlags TableColumnsModel::flags(const QModelIndex &index) const
 
     Qt::ItemFlags flags = Qt::ItemIsSelectable;
 
-    if (isEditingAllowed(index.row(), index.column())) {
-        flags |= Qt::ItemIsEnabled;
-        flags |= Qt::ItemIsEditable;
-    }
+    bool isEditable = isEditingAllowed(index.row(), index.column());
+
+    // For bool columns we don't use standart editor,
+    // so dont return Qt::ItemIsEditable;
+    // Return Qt::ItemIsEnabled if bool column can be changed by the user
 
     if (isBoolColumn(index.column())) {
-        flags |= Qt::ItemIsUserCheckable;
+        if (isEditable) {
+            flags |= Qt::ItemIsEnabled;
+        }
+    } else {
+        flags |= Qt::ItemIsEnabled;
+        if (isEditable) {
+            flags |= Qt::ItemIsEditable;
+        }
     }
 
     return flags;
@@ -157,8 +165,6 @@ bool TableColumnsModel::setData(const QModelIndex &index,
 
     meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
 
-    // TODO: add validator/editor that changes other related fields
-
     switch (static_cast<Columns>(col)) {
 
     case Columns::Name: {
@@ -168,12 +174,7 @@ bool TableColumnsModel::setData(const QModelIndex &index,
     }
 
     case Columns::DataType: {
-        if (value.canConvert<int>()) {
-            auto dataType = static_cast<meow::db::DataTypeIndex>(value.toInt());
-            tableColumn->setDataType(dataType);
-            return true;
-        }
-        return false;
+        return setColumnDataType(index, value);
     }
 
     case Columns::Length: {
@@ -192,24 +193,30 @@ bool TableColumnsModel::setData(const QModelIndex &index,
     }
 
     case Columns::Unsigned: {
-        if (value.canConvert<bool>()) {
-            tableColumn->setIsUnsigned(value.toBool());
+        if (value.canConvert<int>()) {
+            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
+            tableColumn->setIsUnsigned(checked);
             return true;
         }
         return false;
     }
 
     case Columns::AllowNull: {
-        if (value.canConvert<bool>()) {
-            tableColumn->setAllowNull(value.toBool());
+        if (value.canConvert<int>()) {
+            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
+            tableColumn->setAllowNull(checked);
             return true;
         }
         return false;
     }
 
     case Columns::Zerofill: {
-        if (value.canConvert<bool>()) {
-            tableColumn->setIsZeroFill(value.toBool());
+
+        if (value.canConvert<int>()) {
+            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
+
+            tableColumn->setIsZeroFill(checked);
+
             return true;
         }
         return false;
@@ -454,11 +461,12 @@ inline bool TableColumnsModel::isBoolColumn(int col) const
 
 bool TableColumnsModel::isEditingAllowed(int row, int col) const
 {
-    // TODO: add checks
-
     meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
 
     switch (static_cast<Columns>(col)) {
+
+    case Columns::Length:
+        return meow::db::dataTypeHasLength(tableColumn->dataType());
 
     case Columns::Unsigned:
         return meow::db::dataTypeCanBeUnsigned(tableColumn->dataType());
@@ -484,7 +492,7 @@ int TableColumnsModel::columnWidth(int column) const
     case Columns::Name:
         return 150;
     case Columns::DataType:
-        return 140;
+        return 170;
     case Columns::Length:
         return 140;
     case Columns::Unsigned:
@@ -562,6 +570,11 @@ bool TableColumnsModel::setDefaultValue(int row,
     tableColumn->setDefaultType(type);
     tableColumn->setDefaultText(text);
 
+    if (type == meow::db::ColumnDefaultType::Null ||
+        type == meow::db::ColumnDefaultType::NullUpdateTS) {
+        tableColumn->setAllowNull(true);
+    }
+
     QModelIndex index = createIndex(row, (int)Columns::Default);
 
     emit dataChanged(index, index);
@@ -572,6 +585,68 @@ bool TableColumnsModel::setDefaultValue(int row,
 const QStringList TableColumnsModel::collationList() const
 {
     return _table->connection()->collationList();
+}
+
+bool TableColumnsModel::setColumnDataType(const QModelIndex &index,
+                                          const QVariant &value)
+{
+    int row = index.row();
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+
+    if (!value.canConvert<int>()) {
+        return false;
+    }
+
+    auto dataType = static_cast<meow::db::DataTypeIndex>(value.toInt());
+    tableColumn->setDataType(dataType);
+
+    if (!meow::db::dataTypeHasLength(dataType)) {
+        tableColumn->setLengthSet(QString());
+    }
+    // TODO: default length/set
+
+    using ColDef = meow::db::ColumnDefaultType;
+
+    auto typeCategory = meow::db::categoryOfDataType(dataType);
+
+    switch (typeCategory) {
+    case meow::db::DataTypeCategoryIndex::Integer:
+    case meow::db::DataTypeCategoryIndex::Float:
+
+        if (tableColumn->defaultType() == ColDef::CurTS ||
+            tableColumn->defaultType() == ColDef::CurTSUpdateTS) {
+            tableColumn->setDefaultType(ColDef::None);
+        } else if (tableColumn->defaultType() == ColDef::TextUpdateTS) {
+            tableColumn->setDefaultType(ColDef::Text);
+        } else if (tableColumn->defaultType() == ColDef::NullUpdateTS) {
+            tableColumn->setDefaultType(ColDef::Null);
+        }
+        break;
+
+    case meow::db::DataTypeCategoryIndex::Text:
+    case meow::db::DataTypeCategoryIndex::Binary:
+    case meow::db::DataTypeCategoryIndex::Spatial:
+    case meow::db::DataTypeCategoryIndex::Other:
+        if (tableColumn->defaultType() == ColDef::CurTS ||
+            tableColumn->defaultType() == ColDef::CurTSUpdateTS ||
+            tableColumn->defaultType() == ColDef::AutoInc) {
+            tableColumn->setDefaultType(ColDef::None);
+        } else if (tableColumn->defaultType() == ColDef::NullUpdateTS) {
+            tableColumn->setDefaultType(ColDef::Null);
+        }
+        break;
+
+    case meow::db::DataTypeCategoryIndex::Temporal:
+        if (tableColumn->defaultType() == ColDef::AutoInc) {
+            tableColumn->setDefaultType(ColDef::None);
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    return true;
 }
 
 } // namespace db

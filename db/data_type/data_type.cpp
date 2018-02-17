@@ -135,6 +135,36 @@ bool meow::db::dataTypeCanBeZeroFill(DataTypeIndex type)
     }
 }
 
+bool meow::db::dataTypeHasLength(DataTypeIndex type)
+{
+    switch (type) {
+    case DataTypeIndex::Date:
+    case DataTypeIndex::Time:
+    case DataTypeIndex::Year:
+    case DataTypeIndex::DateTime:
+    case DataTypeIndex::Timestamp:
+    case DataTypeIndex::Serial:
+    case DataTypeIndex::TinyText:
+    case DataTypeIndex::MediumText:
+    case DataTypeIndex::LongText:
+    case DataTypeIndex::Json:
+    case DataTypeIndex::Tinyblob:
+    case DataTypeIndex::Blob:
+    case DataTypeIndex::Mediumblob:
+    case DataTypeIndex::Longblob:
+    case DataTypeIndex::Point:
+    case DataTypeIndex::Polygon:
+    case DataTypeIndex::Geometry:
+    case DataTypeIndex::Multipoint:
+    case DataTypeIndex::Multilinestring:
+    case DataTypeIndex::Multipolygon:
+    case DataTypeIndex::Geometrycollection:
+        return false;
+    default:
+        return true;
+    }
+}
+
 const meow::db::DataTypeNamesMap & meow::db::dataTypeNames()
 {
     // TODO: pass db type, now for mysql only

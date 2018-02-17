@@ -86,6 +86,8 @@ private:
     void removeData();
     void insertData();
 
+    bool setColumnDataType(const QModelIndex &index, const QVariant &value);
+
     meow::db::TableEntity * _table;
 };
 

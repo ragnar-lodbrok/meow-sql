@@ -16,6 +16,11 @@ public:
                            const QStyleOptionViewItem &option,
                            const QModelIndex &index) const override;
 
+    bool editorEvent(QEvent * event,
+                     QAbstractItemModel * model,
+                     const QStyleOptionViewItem & option,
+                     const QModelIndex & index) override;
+
     void paint(QPainter *painter,
                const QStyleOptionViewItem &option,
                const QModelIndex &index) const override;
@@ -29,6 +34,11 @@ public:
     void updateEditorGeometry(QWidget *editor,
                               const QStyleOptionViewItem &option,
                               const QModelIndex &index) const override;
+
+private:
+
+    bool isChecked(const QModelIndex &index) const;
+    bool isEnabled(const QModelIndex &index) const;
 
 };
 
