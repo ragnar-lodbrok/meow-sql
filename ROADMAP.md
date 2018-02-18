@@ -1,10 +1,8 @@
 # Roadmap
 
-## 0.0.3 (Current)
+## 0.0.4 (Current)
 
 **Table Tab (editable)**
-
-Table Tab: Columns (editable)
 
 Table Tab: Basic Tab (editable)
 
@@ -13,6 +11,12 @@ Table Tab: Options Tab (editable)
 Table Tab: Indexes Tab (editable)
 
 Table Tab: Foreign Keys Tab (editable)
+
+## 0.0.3
+
+**Table Tab: Columns (editable)**
+
+Table Tab: Columns (editable)
 
 ## 0.0.2
 

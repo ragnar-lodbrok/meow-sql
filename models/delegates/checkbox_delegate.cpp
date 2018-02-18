@@ -99,6 +99,8 @@ void CheckboxDelegate::paint(QPainter* painter,
         checkbox.state |= QStyle::State_Off;
     }
 
+    checkbox.state |= QStyle::State_Enabled;
+
     QApplication::style()->drawControl(QStyle::CE_CheckBox,
                                        &checkbox,
                                        painter);
