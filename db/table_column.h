@@ -59,6 +59,11 @@ public:
     void setComment(const QString & comment) { _comment = comment; }
     QString comment() const { return _comment; }
 
+    unsigned id() const { return _id; }
+    void setId(unsigned id) { _id = id; }
+
+    bool dataDiffers(const TableColumn * other) const;
+
     operator QString() const;
 private:
     QString _name;
@@ -72,6 +77,7 @@ private:
     QString _comment;
     QString _charset;
     QString _collation;
+    unsigned _id;
 };
 
 } // namespace db

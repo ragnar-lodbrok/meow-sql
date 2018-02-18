@@ -8,15 +8,19 @@ namespace meow {
 namespace db {
 
 class MySQLConnection;
+class TableColumn;
 
 class MySQLTableEditor : public TableEditor
 {
 public:
     MySQLTableEditor(MySQLConnection * connection);
-    virtual bool run(TableEntity * table, TableEntity * newData) override;
+    virtual bool edit(TableEntity * table, TableEntity * newData) override;
     
 private:
-    void rename(TableEntity * table, const QString & newName);    
+    void rename(TableEntity * table, const QString & newName);
+    QString sqlCode(const TableColumn * column) const;
+    QString alterColumnSQL(const QString & oldName,
+                           const QString & colSQL) const;
 };
 
 } // namespace db

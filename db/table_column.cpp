@@ -8,7 +8,8 @@ TableColumn::TableColumn()
      _unsigned(false),
      _allowNull(false),
      _zeroFill(false),
-     _defaultType(ColumnDefaultType::None)
+     _defaultType(ColumnDefaultType::None),
+     _id(0)
 {
 
 }
@@ -84,6 +85,27 @@ const QString columnDefaultType2String(ColumnDefaultType type)
     default:
         return "UNKNOWN";
     }
+}
+
+bool TableColumn::dataDiffers(const TableColumn * other) const
+{
+    if (this == other) return false;
+
+    if (_name != other->_name) return true;
+    if (_dataType != other->_dataType) return true;
+    if (_lengthSet != other->_lengthSet) return true;
+    if (_unsigned != other->_unsigned) return true;
+    if (_allowNull != other->_allowNull) return true;
+    if (_zeroFill != other->_zeroFill) return true;
+    if (_defaultType != other->_defaultType) return true;
+    if (_defaultText != other->_defaultText) return true;
+    if (_comment != other->_comment) return true;
+    if (_charset != other->_charset) return true;
+    if (_collation != other->_collation) return true;
+    // _id ?
+    // TODO: compare strings so "" == QString() ?
+
+    return false;
 }
 
 } // namespace db

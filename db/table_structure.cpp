@@ -7,7 +7,8 @@ TableStructure::TableStructure()
     : _avgRowLen(0),
       _autoInc(0),
       _maxRows(0),
-      _isCheckSum(false)
+      _isCheckSum(false),
+      _nextColumnUniqueId(0)
 {
 
 }
@@ -78,10 +79,17 @@ int TableStructure::insertEmptyDefaultColumn(int afterIndex)
     }
 
     newColumn->setName(QString("column_%1").arg(newColumnIndex + 1));
+    newColumn->setId(nextColumnUniqueId());
 
     _columns.insert(newColumnIndex, newColumn);
 
     return newColumnIndex;
+}
+
+void TableStructure::appendColumn(TableColumn * column)
+{
+    column->setId(nextColumnUniqueId());
+    _columns.append(column);
 }
 
 bool TableStructure::canRemoveColumn(int index) const
@@ -127,6 +135,21 @@ bool TableStructure::moveColumnDown(int index)
         return true;
     }
     return false;
+}
+
+TableColumn * TableStructure::columnById(unsigned id) const
+{
+    for (auto & column : _columns) {
+        if (column->id() == id) {
+            return column;
+        }
+    }
+    return nullptr;
+}
+
+TableColumn * TableStructure::prevColumn(TableColumn * column) const
+{
+    return _columns.value(_columns.indexOf(column) - 1, nullptr);
 }
 
 } // namespace db

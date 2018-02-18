@@ -204,7 +204,7 @@ bool Connection::editTableInDB(TableEntity * table, TableEntity * newData)
 
     std::shared_ptr<TableEditor> sharedEditor(editor);
 
-    return sharedEditor->run(table, newData);
+    return sharedEditor->edit(table, newData);
 }
 
 } // namespace db

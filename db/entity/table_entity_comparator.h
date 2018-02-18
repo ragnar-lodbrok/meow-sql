@@ -1,10 +1,25 @@
 #ifndef DB_TABLE_ENTITY_COMPARATOR_H
 #define DB_TABLE_ENTITY_COMPARATOR_H
 
+#include <QList>
+
 namespace meow {
 namespace db {
 
 class TableEntity;
+class TableColumn;
+
+struct TableColumnPair {
+    TableColumn * oldCol = nullptr;
+    TableColumn * newCol = nullptr;
+};
+
+struct TableColumnStatus
+{
+    TableColumnPair columns;
+    bool added = false;
+    bool modified = false;
+};
 
 class TableEntityComparator
 {
@@ -16,7 +31,16 @@ public:
 
     bool nameDiffers() const;
 
+    // return pairs of columns that (data) were modified (not removed, inserted)
+    QList<TableColumnPair> modifiedColumns() const;
+
+    QList<TableColumn *> removedColumns() const;
+
+    // returns list of all current columns with statuses
+    QList<TableColumnStatus> currColumnsWithStatus() const;
+
 private:
+
     TableEntity * _prev;
     TableEntity * _curr;
 

@@ -13,7 +13,7 @@ class TableEditor
 public:
     TableEditor(Connection * connection);
     virtual ~TableEditor() {}
-    virtual bool run(TableEntity * table, TableEntity * newData) = 0;
+    virtual bool edit(TableEntity * table, TableEntity * newData) = 0;
 protected:
     Connection * _connection;
 };
