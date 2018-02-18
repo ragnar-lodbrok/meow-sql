@@ -3,20 +3,22 @@
 #include "cr_table_info_options_tab.h"
 #include "cr_table_info_indexes_tab.h"
 #include "cr_table_info_foreign_keys_tab.h"
+#include "models/forms/table_info_form.h"
 
 namespace meow {
 namespace ui {
 namespace main_window {
 namespace central_right {
 
-TableInfo::TableInfo(QWidget *parent) : QWidget(parent)
+TableInfo::TableInfo(models::forms::TableInfoForm * form, QWidget *parent) :
+    QWidget(parent),
+    _form(form)
 {
     createTabs();
 }
 
-void TableInfo::setTable(db::TableEntity * table)
-{
-    _form.setTable(table);
+void TableInfo::refreshData()
+{   
     _basicTab->refreshData();
     _optionsTab->refreshData();
     _indexesTab->refreshData();
@@ -36,10 +38,10 @@ void TableInfo::createTabs()
     _rootTabs->setSizePolicy(
                 QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
-    _basicTab = new table_info::BasicTab(&_form, this);
-    _optionsTab = new table_info::OptionsTab(&_form, this);
-    _indexesTab = new table_info::IndexesTab(&_form, this);
-    _fKeysTab = new table_info::ForeignKeysTab(&_form, this);
+    _basicTab = new table_info::BasicTab(_form, this);
+    _optionsTab = new table_info::OptionsTab(_form, this);
+    _indexesTab = new table_info::IndexesTab(_form, this);
+    _fKeysTab = new table_info::ForeignKeysTab(_form, this);
 
     using TableInfoTabs = models::ui::TableInfoWidgetTabs;
 

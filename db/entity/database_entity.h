@@ -8,6 +8,7 @@ namespace meow {
 namespace db {
 
 class SessionEntity;
+class TableEntity;
 
 class DataBaseEntity : public Entity
 {
@@ -26,6 +27,8 @@ public:
     virtual bool hasDataSize() const override { return true; }
 
     bool childrenFetched() const;
+
+    int indexOf(Entity * entity) const;
 
 private:
 

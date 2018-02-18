@@ -16,7 +16,6 @@ enum class DataTypeCategoryIndex {
     Other
 };
 
-
 } // namespace db
 } // namespace meow
 

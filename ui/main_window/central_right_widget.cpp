@@ -17,6 +17,12 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
       _dataTab(nullptr),
       _queryTab(nullptr)
 {
+
+    connect(meow::app()->dbConnectionsManager(),
+            &meow::db::ConnectionsManager::entityEdited,
+            this,
+            &CentralRightWidget::onEntityEdited);
+
     createRootTabs();
 }
 
@@ -89,6 +95,17 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     }
 }
 
+void CentralRightWidget::onEntityEdited(db::Entity * entity)
+{
+    if (_model.hasEntityTab()) {
+        if (entity->type() == db::Entity::Type::Table) {
+            _rootTabs->setTabText(
+                (int)models::ui::CentralRightWidgetTabs::Entity,
+                _model.titleForTableTab());
+        }
+    }
+}
+
 bool CentralRightWidget::onDataTab() const
 {
     return _rootTabs->currentIndex() == _model.indexForDataTab();
@@ -124,8 +141,18 @@ void CentralRightWidget::createRootTabs()
 void CentralRightWidget::rootTabChanged(int index)
 {
     Q_UNUSED(index);
-    if (onDataTab()) {
-        dataTab()->loadData();
+
+    try {
+        if (onDataTab()) {
+            dataTab()->loadData();
+        }
+    } catch(meow::db::Exception & ex) {
+        QMessageBox msgBox;
+        msgBox.setText(ex.message());
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
     }
 }
 

@@ -53,12 +53,16 @@ public:
 
     virtual QueryDataFetcher * createQueryDataFetcher() override;
 
+    virtual CollationFetcher * createCollationFetcher() override;
+
     virtual QString getCreateCode(const Entity * entity) override;
 
     MySQLResult lastRawResultAt(std::size_t index) const;
 
 protected:
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() override;
+
+    virtual TableEditor * createTableEditor() override;
 
 private:
     MYSQL * _handle;

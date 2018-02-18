@@ -34,6 +34,7 @@ public:
     void setActiveEntity(Entity * activeEntity);
 
     Connection * activeConnection() const;
+    SessionEntity * activeSession() const { return _activeSession; }
 
     UserQuery * userQueryAt(size_t index);
 
@@ -41,8 +42,12 @@ public:
 
     Q_SIGNAL void connectionOpened(SessionEntity * newSession);
     Q_SIGNAL void activeEntityChanged(Entity * newEntity);
+    Q_SIGNAL void entityEdited(Entity * entity);
 
 private:
+
+    Q_SLOT void onEntityEdited(Entity * entity);
+
     QList <SessionEntity *> _connections;
     EntityHolder _activeEntity;
     SessionEntity * _activeSession;

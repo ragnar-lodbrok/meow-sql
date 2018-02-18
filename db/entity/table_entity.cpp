@@ -50,5 +50,34 @@ db::TableStructure * TableEntity::structure() const
     return _structure;
 }
 
+bool TableEntity::hasStructure() const
+{
+    return _structure != nullptr;
+}
+
+DataBaseEntity * TableEntity::dataBaseEntity() const
+{
+    return static_cast<DataBaseEntity *>(_parent);
+}
+
+TableEntity * TableEntity::deepCopy() const
+{
+    TableEntity * copy = new TableEntity(*this);
+    if (this->_structure) {
+        copy->_structure = this->_structure->deepCopy();
+    }
+
+    return copy;
+}
+
+void TableEntity::copyData(TableEntity * data)
+{
+    delete this->_structure;
+    *this = *data;
+    if (data->_structure) {
+        this->_structure = data->_structure->deepCopy();
+    }
+}
+
 } // namespace db
 } // namespace meow

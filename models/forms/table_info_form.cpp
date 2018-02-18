@@ -2,6 +2,7 @@
 #include "db/entity/table_entity.h"
 #include "models/forms/table_indexes_model.h"
 #include "models/forms/table_foreign_keys_model.h"
+#include "app.h"
 
 namespace meow {
 namespace models {
@@ -10,32 +11,56 @@ namespace forms {
 TableInfoForm::TableInfoForm(QObject *parent)
     : QObject(parent),
       _table(nullptr),
+      _sourceTable(nullptr),
       _indexesModel(nullptr),
-      _fKeysModel(nullptr)
+      _fKeysModel(nullptr),
+      _hasUnsavedChanges(false)
 {
 
 }
 
 TableInfoForm::~TableInfoForm()
 {
+    delete _table;
     delete _indexesModel;
     delete _fKeysModel;
 }
 
 void TableInfoForm::setTable(meow::db::TableEntity * table)
 {
-    _table = table;
+    // TODO: copy only when we start editing
+
+    if (_indexesModel) {
+        _indexesModel->setTable(nullptr);
+    }
+    if (_fKeysModel) {
+        _fKeysModel->setTable(nullptr);
+    }
+
+    auto oldTable = _table;
+    _sourceTable = table;
+    _table = _sourceTable->deepCopy();
+    delete oldTable;
+
     if (_indexesModel) {
         _indexesModel->setTable(_table);
     }
     if (_fKeysModel) {
         _fKeysModel->setTable(_table);
     }
+
+    setHasUnsavedChanges(false);
 }
 
 const QString TableInfoForm::tableName() const
 {
     return _table ? _table->name() : QString();
+}
+
+void TableInfoForm::setTableName(const QString & name)
+{
+    _table->setName(name);
+    setHasUnsavedChanges(true);
 }
 
 const QString TableInfoForm::tableComment() const
@@ -100,6 +125,21 @@ TableForeignKeysModel * TableInfoForm::foreignKeysModel()
         _fKeysModel->setTable(_table);
     }
     return _fKeysModel;
+}
+
+void TableInfoForm::save()
+{
+    meow::app()->dbConnectionsManager()->activeSession()->editTableInDB(
+        _sourceTable, _table);
+    setHasUnsavedChanges(false);
+}
+
+void TableInfoForm::setHasUnsavedChanges(bool modified)
+{
+    if (_hasUnsavedChanges != modified) {
+        _hasUnsavedChanges = modified;
+        emit unsavedChanged(_hasUnsavedChanges);
+    }
 }
 
 } // namespace forms

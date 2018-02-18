@@ -29,6 +29,9 @@ public:
     void selectEntityAt(const QModelIndex &index);
 
 private:
+
+    Q_SLOT void onEntityEdited(meow::db::Entity * entity);
+
     meow::db::Entity * rootItem() const { return _dbConnectionsManager; }
 
     meow::db::ConnectionsManager * _dbConnectionsManager;

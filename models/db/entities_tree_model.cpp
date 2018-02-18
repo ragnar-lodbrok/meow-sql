@@ -1,5 +1,7 @@
 #include <QDebug>
 #include "entities_tree_model.h"
+#include "db/entity/database_entity.h"
+#include "db/entity/table_entity.h"
 
 namespace meow {
 namespace models {
@@ -16,14 +18,20 @@ EntitiesTreeModel::EntitiesTreeModel(
             &meow::db::ConnectionsManager::connectionOpened,
             [=](meow::db::SessionEntity * newSession) {
 
-                beginInsertRows(QModelIndex(), newSession->row(), newSession->row());
+                beginInsertRows(QModelIndex(),
+                                newSession->row(), newSession->row());
                 endInsertRows();
                 //emit layoutChanged();
             });
 
+    connect(_dbConnectionsManager,
+            &meow::db::ConnectionsManager::entityEdited,
+            this,
+            &meow::models::db::EntitiesTreeModel::onEntityEdited);
+
 }
 
-Qt::ItemFlags EntitiesTreeModel::flags(const QModelIndex &index) const // override
+Qt::ItemFlags EntitiesTreeModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid()) {
         return 0;
@@ -57,13 +65,14 @@ QModelIndex EntitiesTreeModel::index(int row,
     }
 }
 
-QModelIndex EntitiesTreeModel::parent(const QModelIndex &index) const // override
+QModelIndex EntitiesTreeModel::parent(const QModelIndex &index) const
 {
     if (!index.isValid()) {
         return QModelIndex();
     }
 
-    meow::db::Entity * childItem = static_cast<meow::db::Entity *>(index.internalPointer());
+    meow::db::Entity * childItem
+        = static_cast<meow::db::Entity *>(index.internalPointer());
     meow::db::Entity * parentItem = childItem->parent();
 
     if (parentItem == rootItem()) {
@@ -113,7 +122,7 @@ bool EntitiesTreeModel::hasChildren(const QModelIndex &parent) const // override
     return QAbstractItemModel::hasChildren(parent);
 }
 
-QVariant EntitiesTreeModel::data(const QModelIndex &index, int role) const // override
+QVariant EntitiesTreeModel::data(const QModelIndex &index, int role) const
 {
 
     if (!index.isValid()) {
@@ -122,7 +131,8 @@ QVariant EntitiesTreeModel::data(const QModelIndex &index, int role) const // ov
 
     if (role == Qt::DisplayRole || role == Qt::DecorationRole) {
 
-        meow::db::Entity * item = static_cast<meow::db::Entity *>(index.internalPointer());
+        meow::db::Entity * item
+            = static_cast<meow::db::Entity *>(index.internalPointer());
 
         if (role == Qt::DecorationRole) {
             return item->icon();
@@ -141,7 +151,8 @@ void EntitiesTreeModel::selectEntityAt(const QModelIndex &index)
         return;
     }
 
-    meow::db::Entity * selectedEntity = static_cast<meow::db::Entity *>(index.internalPointer());
+    meow::db::Entity * selectedEntity
+        = static_cast<meow::db::Entity *>(index.internalPointer());
 
     if (selectedEntity == nullptr) {
         qDebug() << "Tree: empty entity selected";
@@ -152,6 +163,36 @@ void EntitiesTreeModel::selectEntityAt(const QModelIndex &index)
 
     selectedEntity->setWasSelected(true);
     _dbConnectionsManager->setActiveEntity(selectedEntity);
+
+}
+
+void EntitiesTreeModel::onEntityEdited(meow::db::Entity * entity)
+{
+
+    if (entity->type() == meow::db::Entity::Type::Session) {
+        // TODO
+    } else if (entity->type() == meow::db::Entity::Type::Database) {
+        // TODO
+    } else if (entity->type() != meow::db::Entity::Type::None) {
+
+        using DataBase = meow::db::DataBaseEntity;
+
+        DataBase * database = static_cast<DataBase *>(
+            meow::db::findParentEntityOfType(entity,
+                                             meow::db::Entity::Type::Database)
+        );
+        if (!database) return;
+
+        int entityIntIndex = database->indexOf(entity);
+        if (entityIntIndex == -1) return;
+        QModelIndex entityIndex = createIndex(entityIntIndex,
+                                              0,
+                                              entity);
+
+        // TODO: refresh entire database since renaming may change eg sorting
+        emit dataChanged(entityIndex, entityIndex);
+
+    }
 
 }
 

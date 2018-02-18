@@ -16,7 +16,10 @@ public:
     TableStructure();
     ~TableStructure();
 
-    QList<TableColumn *> & columns() { return _columns; }
+    const QList<TableColumn *> & columns() const { return _columns; }
+    void clearColumns() { qDeleteAll(_columns); _columns.clear(); }
+    void appendColumn(TableColumn * column);
+
     QList<TableIndex  *> & indicies() { return _indicies; }
     QList<ForeignKey  *> & foreighKeys() { return _foreignKeys; }
 
@@ -40,6 +43,23 @@ public:
 
     bool hasIndexForColumn(const QString & columnName, TableIndexClass indexClass);
 
+    TableStructure * deepCopy() const;
+
+    int insertEmptyDefaultColumn(int afterIndex = -1);
+
+    bool canRemoveColumn(int index) const;
+    bool removeColumnAt(int index);
+
+    bool canMoveColumnUp(int index) const;
+    bool moveColumnUp(int index);
+
+    bool canMoveColumnDown(int index) const;
+    bool moveColumnDown(int index);
+
+    unsigned nextColumnUniqueId() { return ++_nextColumnUniqueId; }
+    TableColumn * columnById(unsigned id) const;
+    TableColumn * prevColumn(TableColumn * column) const;
+
 private:
 
     QString _comment;
@@ -52,6 +72,8 @@ private:
     QList<TableColumn *>  _columns;
     QList<TableIndex  *>  _indicies;
     QList<ForeignKey  *>  _foreignKeys;
+
+    unsigned _nextColumnUniqueId;
 
 };
 

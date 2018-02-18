@@ -272,7 +272,8 @@ void Window::validateControls()
 {
     // TODO: session form controls
 
-    meow::models::forms::ConnectionParametersForm * curForm = _connectionParamsModel->selectedForm();
+    meow::models::forms::ConnectionParametersForm * curForm
+        = _connectionParamsModel->selectedForm();
     bool hasCurForm = curForm != nullptr;
     bool curModified = _connectionParamsModel->isSelectedConnectionParamModified();
 
@@ -295,19 +296,22 @@ void Window::createNewSession()
         return;
     }
 
-    meow::models::forms::ConnectionParametersForm * newForm = _connectionParamsModel->createNewForm();
+    meow::models::forms::ConnectionParametersForm * newForm
+            = _connectionParamsModel->createNewForm();
 
     selectSessionAt(newForm->index());
 
     // scroll to just added (== selected)
-    QModelIndexList selectedIndexes =  _sessionsList->selectionModel()->selectedIndexes();
+    QModelIndexList selectedIndexes
+            = _sessionsList->selectionModel()->selectedIndexes();
     if (selectedIndexes.size() == 0) {
         return;
     }
     QModelIndex index = selectedIndexes.at(0);
     _sessionsList->scrollTo(index);
 
-    _sessionsList->edit(_connectionParamsModel->indexForSessionNameAt(index.row()));
+    _sessionsList->edit(
+                _connectionParamsModel->indexForSessionNameAt(index.row()));
 }
 
 
@@ -316,13 +320,15 @@ void Window::deleteCurrentSession()
 {
     // BUG: removing of just added row loses focus if off screen
 
-    meow::models::forms::ConnectionParametersForm * curForm = _connectionParamsModel->selectedForm();
+    meow::models::forms::ConnectionParametersForm * curForm
+            = _connectionParamsModel->selectedForm();
 
     if (!curForm) {
         return;
     }
 
-    QModelIndexList selectedIndexes =  _sessionsList->selectionModel()->selectedIndexes();
+    QModelIndexList selectedIndexes
+            = _sessionsList->selectionModel()->selectedIndexes();
 
     if (selectedIndexes.size() == 0) {
         return;
@@ -368,7 +374,8 @@ void Window::deleteCurrentSession()
 void Window::openCurrentSession()
 {
 
-    meow::models::forms::ConnectionParametersForm * curForm = _connectionParamsModel->selectedForm();
+    meow::models::forms::ConnectionParametersForm * curForm
+            = _connectionParamsModel->selectedForm();
 
     if (!curForm) {
         return;
@@ -396,8 +403,9 @@ void Window::selectSessionAt(int rowIndex)
     //QModelIndex newSelectedIndex =_connectionParamsModel->index(rowIndex, 0) ;
     //QModelIndex mappedNewIndex = _proxySortModel.mapFromSource(newSelectedIndex);
 
-    _sessionsList->selectionModel()->select(_connectionParamsModel->indexForSessionNameAt(rowIndex),
-                                            QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+    _sessionsList->selectionModel()->select(
+        _connectionParamsModel->indexForSessionNameAt(rowIndex),
+        QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
     //_sessionsList->setFocus();
 }

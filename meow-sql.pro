@@ -110,7 +110,17 @@ SOURCES += main.cpp\
     models/forms/table_indexes_model_item.cpp \
     settings/settings_icons.cpp \
     models/forms/table_foreign_keys_model.cpp \
-    ui/common/table_view.cpp
+    ui/common/table_view.cpp \
+    db/entity/table_entity_comparator.cpp \
+    db/table_editor.cpp \
+    db/mysql_table_editor.cpp \
+    models/delegates/table_column_type_delegate.cpp \
+    ui/common/data_type_combo_box.cpp \
+    ui/common/table_column_default_editor.cpp \
+    models/delegates/table_column_default_delegate.cpp \
+    models/delegates/table_column_collation_delegate.cpp \
+    db/mysql_collation_fetcher.cpp \
+    models/delegates/checkbox_delegate.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -198,7 +208,18 @@ HEADERS  += app.h \
     models/forms/table_indexes_model_item.h \
     settings/settings_icons.h \
     models/forms/table_foreign_keys_model.h \
-    ui/common/table_view.h
+    ui/common/table_view.h \
+    db/entity/table_entity_comparator.h \
+    db/table_editor.h \
+    db/mysql_table_editor.h \
+    models/delegates/table_column_type_delegate.h \
+    ui/common/data_type_combo_box.h \
+    ui/common/table_column_default_editor.h \
+    models/delegates/table_column_default_delegate.h \
+    models/delegates/table_column_collation_delegate.h \
+    db/collation_fetcher.h \
+    db/mysql_collation_fetcher.h \
+    models/delegates/checkbox_delegate.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

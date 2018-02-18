@@ -83,9 +83,16 @@ DataTypeCategoryIndex categoryOfDataType(DataTypeIndex type);
 
 bool dataTypeCanBeUnsigned(DataTypeIndex type);
 bool dataTypeCanBeZeroFill(DataTypeIndex type);
+bool dataTypeHasLength(DataTypeIndex type);
 
-using dataTypeNamesMap = QMap<DataTypeIndex, QString>;
-const dataTypeNamesMap & dataTypeNames();
+inline bool dataTypeIsNumeric(DataTypeIndex type) {
+    auto category = categoryOfDataType(type);
+    return category == DataTypeCategoryIndex::Float
+        || category == DataTypeCategoryIndex::Integer;
+}
+
+using DataTypeNamesMap = QMap<DataTypeIndex, QString>;
+const DataTypeNamesMap & dataTypeNames();
 
 const QString dataTypeName(DataTypeIndex typeIndex);
 

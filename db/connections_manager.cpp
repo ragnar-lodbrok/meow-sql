@@ -2,6 +2,7 @@
 #include "connection.h"
 #include "user_query/user_query.h"
 #include "db/entity/table_entity.h"
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -29,6 +30,11 @@ ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & pa
     connection->setActive(true);
 
     SessionEntity * newSession = new SessionEntity(connection, this);
+
+    connect(newSession,
+            &meow::db::SessionEntity::entityEdited,
+            this,
+            &meow::db::ConnectionsManager::onEntityEdited);
 
     _connections.push_back(newSession);
     _activeSession = newSession;
@@ -95,6 +101,11 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity)
         }
         emit activeEntityChanged(activeEntity);
     }
+}
+
+void ConnectionsManager::onEntityEdited(Entity * entity)
+{
+    emit entityEdited(entity);
 }
 
 } // namespace db

@@ -1,7 +1,8 @@
 #include "connection.h"
 #include "query.h"
 #include "entity/entities_fetcher.h"
-
+#include "db/table_editor.h"
+#include "db/entity/table_entity.h"
 
 namespace meow {
 namespace db {
@@ -56,7 +57,8 @@ void Connection::setUseAllDatabases()
     _allDatabasesCached.second = QStringList();
 }
 
-EntityListForDataBase * Connection::getDbEntities(const QString & dbName, bool refresh /*= false*/)
+EntityListForDataBase * Connection::getDbEntities(const QString & dbName,
+                                                  bool refresh /*= false*/)
 {
     bool hasInCache = _databaseEntitiesCache.contains(dbName);
 
@@ -84,7 +86,6 @@ EntityListForDataBase * Connection::getDbEntities(const QString & dbName, bool r
     }
 }
 
-// virtual
 void Connection::setCharacterSet(const QString & characterSet)
 {
    _characterSet = characterSet;
@@ -144,13 +145,17 @@ QueryPtr Connection::getResults(const QString & SQL)
     return query;
 }
 
-QString Connection::quoteIdentifier(const char * identifier, bool alwaysQuote /*= true*/, QChar glue /*= QChar::Null*/) const
+QString Connection::quoteIdentifier(const char * identifier,
+                                    bool alwaysQuote /*= true*/,
+                                    QChar glue /*= QChar::Null*/) const
 {
     QString id(identifier);
     return quoteIdentifier(id, alwaysQuote, glue);
 }
 
-QString Connection::quoteIdentifier(const QString & identifier, bool alwaysQuote /*= true*/, QChar glue /*= QChar::Null*/) const
+QString Connection::quoteIdentifier(const QString & identifier,
+                                    bool alwaysQuote /*= true*/,
+                                    QChar glue /*= QChar::Null*/) const
 {
     if (glue != QChar::Null) {
         // TODO
@@ -160,8 +165,10 @@ QString Connection::quoteIdentifier(const QString & identifier, bool alwaysQuote
 
         QLatin1Char quoteChar('`');
         QString id(identifier);
-        QString quoteReplaced = id.replace(quoteChar, "``"); // TODO: H: diff chars for diff db types
-        return quoteChar + quoteReplaced + quoteChar; // TODO: replace "." with "`.`"
+        QString quoteReplaced = id.replace(quoteChar, "``");
+        // TODO: H: diff chars for diff db types
+        return quoteChar + quoteReplaced + quoteChar;
+        // TODO: replace "." with "`.`"
     } else {
         // TODO
     }
@@ -169,14 +176,35 @@ QString Connection::quoteIdentifier(const QString & identifier, bool alwaysQuote
     return identifier;
 }
 
+const QStringList Connection::collationList()
+{
+    if (_collationFetcher == nullptr) {
+        _collationFetcher.reset(createCollationFetcher());
+    }
+    return _collationFetcher->getList();
+}
+
 void Connection::emitDatabaseChanged(const QString& newName)
 {
     emit databaseChanged(newName);
 }
 
-void Connection::parseTableStructure(TableEntity * table)
+void Connection::parseTableStructure(TableEntity * table, bool refresh)
 {
+    if (!refresh && table->hasStructure()) {
+        return;
+    }
     _tableStructureParser.run(table);
+}
+
+bool Connection::editTableInDB(TableEntity * table, TableEntity * newData)
+{
+
+    TableEditor * editor = createTableEditor();
+
+    std::shared_ptr<TableEditor> sharedEditor(editor);
+
+    return sharedEditor->edit(table, newData);
 }
 
 } // namespace db

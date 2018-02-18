@@ -16,6 +16,8 @@ public:
     virtual ~TableEntity();
 
     virtual QString name() const override;
+    void setName(const QString & name) {_tableName = name; }
+
     virtual QVariant icon() const override;
     virtual Type type() const override { return Type::Table; }
 
@@ -37,6 +39,14 @@ public:
     void setVersion(db::ulonglong version) { _version = version; }
 
     db::TableStructure * structure() const;
+    bool hasStructure() const;
+
+    DataBaseEntity * dataBaseEntity() const;
+
+    // Returns a copy (with all internal data)
+    TableEntity * deepCopy() const;
+
+    void copyData(TableEntity * data);
 
 private:
     QString _collation;

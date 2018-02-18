@@ -3,9 +3,15 @@
 
 #include <QtWidgets>
 #include "models/ui/table_info_widget_model.h"
-#include "models/forms/table_info_form.h"
 
 namespace meow {
+
+namespace models {
+namespace forms {
+    class TableInfoForm;
+}
+}
+
 namespace ui {
 namespace main_window {
 namespace central_right {
@@ -20,9 +26,10 @@ namespace table_info {
 class TableInfo : public QWidget
 {
 public:
-    explicit TableInfo(QWidget *parent = nullptr);
+    explicit TableInfo(models::forms::TableInfoForm * form,
+                       QWidget *parent = nullptr);
 
-    void setTable(db::TableEntity * table);
+    void refreshData();
 
     virtual QSize sizeHint() const override {
         return QSize(200, 200);
@@ -32,7 +39,7 @@ private:
     void createTabs();
 
     models::ui::TableInfoWidgetModel _model;
-    models::forms::TableInfoForm _form; // put it somewere in db layer?
+    models::forms::TableInfoForm * _form;
 
     QTabWidget  * _rootTabs;
     table_info::BasicTab * _basicTab;

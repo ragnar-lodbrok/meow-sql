@@ -21,7 +21,7 @@ public:
     ~TableStructureParser();
     void run(TableEntity * table);
 private:
-    void parseColumns(const QString & createSQL, QList<TableColumn *> & columns) const;
+    void parseColumns(const QString & createSQL, TableEntity * table) const;
     void parseKeysIndicies(const QString & createSQL, QList<TableIndex *> & indicies) const;
     void parseForeignKeys(const QString & createSQL, QList<ForeignKey *> & fKeys) const;
     void parseTableOptions(TableEntity * table);

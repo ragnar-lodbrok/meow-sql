@@ -64,7 +64,7 @@ const QColor Text::colorForDefaultType(db::ColumnDefaultType type) const
         break;
     }
 
-    return QColor(100, 100, 100);
+    return QColor(0, 0, 0);
 }
 
 } // namespace meow

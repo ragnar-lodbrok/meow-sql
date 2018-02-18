@@ -45,8 +45,21 @@ Qt::ItemFlags TableColumnsModel::flags(const QModelIndex &index) const
 
     Qt::ItemFlags flags = Qt::ItemIsSelectable;
 
-    if (isEditingAllowed(index.row(), index.column())) {
+    bool isEditable = isEditingAllowed(index.row(), index.column());
+
+    // For bool columns we don't use standart editor,
+    // so dont return Qt::ItemIsEditable;
+    // Return Qt::ItemIsEnabled if bool column can be changed by the user
+
+    if (isBoolColumn(index.column())) {
+        if (isEditable) {
+            flags |= Qt::ItemIsEnabled;
+        }
+    } else {
         flags |= Qt::ItemIsEnabled;
+        if (isEditable) {
+            flags |= Qt::ItemIsEditable;
+        }
     }
 
     return flags;
@@ -116,6 +129,7 @@ QVariant TableColumnsModel::data(const QModelIndex &index, int role) const
     switch (role) {
 
     case Qt::DisplayRole:
+    case Qt::EditRole: // temp all the same
         return textDataAt(index.row(), index.column());
 
     case Qt::CheckStateRole:
@@ -136,6 +150,95 @@ QVariant TableColumnsModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+bool TableColumnsModel::setData(const QModelIndex &index,
+                                const QVariant &value,
+                                int role)
+{
+    if (!index.isValid() || role != Qt::EditRole) {
+        return false;
+    }
+
+    if (editData(index, value)) {
+        emit dataChanged(index, index);
+        emit modified();
+        return true;
+    }
+
+    return false;
+}
+
+int TableColumnsModel::insertEmptyDefaultRow(int afterIndex)
+{
+    int insertIndex = rowCount();
+    if (afterIndex > -1 && afterIndex < rowCount()) {
+        insertIndex = afterIndex + 1;
+    }
+    beginInsertRows(QModelIndex(), insertIndex, insertIndex);
+    int newRowIndex =  _table->structure()->insertEmptyDefaultColumn(afterIndex);
+    endInsertRows();
+
+    emit modified();
+
+    return newRowIndex;
+}
+
+bool TableColumnsModel::removeRowAt(int index)
+{
+    if (!_table->structure()->canRemoveColumn(index)) {
+        return false;
+    }
+
+    beginRemoveRows(QModelIndex(), index, index);
+    _table->structure()->removeColumnAt(index);
+    endRemoveRows();
+
+    emit modified();
+
+    return true;
+}
+
+bool TableColumnsModel::moveRowUp(int index)
+{
+    if (_table->structure()->canMoveColumnUp(index)) {
+        beginMoveRows(QModelIndex(), index, index, QModelIndex(), index - 1);
+        _table->structure()->moveColumnUp(index);
+        endMoveRows();
+
+        emit modified();
+
+        return true;
+    }
+    return false;
+}
+
+bool TableColumnsModel::moveRowDown(int index)
+{
+    if (_table->structure()->canMoveColumnDown(index)) {
+        beginMoveRows(QModelIndex(), index, index, QModelIndex(), index + 2);
+        _table->structure()->moveColumnDown(index);
+        endMoveRows();
+        emit modified();
+        return true;
+    }
+    return false;
+}
+
+bool TableColumnsModel::canRemoveRow(int index) const
+{
+    // Not an error: a row in the table view is a column in the db table ;)
+    return _table->structure()->canRemoveColumn(index);
+}
+
+bool TableColumnsModel::canMoveRowUp(int index) const
+{
+    return _table->structure()->canMoveColumnUp(index);
+}
+
+bool TableColumnsModel::canMoveRowDown(int index) const
+{
+    return _table->structure()->canMoveColumnDown(index);
 }
 
 void TableColumnsModel::removeData()
@@ -159,7 +262,7 @@ void TableColumnsModel::refresh()
     insertData();
 }
 
-QString TableColumnsModel::textDataAt(int row, int col) const
+QVariant TableColumnsModel::textDataAt(int row, int col) const
 {
     meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
 
@@ -177,7 +280,7 @@ QString TableColumnsModel::textDataAt(int row, int col) const
     case Columns::Unsigned:
     case Columns::AllowNull:
     case Columns::Zerofill:
-        return QString();
+        return QVariant();
 
     case Columns::Default: {
         using colDef = meow::db::ColumnDefaultType;
@@ -225,7 +328,7 @@ QString TableColumnsModel::textDataAt(int row, int col) const
         return QString("");
 
     default:
-       return QString();
+       return QVariant();
     }
 }
 
@@ -307,6 +410,9 @@ bool TableColumnsModel::isEditingAllowed(int row, int col) const
 
     switch (static_cast<Columns>(col)) {
 
+    case Columns::Length:
+        return meow::db::dataTypeHasLength(tableColumn->dataType());
+
     case Columns::Unsigned:
         return meow::db::dataTypeCanBeUnsigned(tableColumn->dataType());
 
@@ -331,7 +437,7 @@ int TableColumnsModel::columnWidth(int column) const
     case Columns::Name:
         return 150;
     case Columns::DataType:
-        return 140;
+        return 170;
     case Columns::Length:
         return 140;
     case Columns::Unsigned:
@@ -341,7 +447,7 @@ int TableColumnsModel::columnWidth(int column) const
     case Columns::Zerofill:
         return 100;
     case Columns::Default:
-        return 150;
+        return 220;
     case Columns::Comment:
         return 180;
     case Columns::Collation:
@@ -355,6 +461,209 @@ int TableColumnsModel::columnWidth(int column) const
         break;
     }
     return 0;
+}
+
+meow::db::ColumnDefaultType TableColumnsModel::defaultType(int row) const
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+    return tableColumn->defaultType();
+}
+
+const QString TableColumnsModel::defaultText(int row) const
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+
+    using colDef = meow::db::ColumnDefaultType;
+    if (tableColumn->defaultType() == colDef::Text ||
+        tableColumn->defaultType() == colDef::TextUpdateTS) {
+
+        return tableColumn->defaultText();
+    }
+
+    return QString();
+}
+
+bool TableColumnsModel::isDefaultAutoIncEnabled(int row) const
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+    return meow::db::categoryOfDataType(tableColumn->dataType())
+            == meow::db::DataTypeCategoryIndex::Integer;
+}
+
+bool TableColumnsModel::isDefaultCurrentTimeStampEnabled(int row) const
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+
+    if (tableColumn->dataType() == meow::db::DataTypeIndex::Timestamp) {
+        return true;
+    } else if (tableColumn->dataType() == meow::db::DataTypeIndex::DateTime) {
+        return _table->connection()->serverVersionInt() >= 50605;
+    }
+    return false;
+}
+
+bool TableColumnsModel::isDefaultOnUpdCurTsEnabled(int row) const
+{
+    return isDefaultCurrentTimeStampEnabled(row);
+}
+
+bool TableColumnsModel::setDefaultValue(int row,
+                     meow::db::ColumnDefaultType type,
+                     const QString & text)
+{
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+    tableColumn->setDefaultType(type);
+    tableColumn->setDefaultText(text);
+
+    if (type == meow::db::ColumnDefaultType::Null ||
+        type == meow::db::ColumnDefaultType::NullUpdateTS) {
+        tableColumn->setAllowNull(true);
+    }
+
+    QModelIndex index = createIndex(row, (int)Columns::Default);
+
+    emit dataChanged(index, index);
+    emit modified();
+
+    return true;
+}
+
+const QStringList TableColumnsModel::collationList() const
+{
+    return _table->connection()->collationList();
+}
+
+bool TableColumnsModel::setColumnDataType(const QModelIndex &index,
+                                          const QVariant &value)
+{
+    int row = index.row();
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+
+    if (!value.canConvert<int>()) {
+        return false;
+    }
+
+    auto dataType = static_cast<meow::db::DataTypeIndex>(value.toInt());
+    tableColumn->setDataType(dataType);
+
+    if (!meow::db::dataTypeHasLength(dataType)) {
+        tableColumn->setLengthSet(QString());
+    }
+    // TODO: default length/set
+
+    using ColDef = meow::db::ColumnDefaultType;
+
+    auto typeCategory = meow::db::categoryOfDataType(dataType);
+
+    switch (typeCategory) {
+    case meow::db::DataTypeCategoryIndex::Integer:
+    case meow::db::DataTypeCategoryIndex::Float:
+
+        if (tableColumn->defaultType() == ColDef::CurTS ||
+            tableColumn->defaultType() == ColDef::CurTSUpdateTS) {
+            tableColumn->setDefaultType(ColDef::None);
+        } else if (tableColumn->defaultType() == ColDef::TextUpdateTS) {
+            tableColumn->setDefaultType(ColDef::Text);
+        } else if (tableColumn->defaultType() == ColDef::NullUpdateTS) {
+            tableColumn->setDefaultType(ColDef::Null);
+        }
+        break;
+
+    case meow::db::DataTypeCategoryIndex::Text:
+    case meow::db::DataTypeCategoryIndex::Binary:
+    case meow::db::DataTypeCategoryIndex::Spatial:
+    case meow::db::DataTypeCategoryIndex::Other:
+        if (tableColumn->defaultType() == ColDef::CurTS ||
+            tableColumn->defaultType() == ColDef::CurTSUpdateTS ||
+            tableColumn->defaultType() == ColDef::AutoInc) {
+            tableColumn->setDefaultType(ColDef::None);
+        } else if (tableColumn->defaultType() == ColDef::NullUpdateTS) {
+            tableColumn->setDefaultType(ColDef::Null);
+        }
+        break;
+
+    case meow::db::DataTypeCategoryIndex::Temporal:
+        if (tableColumn->defaultType() == ColDef::AutoInc) {
+            tableColumn->setDefaultType(ColDef::None);
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    return true;
+}
+
+bool TableColumnsModel::editData(const QModelIndex &index, const QVariant &value)
+{
+    int row = index.row();
+    int col = index.column();
+
+    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+
+    switch (static_cast<Columns>(col)) {
+
+    case Columns::Name: {
+
+        tableColumn->setName(value.toString());
+        return true;
+    }
+
+    case Columns::DataType: {
+        return setColumnDataType(index, value);
+    }
+
+    case Columns::Length: {
+        tableColumn->setLengthSet(value.toString());
+        return true;
+    }
+
+    case Columns::Comment: {
+        tableColumn->setComment(value.toString());
+        return true;
+    }
+
+    case Columns::Collation: {
+        tableColumn->setCollation(value.toString());
+        return true;
+    }
+
+    case Columns::Unsigned: {
+        if (value.canConvert<int>()) {
+            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
+            tableColumn->setIsUnsigned(checked);
+            return true;
+        }
+        return false;
+    }
+
+    case Columns::AllowNull: {
+        if (value.canConvert<int>()) {
+            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
+            tableColumn->setAllowNull(checked);
+            return true;
+        }
+        return false;
+    }
+
+    case Columns::Zerofill: {
+
+        if (value.canConvert<int>()) {
+            bool checked = static_cast<Qt::CheckState>(value.toInt()) == Qt::Checked;
+
+            tableColumn->setIsZeroFill(checked);
+
+            return true;
+        }
+        return false;
+    }
+
+    default:
+        break;
+    }
+
+    return false;
 }
 
 } // namespace db

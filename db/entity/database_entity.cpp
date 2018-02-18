@@ -1,5 +1,6 @@
 #include "database_entity.h"
 #include "session_entity.h"
+#include "table_entity.h"
 #include <QIcon>
 #include <QDebug>
 
@@ -84,6 +85,14 @@ void DataBaseEntity::initEntitiesIfNeed()
 bool DataBaseEntity::childrenFetched() const
 {
     return _entitiesWereInit;
+}
+
+int DataBaseEntity::indexOf(Entity * entity) const
+{
+    if (_entities) {
+        return _entities->list()->indexOf(entity);
+    }
+    return -1;
 }
 
 } // namespace db
