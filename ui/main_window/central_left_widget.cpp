@@ -1,4 +1,5 @@
 #include "central_left_widget.h"
+#include "central_left_db_tree.h"
 #include <QDebug>
 
 namespace meow {
@@ -19,7 +20,7 @@ void CentralLeftWidget::createMainLayout()
     _mainLayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(_mainLayout);
 
-    _dbTree = new QTreeView();
+    _dbTree = new DbTree(this);
     _dbTree->setHeaderHidden(true);
     _dbTree->setModel(_dbEntitiesTreeModel);
     _mainLayout->addWidget(_dbTree);

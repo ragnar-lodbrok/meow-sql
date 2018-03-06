@@ -65,8 +65,8 @@
         <file>resources/icons/tab_delete.png</file>
         <file>resources/icons/tab_add.png</file>
         <file>resources/icons/application_form_edit.png</file>
-        <file>resources/icons/application_form_delete.png</file>
-        <file>resources/icons/application_form_add.png</file>
+        <file alias="application_form_delete.png">resources/icons/application_form_delete.png</file>
+        <file alias="application_form_add.png">resources/icons/application_form_add.png</file>
         <file alias="key_primary.png">resources/icons/bullet_key.png</file>
         <file alias="key_unique.png">resources/icons/key_unique.png</file>
         <file alias="key_spatial.png">resources/icons/key_spatial.png</file>
@@ -187,7 +187,7 @@
         <file>resources/icons/book.png</file>
         <file alias="execute.png">resources/icons/artsbuilderexecute.png</file>
         <file>resources/icons/arrow_undo.png</file>
-        <file>resources/icons/arrow_refresh.png</file>
+        <file alias="arrow_refresh.png">resources/icons/arrow_refresh.png</file>
         <file alias="add.png">resources/icons/add.png</file>
     </qresource>
 </RCC>

@@ -8,6 +8,8 @@ namespace meow {
 namespace ui {
 namespace main_window {
 
+class DbTree;
+
 class CentralLeftWidget : public QWidget
 {
     Q_OBJECT
@@ -23,7 +25,7 @@ private:
 
 
     QVBoxLayout * _mainLayout;
-    QTreeView * _dbTree;
+    DbTree * _dbTree;
     models::db::EntitiesTreeModel * _dbEntitiesTreeModel;
 };
 

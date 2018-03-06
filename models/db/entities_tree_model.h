@@ -28,11 +28,16 @@ public:
 
     void selectEntityAt(const QModelIndex &index);
 
+    bool canDropCurrentItem() const;
+    bool canInsertTableOnCurrentItem() const;
+
 private:
 
     Q_SLOT void onEntityEdited(meow::db::Entity * entity);
 
     meow::db::Entity * rootItem() const { return _dbConnectionsManager; }
+
+    bool isCurItemDatabaseOrLess() const;
 
     meow::db::ConnectionsManager * _dbConnectionsManager;
 };

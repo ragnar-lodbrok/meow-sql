@@ -120,7 +120,8 @@ SOURCES += main.cpp\
     models/delegates/table_column_default_delegate.cpp \
     models/delegates/table_column_collation_delegate.cpp \
     db/mysql_collation_fetcher.cpp \
-    models/delegates/checkbox_delegate.cpp
+    models/delegates/checkbox_delegate.cpp \
+    ui/main_window/central_left_db_tree.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -219,7 +220,8 @@ HEADERS  += app.h \
     models/delegates/table_column_collation_delegate.h \
     db/collation_fetcher.h \
     db/mysql_collation_fetcher.h \
-    models/delegates/checkbox_delegate.h
+    models/delegates/checkbox_delegate.h \
+    ui/main_window/central_left_db_tree.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

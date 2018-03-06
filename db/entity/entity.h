@@ -24,7 +24,7 @@ class Entity // TODO: :public QObject
 {
 public:
 
-    enum class Type {
+    enum class Type { // keep order
         None,
         Session,
         Database,

@@ -196,6 +196,25 @@ void EntitiesTreeModel::onEntityEdited(meow::db::Entity * entity)
 
 }
 
+bool EntitiesTreeModel::canDropCurrentItem() const
+{
+    return isCurItemDatabaseOrLess();
+}
+
+bool EntitiesTreeModel::canInsertTableOnCurrentItem() const
+{
+    return isCurItemDatabaseOrLess();
+}
+
+bool EntitiesTreeModel::isCurItemDatabaseOrLess() const
+{
+    meow::db::Entity * curEntity = _dbConnectionsManager->activeEntity();
+    if (!curEntity) {
+        return false;
+    }
+    return (int)curEntity->type() >= (int)meow::db::Entity::Type::Database;
+}
+
 } // namespace db
 } // namespace models
 } // namespace meow
