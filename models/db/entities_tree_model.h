@@ -31,6 +31,8 @@ public:
     bool canDropCurrentItem() const;
     bool canInsertTableOnCurrentItem() const;
 
+    void createNewTable();
+
 private:
 
     Q_SLOT void onEntityEdited(meow::db::Entity * entity);

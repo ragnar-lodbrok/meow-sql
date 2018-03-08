@@ -6,7 +6,7 @@ namespace meow {
 namespace db {
 
 ProcedureEntity::ProcedureEntity(const QString & name, DataBaseEntity * parent)
-    :Entity(parent),
+    :EntityInDatabase(parent),
      _name(name)
 {
 

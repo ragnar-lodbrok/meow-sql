@@ -75,6 +75,15 @@ void SessionEntity::editTableInDB(TableEntity * table, TableEntity * newData)
     }
 }
 
+void SessionEntity::insertTableToDB(TableEntity * table)
+{
+    if (connection()->insertTableToDB(table)) {
+        table->setIsNew(false);
+        addEntity(table);
+        emit entityInserted(table);
+    }
+}
+
 db::ulonglong SessionEntity::dataSize() const // override
 {
     db::ulonglong sum = 0;
@@ -101,6 +110,15 @@ void SessionEntity::initDatabasesListIfNeed()
 
         _databasesWereInit = true;
     }
+}
+
+void SessionEntity::addEntity(Entity * entity)
+{
+    if ( (int)entity->type() >= (int)Entity::Type::Table ) {
+        EntityInDatabase * entityInDb = static_cast<EntityInDatabase *>(entity);
+        entityInDb->dataBaseEntity()->appendEntity(entityInDb);
+    }
+
 }
 
 } // namespace db

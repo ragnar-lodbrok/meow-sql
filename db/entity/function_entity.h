@@ -8,7 +8,7 @@ namespace db {
 
 class DataBaseEntity;
 
-class FunctionEntity : public Entity
+class FunctionEntity : public EntityInDatabase
 {
 public:
     FunctionEntity(const QString & name, DataBaseEntity * parent = nullptr);

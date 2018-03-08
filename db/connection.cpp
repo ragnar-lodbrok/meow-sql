@@ -207,5 +207,14 @@ bool Connection::editTableInDB(TableEntity * table, TableEntity * newData)
     return sharedEditor->edit(table, newData);
 }
 
+bool Connection::insertTableToDB(TableEntity * table)
+{
+    TableEditor * editor = createTableEditor();
+
+    std::shared_ptr<TableEditor> sharedEditor(editor);
+
+    return sharedEditor->insert(table);
+}
+
 } // namespace db
 } // namespace meow

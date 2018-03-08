@@ -15,6 +15,7 @@ class MySQLTableEditor : public TableEditor
 public:
     MySQLTableEditor(MySQLConnection * connection);
     virtual bool edit(TableEntity * table, TableEntity * newData) override;
+    virtual bool insert(TableEntity * table) override;
     
 private:
     void rename(TableEntity * table, const QString & newName);

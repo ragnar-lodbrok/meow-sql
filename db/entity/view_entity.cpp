@@ -6,7 +6,7 @@ namespace meow {
 namespace db {
 
 ViewEntity::ViewEntity(const QString & viewName, DataBaseEntity * parent)
-    :Entity(parent),
+    :EntityInDatabase(parent),
      _viewName(viewName)
 {
 

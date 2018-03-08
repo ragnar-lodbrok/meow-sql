@@ -37,10 +37,14 @@ void TableInfoForm::setTable(meow::db::TableEntity * table)
         _fKeysModel->setTable(nullptr);
     }
 
-    auto oldTable = _table;
-    _sourceTable = table;
-    _table = _sourceTable->deepCopy();
-    delete oldTable;
+    delete _table;
+    if (table->isNew()) {
+        _sourceTable = nullptr;
+        _table = table; // take ownership
+    } else {
+        _sourceTable = table; // just hold a ref to table
+        _table = _sourceTable->deepCopy(); // and edit copy
+    }
 
     if (_indexesModel) {
         _indexesModel->setTable(_table);
@@ -129,8 +133,15 @@ TableForeignKeysModel * TableInfoForm::foreignKeysModel()
 
 void TableInfoForm::save()
 {
-    meow::app()->dbConnectionsManager()->activeSession()->editTableInDB(
-        _sourceTable, _table);
+    if (_table->isNew()) { // insert
+        meow::app()->dbConnectionsManager()->activeSession()->insertTableToDB(
+            _table);
+        _table = nullptr; // transfer ownership to session/manager
+    } else { // update
+        meow::app()->dbConnectionsManager()->activeSession()->editTableInDB(
+            _sourceTable, _table);
+    }
+
     setHasUnsavedChanges(false);
 }
 

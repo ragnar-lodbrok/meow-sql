@@ -30,6 +30,8 @@ public:
 
     int indexOf(Entity * entity) const;
 
+    void appendEntity(EntityInDatabase * entity);
+
 private:
 
     SessionEntity * session() const;

@@ -8,7 +8,7 @@ namespace db {
 
 class DataBaseEntity;
 
-class ViewEntity : public Entity
+class ViewEntity : public EntityInDatabase
 {
 public:
     ViewEntity(const QString & viewName, DataBaseEntity * parent = nullptr);

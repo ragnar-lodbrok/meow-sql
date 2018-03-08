@@ -2,6 +2,7 @@
 #include "connection.h"
 #include "user_query/user_query.h"
 #include "db/entity/table_entity.h"
+#include "db/entity/database_entity.h"
 #include <QDebug>
 
 namespace meow {
@@ -78,6 +79,24 @@ UserQuery * ConnectionsManager::userQueryAt(size_t index)
     return _userQueries[index];
 }
 
+void ConnectionsManager::createEntity(Entity::Type type)
+{
+    Entity * currentEntity = _activeEntity.currentEntity();
+    if (!currentEntity) return;
+
+    DataBaseEntity * databaseEntity =
+        static_cast<DataBaseEntity *>(
+            db::findParentEntityOfType(currentEntity, Entity::Type::Database)
+    );
+    if (!databaseEntity) return;
+
+    if (type == Entity::Type::Table) {
+        TableEntity * table = new TableEntity("", databaseEntity);
+        table->setIsNew(true);
+        emit activeEntityChanged(table);
+    }
+}
+
 void ConnectionsManager::setActiveEntity(Entity * activeEntity)
 {
     bool changed = _activeEntity.setCurrentEntity(activeEntity);
@@ -91,7 +110,6 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity)
                 QString dbName = databaseName(activeEntity);
                 connection->setDatabase(dbName);
             }
-
 
             // test only
             if (activeEntity->type() == Entity::Type::Table) {

@@ -38,8 +38,9 @@ bool CentralRightWidgetModel::hasDataTab() const
         return false;
     }
 
-    return _entityHolder.currentEntity()->type() == db::Entity::Type::Table ||
-           _entityHolder.currentEntity()->type() == db::Entity::Type::View;
+    return (_entityHolder.currentEntity()->type() == db::Entity::Type::Table ||
+            _entityHolder.currentEntity()->type() == db::Entity::Type::View) &&
+            _entityHolder.currentEntity()->isNew() == false;
 }
 
 bool CentralRightWidgetModel::hasEntityTab() const
@@ -85,9 +86,15 @@ QString CentralRightWidgetModel::titleForDatabaseTab() const
 
 QString CentralRightWidgetModel::titleForTableTab() const
 {
-    if (_entityHolder.currentEntity()
-        && _entityHolder.currentEntity()->type() == meow::db::Entity::Type::Table) {
-        return QObject::tr("Table") + ": " + _entityHolder.currentEntity()->name();
+    if (_entityHolder.currentEntity() &&
+        _entityHolder.currentEntity()->type() == meow::db::Entity::Type::Table) {
+        QString title = QObject::tr("Table") + ": ";
+        if (_entityHolder.currentEntity()->isNew()) {
+            title += "[" + QObject::tr("Untitled") + "]";
+        } else {
+            title += _entityHolder.currentEntity()->name();
+        }
+        return title;
     }
 
     return QObject::tr("Table");

@@ -28,6 +28,8 @@ void TableTab::setTable(db::TableEntity * table)
     _form.setTable(table);
     _tableInfo->refreshData();
     _columns->setTable(_form.editableTable());
+
+    // TODO: set focus on table name when table->isNew() == true
 }
 
 void TableTab::createWidgets()

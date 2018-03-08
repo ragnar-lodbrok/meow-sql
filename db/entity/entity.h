@@ -56,6 +56,9 @@ public:
     bool wasSelected() const { return _wasSelected; }
     void setWasSelected(bool wasSelected) { _wasSelected = wasSelected; }
 
+    bool isNew() const { return _isNew; }
+    void setIsNew(bool isNew) { _isNew = isNew; }
+
     QDateTime created() const { return _created; }
     void setCreated(const QDateTime & created) { _created = created; }
 
@@ -67,12 +70,23 @@ public:
 protected:
     Entity * _parent;
 private:
+    bool _isNew; // is new object to be saved
     bool _wasSelected;
     QDateTime _created;
     QDateTime _updated;
     std::pair<bool, QString> _createCodeCached; // < cached?, data >
 };
 
+// -----------------------------------------------------------------------------
+
+class DataBaseEntity;
+// Intent: Entity inside Database level
+class EntityInDatabase : public Entity
+{
+public:
+    explicit EntityInDatabase(DataBaseEntity * parent = nullptr);
+    DataBaseEntity * dataBaseEntity() const;
+};
 
 // -----------------------------------------------------------------------------
 // Helpers

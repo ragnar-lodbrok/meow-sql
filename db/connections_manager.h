@@ -44,6 +44,8 @@ public:
     Q_SIGNAL void activeEntityChanged(Entity * newEntity);
     Q_SIGNAL void entityEdited(Entity * entity);
 
+    void createEntity(Entity::Type type);
+
 private:
 
     Q_SLOT void onEntityEdited(Entity * entity);

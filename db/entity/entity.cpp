@@ -1,10 +1,12 @@
 #include "entity.h"
+#include "database_entity.h"
 
 namespace meow {
 namespace db {
 
 Entity::Entity(Entity * parent /* = nullptr */):
     _parent(parent),
+    _isNew(false),
     _wasSelected(false),
     _createCodeCached(false, QString())
 {
@@ -29,6 +31,19 @@ QString Entity::createCode(bool refresh)
     }
 
     return _createCodeCached.second;
+}
+
+// --------------------------------------------------------------
+
+EntityInDatabase::EntityInDatabase(DataBaseEntity * parent)
+    :Entity(parent)
+{
+
+}
+
+DataBaseEntity * EntityInDatabase::dataBaseEntity() const
+{
+    return static_cast<DataBaseEntity *>(_parent);
 }
 
 // --------------------------------------------------------------

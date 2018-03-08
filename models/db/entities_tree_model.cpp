@@ -206,6 +206,11 @@ bool EntitiesTreeModel::canInsertTableOnCurrentItem() const
     return isCurItemDatabaseOrLess();
 }
 
+void EntitiesTreeModel::createNewTable()
+{
+    _dbConnectionsManager->createEntity(meow::db::Entity::Type::Table);
+}
+
 bool EntitiesTreeModel::isCurItemDatabaseOrLess() const
 {
     meow::db::Entity * curEntity = _dbConnectionsManager->activeEntity();

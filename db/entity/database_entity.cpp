@@ -95,5 +95,13 @@ int DataBaseEntity::indexOf(Entity * entity) const
     return -1;
 }
 
+void DataBaseEntity::appendEntity(EntityInDatabase * entity)
+{
+    initEntitiesIfNeed();
+    if (_entities) {
+        _entities->list()->append(entity);
+    }
+}
+
 } // namespace db
 } // namespace meow

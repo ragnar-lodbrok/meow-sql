@@ -8,7 +8,7 @@ namespace db {
 
 class DataBaseEntity;
 
-class TriggerEntity : public Entity
+class TriggerEntity : public EntityInDatabase
 {
 public:
     TriggerEntity(const QString & name, DataBaseEntity * parent = nullptr);

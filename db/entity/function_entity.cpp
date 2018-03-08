@@ -7,7 +7,7 @@ namespace meow {
 namespace db {
 
 FunctionEntity::FunctionEntity(const QString & name, DataBaseEntity * parent)
-    :Entity(parent),
+    :EntityInDatabase(parent),
      _name(name)
 {
 

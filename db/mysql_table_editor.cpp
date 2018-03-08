@@ -108,6 +108,26 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
     return changed;
 }
 
+bool MySQLTableEditor::insert(TableEntity * table)
+{
+    QString SQL = QString("CREATE TABLE %1").arg(db::quotedName(table));
+
+    QStringList specs;
+    const QList<TableColumn *> & columns = table->structure()->columns();
+
+    for (auto & column : columns) {
+        specs << sqlCode(column);
+    }
+
+    SQL += QString(" (\n%1\n)\n").arg(specs.join(",\n"));
+
+    SQL += ";\n";
+
+    _connection->query(SQL);
+
+    return true;
+}
+
 void MySQLTableEditor::rename(TableEntity * table, const QString & newName)
 {
     QString SQL = QString("RENAME TABLE %1 TO %2;")

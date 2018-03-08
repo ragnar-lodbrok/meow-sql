@@ -9,7 +9,7 @@ namespace db {
 
 class DataBaseEntity;
 
-class TableEntity : public Entity
+class TableEntity : public EntityInDatabase
 {
 public:
     TableEntity(const QString & tableName, DataBaseEntity * parent = nullptr);
@@ -40,8 +40,6 @@ public:
 
     db::TableStructure * structure() const;
     bool hasStructure() const;
-
-    DataBaseEntity * dataBaseEntity() const;
 
     // Returns a copy (with all internal data)
     TableEntity * deepCopy() const;

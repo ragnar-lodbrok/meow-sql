@@ -85,6 +85,7 @@ public:
     void parseTableStructure(TableEntity * table, bool refresh = false);
 
     bool editTableInDB(TableEntity * table, TableEntity * newData);
+    bool insertTableToDB(TableEntity * table);
 
     Q_SIGNAL void databaseChanged(const QString & database);
 

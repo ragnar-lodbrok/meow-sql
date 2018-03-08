@@ -49,7 +49,11 @@ void DbTree::createActions()
                                      tr("Table"), this);
     _createTableAction->setStatusTip(
                tr("Create new table in selected database"));
-
+    connect(_createTableAction, &QAction::triggered, [=](bool checked){
+        Q_UNUSED(checked);
+        auto treeModel = static_cast<models::db::EntitiesTreeModel *>( model() );
+        treeModel->createNewTable();
+    });
 
 
     // refresh =================================================================

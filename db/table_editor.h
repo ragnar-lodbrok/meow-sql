@@ -14,6 +14,7 @@ public:
     TableEditor(Connection * connection);
     virtual ~TableEditor() {}
     virtual bool edit(TableEntity * table, TableEntity * newData) = 0;
+    virtual bool insert(TableEntity * table) = 0;
 protected:
     Connection * _connection;
 };

@@ -6,7 +6,7 @@ namespace meow {
 namespace db {
 
 TableEntity::TableEntity(const QString & tableName, DataBaseEntity * parent)
-    :Entity(parent),
+    :EntityInDatabase(parent),
      _tableName(tableName),
      _rowsCount(0),
      _dataSize(0),
@@ -53,11 +53,6 @@ db::TableStructure * TableEntity::structure() const
 bool TableEntity::hasStructure() const
 {
     return _structure != nullptr;
-}
-
-DataBaseEntity * TableEntity::dataBaseEntity() const
-{
-    return static_cast<DataBaseEntity *>(_parent);
 }
 
 TableEntity * TableEntity::deepCopy() const

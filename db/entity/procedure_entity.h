@@ -8,7 +8,7 @@ namespace db {
 
 class DataBaseEntity;
 
-class ProcedureEntity : public Entity
+class ProcedureEntity : public EntityInDatabase
 {
 public:
     ProcedureEntity(const QString & name, DataBaseEntity * parent = nullptr);

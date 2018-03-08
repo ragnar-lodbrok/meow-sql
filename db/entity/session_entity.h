@@ -32,14 +32,18 @@ public:
     virtual bool hasDataSize() const override { return true; }
 
     void editTableInDB(TableEntity * table, TableEntity * newData);
+    void insertTableToDB(TableEntity * table);
 
     int indexOf(DataBaseEntity * session) const;
 
     Q_SIGNAL void entityEdited(Entity * entity);
+    Q_SIGNAL void entityInserted(Entity * entity);
 
 private:
     ConnectionsManager * connectionsManager() const;
     void initDatabasesListIfNeed();
+
+    void addEntity(Entity * entity);
 
     ConnectionPtr _connection;
     QList<DataBaseEntity *> _databases;
