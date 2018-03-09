@@ -16,6 +16,8 @@ class CentralLeftWidget : public QWidget
 public:
     explicit CentralLeftWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel,
                                QWidget * parent = 0);
+
+    void selectEntity(meow::db::Entity * entity);
 private:
 
     void createMainLayout();

@@ -31,6 +31,8 @@ public:
 
     void refreshData();
 
+    void onBeforeEntityEditing();
+
     virtual QSize sizeHint() const override {
         return QSize(200, 200);
     }

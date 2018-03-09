@@ -34,12 +34,14 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
         return;
     }
 
+    using Tabs = models::ui::CentralRightWidgetTabs;
+
     if (_model.connectionChanged()) {
         db::SessionEntity * sessionEntity = static_cast<db::SessionEntity *>(
             findParentEntityOfType(entity, db::Entity::Type::Session)
         );
         hostTab()->setCurrentEntity(sessionEntity);
-        _rootTabs->setTabText((int)models::ui::CentralRightWidgetTabs::Host,
+        _rootTabs->setTabText((int)Tabs::Host,
                               _model.titleForHostTab());
     }
 
@@ -52,7 +54,7 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
 
             databaseTab()->setDataBase(dbEntity);
 
-            _rootTabs->setTabText((int)models::ui::CentralRightWidgetTabs::Database,
+            _rootTabs->setTabText((int)Tabs::Database,
                                   _model.titleForDatabaseTab());
         } else {
             removeDatabaseTab();
@@ -78,20 +80,35 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     }
 
     if (entity->type() == db::Entity::Type::Session) {
-        _rootTabs->setCurrentIndex((int)models::ui::CentralRightWidgetTabs::Host);
+        _rootTabs->setCurrentIndex((int)Tabs::Host);
     } else if (entity->type() == db::Entity::Type::Database) {
-        _rootTabs->setCurrentIndex((int)models::ui::CentralRightWidgetTabs::Database);
+        _rootTabs->setCurrentIndex((int)Tabs::Database);
     } else if (entity->type() == db::Entity::Type::Table) {
 
-        _rootTabs->setTabText((int)models::ui::CentralRightWidgetTabs::Entity,
+        _rootTabs->setTabText((int)Tabs::Entity,
                               _model.titleForTableTab());       
         if ( !onDataTab() && !onQueryTab() ) {
-            _rootTabs->setCurrentIndex((int)models::ui::CentralRightWidgetTabs::Entity);
+            _rootTabs->setCurrentIndex((int)Tabs::Entity);
         }
     }
 
     if (_model.hasQueryTab()) {
         queryTab();
+    }
+}
+
+void CentralRightWidget::onBeforeEntityEditing()
+{
+    meow::db::Entity * entity = _model.currentEntity();
+    if (!entity) return;
+
+    using Tabs = models::ui::CentralRightWidgetTabs;
+
+    if (_model.hasEntityTab()) {
+        if (entity->type() == db::Entity::Type::Table) {
+            tableTab()->onBeforeEntityEditing();
+            _rootTabs->setCurrentIndex((int)Tabs::Entity);
+        }
     }
 }
 

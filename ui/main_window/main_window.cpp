@@ -31,6 +31,12 @@ Window::Window(QWidget *parent)
             this,
             &Window::activeDBEntityChanged);
 
+    connect(meow::app()->dbConnectionsManager(),
+            &meow::db::ConnectionsManager::creatingNewEntity,
+            [=](db::Entity * entity) {
+                _centralWidget->onCreatingNewEntity(entity);
+            });
+
 }
 
 Window::~Window()

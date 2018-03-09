@@ -26,7 +26,9 @@ class CentralRightWidgetModel
 {
 public:
     CentralRightWidgetModel();
+
     bool setCurrentEntity(meow::db::Entity * currentEntity);
+    meow::db::Entity * currentEntity() const;
 
     QString titleForHostTab() const;
     QString titleForDatabaseTab() const;

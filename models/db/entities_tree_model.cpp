@@ -28,6 +28,10 @@ EntitiesTreeModel::EntitiesTreeModel(
             &meow::db::ConnectionsManager::entityEdited,
             this,
             &meow::models::db::EntitiesTreeModel::onEntityEdited);
+    connect(_dbConnectionsManager,
+            &meow::db::ConnectionsManager::entityInserted,
+            this,
+            &meow::models::db::EntitiesTreeModel::onEntityInserted);
 
 }
 
@@ -144,7 +148,7 @@ QVariant EntitiesTreeModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void EntitiesTreeModel::selectEntityAt(const QModelIndex &index)
+void EntitiesTreeModel::onSelectEntityAt(const QModelIndex &index)
 {
     if (!index.isValid()) {
         qDebug() << "Tree: invalid index selected";
@@ -166,34 +170,55 @@ void EntitiesTreeModel::selectEntityAt(const QModelIndex &index)
 
 }
 
-void EntitiesTreeModel::onEntityEdited(meow::db::Entity * entity)
+QModelIndex EntitiesTreeModel::indexForEntity(meow::db::Entity * entity)
 {
-
     if (entity->type() == meow::db::Entity::Type::Session) {
         // TODO
     } else if (entity->type() == meow::db::Entity::Type::Database) {
         // TODO
-    } else if (entity->type() != meow::db::Entity::Type::None) {
+    } else if ( (int)entity->type() >= (int)meow::db::Entity::Type::Table ) {
 
-        using DataBase = meow::db::DataBaseEntity;
+        meow::db::DataBaseEntity * parentEntity
+          = static_cast<meow::db::EntityInDatabase *>(entity)->dataBaseEntity();
+        if (!parentEntity) return QModelIndex();
 
-        DataBase * database = static_cast<DataBase *>(
-            meow::db::findParentEntityOfType(entity,
-                                             meow::db::Entity::Type::Database)
-        );
-        if (!database) return;
+        int entityIntIndex = parentEntity->indexOf(entity);
+        if (entityIntIndex == -1) return QModelIndex();
 
-        int entityIntIndex = database->indexOf(entity);
-        if (entityIntIndex == -1) return;
-        QModelIndex entityIndex = createIndex(entityIntIndex,
-                                              0,
-                                              entity);
-
-        // TODO: refresh entire database since renaming may change eg sorting
-        emit dataChanged(entityIndex, entityIndex);
-
+        return createIndex(entityIntIndex, 0, entity);
     }
 
+    return QModelIndex();
+}
+
+void EntitiesTreeModel::onEntityEdited(meow::db::Entity * entity)
+{    
+    // TODO: refresh entire database since renaming may change eg sorting?
+
+    QModelIndex entityIndex = indexForEntity(entity);
+    if (entityIndex.isValid()) {
+        emit dataChanged(entityIndex, entityIndex);
+    }
+}
+
+void EntitiesTreeModel::onEntityInserted(meow::db::Entity * entity)
+{
+    if (entity->type() == meow::db::Entity::Type::Session) {
+        // TODO
+    } else if (entity->type() == meow::db::Entity::Type::Database) {
+        // TODO
+    } else if ( (int)entity->type() >= (int)meow::db::Entity::Type::Table ) {
+        meow::db::DataBaseEntity * parentEntity
+          = static_cast<meow::db::EntityInDatabase *>(entity)->dataBaseEntity();
+        int entityIntIndex = parentEntity->indexOf(entity);
+        if (entityIntIndex == -1) return;
+        QModelIndex parentIndex = createIndex(parentEntity->row(),
+                                              0,
+                                              parentEntity);
+
+        beginInsertRows(parentIndex, entityIntIndex, entityIntIndex);
+        endInsertRows();
+    }
 }
 
 bool EntitiesTreeModel::canDropCurrentItem() const

@@ -26,7 +26,8 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
 
-    void selectEntityAt(const QModelIndex &index);
+    void onSelectEntityAt(const QModelIndex &index);
+    QModelIndex indexForEntity(meow::db::Entity * entity);
 
     bool canDropCurrentItem() const;
     bool canInsertTableOnCurrentItem() const;
@@ -36,6 +37,7 @@ public:
 private:
 
     Q_SLOT void onEntityEdited(meow::db::Entity * entity);
+    Q_SLOT void onEntityInserted(meow::db::Entity * entity);
 
     meow::db::Entity * rootItem() const { return _dbConnectionsManager; }
 

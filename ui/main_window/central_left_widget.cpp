@@ -32,6 +32,21 @@ void CentralLeftWidget::createMainLayout()
     );
 }
 
+void CentralLeftWidget::selectEntity(meow::db::Entity * entity)
+{
+    QModelIndex curSelectionIndex = _dbTree->selectionModel()->currentIndex();
+    QModelIndex newSelectionIndex = _dbEntitiesTreeModel->indexForEntity(entity);
+
+    if (curSelectionIndex == newSelectionIndex) return;
+
+    _dbTree->selectionModel()->setCurrentIndex(
+                newSelectionIndex,
+                QItemSelectionModel::ClearAndSelect);
+    _dbTree->selectionModel()->select(
+                newSelectionIndex,
+                QItemSelectionModel::ClearAndSelect);
+}
+
 void CentralLeftWidget::selectedDbEntityChanged(
     const QItemSelection &selected,
     const QItemSelection &deselected)
@@ -46,7 +61,7 @@ void CentralLeftWidget::selectedDbEntityChanged(
         index = items.at(0);
 
         try {
-            _dbEntitiesTreeModel->selectEntityAt(index);
+            _dbEntitiesTreeModel->onSelectEntityAt(index);
         } catch(meow::db::Exception & ex) {
             qDebug() << "Tree error: " << ex.message();
             // TODO: show error

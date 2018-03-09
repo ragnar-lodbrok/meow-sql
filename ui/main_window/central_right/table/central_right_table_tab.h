@@ -25,6 +25,8 @@ public:
     explicit TableTab(QWidget * parent = 0);
 
     void setTable(db::TableEntity * table);
+
+    void onBeforeEntityEditing();
 private:
 
     void createWidgets();

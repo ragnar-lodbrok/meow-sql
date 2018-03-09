@@ -37,6 +37,11 @@ ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & pa
             this,
             &meow::db::ConnectionsManager::onEntityEdited);
 
+    connect(newSession,
+            &meow::db::SessionEntity::entityInserted,
+            this,
+            &meow::db::ConnectionsManager::onEntityInserted);
+
     _connections.push_back(newSession);
     _activeSession = newSession;
 
@@ -93,7 +98,9 @@ void ConnectionsManager::createEntity(Entity::Type type)
     if (type == Entity::Type::Table) {
         TableEntity * table = new TableEntity("", databaseEntity);
         table->setIsNew(true);
-        emit activeEntityChanged(table);
+        _activeEntity.setCurrentEntity(nullptr);
+        emit creatingNewEntity(table);
+        //emit activeEntityChanged(table);
     }
 }
 
@@ -111,7 +118,6 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity)
                 connection->setDatabase(dbName);
             }
 
-            // test only
             if (activeEntity->type() == Entity::Type::Table) {
                 TableEntity * table = static_cast<TableEntity *>(activeEntity);
                 connection->parseTableStructure(table);
@@ -124,6 +130,12 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity)
 void ConnectionsManager::onEntityEdited(Entity * entity)
 {
     emit entityEdited(entity);
+}
+
+void ConnectionsManager::onEntityInserted(Entity * entity)
+{
+    emit entityInserted(entity);
+    setActiveEntity(entity);
 }
 
 } // namespace db

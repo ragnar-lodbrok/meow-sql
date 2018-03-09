@@ -32,6 +32,11 @@ void TableTab::setTable(db::TableEntity * table)
     // TODO: set focus on table name when table->isNew() == true
 }
 
+void TableTab::onBeforeEntityEditing()
+{
+    _tableInfo->onBeforeEntityEditing();
+}
+
 void TableTab::createWidgets()
 {
     QVBoxLayout * mainLayout = new QVBoxLayout();

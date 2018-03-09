@@ -42,13 +42,16 @@ public:
 
     Q_SIGNAL void connectionOpened(SessionEntity * newSession);
     Q_SIGNAL void activeEntityChanged(Entity * newEntity);
+    Q_SIGNAL void creatingNewEntity(Entity * entity);
     Q_SIGNAL void entityEdited(Entity * entity);
+    Q_SIGNAL void entityInserted(Entity * entity);
 
     void createEntity(Entity::Type type);
 
 private:
 
     Q_SLOT void onEntityEdited(Entity * entity);
+    Q_SLOT void onEntityInserted(Entity * entity);
 
     QList <SessionEntity *> _connections;
     EntityHolder _activeEntity;

@@ -21,6 +21,11 @@ void BasicTab::refreshData()
     fillDataFromForm();
 }
 
+void BasicTab::onBeforeEntityEditing()
+{
+    _nameEdit->setFocus();
+}
+
 void BasicTab::createWidgets()
 {
     _mainGridLayout = new QGridLayout();

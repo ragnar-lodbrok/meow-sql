@@ -191,6 +191,7 @@ void Connection::emitDatabaseChanged(const QString& newName)
 
 void Connection::parseTableStructure(TableEntity * table, bool refresh)
 {
+    if (table->isNew()) return;
     if (!refresh && table->hasStructure()) {
         return;
     }

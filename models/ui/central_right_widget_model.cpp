@@ -17,6 +17,11 @@ bool CentralRightWidgetModel::setCurrentEntity(db::Entity * currentEntity)
     return _entityHolder.setCurrentEntity(currentEntity);
 }
 
+meow::db::Entity * CentralRightWidgetModel::currentEntity() const
+{
+    return _entityHolder.currentEntity();
+}
+
 bool CentralRightWidgetModel::connectionChanged() const
 {
     return _entityHolder.connectionChanged();

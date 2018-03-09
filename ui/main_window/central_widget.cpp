@@ -36,7 +36,15 @@ void CentralWidget::createMainLayout()
 
 void CentralWidget::setActiveDBEntity(db::Entity * entity)
 {
+    _mainLeftWidget->selectEntity(entity);
     _mainRightWidget->setActiveDBEntity(entity);
+}
+
+void CentralWidget::onCreatingNewEntity(db::Entity * entity)
+{
+    _mainLeftWidget->selectEntity(entity); // clears prev selection
+    _mainRightWidget->setActiveDBEntity(entity);
+    _mainRightWidget->onBeforeEntityEditing();
 }
 
 } // namespace main_window

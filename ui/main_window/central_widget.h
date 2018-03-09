@@ -17,6 +17,7 @@ public:
                            QWidget * parent = nullptr);
 
     void setActiveDBEntity(db::Entity * entity);
+    void onCreatingNewEntity(db::Entity * entity);
 private:
 
     void createMainLayout();

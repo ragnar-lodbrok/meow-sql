@@ -25,6 +25,8 @@ public:
 
     void refreshData();
 
+    void onBeforeEntityEditing();
+
 private:
 
     void createWidgets();

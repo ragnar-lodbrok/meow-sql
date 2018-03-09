@@ -24,6 +24,12 @@ void TableInfo::refreshData()
     _indexesTab->refreshData();
 }
 
+void TableInfo::onBeforeEntityEditing()
+{
+    _rootTabs->setCurrentIndex((int)models::ui::TableInfoWidgetTabs::Basic);
+    _basicTab->onBeforeEntityEditing();
+}
+
 void TableInfo::createTabs()
 {
     _rootTabs = new QTabWidget();
