@@ -16,6 +16,11 @@ DataBaseEntity::DataBaseEntity(const QString & dbName, SessionEntity * parent)
 
 }
 
+DataBaseEntity::~DataBaseEntity()
+{
+    connection()->deleteAllCachedEntitiesInDatabase(_dbName);
+}
+
 QString DataBaseEntity::name() const // override
 {
     return _dbName;

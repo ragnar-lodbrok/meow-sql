@@ -31,6 +31,8 @@ public:
     virtual db::ulonglong dataSize() const override;
     virtual bool hasDataSize() const override { return true; }
 
+    void refreshAllEntities();
+
     void editTableInDB(TableEntity * table, TableEntity * newData);
     void insertTableToDB(TableEntity * table);
 
@@ -42,6 +44,8 @@ public:
 private:
     ConnectionsManager * connectionsManager() const;
     void initDatabasesListIfNeed();
+
+    void clearAllDatabaseEntities();
 
     void addEntity(Entity * entity);
 

@@ -63,9 +63,7 @@ EntityListForDataBase * Connection::getDbEntities(const QString & dbName,
     bool hasInCache = _databaseEntitiesCache.contains(dbName);
 
     if (refresh && hasInCache) {
-        auto list = _databaseEntitiesCache.value(dbName);
-        _databaseEntitiesCache.remove(dbName);
-        delete list;
+        deleteAllCachedEntitiesInDatabase(dbName);
         hasInCache = false;
     }
 
@@ -84,6 +82,17 @@ EntityListForDataBase * Connection::getDbEntities(const QString & dbName,
 
         return newList;
     }
+}
+
+bool Connection::deleteAllCachedEntitiesInDatabase(const QString & dbName)
+{
+    if (_databaseEntitiesCache.contains(dbName)) {
+        auto list = _databaseEntitiesCache.value(dbName);
+        _databaseEntitiesCache.remove(dbName);
+        delete list;
+        return true;
+    }
+    return false;
 }
 
 void Connection::setCharacterSet(const QString & characterSet)

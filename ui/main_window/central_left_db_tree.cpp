@@ -1,6 +1,7 @@
 #include "central_left_db_tree.h"
 #include <QtWidgets>
 #include "models/db/entities_tree_model.h"
+#include "app.h"
 
 namespace meow {
 namespace ui {
@@ -51,7 +52,7 @@ void DbTree::createActions()
                tr("Create new table in selected database"));
     connect(_createTableAction, &QAction::triggered, [=](bool checked){
         Q_UNUSED(checked);
-        auto treeModel = static_cast<models::db::EntitiesTreeModel *>( model() );
+        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
         treeModel->createNewTable();
     });
 
@@ -60,6 +61,12 @@ void DbTree::createActions()
     _refreshAction = new QAction(QIcon(":/icons/arrow_refresh.png"),
                                  tr("Refresh"), this);
     _refreshAction->setShortcuts(QKeySequence::Refresh);
+    connect(_refreshAction, &QAction::triggered, [=](bool checked) {
+        qDebug() << "refresh";
+        Q_UNUSED(checked);
+        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
+        treeModel->refreshActiveSession();
+    });
 }
 
 } // namespace meow

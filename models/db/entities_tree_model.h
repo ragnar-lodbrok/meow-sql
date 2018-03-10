@@ -34,6 +34,8 @@ public:
 
     void createNewTable();
 
+    void refreshActiveSession();
+
 private:
 
     Q_SLOT void onEntityEdited(meow::db::Entity * entity);

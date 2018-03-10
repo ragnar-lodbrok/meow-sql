@@ -39,6 +39,7 @@ private:
     central_right::DataTab * dataTab();
     central_right::QueryTab * queryTab();
 
+    void removeAllRootTabs();
     bool removeDatabaseTab();
     bool removeTableTab();
     bool removeDataTab();

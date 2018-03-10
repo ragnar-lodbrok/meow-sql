@@ -45,8 +45,11 @@ public:
     Q_SIGNAL void creatingNewEntity(Entity * entity);
     Q_SIGNAL void entityEdited(Entity * entity);
     Q_SIGNAL void entityInserted(Entity * entity);
+    Q_SIGNAL void activeSessionRefreshed();
 
     void createEntity(Entity::Type type);
+
+    void refreshActiveSession();
 
 private:
 

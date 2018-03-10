@@ -13,7 +13,7 @@ for Linux on [releases](https://github.com/ragnar-lodbrok/meow-sql/releases) pag
 ## Features
 
 The app is in development stage at the moment and was never carefully tested, 
-though it can be run and do some work.
+though it can be run and do some work (warning: do not use in production!!!).
 
 1. Works on Windows and Linux, in theory can be compiled on any platform with Qt5 and mysql-client support
 2. At the moment supports only MySQL database.

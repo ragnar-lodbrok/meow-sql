@@ -49,7 +49,9 @@ public:
     QStringList allDatabases(bool refresh = false);
     void setAllDatabases(const QStringList & databases);
     void setUseAllDatabases();
-    EntityListForDataBase * getDbEntities(const QString & dbName, bool refresh = false);
+    EntityListForDataBase * getDbEntities(const QString & dbName,
+                                          bool refresh = false);
+    bool deleteAllCachedEntitiesInDatabase(const QString & dbName);
 
     QString quoteIdentifier(const char * identifier, bool alwaysQuote = true,
                             QChar glue = QChar::Null) const;

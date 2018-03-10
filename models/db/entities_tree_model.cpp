@@ -238,6 +238,14 @@ void EntitiesTreeModel::createNewTable()
     _dbConnectionsManager->createEntity(meow::db::Entity::Type::Table);
 }
 
+void EntitiesTreeModel::refreshActiveSession()
+{
+    // TODO: use dataChanged and invalidate only active session
+    beginResetModel();
+    _dbConnectionsManager->refreshActiveSession();
+    endResetModel();
+}
+
 bool EntitiesTreeModel::isCurItemDatabaseOrLess() const
 {
     meow::db::Entity * curEntity = _dbConnectionsManager->activeEntity();

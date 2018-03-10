@@ -31,6 +31,7 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     _model.setCurrentEntity(entity);
 
     if (entity == nullptr) {
+        removeAllRootTabs();
         return;
     }
 
@@ -238,6 +239,14 @@ central_right::QueryTab * CentralRightWidget::queryTab()
     }
 
     return _queryTab;
+}
+
+void CentralRightWidget::removeAllRootTabs()
+{
+    // TODO
+    removeDatabaseTab();
+    removeTableTab();
+    removeDataTab();
 }
 
 bool CentralRightWidget::removeDatabaseTab()

@@ -104,6 +104,15 @@ void ConnectionsManager::createEntity(Entity::Type type)
     }
 }
 
+void ConnectionsManager::refreshActiveSession()
+{
+    if (_activeSession) {
+        _activeSession->refreshAllEntities();
+        emit activeSessionRefreshed();
+        setActiveEntity(nullptr);
+    }
+}
+
 void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
 {
     bool changed = _activeEntity.setCurrentEntity(activeEntity);
@@ -112,10 +121,12 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
 
         Connection * connection = activeConnection();
 
-        if (connection) {
+        if (connection && activeEntity) {
             if (_activeEntity.databaseChanged()) {
                 QString dbName = databaseName(activeEntity);
-                connection->setDatabase(dbName);
+                if (dbName.length()) {
+                    connection->setDatabase(dbName);
+                }
             }
 
             if (activeEntity->type() == Entity::Type::Table) {

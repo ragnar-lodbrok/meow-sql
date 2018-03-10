@@ -3,6 +3,7 @@
 #include "database_entity.h"
 #include "table_entity.h"
 #include <QIcon>
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -64,6 +65,19 @@ QVariant SessionEntity::icon() const // override
 int SessionEntity::indexOf(DataBaseEntity * session) const
 {
     return _databases.indexOf(session);
+}
+
+void SessionEntity::clearAllDatabaseEntities()
+{
+    qDeleteAll(_databases);
+    _databases.clear();
+    _databasesWereInit = false;
+}
+
+void SessionEntity::refreshAllEntities()
+{
+    clearAllDatabaseEntities();
+    initDatabasesListIfNeed();
 }
 
 void SessionEntity::editTableInDB(TableEntity * table, TableEntity * newData)

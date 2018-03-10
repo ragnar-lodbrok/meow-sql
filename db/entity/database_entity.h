@@ -14,6 +14,7 @@ class DataBaseEntity : public Entity
 {
 public:
     explicit DataBaseEntity(const QString & dbName, SessionEntity * parent);
+    virtual ~DataBaseEntity();
     virtual QString name() const override;
     virtual Connection * connection() const override;
     virtual int row() const override;
