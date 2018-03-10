@@ -25,7 +25,7 @@ private:
 
     void showErrorMessage(const QString& message);
 
-    Q_SLOT void activeDBEntityChanged(db::Entity * newEntity);
+    Q_SLOT void activeDBEntityChanged(db::Entity * newEntity, bool select);
 
     Q_SLOT void sessionManagerDialogCanceled();
 

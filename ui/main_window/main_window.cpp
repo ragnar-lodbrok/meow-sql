@@ -107,9 +107,9 @@ void Window::showErrorMessage(const QString& message)
     msgBox.exec();
 }
 
-void Window::activeDBEntityChanged(db::Entity * newEntity)
+void Window::activeDBEntityChanged(db::Entity * newEntity, bool select)
 {
-    _centralWidget->setActiveDBEntity(newEntity);
+    _centralWidget->setActiveDBEntity(newEntity, select);
 }
 
 } // namespace main_window

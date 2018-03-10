@@ -16,7 +16,7 @@ public:
     explicit CentralWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel,
                            QWidget * parent = nullptr);
 
-    void setActiveDBEntity(db::Entity * entity);
+    void setActiveDBEntity(db::Entity * entity, bool select = false);
     void onCreatingNewEntity(db::Entity * entity);
 private:
 

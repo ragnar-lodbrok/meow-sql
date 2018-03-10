@@ -34,6 +34,7 @@ void CentralLeftWidget::createMainLayout()
 
 void CentralLeftWidget::selectEntity(meow::db::Entity * entity)
 {
+
     QModelIndex curSelectionIndex = _dbTree->selectionModel()->currentIndex();
     QModelIndex newSelectionIndex = _dbEntitiesTreeModel->indexForEntity(entity);
 

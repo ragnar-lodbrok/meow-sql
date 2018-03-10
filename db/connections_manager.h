@@ -31,7 +31,7 @@ public:
     // Entity interface (end)
 
     Entity * activeEntity() const { return _activeEntity.currentEntity(); }
-    void setActiveEntity(Entity * activeEntity);
+    void setActiveEntity(Entity * activeEntity, bool select = false);
 
     Connection * activeConnection() const;
     SessionEntity * activeSession() const { return _activeSession; }
@@ -41,7 +41,7 @@ public:
     bool isNoOpenedConnections() const { return _connections.isEmpty(); }
 
     Q_SIGNAL void connectionOpened(SessionEntity * newSession);
-    Q_SIGNAL void activeEntityChanged(Entity * newEntity);
+    Q_SIGNAL void activeEntityChanged(Entity * newEntity, bool select = false);
     Q_SIGNAL void creatingNewEntity(Entity * entity);
     Q_SIGNAL void entityEdited(Entity * entity);
     Q_SIGNAL void entityInserted(Entity * entity);

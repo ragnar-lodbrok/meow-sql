@@ -34,9 +34,11 @@ void CentralWidget::createMainLayout()
     _mainHorizontalSplitter->setStretchFactor(1, 5);
 }
 
-void CentralWidget::setActiveDBEntity(db::Entity * entity)
+void CentralWidget::setActiveDBEntity(db::Entity * entity, bool select)
 {
-    _mainLeftWidget->selectEntity(entity);
+    if (select) {
+        _mainLeftWidget->selectEntity(entity);
+    }
     _mainRightWidget->setActiveDBEntity(entity);
 }
 

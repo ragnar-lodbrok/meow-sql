@@ -104,7 +104,7 @@ void ConnectionsManager::createEntity(Entity::Type type)
     }
 }
 
-void ConnectionsManager::setActiveEntity(Entity * activeEntity)
+void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
 {
     bool changed = _activeEntity.setCurrentEntity(activeEntity);
     if (changed) {
@@ -123,7 +123,7 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity)
                 connection->parseTableStructure(table);
             }
         }
-        emit activeEntityChanged(activeEntity);
+        emit activeEntityChanged(activeEntity, select);
     }
 }
 
@@ -135,7 +135,7 @@ void ConnectionsManager::onEntityEdited(Entity * entity)
 void ConnectionsManager::onEntityInserted(Entity * entity)
 {
     emit entityInserted(entity);
-    setActiveEntity(entity);
+    setActiveEntity(entity, true);
 }
 
 } // namespace db

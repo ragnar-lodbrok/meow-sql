@@ -33,6 +33,7 @@ so just clone the sources and start rewriting Delphi code to Qt/C++ :
 1. Pick up any [issue](https://github.com/ragnar-lodbrok/meow-sql/issues) or any feature from [roadmap](ROADMAP.md).
 2. Replace TODOs with working code =)
 3. Test the app and report bugs
+4. Star the repo ;)
 
 
 Use/subbranch develop, not master branch.
