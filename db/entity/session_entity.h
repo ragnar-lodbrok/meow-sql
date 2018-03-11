@@ -35,6 +35,7 @@ public:
 
     void editTableInDB(TableEntity * table, TableEntity * newData);
     void insertTableToDB(TableEntity * table);
+    void dropEntityInDB(EntityInDatabase * entity);
 
     int indexOf(DataBaseEntity * session) const;
 

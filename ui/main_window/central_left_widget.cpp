@@ -65,8 +65,12 @@ void CentralLeftWidget::selectedDbEntityChanged(
             _dbEntitiesTreeModel->onSelectEntityAt(index);
         } catch(meow::db::Exception & ex) {
             qDebug() << "Tree error: " << ex.message();
-            // TODO: show error
-            // revert selection
+            QMessageBox msgBox;
+            msgBox.setText(ex.message());
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.setDefaultButton(QMessageBox::Ok);
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.exec();
         }
 
     } else {

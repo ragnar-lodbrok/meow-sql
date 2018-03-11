@@ -41,9 +41,41 @@ void DbTree::createActions()
                               tr("Drop ..."), this);
     _dropAction->setStatusTip(
         tr("Deletes tables, views, procedures and functions"));
-    //connect(_dropAction, &QAction::triggered, this, &DbTree::onDropAction);
+    connect(_dropAction, &QAction::triggered,  [=](bool checked){
+        Q_UNUSED(checked);
+        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
 
+        db::Entity * currentEntity = treeModel->currentEntity();
+        if (!currentEntity) return;
 
+        QString confirmMsg
+            = QObject::tr("Drop %1 object(s) in database \"%2\"?")
+              .arg(1)
+              .arg(db::databaseName(currentEntity));
+        confirmMsg += "\n\n" + currentEntity->name();
+
+        QMessageBox msgBox;
+        msgBox.setText(confirmMsg);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Yes);
+        msgBox.setIcon(QMessageBox::Question);
+        int ret = msgBox.exec();
+        if (ret != QMessageBox::Yes) {
+            return;
+        }
+
+        try {
+            treeModel->dropCurrentItem();
+        } catch(meow::db::Exception & ex) {
+            QMessageBox msgBox;
+            msgBox.setText(ex.message());
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.setDefaultButton(QMessageBox::Ok);
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.exec();
+        }
+
+    });
 
     // create table ============================================================
     _createTableAction = new QAction(QIcon(":/icons/table.png"),
@@ -65,7 +97,17 @@ void DbTree::createActions()
         qDebug() << "refresh";
         Q_UNUSED(checked);
         auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
-        treeModel->refreshActiveSession();
+
+        try {
+            treeModel->refreshActiveSession();
+        } catch(meow::db::Exception & ex) {
+            QMessageBox msgBox;
+            msgBox.setText(ex.message());
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.setDefaultButton(QMessageBox::Ok);
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.exec();
+        }
     });
 }
 

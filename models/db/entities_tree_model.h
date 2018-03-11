@@ -28,6 +28,7 @@ public:
 
     void onSelectEntityAt(const QModelIndex &index);
     QModelIndex indexForEntity(meow::db::Entity * entity);
+    meow::db::Entity * currentEntity() const;
 
     bool canDropCurrentItem() const;
     bool canInsertTableOnCurrentItem() const;
@@ -35,6 +36,8 @@ public:
     void createNewTable();
 
     void refreshActiveSession();
+
+    void dropCurrentItem();
 
 private:
 

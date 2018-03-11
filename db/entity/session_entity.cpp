@@ -98,6 +98,13 @@ void SessionEntity::insertTableToDB(TableEntity * table)
     }
 }
 
+void SessionEntity::dropEntityInDB(EntityInDatabase * entity)
+{
+    if (connection()->dropEntityInDB(entity)) {
+        // TODO
+    }
+}
+
 db::ulonglong SessionEntity::dataSize() const // override
 {
     db::ulonglong sum = 0;

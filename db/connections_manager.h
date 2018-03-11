@@ -51,6 +51,8 @@ public:
 
     void refreshActiveSession();
 
+    void dropActiveEntity();
+
 private:
 
     Q_SLOT void onEntityEdited(Entity * entity);

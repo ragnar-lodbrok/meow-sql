@@ -20,6 +20,7 @@ class Query;
 class DataBaseEntitiesFetcher;
 class QueryDataFetcher;
 class TableEntity;
+class EntityInDatabase;
 class TableEditor;
 
 typedef std::shared_ptr<Query> QueryPtr;
@@ -88,6 +89,7 @@ public:
 
     bool editTableInDB(TableEntity * table, TableEntity * newData);
     bool insertTableToDB(TableEntity * table);
+    bool dropEntityInDB(EntityInDatabase * entity);
 
     Q_SIGNAL void databaseChanged(const QString & database);
 

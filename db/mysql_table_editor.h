@@ -16,12 +16,14 @@ public:
     MySQLTableEditor(MySQLConnection * connection);
     virtual bool edit(TableEntity * table, TableEntity * newData) override;
     virtual bool insert(TableEntity * table) override;
+    virtual bool drop(EntityInDatabase * entity) override;
     
 private:
     void rename(TableEntity * table, const QString & newName);
     QString sqlCode(const TableColumn * column) const;
     QString alterColumnSQL(const QString & oldName,
                            const QString & colSQL) const;
+    QString dropSQL(EntityInDatabase * entity) const;
 };
 
 } // namespace db

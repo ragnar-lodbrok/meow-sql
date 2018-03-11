@@ -193,6 +193,11 @@ QModelIndex EntitiesTreeModel::indexForEntity(meow::db::Entity * entity)
     return QModelIndex();
 }
 
+meow::db::Entity * EntitiesTreeModel::currentEntity() const
+{
+    return _dbConnectionsManager->activeEntity();
+}
+
 void EntitiesTreeModel::onEntityEdited(meow::db::Entity * entity)
 {    
     // TODO: refresh entire database since renaming may change eg sorting?
@@ -225,7 +230,11 @@ void EntitiesTreeModel::onEntityInserted(meow::db::Entity * entity)
 
 bool EntitiesTreeModel::canDropCurrentItem() const
 {
-    return isCurItemDatabaseOrLess();
+    meow::db::Entity * curEntity = _dbConnectionsManager->activeEntity();
+    if (!curEntity) {
+        return false;
+    }
+    return curEntity->type() == meow::db::Entity::Type::Table; // only impl-ed
 }
 
 bool EntitiesTreeModel::canInsertTableOnCurrentItem() const
@@ -244,6 +253,13 @@ void EntitiesTreeModel::refreshActiveSession()
     beginResetModel();
     _dbConnectionsManager->refreshActiveSession();
     endResetModel();
+}
+
+void EntitiesTreeModel::dropCurrentItem()
+{
+    // TODO: beginRemove
+    _dbConnectionsManager->dropActiveEntity();
+    // TODO: endRemove
 }
 
 bool EntitiesTreeModel::isCurItemDatabaseOrLess() const

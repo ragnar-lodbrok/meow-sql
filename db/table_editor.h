@@ -7,6 +7,7 @@ namespace db {
 
 class Connection;
 class TableEntity;
+class EntityInDatabase;
 
 class TableEditor
 {
@@ -15,6 +16,7 @@ public:
     virtual ~TableEditor() {}
     virtual bool edit(TableEntity * table, TableEntity * newData) = 0;
     virtual bool insert(TableEntity * table) = 0;
+    virtual bool drop(EntityInDatabase * entity) = 0;
 protected:
     Connection * _connection;
 };

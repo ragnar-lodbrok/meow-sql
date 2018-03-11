@@ -128,6 +128,47 @@ bool MySQLTableEditor::insert(TableEntity * table)
     return true;
 }
 
+bool MySQLTableEditor::drop(EntityInDatabase * entity)
+{
+    class MySQLForeignKeyDisabler
+    {
+    public:
+        explicit MySQLForeignKeyDisabler(Connection * connection) :
+            _connection(connection)
+        {
+            if (_connection->serverVersionInt() >= 40014) {
+                _connection->query(
+                    "SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS,"
+                    " FOREIGN_KEY_CHECKS=0");
+            }
+        }
+        ~MySQLForeignKeyDisabler()
+        {
+            try {
+                if (_connection->serverVersionInt() >= 40014) {
+                    _connection->query(
+                        "SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS");
+                }
+            } catch(meow::db::Exception & ex) {
+                qDebug() << "Catched:" << ex.message();
+            }
+        }
+    private:
+        Connection * _connection;
+    };
+
+    MySQLForeignKeyDisabler fKeysDisabler(_connection);
+    (void)fKeysDisabler;
+
+    QString SQL = dropSQL(entity);
+    if (SQL.length()) {
+        _connection->query(SQL);
+        return true;
+    }
+
+    return false;
+}
+
 void MySQLTableEditor::rename(TableEntity * table, const QString & newName)
 {
     QString SQL = QString("RENAME TABLE %1 TO %2;")
@@ -217,6 +258,15 @@ QString MySQLTableEditor::alterColumnSQL(const QString & oldName,
                                          const QString & colSQL) const
 {
     return QString("CHANGE COLUMN %1 %2").arg(oldName).arg(colSQL);
+}
+
+QString MySQLTableEditor::dropSQL(EntityInDatabase * entity) const
+{
+    if (entity->type() == Entity::Type::Table) {
+        return QString("DROP TABLE %1").arg(db::quotedName(entity));
+    }
+    qDebug() << "Implement me";
+    return QString();
 }
 
 } // namespace db
