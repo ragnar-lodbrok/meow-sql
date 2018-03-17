@@ -30,6 +30,7 @@ public:
     void setCurrTable(TableEntity * curr) { _curr = curr; }
 
     bool nameDiffers() const;
+    bool commentDiffers() const;
 
     // return pairs of columns that (data) were modified (not removed, inserted)
     QList<TableColumnPair> modifiedColumns() const;

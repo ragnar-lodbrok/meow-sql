@@ -17,11 +17,11 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
 {
     bool changed = false;
 
+    // TODO: begin transaction ?
+
     TableEntityComparator diff;
     diff.setCurrTable(newData);
     diff.setPrevTable(table);
-
-    // TODO: begin transaction ?
 
     auto modifiedColumns = diff.modifiedColumns();
     for (auto & modifiedColumnPair : modifiedColumns) {
@@ -42,7 +42,7 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
         }
     }
 
-    QStringList specs;
+    QStringList specs = this->specs(table, newData);
 
     TableColumn * prevColumn = nullptr;
 
@@ -120,6 +120,9 @@ bool MySQLTableEditor::insert(TableEntity * table)
     }
 
     SQL += QString(" (\n%1\n)\n").arg(specs.join(",\n"));
+
+    QStringList tableSpecs = this->specs(table);
+    SQL += tableSpecs.join(",\n");
 
     SQL += ";\n";
 
@@ -267,6 +270,25 @@ QString MySQLTableEditor::dropSQL(EntityInDatabase * entity) const
     }
     Q_ASSERT(0);
     return QString();
+}
+
+QStringList MySQLTableEditor::specs(TableEntity * table, TableEntity * newData)
+{
+    bool insert = newData == nullptr;
+
+    TableEntityComparator diff;
+    diff.setCurrTable(newData);
+    diff.setPrevTable(table);
+
+    QStringList specs;
+
+    if (insert || diff.commentDiffers()) {
+        QString comment = insert ? table->structure()->comment()
+                                 : newData->structure()->comment();
+        specs << "COMMENT=" + _connection->escapeString(comment);
+    }
+
+    return specs;
 }
 
 } // namespace db

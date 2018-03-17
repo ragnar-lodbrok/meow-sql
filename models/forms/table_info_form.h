@@ -31,6 +31,7 @@ public:
     void setTableName(const QString & name);
 
     const QString tableComment() const;
+    void setTableComment(const QString & name);
 
     const QString autoInc() const;
     const QString avgRowLen() const;

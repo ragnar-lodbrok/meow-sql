@@ -327,6 +327,21 @@ QString MySQLConnection::escapeString(const QString & str,
     // TODO: NO_BACKSLASH_ESCAPES ?
 }
 
+QString MySQLConnection::unescapeString(const QString & str) const
+{
+    QString res = str;
+
+    res.replace(QLatin1String("\\n"), QString(QChar::LineFeed));
+    res.replace(QLatin1String("\\r"), QString(QChar::CarriageReturn));
+    res.replace(QLatin1String("\\0"), QString(QChar::Null));
+    res.replace(QLatin1String("\\t"), QString(QChar::Tabulation));
+
+    res.replace(QLatin1String("''"), QChar('\''));     // TODO: not tested
+    res.replace(QLatin1String("\\\\"), QLatin1String("\\")); // TODO: not tested
+
+    return res;
+}
+
 void MySQLConnection::setDatabase(const QString & database) // override
 {
     if (database == _database) {

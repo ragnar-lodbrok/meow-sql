@@ -39,7 +39,11 @@ public:
 
     virtual std::size_t lastResultsCount() const override;
 
-    virtual QString escapeString(const QString & str, bool processJokerChars = false, bool doQuote = true) const override;
+    virtual QString escapeString(const QString & str,
+                                 bool processJokerChars = false,
+                                 bool doQuote = true) const override;
+
+    virtual QString unescapeString(const QString & str) const override;
 
     virtual void setDatabase(const QString & database) override;
 

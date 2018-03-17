@@ -21,6 +21,14 @@ bool TableEntityComparator::nameDiffers() const
     return namePrev != nameCurr;
 }
 
+bool TableEntityComparator::commentDiffers() const
+{
+    QString commentPrev = _prev ? _prev->structure()->comment() : QString();
+    QString commentCurr = _curr ? _curr->structure()->comment() : QString();
+
+    return commentPrev != commentCurr;
+}
+
 QList<TableColumnPair> TableEntityComparator::modifiedColumns() const
 {
     QList<TableColumnPair> modifiedColumns;

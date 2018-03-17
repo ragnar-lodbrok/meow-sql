@@ -75,6 +75,12 @@ const QString TableInfoForm::tableComment() const
     return _table ? _table->structure()->comment() : QString();
 }
 
+void TableInfoForm::setTableComment(const QString & name)
+{
+    _table->structure()->setComment(name);
+    setHasUnsavedChanges(true);
+}
+
 const QString TableInfoForm::autoInc() const
 {
     auto autoInc = _table ? _table->structure()->autoInc() : 0;

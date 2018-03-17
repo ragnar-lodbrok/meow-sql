@@ -40,7 +40,7 @@ void BasicTab::createWidgets()
             [=](const QString &name) {
                 _tableForm->setTableName(name);
             });
-    _nameLabel->setBuddy(_nameEdit);;
+    _nameLabel->setBuddy(_nameEdit);
     _mainGridLayout->addWidget(_nameEdit, row, 1);
 
     ++row;
@@ -50,8 +50,10 @@ void BasicTab::createWidgets()
 
     _commentEdit = new QPlainTextEdit();
     // TODO: max len
-    _commentEdit->setReadOnly(true);
-    _commentLabel->setToolTip("Readonly");
+    connect(_commentEdit, &QPlainTextEdit::textChanged,
+            [=]() {
+                _tableForm->setTableComment(_commentEdit->toPlainText());
+            });
     _commentLabel->setBuddy(_commentEdit);
     _mainGridLayout->addWidget(_commentEdit, row, 1);
 
@@ -65,7 +67,10 @@ void BasicTab::createWidgets()
 void BasicTab::fillDataFromForm()
 {
     _nameEdit->setText(_tableForm->tableName());
+
+    _commentEdit->blockSignals(true);
     _commentEdit->setPlainText(_tableForm->tableComment());
+    _commentEdit->blockSignals(false);
 }
 
 } // namespace table_info

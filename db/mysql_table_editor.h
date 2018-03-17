@@ -2,7 +2,7 @@
 #define MYSQL_TABLE_EDITOR_H
 
 #include "table_editor.h"
-#include <QString>
+#include <QStringList>
 
 namespace meow {
 namespace db {
@@ -24,6 +24,7 @@ private:
     QString alterColumnSQL(const QString & oldName,
                            const QString & colSQL) const;
     QString dropSQL(EntityInDatabase * entity) const;
+    QStringList specs(TableEntity * table, TableEntity * newData = nullptr);
 };
 
 } // namespace db

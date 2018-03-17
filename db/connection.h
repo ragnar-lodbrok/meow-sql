@@ -76,6 +76,7 @@ public:
     virtual QString escapeString(const QString & str,
                                  bool processJokerChars = false,
                                  bool doQuote = true) const = 0;
+    virtual QString unescapeString(const QString & str) const = 0;
     virtual QString applyQueryLimit(
             const QString & queryType,
             const QString & queryBody,

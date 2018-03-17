@@ -107,7 +107,7 @@ void TableStructureParser::init()
 }
 
 void TableStructureParser::parseColumns(const QString & createSQL,
-                                        TableEntity *table) const
+                                        TableEntity * table) const
 {
 
     TableStructure * structure = table->structure();
@@ -274,7 +274,7 @@ void TableStructureParser::parseTableOptions(TableEntity * table)
         QString optName = optionMatch.captured(1).toUpper();
         QString optValue = optionMatch.captured(2);
         if (optName == "COMMENT") {
-            comment = matchQuotedStr(optValue);
+            comment = table->connection()->unescapeString(matchQuotedStr(optValue));
         } else if (optName == "ENGINE" || optName == "TYPE") {
             engineStr = optValue;
         } else if (optName == "COLLATE") {
