@@ -113,20 +113,21 @@ void ConnectionsManager::refreshActiveSession()
     }
 }
 
-void ConnectionsManager::dropActiveEntity()
+bool ConnectionsManager::dropActiveEntity()
 {
     Entity * activeEntity = _activeEntity.currentEntity();
-    if (!activeEntity) return;
+    if (!activeEntity) return false;
 
     if (_activeSession) {
         if ( (int)activeEntity->type() >= (int)Entity::Type::Table) {
             EntityInDatabase * entityDbLvl
                 = static_cast<EntityInDatabase *>(activeEntity);
-            _activeSession->dropEntityInDB(entityDbLvl);
+            return _activeSession->dropEntityInDB(entityDbLvl);
         } else {
-            qDebug() << "Implement me";
+            Q_ASSERT(0);
         }
     }
+    return false;
 }
 
 void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)

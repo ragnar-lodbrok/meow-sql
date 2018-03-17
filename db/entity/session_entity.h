@@ -35,7 +35,7 @@ public:
 
     void editTableInDB(TableEntity * table, TableEntity * newData);
     void insertTableToDB(TableEntity * table);
-    void dropEntityInDB(EntityInDatabase * entity);
+    bool dropEntityInDB(EntityInDatabase * entity);
 
     int indexOf(DataBaseEntity * session) const;
 
@@ -49,6 +49,7 @@ private:
     void clearAllDatabaseEntities();
 
     void addEntity(Entity * entity);
+    bool removeEntity(Entity * entity);
 
     ConnectionPtr _connection;
     QList<DataBaseEntity *> _databases;

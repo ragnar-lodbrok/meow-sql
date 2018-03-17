@@ -257,9 +257,16 @@ void EntitiesTreeModel::refreshActiveSession()
 
 void EntitiesTreeModel::dropCurrentItem()
 {
-    // TODO: beginRemove
-    _dbConnectionsManager->dropActiveEntity();
-    // TODO: endRemove
+    meow::db::Entity * curEntity = currentEntity();
+    if (!curEntity) return;
+
+    QModelIndex curIndex = indexForEntity(curEntity);
+    if (!curIndex.isValid()) return;
+
+    if (_dbConnectionsManager->dropActiveEntity()) {
+        beginRemoveRows(parent(curIndex), curIndex.row(), curIndex.row());
+        endRemoveRows();
+    }
 }
 
 bool EntitiesTreeModel::isCurItemDatabaseOrLess() const

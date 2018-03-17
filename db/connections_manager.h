@@ -51,7 +51,7 @@ public:
 
     void refreshActiveSession();
 
-    void dropActiveEntity();
+    bool dropActiveEntity();
 
 private:
 

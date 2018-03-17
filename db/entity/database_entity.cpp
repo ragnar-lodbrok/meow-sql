@@ -108,5 +108,14 @@ void DataBaseEntity::appendEntity(EntityInDatabase * entity)
     }
 }
 
+bool DataBaseEntity::removeEntity(EntityInDatabase * entity)
+{
+    initEntitiesIfNeed();
+    if (_entities) {
+        return _entities->list()->removeOne(entity);
+    }
+    return false;
+}
+
 } // namespace db
 } // namespace meow

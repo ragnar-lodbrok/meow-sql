@@ -256,10 +256,8 @@ void ConnectionParamsModel::deleteSelectedFormAt(const QModelIndex &index)
 
     const meow::db::ConnectionParameters& paramsToRemove = _connectionParamsManager->at(index.row());
 
-    qDebug() << "Removing: " << paramsToRemove.sessionName();
     beginRemoveRows(QModelIndex(), index.row(), index.row());
     _connectionParamsManager->removeParamsAndSave(paramsToRemove);
-    qDebug() << "endRemoveRows";
     endRemoveRows();
 }
 

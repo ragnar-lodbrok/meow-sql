@@ -33,6 +33,8 @@ public:
 
     void appendEntity(EntityInDatabase * entity);
 
+    bool removeEntity(EntityInDatabase * entity);
+
 private:
 
     SessionEntity * session() const;

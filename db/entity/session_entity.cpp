@@ -98,11 +98,12 @@ void SessionEntity::insertTableToDB(TableEntity * table)
     }
 }
 
-void SessionEntity::dropEntityInDB(EntityInDatabase * entity)
+bool SessionEntity::dropEntityInDB(EntityInDatabase * entity)
 {
     if (connection()->dropEntityInDB(entity)) {
-        // TODO
+        return removeEntity(entity);
     }
+    return false;
 }
 
 db::ulonglong SessionEntity::dataSize() const // override
@@ -139,7 +140,18 @@ void SessionEntity::addEntity(Entity * entity)
         EntityInDatabase * entityInDb = static_cast<EntityInDatabase *>(entity);
         entityInDb->dataBaseEntity()->appendEntity(entityInDb);
     }
+}
 
+bool SessionEntity::removeEntity(Entity * entity)
+{
+    // Listening: The Agonist - Business Suits And Combat Boots
+    if ( (int)entity->type() >= (int)Entity::Type::Table ) {
+        EntityInDatabase * entityInDb = static_cast<EntityInDatabase *>(entity);
+        return entityInDb->dataBaseEntity()->removeEntity(entityInDb);
+    } else {
+        Q_ASSERT(0);
+    }
+    return false;
 }
 
 } // namespace db

@@ -157,11 +157,11 @@ bool MySQLTableEditor::drop(EntityInDatabase * entity)
         Connection * _connection;
     };
 
-    MySQLForeignKeyDisabler fKeysDisabler(_connection);
-    (void)fKeysDisabler;
-
     QString SQL = dropSQL(entity);
     if (SQL.length()) {
+        MySQLForeignKeyDisabler fKeysDisabler(_connection);
+        (void)fKeysDisabler;
+
         _connection->query(SQL);
         return true;
     }
@@ -265,7 +265,7 @@ QString MySQLTableEditor::dropSQL(EntityInDatabase * entity) const
     if (entity->type() == Entity::Type::Table) {
         return QString("DROP TABLE %1").arg(db::quotedName(entity));
     }
-    qDebug() << "Implement me";
+    Q_ASSERT(0);
     return QString();
 }
 
