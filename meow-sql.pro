@@ -121,7 +121,8 @@ SOURCES += main.cpp\
     models/delegates/table_column_collation_delegate.cpp \
     db/mysql_collation_fetcher.cpp \
     models/delegates/checkbox_delegate.cpp \
-    ui/main_window/central_left_db_tree.cpp
+    ui/main_window/central_left_db_tree.cpp \
+    ui/main_window/central_right/table/cr_table_indexes_tools.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -221,7 +222,8 @@ HEADERS  += app.h \
     db/collation_fetcher.h \
     db/mysql_collation_fetcher.h \
     models/delegates/checkbox_delegate.h \
-    ui/main_window/central_left_db_tree.h
+    ui/main_window/central_left_db_tree.h \
+    ui/main_window/central_right/table/cr_table_indexes_tools.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

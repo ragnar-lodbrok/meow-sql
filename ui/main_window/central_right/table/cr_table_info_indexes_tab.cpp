@@ -1,4 +1,5 @@
 #include "cr_table_info_indexes_tab.h"
+#include "cr_table_indexes_tools.h"
 #include "models/forms/table_info_form.h"
 #include "models/forms/table_indexes_model.h"
 
@@ -28,13 +29,16 @@ void IndexesTab::createWidgets()
     _mainLayout->setContentsMargins(4, 4, 4, 4);
     this->setLayout(_mainLayout);
 
+    _tools = new TableIndexesTools(this);
+    _mainLayout->addWidget(_tools, 0);
+
     _indexesTree = new QTreeView();
     auto treeModel = _tableForm->indexesModel();
     _indexesTree->setModel(treeModel);
     for (int i = 0; i < treeModel->columnCount(); ++i) {
         _indexesTree->setColumnWidth(i, treeModel->columnWidth(i));
     }
-    _mainLayout->addWidget(_indexesTree);
+    _mainLayout->addWidget(_indexesTree, 1);
 }
 
 void IndexesTab::fillDataFromForm()

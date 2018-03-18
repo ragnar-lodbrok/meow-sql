@@ -16,6 +16,8 @@ namespace main_window {
 namespace central_right {
 namespace table_info {
 
+class TableIndexesTools;
+
 class IndexesTab : public QWidget
 {
     Q_OBJECT
@@ -30,6 +32,7 @@ private:
     void fillDataFromForm();
 
     models::forms::TableInfoForm * _tableForm;
+    TableIndexesTools * _tools;
     QTreeView * _indexesTree;
     QHBoxLayout * _mainLayout;
 };

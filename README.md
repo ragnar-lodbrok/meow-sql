@@ -1,4 +1,4 @@
-# MeowSQL
+# MeowSQL :scream_cat:
 
 MeowSQL is an attempt to port a very useful GUI database client 
 [HeidiSQL](https://www.heidisql.com/) to C++/Qt (with aim to be run natively at least on Linux)
@@ -20,10 +20,11 @@ though it can be run and do some work (warning: do not use in production!!!).
 3. Sessions manager: managing multiple connections (warn: no password encryption!) 
 4. Connection to single session (=server) at once (but multiple databases).
 5. Tree of db objects like databases and tables/views/striggers/functions/procedures.
-6. Table: view columns (editable), indexes (read-only) and foreigh keys (read-only).
+6. Table: view columns (editable), indexes (read-only) and foreign keys (read-only).
 7. Table: view data (read-only).
 8. SQL: editor with simple syntax highlighting (no autocomplete).
 9. SQL: execute multiple statements at once and see results of SELECT statements 
+10. Drop tables
 
 ## Contributing
 
@@ -31,9 +32,9 @@ MeowSQL is a port of [HeidiSQL](https://github.com/HeidiSQL/HeidiSQL),
 so just clone the sources and start rewriting Delphi code to Qt/C++ :
 
 1. Pick up any [issue](https://github.com/ragnar-lodbrok/meow-sql/issues) or any feature from [roadmap](ROADMAP.md).
-2. Replace TODOs with working code =)
+2. Replace TODOs with working code :smile_cat:
 3. Test the app and report bugs
-4. Star the repo ;)
+4. Star the repo :star:
 
 
 Use/subbranch develop, not master branch.

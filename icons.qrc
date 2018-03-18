@@ -179,7 +179,7 @@
         <file>resources/icons/database_add.png</file>
         <file alias="database.png">resources/icons/database.png</file>
         <file>resources/icons/cut_red.png</file>
-        <file>resources/icons/cross.png</file>
+        <file alias="cross.png">resources/icons/cross.png</file>
         <file alias="host.png">resources/icons/computer.png</file>
         <file>resources/icons/check_none.png</file>
         <file>resources/icons/check_all.png</file>

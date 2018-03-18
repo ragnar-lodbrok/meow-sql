@@ -156,7 +156,7 @@ int TableIndexesModel::columnWidth(int column) const
 {
     switch (static_cast<Columns>(column)) {
     case Columns::Name:
-        return 300;
+        return 250;
     case Columns::Type:
         return 120;
     case Columns::Algorithm:
