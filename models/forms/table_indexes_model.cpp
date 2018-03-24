@@ -1,5 +1,6 @@
 #include "table_indexes_model.h"
 #include "db/entity/table_entity.h"
+#include <QDebug>
 
 namespace meow {
 namespace models {
@@ -192,6 +193,82 @@ ITableIndexesModelItem * TableIndexesModel::child(int row) const
 int TableIndexesModel::rowOf(ITableIndexesModelItem * child) const
 {
     return _items.indexOf(child);
+}
+
+bool TableIndexesModel::canAddIndex() const
+{
+    return _table != nullptr;
+}
+
+int TableIndexesModel::insertEmptyDefaultIndex()
+{
+    int insertIndex = rowCount();
+
+    // TODO
+    /*beginInsertRows(QModelIndex(), insertIndex, insertIndex);
+    _table->structure()->insertEmptyDefaultIndex();
+    endInsertRows();
+
+    emit modified();*/
+
+    return insertIndex;
+}
+
+bool TableIndexesModel::canAddColumn(const QModelIndex & curIndex) const
+{
+    if (_table == nullptr || curIndex.isValid() == false) return false;
+    return true; // anytime we have a selection
+}
+
+bool TableIndexesModel::canRemove(const QModelIndex & curIndex) const
+{
+    if (_table == nullptr || curIndex.isValid() == false) return false;
+    ITableIndexesModelItem * item
+        = static_cast<ITableIndexesModelItem *>(curIndex.internalPointer());
+    if (item == nullptr) return false;
+    if (item->type() == ITableIndexesModelItem::Type::Index) {
+        int indexRow = item->row();
+        return _table->structure()->canRemoveIndex(indexRow);
+    } else if (item->type() == ITableIndexesModelItem::Type::Column) {
+        int indexRow = item->parent()->row();
+        int columnRow = item->row();
+        return _table->structure()->canRemoveIndexColumn(indexRow, columnRow);
+    }
+    return false;
+}
+
+bool TableIndexesModel::canRemoveAll() const
+{
+    if (_table == nullptr) return false;
+    return _table->structure()->canRemoveAllIndices();
+}
+
+bool TableIndexesModel::canMoveUp(const QModelIndex & curIndex) const
+{
+    if (_table == nullptr || curIndex.isValid() == false) return false;
+    ITableIndexesModelItem * item
+        = static_cast<ITableIndexesModelItem *>(curIndex.internalPointer());
+    if (item == nullptr) return false;
+    if (item->type() == ITableIndexesModelItem::Type::Column) {
+        int indexRow = item->parent()->row();
+        int columnRow = item->row();
+        return _table->structure()->canMoveIndexColumnUp(indexRow, columnRow);
+    }
+    return false;
+}
+
+bool TableIndexesModel::canMoveDown(const QModelIndex & curIndex) const
+{
+    if (_table == nullptr || curIndex.isValid() == false) return false;
+    ITableIndexesModelItem * item
+        = static_cast<ITableIndexesModelItem *>(curIndex.internalPointer());
+    if (item == nullptr) return false;
+    if (item->type() == ITableIndexesModelItem::Type::Column) {
+        int indexRow = item->parent()->row();
+        int columnRow = item->row();
+        return _table->structure()->canMoveIndexColumnDown(indexRow, columnRow);
+    }
+    return false;
 }
 
 ITableIndexesModelItem * TableIndexesModel::rootItem() const

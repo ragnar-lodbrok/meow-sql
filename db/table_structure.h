@@ -46,6 +46,7 @@ public:
     TableStructure * deepCopy() const;
 
     int insertEmptyDefaultColumn(int afterIndex = -1);
+    void insertEmptyDefaultIndex();
 
     bool canRemoveColumn(int index) const;
     bool removeColumnAt(int index);
@@ -55,6 +56,17 @@ public:
 
     bool canMoveColumnDown(int index) const;
     bool moveColumnDown(int index);
+
+    bool canRemoveAllIndices() const;
+
+    bool isValidIndex(int index) const;
+    bool canRemoveIndex(int index) const;
+
+    bool canRemoveIndexColumn(int index, int column) const;
+
+    bool canMoveIndexColumnUp(int index, int column) const;
+
+    bool canMoveIndexColumnDown(int index, int column) const;
 
     unsigned nextColumnUniqueId() { return ++_nextColumnUniqueId; }
     TableColumn * columnById(unsigned id) const;

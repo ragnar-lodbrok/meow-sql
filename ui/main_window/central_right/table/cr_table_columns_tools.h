@@ -14,7 +14,7 @@ class TableColumns;
 class TableColumnsTools : public QWidget
 {
 public:
-    TableColumnsTools(TableColumns * parent);
+    explicit TableColumnsTools(TableColumns * parent);
 
     enum class Action {
         Add,

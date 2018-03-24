@@ -104,8 +104,8 @@ QString TableIndexesModelItemColumn::data(int col) const
     switch (static_cast<TableIndexesModel::Columns>(col)) {
     case TableIndexesModel::Columns::Name:
         return _index->columns().at(row());
-    case TableIndexesModel::Columns::Type:
-        return _index->subParts().value(row());
+    //case TableIndexesModel::Columns::Type: // TODO
+        //return _index->subParts().value(row());
     default:
         return QString();
     }

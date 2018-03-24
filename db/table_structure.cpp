@@ -1,4 +1,5 @@
 #include "table_structure.h"
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -86,6 +87,20 @@ int TableStructure::insertEmptyDefaultColumn(int afterIndex)
     return newColumnIndex;
 }
 
+void TableStructure::insertEmptyDefaultIndex()
+{
+    TableIndex * newIndexObj = new TableIndex();
+    newIndexObj->setName(QString("index_%1").arg(_indicies.size() + 1));
+
+    if (_indicies.size() == 0) {
+        newIndexObj->setClassType(TableIndexClass::PrimaryKey);
+    } else {
+        newIndexObj->setClassType(TableIndexClass::Key);
+    }
+
+    _indicies.append(newIndexObj);
+}
+
 void TableStructure::appendColumn(TableColumn * column)
 {
     column->setId(nextColumnUniqueId());
@@ -133,6 +148,45 @@ bool TableStructure::moveColumnDown(int index)
     if (canMoveColumnDown(index)) {
         _columns.move(index, index + 1);
         return true;
+    }
+    return false;
+}
+
+bool TableStructure::canRemoveAllIndices() const
+{
+    return _indicies.size() > 0;
+}
+
+bool TableStructure::isValidIndex(int index) const
+{
+    return index >= 0 && index < _indicies.size();
+}
+
+bool TableStructure::canRemoveIndex(int index) const
+{
+    return isValidIndex(index);
+}
+
+bool TableStructure::canRemoveIndexColumn(int index, int column) const
+{
+    if (isValidIndex(index)) {
+        return _indicies[index]->isValidColumnIndex(column);
+    }
+    return false;
+}
+
+bool TableStructure::canMoveIndexColumnUp(int index, int column) const
+{
+    if (isValidIndex(index)) {
+        return _indicies[index]->canMoveColumnUp(column);
+    }
+    return false;
+}
+
+bool TableStructure::canMoveIndexColumnDown(int index, int column) const
+{
+    if (isValidIndex(index)) {
+        return _indicies[index]->canMoveColumnDown(column);
     }
     return false;
 }

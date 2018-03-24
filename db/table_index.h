@@ -36,6 +36,7 @@ QString tableIndexTypeToStr(TableIndexType type);
 class TableIndex
 {
 public:
+
     TableIndex();
 
     QString name() const;
@@ -61,7 +62,19 @@ public:
 
     int columnsCount() const { return _columns.size(); }
     QStringList & columns() { return _columns; }
-    QStringList & subParts() { return _subParts; }
+    //QStringList & subParts() { return _subParts; }
+
+    bool isValidColumnIndex(int index) const {
+        return index >=0 && index < _columns.size();
+    }
+
+    bool canMoveColumnUp(int index) const {
+        return index >= 1 && index < _columns.size();
+    }
+
+    bool canMoveColumnDown(int index) const {
+        return index >=0 && index < (_columns.size() - 1);
+    }
 
     operator QString() const;
 
@@ -70,7 +83,8 @@ private:
     TableIndexClass _class; // H: IndexType
     TableIndexType _type; // H: Algorithm
     QStringList _columns;
-    QStringList _subParts; // ?
+    // TODO: separate class for Column
+    //QStringList _subParts; // ?
 };
 
 } // namespace db

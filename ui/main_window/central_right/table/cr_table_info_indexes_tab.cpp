@@ -16,11 +16,13 @@ IndexesTab::IndexesTab(models::forms::TableInfoForm * form,
 {
     Q_CHECK_PTR(form);
     createWidgets();
+    validateControls();
 }
 
 void IndexesTab::refreshData()
 {
     fillDataFromForm();
+    validateControls();
 }
 
 void IndexesTab::createWidgets()
@@ -38,12 +40,98 @@ void IndexesTab::createWidgets()
     for (int i = 0; i < treeModel->columnCount(); ++i) {
         _indexesTree->setColumnWidth(i, treeModel->columnWidth(i));
     }
+    connect(_indexesTree->selectionModel(),
+            &QItemSelectionModel::selectionChanged,
+            this,
+            &IndexesTab::selectedIndexItemChanged
+    );
     _mainLayout->addWidget(_indexesTree, 1);
+}
+
+void IndexesTab::selectedIndexItemChanged(
+    const QItemSelection &selected,
+    const QItemSelection &deselected)
+{
+
+    Q_UNUSED(deselected);
+    Q_UNUSED(selected);
+
+    validateControls();
 }
 
 void IndexesTab::fillDataFromForm()
 {
 
+}
+
+void IndexesTab::validateControls()
+{
+    auto model = _tableForm->indexesModel();
+
+    using ColAction = TableIndexesTools::Action;
+
+    QModelIndex curIndex = _indexesTree->selectionModel()->currentIndex();
+
+    _tools->setActionEnabled(ColAction::AddIndex,  model->canAddIndex());
+    _tools->setActionEnabled(ColAction::Clear,     model->canRemoveAll());
+
+    if (curIndex.isValid()) {
+        _tools->setActionEnabled(ColAction::AddColumn, model->canAddColumn(curIndex));
+        _tools->setActionEnabled(ColAction::Remove,    model->canRemove(curIndex));
+        _tools->setActionEnabled(ColAction::MoveUp,    model->canMoveUp(curIndex));
+        _tools->setActionEnabled(ColAction::MoveDown,  model->canMoveDown(curIndex));
+    } else {
+        _tools->setActionEnabled(ColAction::AddColumn, false);
+        _tools->setActionEnabled(ColAction::Remove,    false);
+        _tools->setActionEnabled(ColAction::MoveUp,    false);
+        _tools->setActionEnabled(ColAction::MoveDown,  false);
+    }
+}
+
+void IndexesTab::actionAddIndex(bool checked)
+{
+    Q_UNUSED(checked);
+
+    auto model = _tableForm->indexesModel();
+
+    // insert
+    int newRowIntIndex = model->insertEmptyDefaultIndex();
+
+    // select
+    QModelIndex newRowNameIndex = model->index(
+        newRowIntIndex,
+        (int)meow::models::forms::TableIndexesModel::Columns::Name);
+    _indexesTree->selectionModel()->setCurrentIndex(newRowNameIndex,
+                                                    QItemSelectionModel::Clear);
+
+    // scroll
+    _indexesTree->scrollTo(_indexesTree->selectionModel()->currentIndex());
+
+}
+
+void IndexesTab::actionAddColumnToIndex(bool checked)
+{
+    Q_UNUSED(checked);
+}
+
+void IndexesTab::actionRemoveCurrentIndexItem(bool checked)
+{
+    Q_UNUSED(checked);
+}
+
+void IndexesTab::actionClearIndexes(bool checked)
+{
+    Q_UNUSED(checked);
+}
+
+void IndexesTab::actionMoveUpColumn(bool checked)
+{
+    Q_UNUSED(checked);
+}
+
+void IndexesTab::actionMoveDownColumn(bool checked)
+{
+    Q_UNUSED(checked);
 }
 
 } // namespace table_info

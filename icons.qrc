@@ -117,6 +117,7 @@
         <file>resources/icons/bullet_toggle_plus.png</file>
         <file>resources/icons/bullet_toggle_minus.png</file>
         <file alias="bullet_white.png">resources/icons/bullet_white.png</file>
+        <file alias="bullet_white_add.png">resources/icons/bullet_white_add.png</file>
         <file>resources/icons/group_delete.png</file>
         <file>resources/icons/group_add.png</file>
         <file>resources/icons/group_edit.png</file>

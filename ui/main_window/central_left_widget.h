@@ -21,7 +21,7 @@ public:
 private:
 
     void createMainLayout();
-    void selectedDbEntityChanged(
+    Q_SLOT void selectedDbEntityChanged(
         const QItemSelection &selected,
         const QItemSelection &deselected);
 

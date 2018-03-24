@@ -26,10 +26,22 @@ public:
                         QWidget *parent = nullptr);
 
     void refreshData();
+    void validateControls();
+
+    Q_SLOT void actionAddIndex(bool checked);
+    Q_SLOT void actionAddColumnToIndex(bool checked);
+    Q_SLOT void actionRemoveCurrentIndexItem(bool checked);
+    Q_SLOT void actionClearIndexes(bool checked);
+    Q_SLOT void actionMoveUpColumn(bool checked);
+    Q_SLOT void actionMoveDownColumn(bool checked);
 
 private:
     void createWidgets();
     void fillDataFromForm();
+
+    Q_SLOT void selectedIndexItemChanged(
+        const QItemSelection &selected,
+        const QItemSelection &deselected);
 
     models::forms::TableInfoForm * _tableForm;
     TableIndexesTools * _tools;

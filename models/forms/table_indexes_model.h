@@ -17,6 +17,8 @@ namespace forms {
 class TableIndexesModel : public QAbstractItemModel,
                           public ITableIndexesModelItem
 {
+    Q_OBJECT
+
 public:
 
     enum class Columns {
@@ -27,9 +29,10 @@ public:
     };
 
     TableIndexesModel(QObject * parent = nullptr);
-    ~TableIndexesModel();
+    virtual ~TableIndexesModel();
 
     void setTable(meow::db::TableEntity * table);
+    bool hasTable() const { return _table != nullptr; }
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -54,6 +57,16 @@ public:
     virtual ITableIndexesModelItem * child(int row) const override;
     virtual int rowOf(ITableIndexesModelItem * child) const override;
 
+    bool canAddIndex() const;
+    int insertEmptyDefaultIndex();
+
+    bool canAddColumn(const QModelIndex & curIndex) const;
+    bool canRemove(const QModelIndex & curIndex) const;
+    bool canRemoveAll() const;
+    bool canMoveUp(const QModelIndex & curIndex) const;
+    bool canMoveDown(const QModelIndex & curIndex) const;
+
+    Q_SIGNAL void modified();
 
 private:
 

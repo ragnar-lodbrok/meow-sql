@@ -17,6 +17,17 @@ class TableIndexesTools : public QWidget
 public:
     explicit TableIndexesTools(IndexesTab * parent);
 
+    enum class Action {
+        AddIndex,
+        AddColumn,
+        Remove,
+        Clear,
+        MoveUp,
+        MoveDown
+    };
+
+    void setActionEnabled(Action action, bool enabled);
+
 private:
 
     void createWidgets();
@@ -24,10 +35,11 @@ private:
     QToolBar * _toolBar;
 
     QAction * _addIndexAction;
-    QAction * _removeIndexAction;
+    QAction * _addColumnAction;
+    QAction * _removeAction;
     QAction * _clearIndexesAction;
-    QAction * _moveUpIndexAction;
-    QAction * _moveDownIndexAction;
+    QAction * _moveUpColumnAction;
+    QAction * _moveDownColumnAction;
 
     IndexesTab * _parent;
 };
