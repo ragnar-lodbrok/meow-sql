@@ -100,28 +100,56 @@ void IndexesTab::actionAddIndex(bool checked)
     // select
     QModelIndex newRowNameIndex = model->index(
         newRowIntIndex,
-        (int)meow::models::forms::TableIndexesModel::Columns::Name);
-    _indexesTree->selectionModel()->setCurrentIndex(newRowNameIndex,
-                                                    QItemSelectionModel::Clear);
+        static_cast<int>(meow::models::forms::TableIndexesModel::Columns::Name));
+    _indexesTree->selectionModel()->setCurrentIndex(
+        newRowNameIndex,
+        QItemSelectionModel::ClearAndSelect);
 
     // scroll
     _indexesTree->scrollTo(_indexesTree->selectionModel()->currentIndex());
 
+    validateControls();
 }
 
 void IndexesTab::actionAddColumnToIndex(bool checked)
 {
     Q_UNUSED(checked);
+
+    QModelIndex curIndex = _indexesTree->selectionModel()->currentIndex();
+    if (!curIndex.isValid()) return;
+
+    auto model = _tableForm->indexesModel();
+
+    QModelIndex insertedIndex = model->insertEmptyColumn(curIndex);
+
+    if (insertedIndex.isValid()) {
+        _indexesTree->selectionModel()->setCurrentIndex(
+            insertedIndex,
+            QItemSelectionModel::ClearAndSelect);
+        _indexesTree->scrollTo(_indexesTree->selectionModel()->currentIndex());
+    }
+
+    validateControls();
 }
 
 void IndexesTab::actionRemoveCurrentIndexItem(bool checked)
 {
     Q_UNUSED(checked);
+
+    QModelIndex curIndex = _indexesTree->selectionModel()->currentIndex();
+    if (!curIndex.isValid()) return;
+
+    auto model = _tableForm->indexesModel();
+    model->remove(curIndex);
+    validateControls();
+
 }
 
 void IndexesTab::actionClearIndexes(bool checked)
 {
     Q_UNUSED(checked);
+    _tableForm->indexesModel()->removeAll();
+    validateControls();
 }
 
 void IndexesTab::actionMoveUpColumn(bool checked)

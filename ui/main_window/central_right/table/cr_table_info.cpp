@@ -26,7 +26,8 @@ void TableInfo::refreshData()
 
 void TableInfo::onBeforeEntityEditing()
 {
-    _rootTabs->setCurrentIndex((int)models::ui::TableInfoWidgetTabs::Basic);
+    _rootTabs->setCurrentIndex(
+        static_cast<int>(models::ui::TableInfoWidgetTabs::Basic));
     _basicTab->onBeforeEntityEditing();
 }
 

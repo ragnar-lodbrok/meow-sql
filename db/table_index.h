@@ -64,8 +64,25 @@ public:
     QStringList & columns() { return _columns; }
     //QStringList & subParts() { return _subParts; }
 
+    bool hasColumn(const QString & name) {
+        return _columns.contains(name);
+    }
+
+    int addColumn(const QString & name) {
+       _columns.append(name);
+       return _columns.size();
+    }
+
     bool isValidColumnIndex(int index) const {
         return index >=0 && index < _columns.size();
+    }
+
+    bool removeColumnIndex(int index) {
+        if (isValidColumnIndex(index)) {
+            _columns.removeAt(index);
+            return true;
+        }
+        return false;
     }
 
     bool canMoveColumnUp(int index) const {

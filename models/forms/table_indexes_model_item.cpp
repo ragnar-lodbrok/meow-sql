@@ -75,6 +75,28 @@ void TableIndexesModelItemIndex::reinitColumns()
       }
 }
 
+void TableIndexesModelItemIndex::removeColumnAt(int index)
+{
+    if (index >=0 && index < _columns.size()) {
+        delete _columns[index];
+        _columns.removeAt(index);
+    }
+}
+
+ITableIndexesModelItem * TableIndexesModelItemIndex::addColumnAt(int index)
+{
+    if (!_index) {
+        return nullptr;
+    }
+    auto columnItem = new TableIndexesModelItemColumn(
+        _index,
+        const_cast<ITableIndexesModelItem *>((ITableIndexesModelItem *)this));
+
+    _columns.insert(index, columnItem);
+
+    return columnItem;
+}
+
 QVariant TableIndexesModelItemIndex::icon() const
 {
     if (!_index) {
@@ -117,7 +139,8 @@ QVariant TableIndexesModelItemColumn::icon() const
         return QVariant();
     }
     // TODO: move to Settings::icons
-    static const QIcon iconColumn = QIcon(":/icons/bullet_white.png"); // TODO: rename icon
+    static const QIcon iconColumn = QIcon(":/icons/bullet_white.png");
+    // TODO: rename icon
 
     return iconColumn;
 }

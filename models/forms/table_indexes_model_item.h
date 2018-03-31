@@ -90,6 +90,9 @@ public:
     virtual QVariant icon() const override;
 
     void reinitColumns();
+    void removeColumnAt(int index);
+    ITableIndexesModelItem * addColumnAt(int index);
+
 private:
     db::TableIndex * _index;
     QList<ITableIndexesModelItem *> _columns;

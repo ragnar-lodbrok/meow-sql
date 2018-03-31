@@ -87,7 +87,7 @@ int TableStructure::insertEmptyDefaultColumn(int afterIndex)
     return newColumnIndex;
 }
 
-void TableStructure::insertEmptyDefaultIndex()
+TableIndex * TableStructure::insertEmptyDefaultIndex()
 {
     TableIndex * newIndexObj = new TableIndex();
     newIndexObj->setName(QString("index_%1").arg(_indicies.size() + 1));
@@ -99,6 +99,24 @@ void TableStructure::insertEmptyDefaultIndex()
     }
 
     _indicies.append(newIndexObj);
+    return newIndexObj;
+}
+
+int TableStructure::insertEmptyDefaultColumnToIndex(int index)
+{
+    if (!isValidIndex(index)) {
+        return -1;
+    }
+
+    TableIndex * tableIndex = _indicies[index];
+
+    for (const auto & column : _columns) {
+        if (!tableIndex->hasColumn(column->name())) {
+            return tableIndex->addColumn(column->name());
+        }
+    }
+
+    return -1;
 }
 
 void TableStructure::appendColumn(TableColumn * column)
@@ -157,6 +175,12 @@ bool TableStructure::canRemoveAllIndices() const
     return _indicies.size() > 0;
 }
 
+void TableStructure::removeAllIndicies()
+{
+    qDeleteAll(_indicies);
+    _indicies.clear();
+}
+
 bool TableStructure::isValidIndex(int index) const
 {
     return index >= 0 && index < _indicies.size();
@@ -167,12 +191,32 @@ bool TableStructure::canRemoveIndex(int index) const
     return isValidIndex(index);
 }
 
+bool TableStructure::removeIndexAt(int index)
+{
+    if (!canRemoveIndex(index)) return false;
+
+    TableIndex * indexToRemove = _indicies.value(index, nullptr);
+
+    if (indexToRemove) {
+        _indicies.removeAt(index);
+        delete indexToRemove;
+        return true;
+    }
+    return false;
+}
+
 bool TableStructure::canRemoveIndexColumn(int index, int column) const
 {
     if (isValidIndex(index)) {
         return _indicies[index]->isValidColumnIndex(column);
     }
     return false;
+}
+
+bool TableStructure::removeIndexColumn(int index, int column)
+{
+    if (!canRemoveIndexColumn(index, column)) return false;
+    return _indicies[index]->removeColumnIndex(column);
 }
 
 bool TableStructure::canMoveIndexColumnUp(int index, int column) const

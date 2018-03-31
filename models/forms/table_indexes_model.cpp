@@ -181,7 +181,6 @@ void TableIndexesModel::reinitItems()
           auto indexItem = new TableIndexesModelItemIndex(index, rootItem());
           _items.push_back(indexItem);
       }
-
 }
 
 
@@ -204,12 +203,15 @@ int TableIndexesModel::insertEmptyDefaultIndex()
 {
     int insertIndex = rowCount();
 
-    // TODO
-    /*beginInsertRows(QModelIndex(), insertIndex, insertIndex);
-    _table->structure()->insertEmptyDefaultIndex();
+    beginInsertRows(QModelIndex(), insertIndex, insertIndex);
+
+    auto newIndex = _table->structure()->insertEmptyDefaultIndex();
+    auto indexItem = new TableIndexesModelItemIndex(newIndex, rootItem());
+    _items.push_back(indexItem);
+
     endInsertRows();
 
-    emit modified();*/
+    emit modified();
 
     return insertIndex;
 }
@@ -218,6 +220,46 @@ bool TableIndexesModel::canAddColumn(const QModelIndex & curIndex) const
 {
     if (_table == nullptr || curIndex.isValid() == false) return false;
     return true; // anytime we have a selection
+    // TODO: check if we have "free" columns?
+}
+
+QModelIndex TableIndexesModel::insertEmptyColumn(const QModelIndex & curIndex)
+{
+    if (!canAddColumn(curIndex)) return {};
+    ITableIndexesModelItem * item
+        = static_cast<ITableIndexesModelItem *>(curIndex.internalPointer());
+    if (item == nullptr) return {};
+
+    int indexRow;
+    TableIndexesModelItemIndex * indexItem;
+    QModelIndex indexModelIndex;
+
+    if (item->type() == ITableIndexesModelItem::Type::Index) {
+        indexRow = item->row();
+        indexItem = static_cast<TableIndexesModelItemIndex *>(item);
+        indexModelIndex = curIndex;
+    } else if (item->type() == ITableIndexesModelItem::Type::Column) {
+        indexRow = item->parent()->row();
+        indexItem = static_cast<TableIndexesModelItemIndex *>(item->parent());
+        indexModelIndex = curIndex.parent();
+    }
+
+    int newColumnIndex = _table->structure()
+                               ->insertEmptyDefaultColumnToIndex(indexRow);
+
+    if (newColumnIndex != -1) {
+
+        beginInsertRows(indexModelIndex, newColumnIndex, newColumnIndex);
+        auto modelItem = indexItem->addColumnAt(newColumnIndex);
+        endInsertRows();
+
+        return createIndex( // TODO: pbly wrong
+            newColumnIndex,
+            (int)meow::models::forms::TableIndexesModel::Columns::Name,
+            modelItem);
+    }
+
+    return {};
 }
 
 bool TableIndexesModel::canRemove(const QModelIndex & curIndex) const
@@ -237,10 +279,55 @@ bool TableIndexesModel::canRemove(const QModelIndex & curIndex) const
     return false;
 }
 
+bool TableIndexesModel::remove(const QModelIndex & curIndex)
+{
+    if (!canRemove(curIndex)) return false;
+
+    auto item
+        = static_cast<ITableIndexesModelItem *>(curIndex.internalPointer());
+    if (item == nullptr) return false;
+    if (item->type() == ITableIndexesModelItem::Type::Index) {
+        int indexRow = item->row();
+        if (_table->structure()->removeIndexAt(indexRow)) {
+            beginRemoveRows(QModelIndex(), indexRow, indexRow);
+            delete _items[indexRow];
+            _items.removeAt(indexRow);
+            endRemoveRows();
+            emit modified();
+            return true;
+        }
+    } else if (item->type() == ITableIndexesModelItem::Type::Column) {
+        int indexRow = item->parent()->row();
+        int columnRow = item->row();
+        QModelIndex parentIndex = curIndex.parent();
+        if (_table->structure()->removeIndexColumn(indexRow, columnRow)) {
+            beginRemoveRows(parentIndex, columnRow, columnRow);
+            auto parentItem = static_cast<TableIndexesModelItemIndex *>(
+                parentIndex.internalPointer());
+            parentItem->removeColumnAt(columnRow);
+            endRemoveRows();
+            emit modified();
+            return true;
+        }
+    }
+    return false;
+}
+
 bool TableIndexesModel::canRemoveAll() const
 {
     if (_table == nullptr) return false;
     return _table->structure()->canRemoveAllIndices();
+}
+
+void TableIndexesModel::removeAll()
+{
+    if (!canRemoveAll()) return;
+
+    _table->structure()->removeAllIndicies();
+    removeData();
+    reinitItems();
+
+    emit modified();
 }
 
 bool TableIndexesModel::canMoveUp(const QModelIndex & curIndex) const

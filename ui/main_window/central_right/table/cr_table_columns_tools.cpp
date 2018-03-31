@@ -75,8 +75,6 @@ void TableColumnsTools::setActionEnabled(Action action, bool enabled)
     case Action::MoveDown:
         _moveDownColumnAction->setEnabled(enabled);
         break;
-    default:
-        break;
     }
 }
 

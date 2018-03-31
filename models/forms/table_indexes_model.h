@@ -61,8 +61,14 @@ public:
     int insertEmptyDefaultIndex();
 
     bool canAddColumn(const QModelIndex & curIndex) const;
+    QModelIndex insertEmptyColumn(const QModelIndex & curIndex);
+
     bool canRemove(const QModelIndex & curIndex) const;
+    bool remove(const QModelIndex & curIndex);
+
     bool canRemoveAll() const;
+    void removeAll();
+
     bool canMoveUp(const QModelIndex & curIndex) const;
     bool canMoveDown(const QModelIndex & curIndex) const;
 

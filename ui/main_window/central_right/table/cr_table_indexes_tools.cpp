@@ -54,7 +54,8 @@ void TableIndexesTools::createWidgets()
             _parent, &IndexesTab::actionClearIndexes);
     _toolBar->addAction(_clearIndexesAction);
 
-    _moveUpColumnAction = new QAction(QIcon(":/icons/arrow_up.png"),
+    // Temp hide up/down as I can live w/o them
+    /*_moveUpColumnAction = new QAction(QIcon(":/icons/arrow_up.png"),
                                       tr("Up"), this);
     _moveUpColumnAction->setToolTip(tr("Move up"));
     connect(_moveUpColumnAction, &QAction::triggered,
@@ -67,7 +68,7 @@ void TableIndexesTools::createWidgets()
     _moveDownColumnAction->setToolTip(tr("Move down"));
     connect(_moveDownColumnAction, &QAction::triggered,
             _parent, &IndexesTab::actionMoveDownColumn);
-    _toolBar->addAction(_moveDownColumnAction);
+    _toolBar->addAction(_moveDownColumnAction);*/
 
     QLayout * toolBarLayout = _toolBar->layout();
     if (toolBarLayout) {
@@ -98,12 +99,10 @@ void TableIndexesTools::setActionEnabled(Action action, bool enabled)
         _clearIndexesAction->setEnabled(enabled);
         break;
     case Action::MoveUp:
-        _moveUpColumnAction->setEnabled(enabled);
+        //_moveUpColumnAction->setEnabled(enabled);
         break;
     case Action::MoveDown:
-        _moveDownColumnAction->setEnabled(enabled);
-        break;
-    default:
+        //_moveDownColumnAction->setEnabled(enabled);
         break;
     }
 }
