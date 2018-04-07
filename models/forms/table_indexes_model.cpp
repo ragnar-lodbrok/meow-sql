@@ -313,6 +313,31 @@ bool TableIndexesModel::remove(const QModelIndex & curIndex)
     return false;
 }
 
+bool TableIndexesModel::removeAllIndexColumnsByName(const QString & columnName)
+{
+    int i = 0;
+    QList<QModelIndex> idxToRemove;
+
+    for (auto & index : _table->structure()->indicies()) {
+        if (index->hasColumn(columnName)) {
+            QModelIndex indexModelIndex = this->index(
+                i, 0
+            );
+            QModelIndex columnModelIndex = this->index(
+                index->columnIndex(columnName), 0, indexModelIndex
+            );
+            idxToRemove.append(columnModelIndex);
+        }
+        ++i;
+    }
+
+    for (const auto & index : idxToRemove) {
+        remove(index);
+    }
+
+    return true;
+}
+
 bool TableIndexesModel::canRemoveAll() const
 {
     if (_table == nullptr) return false;

@@ -22,7 +22,7 @@ public:
     void run(TableEntity * table);
 private:
     void parseColumns(const QString & createSQL, TableEntity * table) const;
-    void parseKeysIndicies(const QString & createSQL, QList<TableIndex *> & indicies) const;
+    void parseKeysIndicies(const QString & createSQL, TableEntity * table) const;
     void parseForeignKeys(const QString & createSQL, QList<ForeignKey *> & fKeys) const;
     void parseTableOptions(TableEntity * table);
 

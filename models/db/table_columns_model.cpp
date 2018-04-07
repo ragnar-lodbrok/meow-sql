@@ -605,7 +605,6 @@ bool TableColumnsModel::editData(const QModelIndex &index, const QVariant &value
     switch (static_cast<Columns>(col)) {
 
     case Columns::Name: {
-
         tableColumn->setName(value.toString());
         return true;
     }

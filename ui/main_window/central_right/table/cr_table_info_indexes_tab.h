@@ -35,6 +35,8 @@ public:
     Q_SLOT void actionMoveUpColumn(bool checked);
     Q_SLOT void actionMoveDownColumn(bool checked);
 
+    Q_SLOT void onTableColumnRemoved(const QString & name);
+
 private:
     void createWidgets();
     void fillDataFromForm();

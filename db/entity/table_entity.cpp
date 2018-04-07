@@ -45,7 +45,7 @@ db::ulonglong TableEntity::rowsCount(bool refresh /*= false*/)
 db::TableStructure * TableEntity::structure() const
 {
     if (!_structure) {
-        _structure = new TableStructure();
+        _structure = new TableStructure(const_cast<TableEntity *>(this));
     }
     return _structure;
 }
@@ -59,7 +59,8 @@ TableEntity * TableEntity::deepCopy() const
 {
     TableEntity * copy = new TableEntity(*this);
     if (this->_structure) {
-        copy->_structure = this->_structure->deepCopy();
+        copy->_structure = this->_structure->deepCopy(copy);
+        //copy->_structure->setTable(copy);
     }
 
     return copy;
@@ -70,7 +71,8 @@ void TableEntity::copyData(TableEntity * data)
     delete this->_structure;
     *this = *data;
     if (data->_structure) {
-        this->_structure = data->_structure->deepCopy();
+        this->_structure = data->_structure->deepCopy(this);
+        //this->_structure->setTable(this);
     }
 }
 

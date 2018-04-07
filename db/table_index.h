@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QList>
 
 // https://dev.mysql.com/doc/refman/5.7/en/create-index.html
 // TODO: index_option, algorithm_option, lock_option
@@ -32,12 +33,35 @@ QString tableIndexClassToStr(TableIndexClass cls);
 TableIndexType strToTableIndexType(const QString & str);
 QString tableIndexTypeToStr(TableIndexType type);
 
+class TableEntity;
+class TableColumn;
+
 // Represents table key/index
 class TableIndex
 {
 public:
 
-    TableIndex();
+    class Column
+    {
+    public:
+        Column(TableIndex * index, unsigned columnId)
+            : _index(index),
+              _columnId(columnId)
+        {
+
+        }
+        QString name() const;
+        unsigned id() const { return _columnId; }
+
+    private:
+        TableIndex * _index;
+        unsigned _columnId;
+    };
+
+    explicit TableIndex(TableEntity * table);
+
+    void setTable(TableEntity * table);
+    TableEntity * table() const { return _table; }
 
     QString name() const;
     void setName(const QString & name) { _name = name; }
@@ -61,17 +85,26 @@ public:
     }
 
     int columnsCount() const { return _columns.size(); }
-    QStringList & columns() { return _columns; }
-    //QStringList & subParts() { return _subParts; }
+    QList<Column> & columns() { return _columns; }
+    const QStringList columnNames() const {
+        QStringList names;
+        for (const auto & column : _columns) {
+            names.append(column.name());
+        }
+        return names;
+    }
+    //QStringList & subParts() { return _subParts; } // TODO
 
     bool hasColumn(const QString & name) {
-        return _columns.contains(name);
+        for (const auto & column : _columns) {
+            if (column.name() == name) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    int addColumn(const QString & name) {
-       _columns.append(name);
-       return _columns.size();
-    }
+    int addColumn(const QString & name);
 
     bool isValidColumnIndex(int index) const {
         return index >=0 && index < _columns.size();
@@ -85,6 +118,21 @@ public:
         return false;
     }
 
+    bool removeColumn(const QString & name) {
+        return removeColumnIndex(columnIndex(name));
+    }
+
+    int columnIndex(const QString & name) {
+        int i = 0;
+        for (const auto & column : _columns) {
+            if (column.name() == name) {
+                return i;
+            }
+            ++i;
+        }
+        return -1;
+    }
+
     bool canMoveColumnUp(int index) const {
         return index >= 1 && index < _columns.size();
     }
@@ -95,13 +143,14 @@ public:
 
     operator QString() const;
 
+    TableIndex * deepCopy(TableEntity * table);
+
 private:
+    TableEntity * _table;
     QString _name;
     TableIndexClass _class; // H: IndexType
     TableIndexType _type; // H: Algorithm
-    QStringList _columns;
-    // TODO: separate class for Column
-    //QStringList _subParts; // ?
+    QList<Column> _columns;
 };
 
 } // namespace db

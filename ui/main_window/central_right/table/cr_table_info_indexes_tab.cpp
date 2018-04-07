@@ -17,6 +17,12 @@ IndexesTab::IndexesTab(models::forms::TableInfoForm * form,
     Q_CHECK_PTR(form);
     createWidgets();
     validateControls();
+
+    connect(form,
+            &models::forms::TableInfoForm::tableColumnRemoved,
+            this,
+            &IndexesTab::onTableColumnRemoved
+    );
 }
 
 void IndexesTab::refreshData()
@@ -160,6 +166,13 @@ void IndexesTab::actionMoveUpColumn(bool checked)
 void IndexesTab::actionMoveDownColumn(bool checked)
 {
     Q_UNUSED(checked);
+}
+
+void IndexesTab::onTableColumnRemoved(const QString & name)
+{
+    auto model = _tableForm->indexesModel();
+    model->removeAllIndexColumnsByName(name);
+    validateControls();
 }
 
 } // namespace table_info

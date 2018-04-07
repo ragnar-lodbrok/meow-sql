@@ -72,6 +72,8 @@ public:
     bool canMoveUp(const QModelIndex & curIndex) const;
     bool canMoveDown(const QModelIndex & curIndex) const;
 
+    bool removeAllIndexColumnsByName(const QString & columnName);
+
     Q_SIGNAL void modified();
 
 private:

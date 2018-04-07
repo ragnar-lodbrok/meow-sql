@@ -50,6 +50,8 @@ public:
     void setHasUnsavedChanges(bool modified);
     Q_SIGNAL void unsavedChanged(bool hasUnsavedChanges);
 
+    Q_SIGNAL void tableColumnRemoved(const QString & name);
+
 private:
 
     meow::db::TableEntity * _table; // copy of source table to edit

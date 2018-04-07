@@ -57,6 +57,12 @@ void TableInfoForm::setTable(meow::db::TableEntity * table)
     }
 
     setHasUnsavedChanges(false);
+
+    QObject::connect(
+        _table->structure(),
+        &meow::db::TableStructure::beforeColumnRemoved,
+        this,
+        &TableInfoForm::tableColumnRemoved);
 }
 
 const QString TableInfoForm::tableName() const

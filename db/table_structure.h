@@ -1,6 +1,7 @@
 #ifndef DB_TABLE_STRUCTURE_H
 #define DB_TABLE_STRUCTURE_H
 
+#include <QObject>
 #include "db/common.h"
 #include "table_column.h"
 #include "table_index.h"
@@ -9,12 +10,19 @@
 namespace meow {
 namespace db {
 
+class TableEntity;
+
 // Holds table structure items and additional options
-class TableStructure
+class TableStructure : public QObject
 {
+    Q_OBJECT
+
 public:
-    TableStructure();
-    ~TableStructure();
+    TableStructure(TableEntity * table);
+    virtual ~TableStructure();
+
+    TableEntity * table() const { return _table; }
+    void setTable(TableEntity * table);
 
     const QList<TableColumn *> & columns() const { return _columns; }
     void clearColumns() { qDeleteAll(_columns); _columns.clear(); }
@@ -43,7 +51,7 @@ public:
 
     bool hasIndexForColumn(const QString & columnName, TableIndexClass indexClass);
 
-    TableStructure * deepCopy() const;
+    TableStructure * deepCopy(TableEntity * parentTable) const;
 
     int insertEmptyDefaultColumn(int afterIndex = -1);
     TableIndex * insertEmptyDefaultIndex();
@@ -75,9 +83,14 @@ public:
 
     unsigned nextColumnUniqueId() { return ++_nextColumnUniqueId; }
     TableColumn * columnById(unsigned id) const;
+    TableColumn * columnByName(const QString & name) const;
     TableColumn * prevColumn(TableColumn * column) const;
 
+    Q_SIGNAL void beforeColumnRemoved(const QString & name);
+
 private:
+
+    TableEntity * _table;
 
     QString _comment;
     QString _rowFormatStr;

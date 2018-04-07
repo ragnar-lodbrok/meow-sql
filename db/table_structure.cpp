@@ -4,8 +4,9 @@
 namespace meow {
 namespace db {
 
-TableStructure::TableStructure()
-    : _avgRowLen(0),
+TableStructure::TableStructure(TableEntity * table)
+    : _table(table),
+      _avgRowLen(0),
       _autoInc(0),
       _maxRows(0),
       _isCheckSum(false),
@@ -21,21 +22,38 @@ TableStructure::~TableStructure()
     qDeleteAll(_foreignKeys);
 }
 
+void TableStructure::setTable(TableEntity * table)
+{
+    _table = table;
+    for (auto & index : _indicies) {
+        index->setTable(table);
+    }
+}
+
 bool TableStructure::hasIndexForColumn(
     const QString & columnName, TableIndexClass indexClass)
 {
     for (auto & index : _indicies) {
-        if (index->classType() == indexClass
-            && index->columns().contains(columnName)) {
+        if (index->classType() == indexClass && index->hasColumn(columnName)) {
             return true;
         }
     }
     return false;
 }
 
-TableStructure * TableStructure::deepCopy() const
+TableStructure * TableStructure::deepCopy(TableEntity * parentTable) const
 {
-    TableStructure * structure = new TableStructure(*this);
+    TableStructure * structure = new TableStructure(parentTable);
+
+    structure->_table = parentTable;
+    structure->_comment = this->_comment;
+    structure->_rowFormatStr = this->_rowFormatStr;
+    structure->_avgRowLen = this->_avgRowLen;
+    structure->_autoInc = this->_autoInc;
+    structure->_maxRows = this->_maxRows;
+    structure->_isCheckSum = this->_isCheckSum;
+    structure->_maxRows = this->_maxRows;
+    structure->_nextColumnUniqueId = this->_nextColumnUniqueId;
 
     structure->_columns.clear();
     structure->_indicies.clear();
@@ -47,7 +65,7 @@ TableStructure * TableStructure::deepCopy() const
     }
 
     for (auto & index : _indicies) {
-        TableIndex * indexCopy = new TableIndex(*index);
+        TableIndex * indexCopy = index->deepCopy(parentTable);
         structure->_indicies.push_back(indexCopy);
     }
 
@@ -89,7 +107,7 @@ int TableStructure::insertEmptyDefaultColumn(int afterIndex)
 
 TableIndex * TableStructure::insertEmptyDefaultIndex()
 {
-    TableIndex * newIndexObj = new TableIndex();
+    TableIndex * newIndexObj = new TableIndex(_table);
     newIndexObj->setName(QString("index_%1").arg(_indicies.size() + 1));
 
     if (_indicies.size() == 0) {
@@ -135,6 +153,7 @@ bool TableStructure::removeColumnAt(int index)
     TableColumn * columnToRemove = _columns.value(index, nullptr);
 
     if (columnToRemove) {
+        emit beforeColumnRemoved(columnToRemove->name());
         _columns.removeAt(index);
         delete columnToRemove;
         return true;
@@ -239,6 +258,16 @@ TableColumn * TableStructure::columnById(unsigned id) const
 {
     for (auto & column : _columns) {
         if (column->id() == id) {
+            return column;
+        }
+    }
+    return nullptr;
+}
+
+TableColumn * TableStructure::columnByName(const QString & name) const
+{
+    for (const auto & column : _columns) {
+        if (column->name() == name) {
             return column;
         }
     }

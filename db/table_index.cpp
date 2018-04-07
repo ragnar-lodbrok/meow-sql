@@ -1,5 +1,8 @@
 #include "table_index.h"
 #include <QMap>
+#include <QDebug>
+#include "table_column.h"
+#include "entity/table_entity.h"
 
 namespace meow {
 namespace db {
@@ -62,8 +65,14 @@ QString tableIndexTypeToStr(TableIndexType type)
     }
 }
 
-TableIndex::TableIndex()
-    :_class(TableIndexClass::None),
+QString TableIndex::Column::name() const {
+    TableColumn * column = _index->table()->structure()->columnById(_columnId);
+    return column ? column->name() : QString();
+}
+
+TableIndex::TableIndex(TableEntity * table)
+    :_table(table),
+     _class(TableIndexClass::None),
      _type(TableIndexType::None)
 {
 
@@ -80,7 +89,7 @@ TableIndex::operator QString() const
     }
 
     if (!_columns.isEmpty()) {
-        str += " columns:" + _columns.join(',');
+        str += " columns:" + columnNames().join(',');
     }
 
     return str;
@@ -92,6 +101,34 @@ QString TableIndex::name() const
         return "PRIMARY KEY";
     }
     return _name;
+}
+
+int TableIndex::addColumn(const QString & name)
+{
+    TableColumn * column = _table->structure()->columnByName(name);
+    if (column) {
+        _columns.append(Column(this, column->id()));
+        return _columns.size();
+    }
+    return -1;
+}
+
+void TableIndex::setTable(TableEntity * table)
+{
+    _table = table;
+}
+
+TableIndex * TableIndex::deepCopy(TableEntity * table)
+{
+    TableIndex * copy = new TableIndex(*this);
+    copy->_table = table;
+    copy->_columns.clear();
+
+    for (auto & column : _columns) {
+        copy->_columns.append(Column(copy, column.id()));
+    }
+
+    return copy;
 }
 
 } // namespace db

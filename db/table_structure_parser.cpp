@@ -42,7 +42,7 @@ void TableStructureParser::run(TableEntity * table)
     QString createSQL = table->createCode();
 
     parseColumns(createSQL, table);
-    parseKeysIndicies(createSQL, structure->indicies());
+    parseKeysIndicies(createSQL, table);
     parseForeignKeys(createSQL, structure->foreighKeys());
     parseTableOptions(table);
 }
@@ -176,8 +176,10 @@ void TableStructureParser::parseColumns(const QString & createSQL,
 
 void TableStructureParser::parseKeysIndicies(
     const QString & createSQL,
-    QList<TableIndex *> & indicies) const
+    TableEntity * table) const
 {
+
+    auto & indicies = table->structure()->indicies();
 
     qDeleteAll(indicies);
     indicies.clear();
@@ -201,14 +203,17 @@ void TableStructureParser::parseKeysIndicies(
         }
         if (keyName.isEmpty()) continue;
 
-        TableIndex * index = new TableIndex;
+        TableIndex * index = new TableIndex(table);
         index->setName(keyName);
         index->setClassType(indexClassStr);
         if (index->classType() == TableIndexClass::None) {
             index->setClassType(TableIndexClass::Key);
         }
         index->setIndexType(indexTypeStr);
-        index->columns() = explodeQuotedList(indexColumns);
+        QStringList columnNames = explodeQuotedList(indexColumns);
+        for (const auto & columnName : columnNames) {
+            index->addColumn(columnName);
+        }
 
         // TODO: subparts
 
