@@ -33,7 +33,13 @@ Qt::ItemFlags TableIndexesModel::flags(const QModelIndex &index) const
         return 0;
     }
 
-    return QAbstractItemModel::flags(index);
+    Qt::ItemFlags flags = QAbstractItemModel::flags(index);
+
+    if (isEditingAllowed(index)) {
+        flags |= Qt::ItemIsEditable;
+    }
+
+    return flags;
 }
 
 QModelIndex TableIndexesModel::index(
@@ -82,7 +88,9 @@ QModelIndex TableIndexesModel::parent(const QModelIndex &index) const
 QVariant TableIndexesModel::data(const QModelIndex &index, int role) const
 {
 
-    if (role == Qt::DisplayRole || role == Qt::DecorationRole) {
+    if (role == Qt::DisplayRole ||
+        role == Qt::DecorationRole ||
+        role == Qt::EditRole) {
 
         ITableIndexesModelItem * item
              = static_cast<ITableIndexesModelItem *>(index.internalPointer());
@@ -91,7 +99,7 @@ QVariant TableIndexesModel::data(const QModelIndex &index, int role) const
 
         if (role == Qt::DecorationRole && isNameCol) {
             return item->icon();
-        } else if (role == Qt::DisplayRole) {
+        } else if (role == Qt::DisplayRole || role == Qt::EditRole) {
             return item->data(index.column());
         }
     }
@@ -338,6 +346,50 @@ bool TableIndexesModel::removeAllIndexColumnsByName(const QString & columnName)
     return true;
 }
 
+bool TableIndexesModel::isRowTypeIndex(const QModelIndex & index) const
+{
+    if (!index.isValid()) return false;
+    ITableIndexesModelItem * item
+         = static_cast<ITableIndexesModelItem *>(index.internalPointer());
+
+    if (!item) return false;
+
+    return (item->type() == ITableIndexesModelItem::Type::Index);
+}
+
+bool TableIndexesModel::isRowTypeColumn(const QModelIndex & index) const
+{
+    if (!index.isValid()) return false;
+    ITableIndexesModelItem * item
+         = static_cast<ITableIndexesModelItem *>(index.internalPointer());
+
+    if (!item) return false;
+
+    return (item->type() == ITableIndexesModelItem::Type::Column);
+}
+
+const QStringList TableIndexesModel::indexTypes() const
+{
+    return db::tableIndexClassNames();
+}
+
+const QStringList TableIndexesModel::indexAlgorithms() const
+{
+    return db::tableIndexTypeNames();
+}
+
+const QStringList TableIndexesModel::indexColumns() const
+{
+    if (_table) {
+        QStringList columns;
+        for (const auto & column : _table->structure()->columns()) {
+            columns << column->name();
+        }
+        return columns;
+    }
+    return {};
+}
+
 bool TableIndexesModel::canRemoveAll() const
 {
     if (_table == nullptr) return false;
@@ -401,6 +453,40 @@ void TableIndexesModel::insertData()
         beginInsertRows(QModelIndex(), 0, rowCount()-1);
         endInsertRows();
     }
+}
+
+bool TableIndexesModel::isEditingAllowed(const QModelIndex &index) const
+{
+    ITableIndexesModelItem * item
+         = static_cast<ITableIndexesModelItem *>(index.internalPointer());
+
+    if (!item) return false;
+
+    db::TableIndex * tableIndex = item->tableIndex();
+
+    if (item->type() == ITableIndexesModelItem::Type::Index) {
+        switch (static_cast<Columns>(index.column())) {
+        case Columns::Name:
+            return tableIndex->classType() != db::TableIndexClass::PrimaryKey;
+        case Columns::Type:
+        case Columns::Algorithm:
+            return true;
+        default:
+            break;
+        }
+    } else if (item->type() == ITableIndexesModelItem::Type::Column) {
+        switch (static_cast<Columns>(index.column())) {
+        case Columns::Name:
+            return true;
+        case Columns::Type:
+        case Columns::Algorithm:
+            return false;
+        default:
+            break;
+        }
+    }
+
+    return false;
 }
 
 } // namespace forms

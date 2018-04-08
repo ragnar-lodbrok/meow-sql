@@ -61,6 +61,8 @@ public:
     }
     virtual QVariant icon() const { return QVariant(); }
 
+    virtual db::TableIndex * tableIndex() const { return nullptr; }
+
 protected:
     ITableIndexesModelItem * _parent;
 };
@@ -89,6 +91,10 @@ public:
 
     virtual QVariant icon() const override;
 
+    virtual db::TableIndex * tableIndex() const override {
+        return _index;
+    }
+
     void reinitColumns();
     void removeColumnAt(int index);
     ITableIndexesModelItem * addColumnAt(int index);
@@ -113,6 +119,10 @@ public:
     virtual Type type() const { return Type::Column; }
 
     virtual QVariant icon() const override;
+
+    virtual db::TableIndex * tableIndex() const override {
+        return _index;
+    }
 
 private:
     db::TableIndex * _index;

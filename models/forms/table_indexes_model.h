@@ -2,6 +2,7 @@
 #define MODELS_FORMS_TABLE_INDEXES_MODEL_H
 
 #include <QAbstractItemModel>
+#include <QStringList>
 #include "table_indexes_model_item.h"
 
 namespace meow {
@@ -74,6 +75,13 @@ public:
 
     bool removeAllIndexColumnsByName(const QString & columnName);
 
+    bool isRowTypeIndex(const QModelIndex & index) const;
+    bool isRowTypeColumn(const QModelIndex & index) const;
+
+    const QStringList indexTypes() const;
+    const QStringList indexAlgorithms() const;
+    const QStringList indexColumns() const;
+
     Q_SIGNAL void modified();
 
 private:
@@ -83,6 +91,8 @@ private:
 
     void removeData();
     void insertData();
+
+    bool isEditingAllowed(const QModelIndex &index) const;
 
     meow::db::TableEntity * _table;
     QList<ITableIndexesModelItem *> _items;

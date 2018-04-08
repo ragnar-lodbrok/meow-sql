@@ -2,6 +2,7 @@
 #include "cr_table_indexes_tools.h"
 #include "models/forms/table_info_form.h"
 #include "models/forms/table_indexes_model.h"
+#include "models/delegates/table_index_delegate.h"
 
 namespace meow {
 namespace ui {
@@ -51,6 +52,8 @@ void IndexesTab::createWidgets()
             this,
             &IndexesTab::selectedIndexItemChanged
     );
+    auto treeDelegate = new models::delegates::TableIndexDelegate(treeModel);
+    _indexesTree->setItemDelegate(treeDelegate);
     _mainLayout->addWidget(_indexesTree, 1);
 }
 

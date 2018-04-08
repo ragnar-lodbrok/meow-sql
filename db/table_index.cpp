@@ -39,6 +39,18 @@ QString tableIndexClassToStr(TableIndexClass cls)
     }
 }
 
+const QStringList tableIndexClassNames()
+{
+    static QStringList list = {
+        "PRIMARY",
+        "KEY",
+        "UNIQUE",
+        "FULLTEXT",
+        "SPATIAL"
+    };
+    return list;
+}
+
 TableIndexType strToTableIndexType(const QString & str)
 {
     static QMap<QString, TableIndexType> map = {
@@ -63,6 +75,16 @@ QString tableIndexTypeToStr(TableIndexType type)
     default:
         return "NONE";
     }
+}
+
+const QStringList tableIndexTypeNames()
+{
+    static QStringList list = {
+        "BTREE",
+        "HASH",
+        "RTREE"
+    };
+    return list;
 }
 
 QString TableIndex::Column::name() const {

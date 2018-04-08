@@ -29,9 +29,11 @@ enum class TableIndexType { // == H: Algorithm
 
 TableIndexClass strToTableIndexClass(const QString & str);
 QString tableIndexClassToStr(TableIndexClass cls);
+const QStringList tableIndexClassNames();
 
 TableIndexType strToTableIndexType(const QString & str);
 QString tableIndexTypeToStr(TableIndexType type);
+const QStringList tableIndexTypeNames();
 
 class TableEntity;
 class TableColumn;
