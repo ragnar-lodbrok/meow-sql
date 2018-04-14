@@ -142,10 +142,19 @@ bool MySQLTableEditor::insert(TableEntity * table)
     QString SQL = QString("CREATE TABLE %1").arg(db::quotedName(table));
 
     QStringList specs;
+
     const QList<TableColumn *> & columns = table->structure()->columns();
 
     for (auto & column : columns) {
         specs << sqlCode(column);
+    }
+
+    const QList<TableIndex *> & indices = table->structure()->indicies();
+    for (auto & index : indices) {
+        QString SQL = sqlCode(index);
+        if (!SQL.isEmpty()) {
+            specs << SQL;
+        }
     }
 
     SQL += QString(" (\n%1\n)\n").arg(specs.join(",\n"));
@@ -357,6 +366,7 @@ QStringList MySQLTableEditor::specs(TableEntity * table, TableEntity * newData)
     if (insert || diff.commentDiffers()) {
         QString comment = insert ? table->structure()->comment()
                                  : newData->structure()->comment();
+        // TODO: skip if insert and comment is empty
         specs << "COMMENT=" + _connection->escapeString(comment);
     }
 

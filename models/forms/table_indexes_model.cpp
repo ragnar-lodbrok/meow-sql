@@ -316,6 +316,8 @@ QModelIndex TableIndexesModel::insertEmptyColumn(const QModelIndex & curIndex)
         indexRow = item->parent()->row();
         indexItem = static_cast<TableIndexesModelItemIndex *>(item->parent());
         indexModelIndex = curIndex.parent();
+    } else {
+        return {};
     }
 
     int newColumnIndex = _table->structure()
