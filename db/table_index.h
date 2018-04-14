@@ -72,6 +72,9 @@ public:
     QString classTypeStr() const {
         return tableIndexClassToStr(_class);
     }
+    bool isPrimaryKey() const {
+        return _class == TableIndexClass::PrimaryKey;
+    }
     void setClassType(TableIndexClass cls) { _class = cls; }
     void setClassType(const QString & clsStr) {
         _class = strToTableIndexClass(clsStr);
@@ -107,6 +110,8 @@ public:
     }
 
     int addColumn(const QString & name);
+
+    bool replaceColumn(int index, const QString & name);
 
     bool isValidColumnIndex(int index) const {
         return index >=0 && index < _columns.size();
@@ -147,12 +152,18 @@ public:
 
     TableIndex * deepCopy(TableEntity * table);
 
+    bool dataDiffers(const TableIndex * other) const;
+
+    unsigned id() const { return _id; }
+    void setId(unsigned id) { _id = id; }
+
 private:
     TableEntity * _table;
     QString _name;
     TableIndexClass _class; // H: IndexType
     TableIndexType _type; // H: Algorithm
     QList<Column> _columns;
+    unsigned _id;
 };
 
 } // namespace db

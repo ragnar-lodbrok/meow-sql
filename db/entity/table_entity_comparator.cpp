@@ -103,5 +103,53 @@ QList<TableColumnStatus> TableEntityComparator::currColumnsWithStatus() const
     return columns;
 }
 
+QList<TableIndex *> TableEntityComparator::removedIndices() const
+{
+    QList<TableIndex *> removedIndices;
+
+    TableStructure * newStructure = _curr->structure();
+    TableStructure * oldStructure = _prev->structure();
+
+    const QList<TableIndex *> & oldIndices = oldStructure->indicies();
+
+    for (const auto & oldIndex : oldIndices) {
+        TableIndex * newIndex = newStructure->indexById(oldIndex->id());
+        if (newIndex == nullptr) {
+            removedIndices.append(oldIndex);
+        }
+    }
+
+    return removedIndices;
+}
+
+QList<TableIndexStatus> TableEntityComparator::currIndicesWithStatus() const
+{
+    QList<TableIndexStatus> indices;
+    TableStructure * newStructure = _curr->structure();
+    TableStructure * oldStructure = _prev->structure();
+
+    const QList<TableIndex *> & newIndices = newStructure->indicies();
+
+    for (auto & newIndex : newIndices) {
+
+        TableIndex * oldIndex = oldStructure->indexById(newIndex->id());
+
+        TableIndexStatus status;
+
+        status.oldIndex = oldIndex; // nullptr if added
+        status.newIndex = newIndex;
+
+        if (oldIndex) {
+            status.modified = oldIndex->dataDiffers(newIndex);
+        } else {
+            status.added = true;
+        }
+
+        indices.append(status);
+    }
+
+    return indices;
+}
+
 } // namespace db
 } // namespace meow

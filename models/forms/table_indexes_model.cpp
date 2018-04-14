@@ -107,6 +107,23 @@ QVariant TableIndexesModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+bool TableIndexesModel::setData(const QModelIndex &index,
+                                const QVariant &value,
+                                int role)
+{
+    if (!index.isValid() || role != Qt::EditRole) {
+        return false;
+    }
+
+    if (editData(index, value)) {
+        emit dataChanged(index, index);
+        emit modified();
+        return true;
+    }
+
+    return false;
+}
+
 int TableIndexesModel::rowCount(const QModelIndex &parent) const // override
 {
     if (parent.column() > 0) {
@@ -173,6 +190,55 @@ int TableIndexesModel::columnWidth(int column) const
     default:
         return 80;
     }
+}
+
+bool TableIndexesModel::editData(const QModelIndex & index,
+                                 const QVariant & value)
+{
+    ITableIndexesModelItem * item
+        = static_cast<ITableIndexesModelItem *>(index.internalPointer());
+    if (item == nullptr) return false;
+
+    db::TableIndex * tableIndex = item->tableIndex();
+
+    if (item->type() == ITableIndexesModelItem::Type::Index) {
+
+        switch (static_cast<Columns>(index.column())) {
+
+        case Columns::Name: {
+            tableIndex->setName( value.toString() );
+            return true;
+        }
+
+        case Columns::Type: {
+            tableIndex->setClassType( value.toString() );
+            return true;
+        }
+
+        case Columns::Algorithm: {
+            tableIndex->setIndexType( value.toString() );
+            return true;
+        }
+
+        default:
+            break;
+        }
+
+    } else if (item->type() == ITableIndexesModelItem::Type::Column) {
+        switch (static_cast<Columns>(index.column())) {
+
+        case Columns::Name: {
+            if (tableIndex->replaceColumn(index.row(), value.toString())) {
+                return true;
+            }
+        }
+
+        default:
+            break;
+        }
+    }
+
+    return false;
 }
 
 void TableIndexesModel::reinitItems()
@@ -260,6 +326,8 @@ QModelIndex TableIndexesModel::insertEmptyColumn(const QModelIndex & curIndex)
         beginInsertRows(indexModelIndex, newColumnIndex, newColumnIndex);
         auto modelItem = indexItem->addColumnAt(newColumnIndex);
         endInsertRows();
+
+        emit modified();
 
         return createIndex( // TODO: pbly wrong
             newColumnIndex,

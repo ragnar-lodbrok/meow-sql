@@ -9,6 +9,7 @@ namespace db {
 
 class MySQLConnection;
 class TableColumn;
+class TableIndex;
 
 class MySQLTableEditor : public TableEditor
 {
@@ -21,9 +22,11 @@ public:
 private:
     void rename(TableEntity * table, const QString & newName);
     QString sqlCode(const TableColumn * column) const;
+    QString sqlCode(TableIndex * index) const;
     QString alterColumnSQL(const QString & oldName,
                            const QString & colSQL) const;
     QString dropSQL(EntityInDatabase * entity) const;
+    QString dropSQL(const TableIndex * index) const;
     QStringList specs(TableEntity * table, TableEntity * newData = nullptr);
 };
 

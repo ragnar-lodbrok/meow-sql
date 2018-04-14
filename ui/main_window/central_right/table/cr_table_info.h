@@ -25,6 +25,8 @@ namespace table_info {
 
 class TableInfo : public QWidget
 {
+    Q_OBJECT
+
 public:
     explicit TableInfo(models::forms::TableInfoForm * form,
                        QWidget *parent = nullptr);
@@ -36,6 +38,8 @@ public:
     virtual QSize sizeHint() const override {
         return QSize(200, 200);
     }
+
+    Q_SIGNAL void indicesModified();
 
 private:
     void createTabs();

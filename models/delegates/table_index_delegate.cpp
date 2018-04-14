@@ -105,6 +105,7 @@ void TableIndexDelegate::updateEditorGeometry(
         const QModelIndex &index) const
 {
     Q_UNUSED(index);
+    // TODO: no jump when have icon, restrict width
     editor->setGeometry(option.rect);
 }
 

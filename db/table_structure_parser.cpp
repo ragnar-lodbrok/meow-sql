@@ -179,10 +179,7 @@ void TableStructureParser::parseKeysIndicies(
     TableEntity * table) const
 {
 
-    auto & indicies = table->structure()->indicies();
-
-    qDeleteAll(indicies);
-    indicies.clear();
+    table->structure()->removeAllIndicies();
 
     auto regExpIt = _indiciesKeysRegexp->globalMatch(createSQL);
 
@@ -219,7 +216,7 @@ void TableStructureParser::parseKeysIndicies(
 
         //qDebug() << index->operator QString();
 
-        indicies.append(index);
+        table->structure()->appendIndex(index);
     }
 }
 

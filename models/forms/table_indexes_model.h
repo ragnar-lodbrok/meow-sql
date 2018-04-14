@@ -37,6 +37,8 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
+    bool setData(const QModelIndex &index, const QVariant &value,
+                 int role = Qt::EditRole) override;
 
     QModelIndex index(
             int row, int column,
@@ -85,6 +87,8 @@ public:
     Q_SIGNAL void modified();
 
 private:
+
+    bool editData(const QModelIndex &index, const QVariant &value);
 
     void reinitItems();
     ITableIndexesModelItem * rootItem() const;

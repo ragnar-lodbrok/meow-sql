@@ -29,6 +29,8 @@ public:
     void appendColumn(TableColumn * column);
 
     QList<TableIndex  *> & indicies() { return _indicies; }
+    void appendIndex(TableIndex * index);
+
     QList<ForeignKey  *> & foreighKeys() { return _foreignKeys; }
 
     QString rowFormatStr() const { return _rowFormatStr; }
@@ -86,6 +88,9 @@ public:
     TableColumn * columnByName(const QString & name) const;
     TableColumn * prevColumn(TableColumn * column) const;
 
+    unsigned nextIndexUniqueId() { return ++_nextIndexUniqueId; }
+    TableIndex * indexById(unsigned id) const;
+
     Q_SIGNAL void beforeColumnRemoved(const QString & name);
 
 private:
@@ -104,6 +109,7 @@ private:
     QList<ForeignKey  *>  _foreignKeys;
 
     unsigned _nextColumnUniqueId;
+    unsigned _nextIndexUniqueId;
 
 };
 

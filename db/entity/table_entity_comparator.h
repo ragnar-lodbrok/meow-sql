@@ -8,6 +8,7 @@ namespace db {
 
 class TableEntity;
 class TableColumn;
+class TableIndex;
 
 struct TableColumnPair {
     TableColumn * oldCol = nullptr;
@@ -17,6 +18,14 @@ struct TableColumnPair {
 struct TableColumnStatus
 {
     TableColumnPair columns;
+    bool added = false;
+    bool modified = false;
+};
+
+struct TableIndexStatus
+{
+    TableIndex * oldIndex = nullptr;
+    TableIndex * newIndex = nullptr;
     bool added = false;
     bool modified = false;
 };
@@ -39,6 +48,10 @@ public:
 
     // returns list of all current columns with statuses
     QList<TableColumnStatus> currColumnsWithStatus() const;
+
+    QList<TableIndex *> removedIndices() const;
+
+    QList<TableIndexStatus> currIndicesWithStatus() const;
 
 private:
 

@@ -23,6 +23,8 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
     diff.setCurrTable(newData);
     diff.setPrevTable(table);
 
+    // Columns -----------------------------------------------------------------
+
     auto modifiedColumns = diff.modifiedColumns();
     for (auto & modifiedColumnPair : modifiedColumns) {
 
@@ -86,6 +88,33 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
                 .arg(_connection->quoteIdentifier(droppedColumn->name()));
         specs << dropSt;
     }
+
+    // Indices -----------------------------------------------------------------
+
+    auto droppedIndices = diff.removedIndices();
+    for (const TableIndex * droppedIndex : droppedIndices) {
+        specs << dropSQL(droppedIndex);
+    }
+
+    auto indexStatuses = diff.currIndicesWithStatus();
+    for (const auto & indexStatus : indexStatuses) {
+
+        if (indexStatus.modified == false && indexStatus.added == false) {
+            continue;
+        }
+
+        if (indexStatus.modified) {
+            specs << dropSQL(indexStatus.oldIndex);
+        }
+        if (indexStatus.added || indexStatus.modified) {
+            QString SQL = sqlCode(indexStatus.newIndex);
+            if (!SQL.isEmpty()) {
+                specs << "ADD " + SQL;
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------
 
     if (!specs.isEmpty()) {
         QString joinedSpecs = specs.join(",\n");
@@ -257,6 +286,37 @@ QString MySQLTableEditor::sqlCode(const TableColumn * column) const
     return SQL;
 }
 
+QString MySQLTableEditor::sqlCode(TableIndex * index) const
+{
+    if (index->columnsCount() == 0) {
+        return QString();
+    }
+    QString SQL;
+
+    if (index->isPrimaryKey()) {
+        SQL += "PRIMARY KEY ";
+    } else {
+        if (index->classType() != TableIndexClass::Key) {
+            SQL += index->classTypeStr() + " ";
+        }
+        SQL += "INDEX " + _connection->quoteIdentifier(index->name());
+    }
+
+    SQL += " (";
+    QStringList columnNames;
+    for (const auto & column : index->columns()) {
+        columnNames << _connection->quoteIdentifier(column.name());
+    }
+    SQL += columnNames.join(", ");
+    SQL += ')';
+
+    if (index->indexType() != TableIndexType::None) {
+        SQL += " USING " + index->indexTypeStr();
+    }
+
+    return SQL;
+}
+
 QString MySQLTableEditor::alterColumnSQL(const QString & oldName,
                                          const QString & colSQL) const
 {
@@ -270,6 +330,18 @@ QString MySQLTableEditor::dropSQL(EntityInDatabase * entity) const
     }
     Q_ASSERT(0);
     return QString();
+}
+
+QString MySQLTableEditor::dropSQL(const TableIndex * index) const
+{
+    QString indexName;
+    if (index->isPrimaryKey()) {
+        indexName = "PRIMARY KEY";
+    } else {
+        indexName = "INDEX " + _connection->quoteIdentifier(index->name());
+    }
+
+    return QString("DROP %1").arg(indexName);
 }
 
 QStringList MySQLTableEditor::specs(TableEntity * table, TableEntity * newData)

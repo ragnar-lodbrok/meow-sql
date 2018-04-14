@@ -54,6 +54,7 @@ TableStructure * TableStructure::deepCopy(TableEntity * parentTable) const
     structure->_isCheckSum = this->_isCheckSum;
     structure->_maxRows = this->_maxRows;
     structure->_nextColumnUniqueId = this->_nextColumnUniqueId;
+    structure->_nextIndexUniqueId = this->_nextIndexUniqueId;
 
     structure->_columns.clear();
     structure->_indicies.clear();
@@ -108,6 +109,7 @@ int TableStructure::insertEmptyDefaultColumn(int afterIndex)
 TableIndex * TableStructure::insertEmptyDefaultIndex()
 {
     TableIndex * newIndexObj = new TableIndex(_table);
+    newIndexObj->setId(nextIndexUniqueId());
     newIndexObj->setName(QString("index_%1").arg(_indicies.size() + 1));
 
     if (_indicies.size() == 0) {
@@ -139,8 +141,18 @@ int TableStructure::insertEmptyDefaultColumnToIndex(int index)
 
 void TableStructure::appendColumn(TableColumn * column)
 {
+    // We use unique ids for columns/indices/etc for same objects in different
+    // structures e.g. after copying them to edit. This way we can say that two
+    // objects represent the same column in db even a user changed one of it's
+    // name
     column->setId(nextColumnUniqueId());
     _columns.append(column);
+}
+
+void TableStructure::appendIndex(TableIndex * index)
+{
+    index->setId(nextIndexUniqueId());
+    _indicies.append(index);
 }
 
 bool TableStructure::canRemoveColumn(int index) const
@@ -256,7 +268,7 @@ bool TableStructure::canMoveIndexColumnDown(int index, int column) const
 
 TableColumn * TableStructure::columnById(unsigned id) const
 {
-    for (auto & column : _columns) {
+    for (const auto & column : _columns) {
         if (column->id() == id) {
             return column;
         }
@@ -277,6 +289,16 @@ TableColumn * TableStructure::columnByName(const QString & name) const
 TableColumn * TableStructure::prevColumn(TableColumn * column) const
 {
     return _columns.value(_columns.indexOf(column) - 1, nullptr);
+}
+
+TableIndex * TableStructure::indexById(unsigned id) const
+{
+    for (const auto & index : _indicies) {
+        if (index->id() == id) {
+            return index;
+        }
+    }
+    return nullptr;
 }
 
 } // namespace db

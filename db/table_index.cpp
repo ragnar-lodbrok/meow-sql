@@ -95,7 +95,8 @@ QString TableIndex::Column::name() const {
 TableIndex::TableIndex(TableEntity * table)
     :_table(table),
      _class(TableIndexClass::None),
-     _type(TableIndexType::None)
+     _type(TableIndexType::None),
+     _id(0)
 {
 
 }
@@ -135,6 +136,17 @@ int TableIndex::addColumn(const QString & name)
     return -1;
 }
 
+bool TableIndex::replaceColumn(int index, const QString & name)
+{
+    if (!isValidColumnIndex(index)) return false;
+    TableColumn * column = _table->structure()->columnByName(name);
+    if (column) {
+        _columns.replace(index, Column(this, column->id()));
+        return true;
+    }
+    return false;
+}
+
 void TableIndex::setTable(TableEntity * table)
 {
     _table = table;
@@ -151,6 +163,39 @@ TableIndex * TableIndex::deepCopy(TableEntity * table)
     }
 
     return copy;
+}
+
+bool TableIndex::dataDiffers(const TableIndex * other) const
+{
+     if (this == other) return false;
+
+     //if (_table != other->_table) return true; // TODO
+     if (_name != other->_name) return true;
+     if (_class != other->_class) return true;
+     if (_type != other->_type) return true;
+
+     auto isNotSubset = [=](
+         const QList<Column> & columns1,
+         const QList<Column> & columns2) -> bool {
+         for (const auto & column1 : columns1) {
+             bool found = false;
+             for (const auto & column2 : columns2) {
+                 if (column1.id() == column2.id()) {
+                     found = true;
+                     break;
+                 }
+             }
+             if (!found) {
+                 return true;
+             }
+         }
+         return false;
+     };
+
+     if (isNotSubset( _columns, other->_columns) ) return true;
+     if (isNotSubset( other->_columns, _columns) ) return true;
+
+     return false;
 }
 
 } // namespace db

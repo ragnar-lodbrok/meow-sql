@@ -4,6 +4,7 @@
 #include "cr_table_info_indexes_tab.h"
 #include "cr_table_info_foreign_keys_tab.h"
 #include "models/forms/table_info_form.h"
+#include "models/forms/table_indexes_model.h"
 
 namespace meow {
 namespace ui {
@@ -15,6 +16,12 @@ TableInfo::TableInfo(models::forms::TableInfoForm * form, QWidget *parent) :
     _form(form)
 {
     createTabs();
+
+    connect(_form->indexesModel(),
+            &meow::models::forms::TableIndexesModel::modified,
+            this,
+            &TableInfo::indicesModified
+    );
 }
 
 void TableInfo::refreshData()
