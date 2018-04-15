@@ -20,11 +20,11 @@ though it can be run and do some work (warning: do not use in production!!!).
 3. Sessions manager: managing multiple connections (warn: no password encryption!) 
 4. Connection to single session (=server) at once (but multiple databases).
 5. Tree of db objects like databases and tables/views/striggers/functions/procedures.
-6. Table: view columns (editable), indexes (read-only) and foreign keys (read-only).
+6. Table: view columns (editable), indexes (editable) and foreign keys (read-only).
 7. Table: view data (read-only).
 8. SQL: editor with simple syntax highlighting (no autocomplete).
 9. SQL: execute multiple statements at once and see results of SELECT statements 
-10. Drop tables
+10. Create and drop tables
 
 ## Contributing
 
