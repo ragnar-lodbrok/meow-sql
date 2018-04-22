@@ -269,7 +269,8 @@ void TableStructureParser::parseTableOptions(TableEntity * table)
 
     auto regExpIt = _tableOptionsRegexp->globalMatch(createSQL);
 
-    // TODO we already read some data like Engine, Collation in TableStructureParser
+    // TODO we already read some data like Engine, Collation in
+    // Entities fetcher (SHOW TABLE STATUS)
 
     while (regExpIt.hasNext()) {
         QRegularExpressionMatch optionMatch = regExpIt.next();
@@ -296,7 +297,9 @@ void TableStructureParser::parseTableOptions(TableEntity * table)
     }
 
     table->setEngine(engineStr);
-    table->setCollation(collation);
+    if (collation.length()) {
+        table->setCollation(collation);
+    }
 
     // Put additional (info-like) attributes into structure
     structure->setComment(comment);

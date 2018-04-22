@@ -123,7 +123,8 @@ SOURCES += main.cpp\
     models/delegates/checkbox_delegate.cpp \
     ui/main_window/central_left_db_tree.cpp \
     ui/main_window/central_right/table/cr_table_indexes_tools.cpp \
-    models/delegates/table_index_delegate.cpp
+    models/delegates/table_index_delegate.cpp \
+    db/mysql_table_engines_fetcher.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -225,7 +226,9 @@ HEADERS  += app.h \
     models/delegates/checkbox_delegate.h \
     ui/main_window/central_left_db_tree.h \
     ui/main_window/central_right/table/cr_table_indexes_tools.h \
-    models/delegates/table_index_delegate.h
+    models/delegates/table_index_delegate.h \
+    db/table_engines_fetcher.h \
+    db/mysql_table_engines_fetcher.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

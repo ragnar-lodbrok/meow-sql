@@ -61,12 +61,16 @@ public:
 
     virtual QString getCreateCode(const Entity * entity) override;
 
+    virtual QStringList tableRowFormats() const override;
+
     MySQLResult lastRawResultAt(std::size_t index) const;
 
 protected:
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() override;
 
     virtual TableEditor * createTableEditor() override;
+
+    virtual TableEnginesFetcher * createTableEnginesFetcher() override;
 
 private:
     MYSQL * _handle;

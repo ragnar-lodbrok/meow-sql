@@ -8,6 +8,7 @@
 #include "db/entity/table_entity.h"
 #include "mysql_table_editor.h"
 #include "mysql_collation_fetcher.h"
+#include "mysql_table_engines_fetcher.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -425,6 +426,14 @@ QString MySQLConnection::getCreateCode(const Entity * entity) // override
     return getCell(SQL, column);
 }
 
+QStringList MySQLConnection::tableRowFormats() const
+{
+    QStringList formats;
+    formats << "DEFAULT" << "DYNAMIC" << "FIXED"
+            << "COMPRESSED" << "REDUNDANT" << "COMPACT";
+    return formats;
+}
+
 MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)
 {
     return std::shared_ptr<MYSQL_RES> (nativeMySQLRes,
@@ -444,6 +453,11 @@ DataBaseEntitiesFetcher * MySQLConnection::createDbEntitiesFetcher() // override
 TableEditor * MySQLConnection::createTableEditor()
 {
     return new MySQLTableEditor(this);
+}
+
+TableEnginesFetcher * MySQLConnection::createTableEnginesFetcher()
+{
+    return new MySQLTableEnginesFetcher(this);
 }
 
 } // namespace db

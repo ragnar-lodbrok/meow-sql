@@ -61,7 +61,7 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
     if (resPtr) {
 
         std::size_t indexOfName       = resPtr->indexOfColumn("Name");
-        std::size_t indexOfEngine     = resPtr->indexOfColumn("Engine");;
+        std::size_t indexOfEngine     = resPtr->indexOfColumn("Engine");
         std::size_t indexOfDataLen    = resPtr->indexOfColumn("Data_length");
         std::size_t indexOfIndexLen   = resPtr->indexOfColumn("Index_length");
         std::size_t indexOfRows       = resPtr->indexOfColumn("Rows");

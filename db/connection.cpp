@@ -3,6 +3,7 @@
 #include "entity/entities_fetcher.h"
 #include "db/table_editor.h"
 #include "db/entity/table_entity.h"
+#include "table_engines_fetcher.h"
 
 namespace meow {
 namespace db {
@@ -191,6 +192,14 @@ const QStringList Connection::collationList()
         _collationFetcher.reset(createCollationFetcher());
     }
     return _collationFetcher->getList();
+}
+
+const QStringList Connection::tableEnginesList()
+{
+    if (_tableEnginesFetcher == nullptr) {
+        _tableEnginesFetcher.reset(createTableEnginesFetcher());
+    }
+    return _tableEnginesFetcher->getList();
 }
 
 void Connection::emitDatabaseChanged(const QString& newName)

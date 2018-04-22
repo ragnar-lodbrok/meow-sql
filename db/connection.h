@@ -22,6 +22,7 @@ class QueryDataFetcher;
 class TableEntity;
 class EntityInDatabase;
 class TableEditor;
+class TableEnginesFetcher;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
@@ -45,7 +46,7 @@ public:
 
     QStringList getColumn(const QString & SQL, std::size_t index = 0); // H: GetCol
     QString getCell(const QString & SQL, std::size_t index = 0); //H:  GetVar
-    QString getCell(const QString & SQL,const QString & columnName);
+    QString getCell(const QString & SQL, const QString & columnName);
     QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String): TDBQuery;
     QStringList allDatabases(bool refresh = false);
     void setAllDatabases(const QStringList & databases);
@@ -60,6 +61,7 @@ public:
                             QChar glue = QChar::Null) const;
 
     const QStringList collationList();
+    const QStringList tableEnginesList();
 
     virtual QStringList fetchDatabases() = 0;
     virtual QueryPtr createQuery() = 0;
@@ -85,6 +87,7 @@ public:
 
     virtual QueryDataFetcher * createQueryDataFetcher() = 0;
     virtual QString getCreateCode(const Entity * entity) = 0;
+    virtual QStringList tableRowFormats() const = 0;
 
     void parseTableStructure(TableEntity * table, bool refresh = false);
 
@@ -110,6 +113,7 @@ protected:
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() = 0;
     virtual TableEditor * createTableEditor() = 0;
     virtual CollationFetcher * createCollationFetcher() = 0;
+    virtual TableEnginesFetcher * createTableEnginesFetcher() = 0;
 private:
     //int _connectionStarted;
     //int _serverUptime;
@@ -121,6 +125,7 @@ private:
     std::pair<bool, QStringList> _allDatabasesCached; // < cached?, data >
     TableStructureParser _tableStructureParser;
     std::unique_ptr<CollationFetcher> _collationFetcher;
+    std::unique_ptr<TableEnginesFetcher> _tableEnginesFetcher;
 };
 
 } // namespace db

@@ -1,5 +1,5 @@
-#ifndef DB_COLLATION_FETCHER_H
-#define DB_COLLATION_FETCHER_H
+#ifndef DB_TABLE_ENGINES_FETCHER_H
+#define DB_TABLE_ENGINES_FETCHER_H
 
 #include <QStringList>
 #include <QPair>
@@ -9,14 +9,14 @@ namespace db {
 
 class Connection;
 
-class CollationFetcher
+class TableEnginesFetcher
 {
 public:
-    CollationFetcher(Connection * connection)
+    TableEnginesFetcher(Connection * connection)
         : _connection(connection),
           _list(false, {}) {}
 
-    virtual ~CollationFetcher() {}
+    virtual ~TableEnginesFetcher() {}
 
     virtual QStringList run() = 0;
 
@@ -31,6 +31,8 @@ public:
         return _list.second;
     }
 
+    // TODO: default engine ?
+
 protected:
     Connection * _connection;
 private:
@@ -40,4 +42,4 @@ private:
 } // namespace db
 } // namespace meow
 
-#endif // DB_COLLATION_FETCHER_H
+#endif // DB_TABLE_ENGINES_FETCHER_H

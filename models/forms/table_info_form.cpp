@@ -93,10 +93,31 @@ const QString TableInfoForm::autoInc() const
     return autoInc > 0 ? QString::number(autoInc) : QString();
 }
 
+void TableInfoForm::setAutoInc(const QString & value)
+{
+    bool ok = true;
+    db::ulonglong valueInt = value.isEmpty() ? 0 : value.toULongLong(&ok);
+    if (ok && _table) {
+        _table->structure()->setAutoInc(valueInt);
+        setHasUnsavedChanges(true);
+    }
+}
+
 const QString TableInfoForm::avgRowLen() const
 {
     auto avgRowLen = _table ? _table->structure()->avgRowLen() : 0;
     return avgRowLen > 0 ? QString::number(avgRowLen) : QString();
+}
+
+void TableInfoForm::setAvgRowLen(const QString & value)
+{
+    bool ok = true;
+    db::ulonglong valueInt = value.isEmpty() ? 0 : value.toULongLong(&ok);
+    if (ok && _table) {
+        _table->structure()->setAvgRowLen(valueInt);
+        setHasUnsavedChanges(true);
+    }
+
 }
 
 const QString TableInfoForm::maxRows() const
@@ -105,14 +126,62 @@ const QString TableInfoForm::maxRows() const
     return maxRows > 0 ? QString::number(maxRows) : QString();
 }
 
+void TableInfoForm::setMaxRows(const QString & value)
+{
+    bool ok = true;
+    db::ulonglong valueInt = value.isEmpty() ? 0 : value.toULongLong(&ok);
+    if (ok && _table) {
+        _table->structure()->setMaxRows(valueInt);
+        setHasUnsavedChanges(true);
+    }
+}
+
+const QStringList TableInfoForm::allCollations() const
+{
+    if (_table) {
+        return _table->connection()->collationList();
+    }
+    return {};
+}
+
 const QString TableInfoForm::collation() const
 {
     return _table ? _table->collation() : QString();
 }
 
+void TableInfoForm::setCollation(const QString & value)
+{
+    if (_table) {
+        _table->setCollation(value);
+        setHasUnsavedChanges(true);
+    }
+}
+
+const QStringList TableInfoForm::allEngines() const
+{
+    if (_table) {
+        return _table->connection()->tableEnginesList();
+    }
+    return {};
+}
+
 const QString TableInfoForm::engine() const
 {
+    // TODO: return server default if NULL?
     return _table ? _table->engineStr() : QString();
+}
+
+void TableInfoForm::setEngine(const QString & value)
+{
+    if (_table) {
+        _table->setEngine(value);
+        setHasUnsavedChanges(true);
+    }
+}
+
+const QStringList TableInfoForm::allRowFormats() const
+{
+    return _table ? _table->connection()->tableRowFormats() : QStringList();
 }
 
 const QString TableInfoForm::rowFormat() const
@@ -123,9 +192,25 @@ const QString TableInfoForm::rowFormat() const
     return QString("DEFAULT");
 }
 
+void TableInfoForm::setRowFormat(const QString & value)
+{
+    if (_table) {
+        _table->structure()->setRowFormat(value);
+        setHasUnsavedChanges(true);
+    }
+}
+
 bool TableInfoForm::isCheckSum() const
 {
     return _table ? _table->structure()->isCheckSum() : false;
+}
+
+void TableInfoForm::setCheckSum(bool value)
+{
+    if (_table && value != _table->structure()->isCheckSum()) {
+        _table->structure()->setCheckSum(value);
+        setHasUnsavedChanges(true);
+    }
 }
 
 TableIndexesModel * TableInfoForm::indexesModel()

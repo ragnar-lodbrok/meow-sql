@@ -34,12 +34,28 @@ public:
     void setTableComment(const QString & name);
 
     const QString autoInc() const;
+    void setAutoInc(const QString & value);
+
     const QString avgRowLen() const;
+    void setAvgRowLen(const QString & value);
+
     const QString maxRows() const;
+    void setMaxRows(const QString & value);
+
+    const QStringList allCollations() const;
     const QString collation() const;
+    void setCollation(const QString & value);
+
+    const QStringList allEngines() const;
     const QString engine() const;
+    void setEngine(const QString & value);
+
+    const QStringList allRowFormats() const;
     const QString rowFormat() const;
+    void setRowFormat(const QString & value);
+
     bool isCheckSum() const;
+    void setCheckSum(bool value);
 
     TableIndexesModel * indexesModel();
     TableForeignKeysModel * foreignKeysModel();
