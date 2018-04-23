@@ -167,8 +167,11 @@ const QStringList TableInfoForm::allEngines() const
 
 const QString TableInfoForm::engine() const
 {
-    // TODO: return server default if NULL?
-    return _table ? _table->engineStr() : QString();
+    QString engine = _table ? _table->engineStr() : QString();
+    if (engine.isEmpty()) {
+        return _table->connection()->defaultTableEngine();
+    }
+    return engine;
 }
 
 void TableInfoForm::setEngine(const QString & value)

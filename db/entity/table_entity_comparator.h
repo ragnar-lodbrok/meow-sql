@@ -40,6 +40,13 @@ public:
 
     bool nameDiffers() const;
     bool commentDiffers() const;
+    bool collateDiffers() const;
+    bool engineDiffers() const;
+    bool rowFormatDiffers() const;
+    bool checksumDiffers() const;
+    bool autoIncrementDiffers() const;
+    bool avgRowLenDiffers() const;
+    bool maxRowsDiffers() const;
 
     // return pairs of columns that (data) were modified (not removed, inserted)
     QList<TableColumnPair> modifiedColumns() const;

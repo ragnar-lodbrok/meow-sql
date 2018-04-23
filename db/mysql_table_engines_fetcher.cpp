@@ -32,9 +32,14 @@ QStringList MySQLTableEnginesFetcher::run()
         while (resPtr->isEof() == false) {
             QString support = resPtr->curRowColumn(indexOfSupport).toLower();
 
-            if (support == "yes" || support == "default") {
+            bool isDefault = false;
+            if (support == "yes" || (isDefault = (support == "default"))) {
                 QString name = resPtr->curRowColumn(indexOfEngine);
-                engines << name;
+                if (isDefault) {
+                    engines.push_front(name);
+                } else {
+                    engines << name;
+                }
             }
 
             resPtr->seekNext();
@@ -45,10 +50,10 @@ QStringList MySQLTableEnginesFetcher::run()
                  << "Failed to SHOW ENGINES: " << ex.message();
         // TODO: normal fallback
 
-        engines << "MyISAM"
+        engines << "InnoDB"
+                << "MyISAM"
                 << "CSV"
                 << "BLACKHOLE"
-                << "InnoDB"
                 << "MRG_MYISAM"
                 << "PERFORMANCE_SCHEMA"
                 << "ARCHIVE"

@@ -18,6 +18,7 @@ public:
 
     virtual ~TableEnginesFetcher() {}
 
+    // First will be default
     virtual QStringList run() = 0;
 
     const QStringList getList(bool refresh = false) {
@@ -26,10 +27,21 @@ public:
             return _list.second;
         }
         _list.second = run();
+        if (_list.second.size()) {
+            _default = _list.second[0];
+        }
         _list.second.sort(Qt::CaseInsensitive);
         _list.first = true;
         return _list.second;
     }
+
+    QString defaultEngine() {
+        if (!_list.first) {
+            getList(false);
+        }
+        return _default;
+    }
+
 
     // TODO: default engine ?
 
@@ -37,6 +49,7 @@ protected:
     Connection * _connection;
 private:
     QPair<bool, QStringList> _list;
+    QString _default;
 };
 
 } // namespace db

@@ -62,6 +62,7 @@ public:
 
     const QStringList collationList();
     const QStringList tableEnginesList();
+    QString defaultTableEngine();
 
     virtual QStringList fetchDatabases() = 0;
     virtual QueryPtr createQuery() = 0;

@@ -202,6 +202,14 @@ const QStringList Connection::tableEnginesList()
     return _tableEnginesFetcher->getList();
 }
 
+QString Connection::defaultTableEngine()
+{
+    if (_tableEnginesFetcher == nullptr) {
+        _tableEnginesFetcher.reset(createTableEnginesFetcher());
+    }
+    return _tableEnginesFetcher->defaultEngine();
+}
+
 void Connection::emitDatabaseChanged(const QString& newName)
 {
     emit databaseChanged(newName);

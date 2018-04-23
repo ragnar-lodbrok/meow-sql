@@ -370,6 +370,46 @@ QStringList MySQLTableEditor::specs(TableEntity * table, TableEntity * newData)
         specs << "COMMENT=" + _connection->escapeString(comment);
     }
 
+    if (insert) {
+        // TODO
+    } else {
+
+        QString collation = newData->collation();
+        QString engine = newData->engineStr();
+        QString rowFormat = newData->structure()->rowFormatStr();
+
+        if (diff.collateDiffers() && !collation.isEmpty()) {
+            specs << "COLLATE="
+                     + _connection->escapeString(collation);
+        }
+        if (diff.engineDiffers() && !engine.isEmpty()) {
+            if (newData->connection()->serverVersionInt() < 40018) {
+                specs << "TYPE=" + engine;
+            } else {
+                specs << "ENGINE=" + engine;
+            }
+        }
+        if (diff.rowFormatDiffers() && !rowFormat.isEmpty()) {
+            specs << "ROW_FORMAT=" + rowFormat;
+        }
+        if (diff.checksumDiffers()) {
+            int checksum = newData->structure()->isCheckSum();
+            specs << "CHECKSUM=" + QString::number(checksum);
+        }
+        if (diff.autoIncrementDiffers()) {
+            db::ulonglong autoIncr = newData->structure()->autoInc();
+            specs << "AUTO_INCREMENT=" + QString::number(autoIncr);
+        }
+        if (diff.avgRowLenDiffers()) {
+            db::ulonglong avgRowLen = newData->structure()->avgRowLen();
+            specs << "AVG_ROW_LENGTH=" + QString::number(avgRowLen);
+        }
+        if (diff.maxRowsDiffers()) {
+            db::ulonglong maxRows = newData->structure()->maxRows();
+            specs << "MAX_ROWS=" + QString::number(maxRows);
+        }
+    }
+
     return specs;
 }
 

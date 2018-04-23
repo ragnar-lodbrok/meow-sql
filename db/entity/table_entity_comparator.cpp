@@ -29,6 +29,62 @@ bool TableEntityComparator::commentDiffers() const
     return commentPrev != commentCurr;
 }
 
+bool TableEntityComparator::collateDiffers() const
+{
+    QString prev = _prev ? _prev->collation() : QString();
+    QString curr = _curr ? _curr->collation() : QString();
+
+    return prev != curr;
+}
+
+bool TableEntityComparator::engineDiffers() const
+{
+    QString prev = _prev ? _prev->engineStr() : QString();
+    QString curr = _curr ? _curr->engineStr() : QString();
+
+    return prev != curr;
+}
+
+bool TableEntityComparator::rowFormatDiffers() const
+{
+    QString prev = _prev ? _prev->structure()->rowFormatStr() : QString();
+    QString curr = _curr ? _curr->structure()->rowFormatStr() : QString();
+
+    return prev != curr;
+}
+
+bool TableEntityComparator::checksumDiffers() const
+{
+    bool prev = _prev ? _prev->structure()->isCheckSum() : false;
+    bool curr = _curr ? _curr->structure()->isCheckSum() : false;
+
+    return prev != curr;
+}
+
+bool TableEntityComparator::autoIncrementDiffers() const
+{
+    db::ulonglong prev = _prev ? _prev->structure()->autoInc() : 0;
+    db::ulonglong curr = _curr ? _curr->structure()->autoInc() : 0;
+
+    return prev != curr;
+}
+
+bool TableEntityComparator::avgRowLenDiffers() const
+{
+    db::ulonglong prev = _prev ? _prev->structure()->avgRowLen() : 0;
+    db::ulonglong curr = _curr ? _curr->structure()->avgRowLen() : 0;
+
+    return prev != curr;
+}
+
+bool TableEntityComparator::maxRowsDiffers() const
+{
+    db::ulonglong prev = _prev ? _prev->structure()->maxRows() : 0;
+    db::ulonglong curr = _curr ? _curr->structure()->maxRows() : 0;
+
+    return prev != curr;
+}
+
 QList<TableColumnPair> TableEntityComparator::modifiedColumns() const
 {
     QList<TableColumnPair> modifiedColumns;
