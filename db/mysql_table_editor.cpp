@@ -371,7 +371,45 @@ QStringList MySQLTableEditor::specs(TableEntity * table, TableEntity * newData)
     }
 
     if (insert) {
-        // TODO
+        // Listening: Septic Flesh - Anubis
+        QString collation = table->collation();
+        QString engine = table->engineStr();
+        QString rowFormat = table->structure()->rowFormatStr();
+
+        if (!collation.isEmpty()) {
+            specs << "COLLATE="
+                     + _connection->escapeString(collation);
+        }
+        if (!engine.isEmpty()) {
+            if (table->connection()->serverVersionInt() < 40018) {
+                specs << "TYPE=" + engine;
+            } else {
+                specs << "ENGINE=" + engine;
+            }
+        }
+        if (!rowFormat.isEmpty() && rowFormat != "DEFAULT") {
+            specs << "ROW_FORMAT=" + rowFormat;
+        }
+
+        int checksum = table->structure()->isCheckSum();
+        if (checksum) {
+            specs << "CHECKSUM=" + QString::number(checksum);
+        }
+
+        db::ulonglong autoIncr = table->structure()->autoInc();
+        if (autoIncr) {
+            specs << "AUTO_INCREMENT=" + QString::number(autoIncr);
+        }
+
+        db::ulonglong avgRowLen = table->structure()->avgRowLen();
+        if (avgRowLen) {
+            specs << "AVG_ROW_LENGTH=" + QString::number(avgRowLen);
+        }
+
+        db::ulonglong maxRows = table->structure()->maxRows();
+        if (maxRows) {
+            specs << "MAX_ROWS=" + QString::number(maxRows);
+        }
     } else {
 
         QString collation = newData->collation();
