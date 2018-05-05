@@ -266,6 +266,32 @@ bool TableStructure::canMoveIndexColumnDown(int index, int column) const
     return false;
 }
 
+bool TableStructure::isValidKey(int index) const
+{
+    return index >= 0 && index < _indicies.size();
+}
+
+bool TableStructure::canRemoveKey(int index) const
+{
+    return isValidKey(index);
+}
+
+bool TableStructure::removeKeyAt(int index)
+{
+    Q_UNUSED(index);
+    return false; // TODO
+}
+
+bool TableStructure::canRemoveAllKeys() const
+{
+    return _foreignKeys.size() > 0;
+}
+
+void TableStructure::removeAllKeys()
+{
+    // TODO
+}
+
 TableColumn * TableStructure::columnById(unsigned id) const
 {
     for (const auto & column : _columns) {

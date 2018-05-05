@@ -12,6 +12,8 @@ class TableEntity;
 namespace models {
 namespace forms {
 
+class TableInfoForm;
+
 class TableForeignKeysModel : public QAbstractTableModel
 {
 public:
@@ -26,7 +28,7 @@ public:
         Count
     };
 
-    TableForeignKeysModel(QObject * parent = nullptr);
+    TableForeignKeysModel(TableInfoForm * parent);
 
     void setTable(meow::db::TableEntity * table);
 
@@ -39,6 +41,15 @@ public:
 
     int columnWidth(int column) const;
 
+    bool canAddKey() const;
+    int insertEmptyDefaultKey();
+
+    bool canRemoveKey(const QModelIndex & curIndex) const;
+    bool removeKey(const QModelIndex & curIndex);
+
+    bool canRemoveAllKeys() const;
+    void removeAllKeys();
+
 private:
 
     QString textDataAt(int row, int col) const;
@@ -46,6 +57,7 @@ private:
     void removeData();
     void insertData();
 
+    TableInfoForm * _tableForm;
     meow::db::TableEntity * _table;
 
 };

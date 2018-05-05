@@ -63,6 +63,8 @@ public:
 
     virtual QStringList tableRowFormats() const override;
 
+    virtual bool supportsForeignKeys(const TableEntity * table) const override;
+
     MySQLResult lastRawResultAt(std::size_t index) const;
 
 protected:

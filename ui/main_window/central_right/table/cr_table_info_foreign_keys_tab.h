@@ -16,18 +16,30 @@ namespace main_window {
 namespace central_right {
 namespace table_info {
 
+class TableForeignKeysTools;
+
 class ForeignKeysTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ForeignKeysTab(models::forms::TableInfoForm * form,
-                            QWidget *parent = nullptr);
+    ForeignKeysTab(models::forms::TableInfoForm * form,
+                   QWidget *parent = nullptr);
 
+    void refreshData();
+    void validateControls();
+
+    Q_SLOT void actionAddKey(bool checked);
+    Q_SLOT void actionRemoveKey(bool checked);
+    Q_SLOT void actionClearKeys(bool checked);
 
 private:
     void createWidgets();
 
+    Q_SLOT void currentKeyChanged(const QModelIndex &current,
+                                  const QModelIndex &previous);
+
     models::forms::TableInfoForm * _tableForm;
+    TableForeignKeysTools * _tools;
     QTableView * _fKeysTable;
     QHBoxLayout * _mainLayout;
 

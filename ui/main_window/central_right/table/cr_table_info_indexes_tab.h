@@ -22,8 +22,8 @@ class IndexesTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit IndexesTab(models::forms::TableInfoForm * form,
-                        QWidget *parent = nullptr);
+    IndexesTab(models::forms::TableInfoForm * form,
+               QWidget *parent = nullptr);
 
     void refreshData();
     void validateControls();

@@ -83,6 +83,14 @@ public:
 
     bool canMoveIndexColumnDown(int index, int column) const;
 
+    bool isValidKey(int index) const;
+
+    bool canRemoveKey(int index) const;
+    bool removeKeyAt(int index);
+
+    bool canRemoveAllKeys() const;
+    void removeAllKeys();
+
     unsigned nextColumnUniqueId() { return ++_nextColumnUniqueId; }
     TableColumn * columnById(unsigned id) const;
     TableColumn * columnByName(const QString & name) const;

@@ -89,6 +89,7 @@ public:
     virtual QueryDataFetcher * createQueryDataFetcher() = 0;
     virtual QString getCreateCode(const Entity * entity) = 0;
     virtual QStringList tableRowFormats() const = 0;
+    virtual bool supportsForeignKeys(const TableEntity * table) const = 0;
 
     void parseTableStructure(TableEntity * table, bool refresh = false);
 

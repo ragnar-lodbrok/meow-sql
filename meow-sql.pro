@@ -124,7 +124,8 @@ SOURCES += main.cpp\
     ui/main_window/central_left_db_tree.cpp \
     ui/main_window/central_right/table/cr_table_indexes_tools.cpp \
     models/delegates/table_index_delegate.cpp \
-    db/mysql_table_engines_fetcher.cpp
+    db/mysql_table_engines_fetcher.cpp \
+    ui/main_window/central_right/table/cr_table_foreign_keys_tools.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -228,7 +229,8 @@ HEADERS  += app.h \
     ui/main_window/central_right/table/cr_table_indexes_tools.h \
     models/delegates/table_index_delegate.h \
     db/table_engines_fetcher.h \
-    db/mysql_table_engines_fetcher.h
+    db/mysql_table_engines_fetcher.h \
+    ui/main_window/central_right/table/cr_table_foreign_keys_tools.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

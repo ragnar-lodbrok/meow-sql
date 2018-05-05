@@ -1,4 +1,5 @@
 #include "table_foreign_keys_model.h"
+#include "table_info_form.h"
 #include "db/entity/table_entity.h"
 #include <QIcon>
 
@@ -6,8 +7,9 @@ namespace meow {
 namespace models {
 namespace forms {
 
-TableForeignKeysModel::TableForeignKeysModel(QObject * parent)
+TableForeignKeysModel::TableForeignKeysModel(TableInfoForm * parent)
     : QAbstractTableModel(parent),
+      _tableForm(parent),
       _table(nullptr)
 {
 
@@ -121,6 +123,38 @@ int TableForeignKeysModel::columnWidth(int column) const
     default:
        return 130;
     }
+}
+
+bool TableForeignKeysModel::canAddKey() const
+{
+    return _tableForm->supportsForeignKeys();
+}
+
+int TableForeignKeysModel::insertEmptyDefaultKey()
+{
+    return 0; // TODO
+}
+
+bool TableForeignKeysModel::canRemoveKey(const QModelIndex & curIndex) const
+{
+    if (_table == nullptr || curIndex.isValid() == false) return false;
+    return _table->structure()->canRemoveKey(curIndex.row());
+}
+
+bool TableForeignKeysModel::removeKey(const QModelIndex & curIndex)
+{
+    Q_UNUSED(curIndex);
+    return false; // TODO
+}
+
+bool TableForeignKeysModel::canRemoveAllKeys() const
+{
+    return _table ? _table->structure()->canRemoveAllKeys() : false;
+}
+
+void TableForeignKeysModel::removeAllKeys()
+{
+    // TODO
 }
 
 QString TableForeignKeysModel::textDataAt(int row, int col) const

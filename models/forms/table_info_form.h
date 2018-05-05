@@ -60,6 +60,8 @@ public:
     TableIndexesModel * indexesModel();
     TableForeignKeysModel * foreignKeysModel();
 
+    bool supportsForeignKeys() const;
+
     void save();
 
     bool hasUnsavedChanges() const { return _hasUnsavedChanges; }

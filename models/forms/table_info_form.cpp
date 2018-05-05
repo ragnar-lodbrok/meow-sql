@@ -228,10 +228,15 @@ TableIndexesModel * TableInfoForm::indexesModel()
 TableForeignKeysModel * TableInfoForm::foreignKeysModel()
 {
     if (!_fKeysModel) {
-        _fKeysModel = new TableForeignKeysModel();
+        _fKeysModel = new TableForeignKeysModel(this);
         _fKeysModel->setTable(_table);
     }
     return _fKeysModel;
+}
+
+bool TableInfoForm::supportsForeignKeys() const
+{
+    return _table ? _table->connection()->supportsForeignKeys(_table) : false;
 }
 
 void TableInfoForm::save()

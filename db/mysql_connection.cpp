@@ -434,6 +434,11 @@ QStringList MySQLConnection::tableRowFormats() const
     return formats;
 }
 
+bool MySQLConnection::supportsForeignKeys(const TableEntity * table) const
+{
+    return table->engineStr().toLower() == "innodb"; // TODO: ndb
+}
+
 MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)
 {
     return std::shared_ptr<MYSQL_RES> (nativeMySQLRes,

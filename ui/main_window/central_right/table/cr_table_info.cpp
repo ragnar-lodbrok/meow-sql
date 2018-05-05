@@ -29,6 +29,7 @@ void TableInfo::refreshData()
     _basicTab->refreshData();
     _optionsTab->refreshData();
     _indexesTab->refreshData();
+    _fKeysTab->refreshData();
 }
 
 void TableInfo::onBeforeEntityEditing()
