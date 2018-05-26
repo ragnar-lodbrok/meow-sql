@@ -10,7 +10,9 @@ TableStructure::TableStructure(TableEntity * table)
       _autoInc(0),
       _maxRows(0),
       _isCheckSum(false),
-      _nextColumnUniqueId(0)
+      _nextColumnUniqueId(0),
+      _nextIndexUniqueId(0),
+      _nextForeignKeyUniqueId(0)
 {
 
 }
@@ -55,6 +57,7 @@ TableStructure * TableStructure::deepCopy(TableEntity * parentTable) const
     structure->_maxRows = this->_maxRows;
     structure->_nextColumnUniqueId = this->_nextColumnUniqueId;
     structure->_nextIndexUniqueId = this->_nextIndexUniqueId;
+    structure->_nextForeignKeyUniqueId = this->_nextForeignKeyUniqueId;
 
     structure->_columns.clear();
     structure->_indicies.clear();
@@ -137,6 +140,17 @@ int TableStructure::insertEmptyDefaultColumnToIndex(int index)
     }
 
     return -1;
+}
+
+int TableStructure::insertEmptyDefaultForeignKey()
+{
+    ForeignKey * newKeyObj = new ForeignKey(/*_table*/);
+    _foreignKeys.append(newKeyObj);
+    int newKeyIndex = _foreignKeys.size() - 1;
+    newKeyObj->setName(QString("fk_%1").arg( newKeyIndex + 1 ));
+    newKeyObj->setId(nextForeignKeyUniqueId());
+
+    return newKeyIndex;
 }
 
 void TableStructure::appendColumn(TableColumn * column)
@@ -268,7 +282,7 @@ bool TableStructure::canMoveIndexColumnDown(int index, int column) const
 
 bool TableStructure::isValidKey(int index) const
 {
-    return index >= 0 && index < _indicies.size();
+    return index >= 0 && index < _foreignKeys.size();
 }
 
 bool TableStructure::canRemoveKey(int index) const
@@ -278,8 +292,14 @@ bool TableStructure::canRemoveKey(int index) const
 
 bool TableStructure::removeKeyAt(int index)
 {
-    Q_UNUSED(index);
-    return false; // TODO
+    ForeignKey * keyToRemove = _foreignKeys.value(index, nullptr);
+
+    if (keyToRemove) {
+        _foreignKeys.removeAt(index);
+        delete keyToRemove;
+        return true;
+    }
+    return false;
 }
 
 bool TableStructure::canRemoveAllKeys() const
@@ -289,7 +309,8 @@ bool TableStructure::canRemoveAllKeys() const
 
 void TableStructure::removeAllKeys()
 {
-    // TODO
+    qDeleteAll(_foreignKeys);
+    _foreignKeys.clear();
 }
 
 TableColumn * TableStructure::columnById(unsigned id) const

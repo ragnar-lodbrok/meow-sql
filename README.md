@@ -49,6 +49,7 @@ Linux:
 4. libmysqlclient library, for deb-based distros: apt-get install libmysqlclient-dev
 5. (Optional) Debian: sudo apt-get install mysql-server
 6. (Optional) Install test db: https://dev.mysql.com/doc/sakila/en/
+7. As an option use Qt Creator - just open meow-sql.pro 
 
 Windows:
 

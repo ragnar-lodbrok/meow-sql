@@ -41,9 +41,13 @@ public:
     void setOnDelete(ReferenceOption & opt) { _onDelete = opt; }
     void setOnDelete(const QString & opt);
 
+    unsigned id() const { return _id; }
+    void setId(unsigned id) { _id = id; }
+
     operator QString() const;
 
 private:
+    unsigned _id;
     QString _name;
     QString _referenceTable;
     ReferenceOption _onUpdate;

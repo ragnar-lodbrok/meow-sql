@@ -79,16 +79,43 @@ void ForeignKeysTab::validateControls()
 void ForeignKeysTab::actionAddKey(bool checked)
 {
     Q_UNUSED(checked);
+
+    auto model = _tableForm->foreignKeysModel();
+
+    // insert
+    int newRowIntIndex = model->insertEmptyDefaultKey();
+
+    // select
+    QModelIndex newRowNameIndex = model->index(
+        newRowIntIndex,
+        static_cast<int>(models::forms::TableForeignKeysModel::Columns::Name));
+    _fKeysTable->selectionModel()->setCurrentIndex(
+        newRowNameIndex,
+        QItemSelectionModel::ClearAndSelect);
+
+    // scroll
+    _fKeysTable->scrollTo(_fKeysTable->selectionModel()->currentIndex());
+
+    validateControls();
 }
 
 void ForeignKeysTab::actionRemoveKey(bool checked)
 {
     Q_UNUSED(checked);
+
+    QModelIndex curIndex = _fKeysTable->selectionModel()->currentIndex();
+    if (!curIndex.isValid()) return;
+
+    auto model = _tableForm->foreignKeysModel();
+    model->removeKey(curIndex);
+    validateControls();
 }
 
 void ForeignKeysTab::actionClearKeys(bool checked)
 {
     Q_UNUSED(checked);
+    _tableForm->foreignKeysModel()->removeAllKeys();
+    validateControls();
 }
 
 void ForeignKeysTab::currentKeyChanged(

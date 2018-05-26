@@ -58,6 +58,7 @@ public:
     int insertEmptyDefaultColumn(int afterIndex = -1);
     TableIndex * insertEmptyDefaultIndex();
     int insertEmptyDefaultColumnToIndex(int index);
+    int insertEmptyDefaultForeignKey();
 
     bool canRemoveColumn(int index) const;
     bool removeColumnAt(int index);
@@ -91,17 +92,20 @@ public:
     bool canRemoveAllKeys() const;
     void removeAllKeys();
 
-    unsigned nextColumnUniqueId() { return ++_nextColumnUniqueId; }
     TableColumn * columnById(unsigned id) const;
     TableColumn * columnByName(const QString & name) const;
     TableColumn * prevColumn(TableColumn * column) const;
 
-    unsigned nextIndexUniqueId() { return ++_nextIndexUniqueId; }
+
     TableIndex * indexById(unsigned id) const;
 
     Q_SIGNAL void beforeColumnRemoved(const QString & name);
 
 private:
+
+    unsigned nextColumnUniqueId() { return ++_nextColumnUniqueId; }
+    unsigned nextIndexUniqueId() { return ++_nextIndexUniqueId; }
+    unsigned nextForeignKeyUniqueId() { return ++_nextForeignKeyUniqueId; }
 
     TableEntity * _table;
 
@@ -118,6 +122,7 @@ private:
 
     unsigned _nextColumnUniqueId;
     unsigned _nextIndexUniqueId;
+    unsigned _nextForeignKeyUniqueId;
 
 };
 

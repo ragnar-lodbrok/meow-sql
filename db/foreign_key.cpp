@@ -6,7 +6,8 @@ namespace db {
 
 
 ForeignKey::ForeignKey()
-    :_onUpdate(ReferenceOption::Restrict),
+    :_id(0),
+     _onUpdate(ReferenceOption::Restrict),
      _onDelete(ReferenceOption::Restrict)
 {
     // For an ON DELETE or ON UPDATE that is not specified,
