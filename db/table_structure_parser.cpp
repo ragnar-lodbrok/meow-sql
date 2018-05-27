@@ -43,7 +43,7 @@ void TableStructureParser::run(TableEntity * table)
 
     parseColumns(createSQL, table);
     parseKeysIndicies(createSQL, table);
-    parseForeignKeys(createSQL, structure->foreighKeys());
+    parseForeignKeys(createSQL, structure->foreignKeys());
     parseTableOptions(table);
 }
 

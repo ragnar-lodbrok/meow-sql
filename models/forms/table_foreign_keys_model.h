@@ -7,6 +7,7 @@ namespace meow {
 
 namespace db {
 class TableEntity;
+class ForeignKey;
 }
 
 namespace models {
@@ -34,6 +35,8 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
+    bool setData(const QModelIndex &index, const QVariant &value,
+                 int role = Qt::EditRole) override;
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -50,12 +53,21 @@ public:
     bool canRemoveAllKeys() const;
     void removeAllKeys();
 
+    QStringList referenceOptions() const;
+    QStringList referenceTables() const;
+    QStringList referenceColumns(int row) const;
+
 private:
+
+    bool editData(const QModelIndex &index, const QVariant &value);
+    bool isEditingAllowed(int row, int col) const;
 
     QString textDataAt(int row, int col) const;
 
     void removeData();
     void insertData();
+
+    QString genName(meow::db::ForeignKey * key) const;
 
     TableInfoForm * _tableForm;
     meow::db::TableEntity * _table;

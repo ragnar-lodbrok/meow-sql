@@ -7,6 +7,7 @@ namespace db {
 
 ForeignKey::ForeignKey()
     :_id(0),
+     _isCustomName(true),
      _onUpdate(ReferenceOption::Restrict),
      _onDelete(ReferenceOption::Restrict)
 {
@@ -71,6 +72,21 @@ QString referenceOptionToStr(ForeignKey::ReferenceOption opt)
     default:
         return "NO ACTION";
     }
+}
+
+QStringList referenceOptionNames()
+{
+    QStringList names;
+
+    int i = static_cast<int>(ForeignKey::ReferenceOption::NoAction);
+    int count = static_cast<int>(ForeignKey::ReferenceOption::Count);
+    for (; i < count; ++i) {
+        names << referenceOptionToStr(
+                    static_cast<ForeignKey::ReferenceOption>(i)
+                 );
+    }
+
+    return names;
 }
 
 } // namespace db

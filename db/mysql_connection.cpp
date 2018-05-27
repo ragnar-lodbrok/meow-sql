@@ -9,6 +9,7 @@
 #include "mysql_table_editor.h"
 #include "mysql_collation_fetcher.h"
 #include "mysql_table_engines_fetcher.h"
+#include "db/entity/mysql_entity_filter.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -437,6 +438,11 @@ QStringList MySQLConnection::tableRowFormats() const
 bool MySQLConnection::supportsForeignKeys(const TableEntity * table) const
 {
     return table->engineStr().toLower() == "innodb"; // TODO: ndb
+}
+
+std::unique_ptr<EntityFilter> MySQLConnection::entityFilter()
+{
+    return std::unique_ptr<EntityFilter>(new MySQLEntityFilter(this));
 }
 
 MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)

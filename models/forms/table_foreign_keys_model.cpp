@@ -1,7 +1,9 @@
 #include "table_foreign_keys_model.h"
 #include "table_info_form.h"
 #include "db/entity/table_entity.h"
+#include "db/entity/entity_filter.h"
 #include <QIcon>
+#include <QDebug>
 
 namespace meow {
 namespace models {
@@ -32,7 +34,7 @@ int TableForeignKeysModel::rowCount(const QModelIndex & parent) const
 {
     Q_UNUSED(parent);
     if (_table && _table->structure()) {
-        return _table->structure()->foreighKeys().size();
+        return _table->structure()->foreignKeys().size();
     }
     return 0;
 }
@@ -43,7 +45,13 @@ Qt::ItemFlags TableForeignKeysModel::flags(const QModelIndex &index) const
         return 0;
     }
 
-    return QAbstractItemModel::flags(index);
+    Qt::ItemFlags flags = QAbstractItemModel::flags(index);
+
+    if (isEditingAllowed(index.row(), index.column())) {
+        flags |= Qt::ItemIsEditable;
+    }
+
+    return flags;
 }
 
 QVariant TableForeignKeysModel::headerData(
@@ -94,6 +102,7 @@ QVariant TableForeignKeysModel::data(const QModelIndex &index, int role) const
     switch (role) {
 
     case Qt::DisplayRole:
+    case Qt::EditRole:
         return textDataAt(index.row(), index.column());
 
     case Qt::DecorationRole:
@@ -108,6 +117,23 @@ QVariant TableForeignKeysModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+bool TableForeignKeysModel::setData(const QModelIndex &index,
+                                    const QVariant &value,
+                                    int role)
+{
+    if (!index.isValid() || role != Qt::EditRole) {
+        return false;
+    }
+
+    if (editData(index, value)) {
+        emit dataChanged(index, index);
+        //emit modified();
+        return true;
+    }
+
+    return false;
 }
 
 int TableForeignKeysModel::columnWidth(int column) const
@@ -180,9 +206,99 @@ void TableForeignKeysModel::removeAllKeys()
     //emit modified();
 }
 
+QStringList TableForeignKeysModel::referenceOptions() const
+{
+    return meow::db::referenceOptionNames();
+}
+
+QStringList TableForeignKeysModel::referenceTables() const
+{
+    std::unique_ptr<db::EntityFilter> filter
+        = _table->connection()->entityFilter();
+    QList<db::TableEntity *> tables = filter->tablesWithForeignKeySupport(
+        meow::db::databaseName(_table)
+    );
+    QStringList tableNames;
+    for (db::TableEntity * table : tables) {
+        tableNames << table->name();
+    }
+    return tableNames;
+}
+
+QStringList TableForeignKeysModel::referenceColumns(int row) const
+{
+    meow::db::ForeignKey * key = _table->structure()->foreignKeys().at(row);
+
+    std::unique_ptr<db::EntityFilter> filter
+        = _table->connection()->entityFilter();
+
+    db::TableEntity * table = filter->tableByName(
+        meow::db::databaseName(_table), key->referenceTable());
+    if (!table) {
+        return {};
+    }
+    table->connection()->parseTableStructure(table);
+    return db::tableColumnNames(table->structure());
+}
+
+bool TableForeignKeysModel::editData(const QModelIndex &index,
+                                     const QVariant &value)
+{
+    int row = index.row();
+    int col = index.column();
+
+    meow::db::ForeignKey * key = _table->structure()->foreignKeys().at(row);
+
+    switch (static_cast<Columns>(col)) {
+
+    case Columns::Name: {
+        key->setName(value.toString());
+        key->setIsCustomName(true);
+        return true;
+    }
+
+    case Columns::ReferenceTable: {
+        key->setReferenceTable(value.toString());
+        if (!key->isCustomName()) {
+            key->setName(genName(key));
+        }
+        return true;
+    }
+
+    case Columns::ForeignColumns: {
+        key->referenceColumns() = value.toString().split(',');
+        return true;
+    }
+
+    case Columns::OnUpdate: {
+        key->setOnUpdate(value.toString());
+        return true;
+    }
+
+    case Columns::OnDelete: {
+        key->setOnDelete(value.toString());
+        return true;
+    }
+
+    default:
+        break;
+    }
+
+    return false;
+}
+
+bool TableForeignKeysModel::isEditingAllowed(int row, int col) const
+{
+    Q_UNUSED(row);
+    Q_UNUSED(col);
+
+    // TODO
+    return true;
+}
+
 QString TableForeignKeysModel::textDataAt(int row, int col) const
 {
-    meow::db::ForeignKey * fKey = _table->structure()->foreighKeys().at(row);
+    meow::db::ForeignKey * fKey = _table->structure()->foreignKeys().at(row);
 
     switch (static_cast<Columns>(col)) {
 
@@ -216,12 +332,37 @@ void TableForeignKeysModel::removeData()
         endRemoveRows();
     }
 }
+
 void TableForeignKeysModel::insertData()
 {
     if (rowCount() > 0) {
         beginInsertRows(QModelIndex(), 0, rowCount()-1);
         endInsertRows();
     }
+}
+
+QString TableForeignKeysModel::genName(db::ForeignKey * key) const
+{
+    QString name = "fk_" + _table->name() + "_" + key->referenceTable();
+
+    QList<db::ForeignKey *> & keys = _table->structure()->foreignKeys();
+
+    auto nameIsUsed = [&](const QString & nameToCheck)->bool {
+        for (db::ForeignKey * keyIt : keys) {
+            if (nameToCheck == keyIt->name()) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    int i = 0;
+    while (nameIsUsed(name)) {
+        name = "fk_" + _table->name() + "_" + key->referenceTable();
+        name += "_" + QString::number(++i);
+    }
+
+    return name;
 }
 
 } // namespace forms

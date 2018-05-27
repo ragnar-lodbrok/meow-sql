@@ -2,6 +2,9 @@
 #include "cr_table_foreign_keys_tools.h"
 #include "models/forms/table_info_form.h"
 #include "models/forms/table_foreign_keys_model.h"
+#include "models/delegates/foreign_key_reference_option_delegate.h"
+#include "models/delegates/foreign_key_reference_table_delegate.h"
+#include "models/delegates/foreign_key_foreign_columns_delegate.h"
 #include "app.h"
 
 namespace meow {
@@ -55,6 +58,29 @@ void ForeignKeysTab::createWidgets()
     );
 
     _mainLayout->addWidget(_fKeysTable, 1);
+
+    // delegates ---------------------------------------------------------------
+
+    models::delegates::ForeignKeyReferenceOptionDelegate * refOptionsDelegate
+        = new models::delegates::ForeignKeyReferenceOptionDelegate(model);
+    _fKeysTable->setItemDelegateForColumn(
+        (int)models::forms::TableForeignKeysModel::Columns::OnUpdate,
+        refOptionsDelegate);
+    _fKeysTable->setItemDelegateForColumn(
+        (int)models::forms::TableForeignKeysModel::Columns::OnDelete,
+        refOptionsDelegate);
+
+    models::delegates::ForeignKeyReferenceTableDelegate * refTableDelegate
+        = new models::delegates::ForeignKeyReferenceTableDelegate(model);
+    _fKeysTable->setItemDelegateForColumn(
+        (int)models::forms::TableForeignKeysModel::Columns::ReferenceTable,
+        refTableDelegate);
+
+    models::delegates::ForeignKeyForeignColumnsDelegate * frgnColumnsDelegate
+        = new models::delegates::ForeignKeyForeignColumnsDelegate(model);
+    _fKeysTable->setItemDelegateForColumn(
+        (int)models::forms::TableForeignKeysModel::Columns::ForeignColumns,
+        frgnColumnsDelegate);
 }
 
 void ForeignKeysTab::refreshData()
@@ -64,7 +90,8 @@ void ForeignKeysTab::refreshData()
 
 void ForeignKeysTab::validateControls()
 {
-    models::forms::TableForeignKeysModel * model = _tableForm->foreignKeysModel();
+    models::forms::TableForeignKeysModel * model
+        = _tableForm->foreignKeysModel();
 
     using ColAction = TableForeignKeysTools::Action;
 

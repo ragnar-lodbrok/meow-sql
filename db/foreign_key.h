@@ -17,7 +17,9 @@ public:
         Restrict,  // RESTRICT
         Cascade,   // CASCADE
         SetNull,   // SET NULL
-        SetDefault // SET DEFAULT
+        SetDefault, // SET DEFAULT
+
+        Count
     };
 
     ForeignKey();
@@ -25,6 +27,7 @@ public:
     QString name() const { return _name; }
     void setName(const QString & name) { _name = name; }
 
+    // TODO: use TableEntity instead ?
     QString referenceTable() const { return _referenceTable; }
     void setReferenceTable(const QString & refTable) {
         _referenceTable = refTable;
@@ -44,11 +47,15 @@ public:
     unsigned id() const { return _id; }
     void setId(unsigned id) { _id = id; }
 
+    bool isCustomName() const { return _isCustomName; }
+    void setIsCustomName(bool val) { _isCustomName = val; }
+
     operator QString() const;
 
 private:
     unsigned _id;
     QString _name;
+    bool _isCustomName;
     QString _referenceTable;
     ReferenceOption _onUpdate;
     ReferenceOption _onDelete;
@@ -59,6 +66,7 @@ private:
 
 ForeignKey::ReferenceOption strToReferenceOption(const QString & str);
 QString referenceOptionToStr(ForeignKey::ReferenceOption opt);
+QStringList referenceOptionNames();
 
 } // namespace db
 } // namespace meow

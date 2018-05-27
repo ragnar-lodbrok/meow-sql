@@ -31,7 +31,7 @@ public:
     QList<TableIndex  *> & indicies() { return _indicies; }
     void appendIndex(TableIndex * index);
 
-    QList<ForeignKey  *> & foreighKeys() { return _foreignKeys; }
+    QList<ForeignKey  *> & foreignKeys() { return _foreignKeys; }
 
     QString rowFormatStr() const { return _rowFormatStr; }
     void setRowFormat(const QString & format) { _rowFormatStr = format; }
@@ -125,6 +125,8 @@ private:
     unsigned _nextForeignKeyUniqueId;
 
 };
+
+QStringList tableColumnNames(TableStructure * structure);
 
 } // namespace db
 } // namespace meow

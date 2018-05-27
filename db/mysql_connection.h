@@ -65,6 +65,8 @@ public:
 
     virtual bool supportsForeignKeys(const TableEntity * table) const override;
 
+    virtual std::unique_ptr<EntityFilter> entityFilter() override;
+
     MySQLResult lastRawResultAt(std::size_t index) const;
 
 protected:

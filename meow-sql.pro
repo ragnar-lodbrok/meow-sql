@@ -125,7 +125,12 @@ SOURCES += main.cpp\
     ui/main_window/central_right/table/cr_table_indexes_tools.cpp \
     models/delegates/table_index_delegate.cpp \
     db/mysql_table_engines_fetcher.cpp \
-    ui/main_window/central_right/table/cr_table_foreign_keys_tools.cpp
+    ui/main_window/central_right/table/cr_table_foreign_keys_tools.cpp \
+    models/delegates/foreign_key_reference_option_delegate.cpp \
+    models/delegates/foreign_key_reference_table_delegate.cpp \
+    db/entity/entity_filter.cpp \
+    db/entity/mysql_entity_filter.cpp \
+    models/delegates/foreign_key_foreign_columns_delegate.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -230,7 +235,12 @@ HEADERS  += app.h \
     models/delegates/table_index_delegate.h \
     db/table_engines_fetcher.h \
     db/mysql_table_engines_fetcher.h \
-    ui/main_window/central_right/table/cr_table_foreign_keys_tools.h
+    ui/main_window/central_right/table/cr_table_foreign_keys_tools.h \
+    models/delegates/foreign_key_reference_option_delegate.h \
+    models/delegates/foreign_key_reference_table_delegate.h \
+    db/entity/entity_filter.h \
+    db/entity/mysql_entity_filter.h \
+    models/delegates/foreign_key_foreign_columns_delegate.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

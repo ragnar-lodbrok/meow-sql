@@ -148,6 +148,7 @@ int TableStructure::insertEmptyDefaultForeignKey()
     _foreignKeys.append(newKeyObj);
     int newKeyIndex = _foreignKeys.size() - 1;
     newKeyObj->setName(QString("fk_%1").arg( newKeyIndex + 1 ));
+    newKeyObj->setIsCustomName(false);
     newKeyObj->setId(nextForeignKeyUniqueId());
 
     return newKeyIndex;
@@ -346,6 +347,15 @@ TableIndex * TableStructure::indexById(unsigned id) const
         }
     }
     return nullptr;
+}
+
+QStringList tableColumnNames(TableStructure * structure) {
+    QStringList names;
+    const QList<TableColumn *> & columns = structure->columns();
+    for (const auto & column : columns) {
+        names.append(column->name());
+    }
+    return names;
 }
 
 } // namespace db
