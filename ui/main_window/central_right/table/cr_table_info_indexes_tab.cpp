@@ -2,6 +2,7 @@
 #include "cr_table_indexes_tools.h"
 #include "models/forms/table_info_form.h"
 #include "models/forms/table_indexes_model.h"
+#include "models/forms/table_foreign_keys_model.h"
 #include "models/delegates/table_index_delegate.h"
 
 namespace meow {
@@ -173,8 +174,12 @@ void IndexesTab::actionMoveDownColumn(bool checked)
 
 void IndexesTab::onTableColumnRemoved(const QString & name)
 {
-    auto model = _tableForm->indexesModel();
-    model->removeAllIndexColumnsByName(name);
+    auto indxModel = _tableForm->indexesModel();
+    indxModel->removeAllIndexColumnsByName(name);
+
+    auto fKeysModel = _tableForm->foreignKeysModel();
+    fKeysModel->removeAllForeignKeyColumnsByName(name);
+
     validateControls();
 }
 

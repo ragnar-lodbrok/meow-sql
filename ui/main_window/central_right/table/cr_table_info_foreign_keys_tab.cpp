@@ -5,6 +5,7 @@
 #include "models/delegates/foreign_key_reference_option_delegate.h"
 #include "models/delegates/foreign_key_reference_table_delegate.h"
 #include "models/delegates/foreign_key_foreign_columns_delegate.h"
+#include "models/delegates/foreign_key_columns_delegate.h"
 #include "app.h"
 
 namespace meow {
@@ -81,6 +82,13 @@ void ForeignKeysTab::createWidgets()
     _fKeysTable->setItemDelegateForColumn(
         (int)models::forms::TableForeignKeysModel::Columns::ForeignColumns,
         frgnColumnsDelegate);
+
+    models::delegates::ForeignKeyColumnsDelegate * columnsDelegate
+        = new models::delegates::ForeignKeyColumnsDelegate(model);
+    _fKeysTable->setItemDelegateForColumn(
+        (int)models::forms::TableForeignKeysModel::Columns::Columns,
+        columnsDelegate);
+
 }
 
 void ForeignKeysTab::refreshData()

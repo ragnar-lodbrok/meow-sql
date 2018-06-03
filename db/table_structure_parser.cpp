@@ -38,12 +38,11 @@ void TableStructureParser::run(TableEntity * table)
 
     init();
 
-    TableStructure * structure = table->structure();
     QString createSQL = table->createCode();
 
-    parseColumns(createSQL, table);
+    parseColumns(createSQL, table); // keep first
     parseKeysIndicies(createSQL, table);
-    parseForeignKeys(createSQL, structure->foreignKeys());
+    parseForeignKeys(createSQL, table);
     parseTableOptions(table);
 }
 
@@ -222,8 +221,10 @@ void TableStructureParser::parseKeysIndicies(
 
 void TableStructureParser::parseForeignKeys(
     const QString & createSQL,
-    QList<ForeignKey *> & fKeys) const
+    TableEntity * table) const
 {
+
+    QList<ForeignKey *> & fKeys = table->structure()->foreignKeys();
 
     qDeleteAll(fKeys);
     fKeys.clear();
@@ -240,10 +241,11 @@ void TableStructureParser::parseForeignKeys(
         QString onDeleteStr = keyMatch.captured(6);
         QString onUpdateStr = keyMatch.captured(8);
 
-        ForeignKey * fKey = new ForeignKey;
+        ForeignKey * fKey = new ForeignKey(table);
         fKey->setName(keyName);
         fKey->setReferenceTable(refTable);
-        fKey->columns() = explodeQuotedList(columnsStr);
+        QStringList columnNames = explodeQuotedList(columnsStr);
+        fKey->setColumns(columnNames);
         fKey->referenceColumns() = explodeQuotedList(fColumnsStr);
         fKey->setOnDelete(onDeleteStr);
         fKey->setOnUpdate(onUpdateStr);

@@ -1,4 +1,4 @@
-#include "foreign_key_foreign_columns_delegate.h"
+#include "foreign_key_columns_delegate.h"
 #include <QComboBox>
 #include "models/forms/table_foreign_keys_model.h"
 
@@ -6,7 +6,7 @@ namespace meow {
 namespace models {
 namespace delegates {
 
-ForeignKeyForeignColumnsDelegate::ForeignKeyForeignColumnsDelegate(
+ForeignKeyColumnsDelegate::ForeignKeyColumnsDelegate(
         QObject * parent
     )
     :QStyledItemDelegate(parent)
@@ -14,7 +14,7 @@ ForeignKeyForeignColumnsDelegate::ForeignKeyForeignColumnsDelegate(
 
 }
 
-QWidget * ForeignKeyForeignColumnsDelegate::createEditor(
+QWidget * ForeignKeyColumnsDelegate::createEditor(
         QWidget *parent,
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const
@@ -26,7 +26,7 @@ QWidget * ForeignKeyForeignColumnsDelegate::createEditor(
     return new QComboBox(parent);
 }
 
-void ForeignKeyForeignColumnsDelegate::setEditorData(
+void ForeignKeyColumnsDelegate::setEditorData(
         QWidget *editor,
         const QModelIndex &index) const
 {
@@ -34,7 +34,7 @@ void ForeignKeyForeignColumnsDelegate::setEditorData(
     auto model = static_cast<const models::forms::TableForeignKeysModel *>(
         index.model());
 
-    comboBox->addItems(model->referenceColumns(index.row()));
+    comboBox->addItems( model->allColumns() );
 
     QString valuesString = index.model()->data(index, Qt::EditRole).toString();
     QStringList values = valuesString.split(',');
@@ -44,7 +44,7 @@ void ForeignKeyForeignColumnsDelegate::setEditorData(
     }
 }
 
-void ForeignKeyForeignColumnsDelegate::setModelData(QWidget *editor,
+void ForeignKeyColumnsDelegate::setModelData(QWidget *editor,
                   QAbstractItemModel *model,
                   const QModelIndex &index) const
 {
@@ -53,7 +53,7 @@ void ForeignKeyForeignColumnsDelegate::setModelData(QWidget *editor,
     model->setData(index, curData, Qt::EditRole);
 }
 
-void ForeignKeyForeignColumnsDelegate::updateEditorGeometry(
+void ForeignKeyColumnsDelegate::updateEditorGeometry(
         QWidget *editor,
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const

@@ -130,7 +130,8 @@ SOURCES += main.cpp\
     models/delegates/foreign_key_reference_table_delegate.cpp \
     db/entity/entity_filter.cpp \
     db/entity/mysql_entity_filter.cpp \
-    models/delegates/foreign_key_foreign_columns_delegate.cpp
+    models/delegates/foreign_key_foreign_columns_delegate.cpp \
+    models/delegates/foreign_key_columns_delegate.cpp
 
 HEADERS  += app.h \
     ui/session_manager/session_form.h \
@@ -240,7 +241,8 @@ HEADERS  += app.h \
     models/delegates/foreign_key_reference_table_delegate.h \
     db/entity/entity_filter.h \
     db/entity/mysql_entity_filter.h \
-    models/delegates/foreign_key_foreign_columns_delegate.h
+    models/delegates/foreign_key_foreign_columns_delegate.h \
+    models/delegates/foreign_key_columns_delegate.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

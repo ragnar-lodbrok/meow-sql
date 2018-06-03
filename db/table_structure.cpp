@@ -74,7 +74,8 @@ TableStructure * TableStructure::deepCopy(TableEntity * parentTable) const
     }
 
     for (auto & fkey : _foreignKeys) {
-        ForeignKey * fkeyCopy = new ForeignKey(*fkey);
+        ForeignKey * fkeyCopy = fkey->deepCopy(structure);
+        fkeyCopy->setTable(parentTable);
         structure->_foreignKeys.push_back(fkeyCopy);
     }
 
@@ -144,7 +145,7 @@ int TableStructure::insertEmptyDefaultColumnToIndex(int index)
 
 int TableStructure::insertEmptyDefaultForeignKey()
 {
-    ForeignKey * newKeyObj = new ForeignKey(/*_table*/);
+    ForeignKey * newKeyObj = new ForeignKey(_table);
     _foreignKeys.append(newKeyObj);
     int newKeyIndex = _foreignKeys.size() - 1;
     newKeyObj->setName(QString("fk_%1").arg( newKeyIndex + 1 ));

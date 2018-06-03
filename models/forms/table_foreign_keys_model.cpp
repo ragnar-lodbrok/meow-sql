@@ -225,6 +225,11 @@ QStringList TableForeignKeysModel::referenceTables() const
     return tableNames;
 }
 
+QStringList TableForeignKeysModel::allColumns() const
+{
+    return db::tableColumnNames(_table->structure());
+}
+
 QStringList TableForeignKeysModel::referenceColumns(int row) const
 {
     meow::db::ForeignKey * key = _table->structure()->foreignKeys().at(row);
@@ -239,6 +244,15 @@ QStringList TableForeignKeysModel::referenceColumns(int row) const
     }
     table->connection()->parseTableStructure(table);
     return db::tableColumnNames(table->structure());
+}
+
+void TableForeignKeysModel::removeAllForeignKeyColumnsByName(
+    const QString & columnName)
+{
+    auto fKeys = _table->structure()->foreignKeys();
+    for (auto & fKey : fKeys) {
+        fKey->removeColumnByName(columnName);
+    }
 }
 
 bool TableForeignKeysModel::editData(const QModelIndex &index,
@@ -262,6 +276,12 @@ bool TableForeignKeysModel::editData(const QModelIndex &index,
         if (!key->isCustomName()) {
             key->setName(genName(key));
         }
+        return true;
+    }
+
+    case Columns::Columns: {
+        QStringList columnNames = value.toString().split(',');
+        key->setColumns(columnNames);
         return true;
     }
 
@@ -306,7 +326,7 @@ QString TableForeignKeysModel::textDataAt(int row, int col) const
         return fKey->name();
 
     case Columns::Columns:
-        return fKey->columns().join(',');
+        return fKey->columnNames().join(',');
 
     case Columns::ReferenceTable:
         return fKey->referenceTable();

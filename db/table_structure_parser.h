@@ -23,7 +23,7 @@ public:
 private:
     void parseColumns(const QString & createSQL, TableEntity * table) const;
     void parseKeysIndicies(const QString & createSQL, TableEntity * table) const;
-    void parseForeignKeys(const QString & createSQL, QList<ForeignKey *> & fKeys) const;
+    void parseForeignKeys(const QString & createSQL, TableEntity * table) const;
     void parseTableOptions(TableEntity * table);
 
     QString extractId(QString & str, bool remove = true) const;

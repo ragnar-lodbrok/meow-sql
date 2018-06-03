@@ -7,6 +7,10 @@
 namespace meow {
 namespace db {
 
+class TableStructure;
+class TableColumn;
+class TableEntity;
+
 // Represents foreign key
 class ForeignKey
 {
@@ -22,7 +26,10 @@ public:
         Count
     };
 
-    ForeignKey();
+    explicit ForeignKey(TableEntity * table);
+
+    void setTable(TableEntity * table) { _table = table; }
+    TableEntity * table() const { return _table; }
 
     QString name() const { return _name; }
     void setName(const QString & name) { _name = name; }
@@ -33,7 +40,10 @@ public:
         _referenceTable = refTable;
     }
 
-    QStringList & columns() { return _columns; }
+    QStringList columnNames() const;
+    void setColumns(const QStringList & columnNames);
+    QList<TableColumn *> & columns() { return _columns; }
+
     QStringList & referenceColumns() { return _referenceColumns; }
 
     ReferenceOption onUpdate() const { return _onUpdate; }
@@ -50,16 +60,21 @@ public:
     bool isCustomName() const { return _isCustomName; }
     void setIsCustomName(bool val) { _isCustomName = val; }
 
+    ForeignKey * deepCopy(TableStructure * structure);
+
+    bool removeColumnByName(const QString & columnName);
+
     operator QString() const;
 
 private:
+    TableEntity * _table;
     unsigned _id;
     QString _name;
     bool _isCustomName;
     QString _referenceTable;
     ReferenceOption _onUpdate;
     ReferenceOption _onDelete;
-    QStringList _columns;
+    QList<TableColumn *> _columns; // no ownership
     QStringList _referenceColumns;
 
 };

@@ -55,7 +55,10 @@ public:
 
     QStringList referenceOptions() const;
     QStringList referenceTables() const;
+    QStringList allColumns() const;
     QStringList referenceColumns(int row) const;
+
+    void removeAllForeignKeyColumnsByName(const QString & columnName);
 
 private:
 

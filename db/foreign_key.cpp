@@ -1,12 +1,17 @@
 #include "foreign_key.h"
+#include "table_column.h"
+#include "table_structure.h"
+#include "entity/table_entity.h"
 #include <QMap>
+#include <QDebug>
 
 namespace meow {
 namespace db {
 
 
-ForeignKey::ForeignKey()
-    :_id(0),
+ForeignKey::ForeignKey(TableEntity * table)
+    :_table(table),
+     _id(0),
      _isCustomName(true),
      _onUpdate(ReferenceOption::Restrict),
      _onDelete(ReferenceOption::Restrict)
@@ -20,7 +25,7 @@ ForeignKey::operator QString() const
     QString str =
     QString("CONSTRAINT `%1` FOREIGN KEY (%2) REFERENCES `%3` (%4)")
             .arg(_name)
-            .arg(_columns.join(','))
+            .arg(columnNames().join(','))
             .arg(_referenceTable)
             .arg(_referenceColumns.join(','));
 
@@ -72,6 +77,63 @@ QString referenceOptionToStr(ForeignKey::ReferenceOption opt)
     default:
         return "NO ACTION";
     }
+}
+
+QStringList ForeignKey::columnNames() const
+{
+    QStringList names;
+    for (const auto & column : _columns) {
+        names.append(column->name());
+    }
+
+    return names;
+}
+
+void ForeignKey::setColumns(const QStringList & columnNames)
+{
+    _columns.clear();
+    for (const auto & columnName : columnNames) {
+        TableColumn * column = _table->structure()->columnByName(columnName);
+        if (column) {
+            _columns.append(column);
+        }
+    }
+}
+
+ForeignKey * ForeignKey::deepCopy(TableStructure * structure)
+{
+    ForeignKey * copy = new ForeignKey(*this);
+    copy->_columns.clear();
+    QList<TableColumn *> oldColumns = this->_columns;
+
+    for (auto & oldColumn : oldColumns) {
+        TableColumn * newColumn = structure->columnByName(
+            oldColumn->name());
+        if (newColumn) {
+            copy->_columns.append(newColumn);
+        }
+    }
+
+    return copy;
+}
+
+bool ForeignKey::removeColumnByName(const QString & columnName)
+{
+    int indexToRemove = -1;
+    int i = 0;
+    QString name = _columns.isEmpty() ? QString() : columnName.toLower();
+    for (const auto & column : _columns) {
+        if (column->name().toLower() == name) {
+            indexToRemove = i;
+            break;
+        }
+        ++i;
+    }
+    if (indexToRemove != -1) {
+        _columns.removeAt(indexToRemove);
+        return true;
+    }
+    return false;
 }
 
 QStringList referenceOptionNames()
