@@ -17,6 +17,8 @@ class TableInfoForm;
 
 class TableForeignKeysModel : public QAbstractTableModel
 {
+    Q_OBJECT
+
 public:
 
     enum class Columns {
@@ -59,6 +61,8 @@ public:
     QStringList referenceColumns(int row) const;
 
     void removeAllForeignKeyColumnsByName(const QString & columnName);
+
+    Q_SIGNAL void modified();
 
 private:
 

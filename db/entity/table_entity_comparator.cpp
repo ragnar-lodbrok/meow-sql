@@ -1,5 +1,6 @@
 #include "table_entity_comparator.h"
 #include "table_entity.h"
+#include "db/foreign_key.h"
 
 namespace meow {
 namespace db {
@@ -205,6 +206,25 @@ QList<TableIndexStatus> TableEntityComparator::currIndicesWithStatus() const
     }
 
     return indices;
+}
+
+QList<ForeignKey *> TableEntityComparator::removedForeignKeys() const
+{
+    QList<ForeignKey *> removedFKeys;
+
+    TableStructure * newStructure = _curr->structure();
+    TableStructure * oldStructure = _prev->structure();
+
+    const QList<ForeignKey *> & oldFKeys = oldStructure->foreignKeys();
+
+    for (const auto & oldKey : oldFKeys) {
+        ForeignKey * newFKey = newStructure->foreignKeyById(oldKey->id());
+        if (newFKey == nullptr) {
+            removedFKeys.append(oldKey);
+        }
+    }
+
+    return removedFKeys;
 }
 
 } // namespace db

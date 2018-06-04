@@ -114,6 +114,13 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
         }
     }
 
+    // Foreign Keys ------------------------------------------------------------
+
+    auto droppedFKeys = diff.removedForeignKeys();
+    for (const ForeignKey * droppedFKey : droppedFKeys) {
+        specs << dropSQL(droppedFKey);
+    }
+
     // -------------------------------------------------------------------------
 
     if (!specs.isEmpty()) {
@@ -351,6 +358,13 @@ QString MySQLTableEditor::dropSQL(const TableIndex * index) const
     }
 
     return QString("DROP %1").arg(indexName);
+}
+
+QString MySQLTableEditor::dropSQL(const ForeignKey * fKey) const
+{
+    return QString("DROP FOREIGN KEY %1").arg(
+        _connection->quoteIdentifier(fKey->name())
+    );
 }
 
 QStringList MySQLTableEditor::specs(TableEntity * table, TableEntity * newData)

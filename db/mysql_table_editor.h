@@ -10,6 +10,7 @@ namespace db {
 class MySQLConnection;
 class TableColumn;
 class TableIndex;
+class ForeignKey;
 
 class MySQLTableEditor : public TableEditor
 {
@@ -27,6 +28,7 @@ private:
                            const QString & colSQL) const;
     QString dropSQL(EntityInDatabase * entity) const;
     QString dropSQL(const TableIndex * index) const;
+    QString dropSQL(const ForeignKey * fKey) const;
     QStringList specs(TableEntity * table, TableEntity * newData = nullptr);
 };
 

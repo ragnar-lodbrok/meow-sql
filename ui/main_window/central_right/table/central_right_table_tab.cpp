@@ -71,6 +71,13 @@ void TableTab::createWidgets()
             }
     );
 
+    connect(_tableInfo,
+            &TableInfo::foreignKeysModified,
+            [=]() {
+                _form.setHasUnsavedChanges(true);
+            }
+    );
+
     _mainSplitter->addWidget(_tableInfo);
     _mainSplitter->setStretchFactor(0, 0);
     _mainSplitter->addWidget(_columns);

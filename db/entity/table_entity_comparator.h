@@ -9,6 +9,7 @@ namespace db {
 class TableEntity;
 class TableColumn;
 class TableIndex;
+class ForeignKey;
 
 struct TableColumnPair {
     TableColumn * oldCol = nullptr;
@@ -59,6 +60,8 @@ public:
     QList<TableIndex *> removedIndices() const;
 
     QList<TableIndexStatus> currIndicesWithStatus() const;
+
+    QList<ForeignKey *> removedForeignKeys() const;
 
 private:
 

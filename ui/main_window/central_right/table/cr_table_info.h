@@ -40,6 +40,7 @@ public:
     }
 
     Q_SIGNAL void indicesModified();
+    Q_SIGNAL void foreignKeysModified();
 
 private:
     void createTabs();

@@ -350,6 +350,16 @@ TableIndex * TableStructure::indexById(unsigned id) const
     return nullptr;
 }
 
+ForeignKey * TableStructure::foreignKeyById(unsigned id) const
+{
+    for (const auto & fKey : _foreignKeys) {
+        if (fKey->id() == id) {
+            return fKey;
+        }
+    }
+    return nullptr;
+}
+
 QStringList tableColumnNames(TableStructure * structure) {
     QStringList names;
     const QList<TableColumn *> & columns = structure->columns();

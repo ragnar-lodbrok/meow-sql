@@ -129,7 +129,7 @@ bool TableForeignKeysModel::setData(const QModelIndex &index,
 
     if (editData(index, value)) {
         emit dataChanged(index, index);
-        //emit modified();
+        emit modified();
         return true;
     }
 
@@ -163,7 +163,7 @@ int TableForeignKeysModel::insertEmptyDefaultKey()
     int newRowIndex =  _table->structure()->insertEmptyDefaultForeignKey();
     endInsertRows();
 
-    //emit modified();
+    emit modified();
 
     return newRowIndex;
 }
@@ -186,7 +186,7 @@ bool TableForeignKeysModel::removeKey(const QModelIndex & curIndex)
     _table->structure()->removeKeyAt(row);
     endRemoveRows();
 
-    //emit modified();
+    emit modified();
 
     return true;
 }
@@ -203,7 +203,7 @@ void TableForeignKeysModel::removeAllKeys()
     removeData();
     _table->structure()->removeAllKeys();
 
-    //emit modified();
+    emit modified();
 }
 
 QStringList TableForeignKeysModel::referenceOptions() const

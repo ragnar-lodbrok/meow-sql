@@ -5,6 +5,7 @@
 #include "cr_table_info_foreign_keys_tab.h"
 #include "models/forms/table_info_form.h"
 #include "models/forms/table_indexes_model.h"
+#include "models/forms/table_foreign_keys_model.h"
 
 namespace meow {
 namespace ui {
@@ -21,6 +22,12 @@ TableInfo::TableInfo(models::forms::TableInfoForm * form, QWidget *parent) :
             &meow::models::forms::TableIndexesModel::modified,
             this,
             &TableInfo::indicesModified
+    );
+
+    connect(_form->foreignKeysModel(),
+            &meow::models::forms::TableForeignKeysModel::modified,
+            this,
+            &TableInfo::foreignKeysModified
     );
 }
 

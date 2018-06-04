@@ -31,7 +31,7 @@ public:
     QList<TableIndex  *> & indicies() { return _indicies; }
     void appendIndex(TableIndex * index);
 
-    QList<ForeignKey  *> & foreignKeys() { return _foreignKeys; }
+    QList<ForeignKey *> & foreignKeys() { return _foreignKeys; }
 
     QString rowFormatStr() const { return _rowFormatStr; }
     void setRowFormat(const QString & format) { _rowFormatStr = format; }
@@ -98,6 +98,8 @@ public:
 
 
     TableIndex * indexById(unsigned id) const;
+
+    ForeignKey * foreignKeyById(unsigned id) const;
 
     Q_SIGNAL void beforeColumnRemoved(const QString & name);
 
