@@ -23,12 +23,23 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
     diff.setCurrTable(newData);
     diff.setPrevTable(table);
 
+    // Foreign Keys 1 ----------------------------------------------------------
+
+    // we should drop modified fkeys in a separate query
+    QList<ForeignKeyPair> modifiedFKeys = diff.modifiedForeignKeys();
+    for (auto & modifiedFKey : modifiedFKeys) {
+        QString SQL = dropSQL(modifiedFKey.oldFKey); // use old name
+        Q_UNUSED(SQL);
+        //_connection->query(SQL); // uncomment when add will be added
+        changed = true;
+    }
+
     // Columns -----------------------------------------------------------------
 
     auto modifiedColumns = diff.modifiedColumns();
     for (auto & modifiedColumnPair : modifiedColumns) {
 
-        // we can DROP DEFAULT in separate query only
+        // we can DROP DEFAULT in a separate query only
 
         auto newColDef = modifiedColumnPair.newCol->defaultType();
         auto oldColDef = modifiedColumnPair.oldCol->defaultType();
@@ -114,7 +125,7 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
         }
     }
 
-    // Foreign Keys ------------------------------------------------------------
+    // Foreign Keys 2 ----------------------------------------------------------
 
     auto droppedFKeys = diff.removedForeignKeys();
     for (const ForeignKey * droppedFKey : droppedFKeys) {

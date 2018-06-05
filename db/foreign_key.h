@@ -64,6 +64,8 @@ public:
 
     bool removeColumnByName(const QString & columnName);
 
+    bool dataDiffers(const ForeignKey * other) const;
+    
     operator QString() const;
 
 private:

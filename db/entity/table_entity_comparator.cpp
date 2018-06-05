@@ -227,5 +227,28 @@ QList<ForeignKey *> TableEntityComparator::removedForeignKeys() const
     return removedFKeys;
 }
 
+QList<ForeignKeyPair> TableEntityComparator::modifiedForeignKeys() const
+{
+    QList<ForeignKeyPair> modified;
+    TableStructure * newStructure = _curr->structure();
+    TableStructure * oldStructure = _prev->structure();
+
+    const QList<ForeignKey *> & newKeys = newStructure->foreignKeys();
+
+    for (auto & newKey : newKeys) {
+        ForeignKey * oldKey = oldStructure->foreignKeyById(newKey->id());
+        if (oldKey && oldKey->dataDiffers(newKey)) {
+
+            ForeignKeyPair pair;
+            pair.newFkey = newKey;
+            pair.oldFKey = oldKey;
+
+            modified.append(pair);
+        }
+    }
+
+    return modified;
+}
+
 } // namespace db
 } // namespace meow

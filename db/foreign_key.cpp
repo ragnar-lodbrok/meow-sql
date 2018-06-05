@@ -136,6 +136,64 @@ bool ForeignKey::removeColumnByName(const QString & columnName)
     return false;
 }
 
+bool ForeignKey::dataDiffers(const ForeignKey * other) const
+{
+    if (this == other) return false;
+
+    if (_name != other->_name) return true;
+    if (_referenceTable != other->_referenceTable) return true;
+    if (_onUpdate != other->_onUpdate) return true;
+    if (_onDelete != other->_onDelete) return true;
+
+    auto isNotSubsetColumns = [=](
+        const QList<TableColumn *> columns1,
+        const QList<TableColumn *> columns2) -> bool {
+        for (const auto & column1 : columns1) {
+            bool found = false;
+            for (const auto & column2 : columns2) {
+                if (column1->id() == column2->id()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    if (isNotSubsetColumns( _columns, other->_columns) )
+        return true;
+    if (isNotSubsetColumns( other->_columns, _columns) )
+        return true;
+
+    auto isNotSubsetStrList = [=](
+        const QStringList & columns1,
+        const QStringList & columns2) -> bool {
+        for (const auto & column1 : columns1) {
+            bool found = false;
+            for (const auto & column2 : columns2) {
+                if (column1.toLower() == column2.toLower()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                return true;
+            }
+        }
+        return false;
+    };
+
+    if (isNotSubsetStrList( _referenceColumns, other->_referenceColumns) )
+        return true;
+    if (isNotSubsetStrList( other->_referenceColumns, _referenceColumns) )
+        return true;
+
+    return false;
+}
+
 QStringList referenceOptionNames()
 {
     QStringList names;

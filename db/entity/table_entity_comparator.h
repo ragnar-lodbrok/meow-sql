@@ -31,6 +31,18 @@ struct TableIndexStatus
     bool modified = false;
 };
 
+struct ForeignKeyPair {
+    ForeignKey * oldFKey = nullptr;
+    ForeignKey * newFkey = nullptr;
+};
+
+struct ForeignKeyStatus
+{
+    ForeignKeyPair keys;
+    bool added = false;
+    bool modified = false;
+};
+
 class TableEntityComparator
 {
 public:
@@ -49,7 +61,7 @@ public:
     bool avgRowLenDiffers() const;
     bool maxRowsDiffers() const;
 
-    // return pairs of columns that (data) were modified (not removed, inserted)
+    // return columns that (data) were modified (not removed, not inserted)
     QList<TableColumnPair> modifiedColumns() const;
 
     QList<TableColumn *> removedColumns() const;
@@ -62,6 +74,9 @@ public:
     QList<TableIndexStatus> currIndicesWithStatus() const;
 
     QList<ForeignKey *> removedForeignKeys() const;
+    
+    // return keys that (data) were modified (not removed, not inserted)
+    QList<ForeignKeyPair> modifiedForeignKeys() const;
 
 private:
 
