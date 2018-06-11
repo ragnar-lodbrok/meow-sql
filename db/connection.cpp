@@ -186,6 +186,17 @@ QString Connection::quoteIdentifier(const QString & identifier,
     return identifier;
 }
 
+QStringList Connection::quoteIdentifiers(const QStringList & identifiers) const
+{
+    QStringList result;
+
+    for (const QString & id : identifiers) {
+        result << quoteIdentifier(id);
+    }
+
+    return result;
+}
+
 const QStringList Connection::collationList()
 {
     if (_collationFetcher == nullptr) {

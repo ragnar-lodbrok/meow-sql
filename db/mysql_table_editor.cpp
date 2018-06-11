@@ -23,14 +23,16 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
     diff.setCurrTable(newData);
     diff.setPrevTable(table);
 
+    QString alterTablePrefix = QString("ALTER TABLE %1\n")
+            .arg(db::quotedName(table));
+
     // Foreign Keys 1 ----------------------------------------------------------
 
     // we should drop modified fkeys in a separate query
     QList<ForeignKeyPair> modifiedFKeys = diff.modifiedForeignKeys();
     for (auto & modifiedFKey : modifiedFKeys) {
         QString SQL = dropSQL(modifiedFKey.oldFKey); // use old name
-        Q_UNUSED(SQL);
-        //_connection->query(SQL); // uncomment when add will be added
+        _connection->query(alterTablePrefix + SQL);
         changed = true;
     }
 
@@ -45,10 +47,10 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
         auto oldColDef = modifiedColumnPair.oldCol->defaultType();
 
         if (oldColDef != newColDef && newColDef == ColumnDefaultType::None) {
-            QString SQL = QString("ALTER TABLE %1 ALTER %2 DROP DEFAULT;")
-                    .arg(db::quotedName(table))
+            QString SQL = alterTablePrefix + QString("ALTER %2 DROP DEFAULT;")
                     .arg(_connection->quoteIdentifier(
-                             modifiedColumnPair.oldCol->name()));
+                             modifiedColumnPair.oldCol->name())
+                    );
 
             _connection->query(SQL);
             changed = true;
@@ -132,14 +134,19 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
         specs << dropSQL(droppedFKey);
     }
 
+    for (auto & modifiedFKey : modifiedFKeys) {
+        specs << "ADD " + sqlCode(modifiedFKey.newFkey);
+    }
+
+    QList<ForeignKey *> addedFKeys = diff.addedForeignKeys();
+    for (const ForeignKey * addedFKey : addedFKeys) {
+        specs << "ADD " + sqlCode(addedFKey);
+    }
+
     // -------------------------------------------------------------------------
 
     if (!specs.isEmpty()) {
-        QString joinedSpecs = specs.join(",\n");
-
-        QString alterSt = QString("ALTER TABLE %1\n%2;")
-                .arg(db::quotedName(table))
-                .arg(joinedSpecs);
+        QString alterSt = alterTablePrefix + specs.join(",\n");
 
         _connection->query(alterSt);
         changed = true;
@@ -173,6 +180,11 @@ bool MySQLTableEditor::insert(TableEntity * table)
         if (!SQL.isEmpty()) {
             specs << SQL;
         }
+    }
+
+    const QList<ForeignKey *> & foreignKeys = table->structure()->foreignKeys();
+    for (auto & fKey : foreignKeys) {
+        specs << sqlCode(fKey);
     }
 
     SQL += QString(" (\n%1\n)\n").arg(specs.join(",\n"));
@@ -340,6 +352,34 @@ QString MySQLTableEditor::sqlCode(TableIndex * index) const
     if (index->indexType() != TableIndexType::None) {
         SQL += " USING " + index->indexTypeStr();
     }
+
+    return SQL;
+}
+
+QString MySQLTableEditor::sqlCode(const ForeignKey * fKey) const
+{
+    QStringList columns = _connection->quoteIdentifiers(fKey->columnNames());
+    QString SQL = QString("CONSTRAINT %1 FOREIGN KEY ( %2 ) ").arg(
+        _connection->quoteIdentifier(fKey->name()),
+        columns.join(", ")
+    );
+
+    QStringList foreignColumns = _connection->quoteIdentifiers(
+        fKey->referenceColumns()
+    );
+    SQL += QString("REFERENCES %1 ( %2 ) ").arg(
+        _connection->quoteIdentifier(fKey->referenceTable()),
+        foreignColumns.join(", ")
+    );
+
+    SQL += QString("ON UPDATE %1 ").arg(
+        referenceOptionToStr(fKey->onUpdate())
+    );
+
+    SQL += QString("ON DELETE %1").arg(
+        referenceOptionToStr(fKey->onDelete())
+    );
+
 
     return SQL;
 }

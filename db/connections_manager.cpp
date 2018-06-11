@@ -98,6 +98,8 @@ void ConnectionsManager::createEntity(Entity::Type type)
     if (type == Entity::Type::Table) {
         TableEntity * table = new TableEntity("", databaseEntity);
         table->setIsNew(true);
+        // TODO move this code into connection ?
+        table->setEngine(table->connection()->defaultTableEngine());
         _activeEntity.setCurrentEntity(nullptr);
         emit creatingNewEntity(table);
         //emit activeEntityChanged(table);

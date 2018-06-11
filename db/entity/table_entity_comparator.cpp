@@ -227,6 +227,25 @@ QList<ForeignKey *> TableEntityComparator::removedForeignKeys() const
     return removedFKeys;
 }
 
+QList<ForeignKey *> TableEntityComparator::addedForeignKeys() const
+{
+    QList<ForeignKey *> addedFKeys;
+
+    TableStructure * newStructure = _curr->structure();
+    TableStructure * oldStructure = _prev->structure();
+
+    const QList<ForeignKey *> & newFKeys = newStructure->foreignKeys();
+
+    for (const auto & newKey : newFKeys) {
+        ForeignKey * oldFKey = oldStructure->foreignKeyById(newKey->id());
+        if (oldFKey == nullptr) {
+            addedFKeys.append(newKey);
+        }
+    }
+
+    return addedFKeys;
+}
+
 QList<ForeignKeyPair> TableEntityComparator::modifiedForeignKeys() const
 {
     QList<ForeignKeyPair> modified;

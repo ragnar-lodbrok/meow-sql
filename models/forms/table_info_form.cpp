@@ -176,9 +176,10 @@ const QString TableInfoForm::engine() const
 
 void TableInfoForm::setEngine(const QString & value)
 {
-    if (_table) {
+    if (_table && (value != _table->engineStr()) ) {
         _table->setEngine(value);
         setHasUnsavedChanges(true);
+        emit tableEngineChanged(value);
     }
 }
 
@@ -241,6 +242,7 @@ bool TableInfoForm::supportsForeignKeys() const
 
 void TableInfoForm::save()
 {
+    // TODO: adding foreign keys may add indices
     if (_table->isNew()) { // insert
         meow::app()->dbConnectionsManager()->activeSession()->insertTableToDB(
             _table);

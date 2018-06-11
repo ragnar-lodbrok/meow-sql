@@ -70,6 +70,8 @@ public:
 
     Q_SIGNAL void tableColumnRemoved(const QString & name);
 
+    Q_SIGNAL void tableEngineChanged(const QString & engine);
+
 private:
 
     meow::db::TableEntity * _table; // copy of source table to edit

@@ -56,10 +56,13 @@ public:
                                           bool refresh = false);
     bool deleteAllCachedEntitiesInDatabase(const QString & dbName);
 
-    QString quoteIdentifier(const char * identifier, bool alwaysQuote = true,
-                            QChar glue = QChar::Null) const;
-    QString quoteIdentifier(const QString & identifier, bool alwaysQuote = true,
-                            QChar glue = QChar::Null) const;
+    QString quoteIdentifier(const char * identifier,
+                                   bool alwaysQuote = true,
+                                   QChar glue = QChar::Null) const;
+    QString quoteIdentifier(const QString & identifier,
+                                   bool alwaysQuote = true,
+                                   QChar glue = QChar::Null) const;
+    QStringList quoteIdentifiers(const QStringList & identifiers) const;
 
     const QStringList collationList();
     const QStringList tableEnginesList();

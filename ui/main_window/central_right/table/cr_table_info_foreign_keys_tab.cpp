@@ -22,6 +22,14 @@ ForeignKeysTab::ForeignKeysTab(models::forms::TableInfoForm * form,
     Q_CHECK_PTR(form);
     createWidgets();
     validateControls();
+
+    connect(form,
+            &models::forms::TableInfoForm::tableEngineChanged,
+            [=] (const QString & engineName) {
+                Q_UNUSED(engineName);
+                validateControls();
+            }
+    );
 }
 
 void ForeignKeysTab::createWidgets()

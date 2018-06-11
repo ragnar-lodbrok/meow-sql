@@ -24,6 +24,7 @@ private:
     void rename(TableEntity * table, const QString & newName);
     QString sqlCode(const TableColumn * column) const;
     QString sqlCode(TableIndex * index) const;
+    QString sqlCode(const ForeignKey * fKey) const;
     QString alterColumnSQL(const QString & oldName,
                            const QString & colSQL) const;
     QString dropSQL(EntityInDatabase * entity) const;

@@ -74,6 +74,8 @@ public:
     QList<TableIndexStatus> currIndicesWithStatus() const;
 
     QList<ForeignKey *> removedForeignKeys() const;
+
+    QList<ForeignKey *> addedForeignKeys() const;
     
     // return keys that (data) were modified (not removed, not inserted)
     QList<ForeignKeyPair> modifiedForeignKeys() const;

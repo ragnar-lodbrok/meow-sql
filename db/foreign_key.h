@@ -45,6 +45,7 @@ public:
     QList<TableColumn *> & columns() { return _columns; }
 
     QStringList & referenceColumns() { return _referenceColumns; }
+    QStringList referenceColumns() const { return _referenceColumns; }
 
     ReferenceOption onUpdate() const { return _onUpdate; }
     void setOnUpdate(ReferenceOption & opt) { _onUpdate = opt; }
