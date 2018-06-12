@@ -18,6 +18,7 @@ bool MySQLTableEditor::edit(TableEntity * table, TableEntity * newData)
     bool changed = false;
 
     // TODO: begin transaction ?
+    // (looks like DDL transactions are supported since v8.0)
 
     TableEntityComparator diff;
     diff.setCurrTable(newData);

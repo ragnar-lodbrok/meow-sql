@@ -51,6 +51,8 @@ void DataTableModel::removeData()
         beginRemoveColumns(QModelIndex(), 0, columnCount()-1);
         endRemoveColumns();
     }
+
+    queryData()->clearData();
 }
 
 void DataTableModel::loadData(bool force)

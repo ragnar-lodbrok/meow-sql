@@ -15,6 +15,7 @@ public:
 
     db::Query * query() const { return _queryPtr.get(); }
     void setQueryPtr(db::QueryPtr queryPtr) { _queryPtr = queryPtr; }
+    void clearData() { _queryPtr = nullptr; }
 
     int rowCount() const;
     int columnCount() const;
