@@ -7,6 +7,7 @@
 #include <QStringList>
 #include <QMap>
 #include "common.h"
+#include "native_query_result_interface.h"
 #include "connection_parameters.h"
 #include "exception.h"
 #include "entity/entity_list_for_database.h"
@@ -76,8 +77,9 @@ public:
     virtual void doBeforeConnect();
     virtual void doAfterConnect();
     virtual QString fetchCharacterSet() = 0;
-    virtual void query(const QString & SQL, bool storeResult = false) = 0; // H: add LogCategory
-    virtual std::size_t lastResultsCount() const { return 0; } // H: ResultCount    
+    virtual QueryResults query(
+            const QString & SQL,
+            bool storeResult = false) = 0; // H: add LogCategory
     virtual void setDatabase(const QString & database) = 0;
     virtual db::ulonglong getRowCount(const TableEntity * table) = 0;
     virtual QString escapeString(const QString & str,
@@ -107,9 +109,8 @@ public:
 
 protected:
     bool _active;
-    db::ulonglong _rowsFound;
-    db::ulonglong _rowsAffected;
-    int _statementNum; // TODO: why signed, usage?
+    db::ulonglong _rowsFound; // TODO: rm?
+    db::ulonglong _rowsAffected; // TODO: rm?
     QString _serverVersionString;
     unsigned long _serverVersionInt;
     QMap<QString, EntityListForDataBase *> _databaseEntitiesCache; // db name : db's entities

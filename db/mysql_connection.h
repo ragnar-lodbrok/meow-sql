@@ -8,10 +8,6 @@
 namespace meow {
 namespace db {
 
-typedef std::shared_ptr<MYSQL_RES> MySQLResult; // calls mysql_free_result in deleter
-
-MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes);
-
 class Query;
 
 class MySQLConnection : public Connection
@@ -35,9 +31,9 @@ public:
 
     virtual void setCharacterSet(const QString & characterSet) override;
     
-    virtual void query(const QString & SQL, bool storeResult = false) override;
-
-    virtual std::size_t lastResultsCount() const override;
+    virtual QueryResults query(
+            const QString & SQL,
+            bool storeResult = false) override;
 
     virtual QString escapeString(const QString & str,
                                  bool processJokerChars = false,
@@ -67,8 +63,6 @@ public:
 
     virtual std::unique_ptr<EntityFilter> entityFilter() override;
 
-    MySQLResult lastRawResultAt(std::size_t index) const;
-
 protected:
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() override;
 
@@ -78,7 +72,6 @@ protected:
 
 private:
     MYSQL * _handle;
-    std::vector<MySQLResult> _lastRawResults;
 };
 
 } // namespace db

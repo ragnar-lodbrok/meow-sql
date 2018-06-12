@@ -242,7 +242,9 @@ HEADERS  += app.h \
     db/entity/entity_filter.h \
     db/entity/mysql_entity_filter.h \
     models/delegates/foreign_key_foreign_columns_delegate.h \
-    models/delegates/foreign_key_columns_delegate.h
+    models/delegates/foreign_key_columns_delegate.h \
+    db/native_query_result_interface.h \
+    db/mysql_query_result.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

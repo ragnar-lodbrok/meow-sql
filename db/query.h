@@ -1,14 +1,13 @@
 #ifndef DB_QUERY_H
 #define DB_QUERY_H
 
-
-
 #include <QString>
 #include <vector>
 #include <QMap>
 
 #include "common.h"
 #include "query_column.h"
+#include "native_query_result_interface.h"
 
 namespace meow {
 namespace db {
@@ -37,7 +36,7 @@ public:
     QueryColumn & column(std::size_t index) { return _columns[index]; }
 
     // H: procedure Execute(AddResult: Boolean=False; UseRawResult: Integer=-1); virtual; abstract;
-    virtual void execute(bool addResult = false, std::size_t useRawResult = -1) = 0;
+    virtual void execute(bool addResult = false) = 0;
 
     virtual bool hasResult() = 0;
 

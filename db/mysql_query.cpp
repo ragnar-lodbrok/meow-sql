@@ -17,19 +17,15 @@ MySQLQuery::~MySQLQuery()
 
 }
 
-void MySQLQuery::execute(bool addResult /*= false*/, std::size_t useRawResult /*= -1*/) // override
+void MySQLQuery::execute(bool addResult /*= false*/) // override
 {
     qDebug() << "[MySQLQuery] " << "Executing: " << SQL();
 
-    // Execute a query, or just take over one of the last result pointers
-    if (useRawResult == (std::size_t)-1) {
-        connection()->query(this->SQL(), true); //H: FStoreResult seems always true?
-        useRawResult = 0;
-    }
+    QueryResults results = connection()->query(this->SQL(), true);
 
-    MySQLResult lastResult = nullptr;
-    if (connection()->lastResultsCount() > useRawResult) {
-        lastResult = static_cast<MySQLConnection *>(connection())->lastRawResultAt(useRawResult);
+    MySQLQueryResultPt lastResult = nullptr;
+    if (!results.isEmpty()) {
+        lastResult = std::static_pointer_cast<MySQLQueryResult>(results.front());
     }
 
     if (addResult && _resultList.size() == 0) {
@@ -44,7 +40,7 @@ void MySQLQuery::execute(bool addResult /*= false*/, std::size_t useRawResult /*
 
     if (lastResult) {
         _resultList.push_back(lastResult);
-        _recordCount += lastResult.get()->row_count;
+        _recordCount += lastResult->nativePtr()->row_count;
     }
 
     if (!addResult) {
@@ -55,7 +51,7 @@ void MySQLQuery::execute(bool addResult /*= false*/, std::size_t useRawResult /*
             // FCurrentResults is normally done in SetRecNo, but never if result has no rows
             // H: FCurrentResults := LastResult;
 
-            unsigned int numFields = mysql_num_fields(lastResult.get());
+            unsigned int numFields = mysql_num_fields(lastResult->nativePtr());
 
             _columnLengths.resize(numFields);
             // TODO: skip columns parsing when we don't need them (e.g. sample queries)
@@ -63,7 +59,7 @@ void MySQLQuery::execute(bool addResult /*= false*/, std::size_t useRawResult /*
             _columns.resize(numFields);
 
             for (unsigned int i=0; i < numFields; ++i) {
-                MYSQL_FIELD * field = mysql_fetch_field_direct(lastResult.get(), i);
+                MYSQL_FIELD * field = mysql_fetch_field_direct(lastResult->nativePtr(), i);
                 QueryColumn & column = _columns[i];
                 QString fieldName = QString(field->name);
                 column.name = fieldName;
@@ -98,12 +94,12 @@ DataTypeIndex MySQLQuery::dataTypeOfField(MYSQL_FIELD * field)
 }
 
 
-bool MySQLQuery::hasResult() // override
+bool MySQLQuery::hasResult()
 {
     return _resultList.empty() == false;
 }
 
-void MySQLQuery::seekRecNo(db::ulonglong value) // override
+void MySQLQuery::seekRecNo(db::ulonglong value)
 {
     if (value == _curRecNo) {
         return;
@@ -122,10 +118,10 @@ void MySQLQuery::seekRecNo(db::ulonglong value) // override
     if (!rowFound) {
         db::ulonglong numRows = 0;
         for (auto result : _resultList) {
-            numRows += result.get()->row_count;
+            numRows += result->nativePtr()->row_count;
             if (numRows > value) {
                 _currentResult = result; // TODO: why ?
-                MYSQL_RES * curResPtr = _currentResult.get();
+                MYSQL_RES * curResPtr = _currentResult->nativePtr();
                 // TODO: using unsigned with "-" is risky
                 db::ulonglong wantedLocalRecNo = curResPtr->row_count - (numRows - value);
                 // H: Do not seek if FCurrentRow points to the previous row of the wanted row

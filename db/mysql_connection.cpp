@@ -10,6 +10,7 @@
 #include "mysql_collation_fetcher.h"
 #include "mysql_table_engines_fetcher.h"
 #include "db/entity/mysql_entity_filter.h"
+#include "mysql_query_result.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -121,6 +122,7 @@ void MySQLConnection::setActive(bool active) // override
         }
 
         QString curCharSet = fetchCharacterSet();
+        Q_UNUSED(curCharSet);
 
         // H: show status
         _serverVersionString = QString(mysql_get_server_info(_handle));
@@ -193,13 +195,16 @@ bool MySQLConnection::ping(bool reconnect) // override
     return _active;
 }
 
-void MySQLConnection::query(const QString & SQL, bool storeResult) // override
+QueryResults MySQLConnection::query(const QString & SQL,
+                                    bool storeResult)
 {
     // H: FLockedByThread
     // TODO: need mutex when multithreading
 
     qDebug() << "[MySQLConnection] " << "Query: " << SQL;
     
+    QueryResults results;
+
     ping(true);    
     // TODO: H: FLastQuerySQL
 
@@ -211,8 +216,9 @@ void MySQLConnection::query(const QString & SQL, bool storeResult) // override
         nativeSQL = SQL.toLatin1();
     }
 
-    _statementNum = 1;
-    int queryStatus = mysql_real_query(_handle, nativeSQL.constData(), nativeSQL.size());
+    int queryStatus = mysql_real_query(_handle,
+                                       nativeSQL.constData(),
+                                       nativeSQL.size());
 
     if (queryStatus != 0) {
         QString error = getLastError();
@@ -223,9 +229,12 @@ void MySQLConnection::query(const QString & SQL, bool storeResult) // override
     // TODO: H: FWarningCount := mysql_warning_count(FHandle);
     _rowsAffected = 0;
     _rowsFound = 0;
-    _lastRawResults.clear();
 
-    MYSQL_RES * queryResult = mysql_store_result(_handle);
+    MYSQL_RES * queryResult = nullptr;
+
+    if (storeResult) { 
+        queryResult = mysql_store_result(_handle);
+    }
 
     if (queryResult == nullptr && mysql_affected_rows(_handle) == (my_ulonglong)-1) {
         // TODO: the doc stands to check mysql_error(), no mysql_affected_rows ?
@@ -241,9 +250,8 @@ void MySQLConnection::query(const QString & SQL, bool storeResult) // override
             // Statement returned a result set
             _rowsFound += mysql_num_rows(queryResult);
             if (storeResult) {
-                _lastRawResults.push_back(
-                   createSharedMySQLResultFromNative(queryResult)
-                ); // smells, but just copy now till understand
+                auto result = std::make_shared<MySQLQueryResult>(queryResult);
+                results << result;
             } else {
                 mysql_free_result(queryResult);
             }
@@ -255,11 +263,10 @@ void MySQLConnection::query(const QString & SQL, bool storeResult) // override
         // more results? -1 = no, >0 = error, 0 = yes (keep looping)
         queryStatus = mysql_next_result(_handle);
         if (queryStatus == 0) {
-            ++_statementNum; // H does it above if
             queryResult = mysql_store_result(_handle);
         } else if (queryStatus > 0) { // err
             // MySQL stops executing a multi-query when an error occurs. So do we here by raising an exception.
-            _lastRawResults.clear();
+            results.clear();
             QString error = getLastError();
             qDebug() << "[MySQLConnection] " << "Query (next) failed: " << error;
             throw db::Exception(error);
@@ -269,10 +276,10 @@ void MySQLConnection::query(const QString & SQL, bool storeResult) // override
 
     qDebug() << "[MySQLConnection] " << "Query rows found/affected: " << _rowsFound << "/" << _rowsAffected;
 
-    // TODO: we should simply return raw results as new type (call free in dtor)?
+    return results;
 }
 
-QStringList MySQLConnection::fetchDatabases() // override
+QStringList MySQLConnection::fetchDatabases()
 {
 
     try {
@@ -289,21 +296,9 @@ QStringList MySQLConnection::fetchDatabases() // override
     return QStringList();
 }
 
-
-std::size_t MySQLConnection::lastResultsCount() const // override
-{
-    // listening: Killswitch Engage - The End Of Heartache
-    return _lastRawResults.size();
-}
-
-MySQLResult MySQLConnection::lastRawResultAt(std::size_t index) const
-{
-    return _lastRawResults.at(index);
-}
-
 QString MySQLConnection::escapeString(const QString & str,
                                       bool processJokerChars,
-                                      bool doQuote /*= true*/) const // override
+                                      bool doQuote /*= true*/) const
 {
 
     QString res = str;
@@ -443,17 +438,6 @@ bool MySQLConnection::supportsForeignKeys(const TableEntity * table) const
 std::unique_ptr<EntityFilter> MySQLConnection::entityFilter()
 {
     return std::unique_ptr<EntityFilter>(new MySQLEntityFilter(this));
-}
-
-MySQLResult createSharedMySQLResultFromNative(MYSQL_RES * nativeMySQLRes)
-{
-    return std::shared_ptr<MYSQL_RES> (nativeMySQLRes,
-        [](MYSQL_RES * nativeMySQLRes) {
-            if (nativeMySQLRes) {
-                mysql_free_result(nativeMySQLRes);
-            }
-        }
-    );
 }
 
 DataBaseEntitiesFetcher * MySQLConnection::createDbEntitiesFetcher() // override
