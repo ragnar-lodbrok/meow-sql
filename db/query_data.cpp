@@ -1,5 +1,7 @@
 #include "query_data.h"
 #include "query.h"
+#include "helpers/formatting.h"
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -53,8 +55,18 @@ QString QueryData::rawDataAt(int row, int column) const
         if (query->isNull(column)) {
             return "(NULL)"; // TODO: const
         } else {
-            // TODO: formatting, see AnyGridGetText
-            return query->curRowColumn(column, true);
+
+            QString data = query->curRowColumn(column, true);
+
+            // TODO: more formatting, see AnyGridGetText
+
+            auto categoryIndex = columnDataTypeCategory(column);
+            if (categoryIndex == DataTypeCategoryIndex::Spatial
+                || categoryIndex == DataTypeCategoryIndex::Binary) {
+                return helpers::formatAsHex(data);
+            }
+
+            return data;
         }
     }
     return QString();

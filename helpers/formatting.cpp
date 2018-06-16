@@ -34,6 +34,11 @@ QString formatDateTime(const QDateTime & dateTime)
     return QLocale().toString(dateTime, "yyyy-MM-dd HH:mm:ss");
 }
 
+QString formatAsHex(const QString & str)
+{
+    return QString::fromLatin1( str.toLatin1().toHex() ).toUpper();
+}
+
 } // namespace helpers
 } // namespace meow
 

@@ -3,6 +3,7 @@
 meow::db::DataTypeCategoryIndex meow::db::categoryOfDataType(meow::db::DataTypeIndex type)
 {
     switch (type) {
+
     case DataTypeIndex::TinyInt:
     case DataTypeIndex::SmallInt:
     case DataTypeIndex::MediumInt:
@@ -13,6 +14,7 @@ meow::db::DataTypeCategoryIndex meow::db::categoryOfDataType(meow::db::DataTypeI
     case DataTypeIndex::Bit:
     case DataTypeIndex::VarBit:
         return DataTypeCategoryIndex::Integer;
+
     case DataTypeIndex::Float:
     case DataTypeIndex::Double:
     case DataTypeIndex::Decimal:
@@ -22,6 +24,7 @@ meow::db::DataTypeCategoryIndex meow::db::categoryOfDataType(meow::db::DataTypeI
     case DataTypeIndex::Money:
     case DataTypeIndex::SmallMoney:
         return DataTypeCategoryIndex::Float;
+
     case DataTypeIndex::Date:
     case DataTypeIndex::Time:
     case DataTypeIndex::Year:
@@ -31,6 +34,7 @@ meow::db::DataTypeCategoryIndex meow::db::categoryOfDataType(meow::db::DataTypeI
     case DataTypeIndex::Timestamp:
     case DataTypeIndex::Interval:
         return DataTypeCategoryIndex::Temporal;
+
     case DataTypeIndex::Char:
     case DataTypeIndex::Nchar:
     case DataTypeIndex::Varchar:
@@ -46,6 +50,7 @@ meow::db::DataTypeCategoryIndex meow::db::categoryOfDataType(meow::db::DataTypeI
     case DataTypeIndex::Macaddr:
     case DataTypeIndex::Uniqueidentifier:
         return DataTypeCategoryIndex::Text;
+
     case DataTypeIndex::Binary:
     case DataTypeIndex::Varbinary:
     case DataTypeIndex::Tinyblob:
@@ -54,6 +59,7 @@ meow::db::DataTypeCategoryIndex meow::db::categoryOfDataType(meow::db::DataTypeI
     case DataTypeIndex::Longblob:
     case DataTypeIndex::Image:
         return DataTypeCategoryIndex::Binary;
+
     case DataTypeIndex::Enum:
     case DataTypeIndex::Set:
     case DataTypeIndex::Bool:
@@ -63,6 +69,7 @@ meow::db::DataTypeCategoryIndex meow::db::categoryOfDataType(meow::db::DataTypeI
     case DataTypeIndex::Table:
     case DataTypeIndex::Hierarchyid:
         return DataTypeCategoryIndex::Other;
+
     case DataTypeIndex::Point:
     case DataTypeIndex::Linestring:
     case DataTypeIndex::LineSegment:

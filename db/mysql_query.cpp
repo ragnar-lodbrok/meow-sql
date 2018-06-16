@@ -151,14 +151,23 @@ void MySQLQuery::seekRecNo(db::ulonglong value)
     _eof = false;
 }
 
-QString MySQLQuery::curRowColumn(std::size_t index, bool ignoreErrors /*= false*/) // override
+QString MySQLQuery::curRowColumn(std::size_t index, bool ignoreErrors)
 {
     if (index < columnCount()) {
-        // H: if FEditingPrepared
-        // H: if Datatype(Column).Category in [dtcBinary, dtcSpatial] then
-        QString result = QString::fromUtf8(_curRow[index], _columnLengths[index]);
+        // H: if FEditingPrepared // TODO
 
-        // H: if Datatype(Column).Index = dtBit
+        QString result;
+
+        DataTypeCategoryIndex typeCategory = column(index).dataTypeCategoryIndex;
+        if (typeCategory == DataTypeCategoryIndex::Binary
+            || typeCategory == DataTypeCategoryIndex::Spatial) {
+            result = QString::fromLatin1(_curRow[index], _columnLengths[index]);
+        } else {
+            // TODO: non-unicode support?
+            result = QString::fromUtf8(_curRow[index], _columnLengths[index]);
+        }
+
+        // H: if Datatype(Column).Index = dtBit // TODO
 
         return result;
 
@@ -172,7 +181,7 @@ QString MySQLQuery::curRowColumn(std::size_t index, bool ignoreErrors /*= false*
     return QString();
 }
 
-bool MySQLQuery::isNull(std::size_t index) // override
+bool MySQLQuery::isNull(std::size_t index)
 {
     throwOnInvalidColumnIndex(index);
 
