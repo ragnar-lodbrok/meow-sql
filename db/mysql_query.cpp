@@ -5,6 +5,10 @@
 namespace meow {
 namespace db {
 
+// To distinguish between binary and nonbinary data for string data types,
+// check whether the charsetnr value is 63.
+static const int MYSQL_BINARY_CHARSET_NUMBER = 63;
+
 MySQLQuery::MySQLQuery(Connection *connection)
     :Query(connection),
      _curRow(nullptr)
@@ -82,15 +86,34 @@ void MySQLQuery::execute(bool addResult /*= false*/) // override
 
 DataTypeIndex MySQLQuery::dataTypeOfField(MYSQL_FIELD * field)
 {
-    if (field->flags & ENUM_FLAG) {
-        return DataTypeIndex::Enum;
-    } else if (field->flags & SET_FLAG) {
-        return DataTypeIndex::Set;
+    // http://dev.mysql.com/doc/refman/5.7/en/c-api-data-structures.html
+
+    bool isStringType = field->type == FIELD_TYPE_STRING;
+
+    // ENUM and SET values are returned as strings. For these, check that
+    // the type value is MYSQL_TYPE_STRING and that the ENUM_FLAG or SET_FLAG
+    // flag is set in the flags value.
+    if (isStringType) {
+        if (field->flags & ENUM_FLAG) {
+            return DataTypeIndex::Enum;
+        } else if (field->flags & SET_FLAG) {
+            return DataTypeIndex::Set;
+        }
     }
 
-    // TODO: detect binary
+    // To distinguish between binary and nonbinary data for string data types,
+    // check whether the charsetnr value is 63. If so, the character set is
+    // binary, which indicates binary rather than nonbinary data. This enables
+    // you to distinguish BINARY from CHAR, VARBINARY from VARCHAR, and the BLOB
+    // types from the TEXT types.
+    bool isBinary;
+    if (connection()->isUnicode()) {
+        isBinary = field->charsetnr == MYSQL_BINARY_CHARSET_NUMBER;
+    } else { // TODO: not sure we need this
+        isBinary = (field->flags & BINARY_FLAG);
+    }
 
-    return dataTypeFromMySQLDataType(field->type);
+    return dataTypeFromMySQLDataType(field->type, isBinary);
 }
 
 
