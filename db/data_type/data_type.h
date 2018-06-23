@@ -84,6 +84,7 @@ DataTypeCategoryIndex categoryOfDataType(DataTypeIndex type);
 bool dataTypeCanBeUnsigned(DataTypeIndex type);
 bool dataTypeCanBeZeroFill(DataTypeIndex type);
 bool dataTypeHasLength(DataTypeIndex type);
+bool dataTypeLoadPartially(DataTypeIndex type);
 
 inline bool dataTypeIsNumeric(DataTypeIndex type) {
     auto category = categoryOfDataType(type);

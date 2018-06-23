@@ -34,6 +34,7 @@ public:
 
     void setLengthSet(const QString & len) { _lengthSet = len; }
     QString lengthSet() const { return _lengthSet; }
+    int lengthAsInt() const { return _lengthSet.toInt(); }
 
     void setIsUnsigned(bool isUnsigned) { _unsigned = isUnsigned; }
     bool isUnsigned() const { return _unsigned; }

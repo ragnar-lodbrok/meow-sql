@@ -8,7 +8,7 @@ QueryCriteria::QueryCriteria()
      limit(0),
      offset(0)
 {
-
+    select << "*";
 }
 
 } // namespace db

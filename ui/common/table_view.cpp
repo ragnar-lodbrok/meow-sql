@@ -1,11 +1,13 @@
 #include "table_view.h"
 #include "app.h"
+#include <QDebug>
 
 namespace meow {
 namespace ui {
 
 static const int colMargin = 10;
 static const int minColWidth = 90;
+static const int maxColWidth = 500;
 
 int TableView::sizeHintForColumn(int column) const
 {
@@ -13,7 +15,7 @@ int TableView::sizeHintForColumn(int column) const
     int parentHint = QTableView::sizeHintForColumn(column);
     if (parentHint > 0) {
         if (meow::app()->settings()->textSettings()->autoResizeTableColumns()) {
-            return qMax(parentHint + colMargin, minColWidth);
+            return qMin(qMax(parentHint + colMargin, minColWidth), maxColWidth);
         }
     }
     return parentHint;

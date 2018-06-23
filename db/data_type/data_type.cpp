@@ -172,6 +172,26 @@ bool meow::db::dataTypeHasLength(DataTypeIndex type)
     }
 }
 
+bool meow::db::dataTypeLoadPartially(DataTypeIndex type)
+{
+    switch (type) {
+    // only enable for blob types for now
+    /*case DataTypeIndex::Varchar:
+    case DataTypeIndex::Varbinary:
+
+    case DataTypeIndex::Text:
+    case DataTypeIndex::MediumText:
+    case DataTypeIndex::LongText:*/
+
+    case DataTypeIndex::Blob:
+    case DataTypeIndex::Mediumblob:
+    case DataTypeIndex::Longblob:
+        return true;
+    default:
+        return false;
+    }
+}
+
 const meow::db::DataTypeNamesMap & meow::db::dataTypeNames()
 {
     // TODO: pass db type, now for mysql only

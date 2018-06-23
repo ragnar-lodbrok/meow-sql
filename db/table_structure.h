@@ -51,7 +51,12 @@ public:
     QString comment() const { return _comment; }
     void setComment(const QString & comment) { _comment = comment; }
 
-    bool hasIndexForColumn(const QString & columnName, TableIndexClass indexClass);
+    bool hasIndexForColumn(const QString & columnName,
+                           TableIndexClass indexClass);
+
+    bool isColumnPrimaryKey(const QString & columnName) {
+        return hasIndexForColumn(columnName, TableIndexClass::PrimaryKey);
+    }
 
     TableStructure * deepCopy(TableEntity * parentTable) const;
 

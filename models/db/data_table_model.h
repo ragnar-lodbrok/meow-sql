@@ -33,6 +33,7 @@ public:
     QString rowCountStats() const;
 
 private:
+
     bool _entityChangedProcessed;
     meow::db::Entity * _dbEntity;
     meow::db::ulonglong _wantedRowsCount;

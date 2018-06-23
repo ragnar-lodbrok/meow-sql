@@ -85,6 +85,16 @@ void DataTableModel::loadData(bool force)
     queryCritera.limit = _wantedRowsCount - offset;
     queryCritera.offset = offset;
 
+    auto textSettings = meow::app()->settings()->textSettings();
+    bool limitDataLoadLen = textSettings->autoLimitLoadDataLength();
+
+    if (limitDataLoadLen) {
+        if (_dbEntity->type() == meow::db::Entity::Type::Table) {
+            auto table = static_cast<meow::db::TableEntity *>(_dbEntity);
+            queryCritera.select = queryDataFetcher->selectList(table);
+        }
+    }
+
     queryDataFetcher->run(&queryCritera, queryData());
 
     _entityChangedProcessed = true;

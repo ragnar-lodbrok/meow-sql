@@ -20,6 +20,7 @@ public:
 
     int tableAutoResizeRowsLookupCount() const { return 10; }
     bool autoResizeTableColumns() const { return true; }
+    bool autoLimitLoadDataLength() const { return true; }
 
     const QColor colorForDataType(db::DataTypeCategoryIndex type) const;
     const QColor colorForDataTypeNULL(db::DataTypeCategoryIndex type) const;

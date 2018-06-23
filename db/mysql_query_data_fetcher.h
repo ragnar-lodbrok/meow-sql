@@ -16,6 +16,8 @@ public:
 
     virtual void run(QueryCriteria * queryCriteria,
                      QueryData * toData) override;
+
+    virtual QStringList selectList(TableEntity * table) override;
 };
 
 } // namespace db
