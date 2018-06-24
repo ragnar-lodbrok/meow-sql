@@ -21,6 +21,28 @@ TableTab::TableTab(QWidget * parent) : QWidget(parent)
     );
 }
 
+TableTab::~TableTab()
+{
+    saveGeometryToSettings();
+}
+
+void TableTab::saveGeometryToSettings()
+{
+    QSettings settings;
+    settings.setValue(
+        "ui/main_window/center_right/table_tab/main_splitter",
+        _mainSplitter->saveState());
+
+}
+
+void TableTab::loadGeometryFromSettings()
+{
+    QSettings settings;
+    _mainSplitter->restoreState(settings.value(
+        "ui/main_window/center_right/table_tab/main_splitter")
+        .toByteArray());
+}
+
 void TableTab::setTable(db::TableEntity * table)
 {
     _columns->setTable(nullptr); // TODO: dirty
@@ -85,6 +107,8 @@ void TableTab::createWidgets()
 
     createGeneralButtons();
     validateControls();
+
+    loadGeometryFromSettings();
 }
 
 

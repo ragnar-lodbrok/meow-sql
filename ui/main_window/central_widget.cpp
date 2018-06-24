@@ -12,6 +12,27 @@ CentralWidget::CentralWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel
     createMainLayout();
 }
 
+CentralWidget::~CentralWidget()
+{
+    saveGeometryToSettings();
+}
+
+void CentralWidget::saveGeometryToSettings()
+{
+    QSettings settings;
+    settings.setValue("ui/main_window/center_widget/main_hsplitter",
+                      _mainHorizontalSplitter->saveState());
+
+}
+
+void CentralWidget::loadGeometryFromSettings()
+{
+    QSettings settings;
+    _mainHorizontalSplitter->restoreState(
+        settings.value("ui/main_window/center_widget/main_hsplitter")
+                .toByteArray());
+}
+
 void CentralWidget::createMainLayout()
 {
     _mainLayout = new QHBoxLayout();
@@ -32,6 +53,8 @@ void CentralWidget::createMainLayout()
     _mainHorizontalSplitter->setStretchFactor(0, 0);
     _mainHorizontalSplitter->addWidget(_mainRightWidget);
     _mainHorizontalSplitter->setStretchFactor(1, 5);
+
+    loadGeometryFromSettings();
 }
 
 void CentralWidget::setActiveDBEntity(db::Entity * entity, bool select)

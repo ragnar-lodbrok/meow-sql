@@ -16,6 +16,28 @@ QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) :
     createWidgets();
 }
 
+QueryTab::~QueryTab()
+{
+    saveGeometryToSettings();
+}
+
+void QueryTab::saveGeometryToSettings()
+{
+    // TODO: use number of query tab in string
+    QSettings settings;
+    settings.setValue(
+        "ui/main_window/center_right/query_tab/0/vsplitter",
+        _mainVerticalSplitter->saveState());
+}
+
+void QueryTab::loadGeometryFromSettings()
+{
+    QSettings settings;
+    _mainVerticalSplitter->restoreState(
+        settings.value("ui/main_window/center_right/query_tab/0/vsplitter")
+        .toByteArray());
+}
+
 void QueryTab::createWidgets()
 {
     _mainLayout = new QHBoxLayout();
@@ -35,6 +57,8 @@ void QueryTab::createWidgets()
     _mainVerticalSplitter->addWidget(_queryResult);
 
     _mainVerticalSplitter->setSizes({150, 500});
+
+    loadGeometryFromSettings();
 }
 
 void QueryTab::onActionRun(bool checked)

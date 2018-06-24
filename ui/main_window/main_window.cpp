@@ -18,7 +18,8 @@ Window::Window(QWidget *parent)
     setMinimumSize(QSize(700, 400));
     setWindowTitle("MeowSQL");
     setWindowIcon(QIcon(":/icons/logo.png"));
-    resize(QSize(880, 500));
+
+    restoreGeometryAndState();
 
     //createMenus(); // no actions
     _centralWidget = new CentralWidget(&_dbEntitiesTreeModel);
@@ -78,6 +79,14 @@ bool Window::openDBConnection(db::ConnectionParameters & params)
     return true;
 }
 
+// protected: ------------------------------------------------------------------
+
+void Window::closeEvent(QCloseEvent *event)
+{
+    writeGeometryAndState();
+    QMainWindow::closeEvent(event);
+}
+
 // private: --------------------------------------------------------------------
 
 
@@ -110,6 +119,40 @@ void Window::showErrorMessage(const QString& message)
 void Window::activeDBEntityChanged(db::Entity * newEntity, bool select)
 {
     _centralWidget->setActiveDBEntity(newEntity, select);
+}
+
+void Window::writeGeometryAndState()
+{
+    QSettings settings;
+    settings.setValue("ui/main_window/geometry", saveGeometry());
+    settings.setValue("ui/main_window/state", saveState());
+}
+
+void Window::restoreGeometryAndState()
+{
+    QSettings settings;
+
+    const QByteArray geometry
+        = settings.value("ui/main_window/geometry", QByteArray()).toByteArray();
+    if (geometry.isEmpty()) {
+
+        // screen center
+        this->setGeometry(
+            QStyle::alignedRect(
+                Qt::LeftToRight,
+                Qt::AlignCenter,
+                QSize(880, 500),
+                qApp->desktop()->availableGeometry()
+            )
+        );
+    } else {
+        restoreGeometry(geometry);
+        const QByteArray state
+            = settings.value("ui/main_window/state", QByteArray()).toByteArray();
+        if (!state.isEmpty()) {
+            restoreState(state);
+        }
+    }
 }
 
 } // namespace main_window

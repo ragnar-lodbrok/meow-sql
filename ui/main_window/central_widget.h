@@ -16,9 +16,14 @@ public:
     explicit CentralWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel,
                            QWidget * parent = nullptr);
 
+    ~CentralWidget();
+
     void setActiveDBEntity(db::Entity * entity, bool select = false);
     void onCreatingNewEntity(db::Entity * entity);
 private:
+
+    void saveGeometryToSettings();
+    void loadGeometryFromSettings();
 
     void createMainLayout();
 

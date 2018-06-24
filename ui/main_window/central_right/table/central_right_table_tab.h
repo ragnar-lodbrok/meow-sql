@@ -23,11 +23,15 @@ class TableTab : public QWidget
 public:
 
     explicit TableTab(QWidget * parent = 0);
+    ~TableTab();
 
     void setTable(db::TableEntity * table);
 
     void onBeforeEntityEditing();
 private:
+
+    void saveGeometryToSettings();
+    void loadGeometryFromSettings();
 
     void createWidgets();
     void createGeneralButtons();

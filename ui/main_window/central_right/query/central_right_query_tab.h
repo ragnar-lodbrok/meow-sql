@@ -23,10 +23,14 @@ class QueryTab : public QWidget
     Q_OBJECT
 public:
     explicit QueryTab(db::UserQuery * query, QWidget *parent = 0);
+    ~QueryTab();
 
     Q_SLOT void onActionRun(bool checked);
 
 private:
+
+    void saveGeometryToSettings();
+    void loadGeometryFromSettings();
 
     void createWidgets();
 

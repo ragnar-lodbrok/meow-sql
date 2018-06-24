@@ -20,7 +20,15 @@ public:
     void showSessionManagerDialog();
     bool openDBConnection(db::ConnectionParameters & params);
 
+protected:
+
+    virtual void closeEvent(QCloseEvent *event) override;
+
 private:
+
+    void writeGeometryAndState();
+    void restoreGeometryAndState();
+
     void createMenus();
 
     void showErrorMessage(const QString& message);
