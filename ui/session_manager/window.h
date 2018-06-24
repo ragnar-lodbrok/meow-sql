@@ -22,6 +22,7 @@ class Window : public QDialog
 
 public:
     explicit Window(meow::ui::main_window::Window * mainWindow);
+    ~Window();
 
 private:
 
@@ -67,6 +68,9 @@ private:
     void selectSessionAt(int rowIndex);
 
     void showErrorMessage(const QString& message);
+
+    void saveGeometryToSettings();
+    void loadGeometryFromSettings();
 
     QSharedPointer<meow::models::db::ConnectionParamsModel> _connectionParamsModel;
     //QSortFilterProxyModel _proxySortModel;// TODO

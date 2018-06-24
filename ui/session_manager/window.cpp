@@ -1,14 +1,14 @@
 #include "ui/session_manager/window.h"
 #include "app.h"
 #include "ui/main_window/main_window.h"
-
+#include <QStyle>
 
 namespace meow {
 namespace ui {
 namespace session_manager {
 
 Window::Window(main_window::Window * mainWindow)
-    :QDialog(mainWindow),
+    :QDialog(mainWindow, Qt::WindowCloseButtonHint),
     _mainWindow(mainWindow),
     _saveConfirmCanceled(false)
 {
@@ -19,8 +19,6 @@ Window::Window(main_window::Window * mainWindow)
     createMainLayout();
     createLeftSubWidgets();
     createRightSubWidgets();
-
-    resize(QSize(760, 410));
 
     connect(_connectionParamsModel.data(),
             &meow::models::db::ConnectionParamsModel::selectedFormDataModified,
@@ -41,6 +39,13 @@ Window::Window(main_window::Window * mainWindow)
             });
 
     validateControls();
+
+    loadGeometryFromSettings();
+}
+
+Window::~Window()
+{
+    saveGeometryToSettings();
 }
 
 void Window::createMainLayout()
@@ -64,7 +69,6 @@ void Window::createMainLayout()
     _mainSplitter->setStretchFactor(0, 1);
     _mainSplitter->addWidget(_mainRightWidget);
     _mainSplitter->setStretchFactor(1, 2);
-
 }
 
 void Window::createLeftSubWidgets()
@@ -418,6 +422,39 @@ void Window::showErrorMessage(const QString& message)
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.setIcon(QMessageBox::Critical);
     msgBox.exec();
+}
+
+void Window::saveGeometryToSettings()
+{
+    QSettings settings;
+    settings.setValue("ui/session_manager_window/size", size());
+    settings.setValue("ui/session_manager_window/main_splitter",
+                      _mainSplitter->saveState());
+}
+
+void Window::loadGeometryFromSettings()
+{
+    QSettings settings;
+    QSize size
+        = settings.value("ui/session_manager_window/size", QSize()).toSize();
+
+    if (size.isNull()) {
+        size = QSize(760, 410);
+    }
+
+    // main window center
+    this->setGeometry(
+        QStyle::alignedRect(
+            Qt::LayoutDirectionAuto,
+            Qt::AlignCenter,
+            size,
+            _mainWindow->geometry()
+        )
+    );
+
+    _mainSplitter->restoreState(
+        settings.value("ui/session_manager_window/main_splitter")
+        .toByteArray());
 }
 
 } // namespace session_manager
