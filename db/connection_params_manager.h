@@ -30,6 +30,8 @@ private:
     int add(const ConnectionParameters &connectionParams);
     void saveParams(const ConnectionParameters & params);
     void removeSavedParams(const ConnectionParameters & params);
+
+    unsigned _uniqueParamsId;
 };
 
 } // namespace db

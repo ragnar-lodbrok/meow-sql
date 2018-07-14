@@ -3,7 +3,8 @@
 #include <QSettings>
 
 meow::db::ConnectionParamsManager::ConnectionParamsManager()
-    :_params()
+    :_params(),
+     _uniqueParamsId(0)
 {
 
 }
@@ -34,7 +35,6 @@ bool meow::db::ConnectionParamsManager::renameParamsAndSave(
         ConnectionParameters &params,
         const QString& newName)
 {
-    // need this shit bc params are identified by name and need to be unique
 
     if (newName.isEmpty()) {
         return false;
@@ -51,7 +51,6 @@ bool meow::db::ConnectionParamsManager::renameParamsAndSave(
         }
     }
 
-    removeSavedParams(params);
     params.setSessionName(newName);
     saveParams(params);
 
@@ -59,7 +58,9 @@ bool meow::db::ConnectionParamsManager::renameParamsAndSave(
 }
 
 
-void meow::db::ConnectionParamsManager::updateAndSaveParamsAt(int index, const ConnectionParameters &connectionParams)
+void meow::db::ConnectionParamsManager::updateAndSaveParamsAt(
+        int index,
+        const ConnectionParameters &connectionParams)
 {
     _params.replace(index, connectionParams);
     saveParams(connectionParams);
@@ -69,17 +70,28 @@ void meow::db::ConnectionParamsManager::updateAndSaveParamsAt(int index, const C
 void meow::db::ConnectionParamsManager::load()
 {
 
+    // Listening: Sylosis - Where The Wolves Come To Die
+
     QSettings settings;
 
     settings.beginGroup("db");
         settings.beginGroup("connection_params_manager");
-            QStringList sessionNames = settings.childGroups();
+            QStringList paramIds = settings.childGroups();
 
-            foreach (const QString &sessionName, sessionNames) {
-                settings.beginGroup(sessionName);
+            foreach (const QString &paramId, paramIds) {
+                settings.beginGroup(paramId);
+
+                unsigned id = paramId.toInt();
+                if (_uniqueParamsId < id) {
+                    _uniqueParamsId = id;
+                }
+                if (id == 0) {
+                    id = ++_uniqueParamsId;
+                }
 
                 ConnectionParameters loadedParams(this);
-                loadedParams.setSessionName(sessionName);
+                loadedParams.setId(id);
+                loadedParams.setSessionName(settings.value("sessionName", "").toString());
                 int networkType = settings.value("networkType", static_cast<int>(loadedParams.port())).toInt();
                 loadedParams.setNetworkType(static_cast<NetworkType>(networkType));
                 loadedParams.setHostName(settings.value("hostName", loadedParams.hostName()).toString());
@@ -106,8 +118,9 @@ void meow::db::ConnectionParamsManager::saveParams(const ConnectionParameters & 
 
     settings.beginGroup("db");
         settings.beginGroup("connection_params_manager");
-            settings.beginGroup(params.sessionName());
+            settings.beginGroup( QString::number(params.id()) );
 
+                settings.setValue("sessionName", params.sessionName());
                 settings.setValue("networkType", static_cast<int>(params.networkType()));
                 settings.setValue("hostName", params.hostName());
                 settings.setValue("userName", params.userName());
@@ -129,7 +142,7 @@ void meow::db::ConnectionParamsManager::removeSavedParams(const ConnectionParame
     settings.beginGroup("db");
         settings.beginGroup("connection_params_manager");
 
-            settings.remove(params.sessionName());
+            settings.remove( QString::number(params.id()) );
 
         settings.endGroup();
     settings.endGroup();
@@ -155,6 +168,7 @@ const meow::db::ConnectionParameters& meow::db::ConnectionParamsManager::createN
     ConnectionParameters newParams(this);
 
     newParams.setSessionName(findNextFreeSessionName());
+    newParams.setId(++_uniqueParamsId);
     int addedIndex = add(newParams);
     saveParams(newParams);
 
@@ -165,7 +179,7 @@ int meow::db::ConnectionParamsManager::indexOfParams(const ConnectionParameters 
 {
     int index = 0;
     foreach (const meow::db::ConnectionParameters &itParams, _params) {
-        if (itParams.sessionName() == params.sessionName()) {
+        if (itParams.id() == params.id()) {
             return index;
         }
         ++index;

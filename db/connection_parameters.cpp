@@ -13,7 +13,8 @@ meow::db::ConnectionParameters::ConnectionParameters(ConnectionParamsManager * m
     _databases(""),
     _loginPrompt(false),
     _port(3306),
-    _manager(manager)
+    _manager(manager),
+    _id(0)
 {
 
 }

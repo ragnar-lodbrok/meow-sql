@@ -1,6 +1,10 @@
 # Roadmap
 
-## 0.0.5 (In Development)
+## 0.1.0
+
+**Bug fixing**
+
+## 0.0.5 
 
 **Table Tab: Options & Foreign Keys (editable)**
 
@@ -71,8 +75,6 @@ Multiple connections (open session manager from main window)
 Tree: mark current database
 
 Buildable and deployable on macOS
-
-Remember UI geometry (sizes/positions)
 
 Translations
 

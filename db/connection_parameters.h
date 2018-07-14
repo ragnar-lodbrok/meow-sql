@@ -41,6 +41,7 @@ public:
     bool isLoginPrompt() const { return _loginPrompt; }
     quint16 port() const { return _port; }
     bool fullTableStatus() const { return true; }
+    unsigned id() const { return _id; }
 
     // setters
     void setNetworkType(NetworkType networkType) { _networkType = networkType; }
@@ -52,6 +53,7 @@ public:
     void setLoginPrompt(bool loginPrompt) { _loginPrompt = loginPrompt; }
     void setPort(qint16 port) { _port = port; }
     void setManager(ConnectionParamsManager &manager);
+    void setId(unsigned id) { _id = id; }
 
     bool operator==(const ConnectionParameters & other);
     operator QString() const;
@@ -69,6 +71,7 @@ private:
     bool _loginPrompt;
     quint16 _port;
     ConnectionParamsManager * _manager;
+    unsigned _id;
 };
 
 } // namespace db
