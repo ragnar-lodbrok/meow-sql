@@ -67,6 +67,21 @@ int SessionEntity::indexOf(DataBaseEntity * session) const
     return _databases.indexOf(session);
 }
 
+bool SessionEntity::isActive() const
+{
+    return connectionsManager()->activeSession() == this;
+}
+
+DataBaseEntity * SessionEntity::activeDatabase() const
+{
+    foreach (DataBaseEntity * entity, _databases) {
+        if (entity->name() == connection()->database()) {
+            return entity;
+        }
+    }
+    return nullptr;
+}
+
 void SessionEntity::clearAllDatabaseEntities()
 {
     qDeleteAll(_databases);

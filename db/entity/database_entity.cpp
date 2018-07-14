@@ -39,8 +39,11 @@ int DataBaseEntity::row() const // override
 QVariant DataBaseEntity::icon() const // override
 {
     static const QIcon icon = QIcon(":/icons/database.png");
+    static const QIcon activeIcon = QIcon(":/icons/database_active.png");
 
-    return icon;
+    bool isActive = session()->activeDatabase() == this;
+
+    return isActive ? activeIcon : icon;
 }
 
 SessionEntity * DataBaseEntity::session() const

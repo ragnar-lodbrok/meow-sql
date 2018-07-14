@@ -41,7 +41,7 @@ public:
     QString & characterSet() { return _characterSet; }
     bool isUnicode() const { return _isUnicode; }
     unsigned long serverVersionInt() const { return _serverVersionInt; }
-    QString database() { return _database; }
+    QString database() const { return _database; }
 
     virtual void setCharacterSet(const QString & characterSet);
     void setIsUnicode(bool isUnicode) { _isUnicode = isUnicode; }

@@ -179,6 +179,7 @@
         <file>resources/icons/database_delete.png</file>
         <file>resources/icons/database_add.png</file>
         <file alias="database.png">resources/icons/database.png</file>
+        <file alias="database_active.png">resources/icons/database_active.png</file>
         <file>resources/icons/cut_red.png</file>
         <file alias="cross.png">resources/icons/cross.png</file>
         <file alias="host.png">resources/icons/computer.png</file>

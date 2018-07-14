@@ -263,5 +263,6 @@ bool Connection::dropEntityInDB(EntityInDatabase * entity)
     return sharedEditor->drop(entity);
 }
 
+
 } // namespace db
 } // namespace meow

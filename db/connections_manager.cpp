@@ -42,6 +42,11 @@ ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & pa
             this,
             &meow::db::ConnectionsManager::onEntityInserted);
 
+    connect(newSession->connection(),
+            &meow::db::Connection::databaseChanged,
+            this,
+            &meow::db::ConnectionsManager::activeDatabaseChanged);
+
     _connections.push_back(newSession);
     _activeSession = newSession;
 

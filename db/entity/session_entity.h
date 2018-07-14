@@ -38,6 +38,10 @@ public:
     bool dropEntityInDB(EntityInDatabase * entity);
 
     int indexOf(DataBaseEntity * session) const;
+    const QList<DataBaseEntity *> & databases() const { return _databases; }
+
+    bool isActive() const;
+    DataBaseEntity * activeDatabase() const;
 
     Q_SIGNAL void entityEdited(Entity * entity);
     Q_SIGNAL void entityInserted(Entity * entity);

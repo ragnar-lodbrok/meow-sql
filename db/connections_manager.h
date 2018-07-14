@@ -35,6 +35,7 @@ public:
 
     Connection * activeConnection() const;
     SessionEntity * activeSession() const { return _activeSession; }
+    const QList <SessionEntity *> & sessions() const { return _connections; }
 
     UserQuery * userQueryAt(size_t index);
 
@@ -46,6 +47,7 @@ public:
     Q_SIGNAL void entityEdited(Entity * entity);
     Q_SIGNAL void entityInserted(Entity * entity);
     Q_SIGNAL void activeSessionRefreshed();
+    Q_SIGNAL void activeDatabaseChanged(const QString & database);
 
     void createEntity(Entity::Type type);
 

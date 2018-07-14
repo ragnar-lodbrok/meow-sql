@@ -48,6 +48,8 @@ private:
 
     bool isCurItemDatabaseOrLess() const;
 
+    void onDatabasesDataChanged();
+
     meow::db::ConnectionsManager * _dbConnectionsManager;
 };
 

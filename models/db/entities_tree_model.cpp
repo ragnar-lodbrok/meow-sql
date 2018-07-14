@@ -1,5 +1,6 @@
 #include <QDebug>
 #include "entities_tree_model.h"
+#include "db/entity/session_entity.h"
 #include "db/entity/database_entity.h"
 #include "db/entity/table_entity.h"
 
@@ -28,11 +29,18 @@ EntitiesTreeModel::EntitiesTreeModel(
             &meow::db::ConnectionsManager::entityEdited,
             this,
             &meow::models::db::EntitiesTreeModel::onEntityEdited);
+
     connect(_dbConnectionsManager,
             &meow::db::ConnectionsManager::entityInserted,
             this,
             &meow::models::db::EntitiesTreeModel::onEntityInserted);
 
+    connect(_dbConnectionsManager,
+            &meow::db::ConnectionsManager::activeDatabaseChanged,
+            [=](const QString & database) {
+                Q_UNUSED(database);
+                onDatabasesDataChanged();
+            });
 }
 
 Qt::ItemFlags EntitiesTreeModel::flags(const QModelIndex &index) const
@@ -103,14 +111,14 @@ int EntitiesTreeModel::rowCount(const QModelIndex &parent) const // override
     return parentItem->childCount();
 }
 
-int EntitiesTreeModel::columnCount(const QModelIndex &parent) const // override
+int EntitiesTreeModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
 
     return 1; // TODO: add size column later
 }
 
-bool EntitiesTreeModel::hasChildren(const QModelIndex &parent) const // override
+bool EntitiesTreeModel::hasChildren(const QModelIndex &parent) const
 {
     if (parent.isValid()) {
         meow::db::Entity * parentItem = static_cast<meow::db::Entity *>(
@@ -276,6 +284,16 @@ bool EntitiesTreeModel::isCurItemDatabaseOrLess() const
         return false;
     }
     return (int)curEntity->type() >= (int)meow::db::Entity::Type::Database;
+}
+
+void EntitiesTreeModel::onDatabasesDataChanged()
+{
+    for (meow::db::SessionEntity * session : _dbConnectionsManager->sessions()) {
+        for (meow::db::DataBaseEntity * dbEntity : session->databases()) {
+            QModelIndex dbEntityIndex = indexForEntity(dbEntity);
+            emit dataChanged(dbEntityIndex, dbEntityIndex);
+        }
+    }
 }
 
 } // namespace db
