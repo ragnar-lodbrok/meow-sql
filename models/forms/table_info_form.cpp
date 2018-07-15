@@ -2,7 +2,7 @@
 #include "db/entity/table_entity.h"
 #include "models/forms/table_indexes_model.h"
 #include "models/forms/table_foreign_keys_model.h"
-#include "app.h"
+#include "app/app.h"
 
 namespace meow {
 namespace models {

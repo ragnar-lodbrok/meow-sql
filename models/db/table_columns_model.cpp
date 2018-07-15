@@ -2,7 +2,7 @@
 #include "db/entity/table_entity.h"
 #include <QDebug>
 #include <QFont>
-#include "app.h"
+#include "app/app.h"
 
 namespace meow {
 namespace models {

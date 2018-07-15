@@ -22,7 +22,15 @@ EntitiesTreeModel::EntitiesTreeModel(
                 beginInsertRows(QModelIndex(),
                                 newSession->row(), newSession->row());
                 endInsertRows();
-                //emit layoutChanged();
+            });
+
+    connect(_dbConnectionsManager,
+            &meow::db::ConnectionsManager::beforeConnectionClosed,
+            [=](meow::db::SessionEntity * closedSession) {
+
+                beginRemoveRows(QModelIndex(),
+                                closedSession->row(), closedSession->row());
+                endRemoveRows();
             });
 
     connect(_dbConnectionsManager,
@@ -176,6 +184,11 @@ void EntitiesTreeModel::onSelectEntityAt(const QModelIndex &index)
     selectedEntity->setWasSelected(true);
     _dbConnectionsManager->setActiveEntity(selectedEntity);
 
+}
+
+void EntitiesTreeModel::onEmptySelection()
+{
+    _dbConnectionsManager->setActiveEntity(nullptr);
 }
 
 QModelIndex EntitiesTreeModel::indexForEntity(meow::db::Entity * entity)

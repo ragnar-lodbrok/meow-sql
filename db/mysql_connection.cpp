@@ -28,6 +28,7 @@ MySQLConnection::MySQLConnection(const ConnectionParameters & params)
 
 MySQLConnection::~MySQLConnection()
 {
+    qDebug() << "[MySQLConnection] " << "Destroying: " << *connectionParams();
     if (active()) {
         setActive(false);
     }

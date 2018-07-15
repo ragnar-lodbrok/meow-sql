@@ -2,7 +2,7 @@
 #include <QMenuBar>
 #include <QDebug>
 #include "ui/session_manager/window.h"
-#include "app.h"
+#include "app/app.h"
 #include "db/exception.h"
 
 namespace meow {
@@ -38,6 +38,10 @@ Window::Window(QWidget *parent)
                 _centralWidget->onCreatingNewEntity(entity);
             });
 
+    connect(meow::app()->actions()->disconnect(),
+            &QAction::triggered,
+            this,
+            &Window::onDisconnectAction);
 }
 
 Window::~Window()
@@ -94,6 +98,20 @@ void Window::sessionManagerDialogCanceled()
 {
     if (meow::app()->dbConnectionsManager()->isNoOpenedConnections()) {
         QMetaObject::invokeMethod(this, "close", Qt::QueuedConnection);
+    }
+}
+
+void Window::onDisconnectAction(bool checked)
+{
+    Q_UNUSED(checked);
+    try {
+        meow::app()->dbConnectionsManager()->closeActiveConnection();
+    } catch(meow::db::Exception & ex) {
+        showErrorMessage(ex.message());
+    }
+
+    if (meow::app()->dbConnectionsManager()->isNoOpenedConnections()) {
+        showSessionManagerDialog();
     }
 }
 

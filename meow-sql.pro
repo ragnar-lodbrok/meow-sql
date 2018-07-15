@@ -29,7 +29,7 @@ unix:LIBS += -lm # math?
 unix:LIBS += -ldl # dynamic link
 
 SOURCES += main.cpp\
-    app.cpp \
+    app/app.cpp \
     ui/session_manager/start_tab.cpp \
     ui/session_manager/window.cpp \
     ui/session_manager/settings_tab.cpp \
@@ -131,9 +131,10 @@ SOURCES += main.cpp\
     db/entity/entity_filter.cpp \
     db/entity/mysql_entity_filter.cpp \
     models/delegates/foreign_key_foreign_columns_delegate.cpp \
-    models/delegates/foreign_key_columns_delegate.cpp
+    models/delegates/foreign_key_columns_delegate.cpp \
+    app/actions.cpp
 
-HEADERS  += app.h \
+HEADERS  += app/app.h \
     ui/session_manager/session_form.h \
     ui/session_manager/start_tab.h \
     ui/session_manager/window.h \
@@ -244,7 +245,8 @@ HEADERS  += app.h \
     models/delegates/foreign_key_foreign_columns_delegate.h \
     models/delegates/foreign_key_columns_delegate.h \
     db/native_query_result_interface.h \
-    db/mysql_query_result.h
+    db/mysql_query_result.h \
+    app/actions.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

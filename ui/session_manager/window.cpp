@@ -1,5 +1,5 @@
 #include "ui/session_manager/window.h"
-#include "app.h"
+#include "app/app.h"
 #include "ui/main_window/main_window.h"
 #include <QStyle>
 
@@ -265,7 +265,7 @@ void Window::currentSessionDetailsChanged(
             _connectionParamsModel->selectFormAt(index.row())
         );
     } else {
-        qDebug() << "Selection is empty";
+        qDebug() << "Session Manager: Selection is empty";
         _sessionDetails->setConnectionParamsForm(nullptr);
     }
 

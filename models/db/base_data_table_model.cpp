@@ -1,5 +1,5 @@
 #include "base_data_table_model.h"
-#include "app.h"
+#include "app/app.h"
 #include <QDebug>
 
 namespace meow {

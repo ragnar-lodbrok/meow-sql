@@ -23,6 +23,7 @@ public:
     ~ConnectionsManager();
 
     ConnectionPtr openDBConnection(db::ConnectionParameters & params);
+    bool closeActiveConnection();
 
     // Entity interface
     virtual int childCount() override;
@@ -42,6 +43,7 @@ public:
     bool isNoOpenedConnections() const { return _connections.isEmpty(); }
 
     Q_SIGNAL void connectionOpened(SessionEntity * newSession);
+    Q_SIGNAL void beforeConnectionClosed(SessionEntity * newSession);
     Q_SIGNAL void activeEntityChanged(Entity * newEntity, bool select = false);
     Q_SIGNAL void creatingNewEntity(Entity * entity);
     Q_SIGNAL void entityEdited(Entity * entity);

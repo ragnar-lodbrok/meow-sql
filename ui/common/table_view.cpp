@@ -1,5 +1,5 @@
 #include "table_view.h"
-#include "app.h"
+#include "app/app.h"
 #include <QDebug>
 
 namespace meow {

@@ -7,7 +7,7 @@
 #include "helpers/formatting.h"
 #include "db/entity/table_entity.h"
 #include <QColor>
-#include "app.h"
+#include "app/app.h"
 
 namespace meow {
 namespace models {

@@ -1,7 +1,7 @@
 #include "central_left_db_tree.h"
 #include <QtWidgets>
 #include "models/db/entities_tree_model.h"
-#include "app.h"
+#include "app/app.h"
 
 namespace meow {
 namespace ui {
@@ -30,6 +30,9 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
     menu.addSeparator();
 
     menu.addAction(_refreshAction);
+    // TODO: enablement
+
+    menu.addAction(meow::app()->actions()->disconnect());
 
     menu.exec(event->globalPos());
 }
@@ -109,6 +112,8 @@ void DbTree::createActions()
             msgBox.exec();
         }
     });
+
+    // disconnect ==============================================================
 }
 
 } // namespace meow

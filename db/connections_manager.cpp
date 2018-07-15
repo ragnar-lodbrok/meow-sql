@@ -55,6 +55,19 @@ ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & pa
     return connection;
 }
 
+bool ConnectionsManager::closeActiveConnection()
+{
+    SessionEntity * session = activeSession();
+    if (session) {
+        emit beforeConnectionClosed(session);
+        _connections.removeOne(session);
+        _activeSession = nullptr;
+        delete session;
+        return true;
+    }
+    return false;
+}
+
 int ConnectionsManager::childCount() // override
 {
     return _connections.size();

@@ -39,6 +39,8 @@ private:
 
     Q_SLOT void sessionManagerDialogCanceled();
 
+    Q_SLOT void onDisconnectAction(bool checked);
+
     CentralWidget * _centralWidget;
 
     models::db::EntitiesTreeModel _dbEntitiesTreeModel;

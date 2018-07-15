@@ -6,7 +6,7 @@
 #include "models/delegates/foreign_key_reference_table_delegate.h"
 #include "models/delegates/foreign_key_foreign_columns_delegate.h"
 #include "models/delegates/foreign_key_columns_delegate.h"
-#include "app.h"
+#include "app/app.h"
 
 namespace meow {
 namespace ui {

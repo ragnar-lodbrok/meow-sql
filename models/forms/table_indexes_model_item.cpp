@@ -1,7 +1,7 @@
 #include "table_indexes_model_item.h"
 #include "table_indexes_model.h"
 #include "db/table_index.h"
-#include "app.h"
+#include "app/app.h"
 
 namespace meow {
 namespace models {

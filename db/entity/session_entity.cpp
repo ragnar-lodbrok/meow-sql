@@ -20,6 +20,7 @@ SessionEntity::SessionEntity(ConnectionPtr connection, ConnectionsManager * pare
 
 SessionEntity::~SessionEntity()
 {
+    qDebug() << "Closing session " << name();
     qDeleteAll(_databases);
 }
 

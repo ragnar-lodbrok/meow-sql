@@ -75,6 +75,7 @@ void CentralLeftWidget::selectedDbEntityChanged(
 
     } else {
         qDebug() << "Tree: selection is empty";
+        _dbEntitiesTreeModel->onEmptySelection(); // TODO try catch ?
     }
 }
 

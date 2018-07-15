@@ -40,9 +40,13 @@ private:
     central_right::QueryTab * queryTab();
 
     void removeAllRootTabs();
+    bool removeHostTab();
+    bool removeQueryTabs();
     bool removeDatabaseTab();
     bool removeTableTab();
     bool removeDataTab();
+
+    bool removeTab(QWidget * tab);
 
     models::ui::CentralRightWidgetModel _model;
 

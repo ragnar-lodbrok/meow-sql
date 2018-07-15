@@ -27,6 +27,8 @@ public:
     bool hasChildren(const QModelIndex &parent = QModelIndex()) const override;
 
     void onSelectEntityAt(const QModelIndex &index);
+    void onEmptySelection();
+
     QModelIndex indexForEntity(meow::db::Entity * entity);
     meow::db::Entity * currentEntity() const;
 

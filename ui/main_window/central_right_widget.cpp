@@ -1,6 +1,6 @@
 #include "central_right_widget.h"
 #include "db/entity/entity.h"
-#include "app.h"
+#include "app/app.h"
 #include <QDebug>
 #include "db/entity/table_entity.h"
 
@@ -243,49 +243,66 @@ central_right::QueryTab * CentralRightWidget::queryTab()
 
 void CentralRightWidget::removeAllRootTabs()
 {
-    // TODO
+    removeHostTab();
+    removeQueryTabs();
     removeDatabaseTab();
     removeTableTab();
     removeDataTab();
 }
 
+bool CentralRightWidget::removeHostTab()
+{
+    if (removeTab(_hostTab)) {
+        _hostTab = nullptr;
+        return true;
+    }
+    return false;
+}
+
+bool CentralRightWidget::removeQueryTabs()
+{
+    if (removeTab(_queryTab)) {
+        _queryTab = nullptr;
+        return true;
+    }
+    return false;
+}
+
 bool CentralRightWidget::removeDatabaseTab()
 {
-    if (_databaseTab) {
-        int tabIndex = _rootTabs->indexOf(_databaseTab);
-        if (tabIndex >= 0) {
-            _rootTabs->removeTab(tabIndex);
-        }
-        delete _databaseTab;
+    if (removeTab(_databaseTab)) {
         _databaseTab = nullptr;
-        return (tabIndex >= 0);
+        return true;
     }
     return false;
 }
 
 bool CentralRightWidget::removeTableTab()
 {
-    if (_tableTab) {
-        int tabIndex = _rootTabs->indexOf(_tableTab);
-        if (tabIndex >= 0) {
-            _rootTabs->removeTab(tabIndex);
-        }
-        delete _tableTab;
+    if (removeTab(_tableTab)) {
         _tableTab = nullptr;
-        return (tabIndex >= 0);
+        return true;
     }
     return false;
 }
 
 bool CentralRightWidget::removeDataTab()
 {
-    if (_dataTab) {
-        int tabIndex = _rootTabs->indexOf(_dataTab);
+    if (removeTab(_dataTab)) {
+        _dataTab = nullptr;
+        return true;
+    }
+    return false;
+}
+
+bool CentralRightWidget::removeTab(QWidget * tab)
+{
+    if (tab) {
+        int tabIndex = _rootTabs->indexOf(tab);
         if (tabIndex >= 0) {
             _rootTabs->removeTab(tabIndex);
         }
-        delete _dataTab;
-        _dataTab = nullptr;
+        delete tab;
         return (tabIndex >= 0);
     }
     return false;

@@ -1,7 +1,7 @@
 #include "cr_table_columns.h"
 #include "central_right_table_tab.h"
 #include "cr_table_columns_tools.h"
-#include "app.h"
+#include "app/app.h"
 #include "models/db/table_columns_model.h"
 #include "models/delegates/table_column_type_delegate.h"
 #include "models/delegates/table_column_default_delegate.h"
