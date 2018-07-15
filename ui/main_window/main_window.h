@@ -33,6 +33,8 @@ private:
 
     void showErrorMessage(const QString& message);
 
+    QString getWindowTitle() const;
+
     Q_SLOT void activeDBEntityChanged(db::Entity * newEntity, bool select);
 
     Q_SLOT void sessionManagerDialogCanceled();

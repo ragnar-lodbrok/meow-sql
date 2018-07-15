@@ -2,7 +2,11 @@
 
 ## 0.1.0
 
-**Bug fixing**
+**Bug fixing/Stabilization**
+
+Save UI geometry
+
+Tree: mark current database
 
 ## 0.0.5 
 
@@ -71,8 +75,6 @@ Buildable and deployable on Windows
 Connection password encryption
 
 Multiple connections (open session manager from main window)
-
-Tree: mark current database
 
 Buildable and deployable on macOS
 

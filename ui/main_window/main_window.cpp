@@ -16,7 +16,7 @@ Window::Window(QWidget *parent)
       _dbEntitiesTreeModel(meow::app()->dbConnectionsManager())
 {
     setMinimumSize(QSize(700, 400));
-    setWindowTitle("MeowSQL");
+    setWindowTitle(getWindowTitle());
     setWindowIcon(QIcon(":/icons/logo.png"));
 
     restoreGeometryAndState();
@@ -116,9 +116,22 @@ void Window::showErrorMessage(const QString& message)
     msgBox.exec();
 }
 
+QString Window::getWindowTitle() const
+{
+    QString path = meow::app()->dbConnectionsManager()->activeEntityPath();
+    QString appName = "MeowSQL";
+
+    if (path.isEmpty()) {
+        return appName;
+    } else {
+        return path + " - " + appName;
+    }
+}
+
 void Window::activeDBEntityChanged(db::Entity * newEntity, bool select)
 {
     _centralWidget->setActiveDBEntity(newEntity, select);
+    setWindowTitle(getWindowTitle());
 }
 
 void Window::writeGeometryAndState()

@@ -137,6 +137,20 @@ bool ConnectionsManager::dropActiveEntity()
     return false;
 }
 
+QString ConnectionsManager::activeEntityPath() const
+{
+    QStringList path;
+
+    Entity * entity = _activeEntity.currentEntity();
+
+    while (entity != nullptr) {
+        path.prepend(entity->name());
+        entity = entity->parent();
+    }
+
+    return path.join('/');
+}
+
 void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
 {
     bool changed = _activeEntity.setCurrentEntity(activeEntity);

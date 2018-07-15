@@ -55,6 +55,8 @@ public:
 
     bool dropActiveEntity();
 
+    QString activeEntityPath() const;
+
 private:
 
     Q_SLOT void onEntityEdited(Entity * entity);
