@@ -117,14 +117,7 @@ public:
         return index >=0 && index < _columns.size();
     }
 
-    bool removeColumnIndex(int index) {
-        if (isValidColumnIndex(index)) {
-            _columns.removeAt(index);
-            return true;
-        }
-        return false;
-    }
-
+    bool removeColumnIndex(int index);
     bool removeColumn(const QString & name) {
         return removeColumnIndex(columnIndex(name));
     }

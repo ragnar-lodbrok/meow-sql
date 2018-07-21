@@ -20,6 +20,16 @@ void TableColumnsModel::setTable(meow::db::TableEntity * table)
     removeData();
     _table = table;
     insertData();
+
+    if (_table) {
+        connect(_table->structure(),
+                &meow::db::TableStructure::columnRelationChangedForIndex,
+                [=](meow::db::TableColumn * column, meow::db::TableIndex * index){
+                    Q_UNUSED(index);
+                    refreshColumn(column);
+                }
+        );
+    }
 }
 
 int TableColumnsModel::columnCount(const QModelIndex & parent) const
@@ -663,6 +673,17 @@ bool TableColumnsModel::editData(const QModelIndex &index, const QVariant &value
     }
 
     return false;
+}
+
+void TableColumnsModel::refreshColumn(meow::db::TableColumn * column)
+{
+    int rowIndex = _table->structure()->columns().indexOf(column);
+    if (rowIndex >= 0) {
+        emit dataChanged(
+                    index(rowIndex, 0),
+                    index(rowIndex, columnCount() - 1)
+        );
+    }
 }
 
 } // namespace db

@@ -108,6 +108,10 @@ public:
 
     Q_SIGNAL void beforeColumnRemoved(const QString & name);
 
+    // added, removed
+    Q_SIGNAL void columnRelationChangedForIndex(TableColumn * column,
+                                                TableIndex * index);
+
 private:
 
     unsigned nextColumnUniqueId() { return ++_nextColumnUniqueId; }

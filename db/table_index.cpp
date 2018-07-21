@@ -128,9 +128,14 @@ QString TableIndex::name() const
 
 int TableIndex::addColumn(const QString & name)
 {
-    TableColumn * column = _table->structure()->columnByName(name);
+    TableStructure * structure = _table->structure();
+    TableColumn * column = structure->columnByName(name);
     if (column) {
         _columns.append(Column(this, column->id()));
+        if (isPrimaryKey()) {
+            column->setAllowNull(false);
+        }
+        emit structure->columnRelationChangedForIndex(column, this);
         return _columns.size();
     }
     return -1;
@@ -139,9 +144,34 @@ int TableIndex::addColumn(const QString & name)
 bool TableIndex::replaceColumn(int index, const QString & name)
 {
     if (!isValidColumnIndex(index)) return false;
-    TableColumn * column = _table->structure()->columnByName(name);
+
+    TableStructure * structure = _table->structure();
+    TableColumn * column = structure->columnByName(name);
+
     if (column) {
+        unsigned oldColumnId = _columns.at(index).id();
+        TableColumn * oldColumn = structure->columnById(oldColumnId);
+
         _columns.replace(index, Column(this, column->id()));
+
+        emit structure->columnRelationChangedForIndex(column, this);
+        emit structure->columnRelationChangedForIndex(oldColumn, this);
+        return true;
+    }
+    return false;
+}
+
+bool TableIndex::removeColumnIndex(int index) {
+    if (isValidColumnIndex(index)) {
+
+        TableStructure * structure = _table->structure();
+        unsigned columnId = _columns.at(index).id();
+        TableColumn * column = structure->columnById(columnId);
+
+        _columns.removeAt(index);
+
+        emit structure->columnRelationChangedForIndex(column, this);
+
         return true;
     }
     return false;

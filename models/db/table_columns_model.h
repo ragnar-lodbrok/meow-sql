@@ -7,6 +7,7 @@ namespace meow {
 
 namespace db {
     class TableEntity;
+    class TableColumn;
     enum class ColumnDefaultType;
 }
 
@@ -93,6 +94,8 @@ private:
     void insertData();
 
     bool setColumnDataType(const QModelIndex &index, const QVariant &value);
+
+    void refreshColumn(meow::db::TableColumn * column);
 
     meow::db::TableEntity * _table;
 };
