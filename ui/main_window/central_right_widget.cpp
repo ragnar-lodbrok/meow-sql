@@ -158,7 +158,7 @@ void CentralRightWidget::createRootTabs()
 
 void CentralRightWidget::rootTabChanged(int index)
 {
-    Q_UNUSED(index);
+    if (index < 0) return;
 
     try {
         if (onDataTab()) {

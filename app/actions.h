@@ -11,12 +11,14 @@ public:
     Actions();
 
     QAction * disconnect() const { return _disconnect; }
+    QAction * sessionManager() const { return _sessionManager; }
 
 private:
 
     void createActions();
 
     QAction * _disconnect;
+    QAction * _sessionManager;
 };
 
 } // namespace meow

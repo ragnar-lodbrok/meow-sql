@@ -15,6 +15,14 @@ void Actions::createActions()
                               tr("Disconnect"), this);
 
     _disconnect->setStatusTip(tr("Close selected database connection"));
+
+    // -------------------------------------------------------------------------
+    _sessionManager = new QAction(QIcon(":/icons/server_connect.png"),
+                                  tr("Session manager"), this);
+
+    _sessionManager->setStatusTip(tr("Display session manager"));
+
+
 }
 
 } // namespace meow
