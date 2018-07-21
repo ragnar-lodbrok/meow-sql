@@ -41,6 +41,8 @@ private:
 
     Q_SLOT void onDisconnectAction(bool checked);
 
+    Q_SLOT void onSessionManagerAction(bool checked);
+
     CentralWidget * _centralWidget;
 
     models::db::EntitiesTreeModel _dbEntitiesTreeModel;

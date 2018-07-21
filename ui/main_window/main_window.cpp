@@ -42,6 +42,11 @@ Window::Window(QWidget *parent)
             &QAction::triggered,
             this,
             &Window::onDisconnectAction);
+
+    connect(meow::app()->actions()->sessionManager(),
+            &QAction::triggered,
+            this,
+            &Window::onSessionManagerAction);
 }
 
 Window::~Window()
@@ -113,6 +118,12 @@ void Window::onDisconnectAction(bool checked)
     if (meow::app()->dbConnectionsManager()->isNoOpenedConnections()) {
         showSessionManagerDialog();
     }
+}
+
+void Window::onSessionManagerAction(bool checked)
+{
+    Q_UNUSED(checked);
+    showSessionManagerDialog();
 }
 
 void Window::createMenus()

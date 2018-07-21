@@ -197,7 +197,6 @@ QModelIndex EntitiesTreeModel::indexForEntity(meow::db::Entity * entity)
         // TODO: does it work?
         return createIndex(entity->row(), 0, entity);
     } else if (entity->type() == meow::db::Entity::Type::Database) {
-        // TODO: does it work?
         return createIndex(entity->row(), 0, entity);
     } else if ( (int)entity->type() >= (int)meow::db::Entity::Type::Table ) {
 

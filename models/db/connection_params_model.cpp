@@ -170,7 +170,7 @@ meow::models::forms::ConnectionParametersForm *
 ConnectionParamsModel::selectFormAt(int row)
 {
 
-    qDebug() << "Select session: " << _connectionParamsManager->at(row).sessionName();
+    //qDebug() << "Select session: " << _connectionParamsManager->at(row).sessionName();
 
     meow::models::forms::ConnectionParametersForm * form =
     new meow::models::forms::ConnectionParametersForm(

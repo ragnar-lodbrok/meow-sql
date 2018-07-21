@@ -18,6 +18,8 @@
 namespace meow {
 namespace db {
 
+class SessionEntity;
+
 // Intent: represents any db entity like session, database, table for tree data
 // model usage. H: TDBObject
 class Entity // TODO: :public QObject
@@ -95,6 +97,8 @@ public:
 // finds nearest parent (or itself) entity of passed type (nullptr if not)
 // checks until root, ignores children
 Entity * findParentEntityOfType(const Entity * entity, Entity::Type type);
+
+SessionEntity * sessionForEntity(const Entity * entity);
 
 // returns count of children of passed type (1 level)
 int childCountOfType(Entity * entity, Entity::Type type);

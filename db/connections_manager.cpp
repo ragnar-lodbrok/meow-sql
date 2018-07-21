@@ -13,6 +13,7 @@ ConnectionsManager::ConnectionsManager()
      Entity(),
      _connections(),
      _activeEntity(),
+     _activeSession(nullptr),
      _userQueries()
 {
 
@@ -48,7 +49,6 @@ ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & pa
             &meow::db::ConnectionsManager::activeDatabaseChanged);
 
     _connections.push_back(newSession);
-    _activeSession = newSession;
 
     emit connectionOpened(newSession);
 
@@ -61,7 +61,7 @@ bool ConnectionsManager::closeActiveConnection()
     if (session) {
         emit beforeConnectionClosed(session);
         _connections.removeOne(session);
-        _activeSession = nullptr;
+        setActiveSession(nullptr);
         delete session;
         return true;
     }
@@ -168,7 +168,12 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
 {
     bool changed = _activeEntity.setCurrentEntity(activeEntity);
     if (changed) {
-        // TODO: Session changed
+
+        if (activeEntity) {
+            if (_activeEntity.connectionChanged()) {
+                setActiveSession(db::sessionForEntity(activeEntity));
+            }
+        }
 
         Connection * connection = activeConnection();
 
@@ -198,6 +203,16 @@ void ConnectionsManager::onEntityInserted(Entity * entity)
 {
     emit entityInserted(entity);
     setActiveEntity(entity, true);
+}
+
+void ConnectionsManager::setActiveSession(SessionEntity * session)
+{
+    if (_activeSession != session) {
+        _activeSession = session;
+        qDebug() << "Session changed to:"
+                 <<  (session ? session->name() : "nullptr");
+        emit activeSessionChanged();
+    }
 }
 
 } // namespace db

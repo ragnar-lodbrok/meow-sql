@@ -33,7 +33,7 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
     // TODO: enablement
 
     menu.addAction(meow::app()->actions()->disconnect());
-    //menu.addAction(meow::app()->actions()->sessionManager());
+    menu.addAction(meow::app()->actions()->sessionManager());
 
     menu.exec(event->globalPos());
 }

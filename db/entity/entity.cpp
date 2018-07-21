@@ -1,5 +1,6 @@
 #include "entity.h"
 #include "database_entity.h"
+#include "session_entity.h"
 
 namespace meow {
 namespace db {
@@ -59,6 +60,13 @@ Entity * findParentEntityOfType(const Entity * entity, Entity::Type type)
     } else {
         return nullptr;
     }
+}
+
+SessionEntity * sessionForEntity(const Entity * entity)
+{
+    return static_cast<SessionEntity *>(
+        findParentEntityOfType(entity, Entity::Type::Session)
+    );
 }
 
 int childCountOfType(Entity * entity, Entity::Type type)
