@@ -16,7 +16,7 @@ TableColumnDefaultEditor::TableColumnDefaultEditor(QWidget *parent)
     setAutoFillBackground(true);
     setWindowFlags(Qt::Popup);
 
-    setMinimumSize(QSize(260, 240));
+    setMinimumSize(QSize(280, 240));
     resize(minimumSize());
 
     createWidgets();
