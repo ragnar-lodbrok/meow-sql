@@ -8,6 +8,7 @@ namespace meow {
 namespace models {
 namespace db {
 
+// Intent: base model to wrap QueryData (table/query data)
 class BaseDataTableModel : public QAbstractTableModel
 {
     Q_OBJECT

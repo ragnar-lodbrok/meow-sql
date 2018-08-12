@@ -27,7 +27,38 @@ DataTableModel::~DataTableModel()
     delete queryData(); // oh shit
 }
 
-void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity, bool loadData)
+Qt::ItemFlags DataTableModel::flags(const QModelIndex &index) const
+{
+    // TODO: allow editing in BaseDataTableModel?
+    if (!index.isValid()) {
+        return Qt::ItemIsEnabled;
+    }
+
+    Qt::ItemFlags flags = BaseDataTableModel::flags(index);
+    flags |= Qt::ItemIsEditable; // TODO: read-only tables?
+
+    return flags;
+}
+
+bool DataTableModel::setData(const QModelIndex &index,
+                             const QVariant &value,
+                             int role)
+{
+    if (!index.isValid() || role != Qt::EditRole) {
+        return false;
+    }
+
+    if (queryData()->setData(index.row(), index.column(), value)) {
+        emit dataChanged(index, index);
+        return true;
+    }
+
+    return false;
+}
+
+
+void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity,
+                               bool loadData)
 {
     removeData();
 

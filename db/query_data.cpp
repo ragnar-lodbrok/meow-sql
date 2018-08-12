@@ -82,5 +82,16 @@ bool QueryData::isNullAt(int row, int column) const
     return false;
 }
 
+bool QueryData::setData(int row, int col, const QVariant &value)
+{
+    Q_UNUSED(row);
+    Q_UNUSED(col);
+    Q_UNUSED(value);
+
+    // TODO
+
+    return false;
+}
+
 } // namespace db
 } // namespace meow

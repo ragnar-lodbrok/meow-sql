@@ -61,11 +61,14 @@ QVariant BaseDataTableModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole) {
-        return _queryData->rawDataAt(index.row(), index.column());
-    //} else if (role == Qt::DecorationRole) {
+    switch (role) {
 
-    } else if (role == Qt::ForegroundRole) {
+    case Qt::DisplayRole:
+    case Qt::EditRole: // TODO: NULL?
+
+        return _queryData->rawDataAt(index.row(), index.column());
+
+    case Qt::ForegroundRole: {
         auto textSettings = meow::app()->settings()->textSettings();
         auto dataType = _queryData->columnDataTypeCategory(index.column());
         if (dataType != meow::db::DataTypeCategoryIndex::None) {
@@ -78,8 +81,10 @@ QVariant BaseDataTableModel::data(const QModelIndex &index, int role) const
         }
     }
 
+    default:
+        return QVariant();
+    }
 
-    return QVariant();
 }
 
 } // namespace db

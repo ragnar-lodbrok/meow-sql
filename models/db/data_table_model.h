@@ -20,6 +20,11 @@ public:
     explicit DataTableModel(QObject *parent = nullptr);
     virtual ~DataTableModel();
 
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    bool setData(const QModelIndex &index,
+                 const QVariant &value,
+                 int role = Qt::EditRole) override;
+
     void setEntity(meow::db::Entity * tableOrViewEntity, bool loadData = true);
     void removeData();
     void loadData(bool force = false);
