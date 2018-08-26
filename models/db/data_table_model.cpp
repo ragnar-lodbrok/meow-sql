@@ -126,6 +126,16 @@ void DataTableModel::loadData(bool force)
         }
     }
 
+    // for test purposes for now
+    // TODO: call when user starts editing only?
+    if (queryData()->query() == nullptr) {
+        queryData()->setQueryPtr( // TODO: what a shitty code?
+            _dbEntity->connection()->createQuery()
+        );
+    }
+    // uncomment when Next/Show all is fixed
+    //queryData()->prepareEditing(); // call before run() !!!
+
     queryDataFetcher->run(&queryCritera, queryData());
 
     _entityChangedProcessed = true;

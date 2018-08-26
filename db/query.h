@@ -13,6 +13,7 @@ namespace meow {
 namespace db {
 
 class Connection;
+class EditableGridData;
 
 class Query
 {
@@ -26,7 +27,7 @@ public:
     const QString & SQL() const { return _SQL; }
     Connection * connection() const { return _connection; }
 
-    db::ulonglong recordCount() const { return _recordCount; }
+    db::ulonglong recordCount() const;
     bool isEof() const { return _eof; }
 
     std::size_t columnCount() const { return _columns.size(); }
@@ -48,6 +49,10 @@ public:
 
     virtual bool isNull(std::size_t index) = 0;
 
+    // true if was already prepared
+    bool prepareEditing();
+    bool isEditing() const { return _editableData != nullptr; }
+
     void seekFirst();
     void seekNext();
 
@@ -60,6 +65,7 @@ protected:
     std::vector<QueryColumn> _columns;
     QMap<QString, std::size_t> _columnIndexes; // Column name -> column index
     bool _eof; // H: FEof
+    EditableGridData * _editableData;
 
 private:
     QString _SQL;

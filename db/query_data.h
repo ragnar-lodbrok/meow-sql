@@ -24,6 +24,7 @@ public:
     QString columnName(int index) const;
     db::DataTypeCategoryIndex columnDataTypeCategory(int index) const;
 
+    void prepareEditing();
     bool setData(int row, int col, const QVariant &value);
 
 private:

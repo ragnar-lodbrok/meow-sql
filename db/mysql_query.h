@@ -30,6 +30,13 @@ private:
     DataTypeIndex dataTypeOfField(MYSQL_FIELD * field);
     void throwOnInvalidColumnIndex(std::size_t index);
 
+    QString rowDataToString(MYSQL_ROW row,
+                            std::size_t col,
+                            unsigned long dataLen);
+
+    void prepareResultForEditing(MYSQL_RES * result);
+
+
     std::vector<MySQLQueryResultPt> _resultList;
     MYSQL_ROW _curRow;
     MySQLQueryResultPt _currentResult; // TODO: really need this? H: FCurrentResults

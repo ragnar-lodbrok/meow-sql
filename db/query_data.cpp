@@ -93,5 +93,13 @@ bool QueryData::setData(int row, int col, const QVariant &value)
     return false;
 }
 
+void QueryData::prepareEditing()
+{
+    db::Query * query = _queryPtr.get();
+    if (query) {
+        query->prepareEditing();
+    }
+}
+
 } // namespace db
 } // namespace meow
