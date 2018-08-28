@@ -84,11 +84,10 @@ bool QueryData::isNullAt(int row, int column) const
 
 bool QueryData::setData(int row, int col, const QVariant &value)
 {
-    Q_UNUSED(row);
-    Q_UNUSED(col);
-    Q_UNUSED(value);
-
-    // TODO
+    db::Query * query = _queryPtr.get();
+    if (query) {
+        query->setData(row, col, value);
+    }
 
     return false;
 }

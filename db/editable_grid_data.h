@@ -2,6 +2,7 @@
 #define DB_EDITABLE_GRID_DATA_H
 
 #include <QStringList>
+#include <QVariant>
 
 namespace meow {
 namespace db {
@@ -28,6 +29,11 @@ public:
 
     const QString & dataAt(std::size_t row, std::size_t col) const {
         return _rows.at(row).at(col);
+    }
+
+    bool setData(int row, int col, const QVariant &value) {
+        _rows[row][col] = value.toString();
+        return true;
     }
 
 private:

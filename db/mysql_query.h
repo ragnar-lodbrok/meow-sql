@@ -25,6 +25,8 @@ public:
 
     virtual bool isNull(std::size_t index) override;
 
+    virtual bool prepareEditing() override;
+
 private:
 
     DataTypeIndex dataTypeOfField(MYSQL_FIELD * field);
@@ -36,11 +38,15 @@ private:
 
     void prepareResultForEditing(MYSQL_RES * result);
 
+    void clearColumnData();
+    void addColumnData(MYSQL_RES * result);
+
 
     std::vector<MySQLQueryResultPt> _resultList;
     MYSQL_ROW _curRow;
     MySQLQueryResultPt _currentResult; // TODO: really need this? H: FCurrentResults
     std::vector<unsigned int> _columnLengths; // FColumnLengths
+    bool _columnsParsed;
 
 
 };

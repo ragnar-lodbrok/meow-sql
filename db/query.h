@@ -50,8 +50,9 @@ public:
     virtual bool isNull(std::size_t index) = 0;
 
     // true if was already prepared
-    bool prepareEditing();
+    virtual bool prepareEditing();
     bool isEditing() const { return _editableData != nullptr; }
+    bool setData(int row, int col, const QVariant &value);
 
     void seekFirst();
     void seekNext();

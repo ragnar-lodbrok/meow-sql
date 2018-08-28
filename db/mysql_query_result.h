@@ -3,7 +3,7 @@
 
 #include "native_query_result_interface.h"
 #include <mysql/mysql.h>
-
+#include <QDebug>
 namespace meow {
 namespace db {
 

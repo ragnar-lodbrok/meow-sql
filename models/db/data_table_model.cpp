@@ -133,8 +133,7 @@ void DataTableModel::loadData(bool force)
             _dbEntity->connection()->createQuery()
         );
     }
-    // uncomment when Next/Show all is fixed
-    //queryData()->prepareEditing(); // call before run() !!!
+    queryData()->prepareEditing(); // call before run() !!!
 
     queryDataFetcher->run(&queryCritera, queryData());
 
