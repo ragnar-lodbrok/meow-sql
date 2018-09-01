@@ -4,6 +4,7 @@
 #include "db/table_editor.h"
 #include "db/entity/table_entity.h"
 #include "table_engines_fetcher.h"
+#include "query_data_editor.h"
 
 namespace meow {
 namespace db {
@@ -263,6 +264,10 @@ bool Connection::dropEntityInDB(EntityInDatabase * entity)
     return sharedEditor->drop(entity);
 }
 
+std::shared_ptr<QueryDataEditor> Connection::queryDataEditor()
+{
+    return std::make_shared<QueryDataEditor>();
+}
 
 } // namespace db
 } // namespace meow

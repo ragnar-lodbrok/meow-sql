@@ -7,7 +7,7 @@
 namespace meow {
 namespace db {
 
-// Provides a nicer API for Query resuls
+// Provides a nicer API for Query resuls with ability to edit query data results
 class QueryData
 {
 public:
@@ -26,6 +26,9 @@ public:
 
     void prepareEditing();
     bool setData(int row, int col, const QVariant &value);
+    bool isModified() const;
+    void applyModifications();
+
 
 private:
     db::QueryPtr _queryPtr;

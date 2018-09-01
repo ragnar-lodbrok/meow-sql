@@ -73,6 +73,12 @@ void DataTab::createDataTable()
     _dataTable->setModel(&_model);
     _mainLayout->addWidget(_dataTable);
     _dataTable->setSortingEnabled(false); // TODO
+
+    connect(_dataTable->selectionModel(),
+            &QItemSelectionModel::currentRowChanged,
+            this,
+            &DataTab::currentRowChanged
+    );
 }
 
 void DataTab::actionAllRows(bool checked)
@@ -145,6 +151,14 @@ void DataTab::validateToolBarState()
 {
     _nextRowsAction->setDisabled(_model.allDataLoaded());
     _showAllRowsAction->setDisabled(_model.allDataLoaded());
+}
+
+void DataTab::currentRowChanged(const QModelIndex &current,
+                                const QModelIndex &previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+    // TODO: Post editing
 }
 
 } // namespace central_right

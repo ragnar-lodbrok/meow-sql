@@ -32,6 +32,9 @@ private:
     void refreshDataLabelText();
     void validateToolBarState();
 
+    Q_SLOT void currentRowChanged(const QModelIndex &current,
+                                  const QModelIndex &previous);
+
     QVBoxLayout * _mainLayout;
     // top panel:
     QHBoxLayout * _topLayout;

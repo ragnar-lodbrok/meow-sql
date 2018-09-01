@@ -63,9 +63,11 @@ QVariant BaseDataTableModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
 
-    case Qt::DisplayRole:
-    case Qt::EditRole: // TODO: NULL?
 
+    case Qt::EditRole: // TODO: NULL?
+        // TODO: EnsureFullRow
+        _queryData->prepareEditing(); // Let's do it here
+    case Qt::DisplayRole:        
         return _queryData->rawDataAt(index.row(), index.column());
 
     case Qt::ForegroundRole: {

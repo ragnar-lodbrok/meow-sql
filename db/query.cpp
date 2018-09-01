@@ -82,12 +82,6 @@ bool Query::prepareEditing()
     return false;
 }
 
-bool Query::setData(int row, int col, const QVariant &value)
-{
-    prepareEditing();
-    return _editableData->setData(row, col, value);
-}
-
 } // namespace db
 } // namespace meow
 

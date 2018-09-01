@@ -52,7 +52,9 @@ public:
     // true if was already prepared
     virtual bool prepareEditing();
     bool isEditing() const { return _editableData != nullptr; }
-    bool setData(int row, int col, const QVariant &value);
+    EditableGridData * editableData() const {
+        return _editableData;
+    }
 
     void seekFirst();
     void seekNext();
@@ -66,7 +68,7 @@ protected:
     std::vector<QueryColumn> _columns;
     QMap<QString, std::size_t> _columnIndexes; // Column name -> column index
     bool _eof; // H: FEof
-    EditableGridData * _editableData;
+    EditableGridData * _editableData; // TODO: move to QueryData?
 
 private:
     QString _SQL;

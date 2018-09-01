@@ -25,6 +25,7 @@ class EntityInDatabase;
 class TableEditor;
 class TableEnginesFetcher;
 class EntityFilter;
+class QueryDataEditor;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
@@ -97,6 +98,7 @@ public:
     virtual QStringList tableRowFormats() const = 0;
     virtual bool supportsForeignKeys(const TableEntity * table) const = 0;
     virtual std::unique_ptr<EntityFilter> entityFilter() = 0;
+    virtual std::shared_ptr<QueryDataEditor> queryDataEditor(); // TODO = 0 ?
 
     void parseTableStructure(TableEntity * table, bool refresh = false);
 

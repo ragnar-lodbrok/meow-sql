@@ -1,6 +1,8 @@
 #include "query_data.h"
+#include "editable_grid_data.h"
 #include "query.h"
 #include "helpers/formatting.h"
+#include "query_data_editor.h"
 #include <QDebug>
 
 namespace meow {
@@ -86,7 +88,8 @@ bool QueryData::setData(int row, int col, const QVariant &value)
 {
     db::Query * query = _queryPtr.get();
     if (query) {
-        query->setData(row, col, value);
+        Q_ASSERT(query->editableData());
+        query->editableData()->setData(row, col, value);
     }
 
     return false;
@@ -99,6 +102,24 @@ void QueryData::prepareEditing()
         query->prepareEditing();
     }
 }
+
+bool QueryData::isModified() const
+{
+    return _queryPtr
+            && _queryPtr->editableData()
+            && _queryPtr->editableData()->isModified();
+}
+
+void QueryData::applyModifications()
+{
+    if (!isModified()) return;
+
+    std::shared_ptr<QueryDataEditor> editor = query()->connection()
+                                                     ->queryDataEditor();
+
+    editor->applyModificationsInDB(this);
+}
+
 
 } // namespace db
 } // namespace meow

@@ -238,8 +238,6 @@ bool MySQLQuery::prepareEditing()
         return true;
     }
 
-    qDebug() << __FUNCTION__;
-
     for (auto result : _resultList) {
         addColumnData(result->nativePtr());
         prepareResultForEditing(result->nativePtr());
@@ -286,9 +284,9 @@ void MySQLQuery::prepareResultForEditing(MYSQL_RES * result)
     db::ulonglong numRows = result->row_count;
     unsigned int numCols = mysql_num_fields(result);
 
-    qDebug() << "prepareResultForEditing" << numRows;
-
     _editableData->reserveForAppend(numRows);
+
+    mysql_data_seek(result, 0);
 
     MYSQL_ROW rowDataRaw;
     while ((rowDataRaw = mysql_fetch_row(result))) {
