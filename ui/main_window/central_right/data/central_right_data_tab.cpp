@@ -158,7 +158,10 @@ void DataTab::currentRowChanged(const QModelIndex &current,
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
-    // TODO: Post editing
+
+    // TODO: try/catch
+    _model.applyModifications();
+
 }
 
 } // namespace central_right

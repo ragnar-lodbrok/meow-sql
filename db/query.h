@@ -1,7 +1,7 @@
 #ifndef DB_QUERY_H
 #define DB_QUERY_H
 
-#include <QString>
+#include <QStringList>
 #include <vector>
 #include <QMap>
 
@@ -14,6 +14,7 @@ namespace db {
 
 class Connection;
 class EditableGridData;
+class Entity;
 
 class Query
 {
@@ -61,6 +62,11 @@ public:
 
     std::size_t indexOfColumn(const QString & colName) const;
 
+    Entity * entity() const { return _entity; }
+    void setEntity(Entity * entity) { _entity = entity; }
+
+    QStringList keyColumns() const;
+
 protected:
 
     db::ulonglong _recordCount;
@@ -73,6 +79,7 @@ protected:
 private:
     QString _SQL;
     Connection * _connection;
+    Entity * _entity;
 };
 
 } // namespace db

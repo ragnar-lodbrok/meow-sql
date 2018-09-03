@@ -28,6 +28,7 @@ public:
     bool setData(int row, int col, const QVariant &value);
     bool isModified() const;
     void applyModifications();
+    QString whereForCurRow() const;
 
 
 private:

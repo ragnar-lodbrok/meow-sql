@@ -2,6 +2,7 @@
 #include "db/query_data_fetcher.h"
 #include "db/connection.h"
 #include "db/common.h"
+#include "db/query.h"
 #include "db/query_criteria.h"
 #include <QDebug>
 #include "helpers/formatting.h"
@@ -126,15 +127,12 @@ void DataTableModel::loadData(bool force)
         }
     }
 
-    // for test purposes for now
-    // TODO: call when user starts editing only?
-    /*if (queryData()->query() == nullptr) {
+    if (queryData()->query() == nullptr) {
         queryData()->setQueryPtr( // TODO: what a shitty code?
             _dbEntity->connection()->createQuery()
         );
+        queryData()->query()->setEntity(_dbEntity);
     }
-    queryData()->prepareEditing(); */// call before run() !!!
-
     queryDataFetcher->run(&queryCritera, queryData());
 
     _entityChangedProcessed = true;
@@ -147,6 +145,13 @@ void DataTableModel::loadData(bool force)
     if (rowCount() > prevRowCount) {
         beginInsertRows(QModelIndex(), prevRowCount, rowCount()-1);
         endInsertRows();
+    }
+}
+
+void DataTableModel::applyModifications()
+{
+    if (queryData() && queryData()->isModified()) {
+        queryData()->applyModifications();
     }
 }
 

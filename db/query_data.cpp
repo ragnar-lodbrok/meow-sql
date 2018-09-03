@@ -118,8 +118,65 @@ void QueryData::applyModifications()
                                                      ->queryDataEditor();
 
     editor->applyModificationsInDB(this);
+
+    _queryPtr->editableData()->applyModifications();
 }
 
+QString QueryData::whereForCurRow() const
+{
+    QStringList whereList;
+
+    QStringList keyColumns = query()->keyColumns();
+
+    EditableGridData * editableData = query()->editableData();
+    std::size_t row = editableData->editableRow()->rowNumber;
+    // TODO use cur row when no modifications
+
+    int columnCount = query()->columnCount();
+
+    for (const QString & keyColumnName : keyColumns) {
+        int i = -1;
+        for (i = 0; i < columnCount; ++i) {
+            if (keyColumnName == query()->columnName(i)) {
+                break;
+            }
+        }
+        if (i == -1) {
+            throw db::Exception(
+                QString("Cannot compose WHERE clause - column missing: %1")
+                    .arg(keyColumnName));
+        }
+        QString whereName = query()->connection()->quoteIdentifier(
+            query()->columnName(i)
+        );
+
+        const QString & oldValue = editableData->notModifiedDataAt(row, i);
+
+        QString whereVal;
+
+        if (oldValue.isNull()) {
+            whereVal = " IS NULL";
+        } else {
+            switch (query()->column(i).dataTypeCategoryIndex) {
+            case DataTypeCategoryIndex::Integer:
+            case DataTypeCategoryIndex::Float:
+                // TODO if bit
+                whereVal = oldValue.isEmpty() ? "0" : oldValue;
+                break;
+            // TODO: other types
+            default:
+                whereVal = query()->connection()->escapeString(oldValue);
+                break;
+            }
+
+            whereVal = '=' + whereVal;
+        }
+
+        whereList << whereName + whereVal;
+    }
+
+    return whereList.join(" AND");
+}
 
 } // namespace db
 } // namespace meow

@@ -1,6 +1,7 @@
 #include "query.h"
 #include "exception.h"
 #include "editable_grid_data.h"
+#include "entity/table_entity.h"
 #include <QDebug>
 
 namespace meow {
@@ -11,7 +12,8 @@ Query::Query(Connection * connection)
      _curRecNo(-1),
      _eof(false),
      _editableData(nullptr),
-     _connection(connection)
+     _connection(connection),
+     _entity(nullptr)
 {
 
 }
@@ -80,6 +82,30 @@ bool Query::prepareEditing()
     }
     _editableData = new EditableGridData();
     return false;
+}
+
+QStringList Query::keyColumns() const
+{
+    Q_ASSERT(entity());
+
+    QStringList cols;
+
+    if (entity()->type() == Entity::Type::Table) {
+        TableEntity * table = static_cast<TableEntity *>(entity());
+
+        QList<TableIndex *> & indicies = table->structure()->indicies();
+        for (const auto & index : indicies) {
+            if (index->isPrimaryKey()) {
+                cols.append(index->columnNames());
+            }
+        }
+
+    } else {
+        // TODO
+        Q_ASSERT(false);
+    }
+
+    return cols;
 }
 
 } // namespace db

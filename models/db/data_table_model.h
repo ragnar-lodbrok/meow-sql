@@ -37,6 +37,8 @@ public:
 
     QString rowCountStats() const;
 
+    void applyModifications();
+
 private:
 
     bool _entityChangedProcessed;
