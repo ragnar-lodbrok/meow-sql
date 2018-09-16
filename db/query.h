@@ -35,6 +35,14 @@ public:
 
     QString columnName(std::size_t index) const { return _columns[index].name; }
 
+    QStringList columnOrgNames() const {
+        QStringList names;
+        for (const QueryColumn & col : _columns) {
+            names << col.orgName;
+        }
+        return names;
+    }
+
     QueryColumn & column(std::size_t index) { return _columns[index]; }
 
     // H: procedure Execute(AddResult: Boolean=False; UseRawResult: Integer=-1); virtual; abstract;
@@ -47,6 +55,8 @@ public:
     virtual QString curRowColumn(std::size_t index, bool ignoreErrors = false) = 0;
 
     QString curRowColumn(const QString & colName, bool ignoreErrors = false);
+
+    QStringList curRow();
 
     virtual bool isNull(std::size_t index) = 0;
 

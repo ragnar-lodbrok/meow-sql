@@ -456,5 +456,10 @@ TableEnginesFetcher * MySQLConnection::createTableEnginesFetcher()
     return new MySQLTableEnginesFetcher(this);
 }
 
+QString MySQLConnection::limitOnePostfix() const
+{
+    return "LIMIT 1";
+}
+
 } // namespace db
 } // namespace meow

@@ -156,6 +156,14 @@ QueryPtr Connection::getResults(const QString & SQL)
     return query;
 }
 
+QStringList Connection::getRow(const QString & SQL)
+{
+    // TODO: say query to skip columns parsing
+    QueryPtr query = getResults(SQL);
+    query->seekFirst();
+    return query->curRow();
+}
+
 QString Connection::quoteIdentifier(const char * identifier,
                                     bool alwaysQuote /*= true*/,
                                     QChar glue /*= QChar::Null*/) const
@@ -267,6 +275,11 @@ bool Connection::dropEntityInDB(EntityInDatabase * entity)
 std::shared_ptr<QueryDataEditor> Connection::queryDataEditor()
 {
     return std::make_shared<QueryDataEditor>();
+}
+
+QString Connection::limitOnePostfix() const
+{
+    return ""; // some dbs dont have it
 }
 
 } // namespace db

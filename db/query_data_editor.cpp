@@ -37,6 +37,7 @@ void QueryDataEditor::applyModificationsInDB(QueryData * data)
         if (newValue.isNull()) {
             valInDB = "NULL";
         } else {
+            // TODO: bit/spatial/temporal preprocessing
             valInDB = connection->escapeString(newValue);
         }
 
@@ -46,12 +47,14 @@ void QueryDataEditor::applyModificationsInDB(QueryData * data)
     }
 
     if (!updateDataList.isEmpty()) {
-        QString updateSQL = QString("UPDATE %1 SET %2 WHERE %3")
+        QString updateSQL = QString("UPDATE %1 SET %2 WHERE %3 %4")
                 .arg(db::quotedFullName(data->query()->entity()))
                 .arg(updateDataList.join(", "))
-                .arg(data->whereForCurRow());
+                .arg(data->whereForCurRow(true))
+                .arg(connection->limitOnePostfix());;
 
         connection->query(updateSQL);
+        // TODO check rows affected
     }
 }
 

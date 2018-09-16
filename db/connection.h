@@ -50,6 +50,7 @@ public:
     QStringList getColumn(const QString & SQL, std::size_t index = 0); // H: GetCol
     QString getCell(const QString & SQL, std::size_t index = 0); //H:  GetVar
     QString getCell(const QString & SQL, const QString & columnName);
+    QStringList getRow(const QString & SQL);
     QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String): TDBQuery;
     QStringList allDatabases(bool refresh = false);
     void setAllDatabases(const QStringList & databases);
@@ -99,6 +100,7 @@ public:
     virtual bool supportsForeignKeys(const TableEntity * table) const = 0;
     virtual std::unique_ptr<EntityFilter> entityFilter() = 0;
     virtual std::shared_ptr<QueryDataEditor> queryDataEditor(); // TODO = 0 ?
+    virtual QString limitOnePostfix() const;
 
     void parseTableStructure(TableEntity * table, bool refresh = false);
 

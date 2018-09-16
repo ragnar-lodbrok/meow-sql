@@ -62,6 +62,20 @@ QString Query::curRowColumn(const QString & colName, bool ignoreErrors /* = fals
     return curRowColumn(index, ignoreErrors);
 }
 
+QStringList Query::curRow()
+{
+    QStringList rowData;
+    std::size_t columnCount = this->columnCount();
+    for (std::size_t i = 0; i < columnCount; ++i) {
+        if (isNull(i)) {
+            rowData << QString();
+        } else {
+            rowData << curRowColumn(i);
+        }
+    }
+    return rowData;
+}
+
 std::size_t Query::indexOfColumn(const QString & colName) const
 {
     if (_columnIndexes.contains(colName)) {

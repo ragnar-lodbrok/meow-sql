@@ -3,6 +3,7 @@
 #include "query.h"
 #include "helpers/formatting.h"
 #include "query_data_editor.h"
+#include "entity/entity.h"
 #include <QDebug>
 
 namespace meow {
@@ -49,6 +50,7 @@ DataTypeCategoryIndex QueryData::columnDataTypeCategory(int index) const
     return DataTypeCategoryIndex::Other;
 }
 
+// TODO: why it's called raw when it returns formatted data ?
 QString QueryData::rawDataAt(int row, int column) const
 {
     db::Query * query = _queryPtr.get();
@@ -119,10 +121,12 @@ void QueryData::applyModifications()
 
     editor->applyModificationsInDB(this);
 
+    ensureFullRow(true); // load from db new values
+
     _queryPtr->editableData()->applyModifications();
 }
 
-QString QueryData::whereForCurRow() const
+QString QueryData::whereForCurRow(bool notModified) const
 {
     QStringList whereList;
 
@@ -150,22 +154,24 @@ QString QueryData::whereForCurRow() const
             query()->columnName(i)
         );
 
-        const QString & oldValue = editableData->notModifiedDataAt(row, i);
+        const QString & value =  notModified ?
+                    editableData->notModifiedDataAt(row, i)
+                  : editableData->dataAt(row, i);
 
         QString whereVal;
 
-        if (oldValue.isNull()) {
+        if (value.isNull()) {
             whereVal = " IS NULL";
         } else {
             switch (query()->column(i).dataTypeCategoryIndex) {
             case DataTypeCategoryIndex::Integer:
             case DataTypeCategoryIndex::Float:
                 // TODO if bit
-                whereVal = oldValue.isEmpty() ? "0" : oldValue;
+                whereVal = value.isEmpty() ? "0" : value;
                 break;
             // TODO: other types
             default:
-                whereVal = query()->connection()->escapeString(oldValue);
+                whereVal = query()->connection()->escapeString(value);
                 break;
             }
 
@@ -176,6 +182,40 @@ QString QueryData::whereForCurRow() const
     }
 
     return whereList.join(" AND");
+}
+
+void QueryData::ensureFullRow(bool refresh)
+{
+    if (!refresh && hasFullData()) return;
+
+    prepareEditing();
+
+    EditableGridDataRow * row = _queryPtr->editableData()->editableRow();
+    Q_ASSERT(row != nullptr); // TODO create when not
+
+    QStringList columnNames = query()->connection()->quoteIdentifiers(
+        query()->columnOrgNames()
+    );
+
+    QString entityName = db::quotedFullName(query()->entity());
+    QString selectSQL = QString("SELECT %1 FROM %2 WHERE %3 %4")
+            .arg(columnNames.join(", "))
+            .arg(entityName)
+            .arg(whereForCurRow())
+            .arg(query()->connection()->limitOnePostfix());
+
+    // TODO: ignore if fail ?
+    QStringList newRowData = query()->connection()->getRow(selectSQL);
+
+    row->data = newRowData;
+}
+
+bool QueryData::hasFullData() const
+{
+    if (isModified()) return true;
+
+    // TODO
+    return true;
 }
 
 } // namespace db

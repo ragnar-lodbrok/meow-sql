@@ -28,10 +28,14 @@ public:
     bool setData(int row, int col, const QVariant &value);
     bool isModified() const;
     void applyModifications();
-    QString whereForCurRow() const;
+    QString whereForCurRow(bool notModified = false) const;
+    void ensureFullRow(bool refresh = false);
 
 
 private:
+
+    bool hasFullData() const;
+
     db::QueryPtr _queryPtr;
 };
 

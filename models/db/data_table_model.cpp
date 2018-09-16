@@ -152,6 +152,7 @@ void DataTableModel::applyModifications()
 {
     if (queryData() && queryData()->isModified()) {
         queryData()->applyModifications();
+        // TODO emit dataChanged(row)
     }
 }
 
