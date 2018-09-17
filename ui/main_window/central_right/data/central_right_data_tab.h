@@ -27,7 +27,8 @@ private:
 
     void createDataTable();
     void createTopPanel();
-    void createToolBar();
+    void createShowToolBar();
+    void createDataToolBar();
 
     void refreshDataLabelText();
     void validateToolBarState();
@@ -39,7 +40,8 @@ private:
     // top panel:
     QHBoxLayout * _topLayout;
     QLabel * _dataLabel;
-    QToolBar * _toolBar;
+    QToolBar * _showToolBar;
+    QToolBar * _dataToolBar;
     QAction * _nextRowsAction;
     QAction * _showAllRowsAction;
     // bottom:

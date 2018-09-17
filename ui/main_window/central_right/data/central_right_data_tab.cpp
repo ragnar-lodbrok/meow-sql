@@ -24,19 +24,36 @@ void DataTab::createTopPanel()
     _topLayout->setContentsMargins(0, 0, 0, 0);
     _mainLayout->addLayout(_topLayout);
 
+    createDataToolBar();
+
     _dataLabel = new QLabel(tr("Data"));
     _dataLabel->setWordWrap(true);
-    _topLayout->addWidget(_dataLabel, 0, Qt::AlignVCenter);
+    _topLayout->addWidget(_dataLabel, 0, Qt::AlignVCenter | Qt::AlignLeft);
+    _topLayout->addStretch(1);
 
-    createToolBar();
+    createShowToolBar();
 
 }
 
-void DataTab::createToolBar()
+void DataTab::createDataToolBar()
 {
-    _toolBar = new QToolBar();
-    _toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    _topLayout->addWidget(_toolBar, 0, Qt::AlignRight);
+    _dataToolBar = new QToolBar();
+    _dataToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    _dataToolBar->setIconSize(QSize(16, 16));
+    _topLayout->addWidget(_dataToolBar, 0, Qt::AlignLeft);
+
+    _dataToolBar->addAction( meow::app()->actions()->dataInsert() );
+    _dataToolBar->addAction( meow::app()->actions()->dataDelete() );
+    _dataToolBar->addAction( meow::app()->actions()->dataPostChanges() );
+    _dataToolBar->addAction( meow::app()->actions()->dataCancelChanges() );
+}
+
+void DataTab::createShowToolBar()
+{
+    _showToolBar = new QToolBar();
+    _showToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    _showToolBar->setIconSize(QSize(16, 16));
+    _topLayout->addWidget(_showToolBar, 0, Qt::AlignRight);
 
 
     _nextRowsAction = new QAction(QIcon(":/icons/next.png"), tr("Next"), this);
@@ -44,7 +61,7 @@ void DataTab::createToolBar()
         QString(tr("Show next %1 rows ...")).arg(meow::db::DATA_ROWS_PER_STEP)
     ); // TODO: hot keys
     connect(_nextRowsAction, &QAction::triggered, this, &DataTab::actionNextRows);
-    _toolBar->addAction(_nextRowsAction);
+    _showToolBar->addAction(_nextRowsAction);
 
 
     _showAllRowsAction = new QAction(QIcon(":/icons/show_all.png"),
@@ -54,7 +71,7 @@ void DataTab::createToolBar()
         tr("Show all rows")
     ); // TODO: hot keys
     connect(_showAllRowsAction, &QAction::triggered, this, &DataTab::actionAllRows);
-    _toolBar->addAction(_showAllRowsAction);
+    _showToolBar->addAction(_showAllRowsAction);
 }
 
 void DataTab::createDataTable()

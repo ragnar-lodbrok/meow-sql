@@ -134,7 +134,7 @@
         <file>resources/icons/user_add.png</file>
         <file>resources/icons/user.png</file>
         <file>resources/icons/toggle_log.png</file>
-        <file>resources/icons/tick.png</file>
+        <file alias="tick.png">resources/icons/tick.png</file>
         <file>resources/icons/text_replace.png</file>
         <file>resources/icons/table_save.png</file>
         <file>resources/icons/table_multiple.png</file>
