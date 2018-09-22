@@ -64,15 +64,23 @@ public:
         return _editableRow != nullptr;
     }
 
-    void discardModifications() {
+    int discardModifications() {
+        int editableRowNumber = -1;
+        if (_editableRow) {
+            editableRowNumber = _editableRow->rowNumber;
+        }
         _editableRow.reset();
+        return editableRowNumber;
     }
 
-    void applyModifications() {
-        if (!isModified()) return;
+    int applyModifications() {
+        if (!isModified()) return -1;
 
+        int editableRowNumber = _editableRow->rowNumber;
         _rows[_editableRow->rowNumber] = _editableRow->data;
         _editableRow.reset();
+
+        return editableRowNumber;
     }
 
     EditableGridDataRow * editableRow() const {

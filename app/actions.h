@@ -18,6 +18,8 @@ public:
     QAction * dataPostChanges() const { return _dataPostChanges; }
     QAction * dataCancelChanges() const { return _dataCancelChanges; }
 
+    QAction * dataSetNULL() const { return _dataSetNULL; }
+
 private:
 
     void createActions();
@@ -29,6 +31,8 @@ private:
     QAction * _dataDelete;
     QAction * _dataPostChanges;
     QAction * _dataCancelChanges;
+
+    QAction * _dataSetNULL;
 };
 
 } // namespace meow

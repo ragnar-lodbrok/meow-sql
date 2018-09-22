@@ -151,9 +151,30 @@ void DataTableModel::loadData(bool force)
 void DataTableModel::applyModifications()
 {
     if (queryData() && queryData()->isModified()) {
-        queryData()->applyModifications();
-        // TODO emit dataChanged(row)
+        int modifiedRow = queryData()->applyModifications();
+        if (modifiedRow != -1) {
+            emit dataChanged(
+                index(modifiedRow, 0),
+                index(modifiedRow, columnCount() - 1));
+        }
     }
+}
+
+void DataTableModel::discardModifications()
+{
+    if (queryData() && queryData()->isModified()) {
+        int modifiedRow = queryData()->discardModifications();
+        if (modifiedRow != -1) {
+            emit dataChanged(
+                index(modifiedRow, 0),
+                index(modifiedRow, columnCount() - 1));
+        }
+    }
+}
+
+void DataTableModel::setCurrentRowNumber(int row)
+{
+    queryData()->setCurrentRowNumber(row);
 }
 
 void DataTableModel::refresh()

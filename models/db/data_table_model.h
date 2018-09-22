@@ -38,6 +38,9 @@ public:
     QString rowCountStats() const;
 
     void applyModifications();
+    void discardModifications();
+
+    void setCurrentRowNumber(int row);
 
 private:
 

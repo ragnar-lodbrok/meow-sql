@@ -37,8 +37,9 @@ void TableColumns::actionAddColumn(bool checked)
     QModelIndex newRowNameIndex = _columnsTable->model()->index(
         newRowIntIndex,
         (int)meow::models::db::TableColumnsModel::Columns::Name);
-    _columnsTable->selectionModel()->setCurrentIndex(newRowNameIndex,
-                                                     QItemSelectionModel::Clear);
+    _columnsTable->selectionModel()
+        ->setCurrentIndex(newRowNameIndex,
+                          QItemSelectionModel::Clear);
 
     // scroll
     _columnsTable->scrollTo(_columnsTable->selectionModel()->currentIndex());
@@ -92,7 +93,8 @@ void TableColumns::validateControls()
         _tools->setActionEnabled(ColAction::Add,      true);
         _tools->setActionEnabled(ColAction::Remove,   _model.canRemoveRow(row));
         _tools->setActionEnabled(ColAction::MoveUp,   _model.canMoveRowUp(row));
-        _tools->setActionEnabled(ColAction::MoveDown, _model.canMoveRowDown(row));
+        _tools->setActionEnabled(ColAction::MoveDown,
+                                 _model.canMoveRowDown(row));
     } else {
         _tools->setActionEnabled(ColAction::Add,      _model.hasTable());
         _tools->setActionEnabled(ColAction::Remove,   false);

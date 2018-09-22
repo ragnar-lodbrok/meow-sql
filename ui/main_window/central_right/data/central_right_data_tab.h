@@ -3,10 +3,12 @@
 
 #include <QtWidgets>
 #include "models/db/data_table_model.h"
-#include "ui/common/table_view.h"
 
 namespace meow {
 namespace ui {
+
+class EditableDataTableView;
+
 namespace main_window {
 namespace central_right {
 
@@ -36,6 +38,11 @@ private:
     Q_SLOT void currentRowChanged(const QModelIndex &current,
                                   const QModelIndex &previous);
 
+    Q_SLOT void onDataSetNULLAction(bool checked);
+
+    void applyModifications();
+    void discardModifications();
+
     QVBoxLayout * _mainLayout;
     // top panel:
     QHBoxLayout * _topLayout;
@@ -45,7 +52,7 @@ private:
     QAction * _nextRowsAction;
     QAction * _showAllRowsAction;
     // bottom:
-    TableView  * _dataTable;
+    EditableDataTableView  * _dataTable;
 
     models::db::DataTableModel _model;
 };

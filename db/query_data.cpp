@@ -9,7 +9,7 @@
 namespace meow {
 namespace db {
 
-QueryData::QueryData()
+QueryData::QueryData() : _curRowNumber(-1)
 {
 
 }
@@ -88,8 +88,10 @@ bool QueryData::isNullAt(int row, int column) const
 
 bool QueryData::setData(int row, int col, const QVariant &value)
 {
+    setCurrentRowNumber(row);
     db::Query * query = _queryPtr.get();
     if (query) {
+        query->prepareEditing();
         Q_ASSERT(query->editableData());
         query->editableData()->setData(row, col, value);
     }
@@ -112,9 +114,9 @@ bool QueryData::isModified() const
             && _queryPtr->editableData()->isModified();
 }
 
-void QueryData::applyModifications()
+int QueryData::applyModifications()
 {
-    if (!isModified()) return;
+    if (!isModified()) return -1;
 
     std::shared_ptr<QueryDataEditor> editor = query()->connection()
                                                      ->queryDataEditor();
@@ -123,7 +125,14 @@ void QueryData::applyModifications()
 
     ensureFullRow(true); // load from db new values
 
-    _queryPtr->editableData()->applyModifications();
+    return _queryPtr->editableData()->applyModifications();
+}
+
+int QueryData::discardModifications()
+{
+    if (!isModified()) return -1;
+
+    return _queryPtr->editableData()->discardModifications();
 }
 
 QString QueryData::whereForCurRow(bool notModified) const
@@ -208,6 +217,11 @@ void QueryData::ensureFullRow(bool refresh)
     QStringList newRowData = query()->connection()->getRow(selectSQL);
 
     row->data = newRowData;
+}
+
+void QueryData::setCurrentRowNumber(int row)
+{
+    _curRowNumber = row;
 }
 
 bool QueryData::hasFullData() const

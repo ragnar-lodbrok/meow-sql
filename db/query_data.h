@@ -14,8 +14,9 @@ public:
     QueryData();
 
     db::Query * query() const { return _queryPtr.get(); }
-    void setQueryPtr(db::QueryPtr queryPtr) { _queryPtr = queryPtr; }
-    void clearData() { _queryPtr = nullptr; }
+    void setQueryPtr(db::QueryPtr queryPtr) { _queryPtr = queryPtr;
+                                              _curRowNumber = -1; }
+    void clearData() { setQueryPtr(nullptr); }
 
     int rowCount() const;
     int columnCount() const;
@@ -27,16 +28,22 @@ public:
     void prepareEditing();
     bool setData(int row, int col, const QVariant &value);
     bool isModified() const;
-    void applyModifications();
+
+    int applyModifications();
+    int discardModifications();
+
     QString whereForCurRow(bool notModified = false) const;
     void ensureFullRow(bool refresh = false);
 
+    void setCurrentRowNumber(int row);
+    int currentRowNumber() const { return _curRowNumber; }
 
 private:
 
     bool hasFullData() const;
 
     db::QueryPtr _queryPtr;
+    int _curRowNumber;
 };
 
 } // namespace db

@@ -1,6 +1,7 @@
 #include "central_right_data_tab.h"
 #include "db/common.h"
 #include "app/app.h"
+#include "ui/common/editable_data_table_view.h"
 
 namespace meow {
 namespace ui {
@@ -16,6 +17,25 @@ DataTab::DataTab(QWidget *parent) : QWidget(parent), _model()
 
     createTopPanel();
     createDataTable();
+
+    connect(meow::app()->actions()->dataSetNULL(),
+            &QAction::triggered,
+            this,
+            &DataTab::onDataSetNULLAction);
+
+    connect(meow::app()->actions()->dataPostChanges(),
+            &QAction::triggered,
+            [=](bool checked) {
+                Q_UNUSED(checked);
+                applyModifications();
+            });
+
+    connect(meow::app()->actions()->dataCancelChanges(),
+            &QAction::triggered,
+            [=](bool checked) {
+                Q_UNUSED(checked);
+                discardModifications();
+            });
 }
 
 void DataTab::createTopPanel()
@@ -77,7 +97,7 @@ void DataTab::createShowToolBar()
 void DataTab::createDataTable()
 {
 
-    _dataTable = new TableView();
+    _dataTable = new EditableDataTableView();
     _dataTable->verticalHeader()->hide();
      auto geometrySettings = meow::app()->settings()->geometrySettings();
     _dataTable->verticalHeader()->setDefaultSectionSize(
@@ -176,9 +196,44 @@ void DataTab::currentRowChanged(const QModelIndex &current,
     Q_UNUSED(current);
     Q_UNUSED(previous);
 
-    // TODO: try/catch
-    _model.applyModifications();
+    QModelIndex curIndex = _dataTable->selectionModel()->currentIndex();
+    _model.setCurrentRowNumber(curIndex.row());
 
+    applyModifications();
+
+}
+
+void DataTab::onDataSetNULLAction(bool checked)
+{
+    Q_UNUSED(checked);
+    QModelIndex curIndex = _dataTable->selectionModel()->currentIndex();
+    if (curIndex.isValid()) {
+        _model.setData(curIndex, QString());
+    }
+}
+
+void DataTab::applyModifications()
+{
+    // TODO: commit editing data
+    try {
+        _model.applyModifications();
+    } catch(meow::db::Exception & ex) {
+
+        discardModifications();
+
+        QMessageBox msgBox;
+        msgBox.setText(ex.message());
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+    }
+}
+
+void DataTab::discardModifications()
+{
+    // TODO: close editor
+    _model.discardModifications();
 }
 
 } // namespace central_right

@@ -43,6 +43,11 @@ void Actions::createActions()
     _dataCancelChanges = new QAction(QIcon(":/icons/cross.png"),
                               tr("Cancel editing"), this);
 
+    // -------------------------------------------------------------------------
+    _dataSetNULL = new QAction(QIcon(":/icons/page_white_delete.png"),
+                               tr("NULL"), this);
+    _dataSetNULL->setStatusTip(tr("Set focused cell to NULL"));
+
 }
 
 } // namespace meow
