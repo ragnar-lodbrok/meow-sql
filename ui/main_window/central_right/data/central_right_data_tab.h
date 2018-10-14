@@ -43,6 +43,9 @@ private:
     void applyModifications();
     void discardModifications();
 
+    void commitTableEditor();
+    void discardTableEditor();
+
     QVBoxLayout * _mainLayout;
     // top panel:
     QHBoxLayout * _topLayout;

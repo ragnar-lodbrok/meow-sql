@@ -135,7 +135,8 @@ SOURCES += main.cpp\
     ui/session_manager/window.cpp \
     db/editable_grid_data.cpp \
     db/query_data_editor.cpp \
-    ui/common/editable_data_table_view.cpp
+    ui/common/editable_data_table_view.cpp \
+    models/delegates/edit_query_data_delegate.cpp
 
 HEADERS  +=  app/actions.h \
     app/app.h \
@@ -252,7 +253,8 @@ HEADERS  +=  app/actions.h \
     ui/session_manager/window.h \
     db/editable_grid_data.h \
     db/query_data_editor.h \
-    ui/common/editable_data_table_view.h
+    ui/common/editable_data_table_view.h \
+    models/delegates/edit_query_data_delegate.h
 
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"

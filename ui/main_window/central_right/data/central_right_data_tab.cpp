@@ -2,6 +2,7 @@
 #include "db/common.h"
 #include "app/app.h"
 #include "ui/common/editable_data_table_view.h"
+#include "models/delegates/edit_query_data_delegate.h"
 
 namespace meow {
 namespace ui {
@@ -116,6 +117,10 @@ void DataTab::createDataTable()
             this,
             &DataTab::currentRowChanged
     );
+
+    models::delegates::EditQueryDataDelegate * delegate
+        = new models::delegates::EditQueryDataDelegate(&_model);
+    _dataTable->setItemDelegate(delegate);
 }
 
 void DataTab::actionAllRows(bool checked)
@@ -214,7 +219,7 @@ void DataTab::onDataSetNULLAction(bool checked)
 
 void DataTab::applyModifications()
 {
-    // TODO: commit editing data
+    commitTableEditor();
     try {
         _model.applyModifications();
     } catch(meow::db::Exception & ex) {
@@ -232,8 +237,24 @@ void DataTab::applyModifications()
 
 void DataTab::discardModifications()
 {
-    // TODO: close editor
+    discardTableEditor();
     _model.discardModifications();
+}
+
+void DataTab::commitTableEditor()
+{
+    auto delegate = static_cast<models::delegates::EditQueryDataDelegate *>(
+        _dataTable->itemDelegate()
+    );
+    delegate->commit();
+}
+
+void DataTab::discardTableEditor()
+{
+    auto delegate = static_cast<models::delegates::EditQueryDataDelegate *>(
+        _dataTable->itemDelegate()
+    );
+    delegate->discard();
 }
 
 } // namespace central_right

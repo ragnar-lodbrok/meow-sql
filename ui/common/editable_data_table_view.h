@@ -8,7 +8,6 @@ namespace ui {
 
 class EditableDataTableView : public TableView
 {
-
 protected:
     virtual void contextMenuEvent(QContextMenuEvent * event) override;
 };

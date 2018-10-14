@@ -4,6 +4,7 @@
 #include <QStringList>
 #include <QVariant>
 #include <memory>
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -54,7 +55,10 @@ public:
         return _rows.at(row).at(col);
     }
 
-    bool setData(int row, int col, const QVariant &value) {        
+    bool setData(int row, int col, const QVariant &value) {
+        if (dataAt(row, col) == value.toString()) {
+            return false;
+        }
         createUpdateRow(row);
         _editableRow->data[col] = value.toString();
         return true;
