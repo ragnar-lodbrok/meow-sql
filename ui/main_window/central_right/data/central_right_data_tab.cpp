@@ -37,6 +37,13 @@ DataTab::DataTab(QWidget *parent) : QWidget(parent), _model()
                 Q_UNUSED(checked);
                 discardModifications();
             });
+
+    connect(&_model, &meow::models::db::DataTableModel::editingStarted,
+            [=]() {
+                validateControls();
+            });
+
+    validateControls();
 }
 
 void DataTab::createTopPanel()
@@ -91,7 +98,8 @@ void DataTab::createShowToolBar()
     _showAllRowsAction->setToolTip(
         tr("Show all rows")
     ); // TODO: hot keys
-    connect(_showAllRowsAction, &QAction::triggered, this, &DataTab::actionAllRows);
+    connect(_showAllRowsAction, &QAction::triggered,
+            this, &DataTab::actionAllRows);
     _showToolBar->addAction(_showAllRowsAction);
 }
 
@@ -105,7 +113,8 @@ void DataTab::createDataTable()
         geometrySettings->tableViewDefaultRowHeight());
     _dataTable->horizontalHeader()->setHighlightSections(false);
     _dataTable->horizontalHeader()->setResizeContentsPrecision(
-        meow::app()->settings()->textSettings()->tableAutoResizeRowsLookupCount()
+        meow::app()->settings()
+            ->textSettings()->tableAutoResizeRowsLookupCount()
     );
 
     _dataTable->setModel(&_model);
@@ -116,6 +125,12 @@ void DataTab::createDataTable()
             &QItemSelectionModel::currentRowChanged,
             this,
             &DataTab::currentRowChanged
+    );
+
+    connect(_dataTable->selectionModel(),
+            &QItemSelectionModel::currentChanged,
+            this,
+            &DataTab::currentChanged
     );
 
     models::delegates::EditQueryDataDelegate * delegate
@@ -131,7 +146,7 @@ void DataTab::actionAllRows(bool checked)
         _model.setNoRowsCountLimit();
         _model.loadData(true);
         refreshDataLabelText();
-        validateToolBarState();
+        validateShowToolBarState();
     } catch(meow::db::Exception & ex) {
         QMessageBox msgBox;
         msgBox.setText(ex.message());
@@ -150,7 +165,7 @@ void DataTab::actionNextRows(bool checked)
         _model.loadData(true);
         // TODO: select addition
         refreshDataLabelText();
-        validateToolBarState();
+        validateShowToolBarState();
     } catch(meow::db::Exception & ex) {
         QMessageBox msgBox;
         msgBox.setText(ex.message());
@@ -167,7 +182,7 @@ void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
     _model.setEntity(tableOrViewEntity, loadData);
     if (loadData) {
         refreshDataLabelText();
-        validateToolBarState();
+        validateControls();
         if (meow::app()->settings()->textSettings()->autoResizeTableColumns()) {
             _dataTable->resizeColumnsToContents();
         }
@@ -178,7 +193,7 @@ void DataTab::loadData()
 {
     _model.loadData();
     refreshDataLabelText();
-    validateToolBarState();
+    validateControls();
     if (meow::app()->settings()->textSettings()->autoResizeTableColumns()) {
         _dataTable->resizeColumnsToContents();
     }
@@ -189,10 +204,30 @@ void DataTab::refreshDataLabelText()
     _dataLabel->setText(_model.rowCountStats());
 }
 
-void DataTab::validateToolBarState()
+void DataTab::validateShowToolBarState()
 {
     _nextRowsAction->setDisabled(_model.allDataLoaded());
     _showAllRowsAction->setDisabled(_model.allDataLoaded());
+}
+
+void DataTab::validateDataToolBarState()
+{
+    bool canPost = _model.isEditing();
+    if (canPost) {
+        auto delegate = static_cast<models::delegates::EditQueryDataDelegate *>(
+            _dataTable->itemDelegate()
+        );
+        canPost = delegate->isEditing() || _model.isModified();
+    }
+
+    meow::app()->actions()->dataPostChanges()->setEnabled(canPost);
+    meow::app()->actions()->dataCancelChanges()->setEnabled(canPost);
+}
+
+void DataTab::validateControls()
+{
+    validateDataToolBarState();
+    validateShowToolBarState();
 }
 
 void DataTab::currentRowChanged(const QModelIndex &current,
@@ -205,7 +240,16 @@ void DataTab::currentRowChanged(const QModelIndex &current,
     _model.setCurrentRowNumber(curIndex.row());
 
     applyModifications();
+    validateDataToolBarState();
+}
 
+void DataTab::currentChanged(const QModelIndex &current,
+                             const QModelIndex &previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+
+    validateDataToolBarState();
 }
 
 void DataTab::onDataSetNULLAction(bool checked)
@@ -233,12 +277,15 @@ void DataTab::applyModifications()
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
     }
+
+    validateDataToolBarState();
 }
 
 void DataTab::discardModifications()
 {
     discardTableEditor();
     _model.discardModifications();
+    validateDataToolBarState();
 }
 
 void DataTab::commitTableEditor()

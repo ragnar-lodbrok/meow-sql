@@ -19,6 +19,8 @@ public:
     void destroyEditor(QWidget *editor,
                        const QModelIndex &index) const override;
 
+    bool isEditing() const { return _editor != nullptr; }
+
     //void setEditorData(QWidget *editor,
     //                   const QModelIndex &index) const override;
     //void setModelData(QWidget *editor,

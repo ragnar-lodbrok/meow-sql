@@ -9,7 +9,7 @@
 namespace meow {
 namespace db {
 
-QueryData::QueryData() : _curRowNumber(-1)
+QueryData::QueryData() : QObject(), _curRowNumber(-1)
 {
 
 }
@@ -18,7 +18,7 @@ int QueryData::rowCount() const
 {
     db::Query * query = _queryPtr.get();
     if (query) {
-        return query->recordCount();
+        return static_cast<int>(query->recordCount());
     }
     return 0;
 }
@@ -27,7 +27,7 @@ int QueryData::columnCount() const
 {
     db::Query * query = _queryPtr.get();
     if (query) {
-        return query->columnCount();
+        return static_cast<int>(query->columnCount());
     }
     return 0;
 }
@@ -36,7 +36,7 @@ QString QueryData::columnName(int index) const
 {
     db::Query * query = _queryPtr.get();
     if (query) {
-        return query->columnName(index);
+        return query->columnName(static_cast<std::size_t>(index));
     }
     return QString();
 }
@@ -80,8 +80,8 @@ bool QueryData::isNullAt(int row, int column) const
 {
     db::Query * query = _queryPtr.get();
     if (query) {
-        query->seekRecNo(row);
-        return query->isNull(column);
+        query->seekRecNo(static_cast<std::size_t>(row));
+        return query->isNull(static_cast<std::size_t>(column));
     }
     return false;
 }
@@ -91,7 +91,7 @@ bool QueryData::setData(int row, int col, const QVariant &value)
     setCurrentRowNumber(row);
     db::Query * query = _queryPtr.get();
     if (query) {
-        query->prepareEditing();
+        prepareEditing();
         Q_ASSERT(query->editableData());
         query->editableData()->setData(row, col, value);
     }
@@ -104,6 +104,7 @@ void QueryData::prepareEditing()
     db::Query * query = _queryPtr.get();
     if (query) {
         query->prepareEditing();
+        emit editingPrepared();
     }
 }
 
@@ -135,26 +136,31 @@ int QueryData::discardModifications()
     return _queryPtr->editableData()->discardModifications();
 }
 
-QString QueryData::whereForCurRow(bool notModified) const
+QString QueryData::whereForCurRow(bool beforeModifications) const
 {
     QStringList whereList;
 
     QStringList keyColumns = query()->keyColumns();
 
-    EditableGridData * editableData = query()->editableData();
-    std::size_t row = editableData->editableRow()->rowNumber;
-    // TODO use cur row when no modifications
+    bool useEditableData = false;
+    std::size_t row = static_cast<std::size_t>(_curRowNumber);
 
-    int columnCount = query()->columnCount();
+    EditableGridData * editableData = query()->editableData();
+    if (editableData && editableData->editableRow()) {
+        row = editableData->editableRow()->rowNumber;
+        useEditableData = true;
+    }
+
+    std::size_t columnCount = query()->columnCount();
 
     for (const QString & keyColumnName : keyColumns) {
-        int i = -1;
+        std::size_t i = static_cast<std::size_t>(-1);
         for (i = 0; i < columnCount; ++i) {
             if (keyColumnName == query()->columnName(i)) {
                 break;
             }
         }
-        if (i == -1) {
+        if (i == static_cast<std::size_t>(-1)) {
             throw db::Exception(
                 QString("Cannot compose WHERE clause - column missing: %1")
                     .arg(keyColumnName));
@@ -163,9 +169,18 @@ QString QueryData::whereForCurRow(bool notModified) const
             query()->columnName(i)
         );
 
-        const QString & value =  notModified ?
-                    editableData->notModifiedDataAt(row, i)
-                  : editableData->dataAt(row, i);
+        QString value;
+
+        if (useEditableData) {
+            value = beforeModifications ?
+                        editableData->notModifiedDataAt(row, i)
+                      : editableData->dataAt(row, i);
+        } else {
+            db::Query * query = _queryPtr.get();
+            Q_ASSERT(query != nullptr);
+            query->seekRecNo(row);
+            value = query->curRowColumn(i);
+        }
 
         QString whereVal;
 

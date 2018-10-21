@@ -20,7 +20,8 @@ DataTableModel::DataTableModel(QObject *parent)
       _dbEntity(nullptr),
       _wantedRowsCount(meow::db::DATA_MAX_ROWS)
 {
-
+    QObject::connect(queryData(), &meow::db::QueryData::editingPrepared,
+            this, &DataTableModel::editingStarted);
 }
 
 DataTableModel::~DataTableModel()
@@ -146,6 +147,16 @@ void DataTableModel::loadData(bool force)
         beginInsertRows(QModelIndex(), prevRowCount, rowCount()-1);
         endInsertRows();
     }
+}
+
+bool DataTableModel::isEditing()
+{
+    return (queryData()->query() && queryData()->query()->isEditing());
+}
+
+bool DataTableModel::isModified()
+{
+    return queryData()->isModified();
 }
 
 void DataTableModel::applyModifications()

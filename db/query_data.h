@@ -1,6 +1,7 @@
 #ifndef DB_QUERY_DATA_H
 #define DB_QUERY_DATA_H
 
+#include <QObject>
 #include "db/connection.h"
 #include "db/data_type/data_type_category.h"
 
@@ -8,8 +9,10 @@ namespace meow {
 namespace db {
 
 // Provides a nicer API for Query resuls with ability to edit query data results
-class QueryData
+class QueryData : public QObject
 {
+    Q_OBJECT
+
 public:
     QueryData();
 
@@ -32,11 +35,13 @@ public:
     int applyModifications();
     int discardModifications();
 
-    QString whereForCurRow(bool notModified = false) const;
+    QString whereForCurRow(bool beforeModifications = false) const;
     void ensureFullRow(bool refresh = false);
 
     void setCurrentRowNumber(int row);
     int currentRowNumber() const { return _curRowNumber; }
+
+    Q_SIGNAL void editingPrepared();
 
 private:
 

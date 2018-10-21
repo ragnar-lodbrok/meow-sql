@@ -16,7 +16,7 @@ class DataTab : public QWidget
 {
 
 public:
-    explicit DataTab(QWidget *parent = 0);
+    explicit DataTab(QWidget *parent = nullptr);
 
     void setDBEntity(db::Entity * tableOrViewEntity, bool loadData = true);
 
@@ -33,10 +33,12 @@ private:
     void createDataToolBar();
 
     void refreshDataLabelText();
-    void validateToolBarState();
 
     Q_SLOT void currentRowChanged(const QModelIndex &current,
                                   const QModelIndex &previous);
+
+    Q_SLOT void currentChanged(const QModelIndex &current,
+                               const QModelIndex &previous);
 
     Q_SLOT void onDataSetNULLAction(bool checked);
 
@@ -45,6 +47,10 @@ private:
 
     void commitTableEditor();
     void discardTableEditor();
+
+    void validateShowToolBarState();
+    void validateDataToolBarState();
+    void validateControls();
 
     QVBoxLayout * _mainLayout;
     // top panel:

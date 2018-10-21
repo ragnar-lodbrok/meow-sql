@@ -16,6 +16,7 @@ namespace db {
 
 class DataTableModel : public BaseDataTableModel
 {
+    Q_OBJECT
 public:
     explicit DataTableModel(QObject *parent = nullptr);
     virtual ~DataTableModel();
@@ -37,10 +38,15 @@ public:
 
     QString rowCountStats() const;
 
+    bool isEditing();
+    bool isModified();
+
     void applyModifications();
     void discardModifications();
 
     void setCurrentRowNumber(int row);
+
+    Q_SIGNAL void editingStarted();
 
 private:
 
