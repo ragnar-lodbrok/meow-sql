@@ -14,14 +14,14 @@ using GridDataRow = QStringList; // TODO QVector<QString> is faster ?
 struct EditableGridDataRow
 {
 public:
-    EditableGridDataRow(const GridDataRow & aData, std::size_t aRowNumber)
+    EditableGridDataRow(const GridDataRow & aData, int aRowNumber)
         : data(aData), // copy data to edit
           rowNumber(aRowNumber)
     {
 
     }
     GridDataRow data;
-    std::size_t rowNumber;
+    int rowNumber;
 };
 
 // Intent: data container for editing in grid/table form
@@ -42,7 +42,7 @@ public:
         return _rows.size();
     }
 
-    const QString & dataAt(std::size_t row, std::size_t col) const {
+    const QString & dataAt(int row, int col) const {
 
         if (_editableRow && _editableRow->rowNumber == row) {
             return _editableRow->data.at(col);
@@ -51,14 +51,16 @@ public:
         return _rows.at(row).at(col);
     }
 
-    const QString & notModifiedDataAt(std::size_t row, std::size_t col) const {
+    const QString & notModifiedDataAt(int row, int col) const {
         return _rows.at(row).at(col);
     }
 
     bool setData(int row, int col, const QVariant &value) {
-        if (dataAt(row, col) == value.toString()) {
+
+        if (isSameData(dataAt(row, col), value.toString())) {
             return false;
         }
+
         createUpdateRow(row);
         _editableRow->data[col] = value.toString();
         return true;
@@ -93,7 +95,18 @@ public:
 
 private:
 
-    void createUpdateRow(std::size_t rowNumber) {
+    bool isSameData(const QString & str1, const QString & str2) {
+        if (str1 == str2) {
+            if (str1.isNull() != str2.isNull()) {
+                return false;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    void createUpdateRow(int rowNumber) {
         if (!_editableRow || _editableRow->rowNumber != rowNumber) {
             _editableRow = std::make_shared<EditableGridDataRow>(
                 _rows[rowNumber],

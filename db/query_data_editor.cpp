@@ -19,7 +19,7 @@ void QueryDataEditor::applyModificationsInDB(QueryData * data)
     EditableGridData * editableData = data->query()->editableData();
     Q_ASSERT(editableData);
 
-    std::size_t editedRowNumber = editableData->editableRow()->rowNumber;
+    int editedRowNumber = editableData->editableRow()->rowNumber;
 
     std::size_t columnCount = data->query()->columnCount();
 
@@ -29,7 +29,7 @@ void QueryDataEditor::applyModificationsInDB(QueryData * data)
         const QString & newValue
                 = editableData->dataAt(editedRowNumber, c);
 
-        if (oldValue == newValue) {
+        if ( (oldValue == newValue) && (oldValue.isNull() == newValue.isNull()) ) {
             continue; // not modified
         }
 
