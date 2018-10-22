@@ -35,6 +35,8 @@ public:
     int applyModifications();
     int discardModifications();
 
+    bool deleteRowInDB(int row);
+
     QString whereForCurRow(bool beforeModifications = false) const;
     void ensureFullRow(bool refresh = false);
 

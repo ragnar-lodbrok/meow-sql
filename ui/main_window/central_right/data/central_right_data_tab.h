@@ -44,13 +44,17 @@ private:
 
     void applyModifications();
     void discardModifications();
+    void deleteSelectedRows();
 
     void commitTableEditor();
     void discardTableEditor();
 
     void validateShowToolBarState();
     void validateDataToolBarState();
+    void validateDataDeleteActionState();
     void validateControls();
+
+    void errorDialog(const QString & message);
 
     QVBoxLayout * _mainLayout;
     // top panel:

@@ -38,6 +38,13 @@ DataTab::DataTab(QWidget *parent) : QWidget(parent), _model()
                 discardModifications();
             });
 
+    connect(meow::app()->actions()->dataDelete(),
+            &QAction::triggered,
+            [=](bool checked) {
+                Q_UNUSED(checked);
+                deleteSelectedRows();
+            });
+
     connect(&_model, &meow::models::db::DataTableModel::editingStarted,
             [=]() {
                 validateControls();
@@ -88,7 +95,8 @@ void DataTab::createShowToolBar()
     _nextRowsAction->setToolTip(
         QString(tr("Show next %1 rows ...")).arg(meow::db::DATA_ROWS_PER_STEP)
     ); // TODO: hot keys
-    connect(_nextRowsAction, &QAction::triggered, this, &DataTab::actionNextRows);
+    connect(_nextRowsAction, &QAction::triggered,
+            this, &DataTab::actionNextRows);
     _showToolBar->addAction(_nextRowsAction);
 
 
@@ -117,6 +125,9 @@ void DataTab::createDataTable()
             ->textSettings()->tableAutoResizeRowsLookupCount()
     );
 
+    _dataTable->setSelectionBehavior(
+        QAbstractItemView::SelectionBehavior::SelectRows);
+
     _dataTable->setModel(&_model);
     _mainLayout->addWidget(_dataTable);
     _dataTable->setSortingEnabled(false); // TODO
@@ -131,6 +142,17 @@ void DataTab::createDataTable()
             &QItemSelectionModel::currentChanged,
             this,
             &DataTab::currentChanged
+    );
+
+    connect(_dataTable->selectionModel(),
+            &QItemSelectionModel::selectionChanged,
+            [=](const QItemSelection &selected,
+                const QItemSelection &deselected)
+            {
+                Q_UNUSED(selected);
+                Q_UNUSED(deselected);
+                this->validateDataDeleteActionState();
+            }
     );
 
     models::delegates::EditQueryDataDelegate * delegate
@@ -148,12 +170,7 @@ void DataTab::actionAllRows(bool checked)
         refreshDataLabelText();
         validateShowToolBarState();
     } catch(meow::db::Exception & ex) {
-        QMessageBox msgBox;
-        msgBox.setText(ex.message());
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.exec();
+        errorDialog(ex.message());
     }
 }
 
@@ -167,12 +184,7 @@ void DataTab::actionNextRows(bool checked)
         refreshDataLabelText();
         validateShowToolBarState();
     } catch(meow::db::Exception & ex) {
-        QMessageBox msgBox;
-        msgBox.setText(ex.message());
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.exec();
+        errorDialog(ex.message());
     }
 }
 
@@ -222,6 +234,14 @@ void DataTab::validateDataToolBarState()
 
     meow::app()->actions()->dataPostChanges()->setEnabled(canPost);
     meow::app()->actions()->dataCancelChanges()->setEnabled(canPost);
+
+    validateDataDeleteActionState();
+}
+
+void DataTab::validateDataDeleteActionState()
+{
+    meow::app()->actions()->dataDelete()->setEnabled(
+        _dataTable->selectionModel()->hasSelection());
 }
 
 void DataTab::validateControls()
@@ -269,13 +289,7 @@ void DataTab::applyModifications()
     } catch(meow::db::Exception & ex) {
 
         discardModifications();
-
-        QMessageBox msgBox;
-        msgBox.setText(ex.message());
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.setDefaultButton(QMessageBox::Ok);
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.exec();
+        errorDialog(ex.message());
     }
 
     validateDataToolBarState();
@@ -286,6 +300,49 @@ void DataTab::discardModifications()
     discardTableEditor();
     _model.discardModifications();
     validateDataToolBarState();
+}
+
+void DataTab::deleteSelectedRows()
+{
+    QModelIndexList selected = _dataTable->selectionModel()->selectedIndexes();
+    QList<int> selectedRows;
+
+    for (const QModelIndex & index: selected) {
+        if (selectedRows.contains(index.row()) == false) {
+            selectedRows << index.row();
+        }
+    }
+
+    if (selectedRows.count() == 0) {
+        errorDialog(tr("Please select one or more rows to delete them."));
+        return;
+    }
+
+    QMessageBox msgBox;
+    msgBox.setText(tr("Delete %1 row(s)?").arg(selectedRows.count()));
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    msgBox.setIcon(QMessageBox::Question);
+    int ret = msgBox.exec();
+    if (ret != QMessageBox::Yes) {
+        return;
+    }
+
+    auto reverseCompare = [=](const int & first, const int & second) -> bool {
+        return first > second;
+    };
+
+    std::sort(selectedRows.begin(), selectedRows.end(), reverseCompare);
+
+    try {
+        for (int row : selectedRows) {
+            _model.deleteRowInDB(row);
+        }
+    } catch(meow::db::Exception & ex) {
+        errorDialog(ex.message());
+    }
+
+    validateControls();
 }
 
 void DataTab::commitTableEditor()
@@ -302,6 +359,16 @@ void DataTab::discardTableEditor()
         _dataTable->itemDelegate()
     );
     delegate->discard();
+}
+
+void DataTab::errorDialog(const QString & message)
+{
+    QMessageBox msgBox;
+    msgBox.setText(message);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
 }
 
 } // namespace central_right

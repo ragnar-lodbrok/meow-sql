@@ -19,7 +19,7 @@ class DataTableModel : public BaseDataTableModel
     Q_OBJECT
 public:
     explicit DataTableModel(QObject *parent = nullptr);
-    virtual ~DataTableModel();
+    virtual ~DataTableModel() override;
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     bool setData(const QModelIndex &index,
@@ -45,6 +45,8 @@ public:
     void discardModifications();
 
     void setCurrentRowNumber(int row);
+
+    bool deleteRowInDB(int row);
 
     Q_SIGNAL void editingStarted();
 

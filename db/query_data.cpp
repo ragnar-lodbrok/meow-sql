@@ -136,6 +136,28 @@ int QueryData::discardModifications()
     return _queryPtr->editableData()->discardModifications();
 }
 
+bool QueryData::deleteRowInDB(int row)
+{
+    // TODO: CheckEditable
+
+    db::Query * query = _queryPtr.get();
+    if (query) {
+        setCurrentRowNumber(row);
+        prepareEditing();
+
+        std::shared_ptr<QueryDataEditor> editor = query->connection()
+                                                       ->queryDataEditor();
+
+        editor->deleteCurrentRow(this);
+
+        query->editableData()->deleteRow(row);
+
+        return true;
+    }
+
+    return false;
+}
+
 QString QueryData::whereForCurRow(bool beforeModifications) const
 {
     QStringList whereList;

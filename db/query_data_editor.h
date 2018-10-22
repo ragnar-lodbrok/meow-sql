@@ -12,6 +12,8 @@ public:
     QueryDataEditor() {}
 
     void applyModificationsInDB(QueryData * data);
+
+    void deleteCurrentRow(QueryData * data);
 };
 
 } // namespace db

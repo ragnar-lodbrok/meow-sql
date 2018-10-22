@@ -93,6 +93,12 @@ public:
         return _editableRow.get();
     }
 
+    bool deleteRow(int row) {
+        _editableRow.reset();
+        _rows.removeAt(row);
+        return true;
+    }
+
 private:
 
     bool isSameData(const QString & str1, const QString & str2) {

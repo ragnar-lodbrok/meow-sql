@@ -188,6 +188,17 @@ void DataTableModel::setCurrentRowNumber(int row)
     queryData()->setCurrentRowNumber(row);
 }
 
+bool DataTableModel::deleteRowInDB(int row)
+{
+    if (queryData()->deleteRowInDB(row)) {
+        beginRemoveRows(QModelIndex(), row, row);
+        endRemoveRows();
+        return true;
+    }
+
+    return false;
+}
+
 void DataTableModel::refresh()
 {
     removeData();

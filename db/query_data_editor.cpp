@@ -51,11 +51,28 @@ void QueryDataEditor::applyModificationsInDB(QueryData * data)
                 .arg(db::quotedFullName(data->query()->entity()))
                 .arg(updateDataList.join(", "))
                 .arg(data->whereForCurRow(true))
-                .arg(connection->limitOnePostfix());;
+                .arg(connection->limitOnePostfix());
 
         connection->query(updateSQL);
         // TODO check rows affected
     }
+}
+
+void QueryDataEditor::deleteCurrentRow(QueryData * data)
+{
+    // Listening: Vader - Piesc I Stal
+    Q_ASSERT(data->query());
+
+    Connection * connection = data->query()->connection();
+
+    QString deleteSQL = QString("DELETE FROM %1 WHERE %2 %3")
+            .arg(db::quotedFullName(data->query()->entity()))
+            .arg(data->whereForCurRow(true))
+            .arg(connection->limitOnePostfix());
+
+    connection->query(deleteSQL);
+
+    // TODO check rows affected
 }
 
 } // namespace db
