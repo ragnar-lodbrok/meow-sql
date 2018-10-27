@@ -67,8 +67,9 @@ QVariant BaseDataTableModel::data(const QModelIndex &index, int role) const
     case Qt::EditRole:
         // TODO: EnsureFullRow
         _queryData->prepareEditing(); // Let's do it here
+        return _queryData->editDataAt(index.row(), index.column());
     case Qt::DisplayRole:        
-        return _queryData->rawDataAt(index.row(), index.column());
+        return _queryData->displayDataAt(index.row(), index.column());
 
     case Qt::ForegroundRole: {
         auto textSettings = meow::app()->settings()->textSettings();

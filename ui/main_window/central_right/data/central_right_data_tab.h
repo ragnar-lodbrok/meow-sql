@@ -45,6 +45,7 @@ private:
     void applyModifications();
     void discardModifications();
     void deleteSelectedRows();
+    void insertEmptyRow();
 
     void commitTableEditor();
     void discardTableEditor();

@@ -14,10 +14,18 @@ void QueryDataEditor::applyModificationsInDB(QueryData * data)
     if (!data->isModified()) return;
 
     QStringList updateDataList;
+    QStringList insertColumnsList;
+    QStringList insertValuesList;
     Connection * connection = data->query()->connection();
 
     EditableGridData * editableData = data->query()->editableData();
     Q_ASSERT(editableData);
+
+    bool isInsert = editableData->editableRow()->isInserted;
+
+    if (isInsert) {
+        return; // TODO
+    }
 
     int editedRowNumber = editableData->editableRow()->rowNumber;
 
@@ -41,9 +49,15 @@ void QueryDataEditor::applyModificationsInDB(QueryData * data)
             valInDB = connection->escapeString(newValue);
         }
 
-        QString columnName = data->query()->column(c).orgName;
-        updateDataList
-            << connection->quoteIdentifier(columnName) + "=" + valInDB;
+        QString columnName = connection->quoteIdentifier(
+                    data->query()->column(c).orgName);
+
+        if (isInsert) {
+            insertColumnsList << columnName;
+            insertValuesList << valInDB;
+        } else {
+            updateDataList << columnName + "=" + valInDB;
+        }
     }
 
     if (!updateDataList.isEmpty()) {
@@ -55,6 +69,13 @@ void QueryDataEditor::applyModificationsInDB(QueryData * data)
 
         connection->query(updateSQL);
         // TODO check rows affected
+    } else if (!insertColumnsList.isEmpty()) {
+        // Connection.Query('INSERT INTO '+QuotedDbAndTableName+' ('+sqlInsertColumns+') VALUES ('+sqlInsertValues+')');
+        QString insertSQL = QString("INSERT INTO %1 (%2) VALUES (%3)")
+                .arg(db::quotedFullName(data->query()->entity()))
+                .arg(insertColumnsList.join(", "))
+                .arg(updateDataList.join(", "));
+        // TODO: SELECT LAST_INSERT_ID()
     }
 }
 

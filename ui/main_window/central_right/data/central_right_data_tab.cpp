@@ -45,6 +45,13 @@ DataTab::DataTab(QWidget *parent) : QWidget(parent), _model()
                 deleteSelectedRows();
             });
 
+    connect(meow::app()->actions()->dataInsert(),
+            &QAction::triggered,
+            [=](bool checked) {
+                Q_UNUSED(checked);
+                insertEmptyRow();
+            });
+
     connect(&_model, &meow::models::db::DataTableModel::editingStarted,
             [=]() {
                 validateControls();
@@ -343,6 +350,11 @@ void DataTab::deleteSelectedRows()
     }
 
     validateControls();
+}
+
+void DataTab::insertEmptyRow()
+{
+    _model.insertEmptyRow();
 }
 
 void DataTab::commitTableEditor()

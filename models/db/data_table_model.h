@@ -48,6 +48,8 @@ public:
 
     bool deleteRowInDB(int row);
 
+    int insertEmptyRow();
+
     Q_SIGNAL void editingStarted();
 
 private:

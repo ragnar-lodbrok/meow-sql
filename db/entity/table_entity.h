@@ -13,7 +13,7 @@ class TableEntity : public EntityInDatabase
 {
 public:
     TableEntity(const QString & tableName, DataBaseEntity * parent = nullptr);
-    virtual ~TableEntity();
+    virtual ~TableEntity() override;
 
     virtual QString name() const override;
     void setName(const QString & name) {_tableName = name; }

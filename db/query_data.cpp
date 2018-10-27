@@ -3,7 +3,7 @@
 #include "query.h"
 #include "helpers/formatting.h"
 #include "query_data_editor.h"
-#include "entity/entity.h"
+#include "entity/table_entity.h"
 #include <QDebug>
 
 namespace meow {
@@ -50,8 +50,7 @@ DataTypeCategoryIndex QueryData::columnDataTypeCategory(int index) const
     return DataTypeCategoryIndex::Other;
 }
 
-// TODO: why it's called raw when it returns formatted data ?
-QString QueryData::rawDataAt(int row, int column) const
+QString QueryData::displayDataAt(int row, int column) const
 {
     db::Query * query = _queryPtr.get();
     if (query) {
@@ -71,6 +70,21 @@ QString QueryData::rawDataAt(int row, int column) const
             }
 
             return data;
+        }
+    }
+    return QString();
+}
+
+QString QueryData::editDataAt(int row, int column) const
+{
+    db::Query * query = _queryPtr.get();
+    if (query) {
+        query->seekRecNo(row);
+        if (query->isNull(column)) {
+            return QString();
+        } else {
+            // TODO: format binary?
+            return query->curRowColumn(column, true);
         }
     }
     return QString();
@@ -145,10 +159,13 @@ bool QueryData::deleteRowInDB(int row)
         setCurrentRowNumber(row);
         prepareEditing();
 
-        std::shared_ptr<QueryDataEditor> editor = query->connection()
+        if (query->editableData()->isRowInserted(row) == false) {
+
+            std::shared_ptr<QueryDataEditor> editor = query->connection()
                                                        ->queryDataEditor();
 
-        editor->deleteCurrentRow(this);
+            editor->deleteCurrentRow(this);
+        }
 
         query->editableData()->deleteRow(row);
 
@@ -156,6 +173,40 @@ bool QueryData::deleteRowInDB(int row)
     }
 
     return false;
+}
+
+int QueryData::insertEmptyRow()
+{
+    db::Query * query = _queryPtr.get();
+    if (!query) {
+        return -1;
+    }
+    prepareEditing();
+    GridDataRow newRowData;
+    for (int c = 0; c < columnCount(); ++c) {
+
+        QString columnValue = QString(""); // empty, not NULL
+
+        if (query->entity() && query->entity()->type() == Entity::Type::Table) {
+            TableEntity * table = static_cast<TableEntity *>(query->entity());
+
+            const auto & columns = table->structure()->columns();
+            ColumnDefaultType columnDefaultType = columns[c]->defaultType();
+            if (columnDefaultType == ColumnDefaultType::Null
+                    || columnDefaultType == ColumnDefaultType::NullUpdateTS
+                    || columnDefaultType == ColumnDefaultType::AutoInc) {
+                columnValue = QString(); // (NULL)
+            } else if (columnDefaultType == ColumnDefaultType::Text
+                    || columnDefaultType == ColumnDefaultType::TextUpdateTS) {
+                columnValue = query->connection()->unescapeString(
+                    columns[c]->defaultText());
+            }
+        }
+
+        newRowData << columnValue;
+    }
+    return query->editableData()->insertRow(_curRowNumber + 1, newRowData);
+
 }
 
 QString QueryData::whereForCurRow(bool beforeModifications) const
@@ -239,9 +290,15 @@ void QueryData::ensureFullRow(bool refresh)
     EditableGridDataRow * row = _queryPtr->editableData()->editableRow();
     Q_ASSERT(row != nullptr); // TODO create when not
 
+    if (row->isInserted) {
+        return; // TODO
+    }
+
     QStringList columnNames = query()->connection()->quoteIdentifiers(
         query()->columnOrgNames()
     );
+
+    Q_ASSERT(query()->entity());
 
     QString entityName = db::quotedFullName(query()->entity());
     QString selectSQL = QString("SELECT %1 FROM %2 WHERE %3 %4")

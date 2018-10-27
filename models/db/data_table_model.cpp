@@ -199,6 +199,16 @@ bool DataTableModel::deleteRowInDB(int row)
     return false;
 }
 
+int DataTableModel::insertEmptyRow()
+{
+    int newRowIndex = queryData()->insertEmptyRow();
+    if (newRowIndex != -1) {
+        beginInsertRows(QModelIndex(), newRowIndex, newRowIndex);
+        endInsertRows();
+    }
+    return newRowIndex;
+}
+
 void DataTableModel::refresh()
 {
     removeData();

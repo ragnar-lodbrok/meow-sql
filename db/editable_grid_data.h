@@ -16,12 +16,14 @@ struct EditableGridDataRow
 public:
     EditableGridDataRow(const GridDataRow & aData, int aRowNumber)
         : data(aData), // copy data to edit
-          rowNumber(aRowNumber)
+          rowNumber(aRowNumber),
+          isInserted(false)
     {
 
     }
     GridDataRow data;
     int rowNumber;
+    bool isInserted;
 };
 
 // Intent: data container for editing in grid/table form
@@ -34,15 +36,15 @@ public:
     void reserve(int alloc);
     void reserveForAppend(int append);
 
-    inline void appendRow(const GridDataRow & row) {
+    Q_ALWAYS_INLINE void appendRow(const GridDataRow & row) {
         _rows.append(row);
     }
 
-    inline int rowsCount() const {
+    Q_ALWAYS_INLINE int rowsCount() const {
         return _rows.size();
     }
 
-    const QString & dataAt(int row, int col) const {
+    Q_ALWAYS_INLINE const QString & dataAt(int row, int col) const {
 
         if (_editableRow && _editableRow->rowNumber == row) {
             return _editableRow->data.at(col);
@@ -66,7 +68,7 @@ public:
         return true;
     }
 
-    bool isModified() const {
+    Q_ALWAYS_INLINE bool isModified() const {
         return _editableRow != nullptr;
     }
 
@@ -97,6 +99,23 @@ public:
         _editableRow.reset();
         _rows.removeAt(row);
         return true;
+    }
+
+    int insertRow(int newRowNumber, const GridDataRow & data) {
+        _rows.insert(newRowNumber, data);
+        if (newRowNumber > (rowsCount() - 1)) {
+            newRowNumber = rowsCount() - 1;
+        }
+        createUpdateRow(newRowNumber);
+        _editableRow->isInserted = true;
+
+        return newRowNumber;
+    }
+
+    bool isRowInserted(int rowNumber) {
+        return _editableRow
+                && _editableRow->rowNumber == rowNumber
+                && _editableRow->isInserted;
     }
 
 private:

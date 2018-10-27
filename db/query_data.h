@@ -23,7 +23,8 @@ public:
 
     int rowCount() const;
     int columnCount() const;
-    QString rawDataAt(int row, int column) const;
+    QString displayDataAt(int row, int column) const;
+    QString editDataAt(int row, int column) const;
     bool isNullAt(int row, int column) const;
     QString columnName(int index) const;
     db::DataTypeCategoryIndex columnDataTypeCategory(int index) const;
@@ -36,6 +37,7 @@ public:
     int discardModifications();
 
     bool deleteRowInDB(int row);
+    int insertEmptyRow();
 
     QString whereForCurRow(bool beforeModifications = false) const;
     void ensureFullRow(bool refresh = false);
