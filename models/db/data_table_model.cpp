@@ -2,6 +2,7 @@
 #include "db/query_data_fetcher.h"
 #include "db/connection.h"
 #include "db/common.h"
+#include "db/query.h"
 #include "db/query_criteria.h"
 #include <QDebug>
 #include "helpers/formatting.h"
@@ -19,7 +20,8 @@ DataTableModel::DataTableModel(QObject *parent)
       _dbEntity(nullptr),
       _wantedRowsCount(meow::db::DATA_MAX_ROWS)
 {
-
+    QObject::connect(queryData(), &meow::db::QueryData::editingPrepared,
+            this, &DataTableModel::editingStarted);
 }
 
 DataTableModel::~DataTableModel()
@@ -27,7 +29,38 @@ DataTableModel::~DataTableModel()
     delete queryData(); // oh shit
 }
 
-void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity, bool loadData)
+Qt::ItemFlags DataTableModel::flags(const QModelIndex &index) const
+{
+    // TODO: allow editing in BaseDataTableModel?
+    if (!index.isValid()) {
+        return Qt::ItemIsEnabled;
+    }
+
+    Qt::ItemFlags flags = BaseDataTableModel::flags(index);
+    flags |= Qt::ItemIsEditable; // TODO: read-only tables?
+
+    return flags;
+}
+
+bool DataTableModel::setData(const QModelIndex &index,
+                             const QVariant &value,
+                             int role)
+{
+    if (!index.isValid() || role != Qt::EditRole) {
+        return false;
+    }
+
+    if (queryData()->setData(index.row(), index.column(), value)) {
+        emit dataChanged(index, index);
+        return true;
+    }
+
+    return false;
+}
+
+
+void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity,
+                               bool loadData)
 {
     removeData();
 
@@ -95,6 +128,12 @@ void DataTableModel::loadData(bool force)
         }
     }
 
+    if (queryData()->query() == nullptr) {
+        queryData()->setQueryPtr( // TODO: what a shitty code?
+            _dbEntity->connection()->createQuery()
+        );
+        queryData()->query()->setEntity(_dbEntity);
+    }
     queryDataFetcher->run(&queryCritera, queryData());
 
     _entityChangedProcessed = true;
@@ -108,6 +147,84 @@ void DataTableModel::loadData(bool force)
         beginInsertRows(QModelIndex(), prevRowCount, rowCount()-1);
         endInsertRows();
     }
+}
+
+bool DataTableModel::isEditing()
+{
+    return (queryData()->query() && queryData()->query()->isEditing());
+}
+
+bool DataTableModel::isModified()
+{
+    return queryData()->isModified();
+}
+
+void DataTableModel::applyModifications()
+{
+    if (queryData() && queryData()->isModified()) {
+        bool isInserted = queryData()->isInserted();
+        int curRow = queryData()->currentRowNumber();
+        int modifiedRow = queryData()->applyModifications();
+        if (modifiedRow != -1) {
+            emit dataChanged(
+                index(modifiedRow, 0),
+                index(modifiedRow, columnCount() - 1));
+        } else {
+            if (isInserted && curRow != -1) {
+                beginRemoveRows(QModelIndex(), curRow, curRow);
+                queryData()->deleteRow(curRow);
+                endRemoveRows();
+            }
+        }
+    }
+}
+
+void DataTableModel::discardModifications()
+{
+    if (queryData() && queryData()->isModified()) {
+        bool isInserted = queryData()->isInserted();
+        int curRow = queryData()->currentRowNumber();
+        int modifiedRow = queryData()->discardModifications();
+        if (modifiedRow != -1) {
+            if (isInserted) {
+                if (curRow != -1) {
+                    beginRemoveRows(QModelIndex(), curRow, curRow);
+                    queryData()->deleteRow(curRow);
+                    endRemoveRows();
+                }
+            } else {
+                emit dataChanged(
+                    index(modifiedRow, 0),
+                    index(modifiedRow, columnCount() - 1));
+            }
+        }
+    }
+}
+
+void DataTableModel::setCurrentRowNumber(int row)
+{
+    queryData()->setCurrentRowNumber(row);
+}
+
+bool DataTableModel::deleteRowInDB(int row)
+{
+    if (queryData()->deleteRowInDB(row)) {
+        beginRemoveRows(QModelIndex(), row, row);
+        endRemoveRows();
+        return true;
+    }
+
+    return false;
+}
+
+int DataTableModel::insertEmptyRow()
+{
+    int newRowIndex = queryData()->insertEmptyRow();
+    if (newRowIndex != -1) {
+        beginInsertRows(QModelIndex(), newRowIndex, newRowIndex);
+        endInsertRows();
+    }
+    return newRowIndex;
 }
 
 void DataTableModel::refresh()

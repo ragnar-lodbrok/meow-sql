@@ -28,7 +28,7 @@ public:
     void clearColumns() { qDeleteAll(_columns); _columns.clear(); }
     void appendColumn(TableColumn * column);
 
-    QList<TableIndex  *> & indicies() { return _indicies; }
+    QList<TableIndex *> & indicies() { return _indicies; }
     void appendIndex(TableIndex * index);
 
     QList<ForeignKey *> & foreignKeys() { return _foreignKeys; }

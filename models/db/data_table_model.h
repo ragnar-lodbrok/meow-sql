@@ -16,9 +16,15 @@ namespace db {
 
 class DataTableModel : public BaseDataTableModel
 {
+    Q_OBJECT
 public:
     explicit DataTableModel(QObject *parent = nullptr);
-    virtual ~DataTableModel();
+    virtual ~DataTableModel() override;
+
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    bool setData(const QModelIndex &index,
+                 const QVariant &value,
+                 int role = Qt::EditRole) override;
 
     void setEntity(meow::db::Entity * tableOrViewEntity, bool loadData = true);
     void removeData();
@@ -31,6 +37,20 @@ public:
     bool allDataLoaded() const;
 
     QString rowCountStats() const;
+
+    bool isEditing();
+    bool isModified();
+
+    void applyModifications();
+    void discardModifications();
+
+    void setCurrentRowNumber(int row);
+
+    bool deleteRowInDB(int row);
+
+    int insertEmptyRow();
+
+    Q_SIGNAL void editingStarted();
 
 private:
 

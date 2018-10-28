@@ -1,7 +1,7 @@
 #ifndef DB_QUERY_H
 #define DB_QUERY_H
 
-#include <QString>
+#include <QStringList>
 #include <vector>
 #include <QMap>
 
@@ -13,6 +13,8 @@ namespace meow {
 namespace db {
 
 class Connection;
+class EditableGridData;
+class Entity;
 
 class Query
 {
@@ -26,12 +28,20 @@ public:
     const QString & SQL() const { return _SQL; }
     Connection * connection() const { return _connection; }
 
-    db::ulonglong recordCount() const { return _recordCount; }
+    db::ulonglong recordCount() const;
     bool isEof() const { return _eof; }
 
     std::size_t columnCount() const { return _columns.size(); }
 
     QString columnName(std::size_t index) const { return _columns[index].name; }
+
+    QStringList columnOrgNames() const {
+        QStringList names;
+        for (const QueryColumn & col : _columns) {
+            names << col.orgName;
+        }
+        return names;
+    }
 
     QueryColumn & column(std::size_t index) { return _columns[index]; }
 
@@ -46,12 +56,26 @@ public:
 
     QString curRowColumn(const QString & colName, bool ignoreErrors = false);
 
+    QStringList curRow();
+
     virtual bool isNull(std::size_t index) = 0;
+
+    // true if was already prepared
+    virtual bool prepareEditing();
+    bool isEditing() const { return _editableData != nullptr; }
+    EditableGridData * editableData() const {
+        return _editableData;
+    }
 
     void seekFirst();
     void seekNext();
 
     std::size_t indexOfColumn(const QString & colName) const;
+
+    Entity * entity() const { return _entity; }
+    void setEntity(Entity * entity) { _entity = entity; }
+
+    QStringList keyColumns() const;
 
 protected:
 
@@ -60,10 +84,12 @@ protected:
     std::vector<QueryColumn> _columns;
     QMap<QString, std::size_t> _columnIndexes; // Column name -> column index
     bool _eof; // H: FEof
+    EditableGridData * _editableData; // TODO: move to QueryData?
 
 private:
     QString _SQL;
     Connection * _connection;
+    Entity * _entity;
 };
 
 } // namespace db

@@ -1,5 +1,6 @@
 #include <QDebug>
 #include "mysql_query.h"
+#include "editable_grid_data.h"
 #include "data_type/mysql_data_type.h"
 
 namespace meow {
@@ -11,7 +12,8 @@ static const int MYSQL_BINARY_CHARSET_NUMBER = 63;
 
 MySQLQuery::MySQLQuery(Connection *connection)
     :Query(connection),
-     _curRow(nullptr)
+     _curRow(nullptr),
+     _columnsParsed(false)
 {
 
 }
@@ -24,6 +26,8 @@ MySQLQuery::~MySQLQuery()
 void MySQLQuery::execute(bool addResult /*= false*/) // override
 {
     qDebug() << "[MySQLQuery] " << "Executing: " << SQL();
+
+    // TODO addResult for isEditing() is broken
 
     QueryResults results = connection()->query(this->SQL(), true);
 
@@ -40,6 +44,9 @@ void MySQLQuery::execute(bool addResult /*= false*/) // override
         _resultList.clear();
         _recordCount = 0;
         // H: ...
+        if (isEditing()) {
+            _editableData->clear();
+        }
     }
 
     if (lastResult) {
@@ -48,41 +55,67 @@ void MySQLQuery::execute(bool addResult /*= false*/) // override
     }
 
     if (!addResult) {
-        _columns.clear();
-        _columnLengths.clear();
-        _columnIndexes.clear();
+        clearColumnData();
         if (_resultList.empty() == false) {
             // FCurrentResults is normally done in SetRecNo, but never if result has no rows
             // H: FCurrentResults := LastResult;
 
-            unsigned int numFields = mysql_num_fields(lastResult->nativePtr());
+            addColumnData(lastResult->nativePtr());
 
-            _columnLengths.resize(numFields);
-            // TODO: skip columns parsing when we don't need them (e.g. sample queries)
-
-            _columns.resize(numFields);
-
-            for (unsigned int i=0; i < numFields; ++i) {
-                MYSQL_FIELD * field = mysql_fetch_field_direct(lastResult->nativePtr(), i);
-                QueryColumn & column = _columns[i];
-                QString fieldName = QString(field->name);
-                column.name = fieldName;
-                _columnIndexes.insert(fieldName, i);
-                if (connection()->serverVersionInt() >= 40100) {
-                    column.orgName = QString(field->org_name);
-                } else {
-                    column.orgName = fieldName;
-                }
-                column.flags = field->flags;
-                column.dataTypeIndex = dataTypeOfField(field);
-                column.dataTypeCategoryIndex
-                    = meow::db::categoryOfDataType(column.dataTypeIndex);
+            if (isEditing()) {
+                prepareResultForEditing(lastResult->nativePtr());
+                lastResult.reset(); // we just copied all data
             }
 
             seekFirst();
         }
+    } else {
+        if (lastResult && isEditing()) {
+            prepareResultForEditing(lastResult->nativePtr());
+            lastResult.reset();
+        }
     }
 }
+
+void MySQLQuery::clearColumnData()
+{
+    _columns.clear();
+    _columnLengths.clear();
+    _columnIndexes.clear();
+    _columnsParsed = false;
+}
+
+void MySQLQuery::addColumnData(MYSQL_RES * result)
+{
+    if (_columnsParsed) return;
+
+    unsigned int numFields = mysql_num_fields(result);
+
+    _columnLengths.resize(numFields);
+    // TODO: skip columns parsing when we don't need them (e.g. sample queries)
+
+    _columns.resize(numFields);
+
+    for (unsigned int i=0; i < numFields; ++i) {
+        MYSQL_FIELD * field = mysql_fetch_field_direct(result, i);
+        QueryColumn & column = _columns[i];
+        QString fieldName = QString(field->name);
+        column.name = fieldName;
+        _columnIndexes.insert(fieldName, i);
+        if (connection()->serverVersionInt() >= 40100) {
+            column.orgName = QString(field->org_name);
+        } else {
+            column.orgName = fieldName;
+        }
+        column.flags = field->flags;
+        column.dataTypeIndex = dataTypeOfField(field);
+        column.dataTypeCategoryIndex
+            = meow::db::categoryOfDataType(column.dataTypeIndex);
+    }
+
+    _columnsParsed = true;
+}
+
 
 DataTypeIndex MySQLQuery::dataTypeOfField(MYSQL_FIELD * field)
 {
@@ -127,18 +160,14 @@ void MySQLQuery::seekRecNo(db::ulonglong value)
     if (value == _curRecNo) {
         return;
     }
-    bool editingPrepared = false; // TODO
-    if (!editingPrepared && (value >= _recordCount) ) {
-        _curRecNo = _recordCount;
+
+    if (value >= recordCount()) {
+        _curRecNo = recordCount();
         _eof = true;
         return;
     }
-    bool rowFound = false;
-    if (editingPrepared) {
-        // TODO
-    }
 
-    if (!rowFound) {
+    if (isEditing() == false) {
         db::ulonglong numRows = 0;
         for (auto result : _resultList) {
             numRows += result->nativePtr()->row_count;
@@ -154,8 +183,6 @@ void MySQLQuery::seekRecNo(db::ulonglong value)
                 }
 
                 _curRow = mysql_fetch_row(curResPtr);
-
-                // H: FCurrentUpdateRow := nil;
 
                 // H: Remember length of column contents. Important for Col() so contents
                 // of cells with #0 chars are not cut off
@@ -177,22 +204,12 @@ void MySQLQuery::seekRecNo(db::ulonglong value)
 QString MySQLQuery::curRowColumn(std::size_t index, bool ignoreErrors)
 {
     if (index < columnCount()) {
-        // H: if FEditingPrepared // TODO
 
-        QString result;
-
-        DataTypeCategoryIndex typeCategory = column(index).dataTypeCategoryIndex;
-        if (typeCategory == DataTypeCategoryIndex::Binary
-            || typeCategory == DataTypeCategoryIndex::Spatial) {
-            result = QString::fromLatin1(_curRow[index], _columnLengths[index]);
-        } else {
-            // TODO: non-unicode support?
-            result = QString::fromUtf8(_curRow[index], _columnLengths[index]);
+        if (isEditing()) {
+            return _editableData->dataAt(_curRecNo, index);
         }
 
-        // H: if Datatype(Column).Index = dtBit // TODO
-
-        return result;
+        return rowDataToString(_curRow, index, _columnLengths[index]);
 
     } else if (!ignoreErrors) {
         throw db::Exception(
@@ -208,7 +225,26 @@ bool MySQLQuery::isNull(std::size_t index)
 {
     throwOnInvalidColumnIndex(index);
 
+    if (isEditing()) {
+        return _editableData->dataAt(_curRecNo, index).isNull();
+    }
+
     return _curRow[index] == nullptr;
+}
+
+bool MySQLQuery::prepareEditing()
+{
+    if (Query::prepareEditing()) {
+        return true;
+    }
+
+    for (auto result : _resultList) {
+        addColumnData(result->nativePtr());
+        prepareResultForEditing(result->nativePtr());
+        result.reset();
+    }
+
+    return false;
 }
 
 void MySQLQuery::throwOnInvalidColumnIndex(std::size_t index)
@@ -218,6 +254,54 @@ void MySQLQuery::throwOnInvalidColumnIndex(std::size_t index)
             QString("Column #%1 not available. Query returned %2 columns.")
                     .arg(index).arg(columnCount())
         );
+    }
+}
+
+QString MySQLQuery::rowDataToString(MYSQL_ROW row,
+                        std::size_t col,
+                        unsigned long dataLen)
+{
+    QString result;
+
+    DataTypeCategoryIndex typeCategory = column(col).dataTypeCategoryIndex;
+    if (typeCategory == DataTypeCategoryIndex::Binary
+        || typeCategory == DataTypeCategoryIndex::Spatial) {
+        result = QString::fromLatin1(row[col], dataLen);
+    } else {
+        // TODO: non-unicode support?
+        result = QString::fromUtf8(row[col], dataLen);
+    }
+
+    return result;
+}
+
+void MySQLQuery::prepareResultForEditing(MYSQL_RES * result)
+{
+    // it seems that copying all data is simplest way as we need to
+    // insert/delete rows at top/in the middle of data as well
+    // TODO: heidi works other way, maybe it's faster and/or takes less memory
+
+    db::ulonglong numRows = result->row_count;
+    unsigned int numCols = mysql_num_fields(result);
+
+    _editableData->reserveForAppend(numRows);
+
+    mysql_data_seek(result, 0);
+
+    MYSQL_ROW rowDataRaw;
+    while ((rowDataRaw = mysql_fetch_row(result))) {
+        GridDataRow rowData;
+        rowData.reserve(numCols);
+
+        unsigned long * lengths = mysql_fetch_lengths(result);
+
+        for (unsigned col = 0; col < numCols; ++col) {
+            rowData.append(
+                rowDataToString(rowDataRaw, col, lengths[col])
+            );
+        }
+
+        _editableData->appendRow(rowData);
     }
 }
 

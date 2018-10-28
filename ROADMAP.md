@@ -1,5 +1,17 @@
 # Roadmap
 
+## 0.2.1
+
+SQL log
+
+More edit features
+
+## 0.2.0
+
+**Editable Table Data**
+
+Initial edit features
+
 ## 0.1.0
 
 **Bug fixing/Stabilization**
@@ -73,8 +85,6 @@ Buildable and deployable on Windows
 ## Task pool (by priority)
 
 Connection password encryption
-
-Multiple connections (open session manager from main window)
 
 Buildable and deployable on macOS
 

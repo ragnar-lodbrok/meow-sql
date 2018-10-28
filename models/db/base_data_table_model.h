@@ -8,13 +8,14 @@ namespace meow {
 namespace models {
 namespace db {
 
+// Intent: base model to wrap QueryData (table/query data)
 class BaseDataTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
     explicit BaseDataTableModel(
         meow::db::QueryData * queryData,
-        QObject *parent = 0);
+        QObject *parent = nullptr);
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;

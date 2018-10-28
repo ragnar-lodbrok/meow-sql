@@ -4,6 +4,7 @@
 #include "db/table_editor.h"
 #include "db/entity/table_entity.h"
 #include "table_engines_fetcher.h"
+#include "query_data_editor.h"
 
 namespace meow {
 namespace db {
@@ -155,6 +156,14 @@ QueryPtr Connection::getResults(const QString & SQL)
     return query;
 }
 
+QStringList Connection::getRow(const QString & SQL)
+{
+    // TODO: say query to skip columns parsing
+    QueryPtr query = getResults(SQL);
+    query->seekFirst();
+    return query->curRow();
+}
+
 QString Connection::quoteIdentifier(const char * identifier,
                                     bool alwaysQuote /*= true*/,
                                     QChar glue /*= QChar::Null*/) const
@@ -263,6 +272,15 @@ bool Connection::dropEntityInDB(EntityInDatabase * entity)
     return sharedEditor->drop(entity);
 }
 
+std::shared_ptr<QueryDataEditor> Connection::queryDataEditor()
+{
+    return std::make_shared<QueryDataEditor>();
+}
+
+QString Connection::limitOnePostfix() const
+{
+    return ""; // some dbs dont have it
+}
 
 } // namespace db
 } // namespace meow

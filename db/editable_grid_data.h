@@ -1,0 +1,154 @@
+#ifndef DB_EDITABLE_GRID_DATA_H
+#define DB_EDITABLE_GRID_DATA_H
+
+#include <QStringList>
+#include <QVariant>
+#include <memory>
+#include <QDebug>
+
+namespace meow {
+namespace db {
+
+using GridDataRow = QStringList; // TODO QVector<QString> is faster ?
+
+struct EditableGridDataRow
+{
+public:
+    EditableGridDataRow(const GridDataRow & aData, int aRowNumber)
+        : data(aData), // copy data to edit
+          rowNumber(aRowNumber),
+          isInserted(false)
+    {
+
+    }
+    GridDataRow data;
+    int rowNumber;
+    bool isInserted;
+};
+
+// Intent: data container for editing in grid/table form
+class EditableGridData
+{
+public:
+    EditableGridData();
+
+    void clear() { _rows.clear(); }
+    void reserve(int alloc);
+    void reserveForAppend(int append);
+
+    Q_ALWAYS_INLINE void appendRow(const GridDataRow & row) {
+        _rows.append(row);
+    }
+
+    Q_ALWAYS_INLINE int rowsCount() const {
+        return _rows.size();
+    }
+
+    Q_ALWAYS_INLINE const QString & dataAt(int row, int col) const {
+
+        if (_editableRow && _editableRow->rowNumber == row) {
+            return _editableRow->data.at(col);
+        }
+
+        return _rows.at(row).at(col);
+    }
+
+    const QString & notModifiedDataAt(int row, int col) const {
+        return _rows.at(row).at(col);
+    }
+
+    bool setData(int row, int col, const QVariant &value) {
+
+        if (isSameData(dataAt(row, col), value.toString())) {
+            return false;
+        }
+
+        createUpdateRow(row);
+        _editableRow->data[col] = value.toString();
+        return true;
+    }
+
+    Q_ALWAYS_INLINE bool isModified() const {
+        return _editableRow != nullptr;
+    }
+
+    Q_ALWAYS_INLINE bool isInserted() const {
+        return _editableRow != nullptr && _editableRow->isInserted;
+    }
+
+    int discardModifications() {
+        int editableRowNumber = -1;
+        if (_editableRow) {
+            editableRowNumber = _editableRow->rowNumber;
+        }
+        _editableRow.reset();
+        return editableRowNumber;
+    }
+
+    int applyModifications() {
+        if (!isModified()) return -1;
+
+        int editableRowNumber = _editableRow->rowNumber;
+        _rows[_editableRow->rowNumber] = _editableRow->data;
+        _editableRow.reset();
+
+        return editableRowNumber;
+    }
+
+    EditableGridDataRow * editableRow() const {
+        return _editableRow.get();
+    }
+
+    bool deleteRow(int row) {
+        _editableRow.reset();
+        _rows.removeAt(row);
+        return true;
+    }
+
+    int insertRow(int newRowNumber, const GridDataRow & data) {
+        _rows.insert(newRowNumber, data);
+        if (newRowNumber > (rowsCount() - 1)) {
+            newRowNumber = rowsCount() - 1;
+        }
+        createUpdateRow(newRowNumber);
+        _editableRow->isInserted = true;
+
+        return newRowNumber;
+    }
+
+    bool isRowInserted(int rowNumber) {
+        return _editableRow
+                && _editableRow->rowNumber == rowNumber
+                && _editableRow->isInserted;
+    }
+
+private:
+
+    bool isSameData(const QString & str1, const QString & str2) {
+        if (str1 == str2) {
+            if (str1.isNull() != str2.isNull()) {
+                return false;
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    void createUpdateRow(int rowNumber) {
+        if (!_editableRow || _editableRow->rowNumber != rowNumber) {
+            _editableRow = std::make_shared<EditableGridDataRow>(
+                _rows[rowNumber],
+                rowNumber
+            );
+        }
+    }
+
+    QList<GridDataRow> _rows;
+    std::shared_ptr<EditableGridDataRow> _editableRow;
+};
+
+} // namespace db
+} // namespace meow
+
+#endif // DB_EDITABLE_GRID_DATA_H

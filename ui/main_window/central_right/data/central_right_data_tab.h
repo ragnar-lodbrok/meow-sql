@@ -3,10 +3,12 @@
 
 #include <QtWidgets>
 #include "models/db/data_table_model.h"
-#include "ui/common/table_view.h"
 
 namespace meow {
 namespace ui {
+
+class EditableDataTableView;
+
 namespace main_window {
 namespace central_right {
 
@@ -14,7 +16,7 @@ class DataTab : public QWidget
 {
 
 public:
-    explicit DataTab(QWidget *parent = 0);
+    explicit DataTab(QWidget *parent = nullptr);
 
     void setDBEntity(db::Entity * tableOrViewEntity, bool loadData = true);
 
@@ -27,22 +29,48 @@ private:
 
     void createDataTable();
     void createTopPanel();
-    void createToolBar();
+    void createShowToolBar();
+    void createDataToolBar();
 
     void refreshDataLabelText();
-    void validateToolBarState();
+
+    Q_SLOT void currentRowChanged(const QModelIndex &current,
+                                  const QModelIndex &previous);
+
+    Q_SLOT void currentChanged(const QModelIndex &current,
+                               const QModelIndex &previous);
+
+    Q_SLOT void onDataSetNULLAction(bool checked);
+
+    void applyModifications();
+    void discardModifications();
+    void deleteSelectedRows();
+    void insertEmptyRow();
+
+    void commitTableEditor();
+    void discardTableEditor();
+
+    void validateShowToolBarState();
+    void validateDataToolBarState();
+    void validateDataDeleteActionState();
+    void validateControls();
+
+    void errorDialog(const QString & message);
 
     QVBoxLayout * _mainLayout;
     // top panel:
     QHBoxLayout * _topLayout;
     QLabel * _dataLabel;
-    QToolBar * _toolBar;
+    QToolBar * _showToolBar;
+    QToolBar * _dataToolBar;
     QAction * _nextRowsAction;
     QAction * _showAllRowsAction;
     // bottom:
-    TableView  * _dataTable;
+    EditableDataTableView  * _dataTable;
 
     models::db::DataTableModel _model;
+
+    bool _skipApplyModifications;
 };
 
 } // namespace central_right
