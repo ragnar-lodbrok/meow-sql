@@ -162,11 +162,19 @@ bool DataTableModel::isModified()
 void DataTableModel::applyModifications()
 {
     if (queryData() && queryData()->isModified()) {
+        bool isInserted = queryData()->isInserted();
+        int curRow = queryData()->currentRowNumber();
         int modifiedRow = queryData()->applyModifications();
         if (modifiedRow != -1) {
             emit dataChanged(
                 index(modifiedRow, 0),
                 index(modifiedRow, columnCount() - 1));
+        } else {
+            if (isInserted && curRow != -1) {
+                beginRemoveRows(QModelIndex(), curRow, curRow);
+                queryData()->deleteRow(curRow);
+                endRemoveRows();
+            }
         }
     }
 }
@@ -174,11 +182,21 @@ void DataTableModel::applyModifications()
 void DataTableModel::discardModifications()
 {
     if (queryData() && queryData()->isModified()) {
+        bool isInserted = queryData()->isInserted();
+        int curRow = queryData()->currentRowNumber();
         int modifiedRow = queryData()->discardModifications();
         if (modifiedRow != -1) {
-            emit dataChanged(
-                index(modifiedRow, 0),
-                index(modifiedRow, columnCount() - 1));
+            if (isInserted) {
+                if (curRow != -1) {
+                    beginRemoveRows(QModelIndex(), curRow, curRow);
+                    queryData()->deleteRow(curRow);
+                    endRemoveRows();
+                }
+            } else {
+                emit dataChanged(
+                    index(modifiedRow, 0),
+                    index(modifiedRow, columnCount() - 1));
+            }
         }
     }
 }

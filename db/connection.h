@@ -47,8 +47,10 @@ public:
     virtual void setCharacterSet(const QString & characterSet);
     void setIsUnicode(bool isUnicode) { _isUnicode = isUnicode; }
 
-    QStringList getColumn(const QString & SQL, std::size_t index = 0); // H: GetCol
-    QString getCell(const QString & SQL, std::size_t index = 0); //H:  GetVar
+    QStringList getColumn(const QString & SQL,
+                          std::size_t index = 0); // H: GetCol
+    QString getCell(const QString & SQL,
+                    std::size_t index = 0); //H:  GetVar
     QString getCell(const QString & SQL, const QString & columnName);
     QStringList getRow(const QString & SQL);
     QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String): TDBQuery;

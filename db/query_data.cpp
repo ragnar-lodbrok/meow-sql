@@ -129,6 +129,13 @@ bool QueryData::isModified() const
             && _queryPtr->editableData()->isModified();
 }
 
+bool QueryData::isInserted() const
+{
+    return _queryPtr
+            && _queryPtr->editableData()
+            && _queryPtr->editableData()->isInserted();
+}
+
 int QueryData::applyModifications()
 {
     if (!isModified()) return -1;
@@ -136,11 +143,12 @@ int QueryData::applyModifications()
     std::shared_ptr<QueryDataEditor> editor = query()->connection()
                                                      ->queryDataEditor();
 
-    editor->applyModificationsInDB(this);
+    if (editor->applyModificationsInDB(this)) {
+        ensureFullRow(true); // load from db new values
+        return _queryPtr->editableData()->applyModifications();
+    }
 
-    ensureFullRow(true); // load from db new values
-
-    return _queryPtr->editableData()->applyModifications();
+    return -1;
 }
 
 int QueryData::discardModifications()
@@ -173,6 +181,12 @@ bool QueryData::deleteRowInDB(int row)
     }
 
     return false;
+}
+
+void QueryData::deleteRow(int row)
+{
+    db::Query * query = _queryPtr.get();
+    query->editableData()->deleteRow(row);
 }
 
 int QueryData::insertEmptyRow()

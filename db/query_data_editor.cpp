@@ -2,16 +2,16 @@
 #include "query_data.h"
 #include "query.h"
 #include "editable_grid_data.h"
-#include "entity/entity.h"
+#include "entity/table_entity.h"
 
 namespace meow {
 namespace db {
 
-void QueryDataEditor::applyModificationsInDB(QueryData * data)
+bool QueryDataEditor::applyModificationsInDB(QueryData * data)
 {
     Q_ASSERT(data->query());
 
-    if (!data->isModified()) return;
+    if (!data->isModified()) return false;
 
     QStringList updateDataList;
     QStringList insertColumnsList;
@@ -23,10 +23,6 @@ void QueryDataEditor::applyModificationsInDB(QueryData * data)
 
     bool isInsert = editableData->editableRow()->isInserted;
 
-    if (isInsert) {
-        return; // TODO
-    }
-
     int editedRowNumber = editableData->editableRow()->rowNumber;
 
     std::size_t columnCount = data->query()->columnCount();
@@ -37,7 +33,8 @@ void QueryDataEditor::applyModificationsInDB(QueryData * data)
         const QString & newValue
                 = editableData->dataAt(editedRowNumber, c);
 
-        if ( (oldValue == newValue) && (oldValue.isNull() == newValue.isNull()) ) {
+        if ( (oldValue == newValue)
+             && (oldValue.isNull() == newValue.isNull()) ) {
             continue; // not modified
         }
 
@@ -69,14 +66,39 @@ void QueryDataEditor::applyModificationsInDB(QueryData * data)
 
         connection->query(updateSQL);
         // TODO check rows affected
+        return true;
     } else if (!insertColumnsList.isEmpty()) {
-        // Connection.Query('INSERT INTO '+QuotedDbAndTableName+' ('+sqlInsertColumns+') VALUES ('+sqlInsertValues+')');
         QString insertSQL = QString("INSERT INTO %1 (%2) VALUES (%3)")
                 .arg(db::quotedFullName(data->query()->entity()))
                 .arg(insertColumnsList.join(", "))
-                .arg(updateDataList.join(", "));
-        // TODO: SELECT LAST_INSERT_ID()
+                .arg(insertValuesList.join(", "));
+
+        connection->query(insertSQL);
+
+        editableData->editableRow()->isInserted = false;
+
+        Entity * entity = data->query()->entity();
+        if (entity && entity->type() == Entity::Type::Table) {
+            TableEntity * table = static_cast<TableEntity *>(entity);
+            const auto & columns = table->structure()->columns();
+            for (int c = 0; c < columns.size(); ++c) {
+                TableColumn * column = columns[c];
+                if (column->defaultType() == ColumnDefaultType::AutoInc) {
+                    int intVal = editableData->editableRow()->data[c].toInt();
+                    editableData->editableRow()->data[c]
+                        = QString::number(intVal);
+                    if (intVal == 0) {
+                        editableData->editableRow()->data[c]
+                            = connection->getCell("SELECT LAST_INSERT_ID()");
+                    }
+                }
+            }
+        }
+
+        return true;
     }
+
+    return false;
 }
 
 void QueryDataEditor::deleteCurrentRow(QueryData * data)

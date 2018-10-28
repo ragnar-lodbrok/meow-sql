@@ -10,7 +10,10 @@ namespace main_window {
 namespace central_right {
 
 
-DataTab::DataTab(QWidget *parent) : QWidget(parent), _model()
+DataTab::DataTab(QWidget *parent) :
+    QWidget(parent),
+    _model(),
+    _skipApplyModifications(false)
 {
     _mainLayout = new QVBoxLayout();
     _mainLayout->setContentsMargins(2, 2, 2, 2);
@@ -263,10 +266,11 @@ void DataTab::currentRowChanged(const QModelIndex &current,
     Q_UNUSED(current);
     Q_UNUSED(previous);
 
-    QModelIndex curIndex = _dataTable->selectionModel()->currentIndex();
-    _model.setCurrentRowNumber(curIndex.row());
-
     applyModifications();
+
+    QModelIndex curIndex = _dataTable->selectionModel()->currentIndex();
+    _model.setCurrentRowNumber(curIndex.isValid() ? curIndex.row() : -1);
+
     validateDataToolBarState();
 }
 
@@ -290,12 +294,12 @@ void DataTab::onDataSetNULLAction(bool checked)
 
 void DataTab::applyModifications()
 {
+    if (_skipApplyModifications) return;
+
     commitTableEditor();
     try {
         _model.applyModifications();
     } catch(meow::db::Exception & ex) {
-
-        discardModifications();
         errorDialog(ex.message());
     }
 
@@ -354,7 +358,17 @@ void DataTab::deleteSelectedRows()
 
 void DataTab::insertEmptyRow()
 {
-    _model.insertEmptyRow();
+    int newRowIntIndex = _model.insertEmptyRow();
+    if (newRowIntIndex == -1) return;
+
+    // select
+    _skipApplyModifications = true;
+    QModelIndex newRowIndex = _dataTable->model()->index(newRowIntIndex, 0);
+    _dataTable->selectionModel()
+        ->setCurrentIndex(newRowIndex, QItemSelectionModel::Clear);
+    _dataTable->scrollTo(_dataTable->selectionModel()->currentIndex());
+    //_dataTable->edit(newRowIndex);
+    _skipApplyModifications = false;
 }
 
 void DataTab::commitTableEditor()

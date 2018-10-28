@@ -69,6 +69,8 @@ private:
     EditableDataTableView  * _dataTable;
 
     models::db::DataTableModel _model;
+
+    bool _skipApplyModifications;
 };
 
 } // namespace central_right

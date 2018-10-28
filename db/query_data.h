@@ -32,11 +32,13 @@ public:
     void prepareEditing();
     bool setData(int row, int col, const QVariant &value);
     bool isModified() const;
+    bool isInserted() const;
 
     int applyModifications();
     int discardModifications();
 
     bool deleteRowInDB(int row);
+    void deleteRow(int row);
     int insertEmptyRow();
 
     QString whereForCurRow(bool beforeModifications = false) const;

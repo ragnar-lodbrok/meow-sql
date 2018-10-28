@@ -11,7 +11,7 @@ class QueryDataEditor
 public:
     QueryDataEditor() {}
 
-    void applyModificationsInDB(QueryData * data);
+    bool applyModificationsInDB(QueryData * data);
 
     void deleteCurrentRow(QueryData * data);
 };

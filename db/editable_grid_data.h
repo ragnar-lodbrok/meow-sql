@@ -72,6 +72,10 @@ public:
         return _editableRow != nullptr;
     }
 
+    Q_ALWAYS_INLINE bool isInserted() const {
+        return _editableRow != nullptr && _editableRow->isInserted;
+    }
+
     int discardModifications() {
         int editableRowNumber = -1;
         if (_editableRow) {
