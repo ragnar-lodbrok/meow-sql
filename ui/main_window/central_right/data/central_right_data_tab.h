@@ -42,6 +42,11 @@ private:
 
     Q_SLOT void onDataSetNULLAction(bool checked);
 
+    Q_SLOT void onDataPostChanges(bool checked);
+    Q_SLOT void onDataCancelChanges(bool checked);
+    Q_SLOT void onDataDelete(bool checked);
+    Q_SLOT void onDataInsert(bool checked);
+
     void applyModifications();
     void discardModifications();
     void deleteSelectedRows();
@@ -53,7 +58,7 @@ private:
     void validateShowToolBarState();
     void validateDataToolBarState();
     void validateDataDeleteActionState();
-    void validateControls();
+    Q_SLOT void validateControls();
 
     void errorDialog(const QString & message);
 

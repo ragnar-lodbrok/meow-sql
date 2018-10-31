@@ -29,36 +29,26 @@ DataTab::DataTab(QWidget *parent) :
 
     connect(meow::app()->actions()->dataPostChanges(),
             &QAction::triggered,
-            [=](bool checked) {
-                Q_UNUSED(checked);
-                applyModifications();
-            });
+            this,
+            &DataTab::onDataPostChanges);
 
     connect(meow::app()->actions()->dataCancelChanges(),
             &QAction::triggered,
-            [=](bool checked) {
-                Q_UNUSED(checked);
-                discardModifications();
-            });
+            this,
+            &DataTab::onDataCancelChanges);
 
     connect(meow::app()->actions()->dataDelete(),
             &QAction::triggered,
-            [=](bool checked) {
-                Q_UNUSED(checked);
-                deleteSelectedRows();
-            });
+            this,
+            &DataTab::onDataDelete);
 
     connect(meow::app()->actions()->dataInsert(),
             &QAction::triggered,
-            [=](bool checked) {
-                Q_UNUSED(checked);
-                insertEmptyRow();
-            });
+            this,
+            &DataTab::onDataInsert);
 
     connect(&_model, &meow::models::db::DataTableModel::editingStarted,
-            [=]() {
-                validateControls();
-            });
+            this, &DataTab::validateControls);
 
     validateControls();
 }
@@ -196,6 +186,30 @@ void DataTab::actionNextRows(bool checked)
     } catch(meow::db::Exception & ex) {
         errorDialog(ex.message());
     }
+}
+
+void DataTab::onDataPostChanges(bool checked)
+{
+    Q_UNUSED(checked);
+    applyModifications();
+}
+
+void DataTab::onDataCancelChanges(bool checked)
+{
+    Q_UNUSED(checked);
+    discardModifications();
+}
+
+void DataTab::onDataDelete(bool checked)
+{
+    Q_UNUSED(checked);
+    deleteSelectedRows();
+}
+
+void DataTab::onDataInsert(bool checked)
+{
+    Q_UNUSED(checked);
+    insertEmptyRow();
 }
 
 void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
