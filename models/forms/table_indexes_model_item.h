@@ -1,7 +1,6 @@
 #ifndef MODELS_FORMS_TABLE_INDEXES_MODEL_ITEM_H
 #define MODELS_FORMS_TABLE_INDEXES_MODEL_ITEM_H
 
-#include <QObject>
 #include <QList>
 #include <QVariant>
 
@@ -28,12 +27,11 @@ public:
         None,
         Index,
         Column,
-        Root = None,
-        COUNT
+        Root = None
     };
 
     explicit ITableIndexesModelItem(ITableIndexesModelItem * parent = nullptr);
-    virtual ~ITableIndexesModelItem() {}
+    virtual ~ITableIndexesModelItem();
 
     ITableIndexesModelItem * parent() const { return _parent; }
 
@@ -47,12 +45,7 @@ public:
         Q_UNUSED(row);
         return nullptr;
     }
-    virtual int row() const {
-        if (_parent) {
-            return _parent->rowOf(const_cast<ITableIndexesModelItem *>(this));
-        }
-        return 0;
-    }
+    virtual int row() const;
     virtual Type type() const { return Type::None; }
 
     virtual int rowOf(ITableIndexesModelItem * child) const {
@@ -61,7 +54,7 @@ public:
     }
     virtual QVariant icon() const { return QVariant(); }
 
-    virtual db::TableIndex * tableIndex() const { return nullptr; }
+    virtual meow::db::TableIndex * tableIndex() const { return nullptr; }
 
 protected:
     ITableIndexesModelItem * _parent;
@@ -73,10 +66,10 @@ protected:
 class TableIndexesModelItemIndex : public ITableIndexesModelItem
 {
 public:
-    TableIndexesModelItemIndex(db::TableIndex * index,
+    TableIndexesModelItemIndex(meow::db::TableIndex * index,
                                ITableIndexesModelItem * parent = nullptr);
 
-    ~TableIndexesModelItemIndex();
+    ~TableIndexesModelItemIndex() override;
 
     virtual QString data(int col) const override;
 
@@ -87,11 +80,11 @@ public:
     virtual ITableIndexesModelItem * child(int row) const override {
         return _columns.value(row);
     }
-    virtual Type type() const { return Type::Index; }
+    virtual Type type() const override { return Type::Index; }
 
     virtual QVariant icon() const override;
 
-    virtual db::TableIndex * tableIndex() const override {
+    virtual meow::db::TableIndex * tableIndex() const override {
         return _index;
     }
 
@@ -100,7 +93,7 @@ public:
     ITableIndexesModelItem * addColumnAt(int index);
 
 private:
-    db::TableIndex * _index;
+    meow::db::TableIndex * _index;
     QList<ITableIndexesModelItem *> _columns;
 };
 
@@ -111,21 +104,21 @@ private:
 class TableIndexesModelItemColumn : public ITableIndexesModelItem
 {
 public:
-    TableIndexesModelItemColumn(db::TableIndex * index,
+    TableIndexesModelItemColumn(meow::db::TableIndex * index,
                                 ITableIndexesModelItem * parent = nullptr);
 
     virtual QString data(int col) const override;
 
-    virtual Type type() const { return Type::Column; }
+    virtual Type type() const override { return Type::Column; }
 
     virtual QVariant icon() const override;
 
-    virtual db::TableIndex * tableIndex() const override {
+    virtual meow::db::TableIndex * tableIndex() const override {
         return _index;
     }
 
 private:
-    db::TableIndex * _index;
+    meow::db::TableIndex * _index;
 };
 
 } // namespace forms

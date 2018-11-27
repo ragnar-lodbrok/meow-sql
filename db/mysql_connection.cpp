@@ -76,9 +76,9 @@ void MySQLConnection::setActive(bool active) // override
             host,
             user,
             pswd,
-            NULL, // db
+            nullptr, // db
             port,
-            NULL, // unix_socket
+            nullptr, // unix_socket
             clientFlags
         );
 

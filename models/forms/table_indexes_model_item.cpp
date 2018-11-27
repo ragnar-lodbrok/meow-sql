@@ -14,6 +14,19 @@ ITableIndexesModelItem::ITableIndexesModelItem(ITableIndexesModelItem * parent)
 
 }
 
+ITableIndexesModelItem::~ITableIndexesModelItem()
+{
+
+}
+
+int ITableIndexesModelItem::row() const
+{
+    if (_parent) {
+        return _parent->rowOf(const_cast<ITableIndexesModelItem *>(this));
+    }
+    return 0;
+}
+
 // -----------------------------------------------------------------------------
 
 TableIndexesModelItemIndex::TableIndexesModelItemIndex(
