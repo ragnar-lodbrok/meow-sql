@@ -150,9 +150,9 @@ int ConnectionParamsModel::columnWidth(int column) const
 {
     switch (static_cast<Columns>(column)) {
     case Columns::Session:
-        return 130;
+        return 120;
     case Columns::Host:
-        return 100;
+        return 120;
     default:
         break;
     }
