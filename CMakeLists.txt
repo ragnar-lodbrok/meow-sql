@@ -138,4 +138,17 @@ qt5_add_resources(RESOURCE_FILES icons.qrc)
 add_executable(meowsql ${SOURCE_FILES} ${RESOURCE_FILES})
 
 target_link_libraries(meowsql Qt5::Widgets)
-target_link_libraries(meowsql mysqlclient)
+
+set(MEOW_MYSQL_CLIENT_LIB mysqlclient) #linux
+
+if (WIN32)
+
+    # find mysql manually
+    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+    find_package(MySQL REQUIRED)
+    include_directories(${MYSQL_INCLUDE_DIR})
+    set(MEOW_MYSQL_CLIENT_LIB ${MYSQL_LIBRARY})
+
+endif()
+
+target_link_libraries(meowsql ${MEOW_MYSQL_CLIENT_LIB})
