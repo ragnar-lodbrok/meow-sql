@@ -35,13 +35,46 @@ void CentralWidget::loadGeometryFromSettings()
 
 void CentralWidget::createMainLayout()
 {
-    _mainLayout = new QHBoxLayout();
+
+    _mainLayout = new QVBoxLayout();
     _mainLayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(_mainLayout);
 
+    _mainVerticalSplitter = new QSplitter(Qt::Vertical, this);
+    _mainLayout->addWidget(_mainVerticalSplitter);
+
+    createCenterLayout();
+
+    QWidget * mainTopVerticalContainer = new QWidget(this);
+    mainTopVerticalContainer->setMinimumSize(QSize(200, 100));
+    mainTopVerticalContainer->setLayout(_mainHorizLayout);
+
+    _mainVerticalSplitter->addWidget(mainTopVerticalContainer);
+    _mainVerticalSplitter->setStretchFactor(0, 5);
+
+    _mainBottomWidget = new CentralBottomWidget();
+    _mainBottomWidget->setMinimumSize(QSize(200, 40));
+    _mainBottomWidget->setSizePolicy(QSizePolicy::Expanding,
+                                     QSizePolicy::Minimum);
+
+    _mainVerticalSplitter->addWidget(_mainBottomWidget);
+    _mainVerticalSplitter->setStretchFactor(1, 0);
+    _mainBottomWidget->resize(QSize(200, 100));
+
+    _mainVerticalSplitter->setCollapsible(0, false);
+    _mainVerticalSplitter->setCollapsible(1, true);
+
+    loadGeometryFromSettings();
+}
+
+void CentralWidget::createCenterLayout()
+{
+    _mainHorizLayout = new QHBoxLayout();
+    _mainHorizLayout->setContentsMargins(0, 0, 0, 0);
+
     _mainHorizontalSplitter = new QSplitter(this);
     _mainHorizontalSplitter->setChildrenCollapsible(false);
-    _mainLayout->addWidget(_mainHorizontalSplitter);
+
 
     _mainLeftWidget = new CentralLeftWidget(_dbEntitiesTreeModel);
     _mainLeftWidget->setMinimumSize(QSize(200, 400));
@@ -54,7 +87,7 @@ void CentralWidget::createMainLayout()
     _mainHorizontalSplitter->addWidget(_mainRightWidget);
     _mainHorizontalSplitter->setStretchFactor(1, 5);
 
-    loadGeometryFromSettings();
+    _mainHorizLayout->addWidget(_mainHorizontalSplitter);
 }
 
 void CentralWidget::setActiveDBEntity(db::Entity * entity, bool select)

@@ -49,11 +49,6 @@ Window::Window(QWidget *parent)
             &Window::onSessionManagerAction);
 }
 
-Window::~Window()
-{
-
-}
-
 void Window::showSessionManagerDialog()
 {
     meow::ui::session_manager::Window sessionManagerWindow(this);

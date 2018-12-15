@@ -25,7 +25,7 @@ bool BatchExecutor::run(Connection * connection, const QStringList & queries)
         try {
             query->execute();
         } catch(meow::db::Exception & ex) {
-            meowLogCC(Log::Category::Error, connection)
+            meowLogDebugC(connection)
                 << "[UserQuery] " << "Failed to run query: "
                 << SQL << ex.message();
             success = false;

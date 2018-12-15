@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include "central_left_widget.h"
 #include "central_right_widget.h"
+#include "central_bottom_widget.h"
 #include "models/db/entities_tree_model.h"
 
 namespace meow {
@@ -26,12 +27,17 @@ private:
     void loadGeometryFromSettings();
 
     void createMainLayout();
+    void createCenterLayout();
 
-    QHBoxLayout * _mainLayout;
+    QVBoxLayout * _mainLayout;
+    QSplitter * _mainVerticalSplitter;
+
+    QHBoxLayout * _mainHorizLayout;
     QSplitter * _mainHorizontalSplitter;
 
     CentralLeftWidget * _mainLeftWidget;
     CentralRightWidget * _mainRightWidget;
+    CentralBottomWidget * _mainBottomWidget;
 
     models::db::EntitiesTreeModel * _dbEntitiesTreeModel;
 };

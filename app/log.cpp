@@ -4,10 +4,7 @@
 
 namespace meow {
 
-Log::Log()
-{
-
-}
+Log::ISink::~ISink() {}
 
 void Log::message(const QString & msg,
                   Category category,
@@ -31,8 +28,47 @@ void Log::message(const QString & msg,
         }
     }
 
-    Q_UNUSED(category);
-    Q_UNUSED(connection);
+    bool doLog = false;
+
+    switch (category) { // TODO: use settings for loggable categories
+    case Category::SQL:
+    case Category::UserSQL:
+    case Category::Error:
+    case Category::Info:
+        doLog = true;
+        break;
+    default:
+        break;
+    };
+
+    if (!doLog) return;
+
+    QString messageFormatted = msg;
+
+    // TODO: limit len of message
+
+    if (isSQL) {
+        if (!messageFormatted.endsWith(';')) {
+            messageFormatted += ';'; // TODO: take delim from outside
+        }
+    } else {
+        messageFormatted = "/* " + messageFormatted + " */"; // TODO: escape?
+    }
+
+    for (auto & sink : _sinks) {
+        sink->onLogMessage(messageFormatted);
+    }
+}
+
+void Log::addSink(ISink * sink)
+{
+    // Listening: FOR I AM KING - In Flames
+    _sinks.push_back(sink);
+}
+
+void Log::removeSink(ISink * sink)
+{
+    _sinks.removeAll(sink);
 }
 
 } // namespace meow

@@ -112,8 +112,10 @@ set(SOURCE_FILES
     ui/common/sql_syntax_highlighter.cpp
     ui/common/table_column_default_editor.cpp
     ui/common/table_view.cpp
+    ui/main_window/central_bottom_widget.cpp
     ui/main_window/central_left_db_tree.cpp
     ui/main_window/central_left_widget.cpp
+    ui/main_window/central_log_widget.cpp
     ui/main_window/central_right/database/central_right_database_tab.cpp
     ui/main_window/central_right/data/central_right_data_tab.cpp
     ui/main_window/central_right/host/central_right_host_tab.cpp

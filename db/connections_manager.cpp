@@ -209,8 +209,8 @@ void ConnectionsManager::setActiveSession(SessionEntity * session)
 {
     if (_activeSession != session) {
         _activeSession = session;
-        meowLogC(Log::Category::Info) << "Session changed to:"
-                 <<  (session ? session->name() : "nullptr");
+        meowLogC(Log::Category::Info) << "Entering session: "
+                 <<  (session ? session->name() : "");
         emit activeSessionChanged();
     }
 }
