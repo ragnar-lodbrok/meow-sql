@@ -1,6 +1,6 @@
 #include "batch_executor.h"
 #include "db/query.h"
-#include <QDebug>
+#include "helpers/logger.h"
 
 namespace meow {
 namespace db {
@@ -25,8 +25,9 @@ bool BatchExecutor::run(Connection * connection, const QStringList & queries)
         try {
             query->execute();
         } catch(meow::db::Exception & ex) {
-            qDebug() << "[UserQuery] " << "Failed to run query: "
-                     << SQL << ex.message();
+            meowLogCC(Log::Category::Error, connection)
+                << "[UserQuery] " << "Failed to run query: "
+                << SQL << ex.message();
             success = false;
             _error = ex;
             break;

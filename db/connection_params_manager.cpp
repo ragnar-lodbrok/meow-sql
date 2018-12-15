@@ -1,6 +1,7 @@
 #include "connection_params_manager.h"
 #include <QDebug>
 #include <QSettings>
+#include "helpers/logger.h"
 
 meow::db::ConnectionParamsManager::ConnectionParamsManager()
     :_params(),
@@ -19,8 +20,6 @@ int meow::db::ConnectionParamsManager::add(const ConnectionParameters &connectio
 void meow::db::ConnectionParamsManager::removeParamsAndSave(const ConnectionParameters &params)
 {
     int indexToRemove = indexOfParams(params);
-
-    qDebug() << "Remove params: " << indexToRemove;
 
     if (indexToRemove == -1) {
         return;
@@ -64,7 +63,6 @@ void meow::db::ConnectionParamsManager::updateAndSaveParamsAt(
 {
     _params.replace(index, connectionParams);
     saveParams(connectionParams);
-    qDebug() << "Saved: " << connectionParams.sessionName();
 }
 
 void meow::db::ConnectionParamsManager::load()
@@ -108,7 +106,7 @@ void meow::db::ConnectionParamsManager::load()
         settings.endGroup();
     settings.endGroup();
 
-    qDebug() << "Loaded params: " << count();
+    meowLogDebug() << "Loaded params: " << count();
 
 }
 

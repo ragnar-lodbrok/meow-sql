@@ -11,6 +11,7 @@
 #include "mysql_table_engines_fetcher.h"
 #include "db/entity/mysql_entity_filter.h"
 #include "mysql_query_result.h"
+#include "helpers/logger.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -28,7 +29,7 @@ MySQLConnection::MySQLConnection(const ConnectionParameters & params)
 
 MySQLConnection::~MySQLConnection()
 {
-    qDebug() << "[MySQLConnection] " << "Destroying: " << *connectionParams();
+    meowLogDebugC(this) << "Destroying: " << *connectionParams();
     if (active()) {
         setActive(false);
     }
@@ -69,7 +70,7 @@ void MySQLConnection::setActive(bool active) // override
         const char * pswd = pswdBytes.constData();
         unsigned int port = connectionParams()->port();
 
-        qDebug() << "[MySQLConnection] " << "Connecting: " << *connectionParams();
+        meowLogDebugC(this) << "Connecting: " << *connectionParams();
 
         MYSQL * connectedHandle = mysql_real_connect(
             _handle,
@@ -86,7 +87,7 @@ void MySQLConnection::setActive(bool active) // override
 
             QString error = getLastError();
 
-            qDebug() << "[MySQLConnection] " << "Connect failed: " << error;
+            meowLogCC(Log::Category::Error, this) << "Connect failed: " << error;
             // H:
             throw db::Exception(error);
         } else {
@@ -95,7 +96,7 @@ void MySQLConnection::setActive(bool active) // override
             // connection without running into some access violation. See issue #3464.
 
             if (!ping(false)) {
-                qDebug() << "[MySQLConnection] " << "Connect access violation";
+                meowLogCC(Log::Category::Error, this) << "Connect access violation";
 
                 QString userErrorMessage = QString(QObject::tr(
                     "Connection closed immediately after it was established. " \
@@ -109,16 +110,18 @@ void MySQLConnection::setActive(bool active) // override
             }
         }
 
-        qDebug() << "[MySQLConnection] " << "Connected";
+        meowLogDebugC(this) << "Connected";
 
         try {
             setCharacterSet("utf8mb4");
         } catch(meow::db::Exception & ex) {
-            qDebug() << "[MySQLConnection] " << "Failed to set utf8mb4 charset: " << ex.message();
+            meowLogCC(Log::Category::Error, this)
+                << "Failed to set utf8mb4 charset: " << ex.message();
             try {
                 setCharacterSet("utf8");
             } catch(meow::db::Exception & ex) {
-                qDebug() << "[MySQLConnection] " << "Failed to set utf8 charset: " << ex.message();
+                meowLogCC(Log::Category::Error, this)
+                    << "Failed to set utf8 charset: " << ex.message();
             }
         }
 
@@ -137,7 +140,7 @@ void MySQLConnection::setActive(bool active) // override
         _active = false;
         // H: ClearCache(False);
         _handle = nullptr;
-        qDebug() << "[MySQLConnection] " << "Closed";
+        meowLogDebugC(this) << "Closed";
     }
 }
 
@@ -154,7 +157,7 @@ QString MySQLConnection::fetchCharacterSet() // override
 
     QString charsetStr(charSet);
 
-    qDebug() << "[MySQLConnection] " << "Character set: " << charsetStr;
+    meowLogDebugC(this) << "Character set: " << charsetStr;
 
     Connection::setCharacterSet(charsetStr);
     setIsUnicode(charsetStr.startsWith("utf8", Qt::CaseInsensitive));
@@ -166,7 +169,7 @@ void MySQLConnection::setCharacterSet(const QString & characterSet) // override
 {
     // H:   FStatementNum := 0
 
-    qDebug() << "[MySQLConnection] " << "Set character set: " << characterSet;
+    meowLogDebugC(this) << "Set character set: " << characterSet;
 
     QByteArray characterSetLatin1 = characterSet.toLatin1();
 
@@ -182,7 +185,7 @@ void MySQLConnection::setCharacterSet(const QString & characterSet) // override
 
 bool MySQLConnection::ping(bool reconnect) // override
 {
-    qDebug() << "[MySQLConnection] " << "Ping";
+    meowLogDebugC(this) << "Ping";
 
     if (_handle == nullptr || mysql_ping(_handle) != 0) {
         setActive(false); // TODO: why? H: Be sure to release some stuff before reconnecting
@@ -202,7 +205,7 @@ QueryResults MySQLConnection::query(const QString & SQL,
     // H: FLockedByThread
     // TODO: need mutex when multithreading
 
-    qDebug() << "[MySQLConnection] " << "Query: " << SQL;
+    meowLogCC(Log::Category::SQL, this) << SQL; // TODO: userSQL
     
     QueryResults results;
 
@@ -223,7 +226,7 @@ QueryResults MySQLConnection::query(const QString & SQL,
 
     if (queryStatus != 0) {
         QString error = getLastError();
-        qDebug() << "[MySQLConnection] " << "Query failed: " << error;
+        meowLogCC(Log::Category::Error, this) << "Query failed: " << error;
         throw db::Exception(error);
     }
 
@@ -240,7 +243,8 @@ QueryResults MySQLConnection::query(const QString & SQL,
     if (queryResult == nullptr && mysql_affected_rows(_handle) == (my_ulonglong)-1) {
         // TODO: the doc stands to check mysql_error(), no mysql_affected_rows ?
         QString error = getLastError();
-        qDebug() << "[MySQLConnection] " << "Query (store) failed: " << error;
+        meowLogCC(Log::Category::Error, this) << "Query (store) failed: "
+                                              << error;
         throw db::Exception(error);
     }
 
@@ -269,13 +273,14 @@ QueryResults MySQLConnection::query(const QString & SQL,
             // MySQL stops executing a multi-query when an error occurs. So do we here by raising an exception.
             results.clear();
             QString error = getLastError();
-            qDebug() << "[MySQLConnection] " << "Query (next) failed: " << error;
+            meowLogCC(Log::Category::Error, this) << "Query (next) failed: "
+                                                  << error;
             throw db::Exception(error);
         }
     }
     // H:     FResultCount := Length(FLastRawResults);
 
-    qDebug() << "[MySQLConnection] " << "Query rows found/affected: " << _rowsFound << "/" << _rowsAffected;
+    meowLogDebugC(this) << "Query rows found/affected: " << _rowsFound << "/" << _rowsAffected;
 
     return results;
 }
@@ -288,9 +293,12 @@ QStringList MySQLConnection::fetchDatabases()
     } catch(meow::db::Exception & ex1) {
         Q_UNUSED(ex1);
         try {
-            return getColumn("SELECT `SCHEMA_NAME` FROM `information_schema`.`SCHEMATA` ORDER BY `SCHEMA_NAME`");
+            return getColumn("SELECT `SCHEMA_NAME` FROM `information_schema`"
+                             ".`SCHEMATA` ORDER BY `SCHEMA_NAME`");
         } catch(meow::db::Exception & ex2) {
-            qDebug() << "[MySQLConnection] " << "Database names not available due to missing privileges: " << ex2.message();
+            meowLogCC(Log::Category::Error, this)
+                << "Database names not available due to missing privileges: "
+                << ex2.message();
         }
     }
 
@@ -411,9 +419,8 @@ QString MySQLConnection::getCreateCode(const Entity * entity) // override
         column = 2;
         break;
     default:
-        qDebug() << "Unimplemented type in " << __FUNCTION__;
+        meowLogDebugC(this) << "Unimplemented type in " << __FUNCTION__;
         return QString();
-        break;
     }
 
     QString SQL = QString("SHOW CREATE %1 %2")

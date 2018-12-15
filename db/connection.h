@@ -39,6 +39,7 @@ public:
 
     bool active() const { return _active; }
     ConnectionParameters * connectionParams() { return &_connectionParams; }
+    const ConnectionParameters * connectionParams() const { return &_connectionParams; }
     QString & characterSet() { return _characterSet; }
     bool isUnicode() const { return _isUnicode; }
     unsigned long serverVersionInt() const { return _serverVersionInt; }

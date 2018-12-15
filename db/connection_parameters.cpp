@@ -1,8 +1,8 @@
-#include <QDebug>
 #include <QRegularExpression>
 #include "db/connection_parameters.h"
 #include "db/connection_params_manager.h"
 #include "db/mysql_connection.h"
+#include "helpers/logger.h"
 
 meow::db::ConnectionParameters::ConnectionParameters(ConnectionParamsManager * manager)
    :_networkType(NetworkType::MySQL_TCPIP),
@@ -63,7 +63,7 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
         return ConnectionPtr(connection);
     }
     default:
-        qDebug() << "Unimplemented network type";
+        meowLogC(Log::Category::Error) << "Unimplemented network type";
     }
     return nullptr;
 }

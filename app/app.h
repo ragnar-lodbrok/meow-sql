@@ -8,6 +8,8 @@
 
 #include "actions.h"
 
+#include "log.h"
+
 namespace meow {
 
 class App
@@ -21,6 +23,8 @@ public:
 
     Actions * actions() { return &_actions; }
 
+    Log * log() { return &_log; }
+
 private:
     meow::db::ConnectionParamsManager _dbConnectionParamsManager;
     meow::db::ConnectionsManager _dbConnectionsManager;
@@ -28,6 +32,8 @@ private:
     meow::settings::Core _settingsCore;
 
     Actions _actions;
+
+    Log _log;
 };
 
 App * app();

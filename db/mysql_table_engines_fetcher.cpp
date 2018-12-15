@@ -1,7 +1,7 @@
 #include "mysql_table_engines_fetcher.h"
 #include "connection.h"
 #include "query.h"
-#include <QDebug>
+#include "helpers/logger.h"
 
 namespace meow {
 namespace db {
@@ -46,8 +46,9 @@ QStringList MySQLTableEnginesFetcher::run()
         }
 
     } catch(meow::db::Exception & ex) {
-        qDebug() << "[MySQLTableEnginesFetcher] "
-                 << "Failed to SHOW ENGINES: " << ex.message();
+        meowLogCC(Log::Category::Error, _connection)
+            << "[MySQLTableEnginesFetcher] "
+            << "Failed to SHOW ENGINES: " << ex.message();
         // TODO: normal fallback
 
         engines << "InnoDB"

@@ -51,7 +51,7 @@ public:
     void setPassword(const QString &password) { _password = password; }
     void setDatabases(const QString &databases) { _databases = databases; }
     void setLoginPrompt(bool loginPrompt) { _loginPrompt = loginPrompt; }
-    void setPort(qint16 port) { _port = port; }
+    void setPort(quint16 port) { _port = port; }
     void setManager(ConnectionParamsManager &manager);
     void setId(unsigned id) { _id = id; }
 

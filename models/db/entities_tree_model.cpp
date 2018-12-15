@@ -1,4 +1,4 @@
-#include <QDebug>
+#include "helpers/logger.h"
 #include "entities_tree_model.h"
 #include "db/entity/session_entity.h"
 #include "db/entity/database_entity.h"
@@ -167,7 +167,7 @@ QVariant EntitiesTreeModel::data(const QModelIndex &index, int role) const
 void EntitiesTreeModel::onSelectEntityAt(const QModelIndex &index)
 {
     if (!index.isValid()) {
-        qDebug() << "Tree: invalid index selected";
+        meowLogDebug() << "Tree: invalid index selected";
         return;
     }
 
@@ -175,11 +175,11 @@ void EntitiesTreeModel::onSelectEntityAt(const QModelIndex &index)
         = static_cast<meow::db::Entity *>(index.internalPointer());
 
     if (selectedEntity == nullptr) {
-        qDebug() << "Tree: empty entity selected";
+        meowLogDebug() << "Tree: empty entity selected";
         return;
     }
 
-    qDebug() << "Tree: selected item" << selectedEntity->name();
+    meowLogDebug() << "Tree: selected item" << selectedEntity->name();
 
     selectedEntity->setWasSelected(true);
     _dbConnectionsManager->setActiveEntity(selectedEntity);

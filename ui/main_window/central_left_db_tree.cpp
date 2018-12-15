@@ -2,6 +2,7 @@
 #include <QtWidgets>
 #include "models/db/entities_tree_model.h"
 #include "app/app.h"
+#include "helpers/logger.h"
 
 namespace meow {
 namespace ui {
@@ -98,7 +99,7 @@ void DbTree::createActions()
                                  tr("Refresh"), this);
     _refreshAction->setShortcuts(QKeySequence::Refresh);
     connect(_refreshAction, &QAction::triggered, [=](bool checked) {
-        qDebug() << "refresh";
+        meowLogDebug() << "refresh";
         Q_UNUSED(checked);
         auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
 

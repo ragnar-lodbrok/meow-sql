@@ -1,4 +1,3 @@
-#include <QDebug>
 #include "mysql_entities_fetcher.h"
 #include "db/mysql_connection.h"
 #include "db/query.h"
@@ -8,6 +7,7 @@
 #include "procedure_entity.h"
 #include "trigger_entity.h"
 #include "helpers/parsing.h"
+#include "helpers/logger.h"
 
 namespace meow {
 namespace db {
@@ -49,11 +49,12 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
         try {
             queryResults = _connection->getResults(QString("SHOW TABLE STATUS FROM ") + _connection->quoteIdentifier(dbName));
         } catch(meow::db::Exception & ex) {
-            qDebug() << "[MySQLConnection] " << "Failed to fetch tables/views: " << ex.message();
+            meowLogCC(Log::Category::Error, _connection)
+                    << "Failed to fetch tables/views: " << ex.message();
             return;
         }
     } else {
-        qDebug() << "Not implemented";
+        meowLogDebug() << "Not implemented";
     }
 
     Query * resPtr = queryResults.get();
@@ -138,9 +139,12 @@ void MySQLEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
     QueryPtr queryResults;
 
     try {
-        queryResults = _connection->getResults(QString("SHOW FUNCTION STATUS WHERE `Db` = ") + _connection->escapeString(dbName));
+        queryResults = _connection->getResults(
+            QString("SHOW FUNCTION STATUS WHERE `Db` = ")
+                    + _connection->escapeString(dbName));
     } catch(meow::db::Exception & ex) {
-        qDebug() << "[MySQLConnection] " << "Failed to fetch stored functions: " << ex.message();
+        meowLogCC(Log::Category::Error, _connection)
+                << "Failed to fetch stored functions: " << ex.message();
         return;
     }
 
@@ -187,9 +191,12 @@ void MySQLEntitiesFetcher::fetchStoredProcedures(const QString & dbName,
     QueryPtr queryResults;
 
     try {
-        queryResults = _connection->getResults(QString("SHOW PROCEDURE STATUS WHERE `Db` = ") + _connection->escapeString(dbName));
+        queryResults = _connection->getResults(
+            QString("SHOW PROCEDURE STATUS WHERE `Db` = ")
+                    + _connection->escapeString(dbName));
     } catch(meow::db::Exception & ex) {
-        qDebug() << "[MySQLConnection] " << "Failed to fetch stored procedures: " << ex.message();
+        meowLogCC(Log::Category::Error, _connection)
+                << "Failed to fetch stored procedures: " << ex.message();
         return;
     }
 
@@ -237,9 +244,12 @@ void MySQLEntitiesFetcher::fetchTriggers(const QString & dbName,
     QueryPtr queryResults;
 
     try {
-        queryResults = _connection->getResults(QString("SHOW TRIGGERS FROM ") + _connection->quoteIdentifier(dbName));
+        queryResults = _connection->getResults(
+            QString("SHOW TRIGGERS FROM ")
+            + _connection->quoteIdentifier(dbName));
     } catch(meow::db::Exception & ex) {
-        qDebug() << "[MySQLConnection] " << "Failed to fetch triggers: " << ex.message();
+        meowLogCC(Log::Category::Error, _connection)
+                << "Failed to fetch triggers: " << ex.message();
         return;
     }
 

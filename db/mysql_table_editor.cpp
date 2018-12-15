@@ -2,7 +2,7 @@
 #include "mysql_connection.h"
 #include "db/entity/table_entity_comparator.h"
 #include "db/entity/table_entity.h"
-#include <QDebug>
+#include "helpers/logger.h"
 
 namespace meow {
 namespace db {
@@ -222,7 +222,8 @@ bool MySQLTableEditor::drop(EntityInDatabase * entity)
                         "SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS");
                 }
             } catch(meow::db::Exception & ex) {
-                qDebug() << "Catched:" << ex.message();
+                meowLogCC(Log::Category::Error, _connection)
+                    << "fk disabler restore failed:" << ex.message();
             }
         }
     private:

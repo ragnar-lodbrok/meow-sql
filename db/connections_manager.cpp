@@ -3,7 +3,7 @@
 #include "user_query/user_query.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
-#include <QDebug>
+#include "helpers/logger.h"
 
 namespace meow {
 namespace db {
@@ -209,7 +209,7 @@ void ConnectionsManager::setActiveSession(SessionEntity * session)
 {
     if (_activeSession != session) {
         _activeSession = session;
-        qDebug() << "Session changed to:"
+        meowLogC(Log::Category::Info) << "Session changed to:"
                  <<  (session ? session->name() : "nullptr");
         emit activeSessionChanged();
     }

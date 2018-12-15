@@ -21,10 +21,21 @@ set(CMAKE_CXX_STANDARD 11) # TODO 14 for Qt >= 5.5
 
 find_package(Qt5Widgets CONFIG REQUIRED)
 
+set(HEADER_FILES
+    db/collation_fetcher.h
+    db/common.h
+    db/data_type/data_type_category.h
+    db/data_type/mysql_data_type.h
+    db/native_query_result_interface.h
+    db/query_column.h
+    ui/common/mysql_syntax.h
+)
+
 set(SOURCE_FILES
     main.cpp
     app/actions.cpp
     app/app.cpp
+    app/log.cpp
     db/connection.cpp
     db/connection_parameters.cpp
     db/connection_params_manager.cpp
@@ -66,6 +77,7 @@ set(SOURCE_FILES
     db/user_query/sentences_parser.cpp
     db/user_query/user_query.cpp
     helpers/formatting.cpp
+    helpers/logger.cpp
     helpers/parsing.cpp
     models/db/base_data_table_model.cpp
     models/db/connection_params_model.cpp
@@ -135,7 +147,7 @@ set(SOURCE_FILES
 
 qt5_add_resources(RESOURCE_FILES icons.qrc)
 
-add_executable(meowsql ${SOURCE_FILES} ${RESOURCE_FILES})
+add_executable(meowsql ${HEADER_FILES} ${SOURCE_FILES} ${RESOURCE_FILES})
 
 target_link_libraries(meowsql Qt5::Widgets)
 

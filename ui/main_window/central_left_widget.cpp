@@ -1,6 +1,6 @@
 #include "central_left_widget.h"
 #include "central_left_db_tree.h"
-#include <QDebug>
+#include "helpers/logger.h"
 
 namespace meow {
 namespace ui {
@@ -64,7 +64,7 @@ void CentralLeftWidget::selectedDbEntityChanged(
         try {
             _dbEntitiesTreeModel->onSelectEntityAt(index);
         } catch(meow::db::Exception & ex) {
-            qDebug() << "Tree error: " << ex.message();
+            meowLogC(Log::Category::Error) << "Tree error: " << ex.message();
             QMessageBox msgBox;
             msgBox.setText(ex.message());
             msgBox.setStandardButtons(QMessageBox::Ok);
@@ -74,7 +74,7 @@ void CentralLeftWidget::selectedDbEntityChanged(
         }
 
     } else {
-        qDebug() << "Tree: selection is empty";
+        meowLogDebug() << "Tree: selection is empty";
         _dbEntitiesTreeModel->onEmptySelection(); // TODO try catch ?
     }
 }

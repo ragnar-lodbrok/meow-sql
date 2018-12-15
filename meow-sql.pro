@@ -31,6 +31,7 @@ unix:LIBS += -ldl # dynamic link
 SOURCES += main.cpp\
     app/actions.cpp \
     app/app.cpp \
+    app/log.cpp \
     db/connection.cpp \
     db/connection_parameters.cpp \
     db/connection_params_manager.cpp \
@@ -72,6 +73,7 @@ SOURCES += main.cpp\
     db/user_query/sentences_parser.cpp \
     db/user_query/user_query.cpp \
     helpers/formatting.cpp \
+    helpers/logger.cpp \
     helpers/parsing.cpp \
     models/db/base_data_table_model.cpp \
     models/db/connection_params_model.cpp \
@@ -140,6 +142,7 @@ SOURCES += main.cpp\
 
 HEADERS  +=  app/actions.h \
     app/app.h \
+    app/log.h \
     db/collation_fetcher.h \
     db/common.h \
     db/connection.h \
@@ -189,6 +192,7 @@ HEADERS  +=  app/actions.h \
     db/user_query/sentences_parser.h \
     db/user_query/user_query.h \
     helpers/formatting.h \
+    helpers/logger.h \
     helpers/parsing.h \
     models/db/base_data_table_model.h \
     models/db/connection_params_model.h \

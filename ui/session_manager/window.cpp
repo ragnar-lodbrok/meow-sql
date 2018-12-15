@@ -1,7 +1,7 @@
 #include "ui/session_manager/window.h"
 #include "app/app.h"
 #include "ui/main_window/main_window.h"
-#include <QStyle>
+#include "helpers/logger.h"
 
 namespace meow {
 namespace ui {
@@ -265,7 +265,7 @@ void Window::currentSessionDetailsChanged(
             _connectionParamsModel->selectFormAt(index.row())
         );
     } else {
-        qDebug() << "Session Manager: Selection is empty";
+        meowLogDebug() << "Session Manager: Selection is empty";
         _sessionDetails->setConnectionParamsForm(nullptr);
     }
 
@@ -349,7 +349,6 @@ void Window::deleteCurrentSession()
     if (curForm) {
         curSessionName = curForm->sessionName();
     } else {
-        qDebug() << "no curForm";
         return;
     }
 

@@ -2,7 +2,7 @@
 #include "exception.h"
 #include "editable_grid_data.h"
 #include "entity/table_entity.h"
-#include <QDebug>
+#include "helpers/logger.h"
 
 namespace meow {
 namespace db {
@@ -52,7 +52,8 @@ QString Query::curRowColumn(const QString & colName, bool ignoreErrors /* = fals
         try {
             index = indexOfColumn(colName);
         } catch(meow::db::Exception & ex) {
-            qDebug() << "[Query] " << "Failed to find column by name: " << ex.message();
+            meowLogCC(Log::Category::Error, _connection)
+                << "Failed to find column by name: " << ex.message();
             return QString();
         }
     } else {

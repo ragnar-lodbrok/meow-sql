@@ -1,4 +1,4 @@
-#include <QDebug>
+#include "helpers/logger.h"
 #include "connection_parameters_form.h"
 #include "db/connection.h"
 
@@ -101,7 +101,8 @@ QStringList ConnectionParametersForm::allDatabases()
             connection->setActive(true);
             _allDatabases.second = connection->fetchDatabases();
         } catch(meow::db::Exception & ex) {
-            qDebug() << "Failed to fetch db names: " << ex.message();
+            meowLogCC(Log::Category::Error, connection.get())
+                << "Failed to fetch db names: " << ex.message();
         }
     }
 

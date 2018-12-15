@@ -1,6 +1,6 @@
 #include "main_window.h"
 #include <QMenuBar>
-#include <QDebug>
+#include "helpers/logger.h"
 #include "ui/session_manager/window.h"
 #include "app/app.h"
 #include "db/exception.h"
@@ -68,7 +68,7 @@ void Window::showSessionManagerDialog()
 bool Window::openDBConnection(db::ConnectionParameters & params)
 {
 
-    qDebug() << "Opening " << params.sessionName();
+    meowLogDebug() << "Opening " << params.sessionName();
 
     try {
 
@@ -76,14 +76,14 @@ bool Window::openDBConnection(db::ConnectionParameters & params)
 
     } catch(meow::db::Exception & ex) {
 
-        qDebug() << "Opening failed: " << ex.message();
+        meowLogDebug() << "Opening failed: " << ex.message();
 
         showErrorMessage(ex.message());
 
         return false;
     }
 
-    qDebug() << "Opened " << params.sessionName();
+    meowLogDebug() << "Opened " << params.sessionName();
 
     return true;
 }

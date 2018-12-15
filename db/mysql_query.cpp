@@ -1,4 +1,3 @@
-#include <QDebug>
 #include "mysql_query.h"
 #include "editable_grid_data.h"
 #include "data_type/mysql_data_type.h"
@@ -25,8 +24,6 @@ MySQLQuery::~MySQLQuery()
 
 void MySQLQuery::execute(bool addResult /*= false*/) // override
 {
-    qDebug() << "[MySQLQuery] " << "Executing: " << SQL();
-
     // TODO addResult for isEditing() is broken
 
     QueryResults results = connection()->query(this->SQL(), true);

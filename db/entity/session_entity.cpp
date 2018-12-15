@@ -3,7 +3,7 @@
 #include "database_entity.h"
 #include "table_entity.h"
 #include <QIcon>
-#include <QDebug>
+#include "helpers/logger.h"
 
 namespace meow {
 namespace db {
@@ -20,7 +20,7 @@ SessionEntity::SessionEntity(ConnectionPtr connection, ConnectionsManager * pare
 
 SessionEntity::~SessionEntity()
 {
-    qDebug() << "Closing session " << name();
+    meowLogDebug() << "Closing session " << name();
     qDeleteAll(_databases);
 }
 
