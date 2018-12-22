@@ -1,5 +1,6 @@
 #include "central_log_widget.h"
-#include "ui/common/sql_editor.h"
+#include "ui/common/sql_log_editor.h"
+#include "app/app.h"
 
 namespace meow {
 namespace ui {
@@ -16,27 +17,27 @@ void CentralLogWidget::createWidgets()
     _mainLayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(_mainLayout);
 
-    _logEditor = new ui::common::SQLEditor(this);
+    _logEditor = new ui::common::SQLLogEditor(this);
     _logEditor->setReadOnly(true);
     _mainLayout->addWidget(_logEditor);
+
+    connect(meow::app()->actions()->logClear(),
+            &QAction::triggered,
+            this,
+            &CentralLogWidget::onClearAction);
 }
 
 void CentralLogWidget::onLogMessage(const QString & msg)
 {
-    appendMessage(msg);
+    _logEditor->appendMessage(msg);
 }
 
-void CentralLogWidget::appendMessage(const QString & message)
+void CentralLogWidget::onClearAction(bool checked)
 {
-    bool isEmpty = _logEditor->document()->isEmpty();
-
-    _logEditor->moveCursor(QTextCursor::End);
-    if (!isEmpty) {
-        _logEditor->insertPlainText(QString(QChar::LineFeed));
-    }
-    _logEditor->insertPlainText(message);
-    _logEditor->moveCursor(QTextCursor::End);
+    Q_UNUSED(checked);
+    _logEditor->clear();
 }
+
 
 } // namespace meow
 } // namespace ui

@@ -48,6 +48,11 @@ void Actions::createActions()
                                tr("NULL"), this);
     _dataSetNULL->setStatusTip(tr("Set focused cell to NULL"));
 
+    // -------------------------------------------------------------------------
+
+    _logClear = new QAction(tr("Clear"));
+    _logClear->setStatusTip(tr("Clear query log"));
+
 }
 
 } // namespace meow

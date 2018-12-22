@@ -1,4 +1,5 @@
 #include "central_widget.h"
+#include "app/app.h"
 
 namespace meow {
 namespace ui {
@@ -20,16 +21,25 @@ CentralWidget::~CentralWidget()
 void CentralWidget::saveGeometryToSettings()
 {
     QSettings settings;
+
     settings.setValue("ui/main_window/center_widget/main_hsplitter",
                       _mainHorizontalSplitter->saveState());
+
+    settings.setValue("ui/main_window/center_widget/main_vsplitter",
+                      _mainVerticalSplitter->saveState());
 
 }
 
 void CentralWidget::loadGeometryFromSettings()
 {
     QSettings settings;
+
     _mainHorizontalSplitter->restoreState(
         settings.value("ui/main_window/center_widget/main_hsplitter")
+                .toByteArray());
+
+    _mainVerticalSplitter->restoreState(
+        settings.value("ui/main_window/center_widget/main_vsplitter")
                 .toByteArray());
 }
 
@@ -52,17 +62,23 @@ void CentralWidget::createMainLayout()
     _mainVerticalSplitter->addWidget(mainTopVerticalContainer);
     _mainVerticalSplitter->setStretchFactor(0, 5);
 
-    _mainBottomWidget = new CentralBottomWidget();
+    _mainBottomWidget = new CentralBottomWidget(this);
     _mainBottomWidget->setMinimumSize(QSize(200, 40));
     _mainBottomWidget->setSizePolicy(QSizePolicy::Expanding,
-                                     QSizePolicy::Minimum);
+                                     QSizePolicy::Maximum);
+
+    auto settings = meow::app()->settings()->geometrySettings();
+    toggleBottomWidget(settings->showSQLLog());
+    connect(settings,
+            &settings::Geometry::showSQLLogChanged,
+            this,
+            &CentralWidget::toggleBottomWidget);
 
     _mainVerticalSplitter->addWidget(_mainBottomWidget);
     _mainVerticalSplitter->setStretchFactor(1, 0);
     _mainBottomWidget->resize(QSize(200, 100));
 
-    _mainVerticalSplitter->setCollapsible(0, false);
-    _mainVerticalSplitter->setCollapsible(1, true);
+    _mainVerticalSplitter->setChildrenCollapsible(false);
 
     loadGeometryFromSettings();
 }
@@ -103,6 +119,15 @@ void CentralWidget::onCreatingNewEntity(db::Entity * entity)
     _mainLeftWidget->selectEntity(entity); // clears prev selection
     _mainRightWidget->setActiveDBEntity(entity);
     _mainRightWidget->onBeforeEntityEditing();
+}
+
+void CentralWidget::toggleBottomWidget(bool show)
+{
+    if (show) {
+        _mainBottomWidget->show();
+    } else {
+        _mainBottomWidget->hide();
+    }
 }
 
 } // namespace main_window

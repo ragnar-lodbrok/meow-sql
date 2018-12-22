@@ -14,6 +14,11 @@ class CentralBottomWidget : public QWidget
 public:
     CentralBottomWidget(QWidget * parent = nullptr);
     ~CentralBottomWidget() override;
+
+    virtual QSize sizeHint() const override {
+        return QSize(0, 70);
+    }
+
 private:
     void createWidgets();
 

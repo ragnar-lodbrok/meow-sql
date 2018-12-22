@@ -105,6 +105,7 @@ SOURCES += main.cpp\
     settings/settings_text.cpp \
     ui/common/data_type_combo_box.cpp \
     ui/common/sql_editor.cpp \
+    ui/common/sql_log_editor.cpp \
     ui/common/sql_syntax_highlighter.cpp \
     ui/common/table_column_default_editor.cpp \
     ui/common/table_view.cpp \
@@ -131,6 +132,7 @@ SOURCES += main.cpp\
     ui/main_window/central_right_widget.cpp \
     ui/main_window/central_widget.cpp \
     ui/main_window/main_window.cpp \
+    ui/main_window/main_window_status_bar.cpp \
     ui/session_manager/session_form.cpp \
     ui/session_manager/settings_tab.cpp \
     ui/session_manager/start_tab.cpp \
@@ -228,6 +230,7 @@ HEADERS  +=  app/actions.h \
     ui/common/data_type_combo_box.h \
     ui/common/mysql_syntax.h \
     ui/common/sql_editor.h \
+    ui/common/sql_log_editor.h \
     ui/common/sql_syntax_highlighter.h \
     ui/common/table_column_default_editor.h \
     ui/common/table_view.h \
@@ -254,6 +257,7 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_right_widget.h \
     ui/main_window/central_widget.h \
     ui/main_window/main_window.h \
+    ui/main_window/main_window_status_bar.h \
     ui/session_manager/session_form.h \
     ui/session_manager/settings_tab.h \
     ui/session_manager/start_tab.h \

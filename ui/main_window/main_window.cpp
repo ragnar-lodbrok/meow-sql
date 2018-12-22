@@ -25,7 +25,8 @@ Window::Window(QWidget *parent)
     _centralWidget = new CentralWidget(&_dbEntitiesTreeModel);
     setCentralWidget(_centralWidget);
 
-    //statusBar(); // hide as we have nothing to show
+    _statusBar = new StatusBar(this);
+    setStatusBar(_statusBar);
 
     connect(meow::app()->dbConnectionsManager(),
             &meow::db::ConnectionsManager::activeEntityChanged,
@@ -185,7 +186,8 @@ void Window::restoreGeometryAndState()
     } else {
         restoreGeometry(geometry);
         const QByteArray state
-            = settings.value("ui/main_window/state", QByteArray()).toByteArray();
+            = settings.value("ui/main_window/state", QByteArray())
+                .toByteArray();
         if (!state.isEmpty()) {
             restoreState(state);
         }

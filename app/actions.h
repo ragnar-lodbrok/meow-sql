@@ -20,6 +20,8 @@ public:
 
     QAction * dataSetNULL() const { return _dataSetNULL; }
 
+    QAction * logClear() const { return _logClear; }
+
 private:
 
     void createActions();
@@ -33,6 +35,8 @@ private:
     QAction * _dataCancelChanges;
 
     QAction * _dataSetNULL;
+
+    QAction * _logClear;
 };
 
 } // namespace meow

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "central_widget.h"
+#include "main_window_status_bar.h"
 #include "db/connection_parameters.h"
 #include "models/db/entities_tree_model.h"
 
@@ -43,6 +44,7 @@ private:
     Q_SLOT void onSessionManagerAction(bool checked);
 
     CentralWidget * _centralWidget;
+    StatusBar     * _statusBar;
 
     models::db::EntitiesTreeModel _dbEntitiesTreeModel;
 };

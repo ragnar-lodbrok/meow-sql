@@ -22,7 +22,7 @@ void CentralBottomWidget::createWidgets()
     _mainLayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(_mainLayout);
 
-    _logWidget = new CentralLogWidget();
+    _logWidget = new CentralLogWidget(this);
     _mainLayout->addWidget(_logWidget);
 
     meow::app()->log()->addSink(_logWidget);

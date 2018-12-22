@@ -8,7 +8,7 @@ namespace meow {
 namespace ui {
 
 namespace common {
-class SQLEditor;
+class SQLLogEditor;
 }
 
 
@@ -23,12 +23,12 @@ public:
 
 private:
 
+    Q_SLOT void onClearAction(bool checked);
+
     void createWidgets();
 
-    void appendMessage(const QString & message);
-
     QHBoxLayout * _mainLayout;
-    ui::common::SQLEditor * _logEditor;
+    ui::common::SQLLogEditor * _logEditor;
 };
 
 } // namespace main_window

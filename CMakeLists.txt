@@ -109,6 +109,7 @@ set(SOURCE_FILES
     settings/settings_text.cpp
     ui/common/data_type_combo_box.cpp
     ui/common/sql_editor.cpp
+    ui/common/sql_log_editor.cpp
     ui/common/sql_syntax_highlighter.cpp
     ui/common/table_column_default_editor.cpp
     ui/common/table_view.cpp
@@ -137,6 +138,7 @@ set(SOURCE_FILES
     ui/main_window/central_right_widget.cpp
     ui/main_window/central_widget.cpp
     ui/main_window/main_window.cpp
+    ui/main_window/main_window_status_bar.cpp
     ui/session_manager/session_form.cpp
     ui/session_manager/settings_tab.cpp
     ui/session_manager/start_tab.cpp
