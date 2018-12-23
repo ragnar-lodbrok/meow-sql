@@ -36,6 +36,7 @@ SOURCES += main.cpp\
     db/connection_parameters.cpp \
     db/connection_params_manager.cpp \
     db/connections_manager.cpp \
+    db/database_editor.cpp \
     db/data_type/data_type.cpp \
     db/entity/database_entity.cpp \
     db/entity/entities_fetcher.cpp \
@@ -154,6 +155,7 @@ HEADERS  +=  app/actions.h \
     db/connection_parameters.h \
     db/connection_params_manager.h \
     db/connections_manager.h \
+    db/database_editor.h \
     db/data_type/data_type_category.h \
     db/data_type/data_type.h \
     db/data_type/mysql_data_type.h \

@@ -1,5 +1,6 @@
 #include "database_entities_table_model.h"
 #include "db/entity/table_entity.h"
+#include "db/entity/session_entity.h"
 #include "helpers/formatting.h"
 #include <QDebug>
 
@@ -8,10 +9,9 @@ namespace models {
 namespace db {
 
 DatabaseEntitiesTableModel::DatabaseEntitiesTableModel(
-        meow::db::DataBaseEntity * database,
         QObject *parent)
     :QAbstractTableModel(parent),
-     _database(database)
+     _database(nullptr)
 {
 
 }
@@ -211,9 +211,24 @@ void DatabaseEntitiesTableModel::setDataBase(meow::db::DataBaseEntity * database
 
     _database = database;
 
+    if (_database) {
+        connect(_database->session(),
+                &meow::db::SessionEntity::beforeEntityRemoved,
+                this,
+                &DatabaseEntitiesTableModel::beforeDatabaseRemoved);
+    }
+
     if (entitiesCount()) {
         beginInsertRows(QModelIndex(), 0, entitiesCount()-1);
         endInsertRows();
+    }
+}
+
+void DatabaseEntitiesTableModel::beforeDatabaseRemoved(
+        meow::db::Entity * entity)
+{
+    if (entity == _database) {
+        setDataBase(nullptr);
     }
 }
 

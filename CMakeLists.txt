@@ -40,6 +40,7 @@ set(SOURCE_FILES
     db/connection_parameters.cpp
     db/connection_params_manager.cpp
     db/connections_manager.cpp
+    db/database_editor.cpp
     db/data_type/data_type.cpp
     db/entity/database_entity.cpp
     db/entity/entities_fetcher.cpp

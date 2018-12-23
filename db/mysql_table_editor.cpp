@@ -193,7 +193,7 @@ bool MySQLTableEditor::insert(TableEntity * table)
     QStringList tableSpecs = this->specs(table);
     SQL += tableSpecs.join(",\n");
 
-    SQL += ";\n";
+    SQL += ";";
 
     _connection->query(SQL);
 

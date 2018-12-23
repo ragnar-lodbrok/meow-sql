@@ -41,8 +41,8 @@ public:
         Count
     };
 
-    DatabaseEntitiesTableModel(meow::db::DataBaseEntity * database = nullptr, QObject *parent = nullptr);
-    virtual ~DatabaseEntitiesTableModel() {}
+    DatabaseEntitiesTableModel(QObject *parent = nullptr);
+    virtual ~DatabaseEntitiesTableModel() override {}
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -56,6 +56,8 @@ public:
     int columnWidth(int column) const;
 
 private:
+
+    Q_SLOT void beforeDatabaseRemoved(meow::db::Entity * entity);
 
     int entitiesCount() const;
 

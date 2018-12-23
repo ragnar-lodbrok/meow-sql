@@ -18,7 +18,7 @@ class SessionEntity : public QObject, public Entity
 
 public:
     explicit SessionEntity(ConnectionPtr connection, ConnectionsManager * parent);
-    virtual ~SessionEntity();
+    virtual ~SessionEntity() override;
 
     virtual QString name() const override;
     virtual Connection * connection() const override;
@@ -35,7 +35,11 @@ public:
 
     void editTableInDB(TableEntity * table, TableEntity * newData);
     void insertTableToDB(TableEntity * table);
+
     bool dropEntityInDB(EntityInDatabase * entity);
+    bool dropDatabase(DataBaseEntity * database);
+
+    bool removeEntity(Entity * entity);
 
     int indexOf(DataBaseEntity * session) const;
     const QList<DataBaseEntity *> & databases() const { return _databases; }
@@ -45,6 +49,7 @@ public:
 
     Q_SIGNAL void entityEdited(Entity * entity);
     Q_SIGNAL void entityInserted(Entity * entity);
+    Q_SIGNAL void beforeEntityRemoved(Entity * entity);
 
 private:
     ConnectionsManager * connectionsManager() const;
@@ -53,7 +58,6 @@ private:
     void clearAllDatabaseEntities();
 
     void addEntity(Entity * entity);
-    bool removeEntity(Entity * entity);
 
     ConnectionPtr _connection;
     QList<DataBaseEntity *> _databases;

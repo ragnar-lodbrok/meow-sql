@@ -53,11 +53,27 @@ void DbTree::createActions()
         db::Entity * currentEntity = treeModel->currentEntity();
         if (!currentEntity) return;
 
-        QString confirmMsg
-            = QObject::tr("Drop %1 object(s) in database \"%2\"?")
-              .arg(1)
-              .arg(db::databaseName(currentEntity));
-        confirmMsg += "\n\n" + currentEntity->name();
+        QString confirmMsg;
+        QMessageBox::Icon msgIcon = QMessageBox::Question;
+
+        if (currentEntity->type() == db::Entity::Type::Database) {
+
+            confirmMsg = QObject::tr("Drop Database \"%1\"?")
+                            .arg(currentEntity->name());
+
+            confirmMsg += "\n\n";
+            confirmMsg += QObject::tr("WARNING: You will lose all objects "
+                                      "in database %1!")
+                            .arg(currentEntity->name());
+
+            msgIcon = QMessageBox::Critical;
+        } else {
+            confirmMsg = QObject::tr("Drop %1 object(s) in database \"%2\"?")
+                            .arg(1)
+                            .arg(db::databaseName(currentEntity));
+            confirmMsg += "\n\n" + currentEntity->name();
+
+        }
 
         QMessageBox msgBox;
         msgBox.setText(confirmMsg);
@@ -76,7 +92,7 @@ void DbTree::createActions()
             msgBox.setText(ex.message());
             msgBox.setStandardButtons(QMessageBox::Ok);
             msgBox.setDefaultButton(QMessageBox::Ok);
-            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.setIcon(msgIcon);
             msgBox.exec();
         }
 

@@ -143,6 +143,10 @@ bool ConnectionsManager::dropActiveEntity()
             EntityInDatabase * entityDbLvl
                 = static_cast<EntityInDatabase *>(activeEntity);
             return _activeSession->dropEntityInDB(entityDbLvl);
+        } else if (activeEntity->type() == Entity::Type::Database) {
+            DataBaseEntity * database
+                 = static_cast<DataBaseEntity *>(activeEntity);
+            return _activeSession->dropDatabase(database);
         } else {
             Q_ASSERT(0);
         }

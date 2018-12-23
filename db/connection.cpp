@@ -1,8 +1,10 @@
 #include "connection.h"
 #include "query.h"
 #include "entity/entities_fetcher.h"
-#include "db/table_editor.h"
+#include "table_editor.h"
+#include "database_editor.h"
 #include "db/entity/table_entity.h"
+#include "db/entity/database_entity.h"
 #include "table_engines_fetcher.h"
 #include "query_data_editor.h"
 
@@ -270,6 +272,15 @@ bool Connection::dropEntityInDB(EntityInDatabase * entity)
     std::shared_ptr<TableEditor> sharedEditor(editor);
 
     return sharedEditor->drop(entity);
+}
+
+bool Connection::dropDatabase(DataBaseEntity * database)
+{
+    DataBaseEditor * editor = createDataBaseEditor();
+
+    std::shared_ptr<DataBaseEditor> sharedEditor(editor);
+
+    return sharedEditor->drop(database->name());
 }
 
 std::shared_ptr<QueryDataEditor> Connection::queryDataEditor()

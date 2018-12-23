@@ -113,7 +113,7 @@ void DataBaseEntity::appendEntity(EntityInDatabase * entity)
 
 bool DataBaseEntity::removeEntity(EntityInDatabase * entity)
 {
-    initEntitiesIfNeed();
+    initEntitiesIfNeed(); // TODO: rm?
     if (_entities) {
         return _entities->list()->removeOne(entity);
     }

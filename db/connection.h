@@ -22,7 +22,9 @@ class DataBaseEntitiesFetcher;
 class QueryDataFetcher;
 class TableEntity;
 class EntityInDatabase;
+class DataBaseEntity;
 class TableEditor;
+class DataBaseEditor;
 class TableEnginesFetcher;
 class EntityFilter;
 class QueryDataEditor;
@@ -110,6 +112,7 @@ public:
     bool editTableInDB(TableEntity * table, TableEntity * newData);
     bool insertTableToDB(TableEntity * table);
     bool dropEntityInDB(EntityInDatabase * entity);
+    bool dropDatabase(DataBaseEntity * database);
 
     Q_SIGNAL void databaseChanged(const QString & database);
 
@@ -127,6 +130,7 @@ protected:
 
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() = 0;
     virtual TableEditor * createTableEditor() = 0;
+    virtual DataBaseEditor * createDataBaseEditor() = 0;
     virtual CollationFetcher * createCollationFetcher() = 0;
     virtual TableEnginesFetcher * createTableEnginesFetcher() = 0;
 private:

@@ -1,4 +1,3 @@
-#include <QDebug>
 #include <QObject> // tr()
 
 #include "mysql_connection.h"
@@ -7,6 +6,7 @@
 #include "mysql_query_data_fetcher.h"
 #include "db/entity/table_entity.h"
 #include "mysql_table_editor.h"
+#include "database_editor.h"
 #include "mysql_collation_fetcher.h"
 #include "mysql_table_engines_fetcher.h"
 #include "db/entity/mysql_entity_filter.h"
@@ -456,6 +456,11 @@ DataBaseEntitiesFetcher * MySQLConnection::createDbEntitiesFetcher() // override
 TableEditor * MySQLConnection::createTableEditor()
 {
     return new MySQLTableEditor(this);
+}
+
+DataBaseEditor * MySQLConnection::createDataBaseEditor()
+{
+    return new DataBaseEditor(this);
 }
 
 TableEnginesFetcher * MySQLConnection::createTableEnginesFetcher()

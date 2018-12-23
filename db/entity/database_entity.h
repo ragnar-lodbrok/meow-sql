@@ -14,7 +14,7 @@ class DataBaseEntity : public Entity
 {
 public:
     explicit DataBaseEntity(const QString & dbName, SessionEntity * parent);
-    virtual ~DataBaseEntity();
+    virtual ~DataBaseEntity() override;
     virtual QString name() const override;
     virtual Connection * connection() const override;
     virtual int row() const override;
@@ -35,9 +35,10 @@ public:
 
     bool removeEntity(EntityInDatabase * entity);
 
+    SessionEntity * session() const;
+
 private:
 
-    SessionEntity * session() const;
     void initEntitiesIfNeed();
 
     QString _dbName;

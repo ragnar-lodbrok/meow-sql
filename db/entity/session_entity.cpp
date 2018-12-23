@@ -116,10 +116,12 @@ void SessionEntity::insertTableToDB(TableEntity * table)
 
 bool SessionEntity::dropEntityInDB(EntityInDatabase * entity)
 {
-    if (connection()->dropEntityInDB(entity)) {
-        return removeEntity(entity);
-    }
-    return false;
+    return connection()->dropEntityInDB(entity);
+}
+
+bool SessionEntity::dropDatabase(DataBaseEntity * database)
+{
+    return connection()->dropDatabase(database);
 }
 
 db::ulonglong SessionEntity::dataSize() const // override
@@ -161,9 +163,15 @@ void SessionEntity::addEntity(Entity * entity)
 bool SessionEntity::removeEntity(Entity * entity)
 {
     // Listening: The Agonist - Business Suits And Combat Boots
+
+    emit beforeEntityRemoved(entity);
     if ( (int)entity->type() >= (int)Entity::Type::Table ) {
         EntityInDatabase * entityInDb = static_cast<EntityInDatabase *>(entity);
         return entityInDb->dataBaseEntity()->removeEntity(entityInDb);
+    } else if (entity->type() == Entity::Type::Database) {
+        DataBaseEntity * database = static_cast<DataBaseEntity *>(entity);
+        _databases.removeOne(database);
+        delete database;
     } else {
         Q_ASSERT(0);
     }

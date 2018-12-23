@@ -20,7 +20,7 @@ class ConnectionsManager : public QObject, public Entity // root db entity
 
 public:
     ConnectionsManager();
-    ~ConnectionsManager();
+    ~ConnectionsManager() override;
 
     ConnectionPtr openDBConnection(db::ConnectionParameters & params);
     bool closeActiveConnection();

@@ -254,7 +254,14 @@ bool EntitiesTreeModel::canDropCurrentItem() const
     if (!curEntity) {
         return false;
     }
-    return curEntity->type() == meow::db::Entity::Type::Table; // only impl-ed
+
+    switch (curEntity->type()) {
+        case meow::db::Entity::Type::Table: // only impl-ed
+        //case meow::db::Entity::Type::Database: // uncomment when fully done
+        return true;
+    default:
+        return false;
+    };
 }
 
 bool EntitiesTreeModel::canInsertTableOnCurrentItem() const
@@ -285,6 +292,7 @@ void EntitiesTreeModel::dropCurrentItem()
 
     if (_dbConnectionsManager->dropActiveEntity()) {
         beginRemoveRows(parent(curIndex), curIndex.row(), curIndex.row());
+        _dbConnectionsManager->activeSession()->removeEntity(curEntity);
         endRemoveRows();
     }
 }

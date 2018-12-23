@@ -15,7 +15,7 @@ class MySQLConnection : public Connection
 public:
     MySQLConnection(const ConnectionParameters & params);
 
-    virtual ~MySQLConnection();
+    virtual ~MySQLConnection() override;
 
     virtual void setActive(bool active) override;
 
@@ -69,6 +69,7 @@ protected:
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() override;
 
     virtual TableEditor * createTableEditor() override;
+    virtual DataBaseEditor * createDataBaseEditor() override;
 
     virtual TableEnginesFetcher * createTableEnginesFetcher() override;
 
