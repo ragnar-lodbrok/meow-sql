@@ -9,8 +9,7 @@ namespace meow {
 namespace db {
 
 ConnectionsManager::ConnectionsManager()
-    :QObject(),
-     Entity(),
+    :Entity(),
      _connections(),
      _activeEntity(),
      _activeSession(nullptr),
@@ -33,17 +32,17 @@ ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & pa
 
     SessionEntity * newSession = new SessionEntity(connection, this);
 
-    connect(newSession,
+    QObject::connect(newSession,
             &meow::db::SessionEntity::entityEdited,
             this,
             &meow::db::ConnectionsManager::onEntityEdited);
 
-    connect(newSession,
+    QObject::connect(newSession,
             &meow::db::SessionEntity::entityInserted,
             this,
             &meow::db::ConnectionsManager::onEntityInserted);
 
-    connect(newSession->connection(),
+    QObject::connect(newSession->connection(),
             &meow::db::Connection::databaseChanged,
             this,
             &meow::db::ConnectionsManager::activeDatabaseChanged);

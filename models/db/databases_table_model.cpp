@@ -8,10 +8,9 @@ namespace models {
 namespace db {
 
 DatabasesTableModel::DatabasesTableModel(
-        meow::db::SessionEntity * session,
         QObject *parent)
     :QAbstractTableModel(parent),
-     _session(session)
+     _session(nullptr)
 {
 
 }
@@ -117,6 +116,8 @@ QVariant DatabasesTableModel::data(const QModelIndex &index, int role) const
             if (childrenFetched) {
                 return helpers::formatByteSize(database->dataSize());
             }
+            break;
+
         case Columns::Items:
             return childrenFetched ? database->childCount() : QVariant();
 
@@ -125,32 +126,41 @@ QVariant DatabasesTableModel::data(const QModelIndex &index, int role) const
 
         case Columns::Tables:
             if (childrenFetched) {
-                return childCountOfType(database, meow::db::Entity::Type::Table);
+                return childCountOfType(database,
+                                        meow::db::Entity::Type::Table);
             }
+            break;
 
         case Columns::Views:
             if (childrenFetched) {
-                return childCountOfType(database, meow::db::Entity::Type::View);
+                return childCountOfType(database,
+                                        meow::db::Entity::Type::View);
             }
+            break;
 
         case Columns::Functions:
             if (childrenFetched) {
-                return childCountOfType(database, meow::db::Entity::Type::Function);
+                return childCountOfType(database,
+                                        meow::db::Entity::Type::Function);
             }
-
+            break;
         case Columns::Procedures:
             if (childrenFetched) {
-                return childCountOfType(database, meow::db::Entity::Type::Procedure);
+                return childCountOfType(database,
+                                        meow::db::Entity::Type::Procedure);
             }
-
+            break;
         case Columns::Triggers:
             if (childrenFetched) {
-                return childCountOfType(database, meow::db::Entity::Type::Trigger);
+                return childCountOfType(database,
+                                        meow::db::Entity::Type::Trigger);
             }
+            break;
 
         case Columns::Events:
             //if (childrenFetched) {
-            //    return childCountOfType(database, meow::db::Entity::Type::Event);
+            //    return childCountOfType(database,
+            //                            meow::db::Entity::Type::Event);
             //}
             return QVariant();
         default:
@@ -176,17 +186,78 @@ int DatabasesTableModel::columnWidth(int column) const
 
 void DatabasesTableModel::setSession(meow::db::SessionEntity * session)
 {
-    if (databasesCount()) {
-        beginRemoveRows(QModelIndex(), 0, databasesCount()-1);
-        endRemoveRows();
+    removeAllRows();
+
+    bool changed = _session != session;
+
+    if (_session && changed) {
+        disconnect(_session,
+                &meow::db::SessionEntity::beforeEntityRemoved,
+                this,
+                &DatabasesTableModel::beforeDatabaseRemoved);
+        disconnect(_session,
+                &meow::db::SessionEntity::enitityRemoved,
+                this,
+                &DatabasesTableModel::afterDatabaseRemoved);
     }
 
     _session = session;
 
+    if (_session && changed) {
+        connect(_session,
+                &meow::db::SessionEntity::beforeEntityRemoved,
+                this,
+                &DatabasesTableModel::beforeDatabaseRemoved);
+        connect(_session,
+                &meow::db::SessionEntity::enitityRemoved,
+                this,
+                &DatabasesTableModel::afterDatabaseRemoved);
+    }
+
+    insertAllRows();
+}
+
+void DatabasesTableModel::removeAllRows()
+{
+    if (databasesCount()) {
+        beginRemoveRows(QModelIndex(), 0, databasesCount()-1);
+        endRemoveRows();
+    }
+}
+
+void DatabasesTableModel::insertAllRows()
+{
     if (databasesCount()) {
         beginInsertRows(QModelIndex(), 0, databasesCount()-1);
         endInsertRows();
     }
+}
+
+void DatabasesTableModel::beforeDatabaseRemoved(meow::db::Entity * entity)
+{
+    if (entity->type() == meow::db::Entity::Type::Database) {
+        meow::db::DataBaseEntity * database
+            = static_cast<meow::db::DataBaseEntity *>(entity);
+        if (database->session() == _session) {
+            removeAllRows();
+        }
+    }
+}
+
+void DatabasesTableModel::afterDatabaseRemoved(meow::db::Entity * entity)
+{
+    if (entity->type() == meow::db::Entity::Type::Database) {
+        meow::db::DataBaseEntity * database
+            = static_cast<meow::db::DataBaseEntity *>(entity);
+        if (database->session() == _session) {
+            insertAllRows();
+        }
+    }
+}
+
+void DatabasesTableModel::refresh()
+{
+    setSession(_session);
 }
 
 int DatabasesTableModel::databasesCount() const

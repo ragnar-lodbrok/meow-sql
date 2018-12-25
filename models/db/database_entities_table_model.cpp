@@ -191,41 +191,68 @@ int DatabaseEntitiesTableModel::columnWidth(int column) const
 {
     switch (static_cast<Columns>(column)) {
     case Columns::Name:
-        return 180;
+        return 200;
     case Columns::Collation:
         return 140;
     case Columns::Created:
     case Columns::Updated:
-        return 130;
+        return 150;
     default:
         return 80;
     }
 }
 
-void DatabaseEntitiesTableModel::setDataBase(meow::db::DataBaseEntity * database)
+void DatabaseEntitiesTableModel::setDataBase(
+        meow::db::DataBaseEntity * database)
+{
+    removeAllRows();
+
+    bool changed = _database != database;
+
+    if (_database && changed) {
+        disconnect(_database->session(),
+                   &meow::db::SessionEntity::enitityRemoved,
+                   this,
+                   &DatabaseEntitiesTableModel::afterEntityRemoved);
+    }
+
+    _database = database;
+
+    if (_database && changed) {
+        connect(_database->session(),
+                &meow::db::SessionEntity::enitityRemoved,
+                this,
+                &DatabaseEntitiesTableModel::afterEntityRemoved);
+    }
+
+    insertAllRows();
+}
+
+void DatabaseEntitiesTableModel::removeAllRows()
 {
     if (entitiesCount()) {
         beginRemoveRows(QModelIndex(), 0, entitiesCount()-1);
         endRemoveRows();
     }
+}
 
-    _database = database;
-
-    if (_database) {
-        connect(_database->session(),
-                &meow::db::SessionEntity::beforeEntityRemoved,
-                this,
-                &DatabaseEntitiesTableModel::beforeDatabaseRemoved);
-    }
-
+void DatabaseEntitiesTableModel::insertAllRows()
+{
     if (entitiesCount()) {
         beginInsertRows(QModelIndex(), 0, entitiesCount()-1);
         endInsertRows();
     }
 }
 
-void DatabaseEntitiesTableModel::beforeDatabaseRemoved(
-        meow::db::Entity * entity)
+void DatabaseEntitiesTableModel::beforeEntityRemoved(meow::db::Entity * entity)
+{
+    Q_UNUSED(entity);
+    //if ((int)entity->type() >= (int)meow::db::Entity::Type::Table) {
+        // TODO
+    //}
+}
+
+void DatabaseEntitiesTableModel::afterEntityRemoved(meow::db::Entity * entity)
 {
     if (entity == _database) {
         setDataBase(nullptr);

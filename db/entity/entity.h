@@ -22,7 +22,7 @@ class SessionEntity;
 
 // Intent: represents any db entity like session, database, table for tree data
 // model usage. H: TDBObject
-class Entity // TODO: :public QObject
+class Entity : public QObject
 {
 public:
 
@@ -40,7 +40,7 @@ public:
     };
 
     explicit Entity(Entity * parent = nullptr);
-    virtual ~Entity() {}
+    virtual ~Entity() override;
 
     Entity * parent() const { return _parent; }
     void setParent(Entity * parent) { _parent = parent; }
@@ -69,6 +69,8 @@ public:
 
     QString createCode(bool refresh = false);
 
+    void copyDataFrom(const Entity * data);
+
 protected:
     Entity * _parent;
 private:
@@ -88,6 +90,7 @@ class EntityInDatabase : public Entity
 public:
     explicit EntityInDatabase(DataBaseEntity * parent = nullptr);
     DataBaseEntity * dataBaseEntity() const;
+    void copyDataFrom(const EntityInDatabase * data);
 };
 
 // -----------------------------------------------------------------------------

@@ -9,8 +9,7 @@ namespace meow {
 namespace db {
 
 SessionEntity::SessionEntity(ConnectionPtr connection, ConnectionsManager * parent)
-    :QObject(nullptr),
-     Entity(parent),
+    : Entity(parent),
      _connection(connection),
      _databases(),
      _databasesWereInit(false)
@@ -96,11 +95,12 @@ void SessionEntity::refreshAllEntities()
     initDatabasesListIfNeed();
 }
 
-void SessionEntity::editTableInDB(TableEntity * table, TableEntity * newData)
+void SessionEntity::editTableInDB(TableEntity * table,
+                                  TableEntity * newData)
 {
     bool changed = connection()->editTableInDB(table, newData);
     if (changed) {
-        table->copyData(newData);
+        table->copyDataFrom(newData);
         emit entityEdited(table);
     }
 }
@@ -164,18 +164,24 @@ bool SessionEntity::removeEntity(Entity * entity)
 {
     // Listening: The Agonist - Business Suits And Combat Boots
 
+    bool success = false;
+
     emit beforeEntityRemoved(entity);
     if ( (int)entity->type() >= (int)Entity::Type::Table ) {
         EntityInDatabase * entityInDb = static_cast<EntityInDatabase *>(entity);
-        return entityInDb->dataBaseEntity()->removeEntity(entityInDb);
+        success = entityInDb->dataBaseEntity()->removeEntity(entityInDb);
     } else if (entity->type() == Entity::Type::Database) {
         DataBaseEntity * database = static_cast<DataBaseEntity *>(entity);
         _databases.removeOne(database);
-        delete database;
+        success = true;
     } else {
         Q_ASSERT(0);
     }
-    return false;
+
+    emit enitityRemoved(entity);
+    entity->deleteLater();
+
+    return success;
 }
 
 } // namespace db

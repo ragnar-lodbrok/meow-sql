@@ -257,7 +257,7 @@ bool EntitiesTreeModel::canDropCurrentItem() const
 
     switch (curEntity->type()) {
         case meow::db::Entity::Type::Table: // only impl-ed
-        //case meow::db::Entity::Type::Database: // uncomment when fully done
+        case meow::db::Entity::Type::Database:
         return true;
     default:
         return false;

@@ -14,7 +14,7 @@ namespace db {
 class UserQuery;
 
 // Intent: holds active db connections
-class ConnectionsManager : public QObject, public Entity // root db entity
+class ConnectionsManager : public Entity // root db entity
 {
     Q_OBJECT
 

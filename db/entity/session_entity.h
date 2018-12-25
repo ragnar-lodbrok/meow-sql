@@ -12,7 +12,7 @@ class ConnectionsManager;
 class DataBaseEntity;
 class TableEntity;
 
-class SessionEntity : public QObject, public Entity
+class SessionEntity : public Entity
 {
     Q_OBJECT
 
@@ -49,6 +49,7 @@ public:
 
     Q_SIGNAL void entityEdited(Entity * entity);
     Q_SIGNAL void entityInserted(Entity * entity);
+    Q_SIGNAL void enitityRemoved(Entity * entity);
     Q_SIGNAL void beforeEntityRemoved(Entity * entity);
 
 private:

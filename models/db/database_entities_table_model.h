@@ -57,7 +57,11 @@ public:
 
 private:
 
-    Q_SLOT void beforeDatabaseRemoved(meow::db::Entity * entity);
+    void removeAllRows();
+    void insertAllRows();
+
+    Q_SLOT void beforeEntityRemoved(meow::db::Entity * entity);
+    Q_SLOT void afterEntityRemoved(meow::db::Entity * entity);
 
     int entitiesCount() const;
 

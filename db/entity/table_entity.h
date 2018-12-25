@@ -41,10 +41,12 @@ public:
     db::TableStructure * structure() const;
     bool hasStructure() const;
 
+    DataBaseEntity * database() const;
+
     // Returns a copy (with all internal data)
     TableEntity * deepCopy() const;
 
-    void copyData(TableEntity * data);
+    void copyDataFrom(const TableEntity * data);
 
 private:
     QString _collation;

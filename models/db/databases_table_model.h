@@ -37,8 +37,8 @@ public:
     };
 
 public:
-    DatabasesTableModel(meow::db::SessionEntity * session = nullptr, QObject *parent = nullptr);
-    virtual ~DatabasesTableModel() {}
+    DatabasesTableModel(QObject *parent = nullptr);
+    virtual ~DatabasesTableModel() override {}
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -51,6 +51,15 @@ public:
     void setSession(meow::db::SessionEntity * session);
 
 private:
+
+    Q_SLOT void beforeDatabaseRemoved(meow::db::Entity * entity);
+    Q_SLOT void afterDatabaseRemoved(meow::db::Entity * entity);
+
+    void removeAllRows();
+    void insertAllRows();
+    void refresh();
+
+
     int databasesCount() const;
     meow::db::SessionEntity * _session;
 };

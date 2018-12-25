@@ -6,6 +6,7 @@ namespace meow {
 namespace db {
 
 Entity::Entity(Entity * parent /* = nullptr */):
+    QObject(nullptr),
     _parent(parent),
     _isNew(false),
     _wasSelected(false),
@@ -13,6 +14,8 @@ Entity::Entity(Entity * parent /* = nullptr */):
 {
 
 }
+
+Entity::~Entity() {}
 
 Connection * Entity::connection() const
 {
@@ -34,6 +37,17 @@ QString Entity::createCode(bool refresh)
     return _createCodeCached.second;
 }
 
+void Entity::copyDataFrom(const Entity * data)
+{
+    this->_parent = data->_parent;
+    this->_isNew = data->_isNew;
+    this->_wasSelected = data->_wasSelected;
+    this->_created = data->_created;
+    this->_updated = data->_updated;
+    this->_createCodeCached = data->_createCodeCached;
+    // Keep up to date
+}
+
 // --------------------------------------------------------------
 
 EntityInDatabase::EntityInDatabase(DataBaseEntity * parent)
@@ -45,6 +59,12 @@ EntityInDatabase::EntityInDatabase(DataBaseEntity * parent)
 DataBaseEntity * EntityInDatabase::dataBaseEntity() const
 {
     return static_cast<DataBaseEntity *>(_parent);
+}
+
+void EntityInDatabase::copyDataFrom(const EntityInDatabase * data)
+{
+    Entity::copyDataFrom(data);
+    // Keep up to date
 }
 
 // --------------------------------------------------------------
