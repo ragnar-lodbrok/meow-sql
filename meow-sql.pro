@@ -110,6 +110,7 @@ SOURCES += main.cpp\
     ui/common/sql_syntax_highlighter.cpp \
     ui/common/table_column_default_editor.cpp \
     ui/common/table_view.cpp \
+    ui/edit_database/dialog.cpp \
     ui/main_window/central_left_db_tree.cpp \
     ui/main_window/central_left_widget.cpp \
     ui/main_window/central_right/database/central_right_database_tab.cpp \
@@ -236,6 +237,7 @@ HEADERS  +=  app/actions.h \
     ui/common/sql_syntax_highlighter.h \
     ui/common/table_column_default_editor.h \
     ui/common/table_view.h \
+    ui/edit_database/dialog.h \
     ui/main_window/central_left_db_tree.h \
     ui/main_window/central_left_widget.h \
     ui/main_window/central_right/database/central_right_database_tab.h \

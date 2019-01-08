@@ -13,7 +13,7 @@ class StartTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit StartTab(QWidget *parent = 0);
+    explicit StartTab(QWidget *parent = nullptr);
     void setForm(models::forms::ConnectionParametersForm * form);
 private:
 

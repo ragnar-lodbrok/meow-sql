@@ -33,9 +33,12 @@ public:
     meow::db::Entity * currentEntity() const;
 
     bool canDropCurrentItem() const;
+
+    bool canCreateDatabaseOnCurrentItem() const;
     bool canInsertTableOnCurrentItem() const;
 
     void createNewTable();
+    void createNewDatabase();
 
     void refreshActiveSession();
 

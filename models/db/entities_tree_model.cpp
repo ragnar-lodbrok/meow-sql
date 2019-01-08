@@ -264,6 +264,15 @@ bool EntitiesTreeModel::canDropCurrentItem() const
     };
 }
 
+bool EntitiesTreeModel::canCreateDatabaseOnCurrentItem() const
+{
+    meow::db::Entity * curEntity = _dbConnectionsManager->activeEntity();
+    if (!curEntity) {
+        return false;
+    }
+    return curEntity->type() == meow::db::Entity::Type::Session;
+}
+
 bool EntitiesTreeModel::canInsertTableOnCurrentItem() const
 {
     return isCurItemDatabaseOrLess();
@@ -272,6 +281,11 @@ bool EntitiesTreeModel::canInsertTableOnCurrentItem() const
 void EntitiesTreeModel::createNewTable()
 {
     _dbConnectionsManager->createEntity(meow::db::Entity::Type::Table);
+}
+
+void EntitiesTreeModel::createNewDatabase()
+{
+    // TODO: need?
 }
 
 void EntitiesTreeModel::refreshActiveSession()

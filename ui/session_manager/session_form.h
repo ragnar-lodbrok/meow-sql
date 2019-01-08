@@ -16,7 +16,7 @@ class SessionForm : public QWidget
 {
     Q_OBJECT
 public:
-    explicit SessionForm(QWidget *parent = 0);
+    explicit SessionForm(QWidget *parent = nullptr);
 
     void setConnectionParamsForm(models::forms::ConnectionParametersForm * form);
 private:

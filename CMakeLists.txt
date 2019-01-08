@@ -114,6 +114,7 @@ set(SOURCE_FILES
     ui/common/sql_syntax_highlighter.cpp
     ui/common/table_column_default_editor.cpp
     ui/common/table_view.cpp
+    ui/edit_database/dialog.cpp
     ui/main_window/central_bottom_widget.cpp
     ui/main_window/central_left_db_tree.cpp
     ui/main_window/central_left_widget.cpp

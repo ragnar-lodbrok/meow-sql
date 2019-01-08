@@ -4,6 +4,9 @@
 #include "app/app.h"
 #include "helpers/logger.h"
 
+// test
+#include "ui/edit_database/dialog.h"
+
 namespace meow {
 namespace ui {
 namespace main_window {
@@ -25,6 +28,11 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
     QMenu * createSubMenu = menu.addMenu( // owns result
         QIcon(":/icons/application_form_add.png"),
         tr("Create new"));
+
+    _createDatabaseAction->setEnabled(
+        treeModel->canCreateDatabaseOnCurrentItem());
+    createSubMenu->addAction(_createDatabaseAction);
+
     _createTableAction->setEnabled(treeModel->canInsertTableOnCurrentItem());
     createSubMenu->addAction(_createTableAction);
 
@@ -97,6 +105,22 @@ void DbTree::createActions()
         }
 
     });
+
+    // create database =========================================================
+
+    _createDatabaseAction = new QAction(QIcon(":/icons/database.png"),
+                                     tr("Database"), this);
+    _createDatabaseAction->setStatusTip(tr("Create a new, blank database"));
+    connect(_createDatabaseAction, &QAction::triggered, [=](bool checked){
+        Q_UNUSED(checked);
+        //auto treeModel =
+        //static_cast<models::db::EntitiesTreeModel *>(model());
+        //treeModel->createNewDatabase();
+        // test
+        meow::ui::edit_database::Dialog dialog;
+        dialog.exec();
+    });
+
 
     // create table ============================================================
     _createTableAction = new QAction(QIcon(":/icons/table.png"),

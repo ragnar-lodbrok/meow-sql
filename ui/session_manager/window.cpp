@@ -102,7 +102,8 @@ void Window::createSessionsList()
     _sessionsList->setModel(_connectionParamsModel.data());
     _leftWidgetMainLayout->addWidget(_sessionsList);
     _sessionsList->setSortingEnabled(false); // TODO
-    _sessionsList->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
+    _sessionsList->setSelectionBehavior(
+                QAbstractItemView::SelectionBehavior::SelectRows);
     _sessionsList->setSelectionMode(QAbstractItemView::SingleSelection);
     // TODO
     //proxyModel->sort(0, Qt::AscendingOrder);
@@ -199,15 +200,17 @@ bool Window::finalizeCurModifications()
 
         QString curSessionName("Unknown");
 
-        meow::models::forms::ConnectionParametersForm * curForm = _connectionParamsModel->selectedForm();
+        auto curForm = _connectionParamsModel->selectedForm();
         if (curForm) {
             curSessionName = curForm->sessionName();
         }
 
         QMessageBox msgBox;
         msgBox.setText("Save modifications?");
-        msgBox.setInformativeText(tr("Settings for \"%1\" were changed.").arg(curSessionName));
-        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+        msgBox.setInformativeText(
+            tr("Settings for \"%1\" were changed.").arg(curSessionName));
+        msgBox.setStandardButtons(
+            QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
         msgBox.setDefaultButton(QMessageBox::Yes);
         msgBox.setIcon(QMessageBox::Question);
         int ret = msgBox.exec();
