@@ -11,6 +11,8 @@ class MySQLCollationFetcher : public CollationFetcher
 public:
     MySQLCollationFetcher(Connection * connection);
     virtual QStringList run() override;
+    virtual QString fetchServerDefaultCollation() override;
+    virtual QString serverPrefferedCollation() override;
 };
 
 } // namespace db

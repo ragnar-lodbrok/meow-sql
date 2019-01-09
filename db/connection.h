@@ -73,6 +73,9 @@ public:
     QStringList quoteIdentifiers(const QStringList & identifiers) const;
 
     const QStringList collationList();
+    QString serverDefaultCollation();
+    QString serverPrefferedCollation();
+
     const QStringList tableEnginesList();
     QString defaultTableEngine();
 

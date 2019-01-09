@@ -213,7 +213,24 @@ const QStringList Connection::collationList()
     if (_collationFetcher == nullptr) {
         _collationFetcher.reset(createCollationFetcher());
     }
+
     return _collationFetcher->getList();
+}
+
+QString Connection::serverDefaultCollation()
+{
+    if (_collationFetcher == nullptr) {
+        _collationFetcher.reset(createCollationFetcher());
+    }
+    return _collationFetcher->serverDefaultCollation();
+}
+
+QString Connection::serverPrefferedCollation()
+{
+    if (_collationFetcher == nullptr) {
+        _collationFetcher.reset(createCollationFetcher());
+    }
+    return _collationFetcher->serverPrefferedCollation();
 }
 
 const QStringList Connection::tableEnginesList()
