@@ -44,6 +44,10 @@ public:
 
     void dropCurrentItem();
 
+    meow::db::ConnectionsManager * dbConnectionsManager() const {
+        return _dbConnectionsManager;
+    }
+
 private:
 
     Q_SLOT void onEntityEdited(meow::db::Entity * entity);

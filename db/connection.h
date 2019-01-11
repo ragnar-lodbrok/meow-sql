@@ -116,6 +116,8 @@ public:
     bool insertTableToDB(TableEntity * table);
     bool dropEntityInDB(EntityInDatabase * entity);
     bool dropDatabase(DataBaseEntity * database);
+    void createDatabase(const QString & name,
+                        const QString & collation = QString());
 
     Q_SIGNAL void databaseChanged(const QString & database);
 

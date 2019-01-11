@@ -300,6 +300,14 @@ bool Connection::dropDatabase(DataBaseEntity * database)
     return sharedEditor->drop(database->name());
 }
 
+void Connection::createDatabase(const QString & name,
+                                const QString & collation)
+{
+    // TODO
+    Q_UNUSED(name);
+    Q_UNUSED(collation);
+}
+
 std::shared_ptr<QueryDataEditor> Connection::queryDataEditor()
 {
     return std::make_shared<QueryDataEditor>();

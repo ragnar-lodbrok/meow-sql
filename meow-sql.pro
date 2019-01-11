@@ -93,6 +93,7 @@ SOURCES += main.cpp\
     models/delegates/table_column_type_delegate.cpp \
     models/delegates/table_index_delegate.cpp \
     models/forms/connection_parameters_form.cpp \
+    models/forms/edit_database_form.cpp \
     models/forms/table_foreign_keys_model.cpp \
     models/forms/table_indexes_model.cpp \
     models/forms/table_indexes_model_item.cpp \
@@ -219,6 +220,7 @@ HEADERS  +=  app/actions.h \
     models/delegates/table_column_type_delegate.h \
     models/delegates/table_index_delegate.h \
     models/forms/connection_parameters_form.h \
+    models/forms/edit_database_form.h \
     models/forms/table_foreign_keys_model.h \
     models/forms/table_indexes_model.h \
     models/forms/table_indexes_model_item.h \

@@ -6,6 +6,7 @@
 
 // test
 #include "ui/edit_database/dialog.h"
+#include "models/forms/edit_database_form.h"
 
 namespace meow {
 namespace ui {
@@ -113,11 +114,14 @@ void DbTree::createActions()
     _createDatabaseAction->setStatusTip(tr("Create a new, blank database"));
     connect(_createDatabaseAction, &QAction::triggered, [=](bool checked){
         Q_UNUSED(checked);
-        //auto treeModel =
-        //static_cast<models::db::EntitiesTreeModel *>(model());
+        auto treeModel =
+        static_cast<models::db::EntitiesTreeModel *>(model());
         //treeModel->createNewDatabase();
         // test
-        meow::ui::edit_database::Dialog dialog;
+        db::Connection * connection
+            = treeModel->dbConnectionsManager()->activeConnection();
+        models::forms::EditDatabaseForm form(connection);
+        meow::ui::edit_database::Dialog dialog(&form);
         dialog.exec();
     });
 
