@@ -12,6 +12,7 @@
 #include "db/entity/mysql_entity_filter.h"
 #include "mysql_query_result.h"
 #include "helpers/logger.h"
+#include "db/mysql/mysql_database_editor.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -460,7 +461,7 @@ TableEditor * MySQLConnection::createTableEditor()
 
 DataBaseEditor * MySQLConnection::createDataBaseEditor()
 {
-    return new DataBaseEditor(this);
+    return new MySQLDataBaseEditor(this);
 }
 
 TableEnginesFetcher * MySQLConnection::createTableEnginesFetcher()

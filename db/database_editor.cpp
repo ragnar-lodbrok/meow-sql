@@ -22,5 +22,16 @@ bool DataBaseEditor::drop(const QString & databaseName)
     return true;
 }
 
+void DataBaseEditor::create(const QString & name,
+                            const QString & collation)
+{
+    Q_UNUSED(collation);
+
+    const QString SQL = QString("CREATE DATABASE  %1")
+            .arg(_connection->quoteIdentifier(name));
+
+    _connection->query(SQL);
+}
+
 } // namespace db
 } // namespace meow

@@ -15,7 +15,9 @@ public:
     virtual ~DataBaseEditor();
 
     virtual bool drop(const QString & databaseName);
-    // TODO: create
+    virtual void create(const QString & name,
+                        const QString & collation = QString());
+
 protected:
     Connection * _connection;
 };

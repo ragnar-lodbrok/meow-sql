@@ -57,6 +57,7 @@ set(SOURCE_FILES
     db/entity/table_entity.cpp
     db/entity/trigger_entity.cpp
     db/entity/view_entity.cpp
+    db/mysql/mysql_database_editor.cpp
     db/exception.cpp
     db/foreign_key.cpp
     db/mysql_collation_fetcher.cpp

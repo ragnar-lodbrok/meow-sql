@@ -55,6 +55,7 @@ SOURCES += main.cpp\
     db/entity/view_entity.cpp \
     db/exception.cpp \
     db/foreign_key.cpp \
+    db/mysql/mysql_database_editor.cpp \
     db/mysql_collation_fetcher.cpp \
     db/mysql_connection.cpp \
     db/mysql_query.cpp \
@@ -178,6 +179,7 @@ HEADERS  +=  app/actions.h \
     db/entity/view_entity.h \
     db/exception.h \
     db/foreign_key.h \
+    db/mysql/mysql_database_editor.h \
     db/mysql_collation_fetcher.h \
     db/mysql_connection.h \
     db/mysql_query_data_fetcher.h \
