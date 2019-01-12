@@ -14,7 +14,7 @@ StatusBar::StatusBar(QWidget *parent) : QStatusBar(parent)
     _toggleLogButton = new QPushButton(tr("SQL Log"));
     _toggleLogButton->setCheckable(true);
     _toggleLogButton->setFlat(true);
-    _toggleLogButton->setMinimumHeight(20);
+    //_toggleLogButton->setMinimumHeight(20); // cut on win
     // TODO: style it (no radius etc)
 
     this->addPermanentWidget(_toggleLogButton);

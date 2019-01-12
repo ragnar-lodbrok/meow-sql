@@ -50,7 +50,7 @@ void Actions::createActions()
 
     // -------------------------------------------------------------------------
 
-    _logClear = new QAction(tr("Clear"));
+    _logClear = new QAction(tr("Clear"), this);
     _logClear->setStatusTip(tr("Clear query log"));
 
 }
