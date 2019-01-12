@@ -116,11 +116,10 @@ void DbTree::createActions()
         Q_UNUSED(checked);
         auto treeModel =
         static_cast<models::db::EntitiesTreeModel *>(model());
-        //treeModel->createNewDatabase();
-        // test
-        db::Connection * connection
-            = treeModel->dbConnectionsManager()->activeConnection();
-        models::forms::EditDatabaseForm form(connection);
+
+        db::SessionEntity * session
+            = treeModel->dbConnectionsManager()->activeSession();
+        models::forms::EditDatabaseForm form(session);
         meow::ui::edit_database::Dialog dialog(&form);
         dialog.exec();
     });

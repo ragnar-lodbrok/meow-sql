@@ -77,6 +77,18 @@ QStringList meow::db::ConnectionParameters::databaseList() const
     return list;
 }
 
+void meow::db::ConnectionParameters::addDatabase(const QString & name,
+                                                 bool ignoreIfAll)
+{
+    if (ignoreIfAll && isAllDatabases()) {
+        return;
+    }
+    if (!_databases.isEmpty()) {
+        _databases.append(databasesSeparator);
+    }
+
+    _databases.append(name);
+}
 
 namespace meow {
 namespace db {

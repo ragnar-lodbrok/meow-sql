@@ -38,7 +38,6 @@ public:
     bool canInsertTableOnCurrentItem() const;
 
     void createNewTable();
-    void createNewDatabase();
 
     void refreshActiveSession();
 

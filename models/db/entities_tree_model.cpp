@@ -233,7 +233,17 @@ void EntitiesTreeModel::onEntityInserted(meow::db::Entity * entity)
     if (entity->type() == meow::db::Entity::Type::Session) {
         // TODO
     } else if (entity->type() == meow::db::Entity::Type::Database) {
-        // TODO
+        meow::db::DataBaseEntity * database
+            = static_cast<meow::db::DataBaseEntity *>(entity);
+        meow::db::SessionEntity * parentEntity = database->session();
+        int entityIntIndex = parentEntity->indexOf(database);
+        if (entityIntIndex == -1) return;
+        QModelIndex parentIndex = createIndex(parentEntity->row(),
+                                              0,
+                                              parentEntity);
+
+        beginInsertRows(parentIndex, entityIntIndex, entityIntIndex);
+        endInsertRows();
     } else if ( (int)entity->type() >= (int)meow::db::Entity::Type::Table ) {
         meow::db::DataBaseEntity * parentEntity
           = static_cast<meow::db::EntityInDatabase *>(entity)->dataBaseEntity();
@@ -281,11 +291,6 @@ bool EntitiesTreeModel::canInsertTableOnCurrentItem() const
 void EntitiesTreeModel::createNewTable()
 {
     _dbConnectionsManager->createEntity(meow::db::Entity::Type::Table);
-}
-
-void EntitiesTreeModel::createNewDatabase()
-{
-    // TODO: need?
 }
 
 void EntitiesTreeModel::refreshActiveSession()

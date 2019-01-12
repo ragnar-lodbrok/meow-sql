@@ -1,15 +1,15 @@
 #include "edit_database_form.h"
 
-#include "db/connection.h"
+#include "db/entity/session_entity.h"
 
 namespace meow {
 namespace models {
 namespace forms {
 
-EditDatabaseForm::EditDatabaseForm(db::Connection * connection)
-    :_connection(connection)
+EditDatabaseForm::EditDatabaseForm(db::SessionEntity * session)
+    :_session(session)
 {
-    _collation = _connection->serverPrefferedCollation();
+    _collation = _session->connection()->serverPrefferedCollation();
 }
 
 QString EditDatabaseForm::name() const
@@ -24,7 +24,7 @@ void EditDatabaseForm::setName(const QString & name)
 
 const QStringList EditDatabaseForm::collations() const
 {
-    return _connection->collationList();
+    return _session->connection()->collationList();
 }
 
 QString EditDatabaseForm::collation() const
@@ -39,7 +39,7 @@ void EditDatabaseForm::setCollation(const QString & collation)
 
 void EditDatabaseForm::save()
 {
-    _connection->createDatabase(_name, _collation);
+    _session->createDatabase(_name, _collation);
 }
 
 bool EditDatabaseForm::canSave() const

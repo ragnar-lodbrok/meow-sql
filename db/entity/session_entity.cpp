@@ -124,6 +124,26 @@ bool SessionEntity::dropDatabase(DataBaseEntity * database)
     return connection()->dropDatabase(database);
 }
 
+void SessionEntity::createDatabase(const QString & name,
+                                   const QString & collation)
+{
+    _connection->createDatabase(name, collation);
+
+    if (_connection->connectionParams()->isAllDatabases()) {
+
+        QStringList allDatabases = _connection->allDatabases(true);
+        if (allDatabases.contains(name) == false) return;
+
+        initDatabasesListIfNeed();
+        DataBaseEntity * dbEntity = new DataBaseEntity(
+                    name,
+                    const_cast<SessionEntity *>(this));
+        _databases.push_back(dbEntity);
+
+        emit entityInserted(dbEntity);
+    }
+}
+
 db::ulonglong SessionEntity::dataSize() const // override
 {
     db::ulonglong sum = 0;

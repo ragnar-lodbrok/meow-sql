@@ -36,6 +36,7 @@ public:
     QString hostName() const { return _hostName; }
     QString userName() const { return _userName; }
     QString password() const { return _password; }
+    bool isAllDatabases() const { return _databases.isEmpty(); }
     QString databases() const { return _databases; }   
     QStringList databaseList() const;
     bool isLoginPrompt() const { return _loginPrompt; }
@@ -50,6 +51,7 @@ public:
     void setUserName(const QString &userName) { _userName = userName; }
     void setPassword(const QString &password) { _password = password; }
     void setDatabases(const QString &databases) { _databases = databases; }
+    void addDatabase(const QString & name, bool ignoreIfAll = false);
     void setLoginPrompt(bool loginPrompt) { _loginPrompt = loginPrompt; }
     void setPort(quint16 port) { _port = port; }
     void setManager(ConnectionParamsManager &manager);

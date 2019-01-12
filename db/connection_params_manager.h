@@ -17,7 +17,8 @@ public:
     const ConnectionParameters& at(int index) const;
     ConnectionParameters& at(int index);
     const ConnectionParameters& createNewParams();
-    void updateAndSaveParamsAt(int index, const ConnectionParameters &connectionParams);
+    void updateAndSaveParamsAt(int index,
+                               const ConnectionParameters &connectionParams);
     void removeParamsAndSave(const ConnectionParameters &params);
     bool renameParamsAndSave(
         ConnectionParameters &params,

@@ -6,7 +6,7 @@
 namespace meow {
 
 namespace db {
-   class Connection;
+   class SessionEntity;
 }
 
 namespace models {
@@ -15,7 +15,7 @@ namespace forms {
 class EditDatabaseForm
 {
 public:
-    EditDatabaseForm(meow::db::Connection * connection);
+    EditDatabaseForm(meow::db::SessionEntity * session);
 
     QString name() const;
     void setName(const QString & name);
@@ -30,7 +30,7 @@ public:
     void save();
 
 private:
-    meow::db::Connection * _connection;
+    meow::db::SessionEntity * _session;
 
     QString _name;
     QString _collation;

@@ -17,7 +17,8 @@ class SessionEntity : public Entity
     Q_OBJECT
 
 public:
-    explicit SessionEntity(ConnectionPtr connection, ConnectionsManager * parent);
+    SessionEntity(ConnectionPtr connection,
+                  ConnectionsManager * parent);
     virtual ~SessionEntity() override;
 
     virtual QString name() const override;
@@ -38,6 +39,8 @@ public:
 
     bool dropEntityInDB(EntityInDatabase * entity);
     bool dropDatabase(DataBaseEntity * database);
+    void createDatabase(const QString & name,
+                        const QString & collation = QString());
 
     bool removeEntity(Entity * entity);
 

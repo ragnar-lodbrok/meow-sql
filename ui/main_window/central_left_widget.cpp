@@ -64,7 +64,7 @@ void CentralLeftWidget::selectedDbEntityChanged(
         try {
             _dbEntitiesTreeModel->onSelectEntityAt(index);
         } catch(meow::db::Exception & ex) {
-            meowLogC(Log::Category::Error) << "Tree error: " << ex.message();
+            meowLogDebug() << "Tree error: " << ex.message();
             QMessageBox msgBox;
             msgBox.setText(ex.message());
             msgBox.setStandardButtons(QMessageBox::Ok);

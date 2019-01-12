@@ -119,6 +119,7 @@ public:
     void createDatabase(const QString & name,
                         const QString & collation = QString());
 
+    // TODO: rename to activeDatabaseChanged
     Q_SIGNAL void databaseChanged(const QString & database);
 
 
