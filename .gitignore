@@ -38,3 +38,5 @@ Makefile*
 # QtCtreator CMake
 CMakeLists.txt.user*
 
+# file-managers
+*.directory

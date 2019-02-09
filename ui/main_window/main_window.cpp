@@ -72,7 +72,7 @@ bool Window::openDBConnection(db::ConnectionParameters & params)
 
     } catch(meow::db::Exception & ex) {
 
-        meowLogDebug() << "Opening failed: " << ex.message();
+        //meowLogDebug() << "Opening failed: " << ex.message();
 
         showErrorMessage(ex.message());
 

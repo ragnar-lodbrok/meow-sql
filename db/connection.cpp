@@ -13,7 +13,8 @@ namespace db {
 
 Connection::Connection(const ConnectionParameters & params)
     ://QObject(nullptr),
-      _active(false),
+     _active(false),
+     _identifierQuote('`'),
      _connectionParams(params),
      _characterSet(),
      _isUnicode(false)
@@ -184,11 +185,13 @@ QString Connection::quoteIdentifier(const QString & identifier,
 
     if (alwaysQuote) {
 
-        QLatin1Char quoteChar('`');
+        QString doubleQuote;
+        doubleQuote.append(_identifierQuote);
+        doubleQuote.append(_identifierQuote);
         QString id(identifier);
-        QString quoteReplaced = id.replace(quoteChar, "``");
+        QString quoteReplaced = id.replace(_identifierQuote, doubleQuote);
         // TODO: H: diff chars for diff db types
-        return quoteChar + quoteReplaced + quoteChar;
+        return _identifierQuote + quoteReplaced + _identifierQuote;
         // TODO: replace "." with "`.`"
     } else {
         // TODO

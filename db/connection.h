@@ -131,6 +131,7 @@ protected:
     unsigned long _serverVersionInt;
     QMap<QString, EntityListForDataBase *> _databaseEntitiesCache; // db name : db's entities
     QString _database;
+    QLatin1Char _identifierQuote;
 
     void emitDatabaseChanged(const QString& newName);
 

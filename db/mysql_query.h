@@ -12,7 +12,7 @@ class MySQLQuery : public Query
 {
 public:
     MySQLQuery(Connection * connection = nullptr);
-    virtual ~MySQLQuery();
+    virtual ~MySQLQuery() override;
 
     virtual void execute(bool addResult = false) override;
 

@@ -1,19 +1,19 @@
-#ifndef DB_MYSQLCONNECTION_H
-#define DB_MYSQLCONNECTION_H
+#ifndef DB_PG_CONNECTION_H
+#define DB_PG_CONNECTION_H
 
-#include <vector>
-#include <mysql/mysql.h>
-#include "connection.h"
+#include "db/connection.h"
+#include <postgresql/libpq-fe.h>
+#include "db/entity/entity_filter.h" // TODO: PGEntityFilter
 
 namespace meow {
 namespace db {
 
-class MySQLConnection : public Connection
+class PGConnection : public Connection
 {
 public:
-    MySQLConnection(const ConnectionParameters & params);
+    PGConnection(const ConnectionParameters & params);
 
-    virtual ~MySQLConnection() override;
+    virtual ~PGConnection() override;
 
     virtual void setActive(bool active) override;
 
@@ -28,7 +28,7 @@ public:
     virtual QString fetchCharacterSet() override;
 
     virtual void setCharacterSet(const QString & characterSet) override;
-    
+
     virtual QueryResults query(
             const QString & SQL,
             bool storeResult = false) override;
@@ -72,10 +72,16 @@ protected:
     virtual TableEnginesFetcher * createTableEnginesFetcher() override;
 
 private:
-    MYSQL * _handle;
+
+    QString connectionInfo() const;
+    
+    QString escapeConnectionParam(const QString & param) const;
+
+    PGconn * _handle;
 };
 
 } // namespace db
 } // namespace meow
 
-#endif // DB_MYSQLCONNECTION_H
+
+#endif // DB_PG_CONNECTION_H

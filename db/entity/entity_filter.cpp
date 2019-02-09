@@ -12,6 +12,11 @@ EntityFilter::EntityFilter(Connection * connection)
 
 }
 
+EntityFilter::~EntityFilter()
+{
+
+}
+
 TableEntity * EntityFilter::tableByName(
         const QString & databaseName,
         const QString & tableName) const

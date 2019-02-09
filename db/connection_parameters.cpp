@@ -2,6 +2,7 @@
 #include "db/connection_parameters.h"
 #include "db/connection_params_manager.h"
 #include "db/mysql_connection.h"
+#include "db/pg/pg_connection.h"
 #include "helpers/logger.h"
 
 meow::db::ConnectionParameters::ConnectionParameters(ConnectionParamsManager * manager)
@@ -53,8 +54,19 @@ int meow::db::ConnectionParameters::index() const
 meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
 {
     switch (_networkType) {
+
     case NetworkType::MySQL_TCPIP: {
         MySQLConnection * connection = new MySQLConnection(*this);
+        if (_databases.length() > 0) {
+            connection->setAllDatabases(databaseList());
+        } else {
+            connection->setUseAllDatabases();
+        }
+        return ConnectionPtr(connection); // TODO: wrap earlier?
+    }
+
+    case NetworkType::PG_TCPIP: {
+        PGConnection * connection = new PGConnection(*this);
         if (_databases.length() > 0) {
             connection->setAllDatabases(databaseList());
         } else {
@@ -99,6 +111,10 @@ QString networkTypeName(const NetworkType & networkType, bool longFormat)
         switch (networkType) {
         case NetworkType::MySQL_TCPIP:
             return "MySQL (TCP/IP)";
+
+        case NetworkType::PG_TCPIP:
+            return QString("PostgreSQL (%1)").arg(QObject::tr("experimental"));
+
         default:
             break;
         }
@@ -106,6 +122,10 @@ QString networkTypeName(const NetworkType & networkType, bool longFormat)
         switch (networkType) {
         case NetworkType::MySQL_TCPIP:
             return "MySQL";
+
+        case NetworkType::PG_TCPIP:
+            return "PostgreSQL";
+
         default:
             break;
         }

@@ -14,6 +14,7 @@ class EntityFilter
 {
 public:
     EntityFilter(Connection * connection);
+    virtual ~EntityFilter();
     virtual QList<TableEntity *> tablesWithForeignKeySupport(
             const QString & dbName) const = 0;
     TableEntity * tableByName(

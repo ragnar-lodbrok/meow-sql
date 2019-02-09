@@ -14,6 +14,7 @@ class Connection;
 enum class NetworkType {
     MySQL_TCPIP,
     // TODO: add the rest
+    PG_TCPIP,
     COUNT
 };
 

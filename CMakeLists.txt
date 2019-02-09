@@ -58,6 +58,7 @@ set(SOURCE_FILES
     db/entity/trigger_entity.cpp
     db/entity/view_entity.cpp
     db/mysql/mysql_database_editor.cpp
+    db/pg/pg_connection.cpp
     db/exception.cpp
     db/foreign_key.cpp
     db/mysql_collation_fetcher.cpp
@@ -171,4 +172,17 @@ if (WIN32)
 
 endif()
 
-target_link_libraries(meowsql ${MEOW_MYSQL_CLIENT_LIB})
+# PG --------------------------------------------------
+# ubuntu: apt-get install libpq-dev postgresql-server-dev-all
+
+find_package(PostgreSQL REQUIRED)
+
+include_directories(meowsql ${PostgreSQL_INCLUDE_DIRS})
+
+message ("PostgreSQL_VERSION_STRING = ${PostgreSQL_VERSION_STRING}")
+
+# PG end ----------------------------------------------
+
+target_link_libraries(meowsql
+    ${MEOW_MYSQL_CLIENT_LIB}
+    ${PostgreSQL_LIBRARIES})

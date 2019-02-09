@@ -25,7 +25,7 @@ MySQLConnection::MySQLConnection(const ConnectionParameters & params)
     :Connection(params),
      _handle(nullptr)
 {
-
+    _identifierQuote = QLatin1Char('`');
 }
 
 MySQLConnection::~MySQLConnection()
