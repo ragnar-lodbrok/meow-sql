@@ -1,9 +1,10 @@
 #ifndef DB_MYSQL_QUERY_RESULT_H
 #define DB_MYSQL_QUERY_RESULT_H
 
-#include "native_query_result_interface.h"
 #include <mysql/mysql.h>
-#include <QDebug>
+#include "native_query_result_interface.h"
+
+
 namespace meow {
 namespace db {
 
@@ -25,7 +26,7 @@ private:
     MYSQL_RES * _res;
 };
 
-using MySQLQueryResultPt = std::shared_ptr<MySQLQueryResult>;
+using MySQLQueryResultPtr = std::shared_ptr<MySQLQueryResult>;
 
 } // namespace db
 } // namespace meow

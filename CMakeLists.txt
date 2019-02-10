@@ -22,11 +22,12 @@ set(CMAKE_CXX_STANDARD 11) # TODO 14 for Qt >= 5.5
 find_package(Qt5Widgets CONFIG REQUIRED)
 
 set(HEADER_FILES
-    db/collation_fetcher.h
-    db/common.h
     db/data_type/data_type_category.h
     db/data_type/mysql_data_type.h
+    db/pg/pg_query_result.h
     db/native_query_result_interface.h
+    db/collation_fetcher.h
+    db/common.h
     db/query_column.h
     ui/common/mysql_syntax.h
 )
@@ -59,6 +60,7 @@ set(SOURCE_FILES
     db/entity/view_entity.cpp
     db/mysql/mysql_database_editor.cpp
     db/pg/pg_connection.cpp
+    db/pg/pg_query.cpp
     db/exception.cpp
     db/foreign_key.cpp
     db/mysql_collation_fetcher.cpp

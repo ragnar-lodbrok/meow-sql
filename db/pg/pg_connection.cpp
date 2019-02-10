@@ -1,8 +1,11 @@
 #include "pg_connection.h"
 #include "helpers/logger.h"
+#include "pg_query_result.h"
 
 namespace meow {
 namespace db {
+
+static const int PG_SEND_QUERY_STATUS_SUCCESS = 1;
 
 PGConnection::PGConnection(const ConnectionParameters & params)
     :Connection(params),
@@ -46,6 +49,10 @@ void PGConnection::setActive(bool active)
         } else {
             _active = true;
             meowLogDebugC(this) << "Connected";
+
+            //_serverVersionString = getCell("SELECT VERSION()");
+            //_serverVersionInt = // TODO: parse
+
             setIsUnicode(true); // TODO?
             meowLogDebugC(this) << "Encoding: " << fetchCharacterSet();
 
@@ -97,8 +104,15 @@ QueryPtr PGConnection::createQuery()
 
 QStringList PGConnection::fetchDatabases()
 {
-    Q_ASSERT(false); // TODO
-    return {};
+    try {
+        return getColumn(R"(SELECT "nspname" FROM "pg_catalog"."pg_namespace""
+                         " ORDER BY "nspname")");
+    } catch(meow::db::Exception & ex) {
+        meowLogCC(Log::Category::Error, this)
+            << "Database names not available: " << ex.message();
+    }
+
+    return QStringList();
 }
 
 QString PGConnection::getLastError()
@@ -137,9 +151,72 @@ QueryResults PGConnection::query(
         const QString & SQL,
         bool storeResult)
 {
-    Q_ASSERT(false); // TODO
-    Q_UNUSED(SQL);
-    Q_UNUSED(storeResult);
+    meowLogCC(Log::Category::SQL, this) << SQL;
+
+    ping(true);
+
+    QueryResults results;
+
+    QByteArray nativeSQL;
+
+    if (isUnicode()) {
+        nativeSQL = SQL.toUtf8();
+    } else {
+        nativeSQL = SQL.toLatin1();
+    }
+
+    int sendQueryStatus = PQsendQuery(_handle, nativeSQL.constData());
+
+    if (sendQueryStatus != PG_SEND_QUERY_STATUS_SUCCESS) {
+        QString error = getLastError();
+        meowLogCC(Log::Category::Error, this) << "Query failed: " << error;
+        throw db::Exception(error);
+    }
+
+    // TODO: H: FWarningCount
+    _rowsAffected = 0;
+    _rowsFound = 0;
+
+    auto queryResult = std::make_shared<PGQueryResult>(
+                PQgetResult(_handle), _handle);
+
+    while (queryResult->nativePtr() != nullptr) {
+
+        ExecStatusType resultStatus = PQresultStatus(queryResult->nativePtr());
+
+        if (resultStatus == PGRES_TUPLES_OK) { // got data
+
+            _rowsFound += static_cast<db::ulonglong>(
+                        PQntuples(queryResult->nativePtr()));
+            if (storeResult) {
+                results << queryResult;
+            }
+
+        } else if (resultStatus == PGRES_COMMAND_OK) { // no data but ok
+
+            auto affected =
+                QString::fromUtf8( PQcmdTuples(queryResult->nativePtr()) );
+            _rowsAffected += static_cast<db::ulonglong>(affected.toInt());
+
+        } else { // something went wrong
+
+            queryResult->clearAll();
+            results.clear();
+            QString error = getLastError();
+            meowLogCC(Log::Category::Error, this) << "Query (next) failed: "
+                                                  << error;
+            throw db::Exception(error);
+        }
+
+        // next query
+        queryResult = std::make_shared<PGQueryResult>(
+                        PQgetResult(_handle), _handle);
+    }
+
+    meowLogDebugC(this) << "Query rows found/affected: " << _rowsFound
+                        << "/" << _rowsAffected;
+
+    return results;
 }
 
 QString PGConnection::escapeString(const QString & str,
@@ -168,10 +245,18 @@ QString PGConnection::escapeString(const QString & str,
 }
 
 QString PGConnection::unescapeString(const QString & str) const
-{
-    Q_ASSERT(false); // TODO
-    Q_UNUSED(str);
-    return QString();
+{ // TODO: not tested
+    QString res = str;
+
+    res.replace(QLatin1String("\\n"), QString(QChar::LineFeed));
+    res.replace(QLatin1String("\\r"), QString(QChar::CarriageReturn));
+    res.replace(QLatin1String("\\0"), QString(QChar::Null));
+    res.replace(QLatin1String("\\t"), QString(QChar::Tabulation));
+
+    res.replace(QLatin1String("\\'"), QChar('\'')); // (\') => (')
+    res.replace(QLatin1String("\\\\"), QLatin1String("\\")); // (\\) => (\)
+
+    return res;
 }
 
 void PGConnection::setDatabase(const QString & database)
@@ -224,6 +309,7 @@ QStringList PGConnection::tableRowFormats() const
 bool PGConnection::supportsForeignKeys(const TableEntity * table) const
 {
     Q_ASSERT(false); // TODO
+    Q_UNUSED(table);
     return true;
 }
 
@@ -235,8 +321,7 @@ std::unique_ptr<EntityFilter> PGConnection::entityFilter()
 
 QString PGConnection::limitOnePostfix() const
 {
-    Q_ASSERT(false); // TODO
-    return QString();
+    return "LIMIT 1";
 }
 
 DataBaseEntitiesFetcher * PGConnection::createDbEntitiesFetcher()

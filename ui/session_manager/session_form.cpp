@@ -34,7 +34,8 @@ void SessionForm::createDetailsTabs()
 
 }
 
-void SessionForm::setConnectionParamsForm(models::forms::ConnectionParametersForm * form)
+void SessionForm::setConnectionParamsForm(
+        models::forms::ConnectionParametersForm * form)
 {
     _connectionParamsForm = form;
     fillDataFromForm();

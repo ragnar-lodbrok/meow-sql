@@ -42,9 +42,9 @@ private:
     void addColumnData(MYSQL_RES * result);
 
 
-    std::vector<MySQLQueryResultPt> _resultList;
+    std::vector<MySQLQueryResultPtr> _resultList;
     MYSQL_ROW _curRow;
-    MySQLQueryResultPt _currentResult; // TODO: really need this? H: FCurrentResults
+    MySQLQueryResultPtr _currentResult; // TODO: really need this? H: FCurrentResults
     std::vector<unsigned int> _columnLengths; // FColumnLengths
     bool _columnsParsed;
 

@@ -142,6 +142,8 @@ void SettingsTab::fillDataFromForm()
         return;
     }
 
+    _networkTypeComboBox->setCurrentIndex(
+        static_cast<int>(_form->networkType()));
     _hostEdit->setText(_form->hostName());
     //_loginPromptCheckBox->setChecked(_form->isLoginPrompt());
     _userEdit->setText(_form->userName());
@@ -153,11 +155,11 @@ void SettingsTab::fillDataFromForm()
 void SettingsTab::onLoginPromptUpdate()
 {
     return; // temp
-    bool loginChecked = _loginPromptCheckBox->isChecked();
+    /*bool loginChecked = _loginPromptCheckBox->isChecked();
     _userEdit->setDisabled(loginChecked);
     _userLabel->setDisabled(loginChecked);
     _passwordEdit->setDisabled(loginChecked);
-    _passwordLabel->setDisabled(loginChecked);
+    _passwordLabel->setDisabled(loginChecked);*/
 }
 
 void SettingsTab::onShowDatabaseListAction()

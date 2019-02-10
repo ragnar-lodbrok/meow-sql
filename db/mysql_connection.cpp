@@ -189,7 +189,8 @@ bool MySQLConnection::ping(bool reconnect) // override
     meowLogDebugC(this) << "Ping";
 
     if (_handle == nullptr || mysql_ping(_handle) != 0) {
-        setActive(false); // TODO: why? H: Be sure to release some stuff before reconnecting
+        setActive(false); // TODO: why?
+                        // H: Be sure to release some stuff before reconnecting
         if (reconnect) {
             setActive(true);
         }
@@ -241,8 +242,9 @@ QueryResults MySQLConnection::query(const QString & SQL,
         queryResult = mysql_store_result(_handle);
     }
 
-    if (queryResult == nullptr && mysql_affected_rows(_handle) == (my_ulonglong)-1) {
-        // TODO: the doc stands to check mysql_error(), no mysql_affected_rows ?
+    if (queryResult == nullptr
+            && mysql_affected_rows(_handle) == (my_ulonglong)-1) {
+        // TODO: the doc stands to check mysql_error(), no mysql_affected_rows?
         QString error = getLastError();
         meowLogCC(Log::Category::Error, this) << "Query (store) failed: "
                                               << error;
@@ -271,7 +273,8 @@ QueryResults MySQLConnection::query(const QString & SQL,
         if (queryStatus == 0) {
             queryResult = mysql_store_result(_handle);
         } else if (queryStatus > 0) { // err
-            // MySQL stops executing a multi-query when an error occurs. So do we here by raising an exception.
+            // MySQL stops executing a multi-query when an error occurs.
+            // So do we here by raising an exception.
             results.clear();
             QString error = getLastError();
             meowLogCC(Log::Category::Error, this) << "Query (next) failed: "
@@ -281,7 +284,8 @@ QueryResults MySQLConnection::query(const QString & SQL,
     }
     // H:     FResultCount := Length(FLastRawResults);
 
-    meowLogDebugC(this) << "Query rows found/affected: " << _rowsFound << "/" << _rowsAffected;
+    meowLogDebugC(this) << "Query rows found/affected: " << _rowsFound
+                        << "/" << _rowsAffected;
 
     return results;
 }
@@ -366,7 +370,7 @@ void MySQLConnection::setDatabase(const QString & database) // override
     // TODO: SetObjectNamesInSelectedDB
 }
 
-db::ulonglong MySQLConnection::getRowCount(const TableEntity * table) // override
+db::ulonglong MySQLConnection::getRowCount(const TableEntity * table)
 {
     const QString SQL = "SHOW TABLE STATUS LIKE " + escapeString(table->name());
     return getCell(SQL, "Rows").toULongLong();
@@ -400,7 +404,7 @@ CollationFetcher * MySQLConnection::createCollationFetcher()
 QString MySQLConnection::getCreateCode(const Entity * entity) // override
 {
     QString typeStr;
-    int column = 1;
+    std::size_t column = 1;
 
     switch (entity->type()) {
     case Entity::Type::Table:
