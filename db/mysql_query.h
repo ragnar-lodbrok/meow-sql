@@ -30,7 +30,7 @@ public:
 private:
 
     DataTypeIndex dataTypeOfField(MYSQL_FIELD * field);
-    void throwOnInvalidColumnIndex(std::size_t index);
+    void throwOnInvalidColumnIndex(std::size_t index); // TODO: move to Query
 
     QString rowDataToString(MYSQL_ROW row,
                             std::size_t col,
@@ -45,7 +45,7 @@ private:
     std::vector<MySQLQueryResultPtr> _resultList;
     MYSQL_ROW _curRow;
     MySQLQueryResultPtr _currentResult; // TODO: really need this? H: FCurrentResults
-    std::vector<unsigned int> _columnLengths; // FColumnLengths
+    std::vector<unsigned int> _columnLengths; // FColumnLengths // TODO: move to Query
     bool _columnsParsed;
 
 

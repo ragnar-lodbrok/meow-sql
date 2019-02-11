@@ -16,11 +16,15 @@ public:
         INativeQueryResultInterface(),
         _res(res) {}
 
-    virtual ~MySQLQueryResult() {
+    virtual ~MySQLQueryResult() override {
         mysql_free_result(_res);
     }
 
-    MYSQL_RES * nativePtr() { return _res; }
+    virtual db::ulonglong rowsCount() const override {
+        return static_cast<db::ulonglong>(_res->row_count);
+    }
+
+    MYSQL_RES * nativePtr() const { return _res; }
 
 private:
     MYSQL_RES * _res;

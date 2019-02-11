@@ -26,6 +26,12 @@ public:
     virtual bool isNull(std::size_t index) override;
 
     virtual bool prepareEditing() override;
+
+private:
+    std::vector<PGQueryResultPtr> _resultList;
+    PGQueryResultPtr _currentResult;
+    db::ulonglong  _curRecNoLocal;
+    std::vector<unsigned int> _columnLengths;
 };
 
 } // namespace db

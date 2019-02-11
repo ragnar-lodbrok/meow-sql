@@ -30,7 +30,8 @@ void MySQLQuery::execute(bool addResult /*= false*/) // override
 
     MySQLQueryResultPtr lastResult = nullptr;
     if (!results.isEmpty()) {
-        lastResult = std::static_pointer_cast<MySQLQueryResult>(results.front());
+        lastResult = std::static_pointer_cast<MySQLQueryResult>(
+                        results.front());
     }
 
     if (addResult && _resultList.size() == 0) {
@@ -48,7 +49,7 @@ void MySQLQuery::execute(bool addResult /*= false*/) // override
 
     if (lastResult) {
         _resultList.push_back(lastResult);
-        _recordCount += lastResult->nativePtr()->row_count;
+        _recordCount += lastResult->rowsCount();
     }
 
     if (!addResult) {

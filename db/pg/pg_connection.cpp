@@ -1,6 +1,7 @@
 #include "pg_connection.h"
 #include "helpers/logger.h"
 #include "pg_query_result.h"
+#include "pg_query.h"
 
 namespace meow {
 namespace db {
@@ -66,7 +67,7 @@ void PGConnection::setActive(bool active)
         }
     // !active
     } else if (_handle != nullptr) {
-        PQstatus(_handle);
+        PQfinish(_handle);
         _active = false;
         _handle = nullptr;
         meowLogDebugC(this) << "Closed";
@@ -98,8 +99,7 @@ bool PGConnection::ping(bool reconnect)
 
 QueryPtr PGConnection::createQuery()
 {
-    Q_ASSERT(false); // TODO
-    return nullptr;
+    return std::make_shared<PGQuery>(this);
 }
 
 QStringList PGConnection::fetchDatabases()

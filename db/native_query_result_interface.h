@@ -3,6 +3,7 @@
 
 #include <QList>
 #include <memory>
+#include "db/common.h"
 
 namespace meow {
 namespace db {
@@ -12,6 +13,8 @@ class INativeQueryResultInterface
 {
 public:
     virtual ~INativeQueryResultInterface() {}
+
+    virtual db::ulonglong rowsCount() const = 0;
 };
 
 using QueryResultPt = std::shared_ptr<INativeQueryResultInterface>;

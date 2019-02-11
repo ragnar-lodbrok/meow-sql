@@ -3,6 +3,7 @@
 
 #include <postgresql/libpq-fe.h>
 #include "db/native_query_result_interface.h"
+#include "db/common.h"
 
 namespace meow {
 namespace db {
@@ -23,6 +24,10 @@ public:
         PQclear(_res);
     }
 
+    virtual db::ulonglong rowsCount() const override {
+        return static_cast<db::ulonglong>(PQntuples(_res));
+    }
+
     void clearAll() {
         while (_res != nullptr) {
             PQclear(_res);
@@ -30,7 +35,7 @@ public:
         }
     }
 
-    PGresult * nativePtr() { return _res; }
+    PGresult * nativePtr() const { return _res; }
 
 private:
     PGresult * _res;
