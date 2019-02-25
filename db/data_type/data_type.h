@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QMap>
+#include <memory>
 #include "data_type_category.h"
 
 namespace meow {
@@ -44,6 +45,7 @@ enum class DataTypeIndex {
     MediumText,
     LongText,
     Json,
+    Xml,
     Cidr,
     Inet,
     Macaddr,
@@ -99,7 +101,7 @@ const QString dataTypeName(DataTypeIndex typeIndex);
 
 typedef struct DataType {
 
-    DataType() : index(DataTypeIndex::None), nativeType(-1), name(), names(),
+    DataType() : index(DataTypeIndex::None), nativeType(-1), name(),
                  description(), hasLength(false), requiresLength(false),
                  hasBinary(false), hasDefault(false), loadPart(false),
                  defLengthSet(), format(),
@@ -108,7 +110,6 @@ typedef struct DataType {
     DataTypeIndex index;
     int nativeType;
     QString name;
-    QString names;
     QString description;
     bool hasLength;
     bool requiresLength;
@@ -122,6 +123,7 @@ typedef struct DataType {
 } DataType;
 
 
+using DataTypePtr = std::shared_ptr<DataType>;
 
 } // namespace db
 } // namespace meow

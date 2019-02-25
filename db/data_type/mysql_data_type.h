@@ -7,7 +7,8 @@
 namespace meow {
 namespace db {
 
-DataTypeIndex dataTypeFromMySQLDataType(const int nativeDatatype, bool isBinary)
+DataTypeIndex dataTypeFromMySQLDataType(const int nativeDatatype,
+                                        bool isBinary)
 {
     if (isBinary) {
 
