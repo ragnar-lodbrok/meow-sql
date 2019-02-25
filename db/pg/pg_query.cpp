@@ -121,6 +121,8 @@ QString PGQuery::curRowColumn(std::size_t index,
     Q_UNUSED(index);
     Q_UNUSED(ignoreErrors);
     Q_ASSERT(false);
+
+    return {};
 }
 
 bool PGQuery::isNull(std::size_t index)

@@ -179,6 +179,20 @@ endif()
 
 # PG --------------------------------------------------
 # ubuntu: apt-get install libpq-dev postgresql-server-dev-all
+# win: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads (10.7 32bit)
+
+if (WIN32)
+    # find postgres in third_party
+    set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include")
+
+    #  PostgreSQL_INCLUDE_DIR  - the path to where the PostgreSQL include files are.
+    set (PostgreSQL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include")
+
+    #  PostgreSQL_LIBRARY_DIR  - The path to where the PostgreSQL library files are.
+    set (PostgreSQL_LIBRARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/lib")
+
+endif()
+
 
 find_package(PostgreSQL REQUIRED)
 
