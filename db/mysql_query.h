@@ -29,7 +29,6 @@ public:
 
 private:
 
-    DataTypeIndex dataTypeOfField(MYSQL_FIELD * field);
     void throwOnInvalidColumnIndex(std::size_t index); // TODO: move to Query
 
     QString rowDataToString(MYSQL_ROW row,

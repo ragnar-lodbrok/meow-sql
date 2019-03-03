@@ -13,9 +13,7 @@ public:
     QueryColumn(const QString & columnName = QString())
     :name(columnName),
      orgName(columnName),
-     flags(0),
-     dataTypeIndex(DataTypeIndex::None),
-     dataTypeCategoryIndex(DataTypeCategoryIndex::Other)
+     flags(0)
     {
 
     }
@@ -23,9 +21,7 @@ public:
     QString name;
     QString orgName;
     unsigned int flags;
-    DataTypeIndex dataTypeIndex;
-    DataTypeCategoryIndex dataTypeCategoryIndex; // cache
-    // int nativeType;
+    DataTypePtr dataType;
 };
 
 

@@ -20,7 +20,23 @@ public:
 
     virtual ~ConnectionDataTypes() {}
 
+    // list of all possible types for this connection
+    // copy type and modify for your needs
     virtual const QList<DataTypePtr> & list() = 0;
+    // TODO: return list of const DataTypes
+
+    DataTypePtr createUnknownType() const {
+        DataTypePtr ptr(
+            new DataType(
+                DataTypeIndex::Unknown,
+                -1,
+                "UNKNOWN",
+                false, // hasLength
+                DataTypeCategoryIndex::None
+            )
+        );
+        return ptr;
+    }
 
 protected:
     Connection * _connection;

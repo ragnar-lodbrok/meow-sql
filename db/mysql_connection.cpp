@@ -13,6 +13,7 @@
 #include "mysql_query_result.h"
 #include "helpers/logger.h"
 #include "db/mysql/mysql_database_editor.h"
+#include "db/data_type/mysql_connection_data_types.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -476,6 +477,11 @@ TableEnginesFetcher * MySQLConnection::createTableEnginesFetcher()
 QString MySQLConnection::limitOnePostfix() const
 {
     return "LIMIT 1";
+}
+
+ConnectionDataTypes * MySQLConnection::createConnectionDataTypes()
+{
+    return new MySQLConnectionDataTypes(this);
 }
 
 } // namespace db

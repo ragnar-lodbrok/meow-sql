@@ -13,6 +13,7 @@
 #include "entity/entity_list_for_database.h"
 #include "table_structure_parser.h"
 #include "collation_fetcher.h"
+#include "db/data_type/connection_data_types.h"
 
 namespace meow {
 namespace db {
@@ -41,7 +42,8 @@ public:
 
     bool active() const { return _active; }
     ConnectionParameters * connectionParams() { return &_connectionParams; }
-    const ConnectionParameters * connectionParams() const { return &_connectionParams; }
+    const ConnectionParameters * connectionParams() const {
+        return &_connectionParams; }
     QString & characterSet() { return _characterSet; }
     bool isUnicode() const { return _isUnicode; }
     unsigned long serverVersionInt() const { return _serverVersionInt; }
@@ -56,7 +58,7 @@ public:
                     std::size_t index = 0); //H:  GetVar
     QString getCell(const QString & SQL, const QString & columnName);
     QStringList getRow(const QString & SQL);
-    QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String): TDBQuery;
+    QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String):
     QStringList allDatabases(bool refresh = false);
     void setAllDatabases(const QStringList & databases);
     void setUseAllDatabases();
@@ -119,6 +121,8 @@ public:
     void createDatabase(const QString & name,
                         const QString & collation = QString());
 
+    ConnectionDataTypes * dataTypes();
+
     // TODO: rename to activeDatabaseChanged
     Q_SIGNAL void databaseChanged(const QString & database);
 
@@ -129,7 +133,9 @@ protected:
     db::ulonglong _rowsAffected; // TODO: rm?
     QString _serverVersionString;
     unsigned long _serverVersionInt;
-    QMap<QString, EntityListForDataBase *> _databaseEntitiesCache; // db name : db's entities
+
+    // db name : db's entities
+    QMap<QString, EntityListForDataBase *> _databaseEntitiesCache;
     QString _database;
     QLatin1Char _identifierQuote;
 
@@ -140,6 +146,8 @@ protected:
     virtual DataBaseEditor * createDataBaseEditor() = 0;
     virtual CollationFetcher * createCollationFetcher() = 0;
     virtual TableEnginesFetcher * createTableEnginesFetcher() = 0;
+    virtual ConnectionDataTypes * createConnectionDataTypes() = 0;
+
 private:
     //int _connectionStarted;
     //int _serverUptime;
@@ -152,6 +160,7 @@ private:
     TableStructureParser _tableStructureParser;
     std::unique_ptr<CollationFetcher> _collationFetcher;
     std::unique_ptr<TableEnginesFetcher> _tableEnginesFetcher;
+    std::shared_ptr<ConnectionDataTypes> _dataTypes;
 };
 
 } // namespace db

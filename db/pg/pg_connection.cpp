@@ -390,5 +390,12 @@ QString PGConnection::escapeConnectionParam(const QString & param) const
     return res;
 }
 
+ConnectionDataTypes * PGConnection::createConnectionDataTypes()
+{
+    Q_ASSERT(false);
+    return nullptr;
+}
+
+
 } // namespace db
 } // namespace meow
