@@ -2,6 +2,7 @@
 #include "helpers/logger.h"
 #include "pg_query_result.h"
 #include "pg_query.h"
+#include "db/data_type/pg_connection_data_types.h"
 
 namespace meow {
 namespace db {
@@ -105,8 +106,9 @@ QueryPtr PGConnection::createQuery()
 QStringList PGConnection::fetchDatabases()
 {
     try {
-        return getColumn(R"(SELECT "nspname" FROM "pg_catalog"."pg_namespace""
-                         " ORDER BY "nspname")");
+        return getColumn(
+                    "SELECT \"nspname\" FROM \"pg_catalog\".\"pg_namespace\" "
+                    "ORDER BY \"nspname\"");
     } catch(meow::db::Exception & ex) {
         meowLogCC(Log::Category::Error, this)
             << "Database names not available: " << ex.message();
@@ -392,8 +394,7 @@ QString PGConnection::escapeConnectionParam(const QString & param) const
 
 ConnectionDataTypes * PGConnection::createConnectionDataTypes()
 {
-    Q_ASSERT(false);
-    return nullptr;
+    return new PGConnectionDataTypes(this);
 }
 
 

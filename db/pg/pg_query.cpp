@@ -1,11 +1,13 @@
 #include "pg_query.h"
 #include "db/editable_grid_data.h"
+#include "db/data_type/pg_connection_data_types.h"
 
 namespace meow {
 namespace db {
 
 PGQuery::PGQuery(Connection *connection)
-    :Query(connection)
+    :Query(connection),
+    _columnsParsed(false)
 {
 
 }
@@ -46,13 +48,14 @@ void PGQuery::execute(bool addResult)
     }
 
     if (!addResult) {
-       // clearColumnData(); // TODO
+        clearColumnData(); // TODO
         if (_resultList.empty() == false) {
             // H: FCurrentResults := LastResult;
 
-            //addColumnData(lastResult->nativePtr()); // TODO
+            addColumnData(lastResult); // TODO
 
             if (isEditing()) {
+                Q_ASSERT(false);
                 //prepareResultForEditing(lastResult->nativePtr());
                 lastResult.reset(); // we just copied all data
             }
@@ -61,6 +64,7 @@ void PGQuery::execute(bool addResult)
         }
     } else {
         if (lastResult && isEditing()) {
+            Q_ASSERT(false);
             //prepareResultForEditing(lastResult->nativePtr());
             lastResult.reset();
         }
@@ -118,19 +122,62 @@ void PGQuery::seekRecNo(db::ulonglong value)
 QString PGQuery::curRowColumn(std::size_t index,
                              bool ignoreErrors)
 {
-    Q_UNUSED(index);
-    Q_UNUSED(ignoreErrors);
-    Q_ASSERT(false);
+    if (index < columnCount()) {
 
-    return {};
+        if (isEditing()) {
+            Q_ASSERT(false);
+            //return _editableData->dataAt(_curRecNo, index);
+        }
+
+
+        return rowDataToString(_currentResult->nativePtr(),
+                               static_cast<int>(_curRecNoLocal),
+                               static_cast<int>(index),
+                               static_cast<int>(_columnLengths[index]));
+
+    } else if (!ignoreErrors) {
+        throw db::Exception(QString(
+            "Column #%1 not available. Query returned %2 columns and %3 rows.")
+            .arg(index).arg(columnCount()).arg(recordCount()
+        ));
+    }
+
+    return QString();
 }
+
+QString PGQuery::rowDataToString(PGresult * result,
+                        int row,
+                        int col,
+                        int dataLen)
+{
+    QString str;
+
+    auto typeCategory = column(col).dataType->categoryIndex;
+    if (typeCategory == DataTypeCategoryIndex::Binary
+        || typeCategory == DataTypeCategoryIndex::Spatial) {
+        str = QString::fromLatin1(
+                    PQgetvalue(result, row, col),
+                    dataLen);
+    // } else if (bool) { // TODO
+
+    } else {
+        // TODO: non-unicode support?
+        str = QString::fromUtf8(
+                    PQgetvalue(result, row, col),
+                    dataLen);
+    }
+
+    return str;
+}
+
 
 bool PGQuery::isNull(std::size_t index)
 {
     //throwOnInvalidColumnIndex(index); // TODO
 
     if (isEditing()) {
-        return _editableData->dataAt(_curRecNo, index).isNull();
+        Q_ASSERT(false);
+        //return _editableData->dataAt(_curRecNo, index).isNull();
     }
 
     return PQgetisnull(
@@ -145,6 +192,48 @@ bool PGQuery::prepareEditing()
     Q_ASSERT(false);
     return false;
 }
+
+void PGQuery::clearColumnData()
+{
+    _columns.clear();
+    _columnLengths.clear();
+    _columnIndexes.clear();
+    _columnsParsed = false;
+}
+
+void PGQuery::addColumnData(PGQueryResultPtr & result)
+{
+    if (_columnsParsed) return;
+
+    auto types = static_cast<PGConnectionDataTypes *>(
+                connection()->dataTypes());
+
+    PGresult * nativeRes = result->nativePtr();
+
+    unsigned int numFields = static_cast<unsigned int>(PQnfields(nativeRes));
+
+    _columnLengths.resize(numFields);
+    // TODO: skip columns parsing when we don't need them (e.g. sample queries)
+
+    _columns.resize(numFields);
+
+
+    for (unsigned int i=0; i < numFields; ++i) {
+        QueryColumn & column = _columns[i];
+        QString fieldName = QString(PQfname(nativeRes, i));
+        column.name = fieldName;  // TODO can we get original table name?
+        column.orgName = fieldName;
+        _columnIndexes.insert(fieldName, i);
+        // TODO PQftable ?
+        // TODO PQftablecol
+        Oid type = PQftype(nativeRes, i);
+        column.dataType = types->dataTypeFromNative(type);
+
+    }
+
+    _columnsParsed = true;
+}
+
 
 } // namespace db
 } // namespace meow

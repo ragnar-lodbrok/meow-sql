@@ -139,16 +139,21 @@ void MySQLQuery::seekRecNo(db::ulonglong value)
                 _currentResult = result; // TODO: why ?
                 MYSQL_RES * curResPtr = _currentResult->nativePtr();
                 // TODO: using unsigned with "-" is risky
-                db::ulonglong wantedLocalRecNo = curResPtr->row_count - (numRows - value);
-                // H: Do not seek if FCurrentRow points to the previous row of the wanted row
-                if (wantedLocalRecNo == 0 || (_curRecNo+1 != value) || _curRow == nullptr) {
+                db::ulonglong wantedLocalRecNo
+                        = curResPtr->row_count - (numRows - value);
+                // H: Do not seek if FCurrentRow points to the previous row
+                // of the wanted row
+                if (wantedLocalRecNo == 0
+                        || (_curRecNo+1 != value)
+                        || _curRow == nullptr) {
                     // TODO: it does not seems we need 3rd condition?
                     mysql_data_seek(curResPtr, wantedLocalRecNo);
                 }
 
                 _curRow = mysql_fetch_row(curResPtr);
 
-                // H: Remember length of column contents. Important for Col() so contents
+                // H: Remember length of column contents.
+                // Important for Col() so contents
                 // of cells with #0 chars are not cut off
                 unsigned long * lengths = mysql_fetch_lengths(curResPtr);
 
@@ -176,10 +181,10 @@ QString MySQLQuery::curRowColumn(std::size_t index, bool ignoreErrors)
         return rowDataToString(_curRow, index, _columnLengths[index]);
 
     } else if (!ignoreErrors) {
-        throw db::Exception(
-            QString("Column #%1 not available. Query returned %2 columns and %3 rows.")
-                    .arg(index).arg(columnCount()).arg(recordCount())
-        );
+        throw db::Exception(QString(
+            "Column #%1 not available. Query returned %2 columns and %3 rows.")
+            .arg(index).arg(columnCount()).arg(recordCount()
+        ));
     }
 
     return QString();

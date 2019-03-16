@@ -82,23 +82,23 @@ enum class DataTypeIndex {
     SeeNativeType
 };
 
-DataTypeCategoryIndex categoryOfDataType(DataTypeIndex type); // rm
+DataTypeCategoryIndex categoryOfDataType(DataTypeIndex type); // TODO: rm
 
 bool dataTypeCanBeUnsigned(DataTypeIndex type);
 bool dataTypeCanBeZeroFill(DataTypeIndex type);
-bool dataTypeHasLength(DataTypeIndex type); // rm
+bool dataTypeHasLength(DataTypeIndex type); // TODO: rm
 bool dataTypeLoadPartially(DataTypeIndex type);
 
-inline bool dataTypeIsNumeric(DataTypeIndex type) { // rm
+inline bool dataTypeIsNumeric(DataTypeIndex type) { // TODO: rm
     auto category = categoryOfDataType(type);
     return category == DataTypeCategoryIndex::Float
         || category == DataTypeCategoryIndex::Integer;
 }
 
-using DataTypeNamesMap = QMap<DataTypeIndex, QString>; // rm
-const DataTypeNamesMap & dataTypeNames(); // rm
+using DataTypeNamesMap = QMap<DataTypeIndex, QString>; // TODO: rm
+const DataTypeNamesMap & dataTypeNames(); // TODO: rm
 
-const QString dataTypeName(DataTypeIndex typeIndex); // rm
+const QString dataTypeName(DataTypeIndex typeIndex); // TODO: rm
 
 typedef struct DataType {
 

@@ -46,6 +46,7 @@ set(SOURCE_FILES
     db/database_editor.cpp
     db/data_type/data_type.cpp
     db/data_type/mysql_connection_data_types.cpp
+    db/data_type/pg_connection_data_types.cpp
     db/entity/database_entity.cpp
     db/entity/entities_fetcher.cpp
     db/entity/entity.cpp

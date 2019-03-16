@@ -13,6 +13,7 @@ void DataTypeComboBox::fillData()
 {
     // This is very stupid and basic, better use model
     // TODO: subtypes, colors, hints like in Heidi
+    // TODO: take from ConnectionDataTypes
     QMap<meow::db::DataTypeIndex, QString> types = meow::db::dataTypeNames();
 
     auto it = types.constBegin();
