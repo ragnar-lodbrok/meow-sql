@@ -1,6 +1,6 @@
 #include "mysql_query.h"
-#include "editable_grid_data.h"
-#include "data_type/mysql_data_type.h"
+#include "db/editable_grid_data.h"
+#include "db/data_type/mysql_data_type.h"
 #include "db/data_type/mysql_connection_data_types.h"
 
 namespace meow {

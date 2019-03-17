@@ -1,9 +1,9 @@
 #ifndef DB_MYSQLQUERY_H
 #define DB_MYSQLQUERY_H
 
-#include "query.h"
-#include "mysql_connection.h"
-#include "mysql_query_result.h"
+#include "db/query.h"
+#include "db/mysql_connection.h"
+#include "db/mysql/mysql_query_result.h"
 
 namespace meow {
 namespace db {

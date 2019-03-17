@@ -1,7 +1,7 @@
 #ifndef DB_MYSQL_ENTITIES_FETCHER_H
 #define DB_MYSQL_ENTITIES_FETCHER_H
 
-#include "entities_fetcher.h"
+#include "db/entity/entities_fetcher.h"
 
 namespace meow {
 namespace db {

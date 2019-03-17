@@ -26,6 +26,7 @@ set(HEADER_FILES
     db/data_type/data_type_category.h
     db/data_type/mysql_data_type.h
     db/data_type/pg_data_type.h
+    db/mysql/mysql_query_result.h
     db/pg/pg_query_result.h
     db/native_query_result_interface.h
     db/collation_fetcher.h
@@ -54,7 +55,6 @@ set(SOURCE_FILES
     db/entity/entity_holder.cpp
     db/entity/entity_list_for_database.cpp
     db/entity/function_entity.cpp
-    db/entity/mysql_entities_fetcher.cpp
     db/entity/mysql_entity_filter.cpp
     db/entity/procedure_entity.cpp
     db/entity/session_entity.cpp
@@ -63,6 +63,8 @@ set(SOURCE_FILES
     db/entity/trigger_entity.cpp
     db/entity/view_entity.cpp
     db/mysql/mysql_database_editor.cpp
+    db/mysql/mysql_entities_fetcher.cpp
+    db/mysql/mysql_query.cpp
     db/pg/pg_connection.cpp
     db/pg/pg_entities_fetcher.cpp
     db/pg/pg_query.cpp
@@ -70,7 +72,6 @@ set(SOURCE_FILES
     db/foreign_key.cpp
     db/mysql_collation_fetcher.cpp
     db/mysql_connection.cpp
-    db/mysql_query.cpp
     db/mysql_query_data_fetcher.cpp
     db/mysql_table_editor.cpp
     db/mysql_table_engines_fetcher.cpp
