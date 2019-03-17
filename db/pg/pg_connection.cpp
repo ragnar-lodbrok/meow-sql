@@ -3,6 +3,7 @@
 #include "pg_query_result.h"
 #include "pg_query.h"
 #include "db/data_type/pg_connection_data_types.h"
+#include "db/pg/pg_entities_fetcher.h"
 
 namespace meow {
 namespace db {
@@ -263,8 +264,25 @@ QString PGConnection::unescapeString(const QString & str) const
 
 void PGConnection::setDatabase(const QString & database)
 {
-    Q_ASSERT(false); // TODO
-    Q_UNUSED(database);
+    if (database == _database) {
+        return;
+    }
+
+    // TODO: FOnDatabaseChanged
+    // TODO: clear database
+
+    // TODO
+    // Always keep public schema in search path, so one can use procedures from it without prefixing
+    // See http://www.heidisql.com/forum.php?t=18581#p18905
+    //if Value <> 'public' then
+    //  s := s + ', ' + EscapeString('public');
+
+    query(QString("SET search_path TO ") + quoteIdentifier(database));
+    _database = database;
+    emitDatabaseChanged(database);
+
+    // TODO: DetectUSEQuery
+    // TODO: SetObjectNamesInSelectedDB
 }
 
 db::ulonglong PGConnection::getRowCount(const TableEntity * table)
@@ -281,6 +299,10 @@ QString PGConnection::applyQueryLimit(
         db::ulonglong offset)
 {
     Q_ASSERT(false); // TODO
+    Q_UNUSED(queryType);
+    Q_UNUSED(queryBody);
+    Q_UNUSED(limit);
+    Q_UNUSED(offset);
     return QString();
 }
 
@@ -299,6 +321,7 @@ CollationFetcher * PGConnection::createCollationFetcher()
 QString PGConnection::getCreateCode(const Entity * entity)
 {
     Q_ASSERT(false); // TODO
+    Q_UNUSED(entity);
     return QString();
 }
 
@@ -328,8 +351,7 @@ QString PGConnection::limitOnePostfix() const
 
 DataBaseEntitiesFetcher * PGConnection::createDbEntitiesFetcher()
 {
-    Q_ASSERT(false); // TODO
-    return nullptr;
+    return new PGEntitiesFetcher(this);
 }
 
 TableEditor * PGConnection::createTableEditor()

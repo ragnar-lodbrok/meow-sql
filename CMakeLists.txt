@@ -64,6 +64,7 @@ set(SOURCE_FILES
     db/entity/view_entity.cpp
     db/mysql/mysql_database_editor.cpp
     db/pg/pg_connection.cpp
+    db/pg/pg_entities_fetcher.cpp
     db/pg/pg_query.cpp
     db/exception.cpp
     db/foreign_key.cpp
