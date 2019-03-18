@@ -22,11 +22,17 @@ QMAKE_LFLAGS += -Wl,--no-as-needed # ?
 # (mysql_config --libs)
 unix:LIBS += -lpthread # pthread
 unix:LIBS += -lrt
-unix:LIBS += -lmysqlclient # mysql client
-win32:LIBS += -l"$$PWD\third_party\libmysql\windows\libmysql"
 unix:LIBS += -lz # zlib - compression/decompression library
 unix:LIBS += -lm # math?
 unix:LIBS += -ldl # dynamic link
+
+# MySQL
+unix:LIBS += -lmysqlclient # mysql client
+win32:LIBS += -l"$$PWD\third_party\libmysql\windows\libmysql"
+
+# PostgreSQL
+unix:LIBS += -lpq # pkg-config --libs libpq
+win32:LIBS += -l"$$PWD\third_party\libpq\windows\lib"
 
 SOURCES += main.cpp\
     app/actions.cpp \
@@ -38,6 +44,8 @@ SOURCES += main.cpp\
     db/connections_manager.cpp \
     db/database_editor.cpp \
     db/data_type/data_type.cpp \
+    db/data_type/mysql_connection_data_types.cpp \
+    db/data_type/pg_connection_data_types.cpp \
     db/entity/database_entity.cpp \
     db/entity/entities_fetcher.cpp \
     db/entity/entity.cpp \
@@ -45,7 +53,6 @@ SOURCES += main.cpp\
     db/entity/entity_holder.cpp \
     db/entity/entity_list_for_database.cpp \
     db/entity/function_entity.cpp \
-    db/entity/mysql_entities_fetcher.cpp \
     db/entity/mysql_entity_filter.cpp \
     db/entity/procedure_entity.cpp \
     db/entity/session_entity.cpp \
@@ -56,12 +63,16 @@ SOURCES += main.cpp\
     db/exception.cpp \
     db/foreign_key.cpp \
     db/mysql/mysql_database_editor.cpp \
+    db/mysql/mysql_entities_fetcher.cpp \
     db/mysql_collation_fetcher.cpp \
     db/mysql_connection.cpp \
-    db/mysql_query.cpp \
+    db/mysql/mysql_query.cpp \
     db/mysql_query_data_fetcher.cpp \
     db/mysql_table_editor.cpp \
     db/mysql_table_engines_fetcher.cpp \
+    db/pg/pg_connection.cpp \
+    db/pg/pg_entities_fetcher.cpp \
+    db/pg/pg_query.cpp \
     db/query.cpp \
     db/query_criteria.cpp \
     db/query_data.cpp \
@@ -159,9 +170,13 @@ HEADERS  +=  app/actions.h \
     db/connection_params_manager.h \
     db/connections_manager.h \
     db/database_editor.h \
+    db/data_type/connection_data_types.h \
     db/data_type/data_type_category.h \
     db/data_type/data_type.h \
+    db/data_type/mysql_connection_data_types.h \
     db/data_type/mysql_data_type.h \
+    db/data_type/pg_connection_data_types.h \
+    db/data_type/pg_data_type.h \
     db/entity/database_entity.h \
     db/entity/entities_fetcher.h \
     db/entity/entity_filter.h \
@@ -169,7 +184,7 @@ HEADERS  +=  app/actions.h \
     db/entity/entity_holder.h \
     db/entity/entity_list_for_database.h \
     db/entity/function_entity.h \
-    db/entity/mysql_entities_fetcher.h \
+    db/mysql/mysql_entities_fetcher.h \
     db/entity/mysql_entity_filter.h \
     db/entity/procedure_entity.h \
     db/entity/session_entity.h \
@@ -180,11 +195,15 @@ HEADERS  +=  app/actions.h \
     db/exception.h \
     db/foreign_key.h \
     db/mysql/mysql_database_editor.h \
-    db/mysql_collation_fetcher.h \
     db/mysql_connection.h \
+    db/mysql/mysql_query.h \
+    db/mysql/mysql_query_result.h \
+    db/pg/pg_query_result.h \
+    db/pg/pg_connection.h \
+    db/pg/pg_entities_fetcher.h \
+    db/pg/pg_query.h \
+    db/mysql_collation_fetcher.h \
     db/mysql_query_data_fetcher.h \
-    db/mysql_query.h \
-    db/mysql_query_result.h \
     db/mysql_table_editor.h \
     db/mysql_table_engines_fetcher.h \
     db/native_query_result_interface.h \
@@ -281,6 +300,9 @@ HEADERS  +=  app/actions.h \
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"
 unix:INCLUDEPATH += /usr/include/mysql
+
+win32:INCLUDEPATH += "$$PWD\third_party\libpq\windows\include"
+unix:INCLUDEPATH += /usr/include/postgresql # pkg-config --cflags libpq
 
 RESOURCES += \
     icons.qrc

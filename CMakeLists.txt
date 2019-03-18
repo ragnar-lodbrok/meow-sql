@@ -8,8 +8,8 @@ cmake_minimum_required(VERSION 3.1)
 
 project(meowsql)
 set(PROJECT_VERSION_MAJOR 0)
-set(PROJECT_VERSION_MINOR 2)
-set(PROJECT_VERSION_PATCH 1)
+set(PROJECT_VERSION_MINOR 3)
+set(PROJECT_VERSION_PATCH 0)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -202,6 +202,9 @@ find_package(PostgreSQL REQUIRED)
 include_directories(meowsql ${PostgreSQL_INCLUDE_DIRS})
 
 message ("PostgreSQL_VERSION_STRING = ${PostgreSQL_VERSION_STRING}")
+message ("PostgreSQL_INCLUDE_DIRS = ${PostgreSQL_INCLUDE_DIRS}")
+message ("PostgreSQL_LIBRARY_DIRS = ${PostgreSQL_LIBRARY_DIRS}")
+message ("PostgreSQL_LIBRARIES = ${PostgreSQL_LIBRARIES}")
 
 # PG end ----------------------------------------------
 

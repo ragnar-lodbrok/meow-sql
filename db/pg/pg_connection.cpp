@@ -237,8 +237,8 @@ QString PGConnection::escapeString(const QString & str,
     res.replace(QLatin1Char('\''), QLatin1String("\\'"));
 
     if (doQuote) {
-        // see https://www.postgresql.org/docs/9.6/ \
-        // sql-syntax-lexical.html#SQL-SYNTAX-STRINGS-ESCAPE
+        /* see https://www.postgresql.org/docs/9.6/ \
+         sql-syntax-lexical.html#SQL-SYNTAX-STRINGS-ESCAPE */
         QLatin1Char singleQuote('\'');
         QLatin1String escapeQuote("E'");
         res = escapeQuote + res + singleQuote;

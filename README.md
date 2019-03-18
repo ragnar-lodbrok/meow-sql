@@ -16,15 +16,15 @@ The app is in development stage at the moment and was never carefully tested,
 though it can be run and do some work (warning: do not use in production!!!).
 
 1. Works on Windows and Linux, in theory can be compiled on any platform with Qt5 and mysql-client support
-2. At the moment supports only MySQL database.
+2. At the moment supports MySQL and PostgreSQL (early stage).
 3. Sessions manager: managing multiple connections (warn: no password encryption!) 
 4. Connection to multiple sessions (=servers) at once (with multiple databases).
-5. Tree of db objects like databases and tables/views/striggers/functions/procedures.
-6. Table: view columns (editable), indexes (editable) and foreign keys (editable).
-7. Table: view data (basic edit).
+5. Tree of db objects like databases and tables/views/striggers/functions/procedures - (MySQL only).
+6. Table: view columns (editable), indexes (editable) and foreign keys (editable) - (MySQL only).
+7. Table: view data (basic edit) - (MySQL only).
 8. SQL: editor with simple syntax highlighting (no autocomplete).
 9. SQL: execute multiple statements at once and see results of SELECT statements 
-10. Create and drop tables
+10. Create and drop tables - (MySQL only)
 
 ## Contributing
 
@@ -51,7 +51,8 @@ Linux:
 4. libmysqlclient library, for deb-based distros: apt-get install libmysqlclient-dev
 5. (Optional) Debian: sudo apt-get install mysql-server
 6. (Optional) Install test db: https://dev.mysql.com/doc/sakila/en/
-7. As an option use Qt Creator - just open ./meow-sql.pro or ./CMakeLists.txt
+7. PostgreSQL client library libpq, for deb-based apt-get install libpq-dev postgresql-server-dev-all
+8. As an option use Qt Creator - just open ./meow-sql.pro or ./CMakeLists.txt
 
 Windows:
 
@@ -60,8 +61,9 @@ Version that worked for me is Qt 5.6.2 win32-msvc2013
 2. You would need a cpp compiler of course, I've got MS Visual Studio 2013 (Community)
 3. You should have QMake (plus I used Qt Creator) or CMake
 4. I've downloaded MySQL Connector C 6.1 (C not C++), and seems put all necessary files into third_party/
-5. As an option use Qt Creator - just open ./meow-sql.pro or ./CMakeLists.txt
-6. After build (only release worked for me), run windeployqt (or copy all libs from inslalled app)
+5. I've downloaded PostgreSQL's libpq, and seems put all necessary files into third_party/
+6. As an option use Qt Creator - just open ./meow-sql.pro or ./CMakeLists.txt
+7. After build (only release worked for me), run windeployqt (or copy all libs from inslalled app)
 
 ## License
 
