@@ -28,10 +28,20 @@ public:
     virtual bool prepareEditing() override;
 
 private:
+
+    QString rowDataToString(PGresult * result,
+                            int row,
+                            int col,
+                            int dataLen);
+
+    void clearColumnData();
+    void addColumnData(PGQueryResultPtr & result);
+
     std::vector<PGQueryResultPtr> _resultList;
     PGQueryResultPtr _currentResult;
     db::ulonglong  _curRecNoLocal;
     std::vector<unsigned int> _columnLengths;
+    bool _columnsParsed;
 };
 
 } // namespace db

@@ -2,6 +2,8 @@
 #include "helpers/logger.h"
 #include "pg_query_result.h"
 #include "pg_query.h"
+#include "db/data_type/pg_connection_data_types.h"
+#include "db/pg/pg_entities_fetcher.h"
 
 namespace meow {
 namespace db {
@@ -105,8 +107,9 @@ QueryPtr PGConnection::createQuery()
 QStringList PGConnection::fetchDatabases()
 {
     try {
-        return getColumn(R"(SELECT "nspname" FROM "pg_catalog"."pg_namespace""
-                         " ORDER BY "nspname")");
+        return getColumn(
+                    "SELECT \"nspname\" FROM \"pg_catalog\".\"pg_namespace\" "
+                    "ORDER BY \"nspname\"");
     } catch(meow::db::Exception & ex) {
         meowLogCC(Log::Category::Error, this)
             << "Database names not available: " << ex.message();
@@ -234,8 +237,8 @@ QString PGConnection::escapeString(const QString & str,
     res.replace(QLatin1Char('\''), QLatin1String("\\'"));
 
     if (doQuote) {
-        // see https://www.postgresql.org/docs/9.6/ \
-        // sql-syntax-lexical.html#SQL-SYNTAX-STRINGS-ESCAPE
+        /* see https://www.postgresql.org/docs/9.6/ \
+         sql-syntax-lexical.html#SQL-SYNTAX-STRINGS-ESCAPE */
         QLatin1Char singleQuote('\'');
         QLatin1String escapeQuote("E'");
         res = escapeQuote + res + singleQuote;
@@ -261,8 +264,25 @@ QString PGConnection::unescapeString(const QString & str) const
 
 void PGConnection::setDatabase(const QString & database)
 {
-    Q_ASSERT(false); // TODO
-    Q_UNUSED(database);
+    if (database == _database) {
+        return;
+    }
+
+    // TODO: FOnDatabaseChanged
+    // TODO: clear database
+
+    // TODO
+    // Always keep public schema in search path, so one can use procedures from it without prefixing
+    // See http://www.heidisql.com/forum.php?t=18581#p18905
+    //if Value <> 'public' then
+    //  s := s + ', ' + EscapeString('public');
+
+    query(QString("SET search_path TO ") + quoteIdentifier(database));
+    _database = database;
+    emitDatabaseChanged(database);
+
+    // TODO: DetectUSEQuery
+    // TODO: SetObjectNamesInSelectedDB
 }
 
 db::ulonglong PGConnection::getRowCount(const TableEntity * table)
@@ -279,6 +299,10 @@ QString PGConnection::applyQueryLimit(
         db::ulonglong offset)
 {
     Q_ASSERT(false); // TODO
+    Q_UNUSED(queryType);
+    Q_UNUSED(queryBody);
+    Q_UNUSED(limit);
+    Q_UNUSED(offset);
     return QString();
 }
 
@@ -297,6 +321,7 @@ CollationFetcher * PGConnection::createCollationFetcher()
 QString PGConnection::getCreateCode(const Entity * entity)
 {
     Q_ASSERT(false); // TODO
+    Q_UNUSED(entity);
     return QString();
 }
 
@@ -326,8 +351,7 @@ QString PGConnection::limitOnePostfix() const
 
 DataBaseEntitiesFetcher * PGConnection::createDbEntitiesFetcher()
 {
-    Q_ASSERT(false); // TODO
-    return nullptr;
+    return new PGEntitiesFetcher(this);
 }
 
 TableEditor * PGConnection::createTableEditor()
@@ -389,6 +413,12 @@ QString PGConnection::escapeConnectionParam(const QString & param) const
 
     return res;
 }
+
+ConnectionDataTypes * PGConnection::createConnectionDataTypes()
+{
+    return new PGConnectionDataTypes(this);
+}
+
 
 } // namespace db
 } // namespace meow

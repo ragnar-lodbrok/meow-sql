@@ -7,6 +7,7 @@
 
 meow::db::ConnectionParameters::ConnectionParameters(ConnectionParamsManager * manager)
    :_networkType(NetworkType::MySQL_TCPIP),
+    _serverType(ServerType::MySQL),
     _sessionName("Unnamed"),
     _hostName("127.0.0.1"),
     _userName("root"),
@@ -20,9 +21,26 @@ meow::db::ConnectionParameters::ConnectionParameters(ConnectionParamsManager * m
 
 }
 
+void meow::db::ConnectionParameters::setNetworkType(NetworkType networkType)
+{
+    _networkType = networkType;
+    switch (networkType) {
+    case NetworkType::MySQL_TCPIP:
+        _serverType = ServerType::MySQL;
+        break;
+    case NetworkType::PG_TCPIP:
+        _serverType = ServerType::PostgreSQL;
+        break;
+    default:
+        Q_ASSERT(false);
+        _serverType = ServerType::None;
+    }
+}
+
 bool meow::db::ConnectionParameters::operator==(const meow::db::ConnectionParameters & other)
 {
     return _networkType == other._networkType
+        && _serverType == other._serverType
         && _sessionName == other._sessionName
         && _hostName == other._hostName
         && _userName == other._userName

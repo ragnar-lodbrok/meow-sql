@@ -70,6 +70,7 @@ protected:
     virtual DataBaseEditor * createDataBaseEditor() override;
 
     virtual TableEnginesFetcher * createTableEnginesFetcher() override;
+    virtual ConnectionDataTypes * createConnectionDataTypes() override;
 
 private:
     MYSQL * _handle;

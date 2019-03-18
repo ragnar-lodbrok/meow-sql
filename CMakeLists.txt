@@ -8,8 +8,8 @@ cmake_minimum_required(VERSION 3.1)
 
 project(meowsql)
 set(PROJECT_VERSION_MAJOR 0)
-set(PROJECT_VERSION_MINOR 2)
-set(PROJECT_VERSION_PATCH 1)
+set(PROJECT_VERSION_MINOR 3)
+set(PROJECT_VERSION_PATCH 0)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -22,8 +22,11 @@ set(CMAKE_CXX_STANDARD 11) # TODO 14 for Qt >= 5.5
 find_package(Qt5Widgets CONFIG REQUIRED)
 
 set(HEADER_FILES
+    db/data_type/connection_data_types.h
     db/data_type/data_type_category.h
     db/data_type/mysql_data_type.h
+    db/data_type/pg_data_type.h
+    db/mysql/mysql_query_result.h
     db/pg/pg_query_result.h
     db/native_query_result_interface.h
     db/collation_fetcher.h
@@ -43,6 +46,8 @@ set(SOURCE_FILES
     db/connections_manager.cpp
     db/database_editor.cpp
     db/data_type/data_type.cpp
+    db/data_type/mysql_connection_data_types.cpp
+    db/data_type/pg_connection_data_types.cpp
     db/entity/database_entity.cpp
     db/entity/entities_fetcher.cpp
     db/entity/entity.cpp
@@ -50,7 +55,6 @@ set(SOURCE_FILES
     db/entity/entity_holder.cpp
     db/entity/entity_list_for_database.cpp
     db/entity/function_entity.cpp
-    db/entity/mysql_entities_fetcher.cpp
     db/entity/mysql_entity_filter.cpp
     db/entity/procedure_entity.cpp
     db/entity/session_entity.cpp
@@ -59,13 +63,15 @@ set(SOURCE_FILES
     db/entity/trigger_entity.cpp
     db/entity/view_entity.cpp
     db/mysql/mysql_database_editor.cpp
+    db/mysql/mysql_entities_fetcher.cpp
+    db/mysql/mysql_query.cpp
     db/pg/pg_connection.cpp
+    db/pg/pg_entities_fetcher.cpp
     db/pg/pg_query.cpp
     db/exception.cpp
     db/foreign_key.cpp
     db/mysql_collation_fetcher.cpp
     db/mysql_connection.cpp
-    db/mysql_query.cpp
     db/mysql_query_data_fetcher.cpp
     db/mysql_table_editor.cpp
     db/mysql_table_engines_fetcher.cpp
@@ -176,12 +182,29 @@ endif()
 
 # PG --------------------------------------------------
 # ubuntu: apt-get install libpq-dev postgresql-server-dev-all
+# win: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads (10.7 32bit)
+
+if (WIN32)
+    # find postgres in third_party
+    set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include")
+
+    #  PostgreSQL_INCLUDE_DIR  - the path to where the PostgreSQL include files are.
+    set (PostgreSQL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include")
+
+    #  PostgreSQL_LIBRARY_DIR  - The path to where the PostgreSQL library files are.
+    set (PostgreSQL_LIBRARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/lib")
+
+endif()
+
 
 find_package(PostgreSQL REQUIRED)
 
 include_directories(meowsql ${PostgreSQL_INCLUDE_DIRS})
 
 message ("PostgreSQL_VERSION_STRING = ${PostgreSQL_VERSION_STRING}")
+message ("PostgreSQL_INCLUDE_DIRS = ${PostgreSQL_INCLUDE_DIRS}")
+message ("PostgreSQL_LIBRARY_DIRS = ${PostgreSQL_LIBRARY_DIRS}")
+message ("PostgreSQL_LIBRARIES = ${PostgreSQL_LIBRARIES}")
 
 # PG end ----------------------------------------------
 

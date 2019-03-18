@@ -45,7 +45,7 @@ DataTypeCategoryIndex QueryData::columnDataTypeCategory(int index) const
 {
     db::Query * query = _queryPtr.get();
     if (query) {
-        return query->column(index).dataTypeCategoryIndex;
+        return query->column(index).dataType->categoryIndex;
     }
     return DataTypeCategoryIndex::Other;
 }
@@ -274,7 +274,7 @@ QString QueryData::whereForCurRow(bool beforeModifications) const
         if (value.isNull()) {
             whereVal = " IS NULL";
         } else {
-            switch (query()->column(i).dataTypeCategoryIndex) {
+            switch (query()->column(i).dataType->categoryIndex) {
             case DataTypeCategoryIndex::Integer:
             case DataTypeCategoryIndex::Float:
                 // TODO if bit

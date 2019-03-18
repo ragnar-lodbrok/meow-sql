@@ -4,7 +4,7 @@ namespace meow {
 namespace db {
 
 TableColumn::TableColumn()
-    :_dataType(DataTypeIndex::None),
+    :_dataTypeIndex(DataTypeIndex::None),
      _unsigned(false),
      _allowNull(false),
      _zeroFill(false),
@@ -92,7 +92,11 @@ bool TableColumn::dataDiffers(const TableColumn * other) const
     if (this == other) return false;
 
     if (_name != other->_name) return true;
-    if (_dataType != other->_dataType) return true;
+    if (_dataTypeIndex != other->_dataTypeIndex) return true; // rm
+
+    // TODO: check for nullptr
+    // TODO: compare types in ConnectionDataType
+    //if (_dataType->index != other->_dataType->index) return true;
     if (_lengthSet != other->_lengthSet) return true;
     if (_unsigned != other->_unsigned) return true;
     if (_allowNull != other->_allowNull) return true;

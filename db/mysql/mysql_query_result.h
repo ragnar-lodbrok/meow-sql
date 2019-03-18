@@ -2,7 +2,7 @@
 #define DB_MYSQL_QUERY_RESULT_H
 
 #include <mysql/mysql.h>
-#include "native_query_result_interface.h"
+#include "db/native_query_result_interface.h"
 
 
 namespace meow {

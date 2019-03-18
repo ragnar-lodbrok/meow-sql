@@ -11,11 +11,18 @@ namespace db {
 class ConnectionParamsManager;
 class Connection;
 
-enum class NetworkType {
+enum class NetworkType { // TODO: move to separate file ?
     MySQL_TCPIP,
     // TODO: add the rest
     PG_TCPIP,
     COUNT
+};
+
+enum class ServerType { // TODO: move to separate file ?
+    None,
+    MySQL,
+    PostgreSQL
+    // TODO maria etc
 };
 
 QString networkTypeName(const NetworkType & networkType, bool longFormat = true);
@@ -33,6 +40,7 @@ public:
 
     // getters
     NetworkType networkType() const { return _networkType; }
+    ServerType serverType() const { return _serverType; }
     QString sessionName() const { return _sessionName; }
     QString hostName() const { return _hostName; }
     QString userName() const { return _userName; }
@@ -46,7 +54,8 @@ public:
     unsigned id() const { return _id; }
 
     // setters
-    void setNetworkType(NetworkType networkType) { _networkType = networkType; }
+    void setNetworkType(NetworkType networkType);
+    void setServerType(ServerType serverType) { _serverType = serverType; }
     void setSessionName(const QString &sessionName) { _sessionName = sessionName; }
     void setHostName(const QString &hostName) { _hostName = hostName; }
     void setUserName(const QString &userName) { _userName = userName; }
@@ -66,6 +75,7 @@ public:
 
 private:
     NetworkType _networkType;
+    ServerType _serverType;
     QString _sessionName;
     QString _hostName;
     QString _userName;

@@ -1,13 +1,10 @@
 #include "mysql_query.h"
-#include "editable_grid_data.h"
-#include "data_type/mysql_data_type.h"
+#include "db/editable_grid_data.h"
+#include "db/data_type/mysql_data_type.h"
+#include "db/data_type/mysql_connection_data_types.h"
 
 namespace meow {
 namespace db {
-
-// To distinguish between binary and nonbinary data for string data types,
-// check whether the charsetnr value is 63.
-static const int MYSQL_BINARY_CHARSET_NUMBER = 63;
 
 MySQLQuery::MySQLQuery(Connection *connection)
     :Query(connection),
@@ -55,7 +52,8 @@ void MySQLQuery::execute(bool addResult /*= false*/) // override
     if (!addResult) {
         clearColumnData();
         if (_resultList.empty() == false) {
-            // FCurrentResults is normally done in SetRecNo, but never if result has no rows
+            // FCurrentResults is normally done in SetRecNo,
+            // but never if result has no rows
             // H: FCurrentResults := LastResult;
 
             addColumnData(lastResult->nativePtr());
@@ -87,6 +85,9 @@ void MySQLQuery::addColumnData(MYSQL_RES * result)
 {
     if (_columnsParsed) return;
 
+    auto types = static_cast<MySQLConnectionDataTypes *>(
+                connection()->dataTypes());
+
     unsigned int numFields = mysql_num_fields(result);
 
     _columnLengths.resize(numFields);
@@ -106,45 +107,10 @@ void MySQLQuery::addColumnData(MYSQL_RES * result)
             column.orgName = fieldName;
         }
         column.flags = field->flags;
-        column.dataTypeIndex = dataTypeOfField(field);
-        column.dataTypeCategoryIndex
-            = meow::db::categoryOfDataType(column.dataTypeIndex);
+        column.dataType = types->dataTypeOfField(field);
     }
 
     _columnsParsed = true;
-}
-
-
-DataTypeIndex MySQLQuery::dataTypeOfField(MYSQL_FIELD * field)
-{
-    // http://dev.mysql.com/doc/refman/5.7/en/c-api-data-structures.html
-
-    bool isStringType = field->type == FIELD_TYPE_STRING;
-
-    // ENUM and SET values are returned as strings. For these, check that
-    // the type value is MYSQL_TYPE_STRING and that the ENUM_FLAG or SET_FLAG
-    // flag is set in the flags value.
-    if (isStringType) {
-        if (field->flags & ENUM_FLAG) {
-            return DataTypeIndex::Enum;
-        } else if (field->flags & SET_FLAG) {
-            return DataTypeIndex::Set;
-        }
-    }
-
-    // To distinguish between binary and nonbinary data for string data types,
-    // check whether the charsetnr value is 63. If so, the character set is
-    // binary, which indicates binary rather than nonbinary data. This enables
-    // you to distinguish BINARY from CHAR, VARBINARY from VARCHAR, and the BLOB
-    // types from the TEXT types.
-    bool isBinary;
-    if (connection()->isUnicode()) {
-        isBinary = field->charsetnr == MYSQL_BINARY_CHARSET_NUMBER;
-    } else { // TODO: not sure we need this
-        isBinary = (field->flags & BINARY_FLAG);
-    }
-
-    return dataTypeFromMySQLDataType(field->type, isBinary);
 }
 
 
@@ -173,16 +139,21 @@ void MySQLQuery::seekRecNo(db::ulonglong value)
                 _currentResult = result; // TODO: why ?
                 MYSQL_RES * curResPtr = _currentResult->nativePtr();
                 // TODO: using unsigned with "-" is risky
-                db::ulonglong wantedLocalRecNo = curResPtr->row_count - (numRows - value);
-                // H: Do not seek if FCurrentRow points to the previous row of the wanted row
-                if (wantedLocalRecNo == 0 || (_curRecNo+1 != value) || _curRow == nullptr) {
+                db::ulonglong wantedLocalRecNo
+                        = curResPtr->row_count - (numRows - value);
+                // H: Do not seek if FCurrentRow points to the previous row
+                // of the wanted row
+                if (wantedLocalRecNo == 0
+                        || (_curRecNo+1 != value)
+                        || _curRow == nullptr) {
                     // TODO: it does not seems we need 3rd condition?
                     mysql_data_seek(curResPtr, wantedLocalRecNo);
                 }
 
                 _curRow = mysql_fetch_row(curResPtr);
 
-                // H: Remember length of column contents. Important for Col() so contents
+                // H: Remember length of column contents.
+                // Important for Col() so contents
                 // of cells with #0 chars are not cut off
                 unsigned long * lengths = mysql_fetch_lengths(curResPtr);
 
@@ -210,10 +181,10 @@ QString MySQLQuery::curRowColumn(std::size_t index, bool ignoreErrors)
         return rowDataToString(_curRow, index, _columnLengths[index]);
 
     } else if (!ignoreErrors) {
-        throw db::Exception(
-            QString("Column #%1 not available. Query returned %2 columns and %3 rows.")
-                    .arg(index).arg(columnCount()).arg(recordCount())
-        );
+        throw db::Exception(QString(
+            "Column #%1 not available. Query returned %2 columns and %3 rows.")
+            .arg(index).arg(columnCount()).arg(recordCount()
+        ));
     }
 
     return QString();
@@ -261,7 +232,7 @@ QString MySQLQuery::rowDataToString(MYSQL_ROW row,
 {
     QString result;
 
-    DataTypeCategoryIndex typeCategory = column(col).dataTypeCategoryIndex;
+    DataTypeCategoryIndex typeCategory = column(col).dataType->categoryIndex;
     if (typeCategory == DataTypeCategoryIndex::Binary
         || typeCategory == DataTypeCategoryIndex::Spatial) {
         result = QString::fromLatin1(row[col], dataLen);

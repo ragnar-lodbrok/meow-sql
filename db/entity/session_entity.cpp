@@ -2,13 +2,14 @@
 #include "db/connections_manager.h"
 #include "database_entity.h"
 #include "table_entity.h"
-#include <QIcon>
 #include "helpers/logger.h"
+#include "app/app.h"
 
 namespace meow {
 namespace db {
 
-SessionEntity::SessionEntity(ConnectionPtr connection, ConnectionsManager * parent)
+SessionEntity::SessionEntity(ConnectionPtr connection,
+                             ConnectionsManager * parent)
     : Entity(parent),
      _connection(connection),
      _databases(),
@@ -57,9 +58,9 @@ Entity * SessionEntity::child(int row) // override
 
 QVariant SessionEntity::icon() const // override
 {    
-    static const QIcon icon = QIcon(":/icons/server-mysql.png");
+    auto icons = meow::app()->settings()->icons();
+    return icons->connection(_connection->connectionParams()->serverType());
 
-    return icon;
 }
 
 int SessionEntity::indexOf(DataBaseEntity * session) const

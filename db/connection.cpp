@@ -323,5 +323,13 @@ QString Connection::limitOnePostfix() const
     return ""; // some dbs dont have it
 }
 
+ConnectionDataTypes * Connection::dataTypes()
+{
+    if (_dataTypes == nullptr) {
+        _dataTypes.reset(createConnectionDataTypes());
+    }
+    return _dataTypes.get();
+}
+
 } // namespace db
 } // namespace meow

@@ -7,15 +7,19 @@
 namespace meow {
 namespace db {
 
-DataTypeIndex dataTypeFromMySQLDataType(const int nativeDatatype, bool isBinary)
+// rm!
+DataTypeIndex dataTypeFromMySQLDataType(const int nativeDatatype,
+                                        bool isBinary)
 {
     if (isBinary) {
 
         switch (nativeDatatype) {
         case FIELD_TYPE_STRING: // char
             return DataTypeIndex::Binary;
+
         case FIELD_TYPE_VAR_STRING: // varchar
             return DataTypeIndex::Varbinary;
+
         case FIELD_TYPE_BLOB:
             return DataTypeIndex::Blob;
         default:

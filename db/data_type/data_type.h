@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QMap>
+#include <memory>
 #include "data_type_category.h"
 
 namespace meow {
@@ -44,6 +45,7 @@ enum class DataTypeIndex {
     MediumText,
     LongText,
     Json,
+    Xml,
     Cidr,
     Inet,
     Macaddr,
@@ -76,52 +78,83 @@ enum class DataTypeIndex {
     Multipoint,
     Multilinestring,
     Multipolygon,
-    Geometrycollection
+    Geometrycollection,
+    SeeNativeType
 };
 
-DataTypeCategoryIndex categoryOfDataType(DataTypeIndex type);
+DataTypeCategoryIndex categoryOfDataType(DataTypeIndex type); // TODO: rm
 
 bool dataTypeCanBeUnsigned(DataTypeIndex type);
 bool dataTypeCanBeZeroFill(DataTypeIndex type);
-bool dataTypeHasLength(DataTypeIndex type);
+bool dataTypeHasLength(DataTypeIndex type); // TODO: rm
 bool dataTypeLoadPartially(DataTypeIndex type);
 
-inline bool dataTypeIsNumeric(DataTypeIndex type) {
+inline bool dataTypeIsNumeric(DataTypeIndex type) { // TODO: rm
     auto category = categoryOfDataType(type);
     return category == DataTypeCategoryIndex::Float
         || category == DataTypeCategoryIndex::Integer;
 }
 
-using DataTypeNamesMap = QMap<DataTypeIndex, QString>;
-const DataTypeNamesMap & dataTypeNames();
+using DataTypeNamesMap = QMap<DataTypeIndex, QString>; // TODO: rm
+const DataTypeNamesMap & dataTypeNames(); // TODO: rm
 
-const QString dataTypeName(DataTypeIndex typeIndex);
+const QString dataTypeName(DataTypeIndex typeIndex); // TODO: rm
 
 typedef struct DataType {
 
-    DataType() : index(DataTypeIndex::None), nativeType(-1), name(), names(),
-                 description(), hasLength(false), requiresLength(false),
-                 hasBinary(false), hasDefault(false), loadPart(false),
-                 defLengthSet(), format(),
+    DataType() : index(DataTypeIndex::None),
+                 nativeType(-1),
+                 name(),
+                 //description(),
+                 hasLength(false),
+                 requiresLength(false),
+                 hasBinary(false),
+                 isBinary(false),
+                 //hasDefault(false),
+                 //loadPart(false),
+                 //defLengthSet(),
+                 //format(),
                  categoryIndex(DataTypeCategoryIndex::None) { }
+
+    DataType(
+            DataTypeIndex index_,
+            int nativeType_,
+            const QString & name_,
+            bool hasLength_,
+            DataTypeCategoryIndex _category
+    ) : index(index_),
+        nativeType(nativeType_),
+        name(name_),
+        //description(),
+        hasLength(hasLength_),
+        requiresLength(false),
+        hasBinary(false),
+        isBinary(false),
+        //hasDefault(false),
+        //loadPart(false),
+        //defLengthSet(),
+        //format(),
+        categoryIndex(_category) { }
 
     DataTypeIndex index;
     int nativeType;
     QString name;
-    QString names;
-    QString description;
+    //QString description;
     bool hasLength;
     bool requiresLength;
     bool hasBinary;
-    bool hasDefault;
-    bool loadPart;
-    QString defLengthSet;
-    QString format;
+    bool isBinary;
+    //bool hasDefault;
+    //bool loadPart;
+    //QString defLengthSet;
+    //QString format;
     DataTypeCategoryIndex categoryIndex;
 
 } DataType;
 
 
+using DataTypePtr = std::shared_ptr<DataType>;
+using DataTypePtrConst = std::shared_ptr<const DataType>;
 
 } // namespace db
 } // namespace meow

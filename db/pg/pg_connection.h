@@ -71,6 +71,8 @@ protected:
 
     virtual TableEnginesFetcher * createTableEnginesFetcher() override;
 
+    virtual ConnectionDataTypes * createConnectionDataTypes() override;
+
 private:
 
     QString connectionInfo() const;
