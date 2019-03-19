@@ -32,7 +32,7 @@ win32:LIBS += -l"$$PWD\third_party\libmysql\windows\libmysql"
 
 # PostgreSQL
 unix:LIBS += -lpq # pkg-config --libs libpq
-win32:LIBS += -l"$$PWD\third_party\libpq\windows\lib"
+win32:LIBS += -l"$$PWD\third_party\libpq\windows\lib\libpq"
 
 SOURCES += main.cpp\
     app/actions.cpp \

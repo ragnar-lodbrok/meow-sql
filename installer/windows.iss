@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "MeowSQL"
-#define MyAppVersion "0.2.1"
+#define MyAppVersion "0.3.0"
 #define MyAppPublisher "Ragnar Lodbrok"
 #define MyAppURL "https://github.com/ragnar-lodbrok/meow-sql"
 #define MyAppExeName "meow-sql.exe"
@@ -76,6 +76,10 @@ Source: "{#SourceDir}\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversio
 ; VC 2013 runtime
 Source: "{#SourceDir}\msvcp120.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\msvcr120.dll"; DestDir: "{app}"; Flags: ignoreversion
+; PostgreSQL
+Source: "{#SourceDir}\libpq.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;
 Source: "{#SourceDir}\gpl.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\license.txt"; DestDir: "{app}"; Flags: ignoreversion

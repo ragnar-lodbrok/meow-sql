@@ -61,7 +61,8 @@ Version that worked for me is Qt 5.6.2 win32-msvc2013
 2. You would need a cpp compiler of course, I've got MS Visual Studio 2013 (Community)
 3. You should have QMake (plus I used Qt Creator) or CMake
 4. I've downloaded MySQL Connector C 6.1 (C not C++), and seems put all necessary files into third_party/
-5. I've downloaded PostgreSQL's libpq, and seems put all necessary files into third_party/
+5. I've downloaded PostgreSQL's libpq, and seems put all necessary files into third_party/ 
+(Note: seems CMAKE still looks into C:/Program Files, so try to download and install PG 10.7 32bits here https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 6. As an option use Qt Creator - just open ./meow-sql.pro or ./CMakeLists.txt
 7. After build (only release worked for me), run windeployqt (or copy all libs from inslalled app)
 
