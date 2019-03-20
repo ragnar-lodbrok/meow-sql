@@ -80,6 +80,8 @@ Source: "{#SourceDir}\msvcr120.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\libpq.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 ;
 Source: "{#SourceDir}\gpl.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\license.txt"; DestDir: "{app}"; Flags: ignoreversion
