@@ -122,6 +122,7 @@ void PGQuery::seekRecNo(db::ulonglong value)
 QString PGQuery::curRowColumn(std::size_t index,
                              bool ignoreErrors)
 {
+    // TODO: hide this check for release builds?
     if (index < columnCount()) {
 
         if (isEditing()) {

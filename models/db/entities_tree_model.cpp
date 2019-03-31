@@ -179,7 +179,7 @@ void EntitiesTreeModel::onSelectEntityAt(const QModelIndex &index)
         return;
     }
 
-    meowLogDebug() << "Tree: selected item" << selectedEntity->name();
+    meowLogDebug() << "Tree: selected item " << selectedEntity->name();
 
     selectedEntity->setWasSelected(true);
     _dbConnectionsManager->setActiveEntity(selectedEntity);

@@ -137,10 +137,10 @@ typedef struct DataType {
         categoryIndex(_category) { }
 
     DataTypeIndex index;
-    int nativeType;
+    int nativeType; // TODO: unsigned for PG compat?
     QString name;
     //QString description;
-    bool hasLength;
+    bool hasLength; // TODO: rename to hasVariableLength?
     bool requiresLength;
     bool hasBinary;
     bool isBinary;

@@ -43,6 +43,13 @@ public:
 private:
 
     void fillListManually();
+    QList<DataTypePtr> selectListFromDB() const;
+
+    void fillMapFromList();
+
+    DataTypeCategoryIndex category(const char category, Oid type) const;
+
+    bool isIntegerBasicType(Oid type) const;
 
     bool _init;
     QList<DataTypePtr> _list; // to be sorted
