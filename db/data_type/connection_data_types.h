@@ -32,7 +32,7 @@ public:
                 -1,
                 "UNKNOWN",
                 false, // hasLength
-                DataTypeCategoryIndex::None
+                DataTypeCategoryIndex::Other
             )
         );
         return ptr;

@@ -6,7 +6,7 @@ namespace meow {
 namespace db {
 
 enum class DataTypeCategoryIndex {
-    None,
+    None, // TODO: replace with Other?
     Integer,
     Float,// H: Real
     Text,

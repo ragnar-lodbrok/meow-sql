@@ -7,6 +7,27 @@
 namespace meow {
 namespace db {
 
+enum class PGDataTypeNativeCategory : char
+{
+    // see https://www.postgresql.org/docs/11/catalog-pg-type.html
+    Array = 'A',
+    Boolean = 'B',
+    Composite = 'C',
+    DateTime = 'D',
+    Enum = 'E',
+    Geometric = 'G',
+    NetworkAddress = 'I',
+    Numeric = 'N',
+    Pseudo = 'P',
+    Range = 'R',
+    String = 'S',
+    Timespan = 'T',
+    UserDefined = 'U',
+    BitString = 'V',
+    Unknown = 'X'
+    // All other ASCII characters are reserved for user-defined categories.
+};
+
 class PGConnection;
 
 class PGConnectionDataTypes : public ConnectionDataTypes
@@ -20,6 +41,8 @@ public:
     DataTypePtr dataTypeFromNative(const Oid nativeDatatype);
 
 private:
+
+    void fillListManually();
 
     bool _init;
     QList<DataTypePtr> _list; // to be sorted

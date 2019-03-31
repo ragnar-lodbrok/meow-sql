@@ -10,6 +10,7 @@
 namespace meow {
 namespace db {
 
+// TODO: rm?
 DataTypeIndex dataTypeFromPGDataType(const Oid nativeDataType)
 {
 
