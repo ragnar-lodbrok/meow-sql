@@ -29,8 +29,10 @@ const QList<DataTypePtr> & PGConnectionDataTypes::list()
 
         try {
             auto list = selectListFromDB();
-            _list = list;
-            fillMapFromList();
+            if (!list.isEmpty()) {
+                _list = list;
+                fillMapFromList();
+            }
         } catch(meow::db::Exception & ex) {
             meowLogC(Log::Category::Error)
                     << "Failed to select types from db: " << ex.message();
@@ -56,9 +58,8 @@ DataTypePtr PGConnectionDataTypes::dataTypeFromNative(const Oid nativeDatatype)
     return createUnknownType();
 }
 
-void PGConnectionDataTypes::fillMapFromList()
+void PGConnectionDataTypes::fillMapFromList() // speed up search
 {
-    // speed up search
     _map.clear();
 
     for (DataTypePtr & dataTypeIt : _list) {

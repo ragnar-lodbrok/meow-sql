@@ -132,7 +132,7 @@ protected:
     db::ulonglong _rowsFound; // TODO: rm?
     db::ulonglong _rowsAffected; // TODO: rm?
     QString _serverVersionString;
-    unsigned long _serverVersionInt;
+    int _serverVersionInt;
 
     // db name : db's entities
     QMap<QString, EntityListForDataBase *> _databaseEntitiesCache;

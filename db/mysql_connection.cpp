@@ -132,7 +132,8 @@ void MySQLConnection::setActive(bool active) // override
 
         // H: show status
         _serverVersionString = QString(mysql_get_server_info(_handle));
-        _serverVersionInt = mysql_get_server_version(_handle);
+        _serverVersionInt = static_cast<int>(
+            mysql_get_server_version(_handle));
 
         // H: set database
 

@@ -53,10 +53,11 @@ void PGConnection::setActive(bool active)
             _active = true;
             meowLogDebugC(this) << "Connected";
 
-            //_serverVersionString = getCell("SELECT VERSION()");
-            //_serverVersionInt = // TODO: parse
+            _serverVersionString = getCell("SELECT VERSION()");
+            _serverVersionInt = PQserverVersion(_handle);
 
-            setIsUnicode(true); // TODO?
+            setIsUnicode(true);
+            setCharacterSet("UTF8");
             meowLogDebugC(this) << "Encoding: " << fetchCharacterSet();
 
             // H:
@@ -145,9 +146,11 @@ QString PGConnection::fetchCharacterSet()
 
 void PGConnection::setCharacterSet(const QString & characterSet)
 {
-    Q_ASSERT(false);
-    Q_UNUSED(characterSet);
-    // TODO PQsetClientEncoding
+    QByteArray charSetBytes = characterSet.toUtf8();
+    int result = PQsetClientEncoding(_handle, charSetBytes.constData());
+    if (result == -1) {
+        meowLogDebugC(this) << "Fail to set encding: " << characterSet;
+    }
 }
 
 QueryResults PGConnection::query(
@@ -298,12 +301,13 @@ QString PGConnection::applyQueryLimit(
         db::ulonglong limit,
         db::ulonglong offset)
 {
-    Q_ASSERT(false); // TODO
-    Q_UNUSED(queryType);
-    Q_UNUSED(queryBody);
-    Q_UNUSED(limit);
-    Q_UNUSED(offset);
-    return QString();
+    QString res = queryType + " " + queryBody
+        + " LIMIT " + QString::number(limit);
+    if (offset > 0) {
+        res += " OFFSET " + QString::number(offset);
+    }
+
+    return res;
 }
 
 QueryDataFetcher * PGConnection::createQueryDataFetcher()
@@ -335,7 +339,7 @@ bool PGConnection::supportsForeignKeys(const TableEntity * table) const
 {
     Q_ASSERT(false); // TODO
     Q_UNUSED(table);
-    return true;
+    return false;
 }
 
 std::unique_ptr<EntityFilter> PGConnection::entityFilter()
