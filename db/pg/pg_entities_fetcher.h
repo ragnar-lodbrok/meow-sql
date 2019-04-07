@@ -15,6 +15,11 @@ public:
 
     virtual void run(const QString & dbName,
              EntityListForDataBase * toList) override;
+private:
+    void fetchTablesViews(const QString & dbName,
+                          EntityListForDataBase * toList);
+
+    inline QString qu(const char * identifier) const;
 };
 
 } // namespace db

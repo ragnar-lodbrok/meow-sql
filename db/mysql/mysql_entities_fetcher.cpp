@@ -54,6 +54,7 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
             return;
         }
     } else {
+        Q_ASSERT(false);
         meowLogDebug() << "Not implemented";
     }
 

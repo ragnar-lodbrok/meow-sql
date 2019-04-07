@@ -126,6 +126,7 @@ public:
     // TODO: rename to activeDatabaseChanged
     Q_SIGNAL void databaseChanged(const QString & database);
 
+    QLatin1Char getIdentQuote() const { return _identifierQuote; }
 
 protected:
     bool _active;

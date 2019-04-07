@@ -16,7 +16,7 @@ public:
     virtual ~DataBaseEntitiesFetcher() {}
     virtual void run(const QString & dbName,
              EntityListForDataBase * toList) = 0;
-protected:
+protected:  
     Connection * _connection;
 };
 
