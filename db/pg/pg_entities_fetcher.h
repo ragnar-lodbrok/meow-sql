@@ -14,10 +14,13 @@ public:
     PGEntitiesFetcher(PGConnection * connection);
 
     virtual void run(const QString & dbName,
-             EntityListForDataBase * toList) override;
+                     EntityListForDataBase * toList) override;
 private:
     void fetchTablesViews(const QString & dbName,
                           EntityListForDataBase * toList);
+
+    void fetchStoredFunctions(const QString & dbName,
+                              EntityListForDataBase * toList);
 
     inline QString qu(const char * identifier) const;
 };
