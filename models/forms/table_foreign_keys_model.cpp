@@ -2,8 +2,8 @@
 #include "table_info_form.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/entity_filter.h"
+#include "db/connection.h"
 #include <QIcon>
-#include <QDebug>
 
 namespace meow {
 namespace models {

@@ -1,6 +1,6 @@
 #include "table_structure_parser.h"
 #include "db/entity/table_entity.h"
-#include <QDebug>
+#include "db/connection.h"
 #include <algorithm>
 
 namespace meow {

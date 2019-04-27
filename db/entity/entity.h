@@ -1,10 +1,12 @@
 #ifndef DB_ENTITY_H
 #define DB_ENTITY_H
 
-#include "db/connection.h"
+//#include "db/connection.h"
 #include <QString>
 #include <QVariant>
 #include <QDateTime>
+
+#include "db/common.h"
 
 // see http://doc.qt.io/qt-5/qtwidgets-itemviews-simpletreemodel-example.html,
 // TreeItem class
@@ -19,6 +21,7 @@ namespace meow {
 namespace db {
 
 class SessionEntity;
+class Connection;
 
 // Intent: represents any db entity like session, database, table for tree data
 // model usage. H: TDBObject

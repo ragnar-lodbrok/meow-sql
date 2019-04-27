@@ -4,11 +4,12 @@
 #include "table_entity.h"
 #include "helpers/logger.h"
 #include "app/app.h"
+#include "db/connection.h"
 
 namespace meow {
 namespace db {
 
-SessionEntity::SessionEntity(ConnectionPtr connection,
+SessionEntity::SessionEntity(std::shared_ptr<Connection> connection,
                              ConnectionsManager * parent)
     : Entity(parent),
      _connection(connection),

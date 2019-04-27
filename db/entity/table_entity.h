@@ -3,6 +3,7 @@
 
 #include "entity.h"
 #include "db/table_structure.h"
+#include "db/connection.h"
 
 namespace meow {
 namespace db {

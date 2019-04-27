@@ -265,13 +265,7 @@ bool EntitiesTreeModel::canDropCurrentItem() const
         return false;
     }
 
-    switch (curEntity->type()) {
-        case meow::db::Entity::Type::Table: // only impl-ed
-        case meow::db::Entity::Type::Database:
-        return true;
-    default:
-        return false;
-    };
+    return curEntity->connection()->features()->supportsDrop(curEntity->type());
 }
 
 bool EntitiesTreeModel::canCreateDatabaseOnCurrentItem() const
@@ -280,12 +274,21 @@ bool EntitiesTreeModel::canCreateDatabaseOnCurrentItem() const
     if (!curEntity) {
         return false;
     }
-    return curEntity->type() == meow::db::Entity::Type::Session;
+    return curEntity->type() == meow::db::Entity::Type::Session
+        && curEntity->connection()->features()
+            ->supportsCreation(meow::db::Entity::Type::Database);
 }
 
 bool EntitiesTreeModel::canInsertTableOnCurrentItem() const
 {
-    return isCurItemDatabaseOrLess();
+    meow::db::Entity * curEntity = _dbConnectionsManager->activeEntity();
+    if (!curEntity) {
+        return false;
+    }
+
+    return isCurItemDatabaseOrLess()
+        && curEntity->connection()->features()
+                ->supportsCreation(meow::db::Entity::Type::Table);
 }
 
 void EntitiesTreeModel::createNewTable()

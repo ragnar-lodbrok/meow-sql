@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QFont>
 #include "app/app.h"
+#include "db/connection.h"
 
 namespace meow {
 namespace models {

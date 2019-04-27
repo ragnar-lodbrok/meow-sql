@@ -1,5 +1,5 @@
 #include "edit_database_form.h"
-
+#include "db/connection.h"
 #include "db/entity/session_entity.h"
 
 namespace meow {

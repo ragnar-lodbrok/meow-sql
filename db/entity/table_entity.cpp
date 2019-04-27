@@ -1,7 +1,7 @@
 #include "table_entity.h"
 #include "database_entity.h"
+#include "db/connection.h"
 #include <QIcon>
-#include <QDebug>
 
 namespace meow {
 namespace db {

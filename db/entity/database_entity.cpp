@@ -1,8 +1,8 @@
 #include "database_entity.h"
 #include "session_entity.h"
 #include "table_entity.h"
+#include "db/connection.h"
 #include <QIcon>
-#include <QDebug>
 
 namespace meow {
 namespace db {

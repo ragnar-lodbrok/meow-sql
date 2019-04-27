@@ -445,11 +445,6 @@ QStringList MySQLConnection::tableRowFormats() const
     return formats;
 }
 
-bool MySQLConnection::supportsForeignKeys(const TableEntity * table) const
-{
-    return table->engineStr().toLower() == "innodb"; // TODO: ndb
-}
-
 std::unique_ptr<EntityFilter> MySQLConnection::entityFilter()
 {
     return std::unique_ptr<EntityFilter>(new MySQLEntityFilter(this));
@@ -483,6 +478,11 @@ QString MySQLConnection::limitOnePostfix() const
 ConnectionDataTypes * MySQLConnection::createConnectionDataTypes()
 {
     return new MySQLConnectionDataTypes(this);
+}
+
+ConnectionFeatures * MySQLConnection::createFeatures()
+{
+    return new MySQLConnectionFeatures(this);
 }
 
 } // namespace db

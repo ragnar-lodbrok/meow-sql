@@ -14,6 +14,7 @@
 #include "table_structure_parser.h"
 #include "collation_fetcher.h"
 #include "db/data_type/connection_data_types.h"
+#include "connection_features.h"
 
 namespace meow {
 namespace db {
@@ -107,7 +108,6 @@ public:
     virtual QueryDataFetcher * createQueryDataFetcher() = 0;
     virtual QString getCreateCode(const Entity * entity) = 0;
     virtual QStringList tableRowFormats() const = 0;
-    virtual bool supportsForeignKeys(const TableEntity * table) const = 0;
     virtual std::unique_ptr<EntityFilter> entityFilter() = 0;
     virtual std::shared_ptr<QueryDataEditor> queryDataEditor(); // TODO = 0 ?
     virtual QString limitOnePostfix() const;
@@ -122,6 +122,8 @@ public:
                         const QString & collation = QString());
 
     ConnectionDataTypes * dataTypes();
+
+    ConnectionFeatures * features();
 
     // TODO: rename to activeDatabaseChanged
     Q_SIGNAL void databaseChanged(const QString & database);
@@ -148,6 +150,7 @@ protected:
     virtual CollationFetcher * createCollationFetcher() = 0;
     virtual TableEnginesFetcher * createTableEnginesFetcher() = 0;
     virtual ConnectionDataTypes * createConnectionDataTypes() = 0;
+    virtual ConnectionFeatures * createFeatures();
 
 private:
     //int _connectionStarted;
@@ -162,6 +165,7 @@ private:
     std::unique_ptr<CollationFetcher> _collationFetcher;
     std::unique_ptr<TableEnginesFetcher> _tableEnginesFetcher;
     std::shared_ptr<ConnectionDataTypes> _dataTypes;
+    std::shared_ptr<ConnectionFeatures> _features;
 };
 
 } // namespace db

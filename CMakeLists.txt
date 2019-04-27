@@ -41,6 +41,7 @@ set(SOURCE_FILES
     app/app.cpp
     app/log.cpp
     db/connection.cpp
+    db/connection_features.cpp
     db/connection_parameters.cpp
     db/connection_params_manager.cpp
     db/connections_manager.cpp

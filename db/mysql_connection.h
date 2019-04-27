@@ -57,8 +57,6 @@ public:
 
     virtual QStringList tableRowFormats() const override;
 
-    virtual bool supportsForeignKeys(const TableEntity * table) const override;
-
     virtual std::unique_ptr<EntityFilter> entityFilter() override;
 
     virtual QString limitOnePostfix() const override;
@@ -71,6 +69,8 @@ protected:
 
     virtual TableEnginesFetcher * createTableEnginesFetcher() override;
     virtual ConnectionDataTypes * createConnectionDataTypes() override;
+
+    virtual ConnectionFeatures * createFeatures() override;
 
 private:
     MYSQL * _handle;

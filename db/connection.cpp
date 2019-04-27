@@ -331,5 +331,18 @@ ConnectionDataTypes * Connection::dataTypes()
     return _dataTypes.get();
 }
 
+ConnectionFeatures * Connection::features()
+{
+    if (_features == nullptr) {
+        _features.reset(createFeatures());
+    }
+    return _features.get();
+}
+
+ConnectionFeatures * Connection::createFeatures()
+{
+    return new ConnectionFeatures(this);
+}
+
 } // namespace db
 } // namespace meow

@@ -1,6 +1,6 @@
 #include "central_right_widget_model.h"
+#include "db/connection.h"
 #include <QObject> // tr()
-#include <QDebug>
 
 namespace meow {
 namespace models {
@@ -43,9 +43,18 @@ bool CentralRightWidgetModel::hasDataTab() const
         return false;
     }
 
-    return (_entityHolder.currentEntity()->type() == db::Entity::Type::Table ||
-            _entityHolder.currentEntity()->type() == db::Entity::Type::View) &&
-            _entityHolder.currentEntity()->isNew() == false;
+    if (_entityHolder.currentEntity()->isNew() == true) {
+        return false;
+    }
+
+    if (_entityHolder.currentEntity()->type() == db::Entity::Type::Table ||
+        _entityHolder.currentEntity()->type() == db::Entity::Type::View)
+    {
+        return _entityHolder.currentEntity()->connection()
+                ->features()->supportsViewingTablesData();
+    }
+
+    return false;
 }
 
 bool CentralRightWidgetModel::hasEntityTab() const
@@ -54,7 +63,12 @@ bool CentralRightWidgetModel::hasEntityTab() const
         return false;
     }
     // TODO: other types
-    return _entityHolder.currentEntity()->type() == db::Entity::Type::Table;
+    if (_entityHolder.currentEntity()->type() == db::Entity::Type::Table) {
+        return _entityHolder.currentEntity()->connection()
+                ->features()->supportsViewingTables();
+    }
+
+    return false;
 }
 
 bool CentralRightWidgetModel::hasQueryTab() const
@@ -132,7 +146,11 @@ int CentralRightWidgetModel::indexForDataTab() const
 {
     if (hasDataTab()) {
         if (_entityHolder.currentEntity()->type() == db::Entity::Type::Table) {
-            return static_cast<int>(CentralRightWidgetTabs::Entity) + 1;
+            if (hasEntityTab()) {
+                return static_cast<int>(CentralRightWidgetTabs::Entity) + 1;
+            } else {
+                return static_cast<int>(CentralRightWidgetTabs::Database) + 1;
+            }
         } else if (_entityHolder.currentEntity()->type() == db::Entity::Type::View) {
             return static_cast<int>(CentralRightWidgetTabs::Database) + 1;
         }

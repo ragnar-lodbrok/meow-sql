@@ -1,6 +1,7 @@
 #include "entity.h"
 #include "database_entity.h"
 #include "session_entity.h"
+#include "db/connection.h"
 
 namespace meow {
 namespace db {

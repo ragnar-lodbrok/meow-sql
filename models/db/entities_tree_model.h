@@ -3,6 +3,7 @@
 
 #include <QAbstractItemModel>
 #include "db/connections_manager.h"
+#include "db/connection.h"
 
 namespace meow {
 namespace models {

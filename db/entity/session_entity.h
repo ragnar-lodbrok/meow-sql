@@ -17,7 +17,7 @@ class SessionEntity : public Entity
     Q_OBJECT
 
 public:
-    SessionEntity(ConnectionPtr connection,
+    SessionEntity(std::shared_ptr<Connection> connection,
                   ConnectionsManager * parent);
     virtual ~SessionEntity() override;
 
@@ -63,7 +63,7 @@ private:
 
     void addEntity(Entity * entity);
 
-    ConnectionPtr _connection;
+    std::shared_ptr<Connection> _connection;
     QList<DataBaseEntity *> _databases;
     bool _databasesWereInit;
 };

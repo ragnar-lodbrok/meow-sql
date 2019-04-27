@@ -3,6 +3,7 @@
 #include "models/forms/table_indexes_model.h"
 #include "models/forms/table_foreign_keys_model.h"
 #include "app/app.h"
+#include "db/connection.h"
 
 namespace meow {
 namespace models {
@@ -237,7 +238,10 @@ TableForeignKeysModel * TableInfoForm::foreignKeysModel()
 
 bool TableInfoForm::supportsForeignKeys() const
 {
-    return _table ? _table->connection()->supportsForeignKeys(_table) : false;
+    if (_table) {
+        return _table->connection()->features()->supportsForeignKeys(_table);
+    }
+    return false;
 }
 
 void TableInfoForm::save()

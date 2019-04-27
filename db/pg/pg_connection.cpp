@@ -324,7 +324,7 @@ CollationFetcher * PGConnection::createCollationFetcher()
 
 QString PGConnection::getCreateCode(const Entity * entity)
 {
-    Q_ASSERT(false); // TODO
+    //Q_ASSERT(false); // TODO
     Q_UNUSED(entity);
     return QString();
 }
@@ -333,13 +333,6 @@ QStringList PGConnection::tableRowFormats() const
 {
     Q_ASSERT(false); // TODO
     return {};
-}
-
-bool PGConnection::supportsForeignKeys(const TableEntity * table) const
-{
-    Q_ASSERT(false); // TODO
-    Q_UNUSED(table);
-    return false;
 }
 
 std::unique_ptr<EntityFilter> PGConnection::entityFilter()
@@ -421,6 +414,11 @@ QString PGConnection::escapeConnectionParam(const QString & param) const
 ConnectionDataTypes * PGConnection::createConnectionDataTypes()
 {
     return new PGConnectionDataTypes(this);
+}
+
+ConnectionFeatures * PGConnection::createFeatures()
+{
+    return new PGConnectionFeatures(this);
 }
 
 
