@@ -69,6 +69,7 @@ set(SOURCE_FILES
     db/pg/pg_connection.cpp
     db/pg/pg_entities_fetcher.cpp
     db/pg/pg_query.cpp
+    db/pg/pg_query_data_fetcher.cpp
     db/exception.cpp
     db/foreign_key.cpp
     db/mysql_collation_fetcher.cpp

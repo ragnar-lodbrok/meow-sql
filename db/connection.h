@@ -105,7 +105,7 @@ public:
             db::ulonglong limit,
             db::ulonglong offset = 0) = 0;
 
-    virtual QueryDataFetcher * createQueryDataFetcher() = 0;
+    virtual QueryDataFetcher * createQueryDataFetcher() = 0; // TODO return as unique_ptr
     virtual QString getCreateCode(const Entity * entity) = 0;
     virtual QStringList tableRowFormats() const = 0;
     virtual std::unique_ptr<EntityFilter> entityFilter() = 0;

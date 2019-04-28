@@ -3,7 +3,6 @@
 #include "query_data.h"
 #include "query.h"
 #include "mysql_connection.h"
-#include <QDebug>
 #include "entity/table_entity.h"
 #include "db/common.h"
 

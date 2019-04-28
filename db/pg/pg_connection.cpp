@@ -4,6 +4,9 @@
 #include "pg_query.h"
 #include "db/data_type/pg_connection_data_types.h"
 #include "db/pg/pg_entities_fetcher.h"
+#include "pg_query_data_fetcher.h"
+#include "db/entity/table_entity.h"
+#include "db/entity/database_entity.h"
 
 namespace meow {
 namespace db {
@@ -290,9 +293,19 @@ void PGConnection::setDatabase(const QString & database)
 
 db::ulonglong PGConnection::getRowCount(const TableEntity * table)
 {
-    Q_ASSERT(false); // TODO
-    Q_UNUSED(table);
-    return 0;
+
+    const QString SQL = "SELECT " + qu("reltuples") + "::bigint FROM "
+    + qu("pg_class") + " LEFT JOIN " + qu("pg_namespace")
+    + " ON (" + qu("pg_namespace") + '.' + qu("oid") + " = "
+    + qu("pg_class") + '.' + qu("relnamespace") + ")" + " WHERE "
+    + qu("pg_class") + '.' + qu("relkind") + " = " + escapeString("r") +
+    + " AND " + qu("pg_namespace") + '.' + qu("nspname")
+    + " = " + escapeString(table->database()->name())
+    + " AND " + qu("pg_class") + '.' + qu("relname")
+    + " = " + escapeString(table->name());
+
+    return getCell(SQL).toULongLong();
+
 }
 
 QString PGConnection::applyQueryLimit(
@@ -312,8 +325,7 @@ QString PGConnection::applyQueryLimit(
 
 QueryDataFetcher * PGConnection::createQueryDataFetcher()
 {
-    Q_ASSERT(false); // TODO
-    return nullptr;
+    return new PGQueryDataFetcher(this);
 }
 
 CollationFetcher * PGConnection::createCollationFetcher()
@@ -421,6 +433,10 @@ ConnectionFeatures * PGConnection::createFeatures()
     return new PGConnectionFeatures(this);
 }
 
+QString PGConnection::qu(const char * identifier) const
+{
+    return this->quoteIdentifier(identifier);
+}
 
 } // namespace db
 } // namespace meow

@@ -95,7 +95,7 @@ public:
 
     virtual bool supportsViewingTablesData() const override {
         // not yet implemented
-        return false;
+        return true;
     }
 
     virtual bool supportsForeignKeys(const TableEntity * table) const override {

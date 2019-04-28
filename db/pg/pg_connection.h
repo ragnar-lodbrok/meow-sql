@@ -79,6 +79,8 @@ private:
     
     QString escapeConnectionParam(const QString & param) const;
 
+    inline QString qu(const char * identifier) const;
+
     PGconn * _handle;
 };
 
