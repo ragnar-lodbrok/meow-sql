@@ -37,7 +37,6 @@ void PGQuery::execute(bool addResult)
         _recordCount = 0;
         // H: ...
         if (isEditing()) {
-            Q_ASSERT(false);
             _editableData->clear();
         }
     }
@@ -55,8 +54,7 @@ void PGQuery::execute(bool addResult)
             addColumnData(lastResult); // TODO
 
             if (isEditing()) {
-                Q_ASSERT(false);
-                //prepareResultForEditing(lastResult->nativePtr());
+                prepareResultForEditing(lastResult);
                 lastResult.reset(); // we just copied all data
             }
 
@@ -64,8 +62,7 @@ void PGQuery::execute(bool addResult)
         }
     } else {
         if (lastResult && isEditing()) {
-            Q_ASSERT(false);
-            //prepareResultForEditing(lastResult->nativePtr());
+            prepareResultForEditing(lastResult);
             lastResult.reset();
         }
     }
@@ -126,8 +123,7 @@ QString PGQuery::curRowColumn(std::size_t index,
     if (index < columnCount()) {
 
         if (isEditing()) {
-            Q_ASSERT(false);
-            //return _editableData->dataAt(_curRecNo, index);
+            return _editableData->dataAt(_curRecNo, index);
         }
 
 
@@ -177,8 +173,7 @@ bool PGQuery::isNull(std::size_t index)
     //throwOnInvalidColumnIndex(index); // TODO
 
     if (isEditing()) {
-        Q_ASSERT(false);
-        //return _editableData->dataAt(_curRecNo, index).isNull();
+        return _editableData->dataAt(_curRecNo, index).isNull();
     }
 
     return PQgetisnull(
@@ -190,7 +185,16 @@ bool PGQuery::isNull(std::size_t index)
 
 bool PGQuery::prepareEditing()
 {
-    Q_ASSERT(false);
+    if (Query::prepareEditing()) {
+        return true;
+    }
+
+    for (auto result : _resultList) {
+        addColumnData(result);
+        prepareResultForEditing(result);
+        result.reset();
+    }
+
     return false;
 }
 
@@ -235,6 +239,31 @@ void PGQuery::addColumnData(PGQueryResultPtr & result)
     _columnsParsed = true;
 }
 
+void PGQuery::prepareResultForEditing(PGQueryResultPtr & result)
+{
+    PGresult * nativeRes = result->nativePtr();
+
+    int numRows = PQntuples(nativeRes);
+    int numCols = PQnfields(nativeRes);
+
+    _editableData->reserveForAppend(numRows);
+
+    for (int row = 0; row < numRows; ++row) {
+        GridDataRow rowData;
+        rowData.reserve(numCols);
+
+        for (int col = 0; col < numCols; ++col) {
+
+            int cellLength = PQgetlength(nativeRes, row, col);
+
+            rowData.append(
+                rowDataToString(nativeRes, row, col, cellLength)
+            );
+        }
+
+        _editableData->appendRow(rowData);
+    }
+}
 
 } // namespace db
 } // namespace meow

@@ -58,7 +58,7 @@ public:
 
     QStringList curRow();
 
-    virtual bool isNull(std::size_t index) = 0;
+    virtual bool isNull(std::size_t index) = 0; // TODO: add by name mthd
 
     // true if was already prepared
     virtual bool prepareEditing();

@@ -38,6 +38,10 @@ void TableStructureParser::run(TableEntity * table)
 
     init();
 
+    // TODO: run parser for MySQL only
+    // For PG it's stupid: we generate create code and then parse it
+    // while we can just get all data from SQL queries
+
     QString createSQL = table->createCode();
 
     parseColumns(createSQL, table); // keep first

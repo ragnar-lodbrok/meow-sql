@@ -427,6 +427,7 @@ QString MySQLConnection::getCreateCode(const Entity * entity) // override
         break;
     default:
         meowLogDebugC(this) << "Unimplemented type in " << __FUNCTION__;
+        Q_ASSERT(false);
         return QString();
     }
 

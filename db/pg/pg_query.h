@@ -36,6 +36,7 @@ private:
 
     void clearColumnData();
     void addColumnData(PGQueryResultPtr & result);
+    void prepareResultForEditing(PGQueryResultPtr & result);
 
     std::vector<PGQueryResultPtr> _resultList;
     PGQueryResultPtr _currentResult;

@@ -7,6 +7,7 @@
 #include "pg_query_data_fetcher.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
+#include "pg_entity_create_code_generator.h"
 
 namespace meow {
 namespace db {
@@ -336,9 +337,8 @@ CollationFetcher * PGConnection::createCollationFetcher()
 
 QString PGConnection::getCreateCode(const Entity * entity)
 {
-    //Q_ASSERT(false); // TODO
-    Q_UNUSED(entity);
-    return QString();
+    PGEntityCreateCodeGenerator generator(this);
+    return generator.run(entity);
 }
 
 QStringList PGConnection::tableRowFormats() const

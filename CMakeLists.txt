@@ -68,6 +68,7 @@ set(SOURCE_FILES
     db/mysql/mysql_query.cpp
     db/pg/pg_connection.cpp
     db/pg/pg_entities_fetcher.cpp
+    db/pg/pg_entity_create_code_generator.cpp
     db/pg/pg_query.cpp
     db/pg/pg_query_data_fetcher.cpp
     db/exception.cpp

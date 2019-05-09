@@ -14,6 +14,7 @@ class TableColumn;
 class TableIndex;
 class ForeignKey;
 
+// TODO: make specific for each DBMS
 class TableStructureParser
 {
 public:
