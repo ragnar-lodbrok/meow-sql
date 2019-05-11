@@ -1,7 +1,9 @@
 #include "table_structure_parser.h"
 #include "db/entity/table_entity.h"
+#include "db/entity/session_entity.h"
 #include "db/connection.h"
 #include <algorithm>
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -36,7 +38,7 @@ void TableStructureParser::run(TableEntity * table)
 {
     // TODO: using regexps for parsing is very shitty
 
-    init();
+    init(table);
 
     // TODO: run parser for MySQL only
     // For PG it's stupid: we generate create code and then parse it
@@ -50,12 +52,15 @@ void TableStructureParser::run(TableEntity * table)
     parseTableOptions(table);
 }
 
-void TableStructureParser::init()
+void TableStructureParser::init(TableEntity * table)
 {
     if (_wasInit) return;
     _wasInit = true;
 
     prepareTypes();
+
+    Connection * connection = db::sessionForEntity(table)->connection();
+    _quoteChar = connection->getIdentQuote();
 
     // many thanks to this site: https://regex101.com/ :)
 
@@ -72,7 +77,7 @@ void TableStructureParser::init()
     QString defaultRegexpStrOnUpdCurTs = R"(\s+ON\s+UPDATE\s+CURRENT_TIMESTAMP(\(\d+\))?)";
     QString firstWordRegexp = R"(^(\w+))";
 
-    QString quotesStr = "`";
+    QString quotesStr = _quoteChar;
     QString keysRegexpStr1 =
         QString(R"(^\s+((\w+)\s+)?KEY\s+([%1]?([^%1]+)[%1]?\s+)?)").arg(quotesStr);
     QString keysRegexpStr2 =
@@ -107,6 +112,7 @@ void TableStructureParser::init()
     _tableOptionsRegexp = new QRegularExpression(
         optionsPairsRegexp,
         QRegularExpression::CaseInsensitiveOption);
+
 }
 
 void TableStructureParser::parseColumns(const QString & createSQL,
@@ -120,16 +126,19 @@ void TableStructureParser::parseColumns(const QString & createSQL,
     // CREATE TABLE `address` (
     //     `phone` VARCHAR(20) NOT NULL, #1
 
-    QString quotesRegexpStr = "[`]"; // TODO: mysql specific!
+
+    QString quotesRegexpStr = QString("[") + _quoteChar + "]"; // TODO: H:QuoteRegExprMetaChars
     QString columnLineRegexpStr = QString( // TODO: create regexp once
         R"(^\s+(%1.+),?$)" // #1
     ).arg(quotesRegexpStr);
+
     QRegularExpression columnLineRegexp =
         QRegularExpression(columnLineRegexpStr, QRegularExpression::MultilineOption);
 
     QRegularExpressionMatchIterator regExpIt = columnLineRegexp.globalMatch(createSQL);
 
     while (regExpIt.hasNext()) {
+
         QRegularExpressionMatch columnMatch = regExpIt.next();
         QString columnString = columnMatch.captured(1);
 
@@ -187,6 +196,7 @@ void TableStructureParser::parseKeysIndicies(
     auto regExpIt = _indiciesKeysRegexp->globalMatch(createSQL);
 
     while (regExpIt.hasNext()) {
+
         QRegularExpressionMatch keyMatch = regExpIt.next();
         QString keyName = keyMatch.captured(4);
         QString indexClassStr = keyMatch.captured(2);
@@ -318,13 +328,11 @@ void TableStructureParser::parseTableOptions(TableEntity * table)
 
 QString TableStructureParser::extractId(QString & str, bool remove) const
 {
-    const QChar quote('`');
-
-    const int leftPos = str.indexOf(quote, 0, Qt::CaseInsensitive) + 1;
+    const int leftPos = str.indexOf(_quoteChar, 0, Qt::CaseInsensitive) + 1;
 
     if (leftPos > 0) {
         const int rightPos =
-            str.indexOf(quote, leftPos, Qt::CaseInsensitive) - 1;
+            str.indexOf(_quoteChar, leftPos, Qt::CaseInsensitive) - 1;
         if (rightPos > leftPos) {
             QString result = str.mid(leftPos, rightPos - leftPos + 1);
             if (remove) {
@@ -362,6 +370,8 @@ DataTypeIndex TableStructureParser::extractDataTypeByName(
 void TableStructureParser::prepareTypes()
 {
     if (!_types.empty()) return;
+
+    // TODO: take types from connection!
 
     const QMap<DataTypeIndex, QString> & typesMap = dataTypeNames();
     auto names = typesMap.values().toStdList();

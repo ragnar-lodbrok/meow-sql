@@ -32,7 +32,7 @@ private:
     void prepareTypes();
     QString extractLengthSet(QString & columnString) const;
     bool isStartsFromString(QString & columnString, const QString & needle) const;
-    void init();
+    void init(TableEntity * table);
     QString extractCharset(QString & columnString) const;
     QString extractCollate(QString & columnString) const;
     bool detectAllowNull(QString & columnString) const;
@@ -52,6 +52,7 @@ private:
     QRegularExpression * _indiciesKeysRegexp;
     QRegularExpression * _foreignKeysRegexp;
     QRegularExpression * _tableOptionsRegexp;
+    QChar _quoteChar;
 };
 
 } // namespace db

@@ -19,8 +19,11 @@ private:
 
     QString run(const TableEntity * table);
 
-    QString selectColumnsSQL(const QString & tableName);
+    QString SQLToSelectColumnsInfo(const QString & tableName);
     QString createColumnsSQL(const QString & tableName);
+
+    QString SQLToSelectKeysInfo(const QString & tableName);
+    QString createKeysSQL(const QString & tableName);
 
     PGConnection * _connection;
 };

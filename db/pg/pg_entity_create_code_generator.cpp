@@ -2,7 +2,7 @@
 #include "pg_connection.h"
 #include "db/entity/table_entity.h"
 #include "db/query.h"
-#include <QDebug>
+#include "helpers/logger.h"
 
 namespace meow {
 namespace db {
@@ -31,9 +31,27 @@ QString PGEntityCreateCodeGenerator::run(const Entity * entity)
 
 QString PGEntityCreateCodeGenerator::run(const TableEntity * table)
 {
+    // TODO: this is incorrect and made to be parsed by TableStructureParser only
+
     QString SQL = "CREATE TABLE " + _connection->quoteIdentifier(table->name());
 
-    SQL += " (" + createColumnsSQL(table->name()) + ")";
+    QString columnsSQL = createColumnsSQL(table->name());
+    QString keysSQL = createKeysSQL(table->name());
+
+    SQL += " (";
+
+    if (!columnsSQL.isEmpty()) {
+        SQL += columnsSQL;
+        if (!keysSQL.isEmpty()) {
+            SQL += ",";
+        }
+    }
+
+    if (!keysSQL.isEmpty()) {
+        SQL += keysSQL;
+    }
+
+    SQL += ")";
 
     // TODO: complete
 
@@ -43,7 +61,7 @@ QString PGEntityCreateCodeGenerator::run(const TableEntity * table)
 QString PGEntityCreateCodeGenerator::createColumnsSQL(const QString & tableName)
 {
     QueryPtr columnsQuery = _connection->getResults(
-            selectColumnsSQL(tableName));
+            SQLToSelectColumnsInfo(tableName));
 
     QString SQL;
 
@@ -85,14 +103,18 @@ QString PGEntityCreateCodeGenerator::createColumnsSQL(const QString & tableName)
 
         // TODO: H: column comment
 
-        SQL += ',';
         columnsQuery->seekNext();
+
+        if (!columnsQuery->isEof()) {
+            SQL += ',';
+        }
     }
 
     return SQL;
 }
 
-QString PGEntityCreateCodeGenerator::selectColumnsSQL(const QString & tableName)
+QString PGEntityCreateCodeGenerator::SQLToSelectColumnsInfo(
+        const QString & tableName)
 {
     QString SQL = QString("SELECT DISTINCT a.attname AS column_name,") +
     " a.attnum, a.atttypid, FORMAT_TYPE(a.atttypid, a.atttypmod) AS data_type," +
@@ -112,6 +134,86 @@ QString PGEntityCreateCodeGenerator::selectColumnsSQL(const QString & tableName)
         " AND NOT a.attisdropped" +
         " AND pgc.relname = " + _connection->escapeString(tableName) +
     " ORDER BY a.attnum";
+
+    return SQL;
+}
+
+QString PGEntityCreateCodeGenerator::SQLToSelectKeysInfo(
+        const QString & tableName)
+{
+    if (_connection->serverVersionInt() < MEOW_SERVER_INT(9, 0, 0)) {
+        // TODO
+        Q_ASSERT(false);
+        meowLogDebug() << __FUNCTION__
+                       << " not implemented for version "
+                       << _connection->serverVersionInt();
+        return QString();
+    }
+
+    // TODO: CHECK? FOREIGN KEY?
+
+    QString SQL = QString(
+    "WITH ndx_list AS (") +
+        " SELECT pg_index.indexrelid, pg_class.oid" +
+        " FROM pg_index, pg_class" +
+        " WHERE pg_class.relname = " + _connection->escapeString(tableName) +
+        " AND pg_class.oid = pg_index.indrelid), " +
+    " ndx_cols AS (" +
+        " SELECT pg_class.relname, UNNEST(i.indkey) AS col_ndx," +
+        " CASE i.indisprimary WHEN true THEN " +
+            _connection->escapeString("PRIMARY") +
+        " ELSE CASE i.indisunique WHEN true THEN " +
+            _connection->escapeString("UNIQUE") +
+        " ELSE " + _connection->escapeString("KEY") +
+        " END END AS CONSTRAINT_TYPE," +
+        " pg_class.oid FROM pg_class" +
+        " JOIN pg_index i ON (pg_class.oid = i.indexrelid)" +
+        " JOIN ndx_list ON (pg_class.oid = ndx_list.indexrelid)" +
+    " )" +
+    " SELECT ndx_cols.relname AS CONSTRAINT_NAME, ndx_cols.CONSTRAINT_TYPE," +
+    " a.attname AS COLUMN_NAME FROM pg_attribute a" +
+    " JOIN ndx_cols ON (a.attnum = ndx_cols.col_ndx)" +
+    " JOIN ndx_list ON (ndx_list.oid = a.attrelid AND" +
+        " ndx_list.indexrelid = ndx_cols.oid)";
+
+    return SQL;
+}
+
+QString PGEntityCreateCodeGenerator::createKeysSQL(const QString & tableName)
+{
+    QueryPtr keysQuery = _connection->getResults(
+            SQLToSelectKeysInfo(tableName));
+
+    QString SQL;
+
+    QString constraintName;
+    QStringList columnNames;
+
+    while (!keysQuery->isEof()) {
+
+        QString itConstraintName = keysQuery->curRowColumn("CONSTRAINT_NAME");
+        if (itConstraintName != constraintName) {
+            if (!constraintName.isEmpty()) {
+                SQL += " (" + columnNames.join(',') + "),";
+            }
+            constraintName = itConstraintName;
+            QString constraintType = keysQuery->curRowColumn("CONSTRAINT_TYPE");
+            SQL += "\n    " + constraintType;
+            if (!constraintType.contains("KEY")) {
+                SQL += " KEY";
+            }
+            columnNames.clear();
+        }
+
+        QString columnName = keysQuery->curRowColumn("COLUMN_NAME");
+        columnNames.append(_connection->quoteIdentifier(columnName));
+
+        keysQuery->seekNext();
+    }
+
+    if (!constraintName.isEmpty()) {
+        SQL += " (" + columnNames.join(',') + ')';
+    }
 
     return SQL;
 }

@@ -1,6 +1,8 @@
 #ifndef DB_COMMON
 #define DB_COMMON
 
+#define MEOW_SERVER_INT(major, minor, patch) \
+    (major)*10000 + (minor)*100 + (patch)
 
 namespace meow {
 namespace db {
