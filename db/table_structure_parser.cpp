@@ -8,8 +8,9 @@
 namespace meow {
 namespace db {
 
-TableStructureParser::TableStructureParser()
-    :_wasInit(false),
+TableStructureParser::TableStructureParser(Connection * connection)
+    :_connection(connection),
+     _wasInit(false),
      _charsetRegexp(nullptr),
      _collateRegexp(nullptr),
      _defaultCurTSRegexp(nullptr),
@@ -59,8 +60,7 @@ void TableStructureParser::init(TableEntity * table)
 
     prepareTypes();
 
-    Connection * connection = db::sessionForEntity(table)->connection();
-    _quoteChar = connection->getIdentQuote();
+    _quoteChar = table->connection()->getIdentQuote();
 
     // many thanks to this site: https://regex101.com/ :)
 
@@ -151,10 +151,6 @@ void TableStructureParser::parseColumns(const QString & createSQL,
         }
 
         column->setDataType(extractDataTypeByName(columnString));
-        if (column->dataType() == DataTypeIndex::None) {
-            delete column;
-            continue;
-        }
 
         column->setLengthSet(extractLengthSet(columnString));
 
@@ -344,8 +340,8 @@ QString TableStructureParser::extractId(QString & str, bool remove) const
     return QString();
 }
 
-DataTypeIndex TableStructureParser::extractDataTypeByName(
-    QString & columnString) const
+DataTypePtr TableStructureParser::extractDataTypeByName(
+        QString & columnString) const
 {
 
     int startPos = 0;
@@ -353,37 +349,32 @@ DataTypeIndex TableStructureParser::extractDataTypeByName(
     while (startPos < len && columnString.at(startPos).isSpace()) {
         ++startPos;
     }
-    // assume _types is sorted by type name len desc, so we match longest first
-    for (int i = 0; i < _types.size(); ++i) {
-        const QPair<QString, DataTypeIndex> & typePair = _types.at(i);
-        QString typeName = typePair.first;
+    // assume _typesSorted is sorted by type name len desc,
+    // so we match longest first
+
+    for (const DataTypePtr & type : _typesSorted) {
+        QString typeName = type->name;
         QStringRef startRef = columnString.midRef(startPos, typeName.length());
         if (QString::compare(typeName, startRef, Qt::CaseInsensitive) == 0) {
             columnString.remove(0, startPos + typeName.length());
-            return typePair.second;
+            return type;
         }
     }
 
-    return DataTypeIndex::None;
+    return std::make_shared<DataType>();
 }
 
 void TableStructureParser::prepareTypes()
 {
-    if (!_types.empty()) return;
+    if (!_typesSorted.empty()) return;
 
-    // TODO: take types from connection!
+    _typesSorted = _connection->dataTypes()->list().toStdList();
 
-    const QMap<DataTypeIndex, QString> & typesMap = dataTypeNames();
-    auto names = typesMap.values().toStdList();
-    names.sort(
-        [=](const QString & l, const QString & r) {
-            return l.length() > r.length(); // the longest first
+    _typesSorted.sort(
+        [=](const DataTypePtr & l, const DataTypePtr & r) {
+            return l->name.length() > r->name.length(); // the longest first
         }
     );
-    for (const QString & typeName : names) {
-        DataTypeIndex typeIndex = typesMap.key(typeName, DataTypeIndex::None);
-        _types.append( {typeName , typeIndex} );
-    }
 }
 
 QString TableStructureParser::extractLengthSet(QString & columnString) const
@@ -484,12 +475,19 @@ QString TableStructureParser::parseDefault(
         QString & columnString,
         TableColumn * column) const
 {
+    // TODO: this is for MySQL only: move to separate class
+
     // AUTO_INCREMENT
     // DEFAULT NULL,
     // DEFAULT '19.99'
     // DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     bool isAutoIncrement = isStartsFromString(columnString, "AUTO_INCREMENT");
+
+    // PG-only, remove to PG-related class
+    if (!isAutoIncrement) {
+        isAutoIncrement = isStartsFromString(columnString, "DEFAULT nextval(");
+    }
 
     if (isAutoIncrement) {
         column->setDefaultType(ColumnDefaultType::AutoInc);

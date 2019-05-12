@@ -5,8 +5,9 @@ namespace meow {
 namespace models {
 namespace delegates {
 
-TableColumnTypeDelegate::TableColumnTypeDelegate(QObject * parent)
-    :QStyledItemDelegate(parent)
+TableColumnTypeDelegate::TableColumnTypeDelegate(db::TableColumnsModel * model)
+    :QStyledItemDelegate(model),
+     _model(model)
 {
 
 }
@@ -27,7 +28,7 @@ void TableColumnTypeDelegate::setEditorData(
         const QModelIndex &index) const
 {
     auto comboBox = static_cast<ui::DataTypeComboBox *>(editor);
-    comboBox->fillData();
+    comboBox->fillData(_model->dataTypeNames());
     QString value = index.model()->data(index, Qt::EditRole).toString();
     comboBox->setCurrentIndex(comboBox->findText(value));
 }

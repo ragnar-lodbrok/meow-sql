@@ -59,7 +59,7 @@ public:
 
     virtual std::unique_ptr<EntityFilter> entityFilter() override;
 
-    virtual QString limitOnePostfix() const override;
+    virtual QString limitOnePostfix(bool select) const override;
 
 protected:
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() override;

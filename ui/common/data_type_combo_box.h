@@ -11,7 +11,7 @@ class DataTypeComboBox : public QComboBox
 public:
     DataTypeComboBox(QWidget *parent = nullptr);
 
-    void fillData();
+    void fillData(const QStringList & names);
 };
 
 } // namespace ui

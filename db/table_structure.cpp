@@ -1,5 +1,5 @@
 #include "table_structure.h"
-#include <QDebug>
+#include "db/entity/table_entity.h"
 
 namespace meow {
 namespace db {
@@ -92,7 +92,8 @@ int TableStructure::insertEmptyDefaultColumn(int afterIndex)
     if (parentColumn == nullptr) {
         newColumnIndex = _columns.size();
         newColumn = new TableColumn();
-        newColumn->setDataType(meow::db::DataTypeIndex::Int);
+        newColumn->setDataType(
+                _table->connection()->dataTypes()->defaultType());
         newColumn->setAllowNull(true);
     } else {
         newColumn = new TableColumn(*parentColumn);

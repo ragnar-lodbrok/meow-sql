@@ -4,7 +4,7 @@
 #include "helpers/formatting.h"
 #include "query_data_editor.h"
 #include "entity/table_entity.h"
-#include <QDebug>
+#include "helpers/logger.h"
 
 namespace meow {
 namespace db {
@@ -319,10 +319,14 @@ void QueryData::ensureFullRow(bool refresh)
             .arg(columnNames.join(", "))
             .arg(entityName)
             .arg(whereForCurRow())
-            .arg(query()->connection()->limitOnePostfix());
+            .arg(query()->connection()->limitOnePostfix(true));
 
-    // TODO: ignore if fail ?
     QStringList newRowData = query()->connection()->getRow(selectSQL);
+    if (newRowData.size() != row->data.size()) {
+        meowLogC(Log::Category::Error) << "Failed to load full row";
+        //Q_ASSERT(false);
+        return;
+    }
 
     row->data = newRowData;
 }

@@ -1,5 +1,4 @@
 #include "data_type_combo_box.h"
-#include "db/data_type/data_type.h"
 
 namespace meow {
 namespace ui {
@@ -9,21 +8,11 @@ DataTypeComboBox::DataTypeComboBox(QWidget * parent) : QComboBox(parent)
     setMaxVisibleItems(30);
 }
 
-void DataTypeComboBox::fillData()
+void DataTypeComboBox::fillData(const QStringList & names)
 {
-    // This is very stupid and basic, better use model
-    // TODO: subtypes, colors, hints like in Heidi
-    // TODO: take from ConnectionDataTypes
-    QMap<meow::db::DataTypeIndex, QString> types = meow::db::dataTypeNames();
 
-    auto it = types.constBegin();
-    while (it != types.constEnd()) {
-        QString name = it.value();
-        int key = static_cast<int>(it.key());
-
-        addItem(name, key);
-
-        ++it;
+    for (int i=0; i<names.size(); ++i) { // TODO: vector is faster?
+        addItem(names[i], i);
     }
 }
 

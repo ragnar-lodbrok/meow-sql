@@ -1,9 +1,9 @@
 #include "table_columns_model.h"
 #include "db/entity/table_entity.h"
-#include <QDebug>
 #include <QFont>
 #include "app/app.h"
 #include "db/connection.h"
+#include "db/data_type/data_type.h"
 
 namespace meow {
 namespace models {
@@ -388,9 +388,9 @@ QVariant TableColumnsModel::foregroundAt(int row, int col) const
         meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
         auto textSettings = meow::app()->settings()->textSettings();
         auto dataType = tableColumn->dataType();
-        if (dataType != meow::db::DataTypeIndex::None) {
+        if (dataType->index != meow::db::DataTypeIndex::Unknown) {
             return textSettings->colorForDataType(
-                meow::db::categoryOfDataType(dataType)
+                dataType->categoryIndex
             );
         }
     } else if (static_cast<Columns>(col) == Columns::Default) {
@@ -422,10 +422,10 @@ bool TableColumnsModel::isEditingAllowed(int row, int col) const
     switch (static_cast<Columns>(col)) {
 
     case Columns::Length:
-        return meow::db::dataTypeHasLength(tableColumn->dataType());
+        return tableColumn->dataType()->hasLength;
 
     case Columns::Unsigned:
-        return meow::db::dataTypeCanBeUnsigned(tableColumn->dataType());
+        return meow::db::dataTypeCanBeUnsigned(tableColumn->dataType()->index); // TODO
 
     case Columns::AllowNull: {
         bool isColumnInPK = _table->structure()->hasIndexForColumn(
@@ -434,7 +434,7 @@ bool TableColumnsModel::isEditingAllowed(int row, int col) const
     }
 
     case Columns::Zerofill:
-        return meow::db::dataTypeCanBeZeroFill(tableColumn->dataType());
+        return meow::db::dataTypeCanBeZeroFill(tableColumn->dataType()->index); // TODO
 
     default:
         return true;
@@ -497,18 +497,18 @@ const QString TableColumnsModel::defaultText(int row) const
 bool TableColumnsModel::isDefaultAutoIncEnabled(int row) const
 {
     meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
-    return meow::db::categoryOfDataType(tableColumn->dataType())
-            == meow::db::DataTypeCategoryIndex::Integer;
+    return meow::db::categoryOfDataType(tableColumn->dataType()->index)
+            == meow::db::DataTypeCategoryIndex::Integer; // TODO
 }
 
 bool TableColumnsModel::isDefaultCurrentTimeStampEnabled(int row) const
 {
     meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
 
-    if (tableColumn->dataType() == meow::db::DataTypeIndex::Timestamp) {
+    if (tableColumn->dataType()->index == meow::db::DataTypeIndex::Timestamp) { // TODO
         return true;
-    } else if (tableColumn->dataType() == meow::db::DataTypeIndex::DateTime) {
-        return _table->connection()->serverVersionInt() >= 50605;
+    } else if (tableColumn->dataType()->index == meow::db::DataTypeIndex::DateTime) { // TODO
+        return _table->connection()->serverVersionInt() >= 50605; // TODO: MySQL only!
     }
     return false;
 }
@@ -544,6 +544,18 @@ const QStringList TableColumnsModel::collationList() const
     return _table->connection()->collationList();
 }
 
+const QStringList TableColumnsModel::dataTypeNames() const
+{
+    QStringList names;
+
+    const auto & list = _table->connection()->dataTypes()->list();
+    for (const meow::db::DataTypePtr & type : list) {
+        names << type->name;
+    }
+
+    return names;
+}
+
 bool TableColumnsModel::setColumnDataType(const QModelIndex &index,
                                           const QVariant &value)
 {
@@ -554,19 +566,19 @@ bool TableColumnsModel::setColumnDataType(const QModelIndex &index,
         return false;
     }
 
-    auto dataType = static_cast<meow::db::DataTypeIndex>(value.toInt());
+    const auto & types = _table->connection()->dataTypes()->list();
+    meow::db::DataTypePtr dataType = types.value(value.toInt());
+
     tableColumn->setDataType(dataType);
 
-    if (!meow::db::dataTypeHasLength(dataType)) {
+    if (!dataType->hasLength) {
         tableColumn->setLengthSet(QString());
     }
     // TODO: default length/set
 
     using ColDef = meow::db::ColumnDefaultType;
 
-    auto typeCategory = meow::db::categoryOfDataType(dataType);
-
-    switch (typeCategory) {
+    switch (dataType->categoryIndex) {
     case meow::db::DataTypeCategoryIndex::Integer:
     case meow::db::DataTypeCategoryIndex::Float:
 

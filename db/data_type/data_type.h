@@ -11,7 +11,7 @@ namespace db {
 
 enum class DataTypeIndex {
 
-    None,
+    None, // rm
     TinyInt,
     SmallInt,
     MediumInt,
@@ -102,9 +102,9 @@ const QString dataTypeName(DataTypeIndex typeIndex); // TODO: rm
 
 typedef struct DataType {
 
-    DataType() : index(DataTypeIndex::None),
+    DataType() : index(DataTypeIndex::Unknown),
                  nativeType(-1),
-                 name(),
+                 name("UNKNOWN"),
                  //description(),
                  hasLength(false),
                  requiresLength(false),
@@ -114,7 +114,7 @@ typedef struct DataType {
                  //loadPart(false),
                  //defLengthSet(),
                  //format(),
-                 categoryIndex(DataTypeCategoryIndex::None) { }
+                 categoryIndex(DataTypeCategoryIndex::Other) { }
 
     DataType(
             DataTypeIndex index_,

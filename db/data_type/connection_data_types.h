@@ -25,7 +25,9 @@ public:
     virtual const QList<DataTypePtr> & list() = 0;
     // TODO: return list of const DataTypes
 
-    DataTypePtr createUnknownType() const {
+    virtual const DataTypePtr defaultType() const = 0;
+
+    DataTypePtr createUnknownType() const { // rm, just use default cted
         DataTypePtr ptr(
             new DataType(
                 DataTypeIndex::Unknown,

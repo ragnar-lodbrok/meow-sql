@@ -471,8 +471,9 @@ TableEnginesFetcher * MySQLConnection::createTableEnginesFetcher()
     return new MySQLTableEnginesFetcher(this);
 }
 
-QString MySQLConnection::limitOnePostfix() const
+QString MySQLConnection::limitOnePostfix(bool select) const
 {
+    Q_UNUSED(select); // same for SELECT, UPDATE and DELETE
     return "LIMIT 1";
 }
 

@@ -4,7 +4,7 @@ namespace meow {
 namespace db {
 
 TableColumn::TableColumn()
-    :_dataTypeIndex(DataTypeIndex::None),
+    :_dataType(std::make_shared<DataType>()),
      _unsigned(false),
      _allowNull(false),
      _zeroFill(false),
@@ -92,7 +92,7 @@ bool TableColumn::dataDiffers(const TableColumn * other) const
     if (this == other) return false;
 
     if (_name != other->_name) return true;
-    if (_dataTypeIndex != other->_dataTypeIndex) return true; // rm
+    if (_dataType != other->_dataType) return true; // TODO: rm?
 
     // TODO: check for nullptr
     // TODO: compare types in ConnectionDataType

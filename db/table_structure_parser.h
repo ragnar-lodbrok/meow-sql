@@ -13,12 +13,13 @@ class TableEntity;
 class TableColumn;
 class TableIndex;
 class ForeignKey;
+class Connection;
 
 // TODO: make specific for each DBMS
 class TableStructureParser
 {
 public:
-    TableStructureParser();
+    TableStructureParser(Connection * connection);
     ~TableStructureParser();
     void run(TableEntity * table);
 private:
@@ -28,7 +29,7 @@ private:
     void parseTableOptions(TableEntity * table);
 
     QString extractId(QString & str, bool remove = true) const;
-    DataTypeIndex extractDataTypeByName(QString & columnString) const;
+    DataTypePtr extractDataTypeByName(QString & columnString) const;
     void prepareTypes();
     QString extractLengthSet(QString & columnString) const;
     bool isStartsFromString(QString & columnString, const QString & needle) const;
@@ -42,7 +43,8 @@ private:
     QString parseComment(QString & columnString, TableColumn * column) const;
     QStringList explodeQuotedList(QString & str) const;
 
-    QList<QPair<QString, DataTypeIndex>> _types;
+    Connection * _connection;
+    std::list<DataTypePtr> _typesSorted;
     bool _wasInit;
     QRegularExpression * _charsetRegexp;
     QRegularExpression * _collateRegexp;

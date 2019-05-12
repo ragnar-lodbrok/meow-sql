@@ -17,7 +17,8 @@ QueryDataFetcher::partLoadColumns(TableEntity * table)
     QList<meow::db::TableColumn *> partLoadColumns;
     for (meow::db::TableColumn * column : table->structure()->columns()) {
 
-        if (meow::db::dataTypeLoadPartially(column->dataType()) == false) {
+        // TODO: get rid of dataTypeLoadPartially
+        if (meow::db::dataTypeLoadPartially(column->dataType()->index) == false) {
             continue;
         }
 

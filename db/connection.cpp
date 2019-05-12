@@ -17,7 +17,8 @@ Connection::Connection(const ConnectionParameters & params)
      _identifierQuote('`'),
      _connectionParams(params),
      _characterSet(),
-     _isUnicode(false)
+     _isUnicode(false),
+     _tableStructureParser(this)
 {
 
 }
@@ -164,7 +165,11 @@ QStringList Connection::getRow(const QString & SQL)
     // TODO: say query to skip columns parsing
     QueryPtr query = getResults(SQL);
     query->seekFirst();
-    return query->curRow();
+    if (!query->isEof()) {
+        return query->curRow();
+    } else {
+        return {};
+    }
 }
 
 QString Connection::quoteIdentifier(const char * identifier,
@@ -318,8 +323,9 @@ std::shared_ptr<QueryDataEditor> Connection::queryDataEditor()
     return std::make_shared<QueryDataEditor>();
 }
 
-QString Connection::limitOnePostfix() const
+QString Connection::limitOnePostfix(bool select) const
 {
+    Q_UNUSED(select)
     return ""; // some dbs dont have it
 }
 

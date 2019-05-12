@@ -2,6 +2,7 @@
 #define TABLE_COLUMN_TYPE_DELEGATE_H
 
 #include <QStyledItemDelegate>
+#include "models/db/table_columns_model.h"
 
 namespace meow {
 namespace models {
@@ -11,7 +12,7 @@ class TableColumnTypeDelegate : public QStyledItemDelegate
 {
 
 public:
-    TableColumnTypeDelegate(QObject * parent = nullptr);
+    TableColumnTypeDelegate(db::TableColumnsModel * model);
 
     QWidget * createEditor(QWidget *parent,
                            const QStyleOptionViewItem &option,
@@ -26,6 +27,8 @@ public:
     void updateEditorGeometry(QWidget *editor,
                               const QStyleOptionViewItem &option,
                               const QModelIndex &index) const override;
+private:
+    db::TableColumnsModel * _model;
 };
 
 } // namespace delegates

@@ -28,14 +28,11 @@ public:
     void setName(const QString & name) { _name = name; }
     QString name() const { return _name; }
 
-    void setDataType(DataTypeIndex type) { _dataTypeIndex = type; } // rm
-    DataTypeIndex dataType() const { return _dataTypeIndex; } // rm
     QString dataTypeName() const { // TODO: change
-        return meow::db::dataTypeName(_dataTypeIndex); }
+        return _dataType->name; } // rm ?
 
-    // TODO
-    //void setDataType(const DataTypePtr & type) { _dataType = type; }
-    //const DataTypePtr & dataType() const { return _dataType; }
+    void setDataType(const DataTypePtr & type) { _dataType = type; }
+    const DataTypePtr & dataType() const { return _dataType; }
 
     void setLengthSet(const QString & len) { _lengthSet = len; }
     QString lengthSet() const { return _lengthSet; }
@@ -73,7 +70,6 @@ public:
     operator QString() const;
 private:
     QString _name;
-    DataTypeIndex _dataTypeIndex; // rm
     DataTypePtr _dataType;
     QString _lengthSet;
     bool _unsigned;

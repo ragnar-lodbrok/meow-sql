@@ -239,6 +239,12 @@ const QList<DataTypePtr> & MySQLConnectionDataTypes::list()
     return _list;
 }
 
+const DataTypePtr MySQLConnectionDataTypes::defaultType() const
+{
+    // TODO: use string by default?
+    return _map.value(DataTypeIndex::Int);
+}
+
 DataTypePtr MySQLConnectionDataTypes::dataTypeOfField(MYSQL_FIELD * field)
 {
     // http://dev.mysql.com/doc/refman/5.7/en/c-api-data-structures.html

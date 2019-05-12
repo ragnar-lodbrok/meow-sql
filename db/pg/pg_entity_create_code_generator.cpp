@@ -3,6 +3,8 @@
 #include "db/entity/table_entity.h"
 #include "db/query.h"
 #include "helpers/logger.h"
+#include "db/data_type/pg_connection_data_types.h"
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -73,6 +75,15 @@ QString PGEntityCreateCodeGenerator::createColumnsSQL(const QString & tableName)
     while (!columnsQuery->isEof()) {
 
         QString dataType = columnsQuery->curRowColumn("DATA_TYPE").toUpper();
+
+        // temp to get type name correctly parsed, rm!
+        unsigned int dataTypeInt
+            = columnsQuery->curRowColumn("atttypid").toUInt();
+        auto types
+            = static_cast<PGConnectionDataTypes *>(_connection->dataTypes());
+        dataType = types->dataTypeFromNative(dataTypeInt)->name;
+        // end temp
+
         QString name = columnsQuery->curRowColumn("COLUMN_NAME");
 
         SQL += "\n    " + _connection->quoteIdentifier(name) + " " + dataType;

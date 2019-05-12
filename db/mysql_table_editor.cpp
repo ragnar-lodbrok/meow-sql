@@ -256,12 +256,12 @@ QString MySQLTableEditor::sqlCode(const TableColumn * column) const
     QString SQL = _connection->quoteIdentifier(column->name()) + " ";
     SQL += column->dataTypeName();
 
-    if (column->lengthSet().length()
-            && db::dataTypeHasLength(column->dataType())) {
+    if (column->lengthSet().length() && column->dataType()->hasLength) {
         SQL += QString("(%1)").arg(column->lengthSet());
     }
 
-    bool isNumericType = db::dataTypeIsNumeric(column->dataType());
+    // TODO: get rid of dataTypeIsNumeric ?
+    bool isNumericType = db::dataTypeIsNumeric(column->dataType()->index);
     if (isNumericType) {
         if (column->isUnsigned()) {
             SQL += " UNSIGNED";
@@ -278,7 +278,7 @@ QString MySQLTableEditor::sqlCode(const TableColumn * column) const
 
     if (column->defaultType() != ColumnDefaultType::None) {
         QString defaultText = _connection->escapeString(column->defaultText());
-        if (column->dataType() == DataTypeIndex::Bit) {
+        if (column->dataType()->index == DataTypeIndex::Bit) {
             defaultText = "b" + defaultText;
         }
         QString timeStampLen;

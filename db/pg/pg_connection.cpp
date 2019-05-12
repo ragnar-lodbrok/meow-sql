@@ -353,9 +353,13 @@ std::unique_ptr<EntityFilter> PGConnection::entityFilter()
     return nullptr;
 }
 
-QString PGConnection::limitOnePostfix() const
+QString PGConnection::limitOnePostfix(bool select) const
 {
-    return "LIMIT 1";
+    if (select) {
+        return "LIMIT 1";
+    } else {
+        return ""; // not so simple for PG
+    }
 }
 
 DataBaseEntitiesFetcher * PGConnection::createDbEntitiesFetcher()

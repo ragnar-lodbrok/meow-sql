@@ -75,6 +75,7 @@ public:
                          const QString & text);
 
     const QStringList collationList() const;
+    const QStringList dataTypeNames() const;
 
     Q_SIGNAL void modified();
 

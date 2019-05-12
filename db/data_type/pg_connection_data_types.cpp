@@ -315,6 +315,11 @@ void PGConnectionDataTypes::fillListManually()
     )));
 }
 
+const DataTypePtr PGConnectionDataTypes::defaultType() const
+{
+    return _map.value(23); // int (TODO: use string by default?)
+}
+
 QList<DataTypePtr> PGConnectionDataTypes::selectListFromDB() const
 {
     // select ony "user-space" types, hide "system"

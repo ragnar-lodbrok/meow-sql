@@ -47,7 +47,7 @@ public:
         return &_connectionParams; }
     QString & characterSet() { return _characterSet; }
     bool isUnicode() const { return _isUnicode; }
-    unsigned long serverVersionInt() const { return _serverVersionInt; }
+    int serverVersionInt() const { return _serverVersionInt; }
     QString database() const { return _database; }
 
     virtual void setCharacterSet(const QString & characterSet);
@@ -110,7 +110,7 @@ public:
     virtual QStringList tableRowFormats() const = 0;
     virtual std::unique_ptr<EntityFilter> entityFilter() = 0;
     virtual std::shared_ptr<QueryDataEditor> queryDataEditor(); // TODO = 0 ?
-    virtual QString limitOnePostfix() const;
+    virtual QString limitOnePostfix(bool select) const;
 
     void parseTableStructure(TableEntity * table, bool refresh = false);
 

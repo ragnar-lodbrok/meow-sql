@@ -16,6 +16,8 @@ public:
 
     virtual const QList<DataTypePtr> & list() override;
 
+    virtual const DataTypePtr defaultType() const override;
+
     DataTypePtr dataTypeOfField(MYSQL_FIELD * field);
 
 private:

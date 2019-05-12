@@ -14,6 +14,7 @@ enum class DataTypeCategoryIndex {
     Temporal,
     Spatial,
     Other
+    // TODO: add Arrays
 };
 
 } // namespace db
