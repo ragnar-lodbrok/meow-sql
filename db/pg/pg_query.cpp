@@ -147,6 +147,12 @@ QString PGQuery::rowDataToString(PGresult * result,
                         int col,
                         int dataLen)
 {
+
+    // PQgetvalue() returns "" for NULL values, so we need this:
+    if (PQgetisnull(result, row, col)) {
+        return QString(); // Null str
+    }
+
     QString str;
 
     auto typeCategory = column(col).dataType->categoryIndex;
@@ -255,7 +261,6 @@ void PGQuery::prepareResultForEditing(PGQueryResultPtr & result)
         for (int col = 0; col < numCols; ++col) {
 
             int cellLength = PQgetlength(nativeRes, row, col);
-
             rowData.append(
                 rowDataToString(nativeRes, row, col, cellLength)
             );
