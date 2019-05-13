@@ -144,6 +144,7 @@ int QueryData::applyModifications()
                                                      ->queryDataEditor();
 
     if (editor->applyModificationsInDB(this)) {
+        // TODO: don't need ensureFullRow for PG?
         ensureFullRow(true); // load from db new values
         return _queryPtr->editableData()->applyModifications();
     }

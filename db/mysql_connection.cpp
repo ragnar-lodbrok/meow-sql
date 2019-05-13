@@ -14,6 +14,7 @@
 #include "helpers/logger.h"
 #include "db/mysql/mysql_database_editor.h"
 #include "db/data_type/mysql_connection_data_types.h"
+#include "mysql/mysql_query_data_editor.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -451,7 +452,12 @@ std::unique_ptr<EntityFilter> MySQLConnection::entityFilter()
     return std::unique_ptr<EntityFilter>(new MySQLEntityFilter(this));
 }
 
-DataBaseEntitiesFetcher * MySQLConnection::createDbEntitiesFetcher() // override
+std::shared_ptr<QueryDataEditor> MySQLConnection::queryDataEditor()
+{
+    return std::make_shared<MySQLQueryDataEditor>();
+}
+
+DataBaseEntitiesFetcher * MySQLConnection::createDbEntitiesFetcher()
 {
     return new MySQLEntitiesFetcher(this);
 }

@@ -7,6 +7,11 @@
 namespace meow {
 namespace db {
 
+QueryDataEditor::~QueryDataEditor()
+{
+
+}
+
 bool QueryDataEditor::applyModificationsInDB(QueryData * data)
 {
     Q_ASSERT(data->query());
@@ -64,41 +69,39 @@ bool QueryDataEditor::applyModificationsInDB(QueryData * data)
                 .arg(data->whereForCurRow(true))
                 .arg(connection->limitOnePostfix(false));
 
+        // TODO: use "RETURNING *" for PG and avoid selecting result
+
         connection->query(updateSQL);
         // TODO check rows affected
         return true;
     } else if (!insertColumnsList.isEmpty()) {
-        QString insertSQL = QString("INSERT INTO %1 (%2) VALUES (%3)")
-                .arg(db::quotedFullName(data->query()->entity()))
-                .arg(insertColumnsList.join(", "))
-                .arg(insertValuesList.join(", "));
 
-        connection->query(insertSQL);
-
-        editableData->editableRow()->isInserted = false;
-
-        Entity * entity = data->query()->entity();
-        if (entity && entity->type() == Entity::Type::Table) {
-            TableEntity * table = static_cast<TableEntity *>(entity);
-            const auto & columns = table->structure()->columns();
-            for (int c = 0; c < columns.size(); ++c) {
-                TableColumn * column = columns[c];
-                if (column->defaultType() == ColumnDefaultType::AutoInc) {
-                    int intVal = editableData->editableRow()->data[c].toInt();
-                    editableData->editableRow()->data[c]
-                        = QString::number(intVal);
-                    if (intVal == 0) {
-                        editableData->editableRow()->data[c]
-                            = connection->getCell("SELECT LAST_INSERT_ID()");
-                    }
-                }
-            }
-        }
-
+        insert(data, insertColumnsList, insertValuesList);
         return true;
     }
 
     return false;
+}
+
+void QueryDataEditor::insert(
+        QueryData * data,
+        const QStringList & columns,
+        const QStringList & values)
+{
+    // some default behavior, not so bad
+
+    Connection * connection = data->query()->connection();
+
+    EditableGridData * editableData = data->query()->editableData();
+
+    QString insertSQL = QString("INSERT INTO %1 (%2) VALUES (%3)")
+        .arg(db::quotedFullName(data->query()->entity()))
+        .arg(columns.join(", "))
+        .arg(values.join(", "));
+
+    connection->query(insertSQL);
+
+    editableData->editableRow()->isInserted = false;
 }
 
 void QueryDataEditor::deleteCurrentRow(QueryData * data)

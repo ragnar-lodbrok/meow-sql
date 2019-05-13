@@ -59,6 +59,8 @@ public:
 
     virtual std::unique_ptr<EntityFilter> entityFilter() override;
 
+    virtual std::shared_ptr<QueryDataEditor> queryDataEditor() override;
+
     virtual QString limitOnePostfix(bool select) const override;
 
 protected:
