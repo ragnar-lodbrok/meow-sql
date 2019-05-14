@@ -2,6 +2,7 @@
 #include "helpers/logger.h"
 #include "pg_query_result.h"
 #include "pg_query.h"
+#include "pg_query_data_editor.h"
 #include "db/data_type/pg_connection_data_types.h"
 #include "db/pg/pg_entities_fetcher.h"
 #include "pg_query_data_fetcher.h"
@@ -198,6 +199,9 @@ QueryResults PGConnection::query(
 
             _rowsFound += static_cast<db::ulonglong>(
                         PQntuples(queryResult->nativePtr()));
+
+            // TODO: affected is 0 for INSERT ... RETURNING *
+
             if (storeResult) {
                 results << queryResult;
             }
@@ -351,6 +355,11 @@ std::unique_ptr<EntityFilter> PGConnection::entityFilter()
 {
     Q_ASSERT(false); // TODO
     return nullptr;
+}
+
+std::shared_ptr<QueryDataEditor> PGConnection::queryDataEditor()
+{
+    return std::make_shared<PGQueryDataEditor>();
 }
 
 QString PGConnection::limitOnePostfix(bool select) const

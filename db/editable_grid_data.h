@@ -23,7 +23,7 @@ public:
     }
     GridDataRow data;
     int rowNumber;
-    bool isInserted;
+    bool isInserted; // but not saved // TODO: rename?
 };
 
 // Intent: data container for editing in grid/table form

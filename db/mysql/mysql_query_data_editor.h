@@ -8,7 +8,6 @@ namespace db {
 
 class MySQLQueryDataEditor : public QueryDataEditor
 {
-public:
 
 protected:
     virtual void insert(QueryData * data,

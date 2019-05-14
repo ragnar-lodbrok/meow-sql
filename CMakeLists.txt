@@ -71,6 +71,7 @@ set(SOURCE_FILES
     db/pg/pg_entities_fetcher.cpp
     db/pg/pg_entity_create_code_generator.cpp
     db/pg/pg_query.cpp
+    db/pg/pg_query_data_editor.cpp
     db/pg/pg_query_data_fetcher.cpp
     db/exception.cpp
     db/foreign_key.cpp

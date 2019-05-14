@@ -15,6 +15,8 @@ public:
     virtual ~QueryDataEditor();
 
     bool applyModificationsInDB(QueryData * data);
+    virtual bool loadModificationsResult() const { return true; }
+
 
     void deleteCurrentRow(QueryData * data);
 

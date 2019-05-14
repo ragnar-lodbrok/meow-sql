@@ -69,9 +69,9 @@ bool QueryDataEditor::applyModificationsInDB(QueryData * data)
                 .arg(data->whereForCurRow(true))
                 .arg(connection->limitOnePostfix(false));
 
-        // TODO: use "RETURNING *" for PG and avoid selecting result
+        // TODO: use "RETURNING *" for PG and avoid selecting result?
 
-        connection->query(updateSQL);
+        connection->query(updateSQL.trimmed());
         // TODO check rows affected
         return true;
     } else if (!insertColumnsList.isEmpty()) {
@@ -116,7 +116,7 @@ void QueryDataEditor::deleteCurrentRow(QueryData * data)
             .arg(data->whereForCurRow(true))
             .arg(connection->limitOnePostfix(false));
 
-    connection->query(deleteSQL);
+    connection->query(deleteSQL.trimmed());
 
     // TODO check rows affected
 }
