@@ -16,11 +16,14 @@ class ConnectionParametersForm : public QObject
 
 public:
     ConnectionParametersForm(
-        const meow::db::ConnectionParameters & connectionParams = meow::db::ConnectionParameters()
+        const meow::db::ConnectionParameters & connectionParams
+            = meow::db::ConnectionParameters()
     );
     virtual ~ConnectionParametersForm() {}
 
-    meow::db::NetworkType networkType() const { return _connectionParams.networkType(); }
+    meow::db::NetworkType networkType() const {
+        return _connectionParams.networkType();
+    }
     QString sessionName() const { return _connectionParams.sessionName(); }
     QString hostName() const { return _connectionParams.hostName(); }
     QString userName() const { return _connectionParams.userName(); }
@@ -29,7 +32,9 @@ public:
     bool isLoginPrompt() const { return _connectionParams.isLoginPrompt(); }
     qint16 port() const { return _connectionParams.port(); }
     int index() const;
-    const meow::db::ConnectionParameters & connectionParams() const { return _connectionParams; }
+    const meow::db::ConnectionParameters & connectionParams() const {
+        return _connectionParams;
+    }
 
     QStringList allDatabases(); // returns all database names available for this connection
 
@@ -45,6 +50,7 @@ public:
     bool isEqualTo(const meow::db::ConnectionParameters & connectionParams);
 
     Q_SIGNAL void changed();
+    Q_SIGNAL void networkTypeChanged();
 
 private:
     meow::db::ConnectionParameters _connectionParams; // store a copy, so we can edit freely, not affecting real data

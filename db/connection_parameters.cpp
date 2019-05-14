@@ -5,20 +5,21 @@
 #include "db/pg/pg_connection.h"
 #include "helpers/logger.h"
 
-meow::db::ConnectionParameters::ConnectionParameters(ConnectionParamsManager * manager)
+meow::db::ConnectionParameters::ConnectionParameters(
+        ConnectionParamsManager * manager)
    :_networkType(NetworkType::MySQL_TCPIP),
     _serverType(ServerType::MySQL),
     _sessionName("Unnamed"),
     _hostName("127.0.0.1"),
-    _userName("root"),
+    _userName(""),
     _password(""),
     _databases(""),
     _loginPrompt(false),
-    _port(3306),
+    _port(0),
     _manager(manager),
     _id(0)
 {
-
+    setDefaultValuesForType(NetworkType::MySQL_TCPIP);
 }
 
 void meow::db::ConnectionParameters::setNetworkType(NetworkType networkType)
@@ -37,7 +38,8 @@ void meow::db::ConnectionParameters::setNetworkType(NetworkType networkType)
     }
 }
 
-bool meow::db::ConnectionParameters::operator==(const meow::db::ConnectionParameters & other)
+bool meow::db::ConnectionParameters::operator==(
+        const meow::db::ConnectionParameters & other)
 {
     return _networkType == other._networkType
         && _serverType == other._serverType
@@ -55,7 +57,8 @@ meow::db::ConnectionParameters::operator QString() const
     return _userName + "@" + _hostName + ":" +QString::number(_port);
 }
 
-void meow::db::ConnectionParameters::setManager(ConnectionParamsManager &manager)
+void meow::db::ConnectionParameters::setManager(
+        ConnectionParamsManager &manager)
 {
     _manager = &manager;
 }
@@ -93,10 +96,43 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
         return ConnectionPtr(connection);
     }
     default:
+        Q_ASSERT(false);
         meowLogC(Log::Category::Error) << "Unimplemented network type";
     }
     return nullptr;
 }
+
+void meow::db::ConnectionParameters::setDefaultValuesForType(
+        const NetworkType type)
+{
+    switch (type) {
+
+    case NetworkType::MySQL_TCPIP:
+
+        setNetworkType(type);
+        setServerType(ServerType::MySQL);
+        //setHostName("127.0.0.1");
+        setUserName("root");
+        setPort(3306);
+
+        break;
+
+    case NetworkType::PG_TCPIP:
+
+        setNetworkType(type);
+        setServerType(ServerType::PostgreSQL);
+        //setHostName("127.0.0.1");
+        setUserName("postgres");
+        setPort(5432);
+
+        break;
+
+    default:
+
+        break;
+    }
+}
+
 
 QStringList meow::db::ConnectionParameters::databaseList() const
 {

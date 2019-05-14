@@ -22,7 +22,7 @@ public:
 private:
 
     void createDetailsTabs();
-    void fillDataFromForm();
+    Q_SLOT void fillDataFromForm();
 
     QTabWidget  * _detailsTabs;
     StartTab * _startTab;

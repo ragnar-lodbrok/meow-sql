@@ -39,6 +39,13 @@ void SessionForm::setConnectionParamsForm(
 {
     _connectionParamsForm = form;
     fillDataFromForm();
+
+    if (form) {
+        connect(form,
+                &models::forms::ConnectionParametersForm::networkTypeChanged,
+                this,
+                &SessionForm::fillDataFromForm);
+    }
 }
 
 void SessionForm::fillDataFromForm()

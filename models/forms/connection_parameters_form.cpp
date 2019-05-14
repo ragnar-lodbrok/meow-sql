@@ -23,6 +23,9 @@ void ConnectionParametersForm::setNetworkType(db::NetworkType networkType)
 {
     if (_connectionParams.networkType() != networkType) {
         _connectionParams.setNetworkType(networkType);
+        _connectionParams.setDefaultValuesForType(networkType);
+
+        emit networkTypeChanged();
         emit changed();
     }
 }

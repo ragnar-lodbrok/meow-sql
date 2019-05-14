@@ -25,10 +25,6 @@ public:
         return false;
     }
 
-    virtual bool supportsEditingTablesData() const {
-        return false;
-    }
-
     virtual bool supportsDrop(Entity::Type type) const {
         Q_UNUSED(type);
         return false;
@@ -58,10 +54,6 @@ public:
     }
 
     virtual bool supportsViewingTablesData() const override {
-        return true;
-    }
-
-    virtual bool supportsEditingTablesData() const override {
         return true;
     }
 
@@ -103,10 +95,6 @@ public:
 
     virtual bool supportsViewingTablesData() const override {
         return true;
-    }
-
-    virtual bool supportsEditingTablesData() const override {
-        return false; // not yet implemented
     }
 
     virtual bool supportsForeignKeys(const TableEntity * table) const override {

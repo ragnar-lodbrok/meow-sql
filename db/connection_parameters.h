@@ -73,6 +73,8 @@ public:
 
     ConnectionPtr createConnection();
 
+    void setDefaultValuesForType(const NetworkType type);
+
 private:
     NetworkType _networkType;
     ServerType _serverType;
@@ -86,6 +88,7 @@ private:
     ConnectionParamsManager * _manager;
     unsigned _id;
 };
+
 
 } // namespace db
 } // namespace meow
