@@ -40,6 +40,7 @@ SOURCES += main.cpp\
     app/log.cpp \
     db/connection.cpp \
     db/connection_parameters.cpp \
+    db/connection_features.cpp \
     db/connection_params_manager.cpp \
     db/connections_manager.cpp \
     db/database_editor.cpp \
@@ -67,12 +68,16 @@ SOURCES += main.cpp\
     db/mysql_collation_fetcher.cpp \
     db/mysql_connection.cpp \
     db/mysql/mysql_query.cpp \
+    db/mysql/mysql_query_data_editor.cpp \
     db/mysql_query_data_fetcher.cpp \
     db/mysql_table_editor.cpp \
     db/mysql_table_engines_fetcher.cpp \
     db/pg/pg_connection.cpp \
     db/pg/pg_entities_fetcher.cpp \
+    db/pg/pg_entity_create_code_generator.cpp \
     db/pg/pg_query.cpp \
+    db/pg/pg_query_data_editor.cpp \
+    db/pg/pg_query_data_fetcher.cpp \
     db/query.cpp \
     db/query_criteria.cpp \
     db/query_data.cpp \
@@ -167,6 +172,7 @@ HEADERS  +=  app/actions.h \
     db/common.h \
     db/connection.h \
     db/connection_parameters.h \
+    db/connection_features.h \
     db/connection_params_manager.h \
     db/connections_manager.h \
     db/database_editor.h \
@@ -197,11 +203,15 @@ HEADERS  +=  app/actions.h \
     db/mysql/mysql_database_editor.h \
     db/mysql_connection.h \
     db/mysql/mysql_query.h \
+    db/mysql/mysql_query_data_editor.h \
     db/mysql/mysql_query_result.h \
     db/pg/pg_query_result.h \
     db/pg/pg_connection.h \
     db/pg/pg_entities_fetcher.h \
+    db/pg/pg_entity_create_code_generator.h \
     db/pg/pg_query.h \
+    db/pg/pg_query_data_editor.h \
+    db/pg/pg_query_data_fetcher.h \
     db/mysql_collation_fetcher.h \
     db/mysql_query_data_fetcher.h \
     db/mysql_table_editor.h \
