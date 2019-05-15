@@ -1,10 +1,24 @@
 # Roadmap
 
+## 0.3.2
+
+PostgreSQL: view table's structure
+
+## 0.3.1
+
+PostgreSQL: edit table's data
+
+## 0.3.0
+
+Initial PostgreSQL support
+
 ## 0.2.1
 
 SQL log
 
-More edit features
+Ability to create & drop database
+
+Move to CMake
 
 ## 0.2.0
 

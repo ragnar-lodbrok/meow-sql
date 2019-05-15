@@ -19,9 +19,9 @@ though it can be run and do some work (warning: do not use in production!!!).
 2. At the moment supports MySQL and PostgreSQL (early stage).
 3. Sessions manager: managing multiple connections (warn: no password encryption!) 
 4. Connection to multiple sessions (=servers) at once (with multiple databases).
-5. Tree of db objects like databases and tables/views/striggers/functions/procedures - (MySQL only).
+5. Tree of db objects like databases and tables/views/striggers/functions/procedures - (MySQL + Postgres).
 6. Table: view columns (editable), indexes (editable) and foreign keys (editable) - (MySQL only).
-7. Table: view data (basic edit) - (MySQL only).
+7. Table: view data (basic edit) - (MySQL + Postgres).
 8. SQL: editor with simple syntax highlighting (no autocomplete).
 9. SQL: execute multiple statements at once and see results of SELECT statements 
 10. Create and drop tables - (MySQL only)
