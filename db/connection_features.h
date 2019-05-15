@@ -47,7 +47,9 @@ class MySQLConnectionFeatures : public ConnectionFeatures
 {
 public:
 
-    using ConnectionFeatures::ConnectionFeatures;
+	//using ConnectionFeatures::ConnectionFeatures;
+
+    MySQLConnectionFeatures(Connection * connection);
 
     virtual bool supportsViewingTables() const override {
         return true;
@@ -86,7 +88,9 @@ class PGConnectionFeatures : public ConnectionFeatures
 {
 public:
 
-    using ConnectionFeatures::ConnectionFeatures;
+	//using ConnectionFeatures::ConnectionFeatures;
+
+    PGConnectionFeatures(Connection * connection);
 
     virtual bool supportsViewingTables() const override {
         // not yet implemented
