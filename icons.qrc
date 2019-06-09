@@ -172,7 +172,7 @@
         <file>resources/icons/disk.png</file>
         <file alias="disconnect.png">resources/icons/disconnect.png</file>
         <file alias="delete.png">resources/icons/delete.png</file>
-        <file>resources/icons/database_save.png</file>
+        <file alias="database_save.png">resources/icons/database_save.png</file>
         <file>resources/icons/database_refresh.png</file>
         <file>resources/icons/database_go.png</file>
         <file>resources/icons/database_edit.png</file>

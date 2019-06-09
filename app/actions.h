@@ -22,6 +22,8 @@ public:
 
     QAction * logClear() const { return _logClear; }
 
+    QAction * exportDatabase() const { return _exportDatabase; }
+
 private:
 
     void createActions();
@@ -37,6 +39,8 @@ private:
     QAction * _dataSetNULL;
 
     QAction * _logClear;
+
+    QAction * _exportDatabase;
 };
 
 } // namespace meow

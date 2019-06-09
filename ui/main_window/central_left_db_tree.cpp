@@ -4,9 +4,11 @@
 #include "app/app.h"
 #include "helpers/logger.h"
 
-// test
 #include "ui/edit_database/dialog.h"
 #include "models/forms/edit_database_form.h"
+
+#include "ui/export_database/dialog.h"
+#include "models/forms/export_database_form.h"
 
 namespace meow {
 namespace ui {
@@ -36,6 +38,10 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
 
     _createTableAction->setEnabled(treeModel->canInsertTableOnCurrentItem());
     createSubMenu->addAction(_createTableAction);
+
+    menu.addSeparator();
+
+    menu.addAction(meow::app()->actions()->exportDatabase());
 
     menu.addSeparator();
 
@@ -136,6 +142,22 @@ void DbTree::createActions()
         treeModel->createNewTable();
     });
 
+    // export ==================================================================
+
+    connect(meow::app()->actions()->exportDatabase(),
+            &QAction::triggered,
+            [=](bool checked)
+    {
+        Q_UNUSED(checked);
+        auto treeModel =
+        static_cast<models::db::EntitiesTreeModel *>(model());
+
+        db::SessionEntity * session
+            = treeModel->dbConnectionsManager()->activeSession();
+        models::forms::ExportDatabaseForm form(session);
+        meow::ui::export_database::Dialog dialog(&form);
+        dialog.exec();
+    });
 
     // refresh =================================================================
     _refreshAction = new QAction(QIcon(":/icons/arrow_refresh.png"),

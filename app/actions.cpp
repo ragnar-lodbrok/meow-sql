@@ -53,6 +53,12 @@ void Actions::createActions()
     _logClear = new QAction(tr("Clear"), this);
     _logClear->setStatusTip(tr("Clear query log"));
 
+    // -------------------------------------------------------------------------
+
+    _exportDatabase = new QAction(QIcon(":/icons/database_save.png"),
+                              tr("Export database as SQL"), this);
+    _exportDatabase->setStatusTip(tr("Dump database objects to an SQL file"));
+
 }
 
 } // namespace meow

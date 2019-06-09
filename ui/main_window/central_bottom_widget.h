@@ -26,8 +26,8 @@ private:
     CentralLogWidget * _logWidget;
 };
 
-} // namespace meow
-} // namespace ui
 } // namespace main_window
+} // namespace ui
+} // namespace meow
 
 #endif // UI_CENTRAL_BOTTOM_WIDGET_H

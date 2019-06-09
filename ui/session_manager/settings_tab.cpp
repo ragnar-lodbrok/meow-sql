@@ -7,7 +7,9 @@ namespace meow {
 namespace ui {
 namespace session_manager {
 
-SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent) {
+SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
+{
+
     _mainGridLayout = new QGridLayout();
     int row = 0;
 

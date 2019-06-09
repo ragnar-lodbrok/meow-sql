@@ -113,6 +113,7 @@ set(SOURCE_FILES
     models/delegates/table_index_delegate.cpp
     models/forms/connection_parameters_form.cpp
     models/forms/edit_database_form.cpp
+    models/forms/export_database_form.cpp
     models/forms/table_foreign_keys_model.cpp
     models/forms/table_indexes_model.cpp
     models/forms/table_indexes_model_item.cpp
@@ -131,6 +132,9 @@ set(SOURCE_FILES
     ui/common/table_column_default_editor.cpp
     ui/common/table_view.cpp
     ui/edit_database/dialog.cpp
+    ui/export_database/bottom_widget.cpp
+    ui/export_database/dialog.cpp
+    ui/export_database/top_widget.cpp
     ui/main_window/central_bottom_widget.cpp
     ui/main_window/central_left_db_tree.cpp
     ui/main_window/central_left_widget.cpp
