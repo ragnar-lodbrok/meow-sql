@@ -34,6 +34,30 @@ QString ExportDatabaseForm::generateFilename() const
     );
 }
 
+void ExportDatabaseForm::startExport()
+{
+    _dumper.reset(new meow::utils::exporting::MySQLDumpConsole(this));
+
+    connect(_dumper.get(),
+            &meow::utils::exporting::MySQLDumpConsole::finished,
+            this,
+            &ExportDatabaseForm::finished);
+
+    connect(_dumper.get(),
+            &meow::utils::exporting::MySQLDumpConsole::progressMessage,
+            this,
+            &ExportDatabaseForm::progressMessage);
+
+    _dumper->start();
+}
+
+void ExportDatabaseForm::cancelExport()
+{
+    if (_dumper) {
+        _dumper->cancel();
+    }
+}
+
 } // namespace forms
 } // namespace models
 } // namespace meow

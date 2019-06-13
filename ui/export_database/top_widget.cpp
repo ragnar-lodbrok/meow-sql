@@ -49,6 +49,10 @@ void TopWidget::createWidgets()
     _filenameEdit = new QLineEdit;
     _filenameLabel->setBuddy(_filenameEdit);
     _mainGridLayout->addWidget(_filenameEdit, row, 1);
+    connect(_filenameEdit, &QLineEdit::textEdited,
+            [=](const QString &newName) {
+                _form->setFilename(newName);
+            });
 
     row++;
 

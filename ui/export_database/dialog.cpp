@@ -58,7 +58,7 @@ void Dialog::onCancel()
 
 void Dialog::onExport()
 {
-
+    _form->startExport();
 }
 
 } // namespace export_database

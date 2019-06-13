@@ -49,6 +49,7 @@ set(SOURCE_FILES
     db/data_type/data_type.cpp
     db/data_type/mysql_connection_data_types.cpp
     db/data_type/pg_connection_data_types.cpp
+    db/editable_grid_data.cpp
     db/entity/database_entity.cpp
     db/entity/entities_fetcher.cpp
     db/entity/entity.cpp
@@ -83,6 +84,7 @@ set(SOURCE_FILES
     db/query.cpp
     db/query_criteria.cpp
     db/query_data.cpp
+    db/query_data_editor.cpp
     db/query_data_fetcher.cpp
     db/table_column.cpp
     db/table_editor.cpp
@@ -103,6 +105,7 @@ set(SOURCE_FILES
     models/db/entities_tree_model.cpp
     models/db/table_columns_model.cpp
     models/delegates/checkbox_delegate.cpp
+    models/delegates/edit_query_data_delegate.cpp
     models/delegates/foreign_key_columns_delegate.cpp
     models/delegates/foreign_key_foreign_columns_delegate.cpp
     models/delegates/foreign_key_reference_option_delegate.cpp
@@ -126,6 +129,7 @@ set(SOURCE_FILES
     settings/settings_icons.cpp
     settings/settings_text.cpp
     ui/common/data_type_combo_box.cpp
+    ui/common/editable_data_table_view.cpp
     ui/common/sql_editor.cpp
     ui/common/sql_log_editor.cpp
     ui/common/sql_syntax_highlighter.cpp
@@ -165,10 +169,7 @@ set(SOURCE_FILES
     ui/session_manager/settings_tab.cpp
     ui/session_manager/start_tab.cpp
     ui/session_manager/window.cpp
-    db/editable_grid_data.cpp
-    db/query_data_editor.cpp
-    ui/common/editable_data_table_view.cpp
-    models/delegates/edit_query_data_delegate.cpp
+    utils/exporting/mysql_dump_console.cpp
 )
 
 qt5_add_resources(RESOURCE_FILES icons.qrc)
