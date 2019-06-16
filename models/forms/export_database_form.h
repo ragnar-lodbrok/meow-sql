@@ -44,7 +44,7 @@ public:
     meow::db::SessionEntity * session() const { return _session; }
 
     void startExport();
-    void cancelExport();
+    bool cancelExport();
 
     Q_SIGNAL void finished(bool success);
     Q_SIGNAL void progressMessage(const QString & str);

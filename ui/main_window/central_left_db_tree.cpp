@@ -154,7 +154,20 @@ void DbTree::createActions()
 
         db::SessionEntity * session
             = treeModel->dbConnectionsManager()->activeSession();
+
         models::forms::ExportDatabaseForm form(session);
+
+        db::Entity * currentEntity = treeModel->currentEntity();
+        if (currentEntity) {
+            db::Entity * db = meow::db::findParentEntityOfType(
+                        currentEntity,
+                        meow::db::Entity::Type::Database);
+            if (db) {
+                form.setDatabase(db->name());
+                form.setAllDatabases(false);
+            }
+        }
+
         meow::ui::export_database::Dialog dialog(&form);
         dialog.exec();
     });

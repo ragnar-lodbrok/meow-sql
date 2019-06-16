@@ -41,9 +41,20 @@ void Dialog::createWidgets()
             &Dialog::onExport
     );
 
+    connect(_form,
+            &models::forms::ExportDatabaseForm::finished,
+            this,
+            &Dialog::exportFinished);
+
+    connect(_form,
+            &models::forms::ExportDatabaseForm::progressMessage,
+            _topWidget,
+            &TopWidget::appendToResults);
+
 
     _mainLayout->addWidget(_topWidget, 1);
     _mainLayout->addWidget(_bottomWidget, 0, Qt::AlignBottom);
+
 }
 
 void Dialog::fillDataFromForm()
@@ -53,12 +64,30 @@ void Dialog::fillDataFromForm()
 
 void Dialog::onCancel()
 {
-    reject();
+    if (_form->cancelExport() == false) {
+        // close if was not running
+        reject();
+    }
 }
 
 void Dialog::onExport()
 {
+    _bottomWidget->exportButton()->setEnabled(false);
+    _topWidget->clearResults();
     _form->startExport();
+}
+
+void Dialog::exportFinished(bool success)
+{
+    if (success == false) {
+        QMessageBox msgBox;
+        msgBox.setText(tr("Export failed.\nSee logs for details."));
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+    }
+    _bottomWidget->exportButton()->setEnabled(true);
 }
 
 } // namespace export_database

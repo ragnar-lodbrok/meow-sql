@@ -68,7 +68,6 @@ void TopWidget::createWidgets()
 
     _mainGridLayout->setColumnMinimumWidth(0, 150);
     _mainGridLayout->setColumnStretch(1, 2);
-    _mainGridLayout->setAlignment(Qt::AlignTop);
     this->setLayout(_mainGridLayout);
 }
 
@@ -81,8 +80,22 @@ void TopWidget::fillDataFromForm()
     _databaseToExportComboBox->blockSignals(true);
     _databaseToExportComboBox->clear();
     _databaseToExportComboBox->addItems(_form->databases());
+    _databaseToExportComboBox->setCurrentIndex(
+        _databaseToExportComboBox->findText(_form->database()));
     _databaseToExportComboBox->blockSignals(false);
 }
+
+void TopWidget::clearResults()
+{
+    _results->clear();
+}
+
+void TopWidget::appendToResults(const QString & str)
+{
+    _results->insertPlainText(str);
+    _results->moveCursor(QTextCursor::End);
+}
+
 
 } // namespace export_database
 } // namespace ui

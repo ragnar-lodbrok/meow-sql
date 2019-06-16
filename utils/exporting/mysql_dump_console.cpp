@@ -14,6 +14,7 @@ MySQLDumpConsole::MySQLDumpConsole(models::forms::ExportDatabaseForm * form)
     : QObject()
     , _form(form)
     , _passwordEntered(false)
+    , _isCancelledbyUser(false)
 {
 
 }
@@ -26,9 +27,13 @@ MySQLDumpConsole::~MySQLDumpConsole()
 void MySQLDumpConsole::start()
 {
 
+    _isCancelledbyUser = false;
+
     QString program = pathToCommand();
 
     meowLogC(Log::Category::Debug) << currentCommand();
+
+    emit progressMessage(cmdPrompt() + currentCommand() + QChar::LineFeed);
 
     _process.reset(new QProcess());
     _process->start(program, programArguments());
@@ -40,7 +45,20 @@ void MySQLDumpConsole::start()
 
             meowLogC(Log::Category::Error) << "mysqldump failed, status: "
                                            << static_cast<int>(error);
-            emit finished(false);
+
+            QString errString;
+            switch (error) {
+            case QProcess::ProcessError::FailedToStart:
+                errString = "mysqldump failed to start:"
+                            " is missing or insufficient permissions";
+                break;
+            default:
+                errString = "mysqldump has finished with error";
+            };
+
+            emit progressMessage(errString + QChar::LineFeed);
+
+            emit finished(_isCancelledbyUser ? true : false);
         }
     );
 
@@ -55,7 +73,9 @@ void MySQLDumpConsole::start()
                     << static_cast<int>(exitCode);
             }
 
-            emit finished(QProcess::ExitStatus::NormalExit == exitStatus);
+            emit finished(
+                QProcess::ExitStatus::NormalExit == exitStatus
+                || _isCancelledbyUser);
         }
     );
 
@@ -91,11 +111,17 @@ void MySQLDumpConsole::start()
 
 bool MySQLDumpConsole::cancel()
 {
-    if (_process && _process->state() != QProcess::NotRunning) {
+    if (isRunning()) {
+        _isCancelledbyUser = true;
         _process->kill();
         return true;
     }
     return false;
+}
+
+bool MySQLDumpConsole::isRunning() const
+{
+    return _process && _process->state() != QProcess::NotRunning;
 }
 
 QString MySQLDumpConsole::version() const
@@ -127,6 +153,15 @@ QString MySQLDumpConsole::currentCommand() const
 QString MySQLDumpConsole::pathToCommand() const
 {
     return "mysqldump";
+}
+
+QString MySQLDumpConsole::cmdPrompt() const
+{
+#ifdef Q_OS_UNIX
+    return "$ ";
+#else
+    return "> ";
+#endif
 }
 
 QStringList MySQLDumpConsole::programArguments() const
@@ -180,6 +215,8 @@ bool MySQLDumpConsole::enterPasswordIfRequested(const QString & output)
 
         _process->write(params->password().toUtf8());
         _process->closeWriteChannel();
+
+        emit progressMessage(QString(QChar::LineFeed)); // Enter
 
         _passwordEntered = true;
 

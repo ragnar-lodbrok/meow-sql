@@ -13,8 +13,8 @@ class BottomWidget : public QWidget
 public:
     explicit BottomWidget(QWidget *parent = nullptr);
 
-    const QPushButton * exportButton() const { return _exportButton; }
-    const QPushButton * cancelButton() const { return _cancelButton; }
+    QPushButton * exportButton() const { return _exportButton; }
+    QPushButton * cancelButton() const { return _cancelButton; }
 
 private:
     void createWidgets();

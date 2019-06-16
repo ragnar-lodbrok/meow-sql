@@ -51,11 +51,12 @@ void ExportDatabaseForm::startExport()
     _dumper->start();
 }
 
-void ExportDatabaseForm::cancelExport()
+bool ExportDatabaseForm::cancelExport()
 {
     if (_dumper) {
-        _dumper->cancel();
+        return _dumper->cancel();
     }
+    return false;
 }
 
 } // namespace forms

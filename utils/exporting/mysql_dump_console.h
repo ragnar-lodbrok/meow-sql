@@ -29,6 +29,8 @@ public:
     void start();
     bool cancel();
 
+    bool isRunning() const;
+
     QString version() const;
     QString currentCommand() const;
 
@@ -44,12 +46,14 @@ private:
     bool enterPasswordIfRequested(const QString & output);
 
     QString pathToCommand() const;
+    QString cmdPrompt() const;
 
     std::unique_ptr<QProcess> _process;
 
     models::forms::ExportDatabaseForm * _form;
 
     bool _passwordEntered;
+    bool _isCancelledbyUser;
 };
 
 } // namespace exporting

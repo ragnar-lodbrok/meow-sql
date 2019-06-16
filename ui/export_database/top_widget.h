@@ -23,6 +23,9 @@ public:
 
     void fillDataFromForm();
 
+    void clearResults();
+    Q_SLOT void appendToResults(const QString & str);
+
 private:
     void createWidgets();
 

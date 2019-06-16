@@ -30,6 +30,8 @@ private:
     Q_SLOT void onCancel();
     Q_SLOT void onExport();
 
+    Q_SLOT void exportFinished(bool success);
+
     models::forms::ExportDatabaseForm * _form;
 
     QVBoxLayout * _mainLayout;
