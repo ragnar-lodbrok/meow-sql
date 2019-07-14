@@ -13,8 +13,9 @@ ExportDatabaseForm::ExportDatabaseForm(db::SessionEntity * session)
     : _session(session)
     , _allDatabases(true)
     , _filename(generateFilename())
+    , _options(0)
 {
-
+    resetOptionsToDefault();
 }
 
 const QStringList ExportDatabaseForm::databases() const
@@ -57,6 +58,125 @@ bool ExportDatabaseForm::cancelExport()
         return _dumper->cancel();
     }
     return false;
+}
+
+void ExportDatabaseForm::setOption(MySQLDumpOption opt, bool enabled)
+{
+    if (_options & static_cast<uint32_t>(opt)) {
+        return;
+    }
+
+    if (enabled) {
+        _options |= static_cast<uint32_t>(opt);
+    } else {
+        _options &= ~static_cast<uint32_t>(opt);
+
+    }
+
+    switch (opt) {
+
+    case MySQLDumpOption::AllDatabases: // --all-databases
+        // either --all-databases or --databases
+        setOption(MySQLDumpOption::Databases, !enabled);
+        break;
+
+    case MySQLDumpOption::Databases: // --databases
+        // either --all-databases or --databases
+        setOption(MySQLDumpOption::AllDatabases, !enabled);
+        break;
+
+    // <----------------------------
+    case MySQLDumpOption::CreateDatabase:
+        // on when --all-databases or --databases
+        setOption(MySQLDumpOption::NoCreateDatabase, !enabled);
+        break;
+    case MySQLDumpOption::NoCreateDatabase: //  --no-create-db,
+        // Suppress the CREATE DATABASE statements that are otherwise included
+        // in the output if the --databases or --all-databases option is given.
+        setOption(MySQLDumpOption::CreateDatabase, !enabled);
+        break;
+    // ----------------------------->
+
+
+    // <----------------------------
+    case MySQLDumpOption::CreateTable:
+        setOption(MySQLDumpOption::NoCreateTable, !enabled);
+        break;
+
+    case MySQLDumpOption::NoCreateTable: //  --no-create-info
+        setOption(MySQLDumpOption::CreateTable, !enabled);
+        break;
+    // ----------------------------->
+
+
+    // <----------------------------
+    case MySQLDumpOption::Triggers: // --triggers
+        // complementar with NoTriggers
+        setOption(MySQLDumpOption::NoTriggers, !enabled);
+        break;
+
+    case MySQLDumpOption::NoTriggers: // --skip-triggers
+        // complementar with Triggers
+        setOption(MySQLDumpOption::Triggers, !enabled);
+        break;
+    // ----------------------------->
+
+
+    case MySQLDumpOption::AddDropTable:
+        // --opt has --add-drop-table
+        setOptGroupExpanded(enabled, MySQLDumpOption::AddDropTable);
+        break;
+
+    default:
+        break;
+    }
+}
+
+void ExportDatabaseForm::setOptGroupExpanded(bool enabled,
+                                             MySQLDumpOption exclude)
+{
+    //  --opt
+    // This option, enabled by default, is shorthand for the combination of --add-drop-table --add-
+    // locks --create-options --disable-keys --extended-insert --lock-tables --quick
+    // --set-charset. It gives a fast dump operation and produces a dump file that can be reloaded into
+    // a MySQL server quickly.
+
+    // Because the --opt option is enabled by default, you only specify its converse, the --skip-opt
+    // to turn off several default settings.
+
+
+    setOption(MySQLDumpOption::NoOptGroup,     !enabled);
+
+    if (exclude != MySQLDumpOption::AddDropTable) {
+        setOption(MySQLDumpOption::AddDropTable,   !enabled);
+    }
+    setOption(MySQLDumpOption::AddLocks,       !enabled);
+    setOption(MySQLDumpOption::CreateOptions,  !enabled);
+    setOption(MySQLDumpOption::DisableKeys,    !enabled);
+    setOption(MySQLDumpOption::ExtendedInsert, !enabled);
+    setOption(MySQLDumpOption::LockTables,     !enabled);
+    setOption(MySQLDumpOption::Quick,          !enabled);
+    setOption(MySQLDumpOption::SetCharset,     !enabled);
+
+}
+
+void ExportDatabaseForm::resetOptionsToDefault()
+{
+    _options = 0;
+
+    setOption(MySQLDumpOption::AllDatabases, true);
+    setOption(MySQLDumpOption::Databases, false);
+    //setOption(MySQLDumpOption::AddDropDatabase, false);
+    setOption(MySQLDumpOption::AddDropTable, true);
+    //setOption(MySQLDumpOption::AddDropTrigger, false);
+    setOption(MySQLDumpOption::CreateDatabase, true);
+    setOption(MySQLDumpOption::CreateTable, true);
+    //setOption(MySQLDumpOption::NoCreateDatabase, false);
+    //setOption(MySQLDumpOption::ReplaceNotInsert, false);
+    setOption(MySQLDumpOption::Events, true);
+    //setOption(MySQLDumpOption::NoData, false);
+    setOption(MySQLDumpOption::Routines, true);
+    setOption(MySQLDumpOption::Triggers, true);
 }
 
 } // namespace forms
