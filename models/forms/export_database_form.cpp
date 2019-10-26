@@ -4,6 +4,7 @@
 
 #include <QStandardPaths>
 #include <QDir>
+#include <QDebug>
 
 namespace meow {
 namespace models {
@@ -60,51 +61,57 @@ bool ExportDatabaseForm::cancelExport()
     return false;
 }
 
-void ExportDatabaseForm::setOption(MySQLDumpOption opt, bool enabled)
+void ExportDatabaseForm::setOptionPrivate(MySQLDumpOption opt, bool enabled)
 {
-    if (_options & static_cast<uint32_t>(opt)) {
-        return;
-    }
-
     if (enabled) {
         _options |= static_cast<uint32_t>(opt);
     } else {
         _options &= ~static_cast<uint32_t>(opt);
+    }
+}
 
+void ExportDatabaseForm::setOption(MySQLDumpOption opt, bool enabled)
+{
+    uint32_t prevOptionsValue = _options;
+
+    setOptionPrivate(opt, enabled);
+
+    if (prevOptionsValue == _options) {
+        return;
     }
 
     switch (opt) {
 
     case MySQLDumpOption::AllDatabases: // --all-databases
         // either --all-databases or --databases
-        setOption(MySQLDumpOption::Databases, !enabled);
+        setOptionPrivate(MySQLDumpOption::Databases, !enabled);
         break;
 
     case MySQLDumpOption::Databases: // --databases
         // either --all-databases or --databases
-        setOption(MySQLDumpOption::AllDatabases, !enabled);
+        setOptionPrivate(MySQLDumpOption::AllDatabases, !enabled);
         break;
 
     // <----------------------------
     case MySQLDumpOption::CreateDatabase:
         // on when --all-databases or --databases
-        setOption(MySQLDumpOption::NoCreateDatabase, !enabled);
+        setOptionPrivate(MySQLDumpOption::NoCreateDatabase, !enabled);
         break;
     case MySQLDumpOption::NoCreateDatabase: //  --no-create-db,
         // Suppress the CREATE DATABASE statements that are otherwise included
         // in the output if the --databases or --all-databases option is given.
-        setOption(MySQLDumpOption::CreateDatabase, !enabled);
+        setOptionPrivate(MySQLDumpOption::CreateDatabase, !enabled);
         break;
     // ----------------------------->
 
 
     // <----------------------------
     case MySQLDumpOption::CreateTable:
-        setOption(MySQLDumpOption::NoCreateTable, !enabled);
+        setOptionPrivate(MySQLDumpOption::NoCreateTable, !enabled);
         break;
 
     case MySQLDumpOption::NoCreateTable: //  --no-create-info
-        setOption(MySQLDumpOption::CreateTable, !enabled);
+        setOptionPrivate(MySQLDumpOption::CreateTable, !enabled);
         break;
     // ----------------------------->
 
@@ -112,12 +119,12 @@ void ExportDatabaseForm::setOption(MySQLDumpOption opt, bool enabled)
     // <----------------------------
     case MySQLDumpOption::Triggers: // --triggers
         // complementar with NoTriggers
-        setOption(MySQLDumpOption::NoTriggers, !enabled);
+        setOptionPrivate(MySQLDumpOption::NoTriggers, !enabled);
         break;
 
     case MySQLDumpOption::NoTriggers: // --skip-triggers
         // complementar with Triggers
-        setOption(MySQLDumpOption::Triggers, !enabled);
+        setOptionPrivate(MySQLDumpOption::Triggers, !enabled);
         break;
     // ----------------------------->
 

@@ -29,12 +29,30 @@ public:
 private:
     void createWidgets();
 
+    Q_SLOT void optionsCheckboxChanged(int state);
+
     models::forms::ExportDatabaseForm * _form;
 
     QGridLayout * _mainGridLayout;
 
     QLabel * _databaseToExportLabel;
     QComboBox * _databaseToExportComboBox;
+
+    QLabel * _optionsDatabasesLabel;
+    QCheckBox * _databaseCreateCheckbox;
+    QCheckBox * _databaseDropCheckbox;
+
+    QLabel * _optionsTablesLabel;
+    QCheckBox * _tablesCreateCheckbox;
+    QCheckBox * _tablesDropCheckbox;
+
+    QLabel * _optionsTriggersLabel;
+    QCheckBox * _triggersCreateCheckbox;
+    QCheckBox * _triggersDropCheckbox;
+
+    QLabel * _optionsRoutinesEventsLabel;
+    QCheckBox * _routinesCreateCheckbox;
+    QCheckBox * _eventsCreateCheckbox;
 
     QLabel * _filenameLabel;
     QLineEdit * _filenameEdit;

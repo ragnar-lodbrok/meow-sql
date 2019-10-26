@@ -101,6 +101,8 @@ private:
 
     void setOptGroupExpanded(bool enabled, MySQLDumpOption exclude);
 
+    void setOptionPrivate(MySQLDumpOption opt, bool enabled);
+
     meow::db::SessionEntity * const _session;
     std::unique_ptr<meow::utils::exporting::MySQLDumpConsole> _dumper;
 

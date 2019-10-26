@@ -22,7 +22,7 @@ class TableTab : public QWidget
     Q_OBJECT
 public:
 
-    explicit TableTab(QWidget * parent = 0);
+    explicit TableTab(QWidget * parent = nullptr);
     ~TableTab();
 
     void setTable(db::TableEntity * table);

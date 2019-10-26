@@ -11,13 +11,13 @@ Dialog::Dialog(models::forms::ExportDatabaseForm * form)
     : QDialog(nullptr, Qt::WindowCloseButtonHint),
       _form(form)
 {
-    setMinimumSize(320, 200);
+    setMinimumSize(320, 300);
     setWindowTitle(tr("Export database as SQL"));
 
     createWidgets();
     fillDataFromForm();
 
-    resize(600, 300);
+    resize(600, 400);
 }
 
 void Dialog::createWidgets()
