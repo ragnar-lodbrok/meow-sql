@@ -22,39 +22,39 @@ namespace forms {
 
 enum class MySQLDumpOption
 {
-    AllDatabases = 1, //  --all-databases
-    Databases, //  --databases
-    //SingleDatabase, // no *-databases key TODO
-    AddDropDatabase, //  --add-drop-database
-    AddDropTable, //  --add-drop-table
-    AddDropTrigger, //  --add-drop-trigger
-    CreateDatabase, // on when --all-databases or --databases
-    CreateTable,
-    //ReplaceNotInsert, // --replace // TODO
-    Events, // --events
-    //NoData, // --no-data // TODO
-    Routines, // --routines
-    Triggers, // --triggers (enabled by default)
+    AllDatabases       = 1, //  --all-databases
+    Databases          = (1 << 2), //  --databases
+    //SingleDatabase   = (1 << 3), // no *-databases key TODO
+    AddDropDatabase    = (1 << 4), //  --add-drop-database
+    AddDropTable       = (1 << 5), //  --add-drop-table
+    AddDropTrigger     = (1 << 6), //  --add-drop-trigger
+    CreateDatabase     = (1 << 7), // on when --all-databases or --databases
+    CreateTable        = (1 << 8),
+    //ReplaceNotInsert = (1 << 9), // --replace // TODO
+    Events             = (1 << 10), // --events
+    //NoData           = (1 << 11), // --no-data // TODO
+    Routines           = (1 << 12), // --routines
+    Triggers           = (1 << 13), // --triggers (enabled by default)
 
 
     // internal options:
 
-    NoCreateDatabase, // --no-create-db
-    NoTriggers, // --skip-triggers
-    NoCreateTable, //  --no-create-info
-    //OptGroup, // --opt
-    NoOptGroup, // --skip-opt
-    AddLocks, // --add-locks
-    CreateOptions, // --create-options
-    DisableKeys, // --disable-keys
-    ExtendedInsert, // --extended-insert
-    LockTables, // --lock-tables
-    Quick, // --quick
-    SetCharset, // --set-charset
+    NoCreateDatabase   = (1 << 14), // --no-create-db
+    NoTriggers         = (1 << 15), // --skip-triggers
+    NoCreateTable      = (1 << 16), //  --no-create-info
+    //OptGroup         = (1 << 17), // --opt
+    NoOptGroup         = (1 << 18), // --skip-opt
+    AddLocks           = (1 << 19), // --add-locks
+    CreateOptions      = (1 << 20), // --create-options
+    DisableKeys        = (1 << 21), // --disable-keys
+    ExtendedInsert     = (1 << 22), // --extended-insert
+    LockTables         = (1 << 23), // --lock-tables
+    Quick              = (1 << 24), // --quick
+    SetCharset         = (1 << 25), // --set-charset
 
 };
 
-
+// TODO: the form should not contain MySQL-specific logic?
 class ExportDatabaseForm : public QObject
 {
     Q_OBJECT
@@ -64,7 +64,7 @@ public:
 
     const QStringList databases() const;
 
-    void setDatabase(const QString & db) { _database = db; }
+    void setDatabase(const QString & db);
     const QString database() const {
         return allDatabases() ? QString() : _database;
     }
@@ -76,7 +76,7 @@ public:
         return isOptionEnabled(MySQLDumpOption::AllDatabases);
     }
 
-    void setFilename(const QString & name) { _filename = name; }
+    void setFilename(const QString & name);
     const QString & filename() const { return _filename; }
 
 
@@ -86,13 +86,18 @@ public:
     bool cancelExport();
 
     bool isOptionEnabled(MySQLDumpOption opt) const {
-        return _options & static_cast<uint32_t>(opt);
+        return (_options & static_cast<uint32_t>(opt))
+                == static_cast<uint32_t>(opt);
     }
 
     void setOption(MySQLDumpOption opt, bool enabled);
 
+    QString currentCommand() const;
+
     Q_SIGNAL void finished(bool success);
     Q_SIGNAL void progressMessage(const QString & str);
+
+    Q_SIGNAL void optionsChanged();
 
 private:
 
@@ -107,7 +112,6 @@ private:
     std::unique_ptr<meow::utils::exporting::MySQLDumpConsole> _dumper;
 
     QString _database;
-    bool _allDatabases;
 
     QString _filename;
 

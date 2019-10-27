@@ -46,7 +46,6 @@ private:
     bool enterPasswordIfRequested(const QString & output);
 
     QString pathToCommand() const;
-    QString cmdPrompt() const;
 
     std::unique_ptr<QProcess> _process;
 

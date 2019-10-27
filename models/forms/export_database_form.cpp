@@ -12,11 +12,27 @@ namespace forms {
 
 ExportDatabaseForm::ExportDatabaseForm(db::SessionEntity * session)
     : _session(session)
-    , _allDatabases(true)
+    , _dumper(new meow::utils::exporting::MySQLDumpConsole(this))
     , _filename(generateFilename())
     , _options(0)
 {
     resetOptionsToDefault();
+}
+
+void ExportDatabaseForm::setDatabase(const QString & db)
+{
+    if (_database != db) {
+        _database = db;
+        emit optionsChanged();
+    }
+}
+
+void ExportDatabaseForm::setFilename(const QString & name)
+{
+    if (_filename != name) {
+        _filename = name;
+        emit optionsChanged();
+    }
 }
 
 const QStringList ExportDatabaseForm::databases() const
@@ -38,6 +54,7 @@ QString ExportDatabaseForm::generateFilename() const
 
 void ExportDatabaseForm::startExport()
 {
+    // TODO: need to reset each time?
     _dumper.reset(new meow::utils::exporting::MySQLDumpConsole(this));
 
     connect(_dumper.get(),
@@ -75,10 +92,6 @@ void ExportDatabaseForm::setOption(MySQLDumpOption opt, bool enabled)
     uint32_t prevOptionsValue = _options;
 
     setOptionPrivate(opt, enabled);
-
-    if (prevOptionsValue == _options) {
-        return;
-    }
 
     switch (opt) {
 
@@ -137,33 +150,41 @@ void ExportDatabaseForm::setOption(MySQLDumpOption opt, bool enabled)
     default:
         break;
     }
+
+    if (prevOptionsValue != _options) {
+        emit optionsChanged();
+    }
+
 }
 
 void ExportDatabaseForm::setOptGroupExpanded(bool enabled,
                                              MySQLDumpOption exclude)
 {
     //  --opt
-    // This option, enabled by default, is shorthand for the combination of --add-drop-table --add-
-    // locks --create-options --disable-keys --extended-insert --lock-tables --quick
-    // --set-charset. It gives a fast dump operation and produces a dump file that can be reloaded into
+    // This option, enabled by default, is shorthand for the combination
+    // of --add-drop-table --add-locks --create-options
+    // --disable-keys --extended-insert --lock-tables --quick
+    // --set-charset. It gives a fast dump operation and produces a dump file
+    // that can be reloaded into
     // a MySQL server quickly.
 
-    // Because the --opt option is enabled by default, you only specify its converse, the --skip-opt
+    // Because the --opt option is enabled by default, you only specify its
+    // converse, the --skip-opt
     // to turn off several default settings.
 
 
-    setOption(MySQLDumpOption::NoOptGroup,     !enabled);
+    setOptionPrivate(MySQLDumpOption::NoOptGroup,     !enabled);
 
-    if (exclude != MySQLDumpOption::AddDropTable) {
-        setOption(MySQLDumpOption::AddDropTable,   !enabled);
+    if (exclude != MySQLDumpOption::AddDropTable) { // TODO: need?
+        setOptionPrivate(MySQLDumpOption::AddDropTable,   !enabled);
     }
-    setOption(MySQLDumpOption::AddLocks,       !enabled);
-    setOption(MySQLDumpOption::CreateOptions,  !enabled);
-    setOption(MySQLDumpOption::DisableKeys,    !enabled);
-    setOption(MySQLDumpOption::ExtendedInsert, !enabled);
-    setOption(MySQLDumpOption::LockTables,     !enabled);
-    setOption(MySQLDumpOption::Quick,          !enabled);
-    setOption(MySQLDumpOption::SetCharset,     !enabled);
+    setOptionPrivate(MySQLDumpOption::AddLocks,       !enabled);
+    setOptionPrivate(MySQLDumpOption::CreateOptions,  !enabled);
+    setOptionPrivate(MySQLDumpOption::DisableKeys,    !enabled);
+    setOptionPrivate(MySQLDumpOption::ExtendedInsert, !enabled);
+    setOptionPrivate(MySQLDumpOption::LockTables,     !enabled);
+    setOptionPrivate(MySQLDumpOption::Quick,          !enabled);
+    setOptionPrivate(MySQLDumpOption::SetCharset,     !enabled);
 
 }
 
@@ -184,6 +205,11 @@ void ExportDatabaseForm::resetOptionsToDefault()
     //setOption(MySQLDumpOption::NoData, false);
     setOption(MySQLDumpOption::Routines, true);
     setOption(MySQLDumpOption::Triggers, true);
+}
+
+QString ExportDatabaseForm::currentCommand() const
+{
+    return _dumper->currentCommand();
 }
 
 } // namespace forms

@@ -33,7 +33,7 @@ void MySQLDumpConsole::start()
 
     meowLogC(Log::Category::Debug) << currentCommand();
 
-    emit progressMessage(cmdPrompt() + currentCommand() + QChar::LineFeed);
+    emit progressMessage(currentCommand() + QChar::LineFeed);
 
     _process.reset(new QProcess());
     _process->start(program, programArguments());
@@ -155,15 +155,6 @@ QString MySQLDumpConsole::pathToCommand() const
     return "mysqldump";
 }
 
-QString MySQLDumpConsole::cmdPrompt() const
-{
-#ifdef Q_OS_UNIX
-    return "$ ";
-#else
-    return "> ";
-#endif
-}
-
 QStringList MySQLDumpConsole::programArguments() const
 {
     QStringList args;
@@ -175,6 +166,65 @@ QStringList MySQLDumpConsole::programArguments() const
     } else {
         args << "--databases" << _form->database();
     }
+
+    using Option = models::forms::MySQLDumpOption;
+
+    if (_form->isOptionEnabled(Option::AddDropDatabase)) {
+        args << "--add-drop-database";
+    }
+    if (_form->isOptionEnabled(Option::AddDropTrigger)) {
+        args << "--add-drop-trigger";
+    }
+    if (_form->isOptionEnabled(Option::Events)) {
+        args << "--events";
+    }
+    if (_form->isOptionEnabled(Option::Routines)) {
+        args << "--routines";
+    }
+    if (_form->isOptionEnabled(Option::Triggers)) {
+        // enabled by default, no need to specify
+        //args << "--triggers";
+    }
+
+    if (_form->isOptionEnabled(Option::NoCreateDatabase)) {
+        args << "--no-create-db";
+    }
+    if (_form->isOptionEnabled(Option::NoTriggers)) {
+        args << "--skip-triggers";
+    }
+    if (_form->isOptionEnabled(Option::NoCreateTable)) {
+        args << "--no-create-info";
+    }
+    if (_form->isOptionEnabled(Option::NoOptGroup)) {
+        args << "--skip-opt";
+    }
+    // --opt group begin, keep after --skip-opt
+    if (_form->isOptionEnabled(Option::AddDropTable)
+        && _form->isOptionEnabled(Option::NoOptGroup)) {
+        args << "--add-drop-table";
+    }
+    if (_form->isOptionEnabled(Option::AddLocks)) {
+        args << "--add-locks";
+    }
+    if (_form->isOptionEnabled(Option::CreateOptions)) {
+        args << "--create-options";
+    }
+    if (_form->isOptionEnabled(Option::DisableKeys)) {
+        args << "--disable-keys";
+    }
+    if (_form->isOptionEnabled(Option::ExtendedInsert)) {
+        args << "--extended-insert";
+    }
+    if (_form->isOptionEnabled(Option::LockTables)) {
+        args << "--lock-tables";
+    }
+    if (_form->isOptionEnabled(Option::Quick)) {
+        args << "--quick";
+    }
+    if (_form->isOptionEnabled(Option::SetCharset)) {
+        args << "--set-charset";
+    }
+    // --opt group end
 
     args << "--verbose";
 

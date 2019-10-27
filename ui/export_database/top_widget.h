@@ -2,15 +2,9 @@
 #define UI_EXPORT_DATABASE_TOP_WIDGET_H
 
 #include <QtWidgets>
+#include "models/forms/export_database_form.h"
 
 namespace meow {
-
-namespace models {
-namespace forms {
-    class ExportDatabaseForm;
-}
-}
-
 namespace ui {
 namespace export_database {
 
@@ -29,7 +23,8 @@ public:
 private:
     void createWidgets();
 
-    Q_SLOT void optionsCheckboxChanged(int state);
+    Q_SLOT void onOptionsCheckboxChanged(int state);
+    Q_SLOT void onFormOptionsChanged();
 
     models::forms::ExportDatabaseForm * _form;
 
@@ -58,6 +53,8 @@ private:
     QLineEdit * _filenameEdit;
 
     QPlainTextEdit * _results;
+
+    QMap<QCheckBox *, models::forms::MySQLDumpOption> _checkboxOptions;
 };
 
 } // namespace export_database

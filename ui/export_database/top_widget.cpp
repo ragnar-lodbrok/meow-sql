@@ -5,11 +5,26 @@ namespace meow {
 namespace ui {
 namespace export_database {
 
+using Option = models::forms::MySQLDumpOption;
+
 TopWidget::TopWidget(models::forms::ExportDatabaseForm *form, QWidget *parent)
     : QWidget(parent)
     , _form(form)
 {
     createWidgets();
+
+    _checkboxOptions = {
+            { _databaseCreateCheckbox, Option::CreateDatabase },
+            { _databaseDropCheckbox,   Option::AddDropDatabase },
+            { _tablesCreateCheckbox,   Option::CreateTable },
+            { _tablesDropCheckbox,     Option::AddDropTable },
+            { _triggersCreateCheckbox, Option::Triggers },
+            { _triggersDropCheckbox,   Option::AddDropTrigger },
+            { _routinesCreateCheckbox, Option::Routines },
+            { _eventsCreateCheckbox,   Option::Events }};
+
+    connect(_form, &models::forms::ExportDatabaseForm::optionsChanged,
+            this, &TopWidget::onFormOptionsChanged);
 }
 
 void TopWidget::createWidgets()
@@ -64,10 +79,10 @@ void TopWidget::createWidgets()
 
     _databaseCreateCheckbox = new QCheckBox(tr("Create"));
     connect(_databaseCreateCheckbox, &QCheckBox::stateChanged,
-            this, &TopWidget::optionsCheckboxChanged);
+            this, &TopWidget::onOptionsCheckboxChanged);
     _databaseDropCheckbox = new QCheckBox(tr("Drop"));
     connect(_databaseDropCheckbox, &QCheckBox::stateChanged,
-            this, &TopWidget::optionsCheckboxChanged);
+            this, &TopWidget::onOptionsCheckboxChanged);
 
     QHBoxLayout * dbLayout = new QHBoxLayout();
     dbLayout->addWidget(_databaseCreateCheckbox);
@@ -84,10 +99,10 @@ void TopWidget::createWidgets()
 
     _tablesCreateCheckbox = new QCheckBox(tr("Create"));
     connect(_tablesCreateCheckbox, &QCheckBox::stateChanged,
-            this, &TopWidget::optionsCheckboxChanged);
+            this, &TopWidget::onOptionsCheckboxChanged);
     _tablesDropCheckbox = new QCheckBox(tr("Drop"));
     connect(_tablesDropCheckbox, &QCheckBox::stateChanged,
-            this, &TopWidget::optionsCheckboxChanged);
+            this, &TopWidget::onOptionsCheckboxChanged);
 
     QHBoxLayout * tablesLayout = new QHBoxLayout();
     tablesLayout->addWidget(_tablesCreateCheckbox);
@@ -104,10 +119,10 @@ void TopWidget::createWidgets()
 
     _triggersCreateCheckbox = new QCheckBox(tr("Create"));
     connect(_triggersCreateCheckbox, &QCheckBox::stateChanged,
-            this, &TopWidget::optionsCheckboxChanged);
+            this, &TopWidget::onOptionsCheckboxChanged);
     _triggersDropCheckbox = new QCheckBox(tr("Drop"));
     connect(_triggersDropCheckbox, &QCheckBox::stateChanged,
-            this, &TopWidget::optionsCheckboxChanged);
+            this, &TopWidget::onOptionsCheckboxChanged);
 
     QHBoxLayout * triggersLayout = new QHBoxLayout();
     triggersLayout->addWidget(_triggersCreateCheckbox);
@@ -124,10 +139,10 @@ void TopWidget::createWidgets()
 
     _routinesCreateCheckbox = new QCheckBox(tr("Routines"));
     connect(_routinesCreateCheckbox, &QCheckBox::stateChanged,
-            this, &TopWidget::optionsCheckboxChanged);
+            this, &TopWidget::onOptionsCheckboxChanged);
     _eventsCreateCheckbox = new QCheckBox(tr("Events"));
     connect(_eventsCreateCheckbox, &QCheckBox::stateChanged,
-            this, &TopWidget::optionsCheckboxChanged);
+            this, &TopWidget::onOptionsCheckboxChanged);
 
     QHBoxLayout * routinesEventsLayout = new QHBoxLayout();
     routinesEventsLayout->addWidget(_routinesCreateCheckbox);
@@ -155,6 +170,10 @@ void TopWidget::createWidgets()
 
 void TopWidget::fillDataFromForm()
 {
+
+    clearResults();
+    appendToResults(_form->currentCommand());
+
     _filenameEdit->blockSignals(true);
     _filenameEdit->setText(_form->filename());
     _filenameEdit->blockSignals(false);
@@ -162,9 +181,30 @@ void TopWidget::fillDataFromForm()
     _databaseToExportComboBox->blockSignals(true);
     _databaseToExportComboBox->clear();
     _databaseToExportComboBox->addItems(_form->databases());
-    _databaseToExportComboBox->setCurrentIndex(
-        _databaseToExportComboBox->findText(_form->database()));
+    if (_form->allDatabases()) {
+        _databaseToExportComboBox->setCurrentIndex(0);
+    } else {
+        _databaseToExportComboBox->setCurrentIndex(
+            _databaseToExportComboBox->findText(_form->database()));
+    }
     _databaseToExportComboBox->blockSignals(false);
+
+
+    auto it = _checkboxOptions.constBegin();
+    while (it != _checkboxOptions.constEnd()) {
+
+        QCheckBox * checkbox = it.key();
+        Option option = it.value();
+
+        checkbox->blockSignals(true);
+        checkbox->setCheckState(
+            _form->isOptionEnabled(option) ?
+            Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+        checkbox->blockSignals(false);
+
+        ++it;
+    }
+
 }
 
 void TopWidget::clearResults()
@@ -178,27 +218,22 @@ void TopWidget::appendToResults(const QString & str)
     _results->moveCursor(QTextCursor::End);
 }
 
-void TopWidget::optionsCheckboxChanged(int state)
+void TopWidget::onOptionsCheckboxChanged(int state)
 {
-    using Option = models::forms::MySQLDumpOption;
+    // Listening: Kampfar - Tornekratt
 
-    const QMap<QCheckBox *, Option> options = {
-        { _databaseCreateCheckbox, Option::CreateDatabase },
-        { _databaseDropCheckbox,   Option::AddDropDatabase },
-        { _tablesCreateCheckbox,   Option::CreateTable },
-        { _tablesDropCheckbox,     Option::AddDropTable },
-        { _triggersCreateCheckbox, Option::Triggers },
-        { _triggersDropCheckbox,   Option::AddDropTrigger },
-        { _routinesCreateCheckbox, Option::Routines },
-        { _eventsCreateCheckbox,   Option::Events }
-    };
+    const auto it = _checkboxOptions.find(static_cast<QCheckBox *>(sender()));
 
-    const auto it = options.find(static_cast<QCheckBox *>(sender()));
-
-    if (it != options.end()) {
+    if (it != _checkboxOptions.end()) {
         _form->setOption(it.value(),
                          state == Qt::Checked);
     }
+}
+
+void TopWidget::onFormOptionsChanged()
+{
+    // TODO: don't change all fields
+    fillDataFromForm();
 }
 
 } // namespace export_database
