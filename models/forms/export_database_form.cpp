@@ -4,6 +4,7 @@
 
 #include <QStandardPaths>
 #include <QDir>
+#include <QDateTime>
 #include <QDebug>
 
 namespace meow {
@@ -14,6 +15,7 @@ ExportDatabaseForm::ExportDatabaseForm(db::SessionEntity * session)
     : _session(session)
     , _dumper(new meow::utils::exporting::MySQLDumpConsole(this))
     , _filename(generateFilename())
+    , _filenameChangedByUser(false)
     , _options(0)
 {
     resetOptionsToDefault();
@@ -23,6 +25,9 @@ void ExportDatabaseForm::setDatabase(const QString & db)
 {
     if (_database != db) {
         _database = db;
+        if (_filenameChangedByUser == false) {
+            _filename = generateFilename();
+        }
         emit optionsChanged();
     }
 }
@@ -31,6 +36,7 @@ void ExportDatabaseForm::setFilename(const QString & name)
 {
     if (_filename != name) {
         _filename = name;
+        _filenameChangedByUser = true;
         emit optionsChanged();
     }
 }
@@ -43,12 +49,35 @@ const QStringList ExportDatabaseForm::databases() const
     return list;
 }
 
+void ExportDatabaseForm::setAllDatabases(bool all)
+{
+    setOption(MySQLDumpOption::AllDatabases, all);
+    if (_filenameChangedByUser == false) {
+        _filename = generateFilename();
+        emit optionsChanged();
+    }
+}
+
 QString ExportDatabaseForm::generateFilename() const
 {
-    // TODO: more advanced
+    // Listening: Uncursed - Conquistador
+
+    QString dumpName = database().isEmpty() ? _session->name() : database();
+
+    if (dumpName.isEmpty()) {
+        dumpName = "dump";
+    }
+
+    // add datetime for uniqueness and sorting
+    dumpName += QDateTime::currentDateTime().toString("-yyyy-MM-dd-HH-mm-ss");
+
+    dumpName += ".sql";
+
+    qDebug() << dumpName << allDatabases();
+
     return QDir::toNativeSeparators(
         QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
-        + QDir::separator() + "dump.sql"
+        + QDir::separator() + dumpName
     );
 }
 

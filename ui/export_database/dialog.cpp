@@ -17,7 +17,7 @@ Dialog::Dialog(models::forms::ExportDatabaseForm * form)
     createWidgets();
     fillDataFromForm();
 
-    resize(600, 400);
+    resize(800, 400);
 }
 
 void Dialog::createWidgets()

@@ -10,6 +10,8 @@ Actions::Actions() : QObject()
 
 void Actions::createActions()
 {
+    // TODO: "parent" actions to main window so setStatusTip works
+
     // -------------------------------------------------------------------------
     _disconnect = new QAction(QIcon(":/icons/disconnect.png"),
                               tr("Disconnect"), this);

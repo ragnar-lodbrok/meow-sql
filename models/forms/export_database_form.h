@@ -69,9 +69,7 @@ public:
         return allDatabases() ? QString() : _database;
     }
 
-    void setAllDatabases(bool all) {
-        setOption(MySQLDumpOption::AllDatabases, all);
-    }
+    void setAllDatabases(bool all);
     bool allDatabases() const {
         return isOptionEnabled(MySQLDumpOption::AllDatabases);
     }
@@ -114,6 +112,7 @@ private:
     QString _database;
 
     QString _filename;
+    bool _filenameChangedByUser;
 
     uint32_t _options;
 };
