@@ -73,8 +73,6 @@ QString ExportDatabaseForm::generateFilename() const
 
     dumpName += ".sql";
 
-    qDebug() << dumpName << allDatabases();
-
     return QDir::toNativeSeparators(
         QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)
         + QDir::separator() + dumpName

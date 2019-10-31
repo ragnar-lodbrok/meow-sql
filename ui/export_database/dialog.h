@@ -20,7 +20,7 @@ class BottomWidget;
 class Dialog : public QDialog
 {
 public:
-    Dialog(models::forms::ExportDatabaseForm * form);
+    explicit Dialog(models::forms::ExportDatabaseForm * form);
 
 private:
 

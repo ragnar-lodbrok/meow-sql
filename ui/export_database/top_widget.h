@@ -24,7 +24,8 @@ private:
     void createWidgets();
 
     Q_SLOT void onOptionsCheckboxChanged(int state);
-    Q_SLOT void onFormOptionsChanged();
+    Q_SLOT void onFormOptionsChanged();    
+    Q_SLOT void onFilenameSelectionButtonClicked();
 
     models::forms::ExportDatabaseForm * _form;
 
@@ -51,6 +52,7 @@ private:
 
     QLabel * _filenameLabel;
     QLineEdit * _filenameEdit;
+    QPushButton * _filenameSelectionButton;
 
     QPlainTextEdit * _results;
 

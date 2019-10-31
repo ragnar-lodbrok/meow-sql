@@ -61,13 +61,31 @@ void TopWidget::createWidgets()
 
     _filenameLabel = new QLabel(tr("Filename:"));
     _mainGridLayout->addWidget(_filenameLabel, row, 0);
+
+    QHBoxLayout * filenameLayout = new QHBoxLayout();
+
     _filenameEdit = new QLineEdit;
     _filenameLabel->setBuddy(_filenameEdit);
-    _mainGridLayout->addWidget(_filenameEdit, row, 1);
     connect(_filenameEdit, &QLineEdit::textEdited,
             [=](const QString &newName) {
                 _form->setFilename(newName);
             });
+
+    _filenameSelectionButton = new QPushButton(
+                QIcon(":/icons/folder_explore.png"),
+                tr(""));
+    connect(_filenameSelectionButton,
+            &QAbstractButton::clicked,
+            this,
+            &TopWidget::onFilenameSelectionButtonClicked
+    );
+    _filenameSelectionButton->setMinimumWidth(30);
+
+    filenameLayout->addWidget(_filenameEdit, 20);
+    filenameLayout->addWidget(_filenameSelectionButton, 1);
+
+    _mainGridLayout->addLayout(filenameLayout, row, 1);
+
 
     row++;
 
@@ -174,10 +192,13 @@ void TopWidget::fillDataFromForm()
     clearResults();
     appendToResults(_form->currentCommand());
 
-    _filenameEdit->blockSignals(true);
-    _filenameEdit->setText(_form->filename());
-    _filenameEdit->blockSignals(false);
+    if (_filenameEdit->text() != _form->filename()) {
+        _filenameEdit->blockSignals(true);
+        _filenameEdit->setText(_form->filename());
+        _filenameEdit->blockSignals(false);
+    }
 
+    // TODO: skip if not changed
     _databaseToExportComboBox->blockSignals(true);
     _databaseToExportComboBox->clear();
     _databaseToExportComboBox->addItems(_form->databases());
@@ -234,6 +255,21 @@ void TopWidget::onFormOptionsChanged()
 {
     // TODO: don't change all fields
     fillDataFromForm();
+}
+
+void TopWidget::onFilenameSelectionButtonClicked()
+{
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.selectFile(_form->filename());
+    dialog.setNameFilter(tr("SQL files (*.sql);;All files (*.*)"));
+
+    if (dialog.exec()) {
+        QStringList fileNames = dialog.selectedFiles();
+        if (fileNames.isEmpty() == false) {
+            _form->setFilename(fileNames.first());
+        }
+    }
 }
 
 } // namespace export_database

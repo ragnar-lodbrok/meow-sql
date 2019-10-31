@@ -22,7 +22,7 @@ class QueryTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QueryTab(db::UserQuery * query, QWidget *parent = 0);
+    explicit QueryTab(db::UserQuery * query, QWidget *parent = nullptr);
     ~QueryTab();
 
     Q_SLOT void onActionRun(bool checked);
