@@ -403,7 +403,7 @@ QString TableStructureParser::extractLengthSet(QString & columnString) const
                 inLiteral = !inLiteral;
             }
         }
-        if ((closeIndex - 1) > startPos) {
+        if ((closeIndex - 1) > startPos) { // TODO: always false!
             res = columnString.mid(startPos + 1, closeIndex - startPos - 1);
         }
     }

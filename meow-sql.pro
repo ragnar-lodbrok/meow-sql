@@ -17,6 +17,9 @@ greaterThan(QT_MINOR_VERSION, 4) { # >= 5.5
     CONFIG  += c++11
 }
 
+CONFIG += object_parallel_to_source
+OBJECTS_DIR = .
+
 QMAKE_LFLAGS += -Wl,--no-as-needed # ?
 
 # (mysql_config --libs)
@@ -111,6 +114,7 @@ SOURCES += main.cpp\
     models/delegates/table_index_delegate.cpp \
     models/forms/connection_parameters_form.cpp \
     models/forms/edit_database_form.cpp \
+    models/forms/export_database_form.cpp \
     models/forms/table_foreign_keys_model.cpp \
     models/forms/table_indexes_model.cpp \
     models/forms/table_indexes_model_item.cpp \
@@ -129,6 +133,9 @@ SOURCES += main.cpp\
     ui/common/table_column_default_editor.cpp \
     ui/common/table_view.cpp \
     ui/edit_database/dialog.cpp \
+    ui/export_database/bottom_widget.cpp \
+    ui/export_database/dialog.cpp \
+    ui/export_database/top_widget.cpp \
     ui/main_window/central_left_db_tree.cpp \
     ui/main_window/central_left_widget.cpp \
     ui/main_window/central_right/database/central_right_database_tab.cpp \
@@ -162,7 +169,8 @@ SOURCES += main.cpp\
     ui/common/editable_data_table_view.cpp \
     models/delegates/edit_query_data_delegate.cpp \
     ui/main_window/central_bottom_widget.cpp \
-    ui/main_window/central_log_widget.cpp
+    ui/main_window/central_log_widget.cpp \
+    utils/exporting/mysql_dump_console.cpp
 
 
 HEADERS  +=  app/actions.h \
@@ -252,6 +260,7 @@ HEADERS  +=  app/actions.h \
     models/delegates/table_index_delegate.h \
     models/forms/connection_parameters_form.h \
     models/forms/edit_database_form.h \
+    models/forms/export_database_form.h \
     models/forms/table_foreign_keys_model.h \
     models/forms/table_indexes_model.h \
     models/forms/table_indexes_model_item.h \
@@ -271,6 +280,9 @@ HEADERS  +=  app/actions.h \
     ui/common/table_column_default_editor.h \
     ui/common/table_view.h \
     ui/edit_database/dialog.h \
+    ui/export_database/bottom_widget.h \
+    ui/export_database/dialog.h \
+    ui/export_database/top_widget.h \
     ui/main_window/central_left_db_tree.h \
     ui/main_window/central_left_widget.h \
     ui/main_window/central_right/database/central_right_database_tab.h \
@@ -304,7 +316,8 @@ HEADERS  +=  app/actions.h \
     ui/common/editable_data_table_view.h \
     models/delegates/edit_query_data_delegate.h \
     ui/main_window/central_bottom_widget.h \
-    ui/main_window/central_log_widget.h
+    ui/main_window/central_log_widget.h \
+    utils/exporting/mysql_dump_console.h
 
 
 
