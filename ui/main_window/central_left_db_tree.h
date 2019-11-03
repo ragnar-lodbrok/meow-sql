@@ -18,6 +18,8 @@ private:
 
     void createActions();
 
+    bool currentItemSupportsDumping() const;
+
     QAction * _dropAction;
 
     QAction * _createTableAction;

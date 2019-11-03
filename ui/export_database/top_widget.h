@@ -18,6 +18,9 @@ public:
     void fillDataFromForm();
 
     void clearResults();
+
+    void setInputsEnabled(bool enabled);
+
     Q_SLOT void appendToResults(const QString & str);
 
 private:
@@ -34,6 +37,10 @@ private:
     QLabel * _databaseToExportLabel;
     QComboBox * _databaseToExportComboBox;
 
+    QLabel * _filenameLabel;
+    QLineEdit * _filenameEdit;
+    QPushButton * _filenameSelectionButton;
+
     QLabel * _optionsDatabasesLabel;
     QCheckBox * _databaseCreateCheckbox;
     QCheckBox * _databaseDropCheckbox;
@@ -49,10 +56,6 @@ private:
     QLabel * _optionsRoutinesEventsLabel;
     QCheckBox * _routinesCreateCheckbox;
     QCheckBox * _eventsCreateCheckbox;
-
-    QLabel * _filenameLabel;
-    QLineEdit * _filenameEdit;
-    QPushButton * _filenameSelectionButton;
 
     QPlainTextEdit * _results;
 

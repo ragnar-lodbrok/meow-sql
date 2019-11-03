@@ -41,7 +41,10 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
 
     menu.addSeparator();
 
-    menu.addAction(meow::app()->actions()->exportDatabase());
+    if (currentItemSupportsDumping()) {
+        menu.addAction(meow::app()->actions()->exportDatabase());
+    }
+
 
     menu.addSeparator();
 
@@ -144,6 +147,9 @@ void DbTree::createActions()
 
     // export ==================================================================
 
+
+
+
     connect(meow::app()->actions()->exportDatabase(),
             &QAction::triggered,
             [=](bool checked)
@@ -194,6 +200,19 @@ void DbTree::createActions()
     });
 
     // disconnect ==============================================================
+}
+
+bool DbTree::currentItemSupportsDumping() const
+{
+    auto treeModel =
+    static_cast<models::db::EntitiesTreeModel *>(model());
+
+    db::Entity * currentEntity = treeModel->currentEntity();
+    if (currentEntity) {
+        return currentEntity->connection()->features()->supportsDumping();
+    }
+
+    return false;
 }
 
 } // namespace meow

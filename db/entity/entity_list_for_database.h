@@ -9,6 +9,7 @@ namespace db {
 class Entity;
 
 // Intent: list of entities for a database
+// TODO: rm?
 class EntityListForDataBase
 {
 public:

@@ -72,7 +72,9 @@ void Dialog::onCancel()
 
 void Dialog::onExport()
 {
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     _bottomWidget->exportButton()->setEnabled(false);
+    _topWidget->setInputsEnabled(false);
     _topWidget->clearResults();
     _form->startExport();
 }
@@ -88,6 +90,8 @@ void Dialog::exportFinished(bool success)
         msgBox.exec();
     }
     _bottomWidget->exportButton()->setEnabled(true);
+    _topWidget->setInputsEnabled(true);
+    QApplication::restoreOverrideCursor();
 }
 
 } // namespace export_database

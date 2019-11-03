@@ -233,6 +233,23 @@ void TopWidget::clearResults()
     _results->clear();
 }
 
+void TopWidget::setInputsEnabled(bool enabled)
+{
+
+    _databaseToExportComboBox->setEnabled(enabled);
+    _filenameEdit->setEnabled(enabled);
+    _filenameSelectionButton->setEnabled(enabled);
+
+    auto it = _checkboxOptions.constBegin();
+    while (it != _checkboxOptions.constEnd()) {
+
+        QCheckBox * checkbox = it.key();
+        checkbox->setEnabled(enabled);
+
+        ++it;
+    }
+}
+
 void TopWidget::appendToResults(const QString & str)
 {
     _results->insertPlainText(str);

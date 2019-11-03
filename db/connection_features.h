@@ -39,6 +39,10 @@ public:
         Q_UNUSED(table);
         return false;
     }
+
+    virtual bool supportsDumping() const {
+        return false;
+    }
 };
 
 // -----------------------------------------------------------------------------
@@ -80,6 +84,10 @@ public:
     }
 
     virtual bool supportsForeignKeys(const TableEntity * table) const override;
+
+    virtual bool supportsDumping() const override {
+        return true;
+    }
 };
 
 // -----------------------------------------------------------------------------
@@ -104,6 +112,11 @@ public:
     virtual bool supportsForeignKeys(const TableEntity * table) const override {
         Q_UNUSED(table);
         // not yet implemented
+        return false;
+    }
+
+    virtual bool supportsDumping() const override {
+        // TODO: implement
         return false;
     }
 };
