@@ -64,7 +64,11 @@ void MySQLDumpConsole::start()
 
     connect(
         _process.get(),
-        QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
+            QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+#else
+            static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+#endif
         [=](int exitCode, QProcess::ExitStatus exitStatus) {
 
             if (exitStatus != QProcess::ExitStatus::NormalExit) {
