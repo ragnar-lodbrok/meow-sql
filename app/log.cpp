@@ -13,6 +13,8 @@ void Log::message(const QString & msg,
     bool isSQL = category == Log::Category::SQL
             || category == Log::Category::UserSQL;
 
+
+#ifndef NDEBUG
     if (connection) {
         QString logLabel
             = '[' + connection->connectionParams()->sessionName() + ']';
@@ -27,6 +29,8 @@ void Log::message(const QString & msg,
             qDebug().noquote() << msg;
         }
     }
+#endif
+    Q_UNUSED(connection);
 
     bool doLog = false;
 

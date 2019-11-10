@@ -36,7 +36,6 @@ void MySQLDumpConsole::start()
     emit progressMessage(currentCommand() + QChar::LineFeed);
 
     _process.reset(new QProcess());
-    _process->start(program, programArguments());
 
     connect(
         _process.get(),
@@ -111,6 +110,9 @@ void MySQLDumpConsole::start()
             // "Enter password: " in stderr
         }
     );
+
+    //_process->start(program, programArguments());
+    _process->start(currentCommand());
 }
 
 bool MySQLDumpConsole::cancel()
@@ -168,7 +170,7 @@ QStringList MySQLDumpConsole::programArguments() const
     if (_form->allDatabases()) {
         args << "--all-databases";
     } else {
-        args << "--databases" << _form->database();
+        args << "--databases" << escapeString(_form->database());
     }
 
     using Option = models::forms::MySQLDumpOption;
@@ -232,7 +234,7 @@ QStringList MySQLDumpConsole::programArguments() const
 
     args << "--verbose";
 
-    args << "-r" << _form->filename(); // --result-file
+    args << "-r" << escapeString(_form->filename()); // --result-file
 
     return args;
 }
@@ -246,7 +248,13 @@ QStringList MySQLDumpConsole::connectionOptions() const
 
     args << "-h" << params->hostName();
     args << "-u" << params->userName();
+#ifdef Q_OS_WIN
+    // TODO: export MYSQL_PWD=*** ?
+    // Can't make input password work on win
+    args << "--password=" + escapeString(password());
+#else
     args << "-p"; // hide password for ps
+#endif
 
     if (params->port() != MYSQL_DEFAULT_PORT) {
         args << "--port=" + QString::number(params->port());
@@ -264,10 +272,7 @@ bool MySQLDumpConsole::enterPasswordIfRequested(const QString & output)
     // I hope the prompt is same everywhere and we get full row
     if (output.contains(QString("Enter password: "))) {
 
-        meow::db::ConnectionParameters * params = _form->session()
-                ->connection()->connectionParams();
-
-        _process->write(params->password().toUtf8());
+        _process->write(this->password().toUtf8());
         _process->closeWriteChannel();
 
         emit progressMessage(QString(QChar::LineFeed)); // Enter
@@ -278,6 +283,22 @@ bool MySQLDumpConsole::enterPasswordIfRequested(const QString & output)
     }
 
     return false;
+}
+
+QString MySQLDumpConsole::password() const
+{
+    meow::db::ConnectionParameters * params = _form->session()
+            ->connection()->connectionParams();
+    return params->password();
+}
+
+QString MySQLDumpConsole::escapeString(const QString & str) const
+{
+    const QChar quote = '"';
+    const QChar backslash = '\\';
+    const QString escapedQuote = QString(backslash) + QString(quote);
+    QString string = str;
+    return QString(quote) + string.replace(quote, escapedQuote) + QString(quote);
 }
 
 } // namespace exporting

@@ -47,6 +47,9 @@ private:
 
     QString pathToCommand() const;
 
+    QString password() const;
+    QString escapeString(const QString & str) const;
+
     std::unique_ptr<QProcess> _process;
 
     models::forms::ExportDatabaseForm * _form;

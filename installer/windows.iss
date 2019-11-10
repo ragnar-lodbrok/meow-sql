@@ -7,6 +7,7 @@
 #define MyAppURL "https://github.com/ragnar-lodbrok/meow-sql"
 #define MyAppExeName "meow-sql.exe"
 
+; TODO: this is shit!!!
 #define SourceDir "C:\data\work\projects\build-meow-sql-Desktop_Qt_5_6_2_MSVC2013_32bit-Release\release"
 
 [Setup]
@@ -65,6 +66,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 [Files]
 Source: "{#SourceDir}\meow-sql.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\libmysql.dll"; DestDir: "{app}"; Flags: ignoreversion
+; TODO: call windeployqt instead
 Source: "{#SourceDir}\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
@@ -82,6 +84,9 @@ Source: "{#SourceDir}\libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+; mysqldump
+Source: "{#SourceDir}\mysqldump.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\mysqldump_license"; DestDir: "{app}"; Flags: ignoreversion
 ;
 Source: "{#SourceDir}\gpl.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\license.txt"; DestDir: "{app}"; Flags: ignoreversion
