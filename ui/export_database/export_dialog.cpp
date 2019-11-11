@@ -1,4 +1,4 @@
-#include "dialog.h"
+#include "export_dialog.h"
 #include "top_widget.h"
 #include "bottom_widget.h"
 #include "models/forms/export_database_form.h"

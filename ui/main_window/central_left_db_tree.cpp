@@ -7,7 +7,7 @@
 #include "ui/edit_database/dialog.h"
 #include "models/forms/edit_database_form.h"
 
-#include "ui/export_database/dialog.h"
+#include "ui/export_database/export_dialog.h"
 #include "models/forms/export_database_form.h"
 
 namespace meow {

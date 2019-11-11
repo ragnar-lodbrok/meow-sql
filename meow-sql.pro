@@ -1,9 +1,3 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2016-03-17T23:13:10
-#
-#-------------------------------------------------
-
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -17,8 +11,9 @@ greaterThan(QT_MINOR_VERSION, 4) { # >= 5.5
     CONFIG  += c++11
 }
 
-CONFIG += object_parallel_to_source
-OBJECTS_DIR = .
+# below doesn't work on win with old Qt
+unix:CONFIG += object_parallel_to_source
+unix:OBJECTS_DIR = .
 
 QMAKE_LFLAGS += -Wl,--no-as-needed # ?
 
@@ -134,7 +129,6 @@ SOURCES += main.cpp\
     ui/common/table_view.cpp \
     ui/edit_database/dialog.cpp \
     ui/export_database/bottom_widget.cpp \
-    ui/export_database/dialog.cpp \
     ui/export_database/top_widget.cpp \
     ui/main_window/central_left_db_tree.cpp \
     ui/main_window/central_left_widget.cpp \
@@ -170,7 +164,8 @@ SOURCES += main.cpp\
     models/delegates/edit_query_data_delegate.cpp \
     ui/main_window/central_bottom_widget.cpp \
     ui/main_window/central_log_widget.cpp \
-    utils/exporting/mysql_dump_console.cpp
+    utils/exporting/mysql_dump_console.cpp \
+    ui/export_database/export_dialog.cpp
 
 
 HEADERS  +=  app/actions.h \
@@ -281,7 +276,6 @@ HEADERS  +=  app/actions.h \
     ui/common/table_view.h \
     ui/edit_database/dialog.h \
     ui/export_database/bottom_widget.h \
-    ui/export_database/dialog.h \
     ui/export_database/top_widget.h \
     ui/main_window/central_left_db_tree.h \
     ui/main_window/central_left_widget.h \
@@ -317,7 +311,8 @@ HEADERS  +=  app/actions.h \
     models/delegates/edit_query_data_delegate.h \
     ui/main_window/central_bottom_widget.h \
     ui/main_window/central_log_widget.h \
-    utils/exporting/mysql_dump_console.h
+    utils/exporting/mysql_dump_console.h \
+    ui/export_database/export_dialog.h
 
 
 
