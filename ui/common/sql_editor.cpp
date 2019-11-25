@@ -11,10 +11,12 @@ SQLEditor::SQLEditor(QWidget *parent)
     : QPlainTextEdit(parent)
 {
 
-    QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
-    fixedFont.setStyleHint(QFont::Monospace);
-    setFont(fixedFont);
-
+    // FixedFont does not work on MAC OS, it gives you a really tiny unreadable Times-Roman
+    #ifndef Q_OS_MAC
+        QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+        fixedFont.setStyleHint(QFont::Monospace);
+        setFont(fixedFont);
+    #endif
     _lineNumberArea = new LineNumberArea(this);
 
     connect(this, SIGNAL(blockCountChanged(int)),

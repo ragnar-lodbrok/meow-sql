@@ -24,6 +24,10 @@ QueryResult::QueryResult(db::UserQuery * userQuery, QWidget *parent)
     _dataTabs->setSizePolicy(
                 QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
+    #ifdef Q_OS_MAC
+        _dataTabs->setDocumentMode(true);
+    #endif
+
 }
 
 QueryResult::~QueryResult()

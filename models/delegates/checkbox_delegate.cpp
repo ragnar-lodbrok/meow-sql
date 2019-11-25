@@ -2,6 +2,7 @@
 #include <QCheckBox>
 #include <QApplication>
 #include <QDebug>
+#include <QPainter>
 
 namespace meow {
 namespace models {
@@ -101,9 +102,20 @@ void CheckboxDelegate::paint(QPainter* painter,
 
     checkbox.state |= QStyle::State_Enabled;
 
+    // the checkbox floats in the top left corner of table in mac os
+    // this bug is still present in Qt 5.9.8, but may be solved in Qt 5.11
+    // See https://bugreports.qt.io/browse/QTBUG-40833
+    #ifdef Q_OS_MAC
+        painter->save();
+        painter->translate(checkbox.rect.topLeft());
+    #endif
+
     QApplication::style()->drawControl(QStyle::CE_CheckBox,
                                        &checkbox,
                                        painter);
+    #ifdef Q_OS_MAC
+        painter->restore();
+    #endif
 }
 
 void CheckboxDelegate::setModelData(QWidget *editor,

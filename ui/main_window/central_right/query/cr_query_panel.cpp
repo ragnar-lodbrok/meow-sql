@@ -35,6 +35,10 @@ void QueryPanel::createToolBar()
 {
     _toolBar = new QToolBar();
     _toolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    // see https://stackoverflow.com/questions/21363350/remove-gradient-from-qtoolbar-in-os-x
+    #ifdef Q_OS_MAC
+        _toolBar->setStyle(QStyleFactory::create("windows"));
+    #endif
 
     _runAction = new QAction(QIcon(":/icons/execute.png"), tr("Run"), this);
     _runAction->setToolTip(tr("Execute SQL..."));

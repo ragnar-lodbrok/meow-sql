@@ -16,6 +16,8 @@ unix:CONFIG += object_parallel_to_source
 unix:OBJECTS_DIR = .
 
 QMAKE_LFLAGS += -Wl,--no-as-needed # ?
+macx:QMAKE_LFLAGS -= -Wl,--no-as-needed
+macx:QMAKE_LFLAGS += -Wl
 
 # (mysql_config --libs)
 unix:LIBS += -lpthread # pthread
@@ -23,10 +25,12 @@ unix:LIBS += -lrt
 unix:LIBS += -lz # zlib - compression/decompression library
 unix:LIBS += -lm # math?
 unix:LIBS += -ldl # dynamic link
+macx:LIBS -= -lrt
 
 # MySQL
 unix:LIBS += -lmysqlclient # mysql client
 win32:LIBS += -l"$$PWD\third_party\libmysql\windows\libmysql"
+macx:LIBS += -L/usr/local/opt/mysql-connector-c/lib
 
 # PostgreSQL
 unix:LIBS += -lpq # pkg-config --libs libpq
@@ -318,9 +322,11 @@ HEADERS  +=  app/actions.h \
 
 win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"
 unix:INCLUDEPATH += /usr/include/mysql
+macx:INCLUDEPATH += /usr/local/include/mysql
 
 win32:INCLUDEPATH += "$$PWD\third_party\libpq\windows\include"
 unix:INCLUDEPATH += /usr/include/postgresql # pkg-config --cflags libpq
+macx:INCLUDEPATH += /usr/local/include
 
 RESOURCES += \
     icons.qrc

@@ -67,6 +67,15 @@ Version that worked for me is Qt 5.6.2 win32-msvc2013
 6. As an option use Qt Creator - just open ./meow-sql.pro or ./CMakeLists.txt
 7. After build (only release worked for me), run windeployqt (or copy all libs from inslalled app)
 
+Mac OS:
+
+1. Install XCode
+2. Download and install Qt via online-installer https://www1.qt.io/download-open-source/#section-2 Install Version 5.9.8
+3. You need to download MySQL Connector C and libpq. I recommed to use [homebrew](https://brew.sh/) and simply use `brew install mysql-connector-c libpq`
+4. make sure header files are available in /usr/local/include. If you installed via homebrew just create symlink `ln -s /usr/local/opt/mysql-connector-c/include /usr/local/include/mysql/mysql` and `ln -s /usr/local/opt/libpq/include /usr/local/include/postgresql`
+5. open ./meoq-sql.pro in Qt Creator and build
+6. If you get errors about missing .dylib Files (e.g. libJPEG.dylib) make sure you uncheck "Add build library search path to DYLD_LIBRARY_PATH and DYLD_FRAMEWORK_PATH" in Project Settings in Qt Creator (see https://stackoverflow.com/questions/35509731/dyld-symbol-not-found-cg-jpeg-resync-to-restart)
+
 ## License
 
 This project is licensed under the GPL 2.0 License
