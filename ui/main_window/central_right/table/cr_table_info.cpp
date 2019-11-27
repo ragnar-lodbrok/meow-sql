@@ -60,6 +60,10 @@ void TableInfo::createTabs()
     _rootTabs->setSizePolicy(
                 QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
+    #ifdef Q_OS_MAC
+        _rootTabs->setDocumentMode(true);
+    #endif
+
     _basicTab = new table_info::BasicTab(_form, this);
     _optionsTab = new table_info::OptionsTab(_form, this);
     _indexesTab = new table_info::IndexesTab(_form, this);

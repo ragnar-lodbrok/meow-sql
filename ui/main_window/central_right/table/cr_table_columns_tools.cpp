@@ -25,6 +25,10 @@ void TableColumnsTools::createWidgets()
     _toolBar = new QToolBar();
     _toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     _toolBar->setMaximumHeight(32);
+    // see https://stackoverflow.com/questions/21363350/remove-gradient-from-qtoolbar-in-os-x
+    #ifdef Q_OS_MAC
+        _toolBar->setStyle(QStyleFactory::create("windows"));
+    #endif
     mainLayout->addWidget(_toolBar);
 
     _addColumnAction = new QAction(QIcon(":/icons/add.png"), tr("Add"), this);
