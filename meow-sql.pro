@@ -51,6 +51,7 @@ SOURCES += main.cpp\
     db/data_type/data_type.cpp \
     db/data_type/mysql_connection_data_types.cpp \
     db/data_type/pg_connection_data_types.cpp \
+    db/data_type/sqlite_connection_datatypes.cpp \
     db/entity/database_entity.cpp \
     db/entity/entities_fetcher.cpp \
     db/entity/entity.cpp \
@@ -86,6 +87,9 @@ SOURCES += main.cpp\
     db/query_criteria.cpp \
     db/query_data.cpp \
     db/query_data_fetcher.cpp \
+    db/qtsql/qtsql_query.cpp \
+    db/sqlite/sqlite_connection.cpp \
+    db/sqlite/sqlite_entities_fetcher.cpp \
     db/table_column.cpp \
     db/table_editor.cpp \
     db/table_index.cpp \
@@ -192,6 +196,7 @@ HEADERS  +=  app/actions.h \
     db/data_type/mysql_data_type.h \
     db/data_type/pg_connection_data_types.h \
     db/data_type/pg_data_type.h \
+    db/data_type/sqlite_connection_datatypes.cpp \
     db/entity/database_entity.h \
     db/entity/entities_fetcher.h \
     db/entity/entity_filter.h \
@@ -221,6 +226,9 @@ HEADERS  +=  app/actions.h \
     db/pg/pg_query.h \
     db/pg/pg_query_data_editor.h \
     db/pg/pg_query_data_fetcher.h \
+    db/qtsql/qtsql_query.h \
+    db/sqlite/sqlite_connection.h \
+    db/sqlite/sqlite_entities_fetcher.h \
     db/mysql_collation_fetcher.h \
     db/mysql_query_data_fetcher.h \
     db/mysql_table_editor.h \
@@ -240,6 +248,7 @@ HEADERS  +=  app/actions.h \
     db/user_query/batch_executor.h \
     db/user_query/sentences_parser.h \
     db/user_query/user_query.h \
+    db/qtsql/qtsql_query_result.h \
     helpers/formatting.h \
     helpers/logger.h \
     helpers/parsing.h \
