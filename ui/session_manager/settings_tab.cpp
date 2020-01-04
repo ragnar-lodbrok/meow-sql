@@ -13,7 +13,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
     _mainGridLayout = new QGridLayout();
     int row = 0;
 
-    // Network type
+    // Network type ------------------------------------------------------------
     _networkTypeLabel = new QLabel(tr("Network type:"));
     _mainGridLayout->addWidget(_networkTypeLabel, row, MEOW_FIRST_COL);
     _networkTypeComboBox = new QComboBox();
@@ -29,7 +29,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
             });
     row++;
 
-    // Hostname / IP
+    // Hostname / IP -----------------------------------------------------------
     _hostLabel = new QLabel(tr("Hostname / IP:"));
     _mainGridLayout->addWidget(_hostLabel, row, MEOW_FIRST_COL);
     _hostEdit = new QLineEdit();
@@ -43,7 +43,40 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
             });
     row++;
 
-    // Prompt for credentials
+    // Filename ----------------------------------------------------------------
+
+    _filenameLabel = new QLabel(tr("Filename:"));
+    _mainGridLayout->addWidget(_filenameLabel, row, MEOW_FIRST_COL);
+
+    QHBoxLayout * filenameLayout = new QHBoxLayout();
+
+    _filenameEdit = new QLineEdit;
+    _filenameLabel->setBuddy(_filenameEdit);
+    connect(_filenameEdit, &QLineEdit::textEdited,
+            [=](const QString &newName) {
+                if (_form) {
+                    _form->setFileName(newName);
+                }
+            });
+
+    _filenameSelectionButton = new QPushButton(
+                QIcon(":/icons/folder_explore.png"),
+                tr(""));
+    connect(_filenameSelectionButton,
+            &QAbstractButton::clicked,
+            this,
+            &SettingsTab::onFilenameSelectionButtonClicked
+    );
+    _filenameSelectionButton->setMinimumWidth(30);
+
+    filenameLayout->addWidget(_filenameEdit, 20);
+    filenameLayout->addWidget(_filenameSelectionButton, 1);
+
+    _mainGridLayout->addLayout(filenameLayout, row, MEOW_SECOND_COL);
+
+    row++;
+
+    // Prompt for credentials --------------------------------------------------
     /*_loginPromptCheckBox = new QCheckBox(tr("Prompt for credentials"));
     _mainGridLayout->addWidget(_loginPromptCheckBox, row, MEOW_SECOND_COL);
     connect(_loginPromptCheckBox, &QCheckBox::stateChanged,
@@ -55,7 +88,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
             });
     row++;*/ // hide as not finished
 
-    // User
+    // User --------------------------------------------------------------------
     _userLabel = new QLabel(tr("User:"));
     _mainGridLayout->addWidget(_userLabel, row, MEOW_FIRST_COL);
     _userEdit = new QLineEdit();
@@ -69,7 +102,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
             });
     row++;
 
-    // Password
+    // Password ----------------------------------------------------------------
     _passwordLabel = new QLabel(tr("Password:"));
     _mainGridLayout->addWidget(_passwordLabel, row, MEOW_FIRST_COL);
     _passwordEdit = new QLineEdit();
@@ -84,7 +117,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
             });
     row++;
 
-    // Port
+    // Port --------------------------------------------------------------------
     _portLabel = new QLabel(tr("Port:"));
     _mainGridLayout->addWidget(_portLabel, row, MEOW_FIRST_COL);
     _portSpinBox = new QSpinBox();
@@ -96,21 +129,25 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
     spinBoxLayout->addWidget(_portSpinBox);
     spinBoxLayout->addStretch(1);
     _mainGridLayout->addLayout(spinBoxLayout, row, MEOW_SECOND_COL);
-    connect(_portSpinBox, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+    connect(_portSpinBox,
+            static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             [=](int newPort){
                 if (_form) {
-                    _form->setPort(newPort);
+                    _form->setPort(static_cast<quint16>(newPort));
                 }
             });
     row++;
 
-    // Databases
+    // Databases ---------------------------------------------------------------
     _databasesLabel = new QLabel(tr("Databases:"));
     _mainGridLayout->addWidget(_databasesLabel, row, MEOW_FIRST_COL);
     _databasesEdit = new QLineEdit();
     _databasesEdit->setToolTip(tr("Separated by semicolon"));
-    QAction * showListAction = _databasesEdit->addAction(QIcon(":/icons/dropdown_highlight.png"), QLineEdit::TrailingPosition);
-    connect(showListAction, &QAction::triggered, this, &SettingsTab::onShowDatabaseListAction);
+    QAction * showListAction = _databasesEdit->addAction(
+                QIcon(":/icons/dropdown_highlight.png"),
+                QLineEdit::TrailingPosition);
+    connect(showListAction, &QAction::triggered,
+            this, &SettingsTab::onShowDatabaseListAction);
 
     _databasesLabel->setBuddy(_databasesEdit);
     _mainGridLayout->addWidget(_databasesEdit, row, MEOW_SECOND_COL);
@@ -147,11 +184,35 @@ void SettingsTab::fillDataFromForm()
     _networkTypeComboBox->setCurrentIndex(
         static_cast<int>(_form->networkType()));
     _hostEdit->setText(_form->hostName());
+    _filenameEdit->setText(_form->fileName());
     //_loginPromptCheckBox->setChecked(_form->isLoginPrompt());
     _userEdit->setText(_form->userName());
     _passwordEdit->setText(_form->password());
     _databasesEdit->setText(_form->databases());
     _portSpinBox->setValue(_form->port());
+
+    // host
+    _hostLabel->setHidden(_form->isFilebased());
+    _hostEdit->setHidden(_form->isFilebased());
+
+    // file name
+    _filenameLabel->setHidden(!_form->isFilebased());
+    _filenameEdit->setHidden(!_form->isFilebased());
+    _filenameSelectionButton->setHidden(!_form->isFilebased());
+
+    // show/hide auth
+    _userLabel->setHidden(!_form->supportsAuth());
+    _userEdit->setHidden(!_form->supportsAuth());
+    _passwordLabel->setHidden(!_form->supportsAuth());
+    _passwordEdit->setHidden(!_form->supportsAuth());
+
+    // no port when no network
+    _portLabel->setHidden(_form->isFilebased());
+    _portSpinBox->setHidden(_form->isFilebased());
+
+    // database selection
+    _databasesLabel->setHidden(!_form->supportsMultipleDatabases());
+    _databasesEdit->setHidden(!_form->supportsMultipleDatabases());
 }
 
 void SettingsTab::onLoginPromptUpdate()
@@ -176,9 +237,10 @@ void SettingsTab::onShowDatabaseListAction()
 
         if (!allDatabases.isEmpty()) {
 
+            // hate regexps, but better rm all whitespaces:
             QStringList enteredDatabases = _databasesEdit->text()
                 .remove(' ')
-                .split(db::databasesSeparator, QString::SkipEmptyParts); // hate regexps, but better rm all whitespaces
+                .split(db::databasesSeparator, QString::SkipEmptyParts);
             enteredDatabases.removeDuplicates();
 
             QMenu * listMenu = new QMenu;
@@ -195,7 +257,9 @@ void SettingsTab::onShowDatabaseListAction()
 
             QApplication::restoreOverrideCursor();
 
-            QAction * executedAction = listMenu->exec(_databasesEdit->mapToGlobal(QPoint(menuXPos, menuYPos)));
+            QAction * executedAction
+                    = listMenu->exec(_databasesEdit->mapToGlobal(
+                                         QPoint(menuXPos, menuYPos)));
 
             if (executedAction) {
 
@@ -217,6 +281,21 @@ void SettingsTab::onShowDatabaseListAction()
 
 }
 
+void SettingsTab::onFilenameSelectionButtonClicked()
+{
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.selectFile(_form->fileName());
+    dialog.setNameFilter(tr("All files (*.*);;DB files (*.db)"));
+
+    if (dialog.exec()) {
+        QStringList fileNames = dialog.selectedFiles();
+        if (fileNames.isEmpty() == false) {
+            _form->setFileName(fileNames.first());
+            _filenameEdit->setText(fileNames.first());
+        }
+    }
+}
 
 } // namespace session_manager
 } // namespace ui

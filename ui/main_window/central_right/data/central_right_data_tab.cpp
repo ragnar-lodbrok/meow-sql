@@ -271,9 +271,10 @@ void DataTab::validateDataToolBarState()
 }
 
 void DataTab::validateDataDeleteActionState()
-{
+{   
+    meow::app()->actions()->dataInsert()->setEnabled(_model.isEditable());
     meow::app()->actions()->dataDelete()->setEnabled(
-        _dataTable->selectionModel()->hasSelection());
+        _dataTable->selectionModel()->hasSelection() && _model.isEditable());
 }
 
 void DataTab::validateControls()

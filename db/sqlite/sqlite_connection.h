@@ -1,19 +1,20 @@
-#ifndef DB_PG_CONNECTION_H
-#define DB_PG_CONNECTION_H
+#ifndef DB_QTSQL_CONNECTION_H
+#define DB_QTSQL_CONNECTION_H
 
 #include "db/connection.h"
-#include <postgresql/libpq-fe.h>
-#include "db/entity/entity_filter.h" // TODO: PGEntityFilter
+#include <QtSql>
+#include "db/entity/entity_filter.h"
 
 namespace meow {
 namespace db {
 
-class PGConnection : public Connection
+class SQLiteConnection : public Connection
 {
 public:
-    explicit PGConnection(const ConnectionParameters & params);
 
-    virtual ~PGConnection() override;
+    explicit SQLiteConnection(const ConnectionParameters & params);
+
+    virtual ~SQLiteConnection() override;
 
     virtual void setActive(bool active) override;
 
@@ -63,6 +64,8 @@ public:
 
     virtual QString limitOnePostfix(bool select) const override;
 
+    const QSqlDatabase * handle() const { return &_handle; }
+
 protected:
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() override;
 
@@ -77,17 +80,11 @@ protected:
 
 private:
 
-    QString connectionInfo() const;
-    
-    QString escapeConnectionParam(const QString & param) const;
+    QSqlDatabase _handle;
 
-    inline QString qu(const char * identifier) const;
-
-    PGconn * _handle;
 };
 
 } // namespace db
 } // namespace meow
 
-
-#endif // DB_PG_CONNECTION_H
+#endif // DB_QTSQL_CONNECTION_H

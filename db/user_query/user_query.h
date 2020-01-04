@@ -15,7 +15,7 @@ class QueryData;
 class UserQuery
 {
 public:
-    UserQuery(ConnectionsManager * connectionsManager);
+    explicit UserQuery(ConnectionsManager * connectionsManager);
     ~UserQuery();
 
     bool runInCurrentConnection(const QStringList & queries);

@@ -12,7 +12,7 @@ class EntityListForDataBase;
 class DataBaseEntitiesFetcher
 {
 public:
-    DataBaseEntitiesFetcher(Connection * connection);
+    explicit DataBaseEntitiesFetcher(Connection * connection);
     virtual ~DataBaseEntitiesFetcher() {}
     virtual void run(const QString & dbName,
              EntityListForDataBase * toList) = 0;

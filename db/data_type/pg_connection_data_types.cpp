@@ -62,7 +62,7 @@ void PGConnectionDataTypes::fillMapFromList() // speed up search
 {
     _map.clear();
 
-    for (DataTypePtr & dataTypeIt : _list) {
+    for (const DataTypePtr & dataTypeIt : _list) {
         _map.insert(dataTypeIt->nativeType, dataTypeIt);
     }
 }

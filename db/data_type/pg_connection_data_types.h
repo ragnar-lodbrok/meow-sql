@@ -34,7 +34,7 @@ class PGConnectionDataTypes : public ConnectionDataTypes
 {
 public:
 
-    PGConnectionDataTypes(PGConnection * connection);
+    explicit PGConnectionDataTypes(PGConnection * connection);
 
     virtual const QList<DataTypePtr> & list() override;
 

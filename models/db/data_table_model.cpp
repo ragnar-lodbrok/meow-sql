@@ -37,7 +37,17 @@ Qt::ItemFlags DataTableModel::flags(const QModelIndex &index) const
     }
 
     Qt::ItemFlags flags = BaseDataTableModel::flags(index);
-    flags |= Qt::ItemIsEditable; // TODO: read-only tables?
+
+    bool isEditable = false;
+    if (_dbEntity) {
+        isEditable =
+            _dbEntity->connection()->features()->supportsEditingTablesData();
+    }
+
+    if (isEditable) {
+        flags |= Qt::ItemIsEditable; // TODO: read-only tables?
+    }
+
 
     return flags;
 }
@@ -147,6 +157,14 @@ void DataTableModel::loadData(bool force)
         beginInsertRows(QModelIndex(), prevRowCount, rowCount()-1);
         endInsertRows();
     }
+}
+
+bool DataTableModel::isEditable() const
+{
+    if (_dbEntity == nullptr) {
+        return false;
+    }
+    return _dbEntity->connection()->features()->supportsEditingTablesData();
 }
 
 bool DataTableModel::isEditing()

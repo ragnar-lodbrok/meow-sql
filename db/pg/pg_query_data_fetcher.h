@@ -11,10 +11,7 @@ class PGConnection;
 class PGQueryDataFetcher : public QueryDataFetcher
 {
 public:
-    PGQueryDataFetcher(PGConnection * connection);
-
-    virtual void run(QueryCriteria * queryCriteria,
-                     QueryData * toData) override;
+    explicit PGQueryDataFetcher(PGConnection * connection);
 
     // TODO:
     // virtual QStringList selectList(TableEntity * table) override;

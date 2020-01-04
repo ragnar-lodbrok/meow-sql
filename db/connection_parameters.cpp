@@ -3,6 +3,7 @@
 #include "db/connection_params_manager.h"
 #include "db/mysql_connection.h"
 #include "db/pg/pg_connection.h"
+#include "db/sqlite/sqlite_connection.h"
 #include "helpers/logger.h"
 
 meow::db::ConnectionParameters::ConnectionParameters(
@@ -11,6 +12,7 @@ meow::db::ConnectionParameters::ConnectionParameters(
     _serverType(ServerType::MySQL),
     _sessionName("Unnamed"),
     _hostName("127.0.0.1"),
+    _fileName(""),
     _userName(""),
     _password(""),
     _databases(""),
@@ -32,6 +34,9 @@ void meow::db::ConnectionParameters::setNetworkType(NetworkType networkType)
     case NetworkType::PG_TCPIP:
         _serverType = ServerType::PostgreSQL;
         break;
+    case NetworkType::SQLite3_File:
+        _serverType = ServerType::SQLite;
+        break;
     default:
         Q_ASSERT(false);
         _serverType = ServerType::None;
@@ -45,6 +50,7 @@ bool meow::db::ConnectionParameters::operator==(
         && _serverType == other._serverType
         && _sessionName == other._sessionName
         && _hostName == other._hostName
+        && _fileName == other._fileName
         && _userName == other._userName
         && _password == other._password
         && _databases == other._databases
@@ -54,7 +60,11 @@ bool meow::db::ConnectionParameters::operator==(
 
 meow::db::ConnectionParameters::operator QString() const
 {
-    return _userName + "@" + _hostName + ":" +QString::number(_port);
+    if (_networkType == NetworkType::SQLite3_File) {
+        return _fileName;
+    } else {
+        return _userName + "@" + _hostName + ":" +QString::number(_port);
+    }
 }
 
 void meow::db::ConnectionParameters::setManager(
@@ -95,6 +105,13 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
         }
         return ConnectionPtr(connection);
     }
+
+    case NetworkType::SQLite3_File: {
+        SQLiteConnection * connection = new SQLiteConnection(*this);
+        connection->setUseAllDatabases();
+        return ConnectionPtr(connection);
+    }
+
     default:
         Q_ASSERT(false);
         meowLogC(Log::Category::Error) << "Unimplemented network type";
@@ -111,7 +128,9 @@ void meow::db::ConnectionParameters::setDefaultValuesForType(
 
         setNetworkType(type);
         setServerType(ServerType::MySQL);
-        //setHostName("127.0.0.1");
+        if (_hostName.isEmpty()) {
+            setHostName("127.0.0.1");
+        }
         setUserName("root");
         setPort(3306);
 
@@ -121,11 +140,25 @@ void meow::db::ConnectionParameters::setDefaultValuesForType(
 
         setNetworkType(type);
         setServerType(ServerType::PostgreSQL);
-        //setHostName("127.0.0.1");
+        if (_hostName.isEmpty()) {
+            setHostName("127.0.0.1");
+        }
         setUserName("postgres");
         setPort(5432);
 
         break;
+
+    case NetworkType::SQLite3_File:
+
+        setNetworkType(type);
+        setServerType(ServerType::SQLite);
+        setHostName(QString());
+        setUserName(QString());
+        setPassword(QString());
+        setPort(0);
+
+        break;
+
 
     default:
 
@@ -169,6 +202,9 @@ QString networkTypeName(const NetworkType & networkType, bool longFormat)
         case NetworkType::PG_TCPIP:
             return QString("PostgreSQL (%1)").arg(QObject::tr("experimental"));
 
+        case NetworkType::SQLite3_File:
+            return QString("SQLite 3 (%1)").arg(QObject::tr("experimental"));;
+
         default:
             break;
         }
@@ -179,6 +215,9 @@ QString networkTypeName(const NetworkType & networkType, bool longFormat)
 
         case NetworkType::PG_TCPIP:
             return "PostgreSQL";
+
+        case NetworkType::SQLite3_File:
+            return QString("SQLite");
 
         default:
             break;

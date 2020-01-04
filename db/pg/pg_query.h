@@ -11,7 +11,7 @@ namespace db {
 class PGQuery : public Query
 {
 public:
-    PGQuery(Connection * connection = nullptr);
+    explicit PGQuery(Connection * connection = nullptr);
     virtual ~PGQuery() override;
 
     virtual void execute(bool addResult = false) override;

@@ -20,6 +20,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 11) # TODO 14 for Qt >= 5.5
 
 find_package(Qt5Widgets CONFIG REQUIRED)
+find_package(Qt5Sql REQUIRED)
 
 set(HEADER_FILES
     db/data_type/connection_data_types.h
@@ -28,6 +29,7 @@ set(HEADER_FILES
     db/data_type/pg_data_type.h
     db/mysql/mysql_query_result.h
     db/pg/pg_query_result.h
+    db/qtsql/qtsql_query_result.h
     db/native_query_result_interface.h
     db/collation_fetcher.h
     db/common.h
@@ -49,6 +51,7 @@ set(SOURCE_FILES
     db/data_type/data_type.cpp
     db/data_type/mysql_connection_data_types.cpp
     db/data_type/pg_connection_data_types.cpp
+    db/data_type/sqlite_connection_datatypes.cpp
     db/editable_grid_data.cpp
     db/entity/database_entity.cpp
     db/entity/entities_fetcher.cpp
@@ -74,6 +77,9 @@ set(SOURCE_FILES
     db/pg/pg_query.cpp
     db/pg/pg_query_data_editor.cpp
     db/pg/pg_query_data_fetcher.cpp
+    db/qtsql/qtsql_query.cpp
+    db/sqlite/sqlite_connection.cpp
+    db/sqlite/sqlite_entities_fetcher.cpp
     db/exception.cpp
     db/foreign_key.cpp
     db/mysql_collation_fetcher.cpp
@@ -176,7 +182,7 @@ qt5_add_resources(RESOURCE_FILES icons.qrc)
 
 add_executable(meowsql ${HEADER_FILES} ${SOURCE_FILES} ${RESOURCE_FILES})
 
-target_link_libraries(meowsql Qt5::Widgets)
+target_link_libraries(meowsql Qt5::Widgets Qt5::Sql)
 
 set(MEOW_MYSQL_CLIENT_LIB mysqlclient) #linux
 

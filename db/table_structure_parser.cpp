@@ -47,6 +47,8 @@ void TableStructureParser::run(TableEntity * table)
 
     QString createSQL = table->createCode();
 
+    qDebug() << "createSQL" << createSQL;
+
     parseColumns(createSQL, table); // keep first
     parseKeysIndicies(createSQL, table);
     parseForeignKeys(createSQL, table);

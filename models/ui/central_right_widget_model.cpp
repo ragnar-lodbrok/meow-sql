@@ -80,8 +80,11 @@ QString CentralRightWidgetModel::titleForHostTab() const
 {
     if (_entityHolder.currentEntity()) {
 
-        QString host = _entityHolder.currentEntity()
-                ->connection()->connectionParams()->hostName();
+        const db::ConnectionParameters * params = _entityHolder.currentEntity()
+                ->connection()->connectionParams();
+
+        QString host = params->isFilebased() ? params->fileNameShort() :
+                                               params->hostName();
 
         return QObject::tr("Host") + ": " + host;
     } else {

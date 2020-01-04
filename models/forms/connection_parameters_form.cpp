@@ -46,6 +46,15 @@ void ConnectionParametersForm::setHostName(const QString &hostName)
     }
 }
 
+void ConnectionParametersForm::setFileName(const QString &fileName)
+{
+    if (_connectionParams.fileName() != fileName) {
+        _connectionParams.setFileName(fileName);
+        emit changed();
+    }
+
+}
+
 void ConnectionParametersForm::setUserName(const QString &userName)
 {
     if (_connectionParams.userName() != userName) {
@@ -78,7 +87,7 @@ void ConnectionParametersForm::setLoginPrompt(bool loginPrompt)
     }
 }
 
-void ConnectionParametersForm::setPort(qint16 port)
+void ConnectionParametersForm::setPort(quint16 port)
 {
     if (_connectionParams.port() != port) {
         _connectionParams.setPort(port);

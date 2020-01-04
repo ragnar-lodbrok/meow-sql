@@ -20,7 +20,7 @@ public:
 
     }
 
-    virtual ~PGQueryResult() {
+    virtual ~PGQueryResult() override {
         PQclear(_res);
     }
 

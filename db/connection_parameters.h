@@ -4,6 +4,7 @@
 #include <memory>
 #include <QString>
 #include <QStringList>
+#include <QFileInfo>
 
 namespace meow {
 namespace db {
@@ -13,15 +14,17 @@ class Connection;
 
 enum class NetworkType { // TODO: move to separate file ?
     MySQL_TCPIP,
-    // TODO: add the rest
     PG_TCPIP,
+    SQLite3_File,
+    // TODO: add the rest
     COUNT
 };
 
 enum class ServerType { // TODO: move to separate file ?
     None,
     MySQL,
-    PostgreSQL
+    PostgreSQL,
+    SQLite
     // TODO maria etc
 };
 
@@ -36,13 +39,14 @@ const char databasesSeparator = ';';
 class ConnectionParameters
 {
 public:
-    ConnectionParameters(ConnectionParamsManager * manager = nullptr);
+    explicit ConnectionParameters(ConnectionParamsManager * manager = nullptr);
 
     // getters
     NetworkType networkType() const { return _networkType; }
     ServerType serverType() const { return _serverType; }
     QString sessionName() const { return _sessionName; }
     QString hostName() const { return _hostName; }
+    QString fileName() const { return _fileName; }
     QString userName() const { return _userName; }
     QString password() const { return _password; }
     bool isAllDatabases() const { return _databases.isEmpty(); }
@@ -56,8 +60,9 @@ public:
     // setters
     void setNetworkType(NetworkType networkType);
     void setServerType(ServerType serverType) { _serverType = serverType; }
-    void setSessionName(const QString &sessionName) { _sessionName = sessionName; }
+    void setSessionName(const QString &session) { _sessionName = session; }
     void setHostName(const QString &hostName) { _hostName = hostName; }
+    void setFileName(const QString &fileName) { _fileName = fileName; }
     void setUserName(const QString &userName) { _userName = userName; }
     void setPassword(const QString &password) { _password = password; }
     void setDatabases(const QString &databases) { _databases = databases; }
@@ -66,6 +71,21 @@ public:
     void setPort(quint16 port) { _port = port; }
     void setManager(ConnectionParamsManager &manager);
     void setId(unsigned id) { _id = id; }
+
+    bool isFilebased() const {
+        return _networkType == NetworkType::SQLite3_File;
+    }
+    bool supportsAuth() const {
+        return _networkType != NetworkType::SQLite3_File;
+    }
+    bool supportsMultipleDatabases() const {
+        return _networkType != NetworkType::SQLite3_File;
+    }
+
+    QString fileNameShort() const {
+        QFileInfo fileInfo(_fileName);
+        return fileInfo.fileName();
+    }
 
     bool operator==(const ConnectionParameters & other);
     operator QString() const;
@@ -80,6 +100,7 @@ private:
     ServerType _serverType;
     QString _sessionName;
     QString _hostName;
+    QString _fileName;
     QString _userName;
     QString _password;
     QString _databases;

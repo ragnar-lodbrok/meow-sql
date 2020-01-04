@@ -14,7 +14,7 @@ class ConnectionFeatures
 {
 public:
 
-    ConnectionFeatures(Connection * connection);
+    explicit ConnectionFeatures(Connection * connection);
     virtual ~ConnectionFeatures();
 
     virtual bool supportsViewingTables() const {
@@ -22,6 +22,10 @@ public:
     }
 
     virtual bool supportsViewingTablesData() const {
+        return false;
+    }
+
+    virtual bool supportsEditingTablesData() const {
         return false;
     }
 
@@ -53,13 +57,17 @@ public:
 
 	//using ConnectionFeatures::ConnectionFeatures;
 
-    MySQLConnectionFeatures(Connection * connection);
+    explicit MySQLConnectionFeatures(Connection * connection);
 
     virtual bool supportsViewingTables() const override {
         return true;
     }
 
     virtual bool supportsViewingTablesData() const override {
+        return true;
+    }
+
+    virtual bool supportsEditingTablesData() const override {
         return true;
     }
 
@@ -98,7 +106,7 @@ public:
 
 	//using ConnectionFeatures::ConnectionFeatures;
 
-    PGConnectionFeatures(Connection * connection);
+    explicit PGConnectionFeatures(Connection * connection);
 
     virtual bool supportsViewingTables() const override {
         // not yet implemented
@@ -106,6 +114,10 @@ public:
     }
 
     virtual bool supportsViewingTablesData() const override {
+        return true;
+    }
+
+    virtual bool supportsEditingTablesData() const override {
         return true;
     }
 
@@ -118,6 +130,19 @@ public:
     virtual bool supportsDumping() const override {
         // TODO: implement
         return false;
+    }
+};
+
+// -----------------------------------------------------------------------------
+
+class QtSQLiteConnectionFeatures : public ConnectionFeatures
+{
+public:
+
+    explicit QtSQLiteConnectionFeatures(Connection * connection);
+
+    virtual bool supportsViewingTablesData() const override {
+        return true;
     }
 };
 

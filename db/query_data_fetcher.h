@@ -16,11 +16,11 @@ class TableColumn;
 class QueryDataFetcher
 {
 public:
-    QueryDataFetcher(Connection * connection);
+    explicit QueryDataFetcher(Connection * connection);
     virtual ~QueryDataFetcher() {}
 
     virtual void run(QueryCriteria * queryCriteria,
-                     QueryData * toData) = 0;
+                     QueryData * toData);
 
     virtual QStringList selectList(TableEntity * table) {
         Q_UNUSED(table);

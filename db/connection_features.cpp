@@ -37,5 +37,13 @@ PGConnectionFeatures::PGConnectionFeatures(Connection * connection)
 
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+QtSQLiteConnectionFeatures::QtSQLiteConnectionFeatures(Connection * connection)
+    : ConnectionFeatures(connection)
+{
+
+}
+
 } // namespace db
 } // namespace meow

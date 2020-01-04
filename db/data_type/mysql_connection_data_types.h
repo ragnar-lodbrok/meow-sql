@@ -1,6 +1,9 @@
 #ifndef DB_MYSQL_CONNECTION_DATA_TYPES_H
 #define DB_MYSQL_CONNECTION_DATA_TYPES_H
 
+// https://www.sqlite.org/datatype3.html
+// https://doc.qt.io/qt-5/sql-types.html#qsqlite-sqlite-version-3-data-types
+
 #include "connection_data_types.h"
 #include <mysql/mysql.h>
 

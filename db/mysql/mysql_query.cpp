@@ -135,7 +135,7 @@ void MySQLQuery::seekRecNo(db::ulonglong value)
         db::ulonglong numRows = 0;
         for (auto result : _resultList) {
             numRows += result->nativePtr()->row_count;
-            if (numRows > value) {
+            if (value < numRows) {
                 _currentResult = result; // TODO: why ?
                 MYSQL_RES * curResPtr = _currentResult->nativePtr();
                 // TODO: using unsigned with "-" is risky

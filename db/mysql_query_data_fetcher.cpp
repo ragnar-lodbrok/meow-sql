@@ -15,34 +15,6 @@ MySQLQueryDataFetcher::MySQLQueryDataFetcher(MySQLConnection * connection)
 
 }
 
-void MySQLQueryDataFetcher::run(
-        QueryCriteria * queryCriteria,
-        QueryData * toData) // override
-{
-
-    QString selectList = queryCriteria->select.join(", ");
-    if (selectList.isEmpty()) {
-        selectList = "*";
-    }
-    QString select = selectList
-            + " FROM " + queryCriteria->quotedDbAndTableName;
-
-    select = _connection->applyQueryLimit("SELECT", select,
-                                          queryCriteria->limit,
-                                          queryCriteria->offset);
-
-    Query * query = toData->query();
-    if (query == nullptr) {
-        QueryPtr newQuery = _connection->createQuery();
-        toData->setQueryPtr(newQuery);
-        query = toData->query();
-    }
-
-    query->setSQL(select);
-
-    query->execute(queryCriteria->offset > 0);
-}
-
 QStringList MySQLQueryDataFetcher::selectList(TableEntity * table)
 {
     QStringList select;

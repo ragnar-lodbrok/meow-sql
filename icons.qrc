@@ -28,6 +28,7 @@
         <file alias="server-mariadb.png">resources/icons/server-mariadb.png</file>
         <file alias="text_padding_left.png">resources/icons/text_padding_left.png</file>
         <file alias="server-mysql.png">resources/icons/server-mysql.png</file>
+        <file alias="server-sqlite.png">resources/icons/server-sqlite.png</file>
         <file alias="bullet_error.png">resources/icons/bullet_error.png</file>
         <file alias="edit_marker.png">resources/icons/edit_marker.png</file>
         <file alias="bullet_add_marker.png">resources/icons/bullet_add_marker.png</file>

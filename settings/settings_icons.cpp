@@ -21,6 +21,7 @@ void Icons::setupIcons()
 
     _iconsServerType[db::ServerType::MySQL] = QIcon(":/icons/server-mysql.png");
     _iconsServerType[db::ServerType::PostgreSQL] = QIcon(":/icons/server-postgresql.png");
+    _iconsServerType[db::ServerType::SQLite] = QIcon(":/icons/server-sqlite.png");
 }
 
 const QIcon Icons::iconForTableIndexClass(db::TableIndexClass indexClass) const

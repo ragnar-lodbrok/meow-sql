@@ -24,17 +24,22 @@ public:
       Count
     };
 public:
-    ConnectionParamsModel(meow::db::ConnectionParamsManager *manager, QObject *parent = 0);
+    ConnectionParamsModel(meow::db::ConnectionParamsManager *manager,
+                          QObject *parent = nullptr);
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
+    bool setData(const QModelIndex &index,
+                 const QVariant &value,
+                 int role = Qt::EditRole) override;
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnWidth(int column) const;
-    bool isSelectedConnectionParamModified() const { return _selectedFormModified; }
+    bool isSelectedConnectionParamModified() const {
+        return _selectedFormModified;
+    }
 
     meow::models::forms::ConnectionParametersForm * selectFormAt(int row);
     meow::models::forms::ConnectionParametersForm * createNewForm();

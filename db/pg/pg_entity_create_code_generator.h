@@ -13,7 +13,7 @@ class TableEntity;
 class PGEntityCreateCodeGenerator
 {
 public:
-    PGEntityCreateCodeGenerator(PGConnection * connection);
+    explicit PGEntityCreateCodeGenerator(PGConnection * connection);
     QString run(const Entity * entity);
 private:
 

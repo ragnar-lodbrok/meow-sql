@@ -38,6 +38,7 @@ public:
 
     QString rowCountStats() const;
 
+    bool isEditable() const;
     bool isEditing();
     bool isModified();
 

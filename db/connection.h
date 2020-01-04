@@ -38,7 +38,7 @@ class Connection : public QObject
     Q_OBJECT
 
 public:
-    Connection(const ConnectionParameters & params);
+    explicit Connection(const ConnectionParameters & params);
     virtual ~Connection();
 
     bool active() const { return _active; }
