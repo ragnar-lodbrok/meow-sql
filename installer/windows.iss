@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "MeowSQL"
-#define MyAppVersion "0.4.0"
+#define MyAppVersion "0.4.1"
 #define MyAppPublisher "Ragnar Lodbrok"
 #define MyAppURL "https://github.com/ragnar-lodbrok/meow-sql"
 #define MyAppExeName "meow-sql.exe"
@@ -71,6 +71,9 @@ Source: "{#SourceDir}\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\Qt5Gui.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\Qt5Widgets.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\Qt5Svg.dll"; DestDir: "{app}"; Flags: ignoreversion
+; QtSQL
+Source: "{#SourceDir}\Qt5Sql.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; Do we need GL dlls?
 Source: "{#SourceDir}\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion

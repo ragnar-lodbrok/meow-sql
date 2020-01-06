@@ -26,6 +26,7 @@ though it can be run and do some work (warning: do not use in production!!!).
 9. SQL: execute multiple statements at once and see results of SELECT statements 
 10. Create and drop tables - (MySQL only)
 11. Making dumps - (MySQL only via mysqldump)
+12. Initial SQLite 3 support (read-only)
 
 ## Contributing
 
