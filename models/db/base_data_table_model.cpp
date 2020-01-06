@@ -82,6 +82,7 @@ QVariant BaseDataTableModel::data(const QModelIndex &index, int role) const
                 return textSettings->colorForDataTypeNULL(dataType);
             }
         }
+        return QVariant();
     }
 
     default:

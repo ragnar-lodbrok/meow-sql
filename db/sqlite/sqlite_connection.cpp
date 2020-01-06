@@ -19,6 +19,8 @@ SQLiteConnection::SQLiteConnection(const ConnectionParameters & params)
 {
     // Listening: Stormlord - Leviathan
 
+    // TODO: Qt SQL has multithreading limitations
+
     _handle = QSqlDatabase::addDatabase("QSQLITE", params.sessionName());
 }
 

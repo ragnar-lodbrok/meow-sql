@@ -117,7 +117,15 @@ QString QtSQLQuery::curRowColumn(std::size_t index,
             return _editableData->dataAt(_curRecNo, index);
         }
 
-        // TODO: binary
+        DataTypeCategoryIndex typeCategory
+            = column(index).dataType->categoryIndex;
+        if (typeCategory == DataTypeCategoryIndex::Binary) {
+            // TODO: more effective way?
+            QByteArray bytes
+                    = _currentResult->query()->value(index).toByteArray();
+
+            return QString::fromLatin1(bytes.constData(), bytes.length());
+        }
 
         return _currentResult->query()->value(index).toString();
 
