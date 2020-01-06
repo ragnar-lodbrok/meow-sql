@@ -286,7 +286,7 @@ void SettingsTab::onFilenameSelectionButtonClicked()
     QFileDialog dialog(this);
     dialog.setFileMode(QFileDialog::AnyFile);
     dialog.selectFile(_form->fileName());
-    dialog.setNameFilter(tr("All files (*.*);;DB files (*.db)"));
+    //dialog.setNameFilter(tr("All files (*.*);;DB files (*.db)")); // TODO
 
     if (dialog.exec()) {
         QStringList fileNames = dialog.selectedFiles();

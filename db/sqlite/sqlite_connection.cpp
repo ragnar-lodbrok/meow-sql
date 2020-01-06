@@ -38,7 +38,10 @@ SQLiteConnection::~SQLiteConnection()
         setActive(false);
     }
 
-    _handle.removeDatabase(connectionParams()->sessionName());
+    // https://doc.qt.io/qt-5/qsqldatabase.html#removeDatabase
+    _handle = QSqlDatabase();
+
+    QSqlDatabase::removeDatabase(connectionParams()->sessionName());
 }
 
 void SQLiteConnection::setActive(bool active)
