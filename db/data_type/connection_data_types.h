@@ -41,7 +41,7 @@ public:
         return ptr;
     }
 
-    virtual DataTypePtr dataTypeFromField(const QSqlField & field) const {
+    virtual DataTypePtr dataTypeFromField(const QSqlField & field) {
         Q_UNUSED(field)
         return defaultType();
     }

@@ -7,6 +7,8 @@
 #include "db/entity/entity_list_for_database.h"
 #include "db/entity/table_entity.h"
 
+#include "utils/sql_parser/sqlite/sqlite_parser.h" // test
+
 // https://doc.qt.io/qt-5/sql-programming.html
 // https://code.qt.io/cgit/qt/qtbase.git/tree/examples/sql/sqlbrowser/browser.cpp?h=5.14
 
@@ -308,6 +310,17 @@ QString SQLiteConnection::limitOnePostfix(bool select) const
     } else {
         return ""; // UPDATE may not work
     }
+}
+
+void SQLiteConnection::parseTableStructure(TableEntity * table, bool refresh)
+{
+    QString createSQL = table->createCode();
+    qDebug() << createSQL;
+    utils::sql_parser::SQLiteParser parser;
+
+    db::TableStructure * structure = parser.parseCreateTable(createSQL);
+
+    delete structure;
 }
 
 DataBaseEntitiesFetcher * SQLiteConnection::createDbEntitiesFetcher()

@@ -176,6 +176,10 @@ set(SOURCE_FILES
     ui/session_manager/start_tab.cpp
     ui/session_manager/window.cpp
     utils/exporting/mysql_dump_console.cpp
+    utils/sql_parser/sqlite/sqlite_parser.cpp
+    utils/sql_parser/sqlite/sqlite_bison_parser.cpp
+    utils/sql_parser/sqlite/sqlite_flex_lexer.cpp
+    utils/sql_parser/sqlite/sqlite_types.cpp
 )
 
 qt5_add_resources(RESOURCE_FILES icons.qrc)

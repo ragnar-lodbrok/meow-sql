@@ -112,7 +112,7 @@ public:
     virtual std::shared_ptr<QueryDataEditor> queryDataEditor(); // TODO = 0 ?
     virtual QString limitOnePostfix(bool select) const;
 
-    void parseTableStructure(TableEntity * table, bool refresh = false);
+    virtual void parseTableStructure(TableEntity * table, bool refresh = false);
 
     bool editTableInDB(TableEntity * table, TableEntity * newData);
     bool insertTableToDB(TableEntity * table);

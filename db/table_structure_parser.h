@@ -19,7 +19,7 @@ class Connection;
 class TableStructureParser
 {
 public:
-    TableStructureParser(Connection * connection);
+    explicit TableStructureParser(Connection * connection);
     ~TableStructureParser();
     void run(TableEntity * table);
 private:

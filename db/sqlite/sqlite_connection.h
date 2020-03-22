@@ -64,6 +64,9 @@ public:
 
     virtual QString limitOnePostfix(bool select) const override;
 
+    virtual void parseTableStructure(TableEntity * table,
+                                     bool refresh = false) override;
+
     const QSqlDatabase * handle() const { return &_handle; }
 
 protected:

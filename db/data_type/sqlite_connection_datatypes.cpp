@@ -73,11 +73,12 @@ const DataTypePtr SQLiteConnectionDataTypes::defaultType() const
 }
 
 DataTypePtr SQLiteConnectionDataTypes::dataTypeFromField(
-    const QSqlField & field) const
+    const QSqlField & field)
 {
     // https://doc.qt.io/qt-5/sql-types.html#qsqlite-sqlite-version-3-data-types
     // https://doc.qt.io/qt-5/qmetatype.html#Type-enum
 
+    list(); // init
 
     SQLiteTypeAffinity type = SQLiteTypeAffinity::Text;
 

@@ -27,7 +27,7 @@ public:
 
     virtual const DataTypePtr defaultType() const override;
 
-    virtual DataTypePtr dataTypeFromField(const QSqlField & field) const override;
+    virtual DataTypePtr dataTypeFromField(const QSqlField & field) override;
 
 private:
     bool _init;
