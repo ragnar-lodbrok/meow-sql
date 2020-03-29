@@ -32,7 +32,7 @@
 
 
 // First part of user declarations.
-#line 19 "sqlite_bison_parser.y" // lalr1.cc:404
+#line 21 "sqlite_bison_parser.y" // lalr1.cc:404
 
 # include <stdio.h>
 
@@ -52,7 +52,7 @@
 
 #line 54 "sqlite_bison_parser.cpp" // lalr1.cc:412
 // Unqualified %code blocks.
-#line 48 "sqlite_bison_parser.y" // lalr1.cc:413
+#line 50 "sqlite_bison_parser.y" // lalr1.cc:413
 
     #include "sqlite_parser.h"
 
@@ -140,7 +140,7 @@
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 56 "sqlite_bison_parser.y" // lalr1.cc:479
+#line 58 "sqlite_bison_parser.y" // lalr1.cc:479
 namespace  meow { namespace utils { namespace sql_parser  {
 #line 146 "sqlite_bison_parser.cpp" // lalr1.cc:479
 
@@ -255,35 +255,46 @@ namespace  meow { namespace utils { namespace sql_parser  {
   {
       switch (that.type_get ())
     {
-      case 51: // opt_autoincrement
+      case 61: // opt_temporary
+      case 62: // opt_without_rowid
+      case 66: // opt_autoincrement
         value.move< bool > (that.value);
         break;
 
-      case 50: // column_constraint
+      case 65: // column_constraint
         value.move< meow::utils::sql_parser::SQLiteColumnConstraintPtr > (that.value);
         break;
 
-      case 47: // column_definition
+      case 60: // column_definition
         value.move< meow::utils::sql_parser::SQLiteColumnPtr > (that.value);
         break;
 
-      case 60: // foreign_key_do_on_action
+      case 75: // foreign_key_do_on_action
         value.move< meow::utils::sql_parser::SQLiteDoOnAction > (that.value);
         break;
 
-      case 56: // foreign_key_clause
+      case 67: // opt_conflict_clause
+        value.move< meow::utils::sql_parser::SQLiteDoOnConflict > (that.value);
+        break;
+
+      case 71: // foreign_key_clause
         value.move< meow::utils::sql_parser::SQLiteForeignDataPtr > (that.value);
         break;
 
-      case 59: // foreign_key_action
+      case 74: // foreign_key_action
         value.move< meow::utils::sql_parser::SQLiteForeignKeyAction > (that.value);
         break;
 
-      case 55: // table_constraint
+      case 87: // literal_value
+      case 88: // expr
+        value.move< meow::utils::sql_parser::SQLiteLiteralValue > (that.value);
+        break;
+
+      case 70: // table_constraint
         value.move< meow::utils::sql_parser::SQLiteTableConstraintPtr > (that.value);
         break;
 
-      case 44: // create_table_stmt
+      case 57: // create_table_stmt
         value.move< meow::utils::sql_parser::SQLiteTablePtr > (that.value);
         break;
 
@@ -316,38 +327,51 @@ namespace  meow { namespace utils { namespace sql_parser  {
       case 37: // "INTNUM"
       case 38: // "FLOATNUM"
       case 39: // "STRING"
-      case 45: // name_with_schema
-      case 52: // opt_conflict_clause
-      case 61: // column_name
-      case 62: // opt_type_name
-      case 63: // type_name
-      case 64: // type_name_list
-      case 67: // table_id
-      case 68: // column_id
+      case 40: // "ON_CONFLICT_ROLLBACK"
+      case 41: // "ON_CONFLICT_ABORT"
+      case 42: // "ON_CONFLICT_FAIL"
+      case 43: // "ON_CONFLICT_IGNORE"
+      case 44: // "ON_CONFLICT_REPLACE"
+      case 45: // "CURRENT_DATE"
+      case 46: // "CURRENT_TIME"
+      case 47: // "CURRENT_TIMESTAMP"
+      case 48: // "FALSE"
+      case 49: // "TRUE"
+      case 50: // "NULL"
+      case 58: // name_with_schema
+      case 76: // column_name
+      case 77: // opt_type_name
+      case 78: // type_name
+      case 79: // type_name_list
+      case 82: // table_id
+      case 83: // column_id
+      case 84: // opt_constraint_name
+      case 85: // signed_number
+      case 86: // numeric_literal
         value.move< std::string > (that.value);
         break;
 
-      case 48: // opt_column_constraint_list
-      case 49: // column_constraint_list
+      case 63: // opt_column_constraint_list
+      case 64: // column_constraint_list
         value.move< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > (that.value);
         break;
 
-      case 46: // create_column_list
+      case 59: // create_column_list
         value.move< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > (that.value);
         break;
 
-      case 57: // opt_foreign_key_action_list
-      case 58: // foreign_key_action_list
+      case 72: // opt_foreign_key_action_list
+      case 73: // foreign_key_action_list
         value.move< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > (that.value);
         break;
 
-      case 53: // opt_table_constraint_list
-      case 54: // table_constraint_list
+      case 68: // opt_table_constraint_list
+      case 69: // table_constraint_list
         value.move< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > (that.value);
         break;
 
-      case 65: // opt_column_id_list
-      case 66: // column_id_list
+      case 80: // opt_column_id_list
+      case 81: // column_id_list
         value.move< std::vector<std::string> > (that.value);
         break;
 
@@ -366,35 +390,46 @@ namespace  meow { namespace utils { namespace sql_parser  {
     state = that.state;
       switch (that.type_get ())
     {
-      case 51: // opt_autoincrement
+      case 61: // opt_temporary
+      case 62: // opt_without_rowid
+      case 66: // opt_autoincrement
         value.copy< bool > (that.value);
         break;
 
-      case 50: // column_constraint
+      case 65: // column_constraint
         value.copy< meow::utils::sql_parser::SQLiteColumnConstraintPtr > (that.value);
         break;
 
-      case 47: // column_definition
+      case 60: // column_definition
         value.copy< meow::utils::sql_parser::SQLiteColumnPtr > (that.value);
         break;
 
-      case 60: // foreign_key_do_on_action
+      case 75: // foreign_key_do_on_action
         value.copy< meow::utils::sql_parser::SQLiteDoOnAction > (that.value);
         break;
 
-      case 56: // foreign_key_clause
+      case 67: // opt_conflict_clause
+        value.copy< meow::utils::sql_parser::SQLiteDoOnConflict > (that.value);
+        break;
+
+      case 71: // foreign_key_clause
         value.copy< meow::utils::sql_parser::SQLiteForeignDataPtr > (that.value);
         break;
 
-      case 59: // foreign_key_action
+      case 74: // foreign_key_action
         value.copy< meow::utils::sql_parser::SQLiteForeignKeyAction > (that.value);
         break;
 
-      case 55: // table_constraint
+      case 87: // literal_value
+      case 88: // expr
+        value.copy< meow::utils::sql_parser::SQLiteLiteralValue > (that.value);
+        break;
+
+      case 70: // table_constraint
         value.copy< meow::utils::sql_parser::SQLiteTableConstraintPtr > (that.value);
         break;
 
-      case 44: // create_table_stmt
+      case 57: // create_table_stmt
         value.copy< meow::utils::sql_parser::SQLiteTablePtr > (that.value);
         break;
 
@@ -427,38 +462,51 @@ namespace  meow { namespace utils { namespace sql_parser  {
       case 37: // "INTNUM"
       case 38: // "FLOATNUM"
       case 39: // "STRING"
-      case 45: // name_with_schema
-      case 52: // opt_conflict_clause
-      case 61: // column_name
-      case 62: // opt_type_name
-      case 63: // type_name
-      case 64: // type_name_list
-      case 67: // table_id
-      case 68: // column_id
+      case 40: // "ON_CONFLICT_ROLLBACK"
+      case 41: // "ON_CONFLICT_ABORT"
+      case 42: // "ON_CONFLICT_FAIL"
+      case 43: // "ON_CONFLICT_IGNORE"
+      case 44: // "ON_CONFLICT_REPLACE"
+      case 45: // "CURRENT_DATE"
+      case 46: // "CURRENT_TIME"
+      case 47: // "CURRENT_TIMESTAMP"
+      case 48: // "FALSE"
+      case 49: // "TRUE"
+      case 50: // "NULL"
+      case 58: // name_with_schema
+      case 76: // column_name
+      case 77: // opt_type_name
+      case 78: // type_name
+      case 79: // type_name_list
+      case 82: // table_id
+      case 83: // column_id
+      case 84: // opt_constraint_name
+      case 85: // signed_number
+      case 86: // numeric_literal
         value.copy< std::string > (that.value);
         break;
 
-      case 48: // opt_column_constraint_list
-      case 49: // column_constraint_list
+      case 63: // opt_column_constraint_list
+      case 64: // column_constraint_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > (that.value);
         break;
 
-      case 46: // create_column_list
+      case 59: // create_column_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > (that.value);
         break;
 
-      case 57: // opt_foreign_key_action_list
-      case 58: // foreign_key_action_list
+      case 72: // opt_foreign_key_action_list
+      case 73: // foreign_key_action_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > (that.value);
         break;
 
-      case 53: // opt_table_constraint_list
-      case 54: // table_constraint_list
+      case 68: // opt_table_constraint_list
+      case 69: // table_constraint_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > (that.value);
         break;
 
-      case 65: // opt_column_id_list
-      case 66: // column_id_list
+      case 80: // opt_column_id_list
+      case 81: // column_id_list
         value.copy< std::vector<std::string> > (that.value);
         break;
 
@@ -690,35 +738,46 @@ namespace  meow { namespace utils { namespace sql_parser  {
          when using variants.  */
         switch (yyr1_[yyn])
     {
-      case 51: // opt_autoincrement
+      case 61: // opt_temporary
+      case 62: // opt_without_rowid
+      case 66: // opt_autoincrement
         yylhs.value.build< bool > ();
         break;
 
-      case 50: // column_constraint
+      case 65: // column_constraint
         yylhs.value.build< meow::utils::sql_parser::SQLiteColumnConstraintPtr > ();
         break;
 
-      case 47: // column_definition
+      case 60: // column_definition
         yylhs.value.build< meow::utils::sql_parser::SQLiteColumnPtr > ();
         break;
 
-      case 60: // foreign_key_do_on_action
+      case 75: // foreign_key_do_on_action
         yylhs.value.build< meow::utils::sql_parser::SQLiteDoOnAction > ();
         break;
 
-      case 56: // foreign_key_clause
+      case 67: // opt_conflict_clause
+        yylhs.value.build< meow::utils::sql_parser::SQLiteDoOnConflict > ();
+        break;
+
+      case 71: // foreign_key_clause
         yylhs.value.build< meow::utils::sql_parser::SQLiteForeignDataPtr > ();
         break;
 
-      case 59: // foreign_key_action
+      case 74: // foreign_key_action
         yylhs.value.build< meow::utils::sql_parser::SQLiteForeignKeyAction > ();
         break;
 
-      case 55: // table_constraint
+      case 87: // literal_value
+      case 88: // expr
+        yylhs.value.build< meow::utils::sql_parser::SQLiteLiteralValue > ();
+        break;
+
+      case 70: // table_constraint
         yylhs.value.build< meow::utils::sql_parser::SQLiteTableConstraintPtr > ();
         break;
 
-      case 44: // create_table_stmt
+      case 57: // create_table_stmt
         yylhs.value.build< meow::utils::sql_parser::SQLiteTablePtr > ();
         break;
 
@@ -751,38 +810,51 @@ namespace  meow { namespace utils { namespace sql_parser  {
       case 37: // "INTNUM"
       case 38: // "FLOATNUM"
       case 39: // "STRING"
-      case 45: // name_with_schema
-      case 52: // opt_conflict_clause
-      case 61: // column_name
-      case 62: // opt_type_name
-      case 63: // type_name
-      case 64: // type_name_list
-      case 67: // table_id
-      case 68: // column_id
+      case 40: // "ON_CONFLICT_ROLLBACK"
+      case 41: // "ON_CONFLICT_ABORT"
+      case 42: // "ON_CONFLICT_FAIL"
+      case 43: // "ON_CONFLICT_IGNORE"
+      case 44: // "ON_CONFLICT_REPLACE"
+      case 45: // "CURRENT_DATE"
+      case 46: // "CURRENT_TIME"
+      case 47: // "CURRENT_TIMESTAMP"
+      case 48: // "FALSE"
+      case 49: // "TRUE"
+      case 50: // "NULL"
+      case 58: // name_with_schema
+      case 76: // column_name
+      case 77: // opt_type_name
+      case 78: // type_name
+      case 79: // type_name_list
+      case 82: // table_id
+      case 83: // column_id
+      case 84: // opt_constraint_name
+      case 85: // signed_number
+      case 86: // numeric_literal
         yylhs.value.build< std::string > ();
         break;
 
-      case 48: // opt_column_constraint_list
-      case 49: // column_constraint_list
+      case 63: // opt_column_constraint_list
+      case 64: // column_constraint_list
         yylhs.value.build< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > ();
         break;
 
-      case 46: // create_column_list
+      case 59: // create_column_list
         yylhs.value.build< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > ();
         break;
 
-      case 57: // opt_foreign_key_action_list
-      case 58: // foreign_key_action_list
+      case 72: // opt_foreign_key_action_list
+      case 73: // foreign_key_action_list
         yylhs.value.build< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > ();
         break;
 
-      case 53: // opt_table_constraint_list
-      case 54: // table_constraint_list
+      case 68: // opt_table_constraint_list
+      case 69: // table_constraint_list
         yylhs.value.build< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > ();
         break;
 
-      case 65: // opt_column_id_list
-      case 66: // column_id_list
+      case 80: // opt_column_id_list
+      case 81: // column_id_list
         yylhs.value.build< std::vector<std::string> > ();
         break;
 
@@ -803,52 +875,54 @@ namespace  meow { namespace utils { namespace sql_parser  {
         {
           switch (yyn)
             {
-  case 5:
-#line 146 "sqlite_bison_parser.y" // lalr1.cc:859
+  case 4:
+#line 168 "sqlite_bison_parser.y" // lalr1.cc:859
     { drv._parsedTable = yystack_[0].value.as< meow::utils::sql_parser::SQLiteTablePtr > (); }
-#line 810 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 882 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
-  case 6:
-#line 150 "sqlite_bison_parser.y" // lalr1.cc:859
+  case 5:
+#line 172 "sqlite_bison_parser.y" // lalr1.cc:859
     {
 
         yylhs.value.as< meow::utils::sql_parser::SQLiteTablePtr > () = std::make_shared<meow::utils::sql_parser::SQLiteTable>();
-        yylhs.value.as< meow::utils::sql_parser::SQLiteTablePtr > ()->setName(yystack_[4].value.as< std::string > ());
-        yylhs.value.as< meow::utils::sql_parser::SQLiteTablePtr > ()->setColumns(yystack_[2].value.as< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > ());
-        yylhs.value.as< meow::utils::sql_parser::SQLiteTablePtr > ()->setConstraints(yystack_[1].value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > ());
+        yylhs.value.as< meow::utils::sql_parser::SQLiteTablePtr > ()->setTemp(yystack_[7].value.as< bool > ());
+        yylhs.value.as< meow::utils::sql_parser::SQLiteTablePtr > ()->setName(yystack_[5].value.as< std::string > ());
+        yylhs.value.as< meow::utils::sql_parser::SQLiteTablePtr > ()->setColumns(yystack_[3].value.as< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > ());
+        yylhs.value.as< meow::utils::sql_parser::SQLiteTablePtr > ()->setConstraints(yystack_[2].value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > ());
+        yylhs.value.as< meow::utils::sql_parser::SQLiteTablePtr > ()->setWithoutRowID(yystack_[0].value.as< bool > ());
         
         std::cout << yylhs.value.as< meow::utils::sql_parser::SQLiteTablePtr > ()->toString() << std::endl;
     }
-#line 824 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 898 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 6:
+#line 187 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
+#line 904 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 7:
-#line 163 "sqlite_bison_parser.y" // lalr1.cc:859
+#line 188 "sqlite_bison_parser.y" // lalr1.cc:859
     { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
-#line 830 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 910 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 8:
-#line 164 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
-#line 836 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 192 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteColumnPtr > ()); }
+#line 916 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 9:
-#line 168 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteColumnPtr > ()); }
-#line 842 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 193 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > () = yystack_[2].value.as< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > (); yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteColumnPtr > ()); }
+#line 922 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 10:
-#line 169 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > () = yystack_[2].value.as< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > (); yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteColumnPtr > ()); }
-#line 848 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 11:
-#line 175 "sqlite_bison_parser.y" // lalr1.cc:859
+#line 199 "sqlite_bison_parser.y" // lalr1.cc:859
     { 
         yylhs.value.as< meow::utils::sql_parser::SQLiteColumnPtr > () = std::make_shared<meow::utils::sql_parser::SQLiteColumn>();
         yylhs.value.as< meow::utils::sql_parser::SQLiteColumnPtr > ()->setName(yystack_[2].value.as< std::string > ());
@@ -856,298 +930,536 @@ namespace  meow { namespace utils { namespace sql_parser  {
         yylhs.value.as< meow::utils::sql_parser::SQLiteColumnPtr > ()->setConstraints(yystack_[0].value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > ());
     
     }
-#line 860 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 934 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 11:
+#line 209 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< bool > () = false; }
+#line 940 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 12:
-#line 185 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > () = {}; }
-#line 866 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 210 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< bool > () = true; }
+#line 946 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 13:
-#line 186 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > () = yystack_[0].value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > (); }
-#line 872 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 214 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< bool > () = false; }
+#line 952 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 14:
-#line 191 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > ()); }
-#line 878 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 215 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< bool > () = true; }
+#line 958 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 15:
-#line 192 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > () = yystack_[1].value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > (); yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > ()); }
-#line 884 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 220 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > () = {}; }
+#line 964 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 16:
-#line 196 "sqlite_bison_parser.y" // lalr1.cc:859
+#line 221 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > () = yystack_[0].value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > (); }
+#line 970 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 17:
+#line 226 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > ()); }
+#line 976 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 18:
+#line 227 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > () = yystack_[1].value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > (); yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > ()); }
+#line 982 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 19:
+#line 231 "sqlite_bison_parser.y" // lalr1.cc:859
     {  
         using Constraint = meow::utils::sql_parser::SQLiteColumnConstraint;
         yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > () = std::make_shared<Constraint>(Constraint::Type::PrimaryKey);
         yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > ()->setIsAutoincrement(yystack_[0].value.as< bool > ());
+        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > ()->setOnConflict(yystack_[1].value.as< meow::utils::sql_parser::SQLiteDoOnConflict > ());
     }
-#line 894 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 17:
-#line 201 "sqlite_bison_parser.y" // lalr1.cc:859
-    {
-        using Constraint = meow::utils::sql_parser::SQLiteColumnConstraint;
-        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > () = std::make_shared<Constraint>(Constraint::Type::NotNull);
-    }
-#line 903 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 18:
-#line 205 "sqlite_bison_parser.y" // lalr1.cc:859
-    {
-        using Constraint = meow::utils::sql_parser::SQLiteColumnConstraint;
-        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > () = std::make_shared<Constraint>(Constraint::Type::Unique);
-    }
-#line 912 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 19:
-#line 209 "sqlite_bison_parser.y" // lalr1.cc:859
-    { // TODO
-        using Constraint = meow::utils::sql_parser::SQLiteColumnConstraint;
-        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > () = std::make_shared<Constraint>(Constraint::Type::Default);
-    }
-#line 921 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 993 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 20:
-#line 216 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< bool > () = false; }
-#line 927 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 237 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        using Constraint = meow::utils::sql_parser::SQLiteColumnConstraint;
+        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > () = std::make_shared<Constraint>(Constraint::Type::NotNull);
+        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > ()->setOnConflict(yystack_[0].value.as< meow::utils::sql_parser::SQLiteDoOnConflict > ());
+    }
+#line 1003 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 21:
-#line 217 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< bool > () = true; }
-#line 933 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 242 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        using Constraint = meow::utils::sql_parser::SQLiteColumnConstraint;
+        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > () = std::make_shared<Constraint>(Constraint::Type::Unique);
+        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > ()->setOnConflict(yystack_[0].value.as< meow::utils::sql_parser::SQLiteDoOnConflict > ());
+    }
+#line 1013 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 22:
-#line 221 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::string > () = ""; }
-#line 939 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 247 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        auto DC = std::make_shared<meow::utils::sql_parser::SQLiteDefaultColumnConstraint>();
+        DC->defaultValue.value = yystack_[0].value.as< std::string > ();
+        DC->defaultValue.type = meow::utils::sql_parser::SQLiteLiteralValueType::Numeric;
+        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > () = DC;
+    }
+#line 1024 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 23:
-#line 230 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > () = {}; }
-#line 945 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 253 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        auto DC = std::make_shared<meow::utils::sql_parser::SQLiteDefaultColumnConstraint>();
+        DC->defaultValue = yystack_[0].value.as< meow::utils::sql_parser::SQLiteLiteralValue > ();
+        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > () = DC;
+    }
+#line 1034 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 24:
-#line 231 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > () = yystack_[0].value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > (); }
-#line 951 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 258 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        auto DC = std::make_shared<meow::utils::sql_parser::SQLiteDefaultColumnConstraint>();
+        DC->defaultValue = yystack_[1].value.as< meow::utils::sql_parser::SQLiteLiteralValue > ();
+        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > () = DC;
+    }
+#line 1044 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 25:
-#line 235 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteTableConstraintPtr > ()); }
-#line 957 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 263 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        auto FK = std::make_shared<meow::utils::sql_parser::SQLiteForeignKeyColumnConstraint>();
+        FK->foreignData = yystack_[0].value.as< meow::utils::sql_parser::SQLiteForeignDataPtr > ();
+        yylhs.value.as< meow::utils::sql_parser::SQLiteColumnConstraintPtr > () = FK;
+    }
+#line 1054 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 26:
-#line 236 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > () = yystack_[2].value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > (); yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteTableConstraintPtr > ());}
-#line 963 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 272 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< bool > () = false; }
+#line 1060 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 27:
-#line 240 "sqlite_bison_parser.y" // lalr1.cc:859
+#line 273 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< bool > () = true; }
+#line 1066 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 28:
+#line 277 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnConflict > () = meow::utils::sql_parser::SQLiteDoOnConflict::None; }
+#line 1072 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 29:
+#line 278 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnConflict > () = meow::utils::sql_parser::SQLiteDoOnConflict::Rollback; }
+#line 1078 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 30:
+#line 279 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnConflict > () = meow::utils::sql_parser::SQLiteDoOnConflict::Abort; }
+#line 1084 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 31:
+#line 280 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnConflict > () = meow::utils::sql_parser::SQLiteDoOnConflict::Fail; }
+#line 1090 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 32:
+#line 281 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnConflict > () = meow::utils::sql_parser::SQLiteDoOnConflict::Ignore; }
+#line 1096 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 33:
+#line 282 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnConflict > () = meow::utils::sql_parser::SQLiteDoOnConflict::Replace; }
+#line 1102 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 34:
+#line 286 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > () = {}; }
+#line 1108 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 35:
+#line 287 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > () = yystack_[0].value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > (); }
+#line 1114 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 36:
+#line 291 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteTableConstraintPtr > ()); }
+#line 1120 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 37:
+#line 292 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > () = yystack_[2].value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > (); yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteTableConstraintPtr > ());}
+#line 1126 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 38:
+#line 296 "sqlite_bison_parser.y" // lalr1.cc:859
     {
 
         auto FK = std::make_shared<meow::utils::sql_parser::SQLiteTableForeignKeyConstraint>();
 
+        FK->name = yystack_[6].value.as< std::string > ();
         FK->columnNames = yystack_[2].value.as< std::vector<std::string> > ();
         FK->foreignData = yystack_[0].value.as< meow::utils::sql_parser::SQLiteForeignDataPtr > ();
         yylhs.value.as< meow::utils::sql_parser::SQLiteTableConstraintPtr > () = FK;
     }
-#line 976 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 1140 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
-  case 28:
-#line 251 "sqlite_bison_parser.y" // lalr1.cc:859
+  case 39:
+#line 305 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+
+        auto PK = std::make_shared<meow::utils::sql_parser::SQLiteTablePrimaryKeyConstraint>();
+
+        PK->name = yystack_[6].value.as< std::string > ();
+        PK->indexedColumnNames = yystack_[2].value.as< std::vector<std::string> > ();
+        PK->conflict = yystack_[0].value.as< meow::utils::sql_parser::SQLiteDoOnConflict > ();
+        yylhs.value.as< meow::utils::sql_parser::SQLiteTableConstraintPtr > () = PK;
+    }
+#line 1154 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 40:
+#line 314 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+
+        auto UK = std::make_shared<meow::utils::sql_parser::SQLiteTableUniqueConstraint>();
+
+        UK->name = yystack_[5].value.as< std::string > ();
+        UK->indexedColumnNames = yystack_[2].value.as< std::vector<std::string> > ();
+        UK->conflict = yystack_[0].value.as< meow::utils::sql_parser::SQLiteDoOnConflict > ();
+        yylhs.value.as< meow::utils::sql_parser::SQLiteTableConstraintPtr > () = UK;
+    }
+#line 1168 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 41:
+#line 326 "sqlite_bison_parser.y" // lalr1.cc:859
     {
         yylhs.value.as< meow::utils::sql_parser::SQLiteForeignDataPtr > () = std::make_shared<meow::utils::sql_parser::SQLiteForeignData>();
         yylhs.value.as< meow::utils::sql_parser::SQLiteForeignDataPtr > ()->foreignTableName = yystack_[2].value.as< std::string > ();
         yylhs.value.as< meow::utils::sql_parser::SQLiteForeignDataPtr > ()->foreignColumnNames = yystack_[1].value.as< std::vector<std::string> > ();
         yylhs.value.as< meow::utils::sql_parser::SQLiteForeignDataPtr > ()->actions = yystack_[0].value.as< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > ();
     }
-#line 987 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 1179 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
-  case 29:
-#line 260 "sqlite_bison_parser.y" // lalr1.cc:859
+  case 42:
+#line 335 "sqlite_bison_parser.y" // lalr1.cc:859
     { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > () = {}; }
-#line 993 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 1185 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
-  case 30:
-#line 261 "sqlite_bison_parser.y" // lalr1.cc:859
+  case 43:
+#line 336 "sqlite_bison_parser.y" // lalr1.cc:859
     { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > () = yystack_[0].value.as< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > (); }
-#line 999 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 1191 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
-  case 31:
-#line 265 "sqlite_bison_parser.y" // lalr1.cc:859
+  case 44:
+#line 340 "sqlite_bison_parser.y" // lalr1.cc:859
     { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteForeignKeyAction > ()); }
-#line 1005 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 1197 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
-  case 32:
-#line 266 "sqlite_bison_parser.y" // lalr1.cc:859
+  case 45:
+#line 341 "sqlite_bison_parser.y" // lalr1.cc:859
     { yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > () = yystack_[1].value.as< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > (); yylhs.value.as< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > ().push_back(yystack_[0].value.as< meow::utils::sql_parser::SQLiteForeignKeyAction > ()); }
-#line 1011 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 1203 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
-  case 33:
-#line 270 "sqlite_bison_parser.y" // lalr1.cc:859
+  case 46:
+#line 345 "sqlite_bison_parser.y" // lalr1.cc:859
     {
         yylhs.value.as< meow::utils::sql_parser::SQLiteForeignKeyAction > ().action = meow::utils::sql_parser::SQLiteAction::OnDelete;
         yylhs.value.as< meow::utils::sql_parser::SQLiteForeignKeyAction > ().doOnAction = yystack_[0].value.as< meow::utils::sql_parser::SQLiteDoOnAction > ();
     }
-#line 1020 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 1212 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
-  case 34:
-#line 274 "sqlite_bison_parser.y" // lalr1.cc:859
+  case 47:
+#line 349 "sqlite_bison_parser.y" // lalr1.cc:859
     {
         yylhs.value.as< meow::utils::sql_parser::SQLiteForeignKeyAction > ().action = meow::utils::sql_parser::SQLiteAction::OnUpdate;
         yylhs.value.as< meow::utils::sql_parser::SQLiteForeignKeyAction > ().doOnAction = yystack_[0].value.as< meow::utils::sql_parser::SQLiteDoOnAction > ();
     }
-#line 1029 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 35:
-#line 281 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnAction > () = meow::utils::sql_parser::SQLiteDoOnAction::SetNull; }
-#line 1035 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 36:
-#line 282 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnAction > () = meow::utils::sql_parser::SQLiteDoOnAction::SetDefault; }
-#line 1041 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 37:
-#line 283 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnAction > () = meow::utils::sql_parser::SQLiteDoOnAction::Cascade; }
-#line 1047 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 38:
-#line 284 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnAction > () = meow::utils::sql_parser::SQLiteDoOnAction::Restrict; }
-#line 1053 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 39:
-#line 285 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnAction > () = meow::utils::sql_parser::SQLiteDoOnAction::NoAction; }
-#line 1059 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 40:
-#line 289 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
-#line 1065 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 41:
-#line 293 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::string > () = ""; }
-#line 1071 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 42:
-#line 294 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
-#line 1077 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 43:
-#line 298 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
-#line 1083 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 44:
-#line 299 "sqlite_bison_parser.y" // lalr1.cc:859
-    {  // e.g. VARCHAR(255)
-        yylhs.value.as< std::string > () = yystack_[3].value.as< std::string > () + "(" + yystack_[1].value.as< std::string > () + ")"; /* sqlite ignores length */ 
-    }
-#line 1091 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 45:
-#line 302 "sqlite_bison_parser.y" // lalr1.cc:859
-    { // e.g. DECIMAL(10,5)
-        yylhs.value.as< std::string > () = yystack_[5].value.as< std::string > () + "(" + yystack_[3].value.as< std::string > () + "," + yystack_[1].value.as< std::string > () + ")"; 
-    }
-#line 1099 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 46:
-#line 308 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
-#line 1105 "sqlite_bison_parser.cpp" // lalr1.cc:859
-    break;
-
-  case 47:
-#line 309 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::string > () = yystack_[1].value.as< std::string > () + " " + yystack_[0].value.as< std::string > (); }
-#line 1111 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 1221 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 48:
-#line 313 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<std::string> > () = {}; }
-#line 1117 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 356 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnAction > () = meow::utils::sql_parser::SQLiteDoOnAction::SetNull; }
+#line 1227 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 49:
-#line 314 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<std::string> > () = yystack_[1].value.as< std::vector<std::string> > (); }
-#line 1123 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 357 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnAction > () = meow::utils::sql_parser::SQLiteDoOnAction::SetDefault; }
+#line 1233 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 50:
-#line 318 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<std::string> > ().push_back(yystack_[0].value.as< std::string > ()); }
-#line 1129 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 358 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnAction > () = meow::utils::sql_parser::SQLiteDoOnAction::Cascade; }
+#line 1239 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 51:
-#line 319 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::vector<std::string> > () = yystack_[2].value.as< std::vector<std::string> > (); yylhs.value.as< std::vector<std::string> > ().push_back(yystack_[0].value.as< std::string > ()); }
-#line 1135 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 359 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnAction > () = meow::utils::sql_parser::SQLiteDoOnAction::Restrict; }
+#line 1245 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 52:
-#line 323 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
-#line 1141 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 360 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteDoOnAction > () = meow::utils::sql_parser::SQLiteDoOnAction::NoAction; }
+#line 1251 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
   case 53:
-#line 327 "sqlite_bison_parser.y" // lalr1.cc:859
+#line 364 "sqlite_bison_parser.y" // lalr1.cc:859
     { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
-#line 1147 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 1257 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 54:
+#line 368 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = {}; }
+#line 1263 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 55:
+#line 369 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
+#line 1269 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 56:
+#line 373 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
+#line 1275 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 57:
+#line 374 "sqlite_bison_parser.y" // lalr1.cc:859
+    {  // e.g. VARCHAR(255)
+        yylhs.value.as< std::string > () = yystack_[3].value.as< std::string > () + "(" + yystack_[1].value.as< std::string > () + ")"; /* sqlite ignores length */ 
+    }
+#line 1283 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 58:
+#line 377 "sqlite_bison_parser.y" // lalr1.cc:859
+    { // e.g. DECIMAL(10,5)
+        yylhs.value.as< std::string > () = yystack_[5].value.as< std::string > () + "(" + yystack_[3].value.as< std::string > () + "," + yystack_[1].value.as< std::string > () + ")"; 
+    }
+#line 1291 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 59:
+#line 383 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
+#line 1297 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 60:
+#line 384 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = yystack_[1].value.as< std::string > () + " " + yystack_[0].value.as< std::string > (); }
+#line 1303 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 61:
+#line 388 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<std::string> > () = {}; }
+#line 1309 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 62:
+#line 389 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<std::string> > () = yystack_[1].value.as< std::vector<std::string> > (); }
+#line 1315 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 63:
+#line 393 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<std::string> > ().push_back(yystack_[0].value.as< std::string > ()); }
+#line 1321 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 64:
+#line 394 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::vector<std::string> > () = yystack_[2].value.as< std::vector<std::string> > (); yylhs.value.as< std::vector<std::string> > ().push_back(yystack_[0].value.as< std::string > ()); }
+#line 1327 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 65:
+#line 398 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
+#line 1333 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 66:
+#line 402 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
+#line 1339 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 67:
+#line 406 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = {}; }
+#line 1345 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 68:
+#line 407 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
+#line 1351 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 69:
+#line 411 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
+#line 1357 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 70:
+#line 412 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = "+" + yystack_[0].value.as< std::string > (); }
+#line 1363 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 71:
+#line 413 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = "-" + yystack_[0].value.as< std::string > (); }
+#line 1369 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 72:
+#line 417 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
+#line 1375 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 73:
+#line 418 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< std::string > () = yystack_[0].value.as< std::string > (); }
+#line 1381 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 74:
+#line 422 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().type = meow::utils::sql_parser::SQLiteLiteralValueType::Numeric;
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().value = yystack_[0].value.as< std::string > ();
+    }
+#line 1390 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 75:
+#line 426 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().type = meow::utils::sql_parser::SQLiteLiteralValueType::String;
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().value = yystack_[0].value.as< std::string > ();
+    }
+#line 1399 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 76:
+#line 431 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().type = meow::utils::sql_parser::SQLiteLiteralValueType::Null;
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().value = yystack_[0].value.as< std::string > ();
+    }
+#line 1408 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 77:
+#line 435 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().type = meow::utils::sql_parser::SQLiteLiteralValueType::True;
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().value = yystack_[0].value.as< std::string > ();
+    }
+#line 1417 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 78:
+#line 439 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().type = meow::utils::sql_parser::SQLiteLiteralValueType::False;
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().value = yystack_[0].value.as< std::string > ();
+    }
+#line 1426 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 79:
+#line 443 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().type = meow::utils::sql_parser::SQLiteLiteralValueType::CurrentTime;
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().value = yystack_[0].value.as< std::string > ();
+    }
+#line 1435 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 80:
+#line 447 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().type = meow::utils::sql_parser::SQLiteLiteralValueType::CurrentDate;
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().value = yystack_[0].value.as< std::string > ();
+    }
+#line 1444 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 81:
+#line 451 "sqlite_bison_parser.y" // lalr1.cc:859
+    {
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().type = meow::utils::sql_parser::SQLiteLiteralValueType::CurrentTimestamp;
+        yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > ().value = yystack_[0].value.as< std::string > ();
+    }
+#line 1453 "sqlite_bison_parser.cpp" // lalr1.cc:859
+    break;
+
+  case 82:
+#line 458 "sqlite_bison_parser.y" // lalr1.cc:859
+    { yylhs.value.as< meow::utils::sql_parser::SQLiteLiteralValue > () = yystack_[0].value.as< meow::utils::sql_parser::SQLiteLiteralValue > (); }
+#line 1459 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
 
-#line 1151 "sqlite_bison_parser.cpp" // lalr1.cc:859
+#line 1463 "sqlite_bison_parser.cpp" // lalr1.cc:859
             default:
               break;
             }
@@ -1402,107 +1714,142 @@ namespace  meow { namespace utils { namespace sql_parser  {
   }
 
 
-  const signed char parser::yypact_ninf_ = -29;
+  const signed char parser::yypact_ninf_ = -84;
 
   const signed char parser::yytable_ninf_ = -1;
 
   const signed char
   parser::yypact_[] =
   {
-       4,    11,    25,    18,   -29,    -8,   -29,   -29,    20,    26,
-      -7,    -5,   -29,   -29,    28,   -29,    -4,   -25,    30,   -29,
-      -9,   -29,    -3,   -29,    21,   -29,    32,   -29,   -29,    22,
-     -29,   -29,   -29,   -29,    -9,   -29,     5,   -29,    37,     9,
-     -29,   -29,   -29,   -29,    -1,     7,   -29,    23,   -29,     8,
-     -29,     1,   -29,   -29,   -29,    41,    19,     7,   -29,    -4,
-     -29,   -29,    44,     7,   -20,    17,   -14,   -14,   -29,   -20,
-     -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29,   -29
+      -2,    -1,    52,    25,   -84,   -84,    42,   -84,   -84,    24,
+      51,    68,    40,    41,   -84,   -84,    72,   -84,    43,   -14,
+      75,   -84,    31,   -84,     1,   -84,    45,   -84,    76,   -84,
+      34,    70,    65,    22,    22,    -3,    43,   -84,    31,   -84,
+     -84,    48,   -84,   -84,    71,    73,    84,    74,    78,   -84,
+      22,   -84,   -84,   -84,   -84,   -84,   -84,   -84,   -20,   -84,
+     -84,   -84,   -84,   -84,   -84,   -84,   -84,   -84,   -31,   -31,
+     -84,   -84,   -84,    85,   -84,     8,   -84,    86,    58,    91,
+     -84,    77,   -84,   -84,    92,   -84,   -84,    58,    -6,   -84,
+      59,    58,   -84,    26,   -84,    58,   -84,   -84,   -84,    33,
+      36,    36,   -84,    -6,   -84,    94,    35,    22,    58,    69,
+     -84,   -84,   -84,   -84,   -84,   -84,   -84,   -84,   -84,   -84,
+      22,   -84,   -84,    79,   -84,   -84
   };
 
   const unsigned char
   parser::yydefact_[] =
   {
-       4,     0,     0,     2,     5,     0,     1,     3,     7,     0,
-       0,     0,     8,    40,    23,     9,    41,     0,     0,    52,
-      12,    42,    43,    46,     0,    10,    24,    25,     6,     0,
-      22,    22,    19,    11,    13,    14,     0,    47,     0,     0,
-      22,    17,    18,    15,     0,     0,    26,    20,    44,     0,
-      53,     0,    50,    21,    16,     0,     0,     0,    45,     0,
-      27,    51,    48,     0,    29,     0,     0,     0,    28,    30,
-      31,    49,    35,    36,    37,    38,    39,    33,    34,    32
+       0,    11,     0,     2,     4,    12,     0,     1,     3,     0,
+       6,     0,     0,     0,     7,    53,    34,     8,    54,    67,
+       0,    65,    15,    55,    56,    59,     0,     9,    35,    36,
+       0,    13,     0,    28,    28,     0,     0,    10,    16,    17,
+      25,     0,    60,    68,    67,     0,     0,     0,     0,     5,
+      28,    29,    30,    31,    32,    33,    20,    21,     0,    72,
+      73,    75,    80,    79,    81,    78,    77,    76,     0,     0,
+      22,    69,    23,    61,    18,     0,    37,     0,     0,     0,
+      14,    26,    74,    82,     0,    70,    71,     0,    42,    57,
+       0,     0,    66,     0,    63,     0,    27,    19,    24,     0,
+       0,     0,    41,    43,    44,     0,     0,    28,     0,     0,
+      62,    48,    49,    50,    51,    52,    46,    47,    45,    58,
+      28,    40,    64,     0,    39,    38
   };
 
   const signed char
   parser::yypgoto_[] =
   {
-     -29,   -29,   -29,   -29,   -29,   -29,    33,   -29,   -29,    15,
-     -29,   -28,   -29,   -29,    12,   -29,   -29,   -29,   -17,   -13,
-     -29,   -29,   -29,   -29,   -29,   -10,   -22,    -2
+     -84,   -84,   -84,   -84,   -84,   -84,    81,   -84,   -84,   -84,
+     -84,    63,   -84,   -34,   -84,   -84,    60,   -18,   -84,   -84,
+       0,     5,   -84,   -84,   -84,   -84,   -84,   -83,   -21,     2,
+     -84,   -84,   -48,    44,   -84
   };
 
   const signed char
   parser::yydefgoto_[] =
   {
-      -1,     2,     3,     4,     9,    14,    15,    33,    34,    35,
-      54,    41,    18,    26,    27,    60,    68,    69,    70,    77,
-      16,    20,    21,    22,    64,    51,    23,    52
+      -1,     2,     3,     4,    11,    16,    17,     6,    49,    37,
+      38,    39,    97,    56,    20,    28,    29,    40,   102,   103,
+     104,   116,    18,    22,    23,    24,    88,    93,    25,    94,
+      30,    70,    71,    72,    84
   };
 
   const unsigned char
   parser::yytable_[] =
   {
-      37,    36,    24,    42,    48,    49,    56,    57,    29,    66,
-      67,    13,    47,    30,    31,     1,    32,    72,    73,    74,
-      75,    76,    71,    57,     5,     6,     7,    10,     8,    12,
-      11,    13,    19,    19,    17,    28,    24,    62,    39,    38,
-      40,    45,    44,    50,    53,    55,    58,    59,    63,    43,
-      25,    46,    79,    65,    78,    61
+      57,    58,    26,    42,    99,    41,    59,    60,   106,     1,
+      82,     5,   109,    89,    90,    73,    81,    59,    60,    61,
+      85,    86,    15,   100,   101,    62,    63,    64,    65,    66,
+      67,   107,   108,     8,    59,    60,    61,    21,   110,   108,
+     120,   108,    62,    63,    64,    65,    66,    67,    32,    68,
+      69,    45,     7,    33,    34,     9,    35,    46,    12,    36,
+      10,    47,    51,    52,    53,    54,    55,   111,   112,   113,
+     114,   115,    13,   121,   123,   108,    14,    15,    19,    21,
+      31,    43,    44,    50,    48,    75,   124,    26,    78,    87,
+      91,    77,    79,    80,    92,    95,   105,    98,    96,   119,
+      27,    74,    83,   118,    76,   125,   117,    36,     0,     0,
+     122
   };
 
-  const unsigned char
+  const signed char
   parser::yycheck_[] =
   {
-      22,     4,    27,    31,     5,     6,     5,     6,    17,    29,
-      30,    36,    40,    22,    23,    11,    25,    31,    32,    33,
-      34,    35,     5,     6,    13,     0,     8,     7,    36,    36,
-       4,    36,    36,    36,     6,     5,    27,    59,     6,    18,
-      18,     4,    37,    36,    21,    37,     5,    28,     4,    34,
-      17,    39,    69,    63,    67,    57
+      34,     4,    16,    24,    87,     4,    37,    38,    91,    11,
+      58,    12,    95,     5,     6,    36,    50,    37,    38,    39,
+      68,    69,    36,    29,    30,    45,    46,    47,    48,    49,
+      50,     5,     6,     8,    37,    38,    39,    36,     5,     6,
+       5,     6,    45,    46,    47,    48,    49,    50,    17,    52,
+      53,    17,     0,    22,    23,    13,    25,    23,     7,    28,
+      36,    27,    40,    41,    42,    43,    44,    31,    32,    33,
+      34,    35,     4,   107,     5,     6,    36,    36,     6,    36,
+       5,    36,     6,    18,    14,    37,   120,    16,     4,     4,
+       4,    18,    18,    15,    36,     4,    37,     5,    21,     5,
+      19,    38,    58,   103,    44,   123,   101,    28,    -1,    -1,
+     108
   };
 
   const unsigned char
   parser::yystos_[] =
   {
-       0,    11,    42,    43,    44,    13,     0,     8,    36,    45,
-       7,     4,    36,    36,    46,    47,    61,     6,    53,    36,
-      62,    63,    64,    67,    27,    47,    54,    55,     5,    17,
-      22,    23,    25,    48,    49,    50,     4,    67,    18,     6,
-      18,    52,    52,    50,    37,     4,    55,    52,     5,     6,
-      36,    66,    68,    21,    51,    37,     5,     6,     5,    28,
-      56,    68,    67,     4,    65,    66,    29,    30,    57,    58,
-      59,     5,    31,    32,    33,    34,    35,    60,    60,    59
+       0,    11,    55,    56,    57,    12,    61,     0,     8,    13,
+      36,    58,     7,     4,    36,    36,    59,    60,    76,     6,
+      68,    36,    77,    78,    79,    82,    16,    60,    69,    70,
+      84,     5,    17,    22,    23,    25,    28,    63,    64,    65,
+      71,     4,    82,    36,     6,    17,    23,    27,    14,    62,
+      18,    40,    41,    42,    43,    44,    67,    67,     4,    37,
+      38,    39,    45,    46,    47,    48,    49,    50,    52,    53,
+      85,    86,    87,    82,    65,    37,    70,    18,     4,    18,
+      15,    67,    86,    87,    88,    86,    86,     4,    80,     5,
+       6,     4,    36,    81,    83,     4,    21,    66,     5,    81,
+      29,    30,    72,    73,    74,    37,    81,     5,     6,    81,
+       5,    31,    32,    33,    34,    35,    75,    75,    74,     5,
+       5,    67,    83,     5,    67,    71
   };
 
   const unsigned char
   parser::yyr1_[] =
   {
-       0,    41,    42,    42,    43,    43,    44,    45,    45,    46,
-      46,    47,    48,    48,    49,    49,    50,    50,    50,    50,
-      51,    51,    52,    53,    53,    54,    54,    55,    56,    57,
-      57,    58,    58,    59,    59,    60,    60,    60,    60,    60,
-      61,    62,    62,    63,    63,    63,    64,    64,    65,    65,
-      66,    66,    67,    68
+       0,    54,    55,    55,    56,    57,    58,    58,    59,    59,
+      60,    61,    61,    62,    62,    63,    63,    64,    64,    65,
+      65,    65,    65,    65,    65,    65,    66,    66,    67,    67,
+      67,    67,    67,    67,    68,    68,    69,    69,    70,    70,
+      70,    71,    72,    72,    73,    73,    74,    74,    75,    75,
+      75,    75,    75,    76,    77,    77,    78,    78,    78,    79,
+      79,    80,    80,    81,    81,    82,    83,    84,    84,    85,
+      85,    85,    86,    86,    87,    87,    87,    87,    87,    87,
+      87,    87,    88
   };
 
   const unsigned char
   parser::yyr2_[] =
   {
-       0,     2,     1,     2,     0,     1,     7,     1,     3,     1,
-       3,     3,     0,     1,     1,     2,     4,     2,     2,     1,
-       0,     1,     0,     0,     2,     1,     3,     6,     4,     0,
-       1,     1,     2,     2,     2,     1,     1,     1,     1,     1,
-       1,     0,     1,     1,     4,     6,     1,     2,     0,     3,
-       1,     3,     1,     1
+       0,     2,     1,     2,     1,     9,     1,     3,     1,     3,
+       3,     0,     1,     0,     2,     0,     1,     1,     2,     4,
+       2,     2,     2,     2,     4,     1,     0,     1,     0,     1,
+       1,     1,     1,     1,     0,     2,     1,     3,     7,     7,
+       6,     4,     0,     1,     1,     2,     2,     2,     1,     1,
+       1,     1,     1,     1,     0,     1,     1,     4,     6,     1,
+       2,     0,     3,     1,     3,     1,     1,     0,     2,     1,
+       2,     2,     1,     1,     1,     1,     1,     1,     1,     1,
+       1,     1,     1
   };
 
 
@@ -1519,28 +1866,38 @@ namespace  meow { namespace utils { namespace sql_parser  {
   "\"UNIQUE\"", "\"CHECK\"", "\"DEFAULT\"", "\"COLLATE\"", "\"FOREIGN\"",
   "\"REFERENCES\"", "\"ON_DELETE\"", "\"ON_UPDATE\"", "\"SET_NULL\"",
   "\"SET_DEFAULT\"", "\"CASCADE\"", "\"RESTRICT\"", "\"NO_ACTION\"",
-  "\"ID\"", "\"INTNUM\"", "\"FLOATNUM\"", "\"STRING\"", "ON", "$accept",
-  "statements", "statement", "create_table_stmt", "name_with_schema",
-  "create_column_list", "column_definition", "opt_column_constraint_list",
-  "column_constraint_list", "column_constraint", "opt_autoincrement",
-  "opt_conflict_clause", "opt_table_constraint_list",
-  "table_constraint_list", "table_constraint", "foreign_key_clause",
-  "opt_foreign_key_action_list", "foreign_key_action_list",
-  "foreign_key_action", "foreign_key_do_on_action", "column_name",
-  "opt_type_name", "type_name", "type_name_list", "opt_column_id_list",
-  "column_id_list", "table_id", "column_id", YY_NULLPTR
+  "\"ID\"", "\"INTNUM\"", "\"FLOATNUM\"", "\"STRING\"",
+  "\"ON_CONFLICT_ROLLBACK\"", "\"ON_CONFLICT_ABORT\"",
+  "\"ON_CONFLICT_FAIL\"", "\"ON_CONFLICT_IGNORE\"",
+  "\"ON_CONFLICT_REPLACE\"", "\"CURRENT_DATE\"", "\"CURRENT_TIME\"",
+  "\"CURRENT_TIMESTAMP\"", "\"FALSE\"", "\"TRUE\"", "\"NULL\"", "ON",
+  "\"+\"", "\"-\"", "$accept", "statements", "statement",
+  "create_table_stmt", "name_with_schema", "create_column_list",
+  "column_definition", "opt_temporary", "opt_without_rowid",
+  "opt_column_constraint_list", "column_constraint_list",
+  "column_constraint", "opt_autoincrement", "opt_conflict_clause",
+  "opt_table_constraint_list", "table_constraint_list", "table_constraint",
+  "foreign_key_clause", "opt_foreign_key_action_list",
+  "foreign_key_action_list", "foreign_key_action",
+  "foreign_key_do_on_action", "column_name", "opt_type_name", "type_name",
+  "type_name_list", "opt_column_id_list", "column_id_list", "table_id",
+  "column_id", "opt_constraint_name", "signed_number", "numeric_literal",
+  "literal_value", "expr", YY_NULLPTR
   };
 
 #if YYDEBUG
   const unsigned short int
   parser::yyrline_[] =
   {
-       0,   141,   141,   142,   145,   146,   150,   163,   164,   168,
-     169,   175,   185,   186,   191,   192,   196,   201,   205,   209,
-     216,   217,   221,   230,   231,   235,   236,   240,   251,   260,
-     261,   265,   266,   270,   274,   281,   282,   283,   284,   285,
-     289,   293,   294,   298,   299,   302,   308,   309,   313,   314,
-     318,   319,   323,   327
+       0,   163,   163,   164,   168,   172,   187,   188,   192,   193,
+     199,   209,   210,   214,   215,   220,   221,   226,   227,   231,
+     237,   242,   247,   253,   258,   263,   272,   273,   277,   278,
+     279,   280,   281,   282,   286,   287,   291,   292,   296,   305,
+     314,   326,   335,   336,   340,   341,   345,   349,   356,   357,
+     358,   359,   360,   364,   368,   369,   373,   374,   377,   383,
+     384,   388,   389,   393,   394,   398,   402,   406,   407,   411,
+     412,   413,   417,   418,   422,   426,   431,   435,   439,   443,
+     447,   451,   458
   };
 
   // Print the state stack on the debug stream.
@@ -1573,10 +1930,10 @@ namespace  meow { namespace utils { namespace sql_parser  {
 #endif // YYDEBUG
 
 
-#line 56 "sqlite_bison_parser.y" // lalr1.cc:1167
+#line 58 "sqlite_bison_parser.y" // lalr1.cc:1167
 } } } //  meow::utils::sql_parser 
-#line 1579 "sqlite_bison_parser.cpp" // lalr1.cc:1167
-#line 330 "sqlite_bison_parser.y" // lalr1.cc:1168
+#line 1936 "sqlite_bison_parser.cpp" // lalr1.cc:1167
+#line 462 "sqlite_bison_parser.y" // lalr1.cc:1168
 
 
 void meow::utils::sql_parser::parser::error(const location_type& l, const std::string& m)

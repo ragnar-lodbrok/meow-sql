@@ -346,7 +346,7 @@ extern int yylex (yyscan_t yyscanner);
 #undef YY_DECL
 #endif
 
-#line 158 "sqlite_flex_lexer.l"
+#line 195 "sqlite_flex_lexer.l"
 
 
 #line 353 "sqlite_flex_lexer.h"

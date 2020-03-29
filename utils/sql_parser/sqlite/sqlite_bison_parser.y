@@ -9,6 +9,8 @@ $ bison sqlite_bison_parser.y
 Example: https://github.com/sqlitebrowser/sqlitebrowser/blob/master/src/sql/parser/sqlite3_parser.yy
 Example: https://github.com/hyrise/sql-parser/blob/master/src/parser/bison_parser.y
 
+Create table: https://www.sqlite.org/lang_createtable.html
+
 */ 
 
 %skeleton "lalr1.cc"
@@ -103,6 +105,19 @@ Example: https://github.com/hyrise/sql-parser/blob/master/src/parser/bison_parse
 %token <std::string> FLOATNUM "FLOATNUM"
 %token <std::string> STRING "STRING"
 
+%token <std::string> ON_CONFLICT_ROLLBACK "ON_CONFLICT_ROLLBACK"
+%token <std::string> ON_CONFLICT_ABORT "ON_CONFLICT_ABORT"
+%token <std::string> ON_CONFLICT_FAIL "ON_CONFLICT_FAIL"
+%token <std::string> ON_CONFLICT_IGNORE "ON_CONFLICT_IGNORE"
+%token <std::string> ON_CONFLICT_REPLACE "ON_CONFLICT_REPLACE"
+
+ /* default literals: */
+%token <std::string> CURRENT_DATE "CURRENT_DATE"
+%token <std::string> CURRENT_TIME "CURRENT_TIME"
+%token <std::string> CURRENT_TIMESTAMP "CURRENT_TIMESTAMP"
+%token <std::string> FALSE "FALSE"
+%token <std::string> TRUE "TRUE"
+%token <std::string> NULL "NULL"
 
 %type <std::string> name_with_schema
 %type <std::string> table_id
@@ -113,8 +128,15 @@ Example: https://github.com/hyrise/sql-parser/blob/master/src/parser/bison_parse
 %type <std::string> type_name
 %type <std::string> opt_type_name
 %type <std::string> column_name
-%type <std::string> opt_conflict_clause
+%type <std::string> opt_constraint_name
+%type <std::string> numeric_literal
+%type <std::string> signed_number
+%type <meow::utils::sql_parser::SQLiteLiteralValue> literal_value
+%type <meow::utils::sql_parser::SQLiteLiteralValue> expr // temp since we support literal only in expr
 %type <bool> opt_autoincrement
+%type <bool> opt_temporary
+%type <bool> opt_without_rowid
+%type <meow::utils::sql_parser::SQLiteDoOnConflict> opt_conflict_clause
 %type <meow::utils::sql_parser::SQLiteTablePtr> create_table_stmt
 %type <std::vector<meow::utils::sql_parser::SQLiteColumnPtr>> create_column_list
 %type <meow::utils::sql_parser::SQLiteColumnPtr> column_definition
@@ -143,16 +165,18 @@ statements:
     ;
 
 statement:
-    | create_table_stmt  { drv._parsedTable = $1; }
+    create_table_stmt  { drv._parsedTable = $1; }
     ;
 
 create_table_stmt:
-    CREATE /*opt_temporary*/ TABLE name_with_schema "(" create_column_list opt_table_constraint_list ")" {
+    CREATE opt_temporary TABLE name_with_schema "(" create_column_list opt_table_constraint_list ")" opt_without_rowid {
 
         $$ = std::make_shared<meow::utils::sql_parser::SQLiteTable>();
-        $$->setName($3);
-        $$->setColumns($5);
-        $$->setConstraints($6);
+        $$->setTemp($2);
+        $$->setName($4);
+        $$->setColumns($6);
+        $$->setConstraints($7);
+        $$->setWithoutRowID($9);
         
         std::cout << $$->toString() << std::endl;
     }
@@ -167,8 +191,8 @@ name_with_schema:
 create_column_list:
     column_definition                          { $$.push_back($1); }
     | create_column_list "," column_definition { $$ = $1; $$.push_back($3); }
-    //| error "," { } // TODO
-    //| error ")" { }
+    //| create_column_list error "," { yyerrok; } // TODO
+    //| create_column_list error "\n" { yyerrok; }
     ;
 
 column_definition:
@@ -181,6 +205,17 @@ column_definition:
     }
     ;
     
+opt_temporary:
+    %empty { $$ = false; }
+    | TEMP { $$ = true; }
+    ;
+
+opt_without_rowid:
+    %empty          { $$ = false; }
+    | WITHOUT ROWID { $$ = true; }
+    ;
+
+
 opt_column_constraint_list:
     %empty                    { $$ = {}; }
     | column_constraint_list  { $$ = $1; }
@@ -197,19 +232,40 @@ column_constraint:
         using Constraint = meow::utils::sql_parser::SQLiteColumnConstraint;
         $$ = std::make_shared<Constraint>(Constraint::Type::PrimaryKey);
         $$->setIsAutoincrement($4);
+        $$->setOnConflict($3);
     }
     | NOT_NULL opt_conflict_clause {
         using Constraint = meow::utils::sql_parser::SQLiteColumnConstraint;
         $$ = std::make_shared<Constraint>(Constraint::Type::NotNull);
+        $$->setOnConflict($2);
     }
     | UNIQUE opt_conflict_clause {
         using Constraint = meow::utils::sql_parser::SQLiteColumnConstraint;
         $$ = std::make_shared<Constraint>(Constraint::Type::Unique);
+        $$->setOnConflict($2);
     }
-    | DEFAULT { // TODO
-        using Constraint = meow::utils::sql_parser::SQLiteColumnConstraint;
-        $$ = std::make_shared<Constraint>(Constraint::Type::Default);
+    | DEFAULT signed_number {
+        auto DC = std::make_shared<meow::utils::sql_parser::SQLiteDefaultColumnConstraint>();
+        DC->defaultValue.value = $2;
+        DC->defaultValue.type = meow::utils::sql_parser::SQLiteLiteralValueType::Numeric;
+        $$ = DC;
     }
+    | DEFAULT literal_value {
+        auto DC = std::make_shared<meow::utils::sql_parser::SQLiteDefaultColumnConstraint>();
+        DC->defaultValue = $2;
+        $$ = DC;
+    }
+    | DEFAULT "(" expr ")" {
+        auto DC = std::make_shared<meow::utils::sql_parser::SQLiteDefaultColumnConstraint>();
+        DC->defaultValue = $3;
+        $$ = DC;
+    }
+    | foreign_key_clause {
+        auto FK = std::make_shared<meow::utils::sql_parser::SQLiteForeignKeyColumnConstraint>();
+        FK->foreignData = $1;
+        $$ = FK;
+    }
+    //| column_constraint error "\n" { yyerrok; }
     ;
     
 opt_autoincrement:
@@ -218,13 +274,13 @@ opt_autoincrement:
     ;
     
 opt_conflict_clause:
-    %empty                  { $$ = ""; };
-    /*| ON CONFLICT ROLLBACK  { $$ = $3; }
-    | ON CONFLICT ABORT     { $$ = $3; }
-    | ON CONFLICT FAIL      { $$ = $3; }
-    | ON CONFLICT IGNORE     { $$ = $3; }
-    | ON CONFLICT REPLACE   { $$ = $3; }
-    ;*/
+    %empty                  { $$ = meow::utils::sql_parser::SQLiteDoOnConflict::None; };
+    | ON_CONFLICT_ROLLBACK  { $$ = meow::utils::sql_parser::SQLiteDoOnConflict::Rollback; }
+    | ON_CONFLICT_ABORT     { $$ = meow::utils::sql_parser::SQLiteDoOnConflict::Abort; }
+    | ON_CONFLICT_FAIL      { $$ = meow::utils::sql_parser::SQLiteDoOnConflict::Fail; }
+    | ON_CONFLICT_IGNORE    { $$ = meow::utils::sql_parser::SQLiteDoOnConflict::Ignore; }
+    | ON_CONFLICT_REPLACE   { $$ = meow::utils::sql_parser::SQLiteDoOnConflict::Replace; }
+    ;
     
 opt_table_constraint_list:
     %empty                    { $$ = {}; }
@@ -237,13 +293,32 @@ table_constraint_list:
     ;
     
 table_constraint:
-    FOREIGN KEY "(" column_id_list ")" foreign_key_clause {
+    opt_constraint_name FOREIGN KEY "(" column_id_list ")" foreign_key_clause {
 
         auto FK = std::make_shared<meow::utils::sql_parser::SQLiteTableForeignKeyConstraint>();
 
-        FK->columnNames = $4;
-        FK->foreignData = $6;
+        FK->name = $1;
+        FK->columnNames = $5;
+        FK->foreignData = $7;
         $$ = FK;
+    }
+    | opt_constraint_name PRIMARY KEY "(" column_id_list ")" opt_conflict_clause {
+
+        auto PK = std::make_shared<meow::utils::sql_parser::SQLiteTablePrimaryKeyConstraint>();
+
+        PK->name = $1;
+        PK->indexedColumnNames = $5;
+        PK->conflict = $7;
+        $$ = PK;
+    }
+    | opt_constraint_name UNIQUE "(" column_id_list ")" opt_conflict_clause {
+
+        auto UK = std::make_shared<meow::utils::sql_parser::SQLiteTableUniqueConstraint>();
+
+        UK->name = $1;
+        UK->indexedColumnNames = $4;
+        UK->conflict = $6;
+        $$ = UK;
     }
     ;
     
@@ -290,7 +365,7 @@ column_name:
     ;
     
 opt_type_name:
-    %empty                  { $$ = ""; }
+    %empty                  { $$ = {}; }
     | type_name             { $$ = $1; }
     ;
     
@@ -327,6 +402,63 @@ column_id:
     ID { $$ = $1; }
     ;    
     
+opt_constraint_name:
+    %empty          { $$ = {}; }
+    | CONSTRAINT ID { $$ = $2; }
+    ;
+
+signed_number:
+    numeric_literal         { $$ = $1; }
+    | "+" numeric_literal   { $$ = "+" + $2; }
+    | "-" numeric_literal   { $$ = "-" + $2; }
+    ;
+
+numeric_literal:
+    INTNUM     { $$ = $1; }
+    | FLOATNUM { $$ = $1; }
+    ;
+
+literal_value:
+    numeric_literal {
+        $$.type = meow::utils::sql_parser::SQLiteLiteralValueType::Numeric;
+        $$.value = $1;
+    }
+    | STRING {
+        $$.type = meow::utils::sql_parser::SQLiteLiteralValueType::String;
+        $$.value = $1;
+    }
+//    | blob_literal // TODO
+    | NULL {
+        $$.type = meow::utils::sql_parser::SQLiteLiteralValueType::Null;
+        $$.value = $1;
+    }
+    | TRUE {
+        $$.type = meow::utils::sql_parser::SQLiteLiteralValueType::True;
+        $$.value = $1;
+    }
+    | FALSE {
+        $$.type = meow::utils::sql_parser::SQLiteLiteralValueType::False;
+        $$.value = $1;
+    }
+    | CURRENT_TIME {
+        $$.type = meow::utils::sql_parser::SQLiteLiteralValueType::CurrentTime;
+        $$.value = $1;
+    }
+    | CURRENT_DATE {
+        $$.type = meow::utils::sql_parser::SQLiteLiteralValueType::CurrentDate;
+        $$.value = $1;
+    }
+    | CURRENT_TIMESTAMP {
+        $$.type = meow::utils::sql_parser::SQLiteLiteralValueType::CurrentTimestamp;
+        $$.value = $1;
+    }
+    ;
+
+expr:
+    literal_value { $$ = $1; }
+    // TODO other
+    ;
+
 %%
 
 void meow::utils::sql_parser::parser::error(const location_type& l, const std::string& m)

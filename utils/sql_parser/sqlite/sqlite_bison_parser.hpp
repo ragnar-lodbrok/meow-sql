@@ -40,7 +40,7 @@
 #ifndef YY_YY_SQLITE_BISON_PARSER_HPP_INCLUDED
 # define YY_YY_SQLITE_BISON_PARSER_HPP_INCLUDED
 // //                    "%code requires" blocks.
-#line 29 "sqlite_bison_parser.y" // lalr1.cc:377
+#line 31 "sqlite_bison_parser.y" // lalr1.cc:377
 
 
     #include <string>
@@ -125,7 +125,7 @@
 # define YYDEBUG 1
 #endif
 
-#line 56 "sqlite_bison_parser.y" // lalr1.cc:377
+#line 58 "sqlite_bison_parser.y" // lalr1.cc:377
 namespace  meow { namespace utils { namespace sql_parser  {
 #line 131 "sqlite_bison_parser.hpp" // lalr1.cc:377
 
@@ -274,6 +274,8 @@ namespace  meow { namespace utils { namespace sql_parser  {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // opt_temporary
+      // opt_without_rowid
       // opt_autoincrement
       char dummy1[sizeof(bool)];
 
@@ -286,17 +288,24 @@ namespace  meow { namespace utils { namespace sql_parser  {
       // foreign_key_do_on_action
       char dummy4[sizeof(meow::utils::sql_parser::SQLiteDoOnAction)];
 
+      // opt_conflict_clause
+      char dummy5[sizeof(meow::utils::sql_parser::SQLiteDoOnConflict)];
+
       // foreign_key_clause
-      char dummy5[sizeof(meow::utils::sql_parser::SQLiteForeignDataPtr)];
+      char dummy6[sizeof(meow::utils::sql_parser::SQLiteForeignDataPtr)];
 
       // foreign_key_action
-      char dummy6[sizeof(meow::utils::sql_parser::SQLiteForeignKeyAction)];
+      char dummy7[sizeof(meow::utils::sql_parser::SQLiteForeignKeyAction)];
+
+      // literal_value
+      // expr
+      char dummy8[sizeof(meow::utils::sql_parser::SQLiteLiteralValue)];
 
       // table_constraint
-      char dummy7[sizeof(meow::utils::sql_parser::SQLiteTableConstraintPtr)];
+      char dummy9[sizeof(meow::utils::sql_parser::SQLiteTableConstraintPtr)];
 
       // create_table_stmt
-      char dummy8[sizeof(meow::utils::sql_parser::SQLiteTablePtr)];
+      char dummy10[sizeof(meow::utils::sql_parser::SQLiteTablePtr)];
 
       // "CREATE"
       // "TEMP"
@@ -327,34 +336,47 @@ namespace  meow { namespace utils { namespace sql_parser  {
       // "INTNUM"
       // "FLOATNUM"
       // "STRING"
+      // "ON_CONFLICT_ROLLBACK"
+      // "ON_CONFLICT_ABORT"
+      // "ON_CONFLICT_FAIL"
+      // "ON_CONFLICT_IGNORE"
+      // "ON_CONFLICT_REPLACE"
+      // "CURRENT_DATE"
+      // "CURRENT_TIME"
+      // "CURRENT_TIMESTAMP"
+      // "FALSE"
+      // "TRUE"
+      // "NULL"
       // name_with_schema
-      // opt_conflict_clause
       // column_name
       // opt_type_name
       // type_name
       // type_name_list
       // table_id
       // column_id
-      char dummy9[sizeof(std::string)];
+      // opt_constraint_name
+      // signed_number
+      // numeric_literal
+      char dummy11[sizeof(std::string)];
 
       // opt_column_constraint_list
       // column_constraint_list
-      char dummy10[sizeof(std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr>)];
+      char dummy12[sizeof(std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr>)];
 
       // create_column_list
-      char dummy11[sizeof(std::vector<meow::utils::sql_parser::SQLiteColumnPtr>)];
+      char dummy13[sizeof(std::vector<meow::utils::sql_parser::SQLiteColumnPtr>)];
 
       // opt_foreign_key_action_list
       // foreign_key_action_list
-      char dummy12[sizeof(std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction>)];
+      char dummy14[sizeof(std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction>)];
 
       // opt_table_constraint_list
       // table_constraint_list
-      char dummy13[sizeof(std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr>)];
+      char dummy15[sizeof(std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr>)];
 
       // opt_column_id_list
       // column_id_list
-      char dummy14[sizeof(std::vector<std::string>)];
+      char dummy16[sizeof(std::vector<std::string>)];
 };
 
     /// Symbol semantic values.
@@ -415,7 +437,18 @@ namespace  meow { namespace utils { namespace sql_parser  {
         MSQL_INTNUM = 292,
         MSQL_FLOATNUM = 293,
         MSQL_STRING = 294,
-        MSQL_ON = 295
+        MSQL_ON_CONFLICT_ROLLBACK = 295,
+        MSQL_ON_CONFLICT_ABORT = 296,
+        MSQL_ON_CONFLICT_FAIL = 297,
+        MSQL_ON_CONFLICT_IGNORE = 298,
+        MSQL_ON_CONFLICT_REPLACE = 299,
+        MSQL_CURRENT_DATE = 300,
+        MSQL_CURRENT_TIME = 301,
+        MSQL_CURRENT_TIMESTAMP = 302,
+        MSQL_FALSE = 303,
+        MSQL_TRUE = 304,
+        MSQL_NULL = 305,
+        MSQL_ON = 306
       };
     };
 
@@ -461,9 +494,13 @@ namespace  meow { namespace utils { namespace sql_parser  {
 
   basic_symbol (typename Base::kind_type t, const meow::utils::sql_parser::SQLiteDoOnAction v, const location_type& l);
 
+  basic_symbol (typename Base::kind_type t, const meow::utils::sql_parser::SQLiteDoOnConflict v, const location_type& l);
+
   basic_symbol (typename Base::kind_type t, const meow::utils::sql_parser::SQLiteForeignDataPtr v, const location_type& l);
 
   basic_symbol (typename Base::kind_type t, const meow::utils::sql_parser::SQLiteForeignKeyAction v, const location_type& l);
+
+  basic_symbol (typename Base::kind_type t, const meow::utils::sql_parser::SQLiteLiteralValue v, const location_type& l);
 
   basic_symbol (typename Base::kind_type t, const meow::utils::sql_parser::SQLiteTableConstraintPtr v, const location_type& l);
 
@@ -702,6 +739,50 @@ namespace  meow { namespace utils { namespace sql_parser  {
 
     static inline
     symbol_type
+    make_ON_CONFLICT_ROLLBACK (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
+    make_ON_CONFLICT_ABORT (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
+    make_ON_CONFLICT_FAIL (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
+    make_ON_CONFLICT_IGNORE (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
+    make_ON_CONFLICT_REPLACE (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
+    make_CURRENT_DATE (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
+    make_CURRENT_TIME (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
+    make_CURRENT_TIMESTAMP (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
+    make_FALSE (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
+    make_TRUE (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
+    make_NULL (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
     make_ON (const location_type& l);
 
 
@@ -789,7 +870,7 @@ namespace  meow { namespace utils { namespace sql_parser  {
   // number is the opposite.  If YYTABLE_NINF, syntax error.
   static const unsigned char yytable_[];
 
-  static const unsigned char yycheck_[];
+  static const signed char yycheck_[];
 
   // YYSTOS[STATE-NUM] -- The (internal number of the) accessing
   // symbol of state STATE-NUM.
@@ -909,12 +990,12 @@ namespace  meow { namespace utils { namespace sql_parser  {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 55,     ///< Last index in yytable_.
-      yynnts_ = 28,  ///< Number of nonterminal symbols.
-      yyfinal_ = 6, ///< Termination state number.
+      yylast_ = 110,     ///< Last index in yytable_.
+      yynnts_ = 35,  ///< Number of nonterminal symbols.
+      yyfinal_ = 7, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 41  ///< Number of tokens.
+      yyntokens_ = 54  ///< Number of tokens.
     };
 
 
@@ -961,9 +1042,10 @@ namespace  meow { namespace utils { namespace sql_parser  {
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40
+      35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
+      45,    46,    47,    48,    49,    50,    51,    52,    53
     };
-    const unsigned int user_token_number_max_ = 295;
+    const unsigned int user_token_number_max_ = 308;
     const token_number_type undef_token_ = 2;
 
     if (static_cast<int>(t) <= yyeof_)
@@ -996,35 +1078,46 @@ namespace  meow { namespace utils { namespace sql_parser  {
   {
       switch (other.type_get ())
     {
-      case 51: // opt_autoincrement
+      case 61: // opt_temporary
+      case 62: // opt_without_rowid
+      case 66: // opt_autoincrement
         value.copy< bool > (other.value);
         break;
 
-      case 50: // column_constraint
+      case 65: // column_constraint
         value.copy< meow::utils::sql_parser::SQLiteColumnConstraintPtr > (other.value);
         break;
 
-      case 47: // column_definition
+      case 60: // column_definition
         value.copy< meow::utils::sql_parser::SQLiteColumnPtr > (other.value);
         break;
 
-      case 60: // foreign_key_do_on_action
+      case 75: // foreign_key_do_on_action
         value.copy< meow::utils::sql_parser::SQLiteDoOnAction > (other.value);
         break;
 
-      case 56: // foreign_key_clause
+      case 67: // opt_conflict_clause
+        value.copy< meow::utils::sql_parser::SQLiteDoOnConflict > (other.value);
+        break;
+
+      case 71: // foreign_key_clause
         value.copy< meow::utils::sql_parser::SQLiteForeignDataPtr > (other.value);
         break;
 
-      case 59: // foreign_key_action
+      case 74: // foreign_key_action
         value.copy< meow::utils::sql_parser::SQLiteForeignKeyAction > (other.value);
         break;
 
-      case 55: // table_constraint
+      case 87: // literal_value
+      case 88: // expr
+        value.copy< meow::utils::sql_parser::SQLiteLiteralValue > (other.value);
+        break;
+
+      case 70: // table_constraint
         value.copy< meow::utils::sql_parser::SQLiteTableConstraintPtr > (other.value);
         break;
 
-      case 44: // create_table_stmt
+      case 57: // create_table_stmt
         value.copy< meow::utils::sql_parser::SQLiteTablePtr > (other.value);
         break;
 
@@ -1057,38 +1150,51 @@ namespace  meow { namespace utils { namespace sql_parser  {
       case 37: // "INTNUM"
       case 38: // "FLOATNUM"
       case 39: // "STRING"
-      case 45: // name_with_schema
-      case 52: // opt_conflict_clause
-      case 61: // column_name
-      case 62: // opt_type_name
-      case 63: // type_name
-      case 64: // type_name_list
-      case 67: // table_id
-      case 68: // column_id
+      case 40: // "ON_CONFLICT_ROLLBACK"
+      case 41: // "ON_CONFLICT_ABORT"
+      case 42: // "ON_CONFLICT_FAIL"
+      case 43: // "ON_CONFLICT_IGNORE"
+      case 44: // "ON_CONFLICT_REPLACE"
+      case 45: // "CURRENT_DATE"
+      case 46: // "CURRENT_TIME"
+      case 47: // "CURRENT_TIMESTAMP"
+      case 48: // "FALSE"
+      case 49: // "TRUE"
+      case 50: // "NULL"
+      case 58: // name_with_schema
+      case 76: // column_name
+      case 77: // opt_type_name
+      case 78: // type_name
+      case 79: // type_name_list
+      case 82: // table_id
+      case 83: // column_id
+      case 84: // opt_constraint_name
+      case 85: // signed_number
+      case 86: // numeric_literal
         value.copy< std::string > (other.value);
         break;
 
-      case 48: // opt_column_constraint_list
-      case 49: // column_constraint_list
+      case 63: // opt_column_constraint_list
+      case 64: // column_constraint_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > (other.value);
         break;
 
-      case 46: // create_column_list
+      case 59: // create_column_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > (other.value);
         break;
 
-      case 57: // opt_foreign_key_action_list
-      case 58: // foreign_key_action_list
+      case 72: // opt_foreign_key_action_list
+      case 73: // foreign_key_action_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > (other.value);
         break;
 
-      case 53: // opt_table_constraint_list
-      case 54: // table_constraint_list
+      case 68: // opt_table_constraint_list
+      case 69: // table_constraint_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > (other.value);
         break;
 
-      case 65: // opt_column_id_list
-      case 66: // column_id_list
+      case 80: // opt_column_id_list
+      case 81: // column_id_list
         value.copy< std::vector<std::string> > (other.value);
         break;
 
@@ -1109,35 +1215,46 @@ namespace  meow { namespace utils { namespace sql_parser  {
     (void) v;
       switch (this->type_get ())
     {
-      case 51: // opt_autoincrement
+      case 61: // opt_temporary
+      case 62: // opt_without_rowid
+      case 66: // opt_autoincrement
         value.copy< bool > (v);
         break;
 
-      case 50: // column_constraint
+      case 65: // column_constraint
         value.copy< meow::utils::sql_parser::SQLiteColumnConstraintPtr > (v);
         break;
 
-      case 47: // column_definition
+      case 60: // column_definition
         value.copy< meow::utils::sql_parser::SQLiteColumnPtr > (v);
         break;
 
-      case 60: // foreign_key_do_on_action
+      case 75: // foreign_key_do_on_action
         value.copy< meow::utils::sql_parser::SQLiteDoOnAction > (v);
         break;
 
-      case 56: // foreign_key_clause
+      case 67: // opt_conflict_clause
+        value.copy< meow::utils::sql_parser::SQLiteDoOnConflict > (v);
+        break;
+
+      case 71: // foreign_key_clause
         value.copy< meow::utils::sql_parser::SQLiteForeignDataPtr > (v);
         break;
 
-      case 59: // foreign_key_action
+      case 74: // foreign_key_action
         value.copy< meow::utils::sql_parser::SQLiteForeignKeyAction > (v);
         break;
 
-      case 55: // table_constraint
+      case 87: // literal_value
+      case 88: // expr
+        value.copy< meow::utils::sql_parser::SQLiteLiteralValue > (v);
+        break;
+
+      case 70: // table_constraint
         value.copy< meow::utils::sql_parser::SQLiteTableConstraintPtr > (v);
         break;
 
-      case 44: // create_table_stmt
+      case 57: // create_table_stmt
         value.copy< meow::utils::sql_parser::SQLiteTablePtr > (v);
         break;
 
@@ -1170,38 +1287,51 @@ namespace  meow { namespace utils { namespace sql_parser  {
       case 37: // "INTNUM"
       case 38: // "FLOATNUM"
       case 39: // "STRING"
-      case 45: // name_with_schema
-      case 52: // opt_conflict_clause
-      case 61: // column_name
-      case 62: // opt_type_name
-      case 63: // type_name
-      case 64: // type_name_list
-      case 67: // table_id
-      case 68: // column_id
+      case 40: // "ON_CONFLICT_ROLLBACK"
+      case 41: // "ON_CONFLICT_ABORT"
+      case 42: // "ON_CONFLICT_FAIL"
+      case 43: // "ON_CONFLICT_IGNORE"
+      case 44: // "ON_CONFLICT_REPLACE"
+      case 45: // "CURRENT_DATE"
+      case 46: // "CURRENT_TIME"
+      case 47: // "CURRENT_TIMESTAMP"
+      case 48: // "FALSE"
+      case 49: // "TRUE"
+      case 50: // "NULL"
+      case 58: // name_with_schema
+      case 76: // column_name
+      case 77: // opt_type_name
+      case 78: // type_name
+      case 79: // type_name_list
+      case 82: // table_id
+      case 83: // column_id
+      case 84: // opt_constraint_name
+      case 85: // signed_number
+      case 86: // numeric_literal
         value.copy< std::string > (v);
         break;
 
-      case 48: // opt_column_constraint_list
-      case 49: // column_constraint_list
+      case 63: // opt_column_constraint_list
+      case 64: // column_constraint_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > (v);
         break;
 
-      case 46: // create_column_list
+      case 59: // create_column_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > (v);
         break;
 
-      case 57: // opt_foreign_key_action_list
-      case 58: // foreign_key_action_list
+      case 72: // opt_foreign_key_action_list
+      case 73: // foreign_key_action_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > (v);
         break;
 
-      case 53: // opt_table_constraint_list
-      case 54: // table_constraint_list
+      case 68: // opt_table_constraint_list
+      case 69: // table_constraint_list
         value.copy< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > (v);
         break;
 
-      case 65: // opt_column_id_list
-      case 66: // column_id_list
+      case 80: // opt_column_id_list
+      case 81: // column_id_list
         value.copy< std::vector<std::string> > (v);
         break;
 
@@ -1249,6 +1379,13 @@ namespace  meow { namespace utils { namespace sql_parser  {
   {}
 
   template <typename Base>
+  parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const meow::utils::sql_parser::SQLiteDoOnConflict v, const location_type& l)
+    : Base (t)
+    , value (v)
+    , location (l)
+  {}
+
+  template <typename Base>
   parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const meow::utils::sql_parser::SQLiteForeignDataPtr v, const location_type& l)
     : Base (t)
     , value (v)
@@ -1257,6 +1394,13 @@ namespace  meow { namespace utils { namespace sql_parser  {
 
   template <typename Base>
   parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const meow::utils::sql_parser::SQLiteForeignKeyAction v, const location_type& l)
+    : Base (t)
+    , value (v)
+    , location (l)
+  {}
+
+  template <typename Base>
+  parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const meow::utils::sql_parser::SQLiteLiteralValue v, const location_type& l)
     : Base (t)
     , value (v)
     , location (l)
@@ -1344,35 +1488,46 @@ namespace  meow { namespace utils { namespace sql_parser  {
     // Type destructor.
     switch (yytype)
     {
-      case 51: // opt_autoincrement
+      case 61: // opt_temporary
+      case 62: // opt_without_rowid
+      case 66: // opt_autoincrement
         value.template destroy< bool > ();
         break;
 
-      case 50: // column_constraint
+      case 65: // column_constraint
         value.template destroy< meow::utils::sql_parser::SQLiteColumnConstraintPtr > ();
         break;
 
-      case 47: // column_definition
+      case 60: // column_definition
         value.template destroy< meow::utils::sql_parser::SQLiteColumnPtr > ();
         break;
 
-      case 60: // foreign_key_do_on_action
+      case 75: // foreign_key_do_on_action
         value.template destroy< meow::utils::sql_parser::SQLiteDoOnAction > ();
         break;
 
-      case 56: // foreign_key_clause
+      case 67: // opt_conflict_clause
+        value.template destroy< meow::utils::sql_parser::SQLiteDoOnConflict > ();
+        break;
+
+      case 71: // foreign_key_clause
         value.template destroy< meow::utils::sql_parser::SQLiteForeignDataPtr > ();
         break;
 
-      case 59: // foreign_key_action
+      case 74: // foreign_key_action
         value.template destroy< meow::utils::sql_parser::SQLiteForeignKeyAction > ();
         break;
 
-      case 55: // table_constraint
+      case 87: // literal_value
+      case 88: // expr
+        value.template destroy< meow::utils::sql_parser::SQLiteLiteralValue > ();
+        break;
+
+      case 70: // table_constraint
         value.template destroy< meow::utils::sql_parser::SQLiteTableConstraintPtr > ();
         break;
 
-      case 44: // create_table_stmt
+      case 57: // create_table_stmt
         value.template destroy< meow::utils::sql_parser::SQLiteTablePtr > ();
         break;
 
@@ -1405,38 +1560,51 @@ namespace  meow { namespace utils { namespace sql_parser  {
       case 37: // "INTNUM"
       case 38: // "FLOATNUM"
       case 39: // "STRING"
-      case 45: // name_with_schema
-      case 52: // opt_conflict_clause
-      case 61: // column_name
-      case 62: // opt_type_name
-      case 63: // type_name
-      case 64: // type_name_list
-      case 67: // table_id
-      case 68: // column_id
+      case 40: // "ON_CONFLICT_ROLLBACK"
+      case 41: // "ON_CONFLICT_ABORT"
+      case 42: // "ON_CONFLICT_FAIL"
+      case 43: // "ON_CONFLICT_IGNORE"
+      case 44: // "ON_CONFLICT_REPLACE"
+      case 45: // "CURRENT_DATE"
+      case 46: // "CURRENT_TIME"
+      case 47: // "CURRENT_TIMESTAMP"
+      case 48: // "FALSE"
+      case 49: // "TRUE"
+      case 50: // "NULL"
+      case 58: // name_with_schema
+      case 76: // column_name
+      case 77: // opt_type_name
+      case 78: // type_name
+      case 79: // type_name_list
+      case 82: // table_id
+      case 83: // column_id
+      case 84: // opt_constraint_name
+      case 85: // signed_number
+      case 86: // numeric_literal
         value.template destroy< std::string > ();
         break;
 
-      case 48: // opt_column_constraint_list
-      case 49: // column_constraint_list
+      case 63: // opt_column_constraint_list
+      case 64: // column_constraint_list
         value.template destroy< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > ();
         break;
 
-      case 46: // create_column_list
+      case 59: // create_column_list
         value.template destroy< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > ();
         break;
 
-      case 57: // opt_foreign_key_action_list
-      case 58: // foreign_key_action_list
+      case 72: // opt_foreign_key_action_list
+      case 73: // foreign_key_action_list
         value.template destroy< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > ();
         break;
 
-      case 53: // opt_table_constraint_list
-      case 54: // table_constraint_list
+      case 68: // opt_table_constraint_list
+      case 69: // table_constraint_list
         value.template destroy< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > ();
         break;
 
-      case 65: // opt_column_id_list
-      case 66: // column_id_list
+      case 80: // opt_column_id_list
+      case 81: // column_id_list
         value.template destroy< std::vector<std::string> > ();
         break;
 
@@ -1463,35 +1631,46 @@ namespace  meow { namespace utils { namespace sql_parser  {
     super_type::move(s);
       switch (this->type_get ())
     {
-      case 51: // opt_autoincrement
+      case 61: // opt_temporary
+      case 62: // opt_without_rowid
+      case 66: // opt_autoincrement
         value.move< bool > (s.value);
         break;
 
-      case 50: // column_constraint
+      case 65: // column_constraint
         value.move< meow::utils::sql_parser::SQLiteColumnConstraintPtr > (s.value);
         break;
 
-      case 47: // column_definition
+      case 60: // column_definition
         value.move< meow::utils::sql_parser::SQLiteColumnPtr > (s.value);
         break;
 
-      case 60: // foreign_key_do_on_action
+      case 75: // foreign_key_do_on_action
         value.move< meow::utils::sql_parser::SQLiteDoOnAction > (s.value);
         break;
 
-      case 56: // foreign_key_clause
+      case 67: // opt_conflict_clause
+        value.move< meow::utils::sql_parser::SQLiteDoOnConflict > (s.value);
+        break;
+
+      case 71: // foreign_key_clause
         value.move< meow::utils::sql_parser::SQLiteForeignDataPtr > (s.value);
         break;
 
-      case 59: // foreign_key_action
+      case 74: // foreign_key_action
         value.move< meow::utils::sql_parser::SQLiteForeignKeyAction > (s.value);
         break;
 
-      case 55: // table_constraint
+      case 87: // literal_value
+      case 88: // expr
+        value.move< meow::utils::sql_parser::SQLiteLiteralValue > (s.value);
+        break;
+
+      case 70: // table_constraint
         value.move< meow::utils::sql_parser::SQLiteTableConstraintPtr > (s.value);
         break;
 
-      case 44: // create_table_stmt
+      case 57: // create_table_stmt
         value.move< meow::utils::sql_parser::SQLiteTablePtr > (s.value);
         break;
 
@@ -1524,38 +1703,51 @@ namespace  meow { namespace utils { namespace sql_parser  {
       case 37: // "INTNUM"
       case 38: // "FLOATNUM"
       case 39: // "STRING"
-      case 45: // name_with_schema
-      case 52: // opt_conflict_clause
-      case 61: // column_name
-      case 62: // opt_type_name
-      case 63: // type_name
-      case 64: // type_name_list
-      case 67: // table_id
-      case 68: // column_id
+      case 40: // "ON_CONFLICT_ROLLBACK"
+      case 41: // "ON_CONFLICT_ABORT"
+      case 42: // "ON_CONFLICT_FAIL"
+      case 43: // "ON_CONFLICT_IGNORE"
+      case 44: // "ON_CONFLICT_REPLACE"
+      case 45: // "CURRENT_DATE"
+      case 46: // "CURRENT_TIME"
+      case 47: // "CURRENT_TIMESTAMP"
+      case 48: // "FALSE"
+      case 49: // "TRUE"
+      case 50: // "NULL"
+      case 58: // name_with_schema
+      case 76: // column_name
+      case 77: // opt_type_name
+      case 78: // type_name
+      case 79: // type_name_list
+      case 82: // table_id
+      case 83: // column_id
+      case 84: // opt_constraint_name
+      case 85: // signed_number
+      case 86: // numeric_literal
         value.move< std::string > (s.value);
         break;
 
-      case 48: // opt_column_constraint_list
-      case 49: // column_constraint_list
+      case 63: // opt_column_constraint_list
+      case 64: // column_constraint_list
         value.move< std::vector<meow::utils::sql_parser::SQLiteColumnConstraintPtr> > (s.value);
         break;
 
-      case 46: // create_column_list
+      case 59: // create_column_list
         value.move< std::vector<meow::utils::sql_parser::SQLiteColumnPtr> > (s.value);
         break;
 
-      case 57: // opt_foreign_key_action_list
-      case 58: // foreign_key_action_list
+      case 72: // opt_foreign_key_action_list
+      case 73: // foreign_key_action_list
         value.move< std::vector<meow::utils::sql_parser::SQLiteForeignKeyAction> > (s.value);
         break;
 
-      case 53: // opt_table_constraint_list
-      case 54: // table_constraint_list
+      case 68: // opt_table_constraint_list
+      case 69: // table_constraint_list
         value.move< std::vector<meow::utils::sql_parser::SQLiteTableConstraintPtr> > (s.value);
         break;
 
-      case 65: // opt_column_id_list
-      case 66: // column_id_list
+      case 80: // opt_column_id_list
+      case 81: // column_id_list
         value.move< std::vector<std::string> > (s.value);
         break;
 
@@ -1618,7 +1810,8 @@ namespace  meow { namespace utils { namespace sql_parser  {
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
      275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
      285,   286,   287,   288,   289,   290,   291,   292,   293,   294,
-     295
+     295,   296,   297,   298,   299,   300,   301,   302,   303,   304,
+     305,   306,   307,   308
     };
     return static_cast<token_type> (yytoken_number_[type]);
   }
@@ -1852,15 +2045,81 @@ namespace  meow { namespace utils { namespace sql_parser  {
   }
 
   parser::symbol_type
+  parser::make_ON_CONFLICT_ROLLBACK (const std::string& v, const location_type& l)
+  {
+    return symbol_type (token::MSQL_ON_CONFLICT_ROLLBACK, v, l);
+  }
+
+  parser::symbol_type
+  parser::make_ON_CONFLICT_ABORT (const std::string& v, const location_type& l)
+  {
+    return symbol_type (token::MSQL_ON_CONFLICT_ABORT, v, l);
+  }
+
+  parser::symbol_type
+  parser::make_ON_CONFLICT_FAIL (const std::string& v, const location_type& l)
+  {
+    return symbol_type (token::MSQL_ON_CONFLICT_FAIL, v, l);
+  }
+
+  parser::symbol_type
+  parser::make_ON_CONFLICT_IGNORE (const std::string& v, const location_type& l)
+  {
+    return symbol_type (token::MSQL_ON_CONFLICT_IGNORE, v, l);
+  }
+
+  parser::symbol_type
+  parser::make_ON_CONFLICT_REPLACE (const std::string& v, const location_type& l)
+  {
+    return symbol_type (token::MSQL_ON_CONFLICT_REPLACE, v, l);
+  }
+
+  parser::symbol_type
+  parser::make_CURRENT_DATE (const std::string& v, const location_type& l)
+  {
+    return symbol_type (token::MSQL_CURRENT_DATE, v, l);
+  }
+
+  parser::symbol_type
+  parser::make_CURRENT_TIME (const std::string& v, const location_type& l)
+  {
+    return symbol_type (token::MSQL_CURRENT_TIME, v, l);
+  }
+
+  parser::symbol_type
+  parser::make_CURRENT_TIMESTAMP (const std::string& v, const location_type& l)
+  {
+    return symbol_type (token::MSQL_CURRENT_TIMESTAMP, v, l);
+  }
+
+  parser::symbol_type
+  parser::make_FALSE (const std::string& v, const location_type& l)
+  {
+    return symbol_type (token::MSQL_FALSE, v, l);
+  }
+
+  parser::symbol_type
+  parser::make_TRUE (const std::string& v, const location_type& l)
+  {
+    return symbol_type (token::MSQL_TRUE, v, l);
+  }
+
+  parser::symbol_type
+  parser::make_NULL (const std::string& v, const location_type& l)
+  {
+    return symbol_type (token::MSQL_NULL, v, l);
+  }
+
+  parser::symbol_type
   parser::make_ON (const location_type& l)
   {
     return symbol_type (token::MSQL_ON, l);
   }
 
 
-#line 56 "sqlite_bison_parser.y" // lalr1.cc:377
+#line 58 "sqlite_bison_parser.y" // lalr1.cc:377
 } } } //  meow::utils::sql_parser 
-#line 1864 "sqlite_bison_parser.hpp" // lalr1.cc:377
+#line 2123 "sqlite_bison_parser.hpp" // lalr1.cc:377
 
 
 

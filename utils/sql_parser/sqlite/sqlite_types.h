@@ -20,6 +20,8 @@ enum class SQLiteDoOnConflict {
     Replace
 };
 
+std::string conflictToString(const SQLiteDoOnConflict conflict);
+
 enum class SQLiteAction {
     OnDelete,
     OnUpdate,
@@ -34,6 +36,25 @@ enum class SQLiteDoOnAction {
     Restrict
 };
 
+enum class SQLiteLiteralValueType {
+    None,
+    Numeric,
+    String,
+    Blob,
+    Null,
+    True,
+    False,
+    CurrentTime,
+    CurrentDate,
+    CurrentTimestamp
+};
+
+class SQLiteLiteralValue {
+public:
+    SQLiteLiteralValueType type = SQLiteLiteralValueType::None;
+    std::string value;
+};
+
 class SQLiteForeignKeyAction
 {
 public:
@@ -42,6 +63,19 @@ public:
 
     std::string toString() const;
 };
+
+class SQLiteForeignData
+{
+public:
+    std::string foreignTableName;
+    std::vector<std::string> foreignColumnNames;
+    std::vector<SQLiteForeignKeyAction> actions;
+
+    std::string toString() const;
+};
+using SQLiteForeignDataPtr = std::shared_ptr<SQLiteForeignData>;
+
+// ----------------------------------------------------------------------------
 
 class SQLiteColumnConstraint
 {
@@ -56,6 +90,7 @@ public:
         ForeignKey
     };
     explicit SQLiteColumnConstraint(Type type);
+    virtual ~SQLiteColumnConstraint();
 
     Type type() const { return _type; }
     bool isAutoincrement() const { return _isAutoincrement; }
@@ -64,7 +99,7 @@ public:
     void setIsAutoincrement(bool value) { _isAutoincrement = value; }
     void setOnConflict(SQLiteDoOnConflict value) { _onConflict = value; }
 
-    std::string toString() const;
+    virtual std::string toString() const;
 
 private:
     Type _type;
@@ -73,6 +108,26 @@ private:
 };
 
 using SQLiteColumnConstraintPtr = std::shared_ptr<SQLiteColumnConstraint>;
+
+class SQLiteDefaultColumnConstraint : public SQLiteColumnConstraint
+{
+public:
+    SQLiteDefaultColumnConstraint();
+
+    SQLiteLiteralValue defaultValue;
+
+    virtual std::string toString() const override;
+};
+
+class SQLiteForeignKeyColumnConstraint : public SQLiteColumnConstraint
+{
+public:
+    SQLiteForeignKeyColumnConstraint();
+
+    SQLiteForeignDataPtr foreignData;
+
+    virtual std::string toString() const override;
+};
 
 // ----------------------------------------------------------------------------
 
@@ -117,25 +172,13 @@ public:
 
     Type type;
 
+    std::string name;
+
     virtual std::string toString() const = 0;
 
 };
 
 using SQLiteTableConstraintPtr = std::shared_ptr<SQLiteTableConstraint>;
-
-// ----------------------------------------------------------------------------
-
-
-class SQLiteForeignData
-{
-public:
-    std::string foreignTableName;
-    std::vector<std::string> foreignColumnNames;
-    std::vector<SQLiteForeignKeyAction> actions;
-
-    std::string toString() const;
-};
-using SQLiteForeignDataPtr = std::shared_ptr<SQLiteForeignData>;
 
 // ----------------------------------------------------------------------------
 
@@ -154,8 +197,42 @@ public:
 using SQLiteTableForeignKeyConstraintPtr
     = std::shared_ptr<SQLiteTableForeignKeyConstraint>;
 
+// ----------------------------------------------------------------------------
+
+class SQLiteTablePrimaryKeyConstraint : public SQLiteTableConstraint
+{
+public:
+    SQLiteTablePrimaryKeyConstraint();
+
+    std::vector<std::string> indexedColumnNames;
+
+    SQLiteDoOnConflict conflict;
+
+    virtual std::string toString() const override;
+};
+
+using SQLiteTablePrimaryKeyConstraintPtr
+    = std::shared_ptr<SQLiteTablePrimaryKeyConstraint>;
 
 // ----------------------------------------------------------------------------
+
+class SQLiteTableUniqueConstraint : public SQLiteTableConstraint
+{
+public:
+    SQLiteTableUniqueConstraint();
+
+    std::vector<std::string> indexedColumnNames;
+
+    SQLiteDoOnConflict conflict;
+
+    virtual std::string toString() const override;
+};
+
+using SQLiteTableUniqueConstraintPtr
+    = std::shared_ptr<SQLiteTableUniqueConstraint>;
+
+// ----------------------------------------------------------------------------
+
 
 class SQLiteTable
 {
@@ -173,10 +250,18 @@ public:
         _constraints = constraints;
     }
 
+    void setTemp(bool temp) { _temp = temp; }
+    bool isTemp() const { return _temp; }
+
+    void setWithoutRowID(bool without) { _withoutRowId = without; }
+    bool isWithoutRowID() const { return _withoutRowId; }
+
 private:
     std::string _name;
     std::vector<SQLiteColumnPtr> _columns;
     std::vector<SQLiteTableConstraintPtr> _constraints;
+    bool _temp = false;
+    bool _withoutRowId = false;
 };
 
 using SQLiteTablePtr = std::shared_ptr<SQLiteTable>;

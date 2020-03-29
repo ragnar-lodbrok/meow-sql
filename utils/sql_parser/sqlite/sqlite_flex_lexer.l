@@ -45,6 +45,38 @@ meow::utils::sql_parser::parser::symbol_type\
 #define MSQL_MAKE_TOKEN(name, value) \
 meow::utils::sql_parser::parser::make_##name((value), loc);
 
+void unescapeInplace(std::string & str, char quote)
+{
+    const std::string doubleQuote = std::string(2, quote);
+    const std::string strQuote = std::string(1, quote);
+
+    size_t startPos = 0;
+    while ((startPos = str.find(doubleQuote, startPos)) != std::string::npos) {
+        str.replace(startPos, doubleQuote.length(), strQuote);
+        ++startPos;
+    }
+}
+
+std::string unquote(const std::string & str, char quote, bool unescape = true, char endQuote = 0)
+{
+    if (endQuote == 0) {
+        endQuote = quote;
+    }
+    
+    if (str.front() == quote && str.back() == endQuote) {
+        std::string res = str.substr(1, str.length() - 2);
+        
+        if (unescape) {
+            unescapeInplace(res, quote);
+        }
+        
+        return res;
+    } else {
+        return str;
+    }
+    
+}
+
 
 %}
 
@@ -91,7 +123,12 @@ COLLATE             { return MSQL_TOKEN(COLLATE); }
 FOREIGN             { return MSQL_TOKEN(FOREIGN); }
                     /* TODO: GENERATED ... */
                     
- /* TODO: conflict-clause */                  
+ /* conflict-clause */
+ON[ \t\n]+CONFLICT[ \t\n]+ROLLBACK  { return MSQL_TOKEN(ON_CONFLICT_ROLLBACK); } 
+ON[ \t\n]+CONFLICT[ \t\n]+ABORT     { return MSQL_TOKEN(ON_CONFLICT_ABORT); } 
+ON[ \t\n]+CONFLICT[ \t\n]+FAIL      { return MSQL_TOKEN(ON_CONFLICT_FAIL); } 
+ON[ \t\n]+CONFLICT[ \t\n]+IGNORE    { return MSQL_TOKEN(ON_CONFLICT_IGNORE); } 
+ON[ \t\n]+CONFLICT[ \t\n]+REPLACE   { return MSQL_TOKEN(ON_CONFLICT_REPLACE); } 
 
  /* TODO: expr */
  
@@ -113,7 +150,7 @@ NO[ \t\n]+ACTION    { return MSQL_TOKEN(NO_ACTION); }
 -?"."[0-9]+         { return MSQL_MAKE_TOKEN(FLOATNUM, yytext); }
 
  /* strings */
-'(\\.|''|[^'\n])*'  { return MSQL_MAKE_TOKEN(STRING, yytext); /* TODO: rm '' */ }
+'(\\.|''|[^'\n])*'  { return MSQL_MAKE_TOKEN(STRING, unquote(std::string(yytext), '\'')); }
 '(\\.|[^'\n])*$     { throw meow::utils::sql_parser::parser::syntax_error(loc, 
                       "Unterminated string: " + std::string(yytext)); }
 
@@ -131,10 +168,10 @@ NO[ \t\n]+ACTION    { return MSQL_TOKEN(NO_ACTION); }
 
 
  /* identifiers https://www.sqlite.org/lang_keywords.html */
-\"[^\"\n]+\"          { return MSQL_MAKE_TOKEN(ID, yytext); /* TODO: rm "" */ }
+\"[^\"\n]+\"          { return MSQL_MAKE_TOKEN(ID, unquote(std::string(yytext), '"')); }
 [A-Za-z][A-Za-z0-9_]* { return MSQL_MAKE_TOKEN(ID, yytext); }
-`[^`/\\.\n]+`         { return MSQL_MAKE_TOKEN(ID, yytext); /* TODO: rm `` */ }
-\[[^\[\]\n]+\]        { return MSQL_MAKE_TOKEN(ID, yytext); /* TODO: rm [] */ }
+`[^`/\\.\n]+`         { return MSQL_MAKE_TOKEN(ID, unquote(std::string(yytext), '`')); }
+\[[^\[\]\n]+\]        { return MSQL_MAKE_TOKEN(ID, unquote(std::string(yytext), '[', false, ']')); }
  
  /* comment */
  

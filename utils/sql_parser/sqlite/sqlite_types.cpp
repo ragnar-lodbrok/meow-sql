@@ -5,6 +5,24 @@ namespace meow {
 namespace utils {
 namespace sql_parser {
 
+std::string conflictToString(const SQLiteDoOnConflict conflict)
+{
+    switch (conflict) {
+    case SQLiteDoOnConflict::None:
+        return {};
+    case SQLiteDoOnConflict::Rollback:
+        return "ROLLBACK";
+    case SQLiteDoOnConflict::Abort:
+        return "ABORT";
+    case SQLiteDoOnConflict::Fail:
+        return "FAIL";
+    case SQLiteDoOnConflict::Ignore:
+        return "IGNORE";
+    case SQLiteDoOnConflict::Replace:
+        return "REPLACE";
+    }
+}
+
 std::string SQLiteForeignKeyAction::toString() const
 {
     std::stringstream ss;
@@ -85,6 +103,59 @@ std::string SQLiteColumnConstraint::toString() const
         break;
     }
 
+    if (_onConflict != SQLiteDoOnConflict::None) {
+        ss << " ON CONFLICT " << conflictToString(_onConflict);
+    }
+
+    return ss.str();
+}
+
+SQLiteColumnConstraint::~SQLiteColumnConstraint() {}
+
+SQLiteDefaultColumnConstraint::SQLiteDefaultColumnConstraint()
+    : SQLiteColumnConstraint(Type::Default)
+    , defaultValue()
+{
+
+}
+
+std::string SQLiteDefaultColumnConstraint::toString() const
+{
+    std::stringstream ss;
+
+    ss << SQLiteColumnConstraint::toString();
+
+    ss << " ";
+
+    if (defaultValue.type == SQLiteLiteralValueType::String) {
+        ss << "'";
+    }
+
+    ss << defaultValue.value;
+
+    if (defaultValue.type == SQLiteLiteralValueType::String) {
+        ss << "'";
+    }
+
+    return ss.str();
+}
+
+SQLiteForeignKeyColumnConstraint::SQLiteForeignKeyColumnConstraint()
+    : SQLiteColumnConstraint(Type::ForeignKey)
+{
+
+}
+
+std::string SQLiteForeignKeyColumnConstraint::toString() const
+{
+    std::stringstream ss;
+
+    ss << SQLiteColumnConstraint::toString();
+
+    if (foreignData) {
+        ss << foreignData->toString();
+    }
+
     return ss.str();
 }
 
@@ -152,7 +223,7 @@ std::string SQLiteTableForeignKeyConstraint::toString() const
         if (!first)  {
             ss << ", ";
         } else {
-            first = true;
+            first = false;
         }
         ss << col;
     }
@@ -160,6 +231,60 @@ std::string SQLiteTableForeignKeyConstraint::toString() const
 
     if (foreignData) {
         ss << foreignData->toString();
+    }
+
+    return ss.str();
+}
+
+SQLiteTablePrimaryKeyConstraint::SQLiteTablePrimaryKeyConstraint()
+    : SQLiteTableConstraint(Type::PrimaryKey)
+    , conflict(SQLiteDoOnConflict::None)  {}
+
+std::string SQLiteTablePrimaryKeyConstraint::toString() const
+{
+    std::stringstream ss;
+
+    ss << " PRIMARY KEY (";
+    bool first = true;
+    for (const auto& col : indexedColumnNames) {
+        if (!first)  {
+            ss << ", ";
+        } else {
+            first = false;
+        }
+        ss << col;
+    }
+    ss << ") ";
+
+    if (conflict != SQLiteDoOnConflict::None) {
+        ss << " ON CONFLICT " << conflictToString(conflict);
+    }
+
+    return ss.str();
+}
+
+SQLiteTableUniqueConstraint::SQLiteTableUniqueConstraint()
+    : SQLiteTableConstraint(Type::Unique)
+    , conflict(SQLiteDoOnConflict::None)  {}
+
+std::string SQLiteTableUniqueConstraint::toString() const
+{
+    std::stringstream ss;
+
+    ss << " UNIQUE (";
+    bool first = true;
+    for (const auto& col : indexedColumnNames) {
+        if (!first)  {
+            ss << ", ";
+        } else {
+            first = false;
+        }
+        ss << col;
+    }
+    ss << ") ";
+
+    if (conflict != SQLiteDoOnConflict::None) {
+        ss << " ON CONFLICT " << conflictToString(conflict);
     }
 
     return ss.str();
@@ -174,6 +299,9 @@ std::string SQLiteTable::toString() const
     std::stringstream ss;
 
     ss << "TABLE\n";
+    if (_temp) {
+        ss << "TEMP:\n";
+    }
     ss << "\tname:" << _name << '\n';
 
     ss << "\tCOLUMNS:\n";
@@ -186,7 +314,9 @@ std::string SQLiteTable::toString() const
         ss << "\t\t" << c->toString() << "\n";
     }
 
-
+    if (_withoutRowId) {
+        ss << "WITHOUT ROWID\n";
+    }
 
     return ss.str();
 }
