@@ -1,5 +1,5 @@
 #include "mysql_entity_filter.h"
-#include "db/mysql_connection.h"
+#include "db/mysql/mysql_connection.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/entity_list_for_database.h"
 

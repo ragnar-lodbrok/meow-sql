@@ -6,8 +6,7 @@
 #include "db/query_data_fetcher.h"
 #include "db/entity/entity_list_for_database.h"
 #include "db/entity/table_entity.h"
-
-#include "utils/sql_parser/sqlite/sqlite_parser.h" // test
+#include "sqlite_table_structure_parser.h"
 
 // https://doc.qt.io/qt-5/sql-programming.html
 // https://code.qt.io/cgit/qt/qtbase.git/tree/examples/sql/sqlbrowser/browser.cpp?h=5.14
@@ -256,7 +255,7 @@ QueryDataFetcher * SQLiteConnection::createQueryDataFetcher()
 
 CollationFetcher * SQLiteConnection::createCollationFetcher()
 {
-    Q_ASSERT(false); // TODO
+    //Q_ASSERT(false); // TODO
     return nullptr;
 }
 
@@ -287,7 +286,7 @@ QString SQLiteConnection::getCreateCode(const Entity * entity)
 
 QStringList SQLiteConnection::tableRowFormats() const
 {
-    Q_ASSERT(false); // TODO
+    //Q_ASSERT(false); // TODO
     return {};
 }
 
@@ -312,17 +311,6 @@ QString SQLiteConnection::limitOnePostfix(bool select) const
     }
 }
 
-void SQLiteConnection::parseTableStructure(TableEntity * table, bool refresh)
-{
-    QString createSQL = table->createCode();
-    qDebug() << createSQL;
-    utils::sql_parser::SQLiteParser parser;
-
-    db::TableStructure * structure = parser.parseCreateTable(createSQL);
-
-    delete structure;
-}
-
 DataBaseEntitiesFetcher * SQLiteConnection::createDbEntitiesFetcher()
 {
     return new SQLiteEntitiesFetcher(this);
@@ -342,7 +330,7 @@ DataBaseEditor * SQLiteConnection::createDataBaseEditor()
 
 TableEnginesFetcher * SQLiteConnection::createTableEnginesFetcher()
 {
-    Q_ASSERT(false); // TODO
+    //Q_ASSERT(false); // TODO
     return nullptr;
 }
 
@@ -354,6 +342,11 @@ ConnectionDataTypes * SQLiteConnection::createConnectionDataTypes()
 ConnectionFeatures * SQLiteConnection::createFeatures()
 {
     return new QtSQLiteConnectionFeatures(this);
+}
+
+ITableStructureParser * SQLiteConnection::createTableStructureParser()
+{
+    return new SQLiteTableStructureParser(this);
 }
 
 } // namespace db

@@ -13,10 +13,10 @@ SQLiteParser::SQLiteParser()
 
 }
 
-db::TableStructure * SQLiteParser::parseCreateTable(const QString & sql)
+bool SQLiteParser::parseCreateTable(const std::string &sql)
 {
 
-    scan_begin(sql.toStdString());
+    scan_begin(sql);
 
     meow::utils::sql_parser::parser parser(scanner, *this);
     //parse.set_debug_level(true);
@@ -27,7 +27,7 @@ db::TableStructure * SQLiteParser::parseCreateTable(const QString & sql)
     qDebug() << "PARSE RESULT: " << res;
 
 
-    return nullptr;
+    return res == 0;
 }
 
 //void SQLiteParser::scan_begin(); // see impl in sqlite_flex_lexer.l

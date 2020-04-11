@@ -1,7 +1,7 @@
 #ifndef MYSQL_TABLE_EDITOR_H
 #define MYSQL_TABLE_EDITOR_H
 
-#include "table_editor.h"
+#include "db/table_editor.h"
 #include <QStringList>
 
 namespace meow {

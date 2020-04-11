@@ -1,5 +1,5 @@
 #include "mysql_connection_data_types.h"
-#include "db/mysql_connection.h"
+#include "db/mysql/mysql_connection.h"
 
 namespace meow {
 namespace db {

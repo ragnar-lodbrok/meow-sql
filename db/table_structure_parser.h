@@ -10,18 +10,31 @@ namespace meow {
 namespace db {
 
 class TableEntity;
+class Connection;
+
+class ITableStructureParser
+{
+public:
+    explicit ITableStructureParser(Connection * connection);
+    virtual ~ITableStructureParser();
+    virtual void run(TableEntity * table) = 0;
+protected:
+    Connection * _connection;
+};
+
+
 class TableColumn;
 class TableIndex;
 class ForeignKey;
-class Connection;
+
 
 // TODO: make specific for each DBMS
-class TableStructureParser
+class TableStructureParser : public ITableStructureParser
 {
 public:
     explicit TableStructureParser(Connection * connection);
-    ~TableStructureParser();
-    void run(TableEntity * table);
+    virtual ~TableStructureParser() override;
+    virtual void run(TableEntity * table) override;
 private:
     void parseColumns(const QString & createSQL, TableEntity * table) const;
     void parseKeysIndicies(const QString & createSQL, TableEntity * table) const;
@@ -43,7 +56,6 @@ private:
     QString parseComment(QString & columnString, TableColumn * column) const;
     QStringList explodeQuotedList(QString & str) const;
 
-    Connection * _connection;
     std::list<DataTypePtr> _typesSorted;
     bool _wasInit;
     QRegularExpression * _charsetRegexp;

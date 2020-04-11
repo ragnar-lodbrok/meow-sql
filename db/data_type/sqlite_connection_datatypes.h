@@ -29,6 +29,10 @@ public:
 
     virtual DataTypePtr dataTypeFromField(const QSqlField & field) override;
 
+    SQLiteTypeAffinity affinityByName(const QString & name);
+
+    DataTypePtr dataTypeByName(const QString & name);
+
 private:
     bool _init;
     QList<DataTypePtr> _list; // to be sorted

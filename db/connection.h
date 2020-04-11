@@ -112,7 +112,7 @@ public:
     virtual std::shared_ptr<QueryDataEditor> queryDataEditor(); // TODO = 0 ?
     virtual QString limitOnePostfix(bool select) const;
 
-    virtual void parseTableStructure(TableEntity * table, bool refresh = false);
+    void parseTableStructure(TableEntity * table, bool refresh = false);
 
     bool editTableInDB(TableEntity * table, TableEntity * newData);
     bool insertTableToDB(TableEntity * table);
@@ -151,6 +151,7 @@ protected:
     virtual TableEnginesFetcher * createTableEnginesFetcher() = 0;
     virtual ConnectionDataTypes * createConnectionDataTypes() = 0;
     virtual ConnectionFeatures * createFeatures();
+    virtual ITableStructureParser * createTableStructureParser();
 
 private:
     //int _connectionStarted;
@@ -161,7 +162,7 @@ private:
     //bool _loginPromptDone;
     //QString _databaseName;
     std::pair<bool, QStringList> _allDatabasesCached; // < cached?, data >
-    TableStructureParser _tableStructureParser;
+    std::unique_ptr<ITableStructureParser> _tableStructureParser;
     std::unique_ptr<CollationFetcher> _collationFetcher;
     std::unique_ptr<TableEnginesFetcher> _tableEnginesFetcher;
     std::shared_ptr<ConnectionDataTypes> _dataTypes;

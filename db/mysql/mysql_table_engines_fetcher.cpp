@@ -1,6 +1,6 @@
 #include "mysql_table_engines_fetcher.h"
-#include "connection.h"
-#include "query.h"
+#include "db/connection.h"
+#include "db/query.h"
 #include "helpers/logger.h"
 
 namespace meow {

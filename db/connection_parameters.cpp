@@ -1,7 +1,7 @@
 #include <QRegularExpression>
 #include "db/connection_parameters.h"
 #include "db/connection_params_manager.h"
-#include "db/mysql_connection.h"
+#include "db/mysql/mysql_connection.h"
 #include "db/pg/pg_connection.h"
 #include "db/sqlite/sqlite_connection.h"
 #include "helpers/logger.h"

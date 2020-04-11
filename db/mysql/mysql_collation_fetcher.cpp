@@ -1,5 +1,5 @@
 #include "mysql_collation_fetcher.h"
-#include "connection.h"
+#include "db/connection.h"
 
 namespace meow {
 namespace db {

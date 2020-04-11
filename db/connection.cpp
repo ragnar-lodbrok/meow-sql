@@ -17,8 +17,7 @@ Connection::Connection(const ConnectionParameters & params)
      _identifierQuote('`'),
      _connectionParams(params),
      _characterSet(),
-     _isUnicode(false),
-     _tableStructureParser(this)
+     _isUnicode(false)
 {
 
 }
@@ -222,6 +221,11 @@ const QStringList Connection::collationList()
         _collationFetcher.reset(createCollationFetcher());
     }
 
+    // debug
+    if (_collationFetcher == nullptr) {
+        return {};
+    }
+
     return _collationFetcher->getList();
 }
 
@@ -246,6 +250,10 @@ const QStringList Connection::tableEnginesList()
     if (_tableEnginesFetcher == nullptr) {
         _tableEnginesFetcher.reset(createTableEnginesFetcher());
     }
+    // debug
+    if (_tableEnginesFetcher == nullptr) {
+        return {};
+    }
     return _tableEnginesFetcher->getList();
 }
 
@@ -253,6 +261,9 @@ QString Connection::defaultTableEngine()
 {
     if (_tableEnginesFetcher == nullptr) {
         _tableEnginesFetcher.reset(createTableEnginesFetcher());
+    }
+    if (_tableEnginesFetcher == nullptr) {
+        return {};
     }
     return _tableEnginesFetcher->defaultEngine();
 }
@@ -268,7 +279,10 @@ void Connection::parseTableStructure(TableEntity * table, bool refresh)
     if (!refresh && table->hasStructure()) {
         return;
     }
-    _tableStructureParser.run(table);
+    if (_tableStructureParser == nullptr) {
+        _tableStructureParser.reset(createTableStructureParser());
+    }
+    _tableStructureParser->run(table);
 }
 
 bool Connection::editTableInDB(TableEntity * table, TableEntity * newData)
@@ -348,6 +362,11 @@ ConnectionFeatures * Connection::features()
 ConnectionFeatures * Connection::createFeatures()
 {
     return new ConnectionFeatures(this);
+}
+
+ITableStructureParser * Connection::createTableStructureParser()
+{
+    return new TableStructureParser(this); // default parser
 }
 
 } // namespace db

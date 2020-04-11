@@ -1,9 +1,9 @@
 #include "mysql_query_data_fetcher.h"
-#include "query_criteria.h"
-#include "query_data.h"
-#include "query.h"
+#include "db/query_criteria.h"
+#include "db/query_data.h"
+#include "db/query.h"
 #include "mysql_connection.h"
-#include "entity/table_entity.h"
+#include "db/entity/table_entity.h"
 #include "db/common.h"
 
 namespace meow {

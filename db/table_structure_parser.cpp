@@ -8,8 +8,18 @@
 namespace meow {
 namespace db {
 
+ITableStructureParser::ITableStructureParser(Connection * connection)
+    :_connection(connection)
+{
+
+}
+
+ITableStructureParser::~ITableStructureParser() {}
+
+// ---------------------------------------------------------------
+
 TableStructureParser::TableStructureParser(Connection * connection)
-    :_connection(connection),
+    :ITableStructureParser(connection),
      _wasInit(false),
      _charsetRegexp(nullptr),
      _collateRegexp(nullptr),
@@ -25,6 +35,7 @@ TableStructureParser::TableStructureParser(Connection * connection)
 
 TableStructureParser::~TableStructureParser()
 {
+    // TODO std::unique_ptr's
     delete _charsetRegexp;
     delete _collateRegexp;
     delete _defaultCurTSRegexp;

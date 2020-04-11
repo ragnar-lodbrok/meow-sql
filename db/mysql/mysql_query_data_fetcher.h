@@ -1,7 +1,7 @@
 #ifndef MYSQL_QUERY_DATA_FETCHER_H
 #define MYSQL_QUERY_DATA_FETCHER_H
 
-#include "query_data_fetcher.h"
+#include "db/query_data_fetcher.h"
 
 namespace meow {
 namespace db {

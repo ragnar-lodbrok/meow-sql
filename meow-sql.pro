@@ -70,13 +70,13 @@ SOURCES += main.cpp\
     db/foreign_key.cpp \
     db/mysql/mysql_database_editor.cpp \
     db/mysql/mysql_entities_fetcher.cpp \
-    db/mysql_collation_fetcher.cpp \
-    db/mysql_connection.cpp \
+    db/mysql/mysql_collation_fetcher.cpp \
+    db/mysql/mysql_connection.cpp \
     db/mysql/mysql_query.cpp \
     db/mysql/mysql_query_data_editor.cpp \
-    db/mysql_query_data_fetcher.cpp \
-    db/mysql_table_editor.cpp \
-    db/mysql_table_engines_fetcher.cpp \
+    db/mysql/mysql_query_data_fetcher.cpp \
+    db/mysql/mysql_table_editor.cpp \
+    db/mysql/mysql_table_engines_fetcher.cpp \
     db/pg/pg_connection.cpp \
     db/pg/pg_entities_fetcher.cpp \
     db/pg/pg_entity_create_code_generator.cpp \
@@ -215,10 +215,14 @@ HEADERS  +=  app/actions.h \
     db/exception.h \
     db/foreign_key.h \
     db/mysql/mysql_database_editor.h \
-    db/mysql_connection.h \
+    db/mysql/mysql_connection.h \
     db/mysql/mysql_query.h \
     db/mysql/mysql_query_data_editor.h \
     db/mysql/mysql_query_result.h \
+    db/mysql/mysql_collation_fetcher.h \
+    db/mysql/mysql_query_data_fetcher.h \
+    db/mysql/mysql_table_editor.h \
+    db/mysql/mysql_table_engines_fetcher.h \
     db/pg/pg_query_result.h \
     db/pg/pg_connection.h \
     db/pg/pg_entities_fetcher.h \
@@ -229,10 +233,6 @@ HEADERS  +=  app/actions.h \
     db/qtsql/qtsql_query.h \
     db/sqlite/sqlite_connection.h \
     db/sqlite/sqlite_entities_fetcher.h \
-    db/mysql_collation_fetcher.h \
-    db/mysql_query_data_fetcher.h \
-    db/mysql_table_editor.h \
-    db/mysql_table_engines_fetcher.h \
     db/native_query_result_interface.h \
     db/query_column.h \
     db/query_criteria.h \

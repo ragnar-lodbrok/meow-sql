@@ -144,6 +144,10 @@ public:
     virtual bool supportsViewingTablesData() const override {
         return true;
     }
+
+    virtual bool supportsViewingTables() const override {
+        return true; // test
+    }
 };
 
 } // namespace db

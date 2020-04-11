@@ -18,7 +18,7 @@ const QList<DataTypePtr> & SQLiteConnectionDataTypes::list()
 
         _list.append(DataTypePtr(new DataType(
             DataTypeIndex::Text,
-            static_cast<int>(SQLiteTypeAffinity::Text),
+            static_cast<int>(SQLiteTypeAffinity::Text), // native type
             "TEXT",
             true, // hasLength
             DataTypeCategoryIndex::Text
@@ -102,6 +102,46 @@ DataTypePtr SQLiteConnectionDataTypes::dataTypeFromField(
     }
 
     return _map.value(type);
+}
+
+SQLiteTypeAffinity SQLiteConnectionDataTypes::affinityByName(
+        const QString & name)
+{
+
+    // https://www.sqlite.org/datatype3.html#determination_of_column_affinity
+
+    QString upperName = name.toUpper();
+
+    // keep order of IFs!
+
+    if (upperName.contains("INT")) {
+        return SQLiteTypeAffinity::Integer;
+    }
+
+    if (upperName.contains("CHAR")
+            || upperName.contains("TEXT")
+            || upperName.contains("CLOB")) {
+        return SQLiteTypeAffinity::Text;
+    }
+
+    if (upperName.contains("BLOB") || upperName.isEmpty()) {
+        return SQLiteTypeAffinity::Blob;
+    }
+
+    if (upperName.contains("REAL")
+            || upperName.contains("FLOA")
+            || upperName.contains("DOUB")) {
+        return SQLiteTypeAffinity::Real;
+    }
+
+    return SQLiteTypeAffinity::Numeric;
+}
+
+DataTypePtr SQLiteConnectionDataTypes::dataTypeByName(const QString & name)
+{
+    list(); // init
+
+    return _map.value(affinityByName(name));
 }
 
 } // namespace db

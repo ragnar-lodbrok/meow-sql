@@ -2,7 +2,7 @@
 #define DB_MYSQLQUERY_H
 
 #include "db/query.h"
-#include "db/mysql_connection.h"
+#include "db/mysql/mysql_connection.h"
 #include "db/mysql/mysql_query_result.h"
 
 namespace meow {
@@ -11,7 +11,7 @@ namespace db {
 class MySQLQuery : public Query
 {
 public:
-    MySQLQuery(Connection * connection = nullptr);
+    explicit MySQLQuery(Connection * connection = nullptr);
     virtual ~MySQLQuery() override;
 
     virtual void execute(bool addResult = false) override;

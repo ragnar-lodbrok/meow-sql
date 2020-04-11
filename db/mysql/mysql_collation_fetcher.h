@@ -1,7 +1,7 @@
 #ifndef MYSQL_COLLATION_FETCHER_H
 #define MYSQL_COLLATION_FETCHER_H
 
-#include "collation_fetcher.h"
+#include "db/collation_fetcher.h"
 
 namespace meow {
 namespace db {

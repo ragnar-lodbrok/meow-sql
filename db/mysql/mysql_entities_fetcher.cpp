@@ -1,5 +1,5 @@
 #include "mysql_entities_fetcher.h"
-#include "db/mysql_connection.h"
+#include "db/mysql/mysql_connection.h"
 #include "db/query.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/view_entity.h"

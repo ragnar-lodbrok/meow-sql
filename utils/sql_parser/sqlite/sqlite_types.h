@@ -246,6 +246,8 @@ public:
         _columns = columns;
     }
 
+    const std::vector<SQLiteColumnPtr> & columns() const { return _columns; }
+
     void setConstraints(const std::vector<SQLiteTableConstraintPtr> & constraints) {
         _constraints = constraints;
     }

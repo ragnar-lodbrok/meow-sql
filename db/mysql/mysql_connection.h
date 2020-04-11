@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <mysql/mysql.h>
-#include "connection.h"
+#include "db/connection.h"
 
 namespace meow {
 namespace db {

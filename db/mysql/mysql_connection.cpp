@@ -6,7 +6,7 @@
 #include "mysql_query_data_fetcher.h"
 #include "db/entity/table_entity.h"
 #include "mysql_table_editor.h"
-#include "database_editor.h"
+#include "db/database_editor.h"
 #include "mysql_collation_fetcher.h"
 #include "mysql_table_engines_fetcher.h"
 #include "db/entity/mysql_entity_filter.h"
@@ -14,7 +14,7 @@
 #include "helpers/logger.h"
 #include "db/mysql/mysql_database_editor.h"
 #include "db/data_type/mysql_connection_data_types.h"
-#include "mysql/mysql_query_data_editor.h"
+#include "mysql_query_data_editor.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html

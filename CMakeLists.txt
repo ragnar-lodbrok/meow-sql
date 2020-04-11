@@ -71,6 +71,11 @@ set(SOURCE_FILES
     db/mysql/mysql_entities_fetcher.cpp
     db/mysql/mysql_query.cpp
     db/mysql/mysql_query_data_editor.cpp
+    db/mysql/mysql_collation_fetcher.cpp
+    db/mysql/mysql_connection.cpp
+    db/mysql/mysql_query_data_fetcher.cpp
+    db/mysql/mysql_table_editor.cpp
+    db/mysql/mysql_table_engines_fetcher.cpp
     db/pg/pg_connection.cpp
     db/pg/pg_entities_fetcher.cpp
     db/pg/pg_entity_create_code_generator.cpp
@@ -80,13 +85,9 @@ set(SOURCE_FILES
     db/qtsql/qtsql_query.cpp
     db/sqlite/sqlite_connection.cpp
     db/sqlite/sqlite_entities_fetcher.cpp
+    db/sqlite/sqlite_table_structure_parser.cpp
     db/exception.cpp
     db/foreign_key.cpp
-    db/mysql_collation_fetcher.cpp
-    db/mysql_connection.cpp
-    db/mysql_query_data_fetcher.cpp
-    db/mysql_table_editor.cpp
-    db/mysql_table_engines_fetcher.cpp
     db/query.cpp
     db/query_criteria.cpp
     db/query_data.cpp

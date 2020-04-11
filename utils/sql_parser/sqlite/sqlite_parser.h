@@ -3,7 +3,6 @@
 
 // see https://www.gnu.org/software/bison/manual/html_node/A-Complete-C_002b_002b-Example.html
 
-#include "db/table_structure.h"
 #include "sqlite_types.h"
 #include "sqlite_bison_parser.hpp"
 
@@ -24,7 +23,7 @@ class SQLiteParser
 
 public:
     SQLiteParser();
-    db::TableStructure * parseCreateTable(const QString & sql);
+    bool parseCreateTable(const std::string & sql);
 
     // The token's location used by the scanner.
     meow::utils::sql_parser::location location; // TODO: getter
