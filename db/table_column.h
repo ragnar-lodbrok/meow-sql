@@ -12,10 +12,12 @@ enum class ColumnDefaultType {
     Text,
     TextUpdateTS,
     Null,
-    NullUpdateTS,
+    NullUpdateTS, // TODO: move NULL to separate/make list of defaults
     CurTS,
-    CurTSUpdateTS,
-    AutoInc
+    CurTSUpdateTS, // TODO: move ON UPDATE to separate/make list of defaults
+    AutoInc,
+    CurTime,
+    CurDate,
 };
 
 const QString columnDefaultType2String(ColumnDefaultType type);

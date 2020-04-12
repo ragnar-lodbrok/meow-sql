@@ -18,7 +18,7 @@ class TableStructure : public QObject
     Q_OBJECT
 
 public:
-    TableStructure(TableEntity * table);
+    explicit TableStructure(TableEntity * table);
     virtual ~TableStructure();
 
     TableEntity * table() const { return _table; }

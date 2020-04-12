@@ -148,6 +148,10 @@ public:
         _constraints = constraints;
     }
 
+    const std::vector<SQLiteColumnConstraintPtr> & constraints() const {
+        return _constraints;
+    }
+
 private:
     std::string _name;
     std::string _type;
@@ -250,6 +254,10 @@ public:
 
     void setConstraints(const std::vector<SQLiteTableConstraintPtr> & constraints) {
         _constraints = constraints;
+    }
+
+    const std::vector<SQLiteTableConstraintPtr> & constraints() const {
+        return _constraints;
     }
 
     void setTemp(bool temp) { _temp = temp; }

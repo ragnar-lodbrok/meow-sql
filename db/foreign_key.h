@@ -48,11 +48,11 @@ public:
     QStringList referenceColumns() const { return _referenceColumns; }
 
     ReferenceOption onUpdate() const { return _onUpdate; }
-    void setOnUpdate(ReferenceOption & opt) { _onUpdate = opt; }
+    void setOnUpdate(ReferenceOption opt) { _onUpdate = opt; }
     void setOnUpdate(const QString & opt);
 
     ReferenceOption onDelete() const { return _onDelete; }
-    void setOnDelete(ReferenceOption & opt) { _onDelete = opt; }
+    void setOnDelete(ReferenceOption opt) { _onDelete = opt; }
     void setOnDelete(const QString & opt);
 
     unsigned id() const { return _id; }

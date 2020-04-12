@@ -82,6 +82,12 @@ const QString columnDefaultType2String(ColumnDefaultType type)
     case ColumnDefaultType::AutoInc:
         return "AUTO_INCREMENT";
 
+    case ColumnDefaultType::CurTime:
+        return "CURRENT_TIME";
+
+    case ColumnDefaultType::CurDate:
+        return "CURRENT_DATE";
+
     default:
         return "UNKNOWN";
     }

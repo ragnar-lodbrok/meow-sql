@@ -148,6 +148,11 @@ public:
     virtual bool supportsViewingTables() const override {
         return true; // test
     }
+
+    virtual bool supportsForeignKeys(const TableEntity * table) const override {
+        Q_UNUSED(table);
+        return true; // test
+    }
 };
 
 } // namespace db
