@@ -2,6 +2,7 @@
 #include "utils/sql_parser/sqlite/sqlite_parser.h"
 #include "db/entity/table_entity.h"
 #include "db/data_type/sqlite_connection_datatypes.h"
+#include "helpers/logger.h"
 #include <QDebug>
 
 namespace meow {
@@ -80,11 +81,13 @@ void SQLiteTableStructureParser::run(TableEntity * table)
     bool success = parser.parseCreateTable(table->createCode().toStdString());
 
     if (!success) {
-        // TODO: log error
+        meowLogC(Log::Category::Error)
+                << "Failed to parse table structure: "
+                << QString::fromStdString(parser._lastError);
         return;
     }
 
-    qDebug() << "\n\ncolumns: ";
+    //qDebug() << "\n\ncolumns: ";
 
     auto types = static_cast<SQLiteConnectionDataTypes *>(
                     _connection->dataTypes());
@@ -141,7 +144,7 @@ void SQLiteTableStructureParser::run(TableEntity * table)
 
                 index->addColumn(columnName);
 
-                qDebug() << "\t" << index->operator QString();
+                //qDebug() << "\t" << index->operator QString();
 
                 table->structure()->appendIndex(index);
 
@@ -156,7 +159,7 @@ void SQLiteTableStructureParser::run(TableEntity * table)
 
                 index->addColumn(columnName);
 
-                qDebug() << "\t" << index->operator QString();
+                //qDebug() << "\t" << index->operator QString();
 
                 table->structure()->appendIndex(index);
 
@@ -220,16 +223,16 @@ void SQLiteTableStructureParser::run(TableEntity * table)
 
                 fillForeignKeyFromData(fKey, fKeyC->foreignData.get());
 
-                qDebug() << "\t" << fKey->operator QString();
+                //qDebug() << "\t" << fKey->operator QString();
 
                 structure->foreignKeys().append(fKey);
             }
         }
 
-        qDebug() << column->operator QString();
+        //qDebug() << column->operator QString();
     }
 
-    qDebug() << "\nconstraints: ";
+    //qDebug() << "\nconstraints: ";
 
     for (const auto & parsedConstr : parser._parsedTable->constraints()) {
         if (parsedConstr->type == TableConstr::Type::PrimaryKey) {
@@ -246,7 +249,7 @@ void SQLiteTableStructureParser::run(TableEntity * table)
                 index->addColumn(QString::fromStdString(cName));
             }
 
-            qDebug() << "\t" << index->operator QString();
+            //qDebug() << "\t" << index->operator QString();
 
             table->structure()->appendIndex(index);
 
@@ -268,7 +271,7 @@ void SQLiteTableStructureParser::run(TableEntity * table)
 
             fillForeignKeyFromData(fKey, parsedFK->foreignData.get());
 
-            qDebug() << "\t" << fKey->operator QString();
+            //qDebug() << "\t" << fKey->operator QString();
 
             structure->foreignKeys().append(fKey);
 
@@ -286,7 +289,7 @@ void SQLiteTableStructureParser::run(TableEntity * table)
                 index->addColumn(QString::fromStdString(cName));
             }
 
-            qDebug() << "\t" << index->operator QString();
+            //qDebug() << "\t" << index->operator QString();
 
             table->structure()->appendIndex(index);
 

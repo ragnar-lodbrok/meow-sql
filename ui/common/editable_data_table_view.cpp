@@ -15,6 +15,7 @@ void EditableDataTableView::contextMenuEvent(QContextMenuEvent * event)
         QIcon(":/icons/calendar_view_day.png"),
         tr("Insert value"));
 
+    // TODO check for supportsEditingTablesData()
     insertValueSubMenu->addAction( meow::app()->actions()->dataSetNULL() );
 
     menu.exec(event->globalPos());

@@ -47,7 +47,7 @@ Qt::ItemFlags TableForeignKeysModel::flags(const QModelIndex &index) const
 
     Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
-    if (isEditingAllowed(index.row(), index.column())) {
+    if (isEditingSupported() && isEditingAllowed(index.row(), index.column())) {
         flags |= Qt::ItemIsEditable;
     }
 
@@ -153,6 +153,7 @@ int TableForeignKeysModel::columnWidth(int column) const
 
 bool TableForeignKeysModel::canAddKey() const
 {
+    if (!isEditingSupported()) return false;
     return _tableForm->supportsForeignKeys();
 }
 
@@ -171,6 +172,9 @@ int TableForeignKeysModel::insertEmptyDefaultKey()
 bool TableForeignKeysModel::canRemoveKey(const QModelIndex & curIndex) const
 {
     if (_table == nullptr || curIndex.isValid() == false) return false;
+
+    if (!isEditingSupported()) return false;
+
     return _table->structure()->canRemoveKey(curIndex.row());
 }
 
@@ -193,7 +197,8 @@ bool TableForeignKeysModel::removeKey(const QModelIndex & curIndex)
 
 bool TableForeignKeysModel::canRemoveAllKeys() const
 {
-    return _table ? _table->structure()->canRemoveAllKeys() : false;
+    if (!isEditingSupported()) return false;
+    return _table->structure()->canRemoveAllKeys();
 }
 
 void TableForeignKeysModel::removeAllKeys()
@@ -253,6 +258,12 @@ void TableForeignKeysModel::removeAllForeignKeyColumnsByName(
     for (auto & fKey : fKeys) {
         fKey->removeColumnByName(columnName);
     }
+}
+
+bool TableForeignKeysModel::isEditingSupported() const
+{
+    if (_table == nullptr) return false;
+    return _table->connection()->features()->supportsEditingTablesStructure();
 }
 
 bool TableForeignKeysModel::editData(const QModelIndex &index,

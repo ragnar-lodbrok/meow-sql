@@ -50,7 +50,7 @@
 #  endif
 # endif
 
-#line 58 "sqlite_bison_parser.y" // location.cc:296
+#line 59 "sqlite_bison_parser.y" // location.cc:296
 namespace  meow { namespace utils { namespace sql_parser  {
 #line 56 "position.hh" // location.cc:296
   /// Abstract a position.
@@ -174,7 +174,7 @@ namespace  meow { namespace utils { namespace sql_parser  {
     return ostr << pos.line << '.' << pos.column;
   }
 
-#line 58 "sqlite_bison_parser.y" // location.cc:296
+#line 59 "sqlite_bison_parser.y" // location.cc:296
 } } } //  meow::utils::sql_parser 
 #line 180 "position.hh" // location.cc:296
 #endif // !YY_YY_POSITION_HH_INCLUDED

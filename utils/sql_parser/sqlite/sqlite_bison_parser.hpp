@@ -44,13 +44,14 @@
 
 
     #include <string>
+    #include <sstream>
     #include "sqlite_types.h"
     
     namespace meow { namespace utils { namespace sql_parser { class SQLiteParser; } } }
     typedef void* yyscan_t;
     
 
-#line 54 "sqlite_bison_parser.hpp" // lalr1.cc:377
+#line 55 "sqlite_bison_parser.hpp" // lalr1.cc:377
 
 
 # include <cstdlib> // std::abort
@@ -125,9 +126,9 @@
 # define YYDEBUG 1
 #endif
 
-#line 58 "sqlite_bison_parser.y" // lalr1.cc:377
+#line 59 "sqlite_bison_parser.y" // lalr1.cc:377
 namespace  meow { namespace utils { namespace sql_parser  {
-#line 131 "sqlite_bison_parser.hpp" // lalr1.cc:377
+#line 132 "sqlite_bison_parser.hpp" // lalr1.cc:377
 
 
 
@@ -2117,9 +2118,9 @@ namespace  meow { namespace utils { namespace sql_parser  {
   }
 
 
-#line 58 "sqlite_bison_parser.y" // lalr1.cc:377
+#line 59 "sqlite_bison_parser.y" // lalr1.cc:377
 } } } //  meow::utils::sql_parser 
-#line 2123 "sqlite_bison_parser.hpp" // lalr1.cc:377
+#line 2124 "sqlite_bison_parser.hpp" // lalr1.cc:377
 
 
 

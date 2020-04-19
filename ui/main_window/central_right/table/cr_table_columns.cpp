@@ -90,13 +90,13 @@ void TableColumns::validateControls()
 
     if (curIndex.isValid() && _model.hasTable()) {
         int row = curIndex.row();
-        _tools->setActionEnabled(ColAction::Add,      true);
+        _tools->setActionEnabled(ColAction::Add,      _model.canAddRow());
         _tools->setActionEnabled(ColAction::Remove,   _model.canRemoveRow(row));
         _tools->setActionEnabled(ColAction::MoveUp,   _model.canMoveRowUp(row));
         _tools->setActionEnabled(ColAction::MoveDown,
                                  _model.canMoveRowDown(row));
     } else {
-        _tools->setActionEnabled(ColAction::Add,      _model.hasTable());
+        _tools->setActionEnabled(ColAction::Add,      _model.canAddRow());
         _tools->setActionEnabled(ColAction::Remove,   false);
         _tools->setActionEnabled(ColAction::MoveUp,   false);
         _tools->setActionEnabled(ColAction::MoveDown, false);

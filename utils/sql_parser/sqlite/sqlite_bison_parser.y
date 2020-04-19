@@ -31,6 +31,7 @@ Create table: https://www.sqlite.org/lang_createtable.html
 %code requires {
 
     #include <string>
+    #include <sstream>
     #include "sqlite_types.h"
     
     namespace meow { namespace utils { namespace sql_parser { class SQLiteParser; } } }
@@ -177,8 +178,7 @@ create_table_stmt:
         $$->setColumns($6);
         $$->setConstraints($7);
         $$->setWithoutRowID($9);
-        
-        std::cout << $$->toString() << std::endl;
+
     }
     ;
  
@@ -463,6 +463,10 @@ expr:
 
 void meow::utils::sql_parser::parser::error(const location_type& l, const std::string& m)
 {
-    std::cerr << l << ": " << m << std::endl;
+    std::stringstream ss;
+
+    ss << l << ": " << m;
+
+    drv._lastError = ss.str(); 
 }
 

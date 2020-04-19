@@ -35,7 +35,7 @@ Qt::ItemFlags TableIndexesModel::flags(const QModelIndex &index) const
 
     Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
-    if (isEditingAllowed(index)) {
+    if (isEditingSupported() && isEditingAllowed(index)) {
         flags |= Qt::ItemIsEditable;
     }
 
@@ -192,6 +192,12 @@ int TableIndexesModel::columnWidth(int column) const
     }
 }
 
+bool TableIndexesModel::isEditingSupported() const
+{
+    if (_table == nullptr) return false;
+    return _table->connection()->features()->supportsEditingTablesStructure();
+}
+
 bool TableIndexesModel::editData(const QModelIndex & index,
                                  const QVariant & value)
 {
@@ -270,7 +276,7 @@ int TableIndexesModel::rowOf(ITableIndexesModelItem * child) const
 
 bool TableIndexesModel::canAddIndex() const
 {
-    return _table != nullptr;
+    return isEditingSupported();
 }
 
 int TableIndexesModel::insertEmptyDefaultIndex()
@@ -293,7 +299,7 @@ int TableIndexesModel::insertEmptyDefaultIndex()
 bool TableIndexesModel::canAddColumn(const QModelIndex & curIndex) const
 {
     if (_table == nullptr || curIndex.isValid() == false) return false;
-    return true; // anytime we have a selection
+    return isEditingSupported(); // anytime we have a selection
     // TODO: check if we have "free" columns?
 }
 
@@ -343,6 +349,9 @@ QModelIndex TableIndexesModel::insertEmptyColumn(const QModelIndex & curIndex)
 bool TableIndexesModel::canRemove(const QModelIndex & curIndex) const
 {
     if (_table == nullptr || curIndex.isValid() == false) return false;
+
+    if (!isEditingSupported()) return false;
+
     ITableIndexesModelItem * item
         = static_cast<ITableIndexesModelItem *>(curIndex.internalPointer());
     if (item == nullptr) return false;
@@ -462,7 +471,7 @@ const QStringList TableIndexesModel::indexColumns() const
 
 bool TableIndexesModel::canRemoveAll() const
 {
-    if (_table == nullptr) return false;
+    if (!isEditingSupported()) return false;
     return _table->structure()->canRemoveAllIndices();
 }
 
@@ -480,6 +489,9 @@ void TableIndexesModel::removeAll()
 bool TableIndexesModel::canMoveUp(const QModelIndex & curIndex) const
 {
     if (_table == nullptr || curIndex.isValid() == false) return false;
+
+    if (!isEditingSupported()) return false;
+
     ITableIndexesModelItem * item
         = static_cast<ITableIndexesModelItem *>(curIndex.internalPointer());
     if (item == nullptr) return false;
@@ -494,6 +506,9 @@ bool TableIndexesModel::canMoveUp(const QModelIndex & curIndex) const
 bool TableIndexesModel::canMoveDown(const QModelIndex & curIndex) const
 {
     if (_table == nullptr || curIndex.isValid() == false) return false;
+
+    if (!isEditingSupported()) return false;
+
     ITableIndexesModelItem * item
         = static_cast<ITableIndexesModelItem *>(curIndex.internalPointer());
     if (item == nullptr) return false;

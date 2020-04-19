@@ -30,9 +30,8 @@ public:
 
     SQLiteTablePtr _parsedTable;
 
+    std::string _lastError;
 private:
-
-    //std::string _parsingStr;
 
     // Handling the scanner.
     void scan_begin(const std::string & str);

@@ -36,7 +36,7 @@ public:
         Count
     };
 
-    TableColumnsModel(QObject * parent = nullptr);
+    explicit TableColumnsModel(QObject * parent = nullptr);
 
     void setTable(meow::db::TableEntity * table);
     bool hasTable() const { return _table != nullptr; }
@@ -55,6 +55,7 @@ public:
 
     int insertEmptyDefaultRow(int afterIndex = -1);
 
+    bool canAddRow() const;
     bool canRemoveRow(int index) const;
     bool canMoveRowUp(int index) const;
     bool canMoveRowDown(int index) const;
@@ -80,6 +81,8 @@ public:
     Q_SIGNAL void modified();
 
 private:
+
+    bool isEditingSupported() const;
 
     bool editData(const QModelIndex &index, const QVariant &value);
 

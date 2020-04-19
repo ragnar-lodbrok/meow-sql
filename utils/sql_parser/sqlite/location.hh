@@ -40,7 +40,7 @@
 
 # include "position.hh"
 
-#line 58 "sqlite_bison_parser.y" // location.cc:296
+#line 59 "sqlite_bison_parser.y" // location.cc:296
 namespace  meow { namespace utils { namespace sql_parser  {
 #line 46 "location.hh" // location.cc:296
   /// Abstract a location.
@@ -186,7 +186,7 @@ namespace  meow { namespace utils { namespace sql_parser  {
     return ostr;
   }
 
-#line 58 "sqlite_bison_parser.y" // location.cc:296
+#line 59 "sqlite_bison_parser.y" // location.cc:296
 } } } //  meow::utils::sql_parser 
 #line 192 "location.hh" // location.cc:296
 #endif // !YY_YY_LOCATION_HH_INCLUDED

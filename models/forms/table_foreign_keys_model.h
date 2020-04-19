@@ -31,7 +31,7 @@ public:
         Count
     };
 
-    TableForeignKeysModel(TableInfoForm * parent);
+    explicit TableForeignKeysModel(TableInfoForm * parent);
 
     void setTable(meow::db::TableEntity * table);
 
@@ -65,6 +65,8 @@ public:
     Q_SIGNAL void modified();
 
 private:
+
+    bool isEditingSupported() const;
 
     bool editData(const QModelIndex &index, const QVariant &value);
     bool isEditingAllowed(int row, int col) const;

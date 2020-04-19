@@ -40,7 +40,7 @@
 
 # include <vector>
 
-#line 58 "sqlite_bison_parser.y" // stack.hh:132
+#line 59 "sqlite_bison_parser.y" // stack.hh:132
 namespace  meow { namespace utils { namespace sql_parser  {
 #line 46 "stack.hh" // stack.hh:132
   template <class T, class S = std::vector<T> >
@@ -150,7 +150,7 @@ namespace  meow { namespace utils { namespace sql_parser  {
     unsigned int range_;
   };
 
-#line 58 "sqlite_bison_parser.y" // stack.hh:132
+#line 59 "sqlite_bison_parser.y" // stack.hh:132
 } } } //  meow::utils::sql_parser 
 #line 156 "stack.hh" // stack.hh:132
 

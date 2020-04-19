@@ -244,6 +244,12 @@ bool TableInfoForm::supportsForeignKeys() const
     return false;
 }
 
+bool TableInfoForm::isEditingSupported() const
+{
+    if (_table == nullptr) return false;
+    return _table->connection()->features()->supportsEditingTablesStructure();
+}
+
 void TableInfoForm::save()
 {
     // TODO: adding foreign keys may add indices

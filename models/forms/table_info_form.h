@@ -72,6 +72,8 @@ public:
 
     Q_SIGNAL void tableEngineChanged(const QString & engine);
 
+    bool isEditingSupported() const;
+
 private:
 
     meow::db::TableEntity * _table; // copy of source table to edit

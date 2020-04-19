@@ -157,8 +157,9 @@ void TableTab::saveTableEditing()
 
 void TableTab::validateControls()
 {
-    _discardButton->setEnabled(_form.hasUnsavedChanges());
-    _saveButton->setEnabled(_form.hasUnsavedChanges());
+    bool enableEdit = _form.hasUnsavedChanges() && _form.isEditingSupported();
+    _discardButton->setEnabled(enableEdit);
+    _saveButton->setEnabled(enableEdit);
 }
 
 

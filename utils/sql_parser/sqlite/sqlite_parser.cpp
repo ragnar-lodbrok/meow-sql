@@ -1,5 +1,4 @@
 #include "sqlite_parser.h"
-#include <QDebug>
 
 namespace meow {
 namespace utils {
@@ -16,16 +15,15 @@ SQLiteParser::SQLiteParser()
 bool SQLiteParser::parseCreateTable(const std::string &sql)
 {
 
+    _lastError = {};
+
     scan_begin(sql);
 
     meow::utils::sql_parser::parser parser(scanner, *this);
-    //parse.set_debug_level(true);
+
     int res = parser.parse();
 
     scan_end();
-
-    qDebug() << "PARSE RESULT: " << res;
-
 
     return res == 0;
 }

@@ -29,6 +29,10 @@ public:
         return false;
     }
 
+    virtual bool supportsEditingTablesStructure() const {
+        return false;
+    }
+
     virtual bool supportsDrop(Entity::Type type) const {
         Q_UNUSED(type);
         return false;
@@ -68,6 +72,10 @@ public:
     }
 
     virtual bool supportsEditingTablesData() const override {
+        return true;
+    }
+
+    virtual bool supportsEditingTablesStructure() const override {
         return true;
     }
 
@@ -146,12 +154,16 @@ public:
     }
 
     virtual bool supportsViewingTables() const override {
-        return true; // test
+        return true;
+    }
+
+    virtual bool supportsEditingTablesStructure() const override {
+        return false; // allow to view structure, not edit
     }
 
     virtual bool supportsForeignKeys(const TableEntity * table) const override {
         Q_UNUSED(table);
-        return true; // test
+        return true;
     }
 };
 

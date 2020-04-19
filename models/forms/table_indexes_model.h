@@ -29,8 +29,8 @@ public:
         Count
     };
 
-    TableIndexesModel(QObject * parent = nullptr);
-    virtual ~TableIndexesModel();
+    explicit TableIndexesModel(QObject * parent = nullptr);
+    virtual ~TableIndexesModel() override;
 
     void setTable(meow::db::TableEntity * table);
     bool hasTable() const { return _table != nullptr; }
@@ -48,7 +48,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     QVariant headerData(int section, Qt::Orientation orientation,
-                            int role = Qt::DisplayRole) const;
+                            int role = Qt::DisplayRole) const override;
 
     int columnWidth(int column) const;
 
@@ -87,6 +87,8 @@ public:
     Q_SIGNAL void modified();
 
 private:
+
+    bool isEditingSupported() const;
 
     bool editData(const QModelIndex &index, const QVariant &value);
 

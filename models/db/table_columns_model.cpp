@@ -25,7 +25,8 @@ void TableColumnsModel::setTable(meow::db::TableEntity * table)
     if (_table) {
         connect(_table->structure(),
                 &meow::db::TableStructure::columnRelationChangedForIndex,
-                [=](meow::db::TableColumn * column, meow::db::TableIndex * index){
+                [=](meow::db::TableColumn * column,
+                    meow::db::TableIndex * index) {
                     Q_UNUSED(index);
                     refreshColumn(column);
                 }
@@ -36,7 +37,7 @@ void TableColumnsModel::setTable(meow::db::TableEntity * table)
 int TableColumnsModel::columnCount(const QModelIndex & parent) const
 {
     Q_UNUSED(parent);
-    return (int)Columns::Count;
+    return static_cast<int>(Columns::Count);
 }
 
 int TableColumnsModel::rowCount(const QModelIndex & parent) const
@@ -56,7 +57,9 @@ Qt::ItemFlags TableColumnsModel::flags(const QModelIndex &index) const
 
     Qt::ItemFlags flags = Qt::ItemIsSelectable;
 
-    bool isEditable = isEditingAllowed(index.row(), index.column());
+    bool isEditable =
+           isEditingSupported()
+        && isEditingAllowed(index.row(), index.column());
 
     // For bool columns we don't use standart editor,
     // so dont return Qt::ItemIsEditable;
@@ -236,20 +239,28 @@ bool TableColumnsModel::moveRowDown(int index)
     return false;
 }
 
+bool TableColumnsModel::canAddRow() const
+{
+    return isEditingSupported();
+}
+
 bool TableColumnsModel::canRemoveRow(int index) const
 {
     // Not an error: a row in the table view is a column in the db table ;)
-    return _table->structure()->canRemoveColumn(index);
+    return isEditingSupported()
+            &&_table->structure()->canRemoveColumn(index);
 }
 
 bool TableColumnsModel::canMoveRowUp(int index) const
 {
-    return _table->structure()->canMoveColumnUp(index);
+    return isEditingSupported()
+            && _table->structure()->canMoveColumnUp(index);
 }
 
 bool TableColumnsModel::canMoveRowDown(int index) const
 {
-    return _table->structure()->canMoveColumnDown(index);
+    return isEditingSupported()
+            && _table->structure()->canMoveColumnDown(index);
 }
 
 void TableColumnsModel::removeData()
@@ -275,7 +286,8 @@ void TableColumnsModel::refresh()
 
 QVariant TableColumnsModel::textDataAt(int row, int col) const
 {
-    meow::db::TableColumn * tableColumn = _table->structure()->columns().at(row);
+    meow::db::TableColumn * tableColumn = _table->structure()
+                                                ->columns().at(row);
 
     switch (static_cast<Columns>(col)) {
 
@@ -425,7 +437,8 @@ bool TableColumnsModel::isEditingAllowed(int row, int col) const
         return tableColumn->dataType()->hasLength;
 
     case Columns::Unsigned:
-        return meow::db::dataTypeCanBeUnsigned(tableColumn->dataType()->index); // TODO
+        return meow::db::dataTypeCanBeUnsigned(
+                    tableColumn->dataType()->index); // TODO
 
     case Columns::AllowNull: {
         bool isColumnInPK = _table->structure()->hasIndexForColumn(
@@ -434,7 +447,8 @@ bool TableColumnsModel::isEditingAllowed(int row, int col) const
     }
 
     case Columns::Zerofill:
-        return meow::db::dataTypeCanBeZeroFill(tableColumn->dataType()->index); // TODO
+        return meow::db::dataTypeCanBeZeroFill(
+                    tableColumn->dataType()->index); // TODO
 
     default:
         return true;
@@ -616,6 +630,12 @@ bool TableColumnsModel::setColumnDataType(const QModelIndex &index,
     }
 
     return true;
+}
+
+bool TableColumnsModel::isEditingSupported() const
+{
+    if (_table == nullptr) return false;
+    return _table->connection()->features()->supportsEditingTablesStructure();
 }
 
 bool TableColumnsModel::editData(const QModelIndex &index, const QVariant &value)
