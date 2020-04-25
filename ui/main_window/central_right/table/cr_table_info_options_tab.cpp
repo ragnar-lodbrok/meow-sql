@@ -155,18 +155,22 @@ void OptionsTab::fillDataFromForm()
     _autoIncEdit->blockSignals(true);
     _autoIncEdit->setText(_tableForm->autoInc());
     _autoIncEdit->blockSignals(false);
+    _autoIncEdit->setEnabled(_tableForm->isEditingSupported());
 
     _avgRowLenEdit->blockSignals(true);
     _avgRowLenEdit->setText(_tableForm->avgRowLen());
     _avgRowLenEdit->blockSignals(false);
+    _avgRowLenEdit->setEnabled(_tableForm->isEditingSupported());
 
     _maxRowCountEdit->blockSignals(true);
     _maxRowCountEdit->setText(_tableForm->maxRows());
     _maxRowCountEdit->blockSignals(false);
+    _maxRowCountEdit->setEnabled(_tableForm->isEditingSupported());
 
     _checksumForRowsCheckBox->blockSignals(true);
     _checksumForRowsCheckBox->setChecked(_tableForm->isCheckSum());
     _checksumForRowsCheckBox->blockSignals(false);
+    _checksumForRowsCheckBox->setEnabled(_tableForm->isEditingSupported());
 
     _defaultCollationComboBox->blockSignals(true);
     _defaultCollationComboBox->clear(); // TODO: lazy load?
@@ -174,6 +178,7 @@ void OptionsTab::fillDataFromForm()
     _defaultCollationComboBox->setCurrentIndex(
         _defaultCollationComboBox->findText(_tableForm->collation()));
     _defaultCollationComboBox->blockSignals(false);
+    _defaultCollationComboBox->setEnabled(_tableForm->isEditingSupported());
 
     _engineComboBox->blockSignals(true);
     _engineComboBox->clear();
@@ -181,6 +186,7 @@ void OptionsTab::fillDataFromForm()
     _engineComboBox->setCurrentIndex(
         _engineComboBox->findText(_tableForm->engine()));
     _engineComboBox->blockSignals(false);
+    _engineComboBox->setEnabled(_tableForm->isEditingSupported());
 
     _rowFormatComboBox->blockSignals(true);
     _rowFormatComboBox->clear();
@@ -188,6 +194,8 @@ void OptionsTab::fillDataFromForm()
     _rowFormatComboBox->setCurrentIndex(
         _rowFormatComboBox->findText(_tableForm->rowFormat()));
     _rowFormatComboBox->blockSignals(false);
+    _rowFormatComboBox->setEnabled(_tableForm->isEditingSupported());
+
 }
 
 } // namespace table_info
