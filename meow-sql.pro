@@ -90,6 +90,7 @@ SOURCES += main.cpp\
     db/qtsql/qtsql_query.cpp \
     db/sqlite/sqlite_connection.cpp \
     db/sqlite/sqlite_entities_fetcher.cpp \
+    db/sqlite/sqlite_table_structure_parser.cpp \
     db/table_column.cpp \
     db/table_editor.cpp \
     db/table_index.cpp \
@@ -175,6 +176,10 @@ SOURCES += main.cpp\
     ui/main_window/central_bottom_widget.cpp \
     ui/main_window/central_log_widget.cpp \
     utils/exporting/mysql_dump_console.cpp \
+    utils/sql_parser/sqlite/sqlite_parser.cpp \
+    utils/sql_parser/sqlite/sqlite_bison_parser.cpp \
+    utils/sql_parser/sqlite/sqlite_flex_lexer.cpp \
+    utils/sql_parser/sqlite/sqlite_types.cpp \
     ui/export_database/export_dialog.cpp
 
 
@@ -233,6 +238,7 @@ HEADERS  +=  app/actions.h \
     db/qtsql/qtsql_query.h \
     db/sqlite/sqlite_connection.h \
     db/sqlite/sqlite_entities_fetcher.h \
+    db/sqlite/sqlite_table_structure_parser.h \
     db/native_query_result_interface.h \
     db/query_column.h \
     db/query_criteria.h \
@@ -327,6 +333,10 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_bottom_widget.h \
     ui/main_window/central_log_widget.h \
     utils/exporting/mysql_dump_console.h \
+    utils/sql_parser/sqlite/sqlite_parser.h \
+    utils/sql_parser/sqlite/sqlite_bison_parser.hpp \
+    utils/sql_parser/sqlite/sqlite_flex_lexer.h \
+    utils/sql_parser/sqlite/sqlite_types.h \
     ui/export_database/export_dialog.h
 
 

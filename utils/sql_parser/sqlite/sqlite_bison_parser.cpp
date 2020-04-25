@@ -1257,7 +1257,7 @@ namespace  meow { namespace utils { namespace sql_parser  {
 
   case 54:
 #line 368 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::string > () = {}; }
+    { yylhs.value.as< std::string > () = ""; }
 #line 1262 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 
@@ -1339,7 +1339,7 @@ namespace  meow { namespace utils { namespace sql_parser  {
 
   case 67:
 #line 406 "sqlite_bison_parser.y" // lalr1.cc:859
-    { yylhs.value.as< std::string > () = {}; }
+    { yylhs.value.as< std::string > () = ""; }
 #line 1344 "sqlite_bison_parser.cpp" // lalr1.cc:859
     break;
 

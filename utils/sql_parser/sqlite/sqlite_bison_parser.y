@@ -365,7 +365,7 @@ column_name:
     ;
     
 opt_type_name:
-    %empty                  { $$ = {}; }
+    %empty                  { $$ = ""; }
     | type_name             { $$ = $1; }
     ;
     
@@ -403,7 +403,7 @@ column_id:
     ;    
     
 opt_constraint_name:
-    %empty          { $$ = {}; }
+    %empty          { $$ = ""; }
     | CONSTRAINT ID { $$ = $2; }
     ;
 

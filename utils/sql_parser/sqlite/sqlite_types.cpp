@@ -21,6 +21,8 @@ std::string conflictToString(const SQLiteDoOnConflict conflict)
     case SQLiteDoOnConflict::Replace:
         return "REPLACE";
     }
+
+    return {};
 }
 
 std::string SQLiteForeignKeyAction::toString() const
