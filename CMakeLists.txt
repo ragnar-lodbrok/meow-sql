@@ -22,6 +22,8 @@ set(CMAKE_CXX_STANDARD 11) # TODO 14 for Qt >= 5.5
 find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5Sql REQUIRED)
 
+add_definitions(-DYY_NO_UNISTD_H) # fix flex compilation on win
+
 set(HEADER_FILES
     db/data_type/connection_data_types.h
     db/data_type/data_type_category.h

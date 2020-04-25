@@ -38,6 +38,8 @@ macx:LIBS += -L/usr/local/opt/mysql-connector-c/lib
 unix:LIBS += -lpq # pkg-config --libs libpq
 win32:LIBS += -l"$$PWD\third_party\libpq\windows\lib\libpq"
 
+DEFINES += YY_NO_UNISTD_H # fix flex compilation on win
+
 SOURCES += main.cpp\
     app/actions.cpp \
     app/app.cpp \

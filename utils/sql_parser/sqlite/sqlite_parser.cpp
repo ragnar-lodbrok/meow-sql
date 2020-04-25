@@ -15,7 +15,7 @@ SQLiteParser::SQLiteParser()
 bool SQLiteParser::parseCreateTable(const std::string &sql)
 {
 
-    _lastError = {};
+    _lastError = "";
 
     scan_begin(sql);
 
