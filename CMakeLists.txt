@@ -187,7 +187,19 @@ set(SOURCE_FILES
 
 qt5_add_resources(RESOURCE_FILES icons.qrc)
 
-add_executable(meowsql ${HEADER_FILES} ${SOURCE_FILES} ${RESOURCE_FILES})
+if (WIN32)
+    list(APPEND RESOURCE_FILES meowsql.rc)
+endif()
+
+if (WIN32)
+    SET(EXE_TYPE WIN32)
+endif()
+
+if (APPLE)
+    SET(EXE_TYPE MACOSX_BUNDLE)
+endif()
+
+add_executable(meowsql ${EXE_TYPE} ${HEADER_FILES} ${SOURCE_FILES} ${RESOURCE_FILES})
 
 target_link_libraries(meowsql Qt5::Widgets Qt5::Sql)
 
