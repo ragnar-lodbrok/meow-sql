@@ -194,14 +194,21 @@ endif()
 if (WIN32)
     SET(EXE_TYPE WIN32)
 endif()
-
 if (APPLE)
     SET(EXE_TYPE MACOSX_BUNDLE)
 endif()
 
-add_executable(meowsql ${EXE_TYPE} ${HEADER_FILES} ${SOURCE_FILES} ${RESOURCE_FILES})
+add_executable(meowsql
+    ${EXE_TYPE}
+    ${HEADER_FILES}
+    ${SOURCE_FILES}
+    ${RESOURCE_FILES})
 
 target_link_libraries(meowsql Qt5::Widgets Qt5::Sql)
+
+if (WIN32)
+    target_link_libraries(meowsql User32) #SetProcessDPIAware()
+endif()
 
 set(MEOW_MYSQL_CLIENT_LIB mysqlclient) #linux
 

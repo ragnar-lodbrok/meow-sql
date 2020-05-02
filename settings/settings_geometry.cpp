@@ -14,6 +14,7 @@ Geometry::Geometry()
 
 int Geometry::tableViewDefaultRowHeight() const
 {
+    // TODO: respect DPI
     return 24;
 }
 

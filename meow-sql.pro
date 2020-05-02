@@ -29,6 +29,8 @@ unix:LIBS += -lm # math?
 unix:LIBS += -ldl # dynamic link
 macx:LIBS -= -lrt
 
+win32:LIBS += -lUser32 #SetProcessDPIAware()
+
 # MySQL
 unix:LIBS += -lmysqlclient # mysql client
 win32:LIBS += -l"$$PWD\third_party\libmysql\windows\libmysql"
