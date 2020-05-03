@@ -136,7 +136,9 @@ SOURCES += main.cpp\
     settings/settings_geometry.cpp \
     settings/settings_icons.cpp \
     settings/settings_text.cpp \
+    ui/common/checkbox_list_popup.cpp \
     ui/common/data_type_combo_box.cpp \
+    ui/common/geometry_helpers.cpp \
     ui/common/sql_editor.cpp \
     ui/common/sql_log_editor.cpp \
     ui/common/sql_syntax_highlighter.cpp \
@@ -292,7 +294,9 @@ HEADERS  +=  app/actions.h \
     settings/settings_geometry.h \
     settings/settings_icons.h \
     settings/settings_text.h \
+    ui/common/checkbox_list_popup.h \
     ui/common/data_type_combo_box.h \
+    ui/common/geometry_helpers.h \
     ui/common/mysql_syntax.h \
     ui/common/sql_editor.h \
     ui/common/sql_log_editor.h \

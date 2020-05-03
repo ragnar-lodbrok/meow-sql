@@ -1,42 +1,7 @@
 #include "table_column_default_delegate.h"
 #include "ui/common/table_column_default_editor.h"
 #include "models/db/table_columns_model.h"
-#include <QDebug>
-
-static QRect screenRectForRect(const QRect & rect)
-{
-    auto screens = QApplication::screens();
-
-    for (const auto & screen : screens) {
-        auto screenRect = screen->virtualGeometry();
-        if (screenRect.intersects(rect)) {
-            return screen->availableGeometry();
-        }
-    }
-    return QRect();
-}
-
-static void fitRectToRect(QRect & rectSmall, const QRect & rectBig)
-{
-    if (rectSmall.width() > rectBig.width() ||
-        rectSmall.height() > rectBig.height() ) {
-        QSize boundedSize = rectSmall.size().boundedTo(rectBig.size());
-        rectSmall.setSize(boundedSize);
-    }
-
-    if (rectSmall.bottomRight().x() > rectBig.bottomRight().x() ||
-        rectSmall.bottomRight().y() > rectBig.bottomRight().y() ) {
-
-        rectSmall.translate(
-            rectBig.bottomRight() - rectBig.united(rectSmall).bottomRight()
-        );
-    } else if (rectSmall.topLeft().x() < rectBig.topLeft().x() ||
-               rectSmall.topLeft().y() < rectBig.topLeft().y()) {
-        rectSmall.translate(
-            rectBig.topLeft() - rectBig.united(rectSmall).topLeft()
-        );
-    }
-}
+#include "ui/common/geometry_helpers.h"
 
 namespace meow {
 namespace models {
@@ -107,11 +72,7 @@ void TableColumnDefaultDelegate::updateEditorGeometry(
     QRect rect = QRect(topLeft, editor->minimumSize());
 
     // Check if we feet screen and adjust like eg in combobox
-    QRect screenRect = screenRectForRect(rect);
-    if (screenRect.contains(rect) == false) {
-
-        fitRectToRect(rect, screenRect);
-    }
+    ui::helpers::fitRectToScreen(rect);
 
     editor->setGeometry(rect);
 }

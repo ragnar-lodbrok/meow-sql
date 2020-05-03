@@ -15,7 +15,7 @@ class ForeignKey;
 class MySQLTableEditor : public TableEditor
 {
 public:
-    MySQLTableEditor(MySQLConnection * connection);
+    explicit MySQLTableEditor(MySQLConnection * connection);
     virtual bool edit(TableEntity * table, TableEntity * newData) override;
     virtual bool insert(TableEntity * table) override;
     virtual bool drop(EntityInDatabase * entity) override;

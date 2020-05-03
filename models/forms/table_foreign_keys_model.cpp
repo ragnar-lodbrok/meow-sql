@@ -102,8 +102,10 @@ QVariant TableForeignKeysModel::data(const QModelIndex &index, int role) const
     switch (role) {
 
     case Qt::DisplayRole:
-    case Qt::EditRole:
         return textDataAt(index.row(), index.column());
+
+    case Qt::EditRole:
+        return editDataAt(index.row(), index.column());
 
     case Qt::DecorationRole:
         if (static_cast<Columns>(index.column()) == Columns::Name) {
@@ -291,13 +293,13 @@ bool TableForeignKeysModel::editData(const QModelIndex &index,
     }
 
     case Columns::Columns: {
-        QStringList columnNames = value.toString().split(',');
+        QStringList columnNames = value.toStringList();
         key->setColumns(columnNames);
         return true;
     }
 
     case Columns::ForeignColumns: {
-        key->referenceColumns() = value.toString().split(',');
+        key->referenceColumns() = value.toStringList();
         return true;
     }
 
@@ -353,6 +355,20 @@ QString TableForeignKeysModel::textDataAt(int row, int col) const
 
     default:
        return QString();
+    }
+}
+
+QVariant TableForeignKeysModel::editDataAt(int row, int col) const
+{
+    meow::db::ForeignKey * fKey = _table->structure()->foreignKeys().at(row);
+
+    switch (static_cast<Columns>(col)) {
+    case Columns::Columns:
+        return fKey->columnNames();
+    case Columns::ForeignColumns:
+        return fKey->referenceColumns();
+    default:
+        return textDataAt(row, col);
     }
 }
 

@@ -72,6 +72,7 @@ private:
     bool isEditingAllowed(int row, int col) const;
 
     QString textDataAt(int row, int col) const;
+    QVariant editDataAt(int row, int col) const;
 
     void removeData();
     void insertData();

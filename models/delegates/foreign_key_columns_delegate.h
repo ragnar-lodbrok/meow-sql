@@ -10,7 +10,7 @@ namespace delegates {
 class ForeignKeyColumnsDelegate : public QStyledItemDelegate
 {
 public:
-    ForeignKeyColumnsDelegate(QObject * parent = nullptr);
+    explicit ForeignKeyColumnsDelegate(QObject * parent = nullptr);
 
     QWidget * createEditor(QWidget *parent,
                            const QStyleOptionViewItem &option,

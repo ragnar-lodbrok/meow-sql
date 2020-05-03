@@ -13,7 +13,6 @@ namespace ui {
 
 class TableColumnDefaultEditor : public QFrame
 {
-    Q_OBJECT
 public:
     explicit TableColumnDefaultEditor(QWidget * parent = nullptr);
 

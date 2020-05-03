@@ -1,6 +1,8 @@
 #include "foreign_key_columns_delegate.h"
-#include <QComboBox>
+#include <QDebug>
 #include "models/forms/table_foreign_keys_model.h"
+#include "ui/common/checkbox_list_popup.h"
+#include "ui/common/geometry_helpers.h"
 
 namespace meow {
 namespace models {
@@ -22,35 +24,36 @@ QWidget * ForeignKeyColumnsDelegate::createEditor(
     Q_UNUSED(option);
     Q_UNUSED(index);
 
-    // TODO: multi select
-    return new QComboBox(parent);
+    auto widget = new ui::CheckboxListPopup(parent);
+
+    setEditorData(widget, index); // to calc geometry
+
+    return widget;
 }
 
 void ForeignKeyColumnsDelegate::setEditorData(
         QWidget *editor,
         const QModelIndex &index) const
 {
-    auto comboBox = static_cast<QComboBox *>(editor);
+    auto listView = static_cast<ui::CheckboxListPopup *>(editor);
     auto model = static_cast<const models::forms::TableForeignKeysModel *>(
         index.model());
 
-    comboBox->addItems( model->allColumns() );
+    const QStringList & allColumns = model->allColumns();
+    const QStringList & checkedCols
+            = model->data(index, Qt::EditRole).toStringList();
 
-    QString valuesString = index.model()->data(index, Qt::EditRole).toString();
-    QStringList values = valuesString.split(',');
-    // TODO: should be multiple selection
-    if (!values.isEmpty()) {
-        comboBox->setCurrentIndex(comboBox->findText(values[0]));
-    }
+    listView->setData(allColumns, checkedCols);
 }
 
 void ForeignKeyColumnsDelegate::setModelData(QWidget *editor,
                   QAbstractItemModel *model,
                   const QModelIndex &index) const
 {
-    auto comboBox = static_cast<QComboBox *>(editor);
-    QVariant curData = comboBox->currentText();
-    model->setData(index, curData, Qt::EditRole);
+
+    auto listWidget = static_cast<ui::CheckboxListPopup *>(editor);
+
+    model->setData(index, listWidget->selectedOptions(), Qt::EditRole);
 }
 
 void ForeignKeyColumnsDelegate::updateEditorGeometry(
@@ -58,8 +61,28 @@ void ForeignKeyColumnsDelegate::updateEditorGeometry(
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const
 {
+
     Q_UNUSED(index);
-    editor->setGeometry(option.rect);
+
+    auto editorWidget = static_cast<ui::CheckboxListPopup *>(editor);
+
+    QSize size = option.rect.size();
+    size.setHeight(editorWidget->heightHint());
+    size.setWidth(std::max(editorWidget->widthHint(), size.width()));
+
+    auto tableWidget = static_cast<const QTableView * const>(option.widget);
+    int headerWidth = tableWidget->verticalHeader()->width();
+    int headerHeight = tableWidget->horizontalHeader()->height();
+
+    QPoint topLeft = tableWidget->mapToGlobal(QPoint(headerWidth, headerHeight))
+            + option.rect.topLeft();
+
+    QRect rect = QRect(topLeft, size);
+
+    // Check if we feet screen and adjust like eg in combobox
+    ui::helpers::fitRectToScreen(rect);
+
+    editor->setGeometry(rect);
 }
 
 } // namespace delegates
