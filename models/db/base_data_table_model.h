@@ -11,11 +11,10 @@ namespace db {
 // Intent: base model to wrap QueryData (table/query data)
 class BaseDataTableModel : public QAbstractTableModel
 {
-    Q_OBJECT
 public:
     explicit BaseDataTableModel(
         meow::db::QueryData * queryData,
-        QObject *parent = nullptr);
+        QObject * parent = nullptr);
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
@@ -25,6 +24,10 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     meow::db::QueryData * queryData() { return _queryData; }
+
+    meow::db::DataTypeCategoryIndex typeCategoryForColumn(int column) const {
+        return _queryData->columnDataTypeCategory(column);
+    }
 
 private:
     meow::db::QueryData * _queryData;

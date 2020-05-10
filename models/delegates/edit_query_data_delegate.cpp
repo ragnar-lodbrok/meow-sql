@@ -72,6 +72,30 @@ void EditQueryDataDelegate::discard()
     //model->setData(index, curData, Qt::EditRole);
 }*/
 
+// -----------------------------------------------------------------------------
+
+EditTextQueryDataDelegate::EditTextQueryDataDelegate(QObject * parent)
+    :EditQueryDataDelegate(parent)
+{
+
+}
+
+QString EditTextQueryDataDelegate::displayText(const QVariant &value,
+                                               const QLocale &locale) const
+{
+    // TODO: better paint \r and \n so you can distinguish \\n from \n ?
+
+    if (value.canConvert<QString>()) {
+
+        return value.toString()
+                .replace(QChar('\n'), QChar(' '), Qt::CaseInsensitive)
+                .replace(QChar('\r'), QChar(' '), Qt::CaseInsensitive);
+
+    } else {
+        return QStyledItemDelegate::displayText(value, locale);
+    }
+}
+
 } // namespace delegates
 } // namespace models
 } // namespace meow

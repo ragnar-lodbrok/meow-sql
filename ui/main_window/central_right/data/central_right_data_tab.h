@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 #include "models/db/data_table_model.h"
+#include "models/delegates/edit_query_data_delegate.h"
 
 namespace meow {
 namespace ui {
@@ -23,6 +24,8 @@ public:
     void loadData();
 
 private:
+
+    void onLoadData();
 
     Q_SLOT void actionAllRows(bool checked);
     Q_SLOT void actionNextRows(bool checked);
@@ -74,6 +77,9 @@ private:
     EditableDataTableView  * _dataTable;
 
     models::db::DataTableModel _model;
+
+    models::delegates::EditQueryDataDelegate * _defaultTableDelegate;
+    models::delegates::EditTextQueryDataDelegate * _textColumnTableDelegate;
 
     bool _skipApplyModifications;
 };

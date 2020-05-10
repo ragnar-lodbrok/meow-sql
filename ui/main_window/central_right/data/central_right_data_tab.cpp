@@ -2,7 +2,6 @@
 #include "db/common.h"
 #include "app/app.h"
 #include "ui/common/editable_data_table_view.h"
-#include "models/delegates/edit_query_data_delegate.h"
 
 namespace meow {
 namespace ui {
@@ -13,6 +12,10 @@ namespace central_right {
 DataTab::DataTab(QWidget *parent) :
     QWidget(parent),
     _model(),
+    _defaultTableDelegate(
+            new models::delegates::EditQueryDataDelegate(&_model)),
+    _textColumnTableDelegate(
+            new models::delegates::EditTextQueryDataDelegate(&_model)),
     _skipApplyModifications(false)
 {
     _mainLayout = new QVBoxLayout();
@@ -162,10 +165,6 @@ void DataTab::createDataTable()
                 this->validateDataDeleteActionState();
             }
     );
-
-    models::delegates::EditQueryDataDelegate * delegate
-        = new models::delegates::EditQueryDataDelegate(&_model);
-    _dataTable->setItemDelegate(delegate);
 }
 
 void DataTab::actionAllRows(bool checked)
@@ -225,21 +224,31 @@ void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
     _model.incRowsCountForOneStep(true);
     _model.setEntity(tableOrViewEntity, loadData);
     if (loadData) {
-        refreshDataLabelText();
-        validateControls();
-        if (meow::app()->settings()->textSettings()->autoResizeTableColumns()) {
-            _dataTable->resizeColumnsToContents();
-        }
+        onLoadData();
     }
 }
 
 void DataTab::loadData()
 {
     _model.loadData();
+    onLoadData();
+}
+
+void DataTab::onLoadData()
+{
     refreshDataLabelText();
     validateControls();
     if (meow::app()->settings()->textSettings()->autoResizeTableColumns()) {
         _dataTable->resizeColumnsToContents();
+    }
+
+    for (int c=0; c < _model.columnCount(); ++c) {
+
+        if (_model.typeCategoryForColumn(c) == db::DataTypeCategoryIndex::Text) {
+            _dataTable->setItemDelegateForColumn(c, _textColumnTableDelegate);
+        } else {
+            _dataTable->setItemDelegateForColumn(c, _defaultTableDelegate);
+        }
     }
 }
 
@@ -320,6 +329,7 @@ void DataTab::applyModifications()
     if (_skipApplyModifications) return;
 
     commitTableEditor();
+
     try {
         _model.applyModifications();
     } catch(meow::db::Exception & ex) {

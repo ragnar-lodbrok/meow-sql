@@ -64,10 +64,18 @@ QString QueryData::displayDataAt(int row, int column) const
             // TODO: more formatting, see AnyGridGetText
 
             auto categoryIndex = columnDataTypeCategory(column);
-            if (categoryIndex == DataTypeCategoryIndex::Spatial
-                || categoryIndex == DataTypeCategoryIndex::Binary) {
+
+            switch (categoryIndex) {
+
+            case DataTypeCategoryIndex::Spatial:
+            case DataTypeCategoryIndex::Binary:
                 return helpers::formatAsHex(data);
+
+            default:
+                break;
+
             }
+
 
             return data;
         }
