@@ -242,8 +242,9 @@ void DataTab::onLoadData()
         _dataTable->resizeColumnsToContents();
     }
 
-    for (int c=0; c < _model.columnCount(); ++c) {
 
+    for (int c = 0; c < _model.columnCount(); ++c) {
+        // TODO: better use single delegate
         if (_model.typeCategoryForColumn(c) == db::DataTypeCategoryIndex::Text) {
             _dataTable->setItemDelegateForColumn(c, _textColumnTableDelegate);
         } else {
@@ -268,9 +269,10 @@ void DataTab::validateDataToolBarState()
     bool canPost = _model.isEditing();
     if (canPost) {
         auto delegate = static_cast<models::delegates::EditQueryDataDelegate *>(
-            _dataTable->itemDelegate()
+            currentItemDelegate()
         );
-        canPost = delegate->isEditing() || _model.isModified();
+        canPost = (delegate ? delegate->isEditing() : false)
+                || _model.isModified();
     }
 
     meow::app()->actions()->dataPostChanges()->setEnabled(canPost);
@@ -327,6 +329,8 @@ void DataTab::onDataSetNULLAction(bool checked)
 void DataTab::applyModifications()
 {
     if (_skipApplyModifications) return;
+
+    // TODO: doesn't work when you leave tab with text data edited
 
     commitTableEditor();
 
@@ -407,17 +411,21 @@ void DataTab::insertEmptyRow()
 void DataTab::commitTableEditor()
 {
     auto delegate = static_cast<models::delegates::EditQueryDataDelegate *>(
-        _dataTable->itemDelegate()
+        currentItemDelegate()
     );
-    delegate->commit();
+    if (delegate) {
+        delegate->commit();
+    }
 }
 
 void DataTab::discardTableEditor()
 {
     auto delegate = static_cast<models::delegates::EditQueryDataDelegate *>(
-        _dataTable->itemDelegate()
+        currentItemDelegate()
     );
-    delegate->discard();
+    if (delegate) {
+        delegate->discard();
+    }
 }
 
 void DataTab::errorDialog(const QString & message)
@@ -428,6 +436,15 @@ void DataTab::errorDialog(const QString & message)
     msgBox.setDefaultButton(QMessageBox::Ok);
     msgBox.setIcon(QMessageBox::Critical);
     msgBox.exec();
+}
+
+QAbstractItemDelegate * DataTab::currentItemDelegate() const
+{
+    QModelIndex index = _dataTable->currentIndex();
+    if (index.isValid() == false)  {
+        return nullptr;
+    }
+    return _dataTable->itemDelegateForColumn(index.column());
 }
 
 } // namespace central_right

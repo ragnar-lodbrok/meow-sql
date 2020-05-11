@@ -65,6 +65,8 @@ private:
 
     void errorDialog(const QString & message);
 
+    QAbstractItemDelegate * currentItemDelegate() const;
+
     QVBoxLayout * _mainLayout;
     // top panel:
     QHBoxLayout * _topLayout;

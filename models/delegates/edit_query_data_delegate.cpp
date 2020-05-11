@@ -1,5 +1,5 @@
 #include "edit_query_data_delegate.h"
-#include <QLineEdit>
+#include "ui/common/table_cell_line_edit.h"
 #include <QDebug>
 
 namespace meow {
@@ -22,10 +22,8 @@ QWidget * EditQueryDataDelegate::createEditor(
     Q_UNUSED(index);
 
     _editor = QStyledItemDelegate::createEditor(parent, option, index);
-
     return _editor;
-    // TODO: custom editors for non-string types
-    //return new QLineEdit(parent);
+
 }
 
 void EditQueryDataDelegate::destroyEditor(QWidget *editor,
@@ -52,32 +50,47 @@ void EditQueryDataDelegate::discard()
     }
 }
 
-/*void EditQueryDataDelegate::setEditorData(
-        QWidget *editor,
-        const QModelIndex &index) const
-{
-    QStyledItemDelegate::setEditorData(editor, index);
-    //QString value = index.model()->data(index, Qt::EditRole).toString();
-    //auto lineEdit = static_cast<QLineEdit *>(editor);
-    //lineEdit->setText(value);
-}*/
-
-/*void EditQueryDataDelegate::setModelData(QWidget *editor,
-                  QAbstractItemModel *model,
-                  const QModelIndex &index) const
-{
-    QStyledItemDelegate::setModelData(editor, model, index);
-    //auto lineEdit = static_cast<QLineEdit *>(editor);
-    //QVariant curData = lineEdit->text();
-    //model->setData(index, curData, Qt::EditRole);
-}*/
-
 // -----------------------------------------------------------------------------
 
 EditTextQueryDataDelegate::EditTextQueryDataDelegate(QObject * parent)
     :EditQueryDataDelegate(parent)
 {
 
+}
+
+QWidget * EditTextQueryDataDelegate::createEditor(
+        QWidget *parent,
+        const QStyleOptionViewItem &option,
+        const QModelIndex &index) const
+{
+    Q_UNUSED(option);
+    Q_UNUSED(index);
+
+    _editor = new ui::TableCellLineEdit(parent);
+
+    return _editor;
+}
+
+void EditTextQueryDataDelegate::setEditorData(
+        QWidget *editor,
+        const QModelIndex &index) const
+{
+    QString value = index.model()->data(index, Qt::EditRole).toString();
+    auto lineEdit = static_cast<ui::TableCellLineEdit *>(editor)->lineEdit();
+    lineEdit->setText(value);
+    lineEdit->setCursorPosition(value.length());
+    lineEdit->selectAll();
+
+    QTimer::singleShot(0, lineEdit, SLOT(setFocus())); // trick
+}
+
+void EditTextQueryDataDelegate::setModelData(QWidget *editor,
+                  QAbstractItemModel *model,
+                  const QModelIndex &index) const
+{
+    auto lineEdit = static_cast<ui::TableCellLineEdit *>(editor)->lineEdit();
+    QVariant curData = lineEdit->text();
+    model->setData(index, curData, Qt::EditRole);
 }
 
 QString EditTextQueryDataDelegate::displayText(const QVariant &value,

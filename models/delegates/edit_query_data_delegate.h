@@ -9,6 +9,7 @@ namespace delegates {
 
 class EditQueryDataDelegate : public QStyledItemDelegate
 {
+    Q_OBJECT
 public:
     explicit EditQueryDataDelegate(QObject * parent = nullptr);
 
@@ -21,21 +22,10 @@ public:
 
     bool isEditing() const { return _editor != nullptr; }
 
-
-    //void setEditorData(QWidget *editor,
-    //                   const QModelIndex &index) const override;
-    //void setModelData(QWidget *editor,
-    //                  QAbstractItemModel *model,
-    //                  const QModelIndex &index) const override;
-
-    //void updateEditorGeometry(QWidget *editor,
-    //                          const QStyleOptionViewItem &option,
-    //                          const QModelIndex &index) const override;
-
-
     void commit();
     void discard();
-private:
+
+protected:
 
     mutable QWidget * _editor;
 };
@@ -44,6 +34,17 @@ class EditTextQueryDataDelegate : public EditQueryDataDelegate
 {
 public:
     explicit EditTextQueryDataDelegate(QObject * parent = nullptr);
+
+    QWidget * createEditor(QWidget *parent,
+                           const QStyleOptionViewItem &option,
+                           const QModelIndex &index) const override;
+
+    void setEditorData(QWidget *editor,
+                       const QModelIndex &index) const override;
+
+    void setModelData(QWidget *editor,
+                      QAbstractItemModel *model,
+                      const QModelIndex &index) const override;
 
     QString displayText(const QVariant &value,
                         const QLocale &locale) const override;

@@ -144,6 +144,7 @@ set(SOURCE_FILES
     ui/common/sql_editor.cpp
     ui/common/sql_log_editor.cpp
     ui/common/sql_syntax_highlighter.cpp
+    ui/common/table_cell_line_edit.cpp
     ui/common/table_column_default_editor.cpp
     ui/common/table_view.cpp
     ui/edit_database/dialog.cpp
