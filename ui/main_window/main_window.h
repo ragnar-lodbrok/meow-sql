@@ -16,7 +16,7 @@ class Window : public QMainWindow
     Q_OBJECT
 
 public:
-    Window(QWidget *parent = nullptr);
+    explicit Window(QWidget *parent = nullptr);
     void showSessionManagerDialog();
     bool openDBConnection(db::ConnectionParameters & params);
 

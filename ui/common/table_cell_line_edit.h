@@ -1,7 +1,6 @@
 #ifndef UI_TABLE_CELL_LINE_EDIT_H
 #define UI_TABLE_CELL_LINE_EDIT_H
 
-
 #include <QtWidgets>
 
 namespace meow {
@@ -20,9 +19,10 @@ public:
 
 private:
 
+    Q_SLOT void onOpenPopupEditor();
 
     QLineEdit * _lineEdit;
-    QPushButton * _pushButton;
+    QPushButton * _openPopupEditorButton;
 };
 
 } // namespace ui

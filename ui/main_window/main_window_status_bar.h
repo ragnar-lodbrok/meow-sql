@@ -12,7 +12,7 @@ class StatusBar : public QStatusBar
 {
 
 public:
-    StatusBar(QWidget *parent = nullptr);
+    explicit StatusBar(QWidget *parent = nullptr);
 
 private:
     QPushButton * _toggleLogButton;

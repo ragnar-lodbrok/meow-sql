@@ -79,9 +79,9 @@ void DataTab::createDataToolBar()
     _dataToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     _dataToolBar->setIconSize(QSize(16, 16));
     // see https://stackoverflow.com/questions/21363350/remove-gradient-from-qtoolbar-in-os-x
-    #ifdef Q_OS_MAC
-        _dataToolBar->setStyle(QStyleFactory::create("windows"));
-    #endif
+#ifdef Q_OS_MAC
+    _dataToolBar->setStyle(QStyleFactory::create("windows"));
+#endif
     _topLayout->addWidget(_dataToolBar, 0, Qt::AlignLeft);
 
     _dataToolBar->addAction( meow::app()->actions()->dataInsert() );

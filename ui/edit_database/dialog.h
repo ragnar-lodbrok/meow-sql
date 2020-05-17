@@ -17,7 +17,7 @@ namespace edit_database {
 class Dialog : public QDialog
 {
 public:
-    Dialog(models::forms::EditDatabaseForm * form);
+    explicit Dialog(models::forms::EditDatabaseForm * form);
 private:
     void createWidgets();
     void fillDataFromForm();

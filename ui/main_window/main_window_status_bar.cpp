@@ -9,7 +9,7 @@ StatusBar::StatusBar(QWidget *parent) : QStatusBar(parent)
 {
 
     setSizeGripEnabled(false);
-    setContentsMargins(0 , 0, 0, 0);
+    setContentsMargins(0, 0, 0, 0);
 
     _toggleLogButton = new QPushButton(tr("SQL Log"));
     _toggleLogButton->setCheckable(true);

@@ -73,13 +73,13 @@
         <file alias="key_spatial.png">resources/icons/key_spatial.png</file>
         <file alias="key_index.png">resources/icons/key_index.png</file>
         <file alias="key_fulltext.png">resources/icons/key_fulltext.png</file>
-        <file>resources/icons/os_windows.png</file>
-        <file>resources/icons/os_unix.png</file>
-        <file>resources/icons/os_mac.png</file>
+        <file alias="os_windows.png">resources/icons/os_windows.png</file>
+        <file alias="os_unix.png">resources/icons/os_unix.png</file>
+        <file alias="os_mac.png">resources/icons/os_mac.png</file>
         <file alias="stored_procedure.png">resources/icons/script_gear.png</file>
         <file>resources/icons/go_right.png</file>
         <file>resources/icons/go_left.png</file>
-        <file>resources/icons/go_both.png</file>
+        <file alias="go_both.png">resources/icons/go_both.png</file>
         <file>resources/icons/selectall.png</file>
         <file>resources/icons/tab_previous.png</file>
         <file>resources/icons/tab_next.png</file>
@@ -100,7 +100,7 @@
         <file>resources/icons/execute_selection.png</file>
         <file>resources/icons/execute_line.png</file>
         <file>resources/icons/wrench_orange.png</file>
-        <file>resources/icons/wordwrap.png</file>
+        <file alias="wordwrap.png">resources/icons/wordwrap.png</file>
         <file>resources/icons/view_highlight.png</file>
         <file>resources/icons/view_edit.png</file>
         <file>resources/icons/view_add.png</file>
@@ -154,7 +154,7 @@
         <file>resources/icons/resultset_next.png</file>
         <file>resources/icons/printer.png</file>
         <file>resources/icons/paste_plain.png</file>
-        <file>resources/icons/page_white_text.png</file>
+        <file alias="page_white_text.png">resources/icons/page_white_text.png</file>
         <file>resources/icons/page_excel.png</file>
         <file>resources/icons/page_edit.png</file>
         <file>resources/icons/page_copy.png</file>

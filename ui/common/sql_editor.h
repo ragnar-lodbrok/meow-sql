@@ -24,7 +24,7 @@ class SQLEditor : public QPlainTextEdit
     Q_OBJECT
 
 public:
-    SQLEditor(QWidget * parent = nullptr);
+    explicit SQLEditor(QWidget * parent = nullptr);
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();

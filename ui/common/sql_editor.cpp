@@ -11,11 +11,13 @@ SQLEditor::SQLEditor(QWidget *parent)
     : QPlainTextEdit(parent)
 {
 
-    // FixedFont does not work on MAC OS, it gives you a really tiny unreadable Times-Roman
+    // FixedFont does not work on MAC OS, it gives you a really tiny unreadable
+    // Times-Roman
     #ifndef Q_OS_MAC
         QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
         fixedFont.setStyleHint(QFont::Monospace);
         setFont(fixedFont);
+        // TODO: doesn't work on KDE?
     #endif
     _lineNumberArea = new LineNumberArea(this);
 
@@ -82,11 +84,11 @@ void SQLEditor::highlightCurrentLine()
 
         QColor background = palette().color(QPalette::Window);
         background = background.toHsl();
-        float newLightness = background.lightnessF();
-        if (newLightness > 0.5f) {
-            newLightness -= 0.005f;
+        qreal newLightness = background.lightnessF();
+        if (newLightness > 0.5) {
+            newLightness -= 0.005;
         } else {
-            newLightness += 0.005f;
+            newLightness += 0.005;
         }
         background.setHslF(background.hueF(),
                            background.saturationF(),

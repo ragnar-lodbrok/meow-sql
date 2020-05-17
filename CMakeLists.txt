@@ -106,6 +106,7 @@ set(SOURCE_FILES
     helpers/formatting.cpp
     helpers/logger.cpp
     helpers/parsing.cpp
+    helpers/text.cpp
     models/db/base_data_table_model.cpp
     models/db/connection_params_model.cpp
     models/db/database_entities_table_model.cpp
@@ -147,6 +148,7 @@ set(SOURCE_FILES
     ui/common/table_cell_line_edit.cpp
     ui/common/table_column_default_editor.cpp
     ui/common/table_view.cpp
+    ui/common/text_editor_popup.cpp
     ui/edit_database/dialog.cpp
     ui/export_database/bottom_widget.cpp
     ui/export_database/export_dialog.cpp
