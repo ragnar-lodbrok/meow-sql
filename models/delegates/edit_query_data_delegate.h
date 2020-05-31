@@ -32,6 +32,7 @@ protected:
 
 class EditTextQueryDataDelegate : public EditQueryDataDelegate
 {
+    Q_OBJECT
 public:
     explicit EditTextQueryDataDelegate(QObject * parent = nullptr);
 
@@ -48,6 +49,8 @@ public:
 
     QString displayText(const QVariant &value,
                         const QLocale &locale) const override;
+
+    Q_SLOT void onPopupTextEditorClosed(bool accepted);
 
 };
 

@@ -7,7 +7,7 @@ namespace meow {
 namespace ui {
 namespace common {
 
-SQLEditor::SQLEditor(QWidget *parent)
+TextEditor::TextEditor(QWidget *parent, SyntaxHighligter syntax)
     : QPlainTextEdit(parent)
 {
 
@@ -16,8 +16,10 @@ SQLEditor::SQLEditor(QWidget *parent)
     #ifndef Q_OS_MAC
         QFont fixedFont = QFontDatabase::systemFont(QFontDatabase::FixedFont);
         fixedFont.setStyleHint(QFont::Monospace);
+        if (fixedFont.fixedPitch() == false) { // workaround for QTBUG-54623
+            fixedFont.setFamily("monospace");
+        }
         setFont(fixedFont);
-        // TODO: doesn't work on KDE?
     #endif
     _lineNumberArea = new LineNumberArea(this);
 
@@ -31,10 +33,12 @@ SQLEditor::SQLEditor(QWidget *parent)
     updateLineNumberAreaWidth(0);
     //highlightCurrentLine();
 
-    _syntaxHighlighter = new SQLSyntaxHighlighter(this->document());
+    if (syntax == SyntaxHighligter::SQL) {
+        _syntaxHighlighter = new SQLSyntaxHighlighter(this->document());
+    }
 }
 
-int SQLEditor::lineNumberAreaWidth()
+int TextEditor::lineNumberAreaWidth()
 {
     int digits = 1;
     int max = qMax(1, blockCount());
@@ -48,12 +52,12 @@ int SQLEditor::lineNumberAreaWidth()
     return space;
 }
 
-void SQLEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
+void TextEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
 {
     setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
 }
 
-void SQLEditor::updateLineNumberArea(const QRect &rect, int dy)
+void TextEditor::updateLineNumberArea(const QRect &rect, int dy)
 {
     if (dy)
         _lineNumberArea->scroll(0, dy);
@@ -66,7 +70,7 @@ void SQLEditor::updateLineNumberArea(const QRect &rect, int dy)
     }
 }
 
-void SQLEditor::resizeEvent(QResizeEvent *e)
+void TextEditor::resizeEvent(QResizeEvent *e)
 {
     QPlainTextEdit::resizeEvent(e);
 
@@ -75,7 +79,7 @@ void SQLEditor::resizeEvent(QResizeEvent *e)
                                        lineNumberAreaWidth(), cr.height()));
 }
 
-void SQLEditor::highlightCurrentLine()
+void TextEditor::highlightCurrentLine()
 {
     QList<QTextEdit::ExtraSelection> extraSelections;
 
@@ -106,7 +110,7 @@ void SQLEditor::highlightCurrentLine()
 }
 
 
-void SQLEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
+void TextEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
     QPainter painter(_lineNumberArea);
     painter.fillRect(event->rect(), QColor(214, 214, 214));
@@ -133,6 +137,12 @@ void SQLEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
         bottom = top + (int)blockBoundingRect(block).height();
         ++blockNumber;
     }
+}
+
+SQLEditor::SQLEditor(QWidget *parent)
+    : TextEditor(parent, SyntaxHighligter::SQL)
+{
+
 }
 
 } // namespace common

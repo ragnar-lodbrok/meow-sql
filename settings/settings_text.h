@@ -2,6 +2,7 @@
 #define MEOW_SETTINGS_TEXT_H
 
 #include "db/data_type/data_type_category.h"
+#include "helpers/text.h"
 #include <QColor>
 #include <QMap>
 
@@ -21,6 +22,10 @@ public:
     int tableAutoResizeRowsLookupCount() const { return 10; }
     bool autoResizeTableColumns() const { return true; }
     bool autoLimitLoadDataLength() const { return true; }
+
+    helpers::LineBreaks defaultLineBreaks() const {
+        return helpers::LineBreaks::Windows;
+    }
 
     const QColor colorForDataType(db::DataTypeCategoryIndex type) const;
     const QColor colorForDataTypeNULL(db::DataTypeCategoryIndex type) const;

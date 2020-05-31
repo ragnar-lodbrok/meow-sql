@@ -106,6 +106,7 @@ SOURCES += main.cpp\
     helpers/formatting.cpp \
     helpers/logger.cpp \
     helpers/parsing.cpp \
+    helpers/text.cpp \
     models/db/base_data_table_model.cpp \
     models/db/connection_params_model.cpp \
     models/db/database_entities_table_model.cpp \
@@ -129,6 +130,7 @@ SOURCES += main.cpp\
     models/forms/table_indexes_model.cpp \
     models/forms/table_indexes_model_item.cpp \
     models/forms/table_info_form.cpp \
+    models/forms/text_editor_popup_form.cpp \
     models/ui/central_right_host_widget_model.cpp \
     models/ui/central_right_widget_model.cpp \
     models/ui/table_info_widget_model.cpp \
@@ -143,7 +145,9 @@ SOURCES += main.cpp\
     ui/common/sql_log_editor.cpp \
     ui/common/sql_syntax_highlighter.cpp \
     ui/common/table_column_default_editor.cpp \
+    ui/common/table_cell_line_edit.cpp \
     ui/common/table_view.cpp \
+    ui/common/text_editor_popup.cpp \
     ui/edit_database/dialog.cpp \
     ui/export_database/bottom_widget.cpp \
     ui/export_database/top_widget.cpp \
@@ -264,6 +268,7 @@ HEADERS  +=  app/actions.h \
     helpers/formatting.h \
     helpers/logger.h \
     helpers/parsing.h \
+    helpers/text.h \
     models/db/base_data_table_model.h \
     models/db/connection_params_model.h \
     models/db/database_entities_table_model.h \
@@ -287,6 +292,7 @@ HEADERS  +=  app/actions.h \
     models/forms/table_indexes_model.h \
     models/forms/table_indexes_model_item.h \
     models/forms/table_info_form.h \
+    models/forms/text_editor_popup_form.h \
     models/ui/central_right_host_widget_model.h \
     models/ui/central_right_widget_model.h \
     models/ui/table_info_widget_model.h \
@@ -302,7 +308,9 @@ HEADERS  +=  app/actions.h \
     ui/common/sql_log_editor.h \
     ui/common/sql_syntax_highlighter.h \
     ui/common/table_column_default_editor.h \
+    ui/common/table_cell_line_edit.h \
     ui/common/table_view.h \
+    ui/common/text_editor_popup.h \
     ui/edit_database/dialog.h \
     ui/export_database/bottom_widget.h \
     ui/export_database/top_widget.h \

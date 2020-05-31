@@ -3,6 +3,9 @@
 
 #include <QtWidgets>
 #include "helpers/text.h"
+#include "models/forms/text_editor_popup_form.h"
+
+#include "ui/common/sql_editor.h"
 
 namespace meow {
 namespace ui {
@@ -13,6 +16,11 @@ class TextEditorPopup : public QDialog
 public:
     TextEditorPopup();
 
+    void setText(const QString & text);
+    void setTitleText(const QString & text);
+
+    QString text() const;
+
 private:
     void createWidgets();
     void createActions();
@@ -20,9 +28,15 @@ private:
     QAction * defaultLineBreakAction() const;
     void updateLineBreaksButtonInfo(QAction * action);
 
-    Q_SLOT void onLineBreaksAction();
+    QString textStats() const;
 
-    QPlainTextEdit * _textEdit;
+    Q_SLOT void onLineBreaksAction();
+    Q_SLOT void onWordWrapToggled(bool checked);
+    Q_SLOT void onTextChanged();
+
+    models::forms::TextEditorPopupForm _form;
+
+    ui::common::TextEditor * _textEdit;
     QLabel * _textStat;
     QStatusBar * _statusBar;
     QToolBar * _toolbar;

@@ -25,7 +25,7 @@ TableCellLineEdit::TableCellLineEdit(QWidget * parent)
      connect(_openPopupEditorButton,
              &QAbstractButton::clicked,
              this,
-             &TableCellLineEdit::onOpenPopupEditor
+             &TableCellLineEdit::openPopupEditor
      );
 
 
@@ -35,10 +35,18 @@ TableCellLineEdit::TableCellLineEdit(QWidget * parent)
      setLayout(layout);
 }
 
-void TableCellLineEdit::onOpenPopupEditor()
+void TableCellLineEdit::openPopupEditor()
 {
     ui::TextEditorPopup editor;
+    editor.setText(_lineEdit->text());
+    // TODO: set max length
+    // TODO: set column name as title text
     editor.exec();
+    if (editor.result() == QDialog::Accepted) {
+        _lineEdit->setText(editor.text());
+    }
+
+    emit popupEditorClosed(editor.result() == QDialog::Accepted);
 }
 
 } // namespace ui

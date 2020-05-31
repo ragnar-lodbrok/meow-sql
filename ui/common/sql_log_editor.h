@@ -10,7 +10,7 @@ namespace common {
 class SQLLogEditor : public SQLEditor
 {
 public:
-    SQLLogEditor(QWidget * parent = nullptr);
+    explicit SQLLogEditor(QWidget * parent = nullptr);
 
     void appendMessage(const QString & message);
 

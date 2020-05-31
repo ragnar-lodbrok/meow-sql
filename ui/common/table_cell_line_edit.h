@@ -8,6 +8,7 @@ namespace ui {
 
 class TableCellLineEdit : public QWidget
 {
+    Q_OBJECT
 public:
     explicit TableCellLineEdit(QWidget * parent = nullptr);
 
@@ -15,11 +16,15 @@ public:
         return _lineEdit;
     }
 
+    Q_SLOT void openPopupEditor();
+
+    Q_SIGNAL void popupEditorClosed(bool accepted);
+
     // TODO make wider if text doesn't fit, see QExpandingLineEdit
 
 private:
 
-    Q_SLOT void onOpenPopupEditor();
+
 
     QLineEdit * _lineEdit;
     QPushButton * _openPopupEditorButton;

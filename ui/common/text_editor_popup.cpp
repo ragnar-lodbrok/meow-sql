@@ -9,9 +9,39 @@ TextEditorPopup::TextEditorPopup()
     : QDialog(nullptr, Qt::WindowCloseButtonHint)
 {
     setMinimumSize(500, 250);
+    setTitleText("");
 
     createActions();
     createWidgets();
+
+    connect(&_form, &models::forms::TextEditorPopupForm::wordWrapChanged,
+        [=](bool wrap){
+            _textEdit->setWordWrapMode(
+                wrap ? QTextOption::WrapAnywhere : QTextOption::NoWrap
+            );
+        });
+
+    connect(&_form, &models::forms::TextEditorPopupForm::lineBreaksChanged,
+        [=](helpers::LineBreaks lineBreaks, bool detected){
+            QAction * action = _lineBreaksActions.value(lineBreaks,
+                                                        nullptr);
+            if (action) {
+                if (detected) {
+                    const QString detectedStr = " (" + tr("detected") + ')';
+                    if (!action->text().endsWith(detectedStr)) {
+                        action->setText(
+                            action->text() + detectedStr
+                        );
+                    }
+                }
+                updateLineBreaksButtonInfo(action);
+            }
+        });
+
+
+    _form.setTextEdit(_textEdit);
+
+    onTextChanged();
 }
 
 void TextEditorPopup::createWidgets()
@@ -20,10 +50,13 @@ void TextEditorPopup::createWidgets()
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
 
-    _textEdit = new QPlainTextEdit();
-    // TODO: monospace font
-    // TODO: line numbers
+    _textEdit = new ui::common::TextEditor();
+    _textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
     mainLayout->addWidget(_textEdit);
+
+    connect(_textEdit, &QPlainTextEdit::textChanged,
+            this, &TextEditorPopup::onTextChanged);
 
     _statusBar = new QStatusBar();
     _statusBar->setContentsMargins(0, 0, 0, 0);
@@ -35,6 +68,8 @@ void TextEditorPopup::createWidgets()
 #endif
 
     _toolbar->addAction(_wordWrapAction);
+    connect(_wordWrapAction, &QAction::toggled,
+            this, &TextEditorPopup::onWordWrapToggled);
 
     _lineBreaksButton = new QToolButton();
     updateLineBreaksButtonInfo(defaultLineBreakAction());
@@ -66,7 +101,6 @@ void TextEditorPopup::createWidgets()
     applyActionButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
     _textStat = new QLabel();
-    _textStat->setText("%s characters (max: %s), %s lines");
 
 
     QWidget * spacer = new QWidget();
@@ -110,10 +144,36 @@ void TextEditorPopup::createActions()
 
     _cancelAction = new QAction(QIcon(":/icons/cross.png"),
                                 tr("Cancel"), this);
+    connect(_cancelAction, &QAction::triggered,
+            this, &QDialog::reject);
+
     _applyAction = new QAction(QIcon(":/icons/tick.png"),
                                 tr("Apply"), this);
+    _applyAction->setShortcuts(QKeySequence::Save);
     _applyAction->setToolTip(tr("Apply changes"));
+    connect(_applyAction, &QAction::triggered,
+            this, &QDialog::accept);
 
+}
+
+void TextEditorPopup::setText(const QString & text)
+{
+    _form.setText(text);
+    _textEdit->setPlainText(text);
+}
+
+void TextEditorPopup::setTitleText(const QString & text)
+{
+    QString caption = tr("Text editor");
+    if (!text.isEmpty()) {
+        caption = text + " - " + caption;
+    }
+    setWindowTitle(caption);
+}
+
+QString TextEditorPopup::text() const
+{
+    return _form.textWithCurLineBreaks();
 }
 
 QAction * TextEditorPopup::defaultLineBreakAction() const
@@ -127,12 +187,49 @@ void TextEditorPopup::updateLineBreaksButtonInfo(QAction * action)
     _lineBreaksButton->setIcon(action->icon());
     _lineBreaksButton->setText(action->text());
     _lineBreaksButton->setToolTip(action->toolTip());
+
+    // make selected action bold
+    auto it = _lineBreaksActions.constBegin();
+    while (it != _lineBreaksActions.constEnd()) {
+        QAction * actionIt = it.value();
+
+        QFont font = actionIt->font();
+        font.setBold(actionIt == action);
+        actionIt->setFont(font);
+
+        ++it;
+    }
+}
+
+QString TextEditorPopup::textStats() const
+{
+    QString stats = tr("%1 characters").arg(_form.charCount());
+    if (_form.maxLength()) {
+        stats += " " + tr("(max: %1)").arg(_form.maxLength());
+    }
+    stats += ", ";
+    stats += tr("%1 lines").arg(_form.lineNumber());
+
+    return stats;
 }
 
 void TextEditorPopup::onLineBreaksAction()
 {
     QAction * action = static_cast<QAction *>(sender());
-    updateLineBreaksButtonInfo(action);
+
+    helpers::LineBreaks lineBreaks = _lineBreaksActions.key(action);
+    _form.setLineBreaks(lineBreaks);
+}
+
+void TextEditorPopup::onWordWrapToggled(bool checked)
+{
+    _form.setWordWrap(checked);
+}
+
+void TextEditorPopup::onTextChanged()
+{
+    // TODO: do it by timer
+    _textStat->setText(textStats());
 }
 
 } // namespace ui

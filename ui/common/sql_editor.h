@@ -6,6 +6,7 @@
 
 #include <QPlainTextEdit>
 #include <QObject>
+#include <QSyntaxHighlighter>
 
 class QPaintEvent;
 class QResizeEvent;
@@ -17,14 +18,19 @@ namespace ui {
 namespace common {
 
 class LineNumberArea;
-class SQLSyntaxHighlighter;
 
-class SQLEditor : public QPlainTextEdit
+enum class SyntaxHighligter {
+    None,
+    SQL
+};
+
+class TextEditor : public QPlainTextEdit
 {
     Q_OBJECT
 
 public:
-    explicit SQLEditor(QWidget * parent = nullptr);
+    explicit TextEditor(QWidget * parent = nullptr,
+                       SyntaxHighligter syntax = SyntaxHighligter::None);
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
@@ -39,14 +45,20 @@ private slots:
 
 private:
     QWidget * _lineNumberArea;
-    SQLSyntaxHighlighter * _syntaxHighlighter;
+    QSyntaxHighlighter * _syntaxHighlighter;
 };
 
+class SQLEditor : public TextEditor
+{
+public:
+    explicit SQLEditor(QWidget * parent = nullptr);
+
+};
 
 class LineNumberArea : public QWidget
 {
 public:
-    LineNumberArea(SQLEditor * editor) : QWidget(editor), _codeEditor(editor)
+    explicit LineNumberArea(TextEditor * editor) : QWidget(editor), _codeEditor(editor)
     {
 
     }
@@ -63,7 +75,7 @@ protected:
     }
 
 private:
-    SQLEditor * _codeEditor;
+    TextEditor * _codeEditor;
 };
 
 } // namespace common

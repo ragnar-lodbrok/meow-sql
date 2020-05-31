@@ -1,5 +1,6 @@
 #include "edit_query_data_delegate.h"
 #include "ui/common/table_cell_line_edit.h"
+#include "helpers/text.h"
 #include <QDebug>
 
 namespace meow {
@@ -68,6 +69,12 @@ QWidget * EditTextQueryDataDelegate::createEditor(
 
     _editor = new ui::TableCellLineEdit(parent);
 
+    connect(static_cast<ui::TableCellLineEdit *>(_editor),
+            &ui::TableCellLineEdit::popupEditorClosed,
+            this,
+            &EditTextQueryDataDelegate::onPopupTextEditorClosed,
+            Qt::QueuedConnection);
+
     return _editor;
 }
 
@@ -76,12 +83,18 @@ void EditTextQueryDataDelegate::setEditorData(
         const QModelIndex &index) const
 {
     QString value = index.model()->data(index, Qt::EditRole).toString();
-    auto lineEdit = static_cast<ui::TableCellLineEdit *>(editor)->lineEdit();
+    auto cellLineEdit = static_cast<ui::TableCellLineEdit *>(editor);
+    auto lineEdit = cellLineEdit->lineEdit();
     lineEdit->setText(value);
-    lineEdit->setCursorPosition(value.length());
-    lineEdit->selectAll();
 
-    QTimer::singleShot(0, lineEdit, SLOT(setFocus())); // trick
+    if (value.length() > 10*1024 || helpers::hasLineBreaks(value)) {
+        cellLineEdit->openPopupEditor();
+    } else {
+        lineEdit->setCursorPosition(value.length());
+        lineEdit->selectAll();
+
+        QTimer::singleShot(0, lineEdit, SLOT(setFocus())); // trick
+    }
 }
 
 void EditTextQueryDataDelegate::setModelData(QWidget *editor,
@@ -106,6 +119,15 @@ QString EditTextQueryDataDelegate::displayText(const QVariant &value,
 
     } else {
         return QStyledItemDelegate::displayText(value, locale);
+    }
+}
+
+void EditTextQueryDataDelegate::onPopupTextEditorClosed(bool accepted)
+{
+    if (accepted) {
+        commit();
+    } else {
+        discard();
     }
 }
 
