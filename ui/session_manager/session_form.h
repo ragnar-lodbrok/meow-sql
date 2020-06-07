@@ -3,8 +3,9 @@
 
 #include <QWidget>
 
-#include "ui/session_manager/start_tab.h"
-#include "ui/session_manager/settings_tab.h"
+#include "start_tab.h"
+#include "settings_tab.h"
+#include "ssh_tunnel_tab.h"
 
 #include "models/forms/connection_parameters_form.h"
 
@@ -27,11 +28,13 @@ private:
     QTabWidget  * _detailsTabs;
     StartTab * _startTab;
     SettingsTab * _settingsTab;
+    SSHTunnelTab * _sshTunnelTab;
 
     models::forms::ConnectionParametersForm * _connectionParamsForm;
 
     bool _startTabIsHidden;
     bool _settingsTabIsHidden;
+    bool _sshTunnelTabIsHidden;
 };
 
 } // namespace session_manager

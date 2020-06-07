@@ -28,15 +28,20 @@ void meow::db::ConnectionParameters::setNetworkType(NetworkType networkType)
 {
     _networkType = networkType;
     switch (networkType) {
+
     case NetworkType::MySQL_TCPIP:
+    case NetworkType::MySQL_SSH_Tunnel:
         _serverType = ServerType::MySQL;
         break;
+
     case NetworkType::PG_TCPIP:
         _serverType = ServerType::PostgreSQL;
         break;
+
     case NetworkType::SQLite3_File:
         _serverType = ServerType::SQLite;
         break;
+
     default:
         Q_ASSERT(false);
         _serverType = ServerType::None;
@@ -84,9 +89,9 @@ int meow::db::ConnectionParameters::index() const
 
 meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
 {
-    switch (_networkType) {
+    switch (_serverType) {
 
-    case NetworkType::MySQL_TCPIP: {
+    case ServerType::MySQL: {
         MySQLConnection * connection = new MySQLConnection(*this);
         if (_databases.length() > 0) {
             connection->setAllDatabases(databaseList());
@@ -96,7 +101,7 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
         return ConnectionPtr(connection); // TODO: wrap earlier?
     }
 
-    case NetworkType::PG_TCPIP: {
+    case ServerType::PostgreSQL: {
         PGConnection * connection = new PGConnection(*this);
         if (_databases.length() > 0) {
             connection->setAllDatabases(databaseList());
@@ -106,7 +111,7 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
         return ConnectionPtr(connection);
     }
 
-    case NetworkType::SQLite3_File: {
+    case ServerType::SQLite: {
         SQLiteConnection * connection = new SQLiteConnection(*this);
         connection->setUseAllDatabases();
         return ConnectionPtr(connection);
@@ -125,6 +130,7 @@ void meow::db::ConnectionParameters::setDefaultValuesForType(
     switch (type) {
 
     case NetworkType::MySQL_TCPIP:
+    case NetworkType::MySQL_SSH_Tunnel:
 
         setNetworkType(type);
         setServerType(ServerType::MySQL);
@@ -133,6 +139,8 @@ void meow::db::ConnectionParameters::setDefaultValuesForType(
         }
         setUserName("root");
         setPort(3306);
+
+        // TODO: set default SSH params
 
         break;
 
@@ -199,6 +207,9 @@ QString networkTypeName(const NetworkType & networkType, bool longFormat)
         case NetworkType::MySQL_TCPIP:
             return "MySQL (TCP/IP)";
 
+        case NetworkType::MySQL_SSH_Tunnel:
+            return "MySQL (SSH tunnel)";
+
         case NetworkType::PG_TCPIP:
             return QString("PostgreSQL (%1)").arg(QObject::tr("experimental"));
 
@@ -211,6 +222,7 @@ QString networkTypeName(const NetworkType & networkType, bool longFormat)
     } else {
         switch (networkType) {
         case NetworkType::MySQL_TCPIP:
+        case NetworkType::MySQL_SSH_Tunnel:
             return "MySQL";
 
         case NetworkType::PG_TCPIP:

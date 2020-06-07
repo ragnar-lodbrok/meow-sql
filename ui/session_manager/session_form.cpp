@@ -8,7 +8,8 @@ SessionForm::SessionForm(QWidget *parent)
     : QWidget(parent),
       _connectionParamsForm(nullptr),
       _startTabIsHidden(true),
-      _settingsTabIsHidden(true)
+      _settingsTabIsHidden(true),
+      _sshTunnelTabIsHidden(true)
 {
     createDetailsTabs();
     fillDataFromForm();
@@ -31,6 +32,7 @@ void SessionForm::createDetailsTabs()
 
     _startTab = new StartTab(this);
     _settingsTab = new SettingsTab(this);
+    _sshTunnelTab = new SSHTunnelTab(this);
 
 }
 
@@ -64,10 +66,29 @@ void SessionForm::fillDataFromForm()
                                     QIcon(":/icons/wrench.png"),
                                     tr("Settings"));
         }
+
+        if (_connectionParamsForm->isSSHTunnel()) {
+            if (_sshTunnelTabIsHidden) {
+                _detailsTabs->insertTab(1, _sshTunnelTab,
+                                    QIcon(":/icons/lock_blue.png"),
+                                    tr("SSH tunnel"));
+                _sshTunnelTabIsHidden = false;
+            }
+        } else {
+            if (!_sshTunnelTabIsHidden) {
+                _detailsTabs->removeTab(1);
+                _sshTunnelTabIsHidden = true;
+            }
+        }
+
     } else {
         if (!_settingsTabIsHidden) {
             _settingsTabIsHidden = true;
             _detailsTabs->removeTab(0);
+        }
+        if (!_sshTunnelTabIsHidden) {
+            _detailsTabs->removeTab(1);
+            _sshTunnelTabIsHidden = true;
         }
         if (_startTabIsHidden) {
             _startTabIsHidden = false;

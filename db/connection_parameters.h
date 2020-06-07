@@ -13,11 +13,12 @@ class ConnectionParamsManager;
 class Connection;
 
 enum class NetworkType { // TODO: move to separate file ?
-    MySQL_TCPIP,
-    PG_TCPIP,
-    SQLite3_File,
+    MySQL_TCPIP = 0, // keep numbers or rewrite saving changes
+    PG_TCPIP = 1,
+    SQLite3_File = 2,
+    MySQL_SSH_Tunnel = 3,
     // TODO: add the rest
-    COUNT
+    COUNT = 4
 };
 
 enum class ServerType { // TODO: move to separate file ?
@@ -80,6 +81,10 @@ public:
     }
     bool supportsMultipleDatabases() const {
         return _networkType != NetworkType::SQLite3_File;
+    }
+
+    bool isSSHTunnel() const {
+        return _networkType == NetworkType::MySQL_SSH_Tunnel;
     }
 
     QString fileNameShort() const {

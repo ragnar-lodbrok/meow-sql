@@ -47,6 +47,10 @@ public:
         return _connectionParams.supportsMultipleDatabases();
     }
 
+    bool isSSHTunnel() const {
+        return _connectionParams.isSSHTunnel();
+    }
+
     QStringList allDatabases(); // returns all database names available for this connection
 
     void setNetworkType(meow::db::NetworkType networkType);

@@ -139,6 +139,7 @@ set(SOURCE_FILES
     settings/settings_geometry.cpp
     settings/settings_icons.cpp
     settings/settings_text.cpp
+    ssh/ssh_tunnel_parameters.cpp
     ui/common/checkbox_list_popup.cpp
     ui/common/data_type_combo_box.cpp
     ui/common/geometry_helpers.cpp
@@ -182,6 +183,7 @@ set(SOURCE_FILES
     ui/main_window/main_window_status_bar.cpp
     ui/session_manager/session_form.cpp
     ui/session_manager/settings_tab.cpp
+    ui/session_manager/ssh_tunnel_tab.cpp
     ui/session_manager/start_tab.cpp
     ui/session_manager/window.cpp
     utils/exporting/mysql_dump_console.cpp
