@@ -108,6 +108,17 @@ void meow::db::ConnectionParamsManager::load()
                             settings.value("isLoginPrompt", loadedParams.isLoginPrompt()).toBool());
                 loadedParams.setPort(
                             settings.value("port", loadedParams.port()).toInt());
+
+                settings.beginGroup("ssh");
+                    auto & ssh = loadedParams.sshTunnel();
+                    ssh.setHost(settings.value("host", ssh.host()).toString());
+                    ssh.setUser(settings.value("user", ssh.user()).toString());
+                    ssh.setPassword(settings.value("password", ssh.password()).toString());
+                    ssh.setPort(settings.value("port", ssh.port()).toInt());
+                    ssh.setLocalPort(settings.value("localPort", ssh.localPort()).toInt());
+                settings.endGroup(); // ssh
+
+
                 add(loadedParams);
 
                 settings.endGroup();
@@ -137,6 +148,15 @@ void meow::db::ConnectionParamsManager::saveParams(const ConnectionParameters & 
                 settings.setValue("databases", params.databases());
                 settings.setValue("isLoginPrompt", params.isLoginPrompt());
                 settings.setValue("port", params.port());
+
+                settings.beginGroup("ssh");
+                    bool ssh = params.isSSHTunnel(); // overwrite possible sensitive info anyway
+                    settings.setValue("host", ssh ? params.sshTunnel().host() : "");
+                    settings.setValue("user", ssh ? params.sshTunnel().user() : "");
+                    settings.setValue("password", ssh ? params.sshTunnel().password() : "");
+                    settings.setValue("port", ssh ? params.sshTunnel().port() : 0);
+                    settings.setValue("localPort", ssh ? params.sshTunnel().localPort() : 0);
+                settings.endGroup(); // ssh
 
             settings.endGroup();
         settings.endGroup();

@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStringList>
 #include <QFileInfo>
+#include "ssh/ssh_tunnel_parameters.h"
 
 namespace meow {
 namespace db {
@@ -32,7 +33,8 @@ enum class ServerType { // TODO: move to separate file ?
 QString networkTypeName(const NetworkType & networkType, bool longFormat = true);
 QStringList networkTypeNames();
 
-typedef std::shared_ptr<Connection> ConnectionPtr;
+using ConnectionPtr = std::shared_ptr<Connection> ;
+using SSHTunnelParametersPtr = std::shared_ptr<ssh::SSHTunnelParameters>;
 
 const char databasesSeparator = ';';
 
@@ -100,6 +102,14 @@ public:
 
     void setDefaultValuesForType(const NetworkType type);
 
+    ssh::SSHTunnelParameters & sshTunnel() {
+        return _sshTunnel;
+    }
+
+    const ssh::SSHTunnelParameters & sshTunnel() const {
+        return _sshTunnel;
+    }
+
 private:
     NetworkType _networkType;
     ServerType _serverType;
@@ -113,6 +123,7 @@ private:
     quint16 _port;
     ConnectionParamsManager * _manager;
     unsigned _id;
+    ssh::SSHTunnelParameters _sshTunnel;
 };
 
 

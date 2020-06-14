@@ -51,7 +51,16 @@ public:
         return _connectionParams.isSSHTunnel();
     }
 
-    QStringList allDatabases(); // returns all database names available for this connection
+    QString sshHost() const { return _connectionParams.sshTunnel().host(); }
+    QString sshUser() const { return _connectionParams.sshTunnel().user(); }
+    QString sshPassword() const {
+        return _connectionParams.sshTunnel().password(); }
+    quint16 sshPort() const { return _connectionParams.sshTunnel().port(); }
+    quint16 sshLocalPort() const {
+        return _connectionParams.sshTunnel().localPort(); }
+
+
+    QStringList allDatabases(); // all database names for this connection
 
     void setNetworkType(meow::db::NetworkType networkType);
     void setSessionName(const QString &sessionName);
@@ -63,13 +72,20 @@ public:
     void setLoginPrompt(bool loginPrompt);
     void setPort(quint16 port);
 
+    void setSSHHost(const QString & host);
+    void setSSHUser(const QString & user);
+    void setSSHPassword(const QString & password);
+    void setSSHPort(const quint16 port);
+    void setSSHLocalPort(const quint16 localPort);
+
     bool isEqualTo(const meow::db::ConnectionParameters & connectionParams);
 
     Q_SIGNAL void changed();
     Q_SIGNAL void networkTypeChanged();
 
 private:
-    meow::db::ConnectionParameters _connectionParams; // store a copy, so we can edit freely, not affecting real data
+    // store a copy, so we can edit freely, not affecting real data:
+    meow::db::ConnectionParameters _connectionParams;
     std::pair<bool, QStringList> _allDatabases; // < cached?, data >
 };
 

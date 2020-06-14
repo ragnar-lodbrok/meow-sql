@@ -95,6 +95,46 @@ void ConnectionParametersForm::setPort(quint16 port)
     }
 }
 
+void ConnectionParametersForm::setSSHHost(const QString & host)
+{
+    if (_connectionParams.sshTunnel().host() != host) {
+        _connectionParams.sshTunnel().setHost(host);
+        emit changed();
+    }
+}
+
+void ConnectionParametersForm::setSSHUser(const QString & user)
+{
+    if (_connectionParams.sshTunnel().user() != user) {
+        _connectionParams.sshTunnel().setUser(user);
+        emit changed();
+    }
+}
+
+void ConnectionParametersForm::setSSHPassword(const QString & password)
+{
+    if (_connectionParams.sshTunnel().password() != password) {
+        _connectionParams.sshTunnel().setPassword(password);
+        emit changed();
+    }
+}
+
+void ConnectionParametersForm::setSSHPort(const quint16 port)
+{
+    if (_connectionParams.sshTunnel().port() != port) {
+        _connectionParams.sshTunnel().setPort(port);
+        emit changed();
+    }
+}
+
+void ConnectionParametersForm::setSSHLocalPort(const quint16 localPort)
+{
+    if (_connectionParams.sshTunnel().localPort() != localPort) {
+        _connectionParams.sshTunnel().setLocalPort(localPort);
+        emit changed();
+    }
+}
+
 int ConnectionParametersForm::index() const
 {
     return _connectionParams.index();

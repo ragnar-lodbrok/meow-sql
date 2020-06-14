@@ -25,6 +25,8 @@ private:
     void createDetailsTabs();
     Q_SLOT void fillDataFromForm();
 
+    SSHTunnelTab * sshTunnelTab();
+
     QTabWidget  * _detailsTabs;
     StartTab * _startTab;
     SettingsTab * _settingsTab;

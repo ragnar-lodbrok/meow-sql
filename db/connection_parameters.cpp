@@ -60,7 +60,8 @@ bool meow::db::ConnectionParameters::operator==(
         && _password == other._password
         && _databases == other._databases
         && _loginPrompt == other._loginPrompt
-        && _port == other._port;
+        && _port == other._port
+        && _sshTunnel == other._sshTunnel;
 }
 
 meow::db::ConnectionParameters::operator QString() const
@@ -140,7 +141,11 @@ void meow::db::ConnectionParameters::setDefaultValuesForType(
         setUserName("root");
         setPort(3306);
 
-        // TODO: set default SSH params
+        if (type == NetworkType::MySQL_SSH_Tunnel) {
+            _sshTunnel.setLocalPort( port() + 1 );
+            _sshTunnel.setPort(22);
+            setHostName("127.0.0.1");
+        }
 
         break;
 

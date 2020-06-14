@@ -12,7 +12,33 @@ namespace session_manager {
 class SSHTunnelTab : public QWidget
 {
 public:
+
     explicit SSHTunnelTab(QWidget *parent = nullptr);
+
+    void setForm(models::forms::ConnectionParametersForm * form);
+
+private:
+
+    void createWidgets();
+    void fillDataFromForm();
+
+    QGridLayout * _mainGridLayout;
+
+    QLabel * _sshHostPortLabel;
+    QLineEdit * _sshHostEdit;
+    QSpinBox * _sshPortSpinBox;
+
+    QLabel * _usernameLabel;
+    QLineEdit * _usernameEdit;
+
+    QLabel * _passwordLabel;
+    QLineEdit * _passwordEdit;
+
+    QLabel * _localPortLabel;
+    QSpinBox * _localPortSpinBox;
+
+    models::forms::ConnectionParametersForm * _form;
+
 };
 
 } // namespace session_manager

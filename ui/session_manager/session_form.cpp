@@ -6,6 +6,7 @@ namespace session_manager {
 
 SessionForm::SessionForm(QWidget *parent)
     : QWidget(parent),
+      _sshTunnelTab(nullptr),
       _connectionParamsForm(nullptr),
       _startTabIsHidden(true),
       _settingsTabIsHidden(true),
@@ -32,8 +33,17 @@ void SessionForm::createDetailsTabs()
 
     _startTab = new StartTab(this);
     _settingsTab = new SettingsTab(this);
-    _sshTunnelTab = new SSHTunnelTab(this);
 
+}
+
+SSHTunnelTab * SessionForm::sshTunnelTab()
+{
+    // lazy loading to save resources
+    if (!_sshTunnelTab) {
+        _sshTunnelTab = new SSHTunnelTab(this);
+        _sshTunnelTab->setForm(_connectionParamsForm);
+    }
+    return _sshTunnelTab;
 }
 
 void SessionForm::setConnectionParamsForm(
@@ -55,6 +65,10 @@ void SessionForm::fillDataFromForm()
     _settingsTab->setForm(_connectionParamsForm);
     _startTab->setForm(_connectionParamsForm);
 
+    if (_sshTunnelTab) {
+        _sshTunnelTab->setForm(_connectionParamsForm);
+    }
+
     if (_connectionParamsForm) {
         if (!_startTabIsHidden) {
             _startTabIsHidden = true;
@@ -69,7 +83,7 @@ void SessionForm::fillDataFromForm()
 
         if (_connectionParamsForm->isSSHTunnel()) {
             if (_sshTunnelTabIsHidden) {
-                _detailsTabs->insertTab(1, _sshTunnelTab,
+                _detailsTabs->insertTab(1, sshTunnelTab(),
                                     QIcon(":/icons/lock_blue.png"),
                                     tr("SSH tunnel"));
                 _sshTunnelTabIsHidden = false;
