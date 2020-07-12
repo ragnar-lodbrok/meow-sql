@@ -2,7 +2,6 @@
 #define SSH_OPENSSH_TUNNEL_H
 
 #include <QProcess>
-#include <memory>
 #include "db/connection_parameters.h"
 
 namespace meow {
@@ -36,7 +35,7 @@ private:
 
     QString errorString() const;
 
-    [[ noreturn ]] void failWithError(const QString & error);
+    void failWithError(const QString & error);
 
     void processOutput(const QString & output);
 
@@ -48,8 +47,8 @@ private:
 
     QString _lastOutputString;
 
-    std::atomic_bool _connected;
-    std::atomic_bool _stopWaiting;
+    bool _connected;
+    bool _stopWaiting;
 };
 
 } // namespace ssh

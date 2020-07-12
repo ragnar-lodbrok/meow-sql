@@ -76,7 +76,12 @@ bool OpenSSHTunnel::connect(const db::ConnectionParameters & params)
         }
     );
 
-    _process->start("ssh", programArguments());
+#ifdef Q_OS_WIN
+    QString cmdToRun = "cmd";
+#else
+    QString cmdToRun = "ssh";
+#endif
+    _process->start(cmdToRun, programArguments());
 
     _process->waitForStarted();
 
@@ -166,6 +171,11 @@ QStringList OpenSSHTunnel::programArguments() const
     // ssh -N -L 3308:127.0.0.1:3306 -p 22 root@192.168.1.10
 
     QStringList args;
+
+#ifdef Q_OS_WIN
+    args << "/c";
+    args << "ssh";
+#endif
 
     args << "-v"; // to detect successfull connection
     args << "-N"; // no exec, just ports forwarding
