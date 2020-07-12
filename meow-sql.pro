@@ -138,6 +138,8 @@ SOURCES += main.cpp\
     settings/settings_geometry.cpp \
     settings/settings_icons.cpp \
     settings/settings_text.cpp \
+    ssh/openssh_tunnel.cpp \
+    ssh/ssh_tunnel_parameters.cpp \
     ui/common/checkbox_list_popup.cpp \
     ui/common/data_type_combo_box.cpp \
     ui/common/geometry_helpers.cpp \
@@ -177,6 +179,7 @@ SOURCES += main.cpp\
     ui/main_window/main_window_status_bar.cpp \
     ui/session_manager/session_form.cpp \
     ui/session_manager/settings_tab.cpp \
+    ui/session_manager/ssh_tunnel_tab.cpp \
     ui/session_manager/start_tab.cpp \
     ui/session_manager/window.cpp \
     db/editable_grid_data.cpp \
@@ -300,6 +303,8 @@ HEADERS  +=  app/actions.h \
     settings/settings_geometry.h \
     settings/settings_icons.h \
     settings/settings_text.h \
+    ssh/openssh_tunnel.h \
+    ssh/ssh_tunnel_parameters.h \
     ui/common/checkbox_list_popup.h \
     ui/common/data_type_combo_box.h \
     ui/common/geometry_helpers.h \
@@ -340,6 +345,7 @@ HEADERS  +=  app/actions.h \
     ui/main_window/main_window_status_bar.h \
     ui/session_manager/session_form.h \
     ui/session_manager/settings_tab.h \
+    ui/session_manager/ssh_tunnel_tab.h \
     ui/session_manager/start_tab.h \
     ui/session_manager/window.h \
     db/editable_grid_data.h \

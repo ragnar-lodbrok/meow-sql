@@ -15,6 +15,7 @@
 #include "db/mysql/mysql_database_editor.h"
 #include "db/data_type/mysql_connection_data_types.h"
 #include "mysql_query_data_editor.h"
+#include "ssh/openssh_tunnel.h"
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -24,8 +25,9 @@ namespace meow {
 namespace db {
 
 MySQLConnection::MySQLConnection(const ConnectionParameters & params)
-    :Connection(params),
-     _handle(nullptr)
+   : Connection(params)
+   , _handle(nullptr)
+   , _sshTunnel(nullptr)
 {
     _identifierQuote = QLatin1Char('`');
 }
@@ -50,10 +52,20 @@ void MySQLConnection::setActive(bool active) // override
     if (active && _handle == nullptr) {
         doBeforeConnect();
 
+        if (connectionParams()->isSSHTunnel()) {
+
+            _sshTunnel.reset(new ssh::OpenSSHTunnel());
+            _sshTunnel->connect(*connectionParams()); // throws on error
+
+            connectionParams()->setHostName("127.0.0.1");
+            connectionParams()->setPort(
+                        connectionParams()->sshTunnel().localPort());
+        }
+
         _handle = mysql_init(nullptr); // TODO: valgrind says it leaks?
         // TODO _handle== NULL
 
-        // TODO: H: SSL, named pipe, SSH
+        // TODO: H: SSL, named pipe
 
         unsigned long clientFlags =
                   CLIENT_LOCAL_FILES
@@ -91,6 +103,7 @@ void MySQLConnection::setActive(bool active) // override
             QString error = getLastError();
 
             meowLogCC(Log::Category::Error, this) << "Connect failed: " << error;
+            _sshTunnel.reset();
             // H:
             throw db::Exception(error);
         } else {
@@ -144,6 +157,7 @@ void MySQLConnection::setActive(bool active) // override
         _active = false;
         // H: ClearCache(False);
         _handle = nullptr;
+        _sshTunnel.reset();
         meowLogDebugC(this) << "Closed";
     }
 }

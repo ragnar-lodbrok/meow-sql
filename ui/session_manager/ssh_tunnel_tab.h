@@ -31,8 +31,8 @@ private:
     QLabel * _usernameLabel;
     QLineEdit * _usernameEdit;
 
-    QLabel * _passwordLabel;
-    QLineEdit * _passwordEdit;
+    //QLabel * _passwordLabel;
+    //QLineEdit * _passwordEdit;
 
     QLabel * _localPortLabel;
     QSpinBox * _localPortSpinBox;

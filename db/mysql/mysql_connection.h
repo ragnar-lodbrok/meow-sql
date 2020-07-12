@@ -6,12 +6,15 @@
 #include "db/connection.h"
 
 namespace meow {
+
+namespace ssh { class ISSHTunnel; }
+
 namespace db {
 
 class MySQLConnection : public Connection
 {
 public:
-    MySQLConnection(const ConnectionParameters & params);
+    explicit MySQLConnection(const ConnectionParameters & params);
 
     virtual ~MySQLConnection() override;
 
@@ -76,6 +79,7 @@ protected:
 
 private:
     MYSQL * _handle;
+    std::unique_ptr<ssh::ISSHTunnel> _sshTunnel;
 };
 
 } // namespace db

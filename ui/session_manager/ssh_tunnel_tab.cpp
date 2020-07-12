@@ -64,7 +64,9 @@ void SSHTunnelTab::createWidgets()
 
     // Password ----------------------------------------------------------------
 
-    _passwordLabel = new QLabel(tr("Password:"));
+    // it is hard to pass password to openSSH, so don't ask it here
+
+    /*_passwordLabel = new QLabel(tr("Password:"));
     _mainGridLayout->addWidget(_passwordLabel, row, 0);
 
     _passwordEdit = new QLineEdit();
@@ -77,7 +79,7 @@ void SSHTunnelTab::createWidgets()
                     _form->setSSHPassword(newPassword);
                 }
             });
-    row++;
+    row++;*/
 
     // Local port --------------------------------------------------------------
 
@@ -127,7 +129,7 @@ void SSHTunnelTab::fillDataFromForm()
     _sshHostEdit->setText(_form->sshHost());
     _sshPortSpinBox->setValue(_form->sshPort());
     _usernameEdit->setText(_form->sshUser());
-    _passwordEdit->setText(_form->sshPassword());
+    //_passwordEdit->setText(_form->sshPassword());
     _localPortSpinBox->setValue(_form->sshLocalPort());
 
 }

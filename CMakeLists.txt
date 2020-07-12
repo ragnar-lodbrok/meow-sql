@@ -139,6 +139,7 @@ set(SOURCE_FILES
     settings/settings_geometry.cpp
     settings/settings_icons.cpp
     settings/settings_text.cpp
+    ssh/openssh_tunnel.cpp
     ssh/ssh_tunnel_parameters.cpp
     ui/common/checkbox_list_popup.cpp
     ui/common/data_type_combo_box.cpp

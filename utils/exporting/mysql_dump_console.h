@@ -22,7 +22,7 @@ class MySQLDumpConsole : public QObject
     Q_OBJECT
 
 public:
-    MySQLDumpConsole(models::forms::ExportDatabaseForm * form);
+    explicit MySQLDumpConsole(models::forms::ExportDatabaseForm * form);
 
     ~MySQLDumpConsole();
 
