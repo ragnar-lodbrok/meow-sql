@@ -18,8 +18,9 @@ enum class NetworkType { // TODO: move to separate file ?
     PG_TCPIP = 1,
     SQLite3_File = 2,
     MySQL_SSH_Tunnel = 3,
+    PG_SSH_Tunnel = 4,
     // TODO: add the rest
-    COUNT = 4
+    COUNT = 5
 };
 
 enum class ServerType { // TODO: move to separate file ?
@@ -86,7 +87,8 @@ public:
     }
 
     bool isSSHTunnel() const {
-        return _networkType == NetworkType::MySQL_SSH_Tunnel;
+        return _networkType == NetworkType::MySQL_SSH_Tunnel ||
+               _networkType == NetworkType::PG_SSH_Tunnel;
     }
 
     QString fileNameShort() const {

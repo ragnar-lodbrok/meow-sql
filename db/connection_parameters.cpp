@@ -35,6 +35,7 @@ void meow::db::ConnectionParameters::setNetworkType(NetworkType networkType)
         break;
 
     case NetworkType::PG_TCPIP:
+    case NetworkType::PG_SSH_Tunnel:
         _serverType = ServerType::PostgreSQL;
         break;
 
@@ -150,6 +151,7 @@ void meow::db::ConnectionParameters::setDefaultValuesForType(
         break;
 
     case NetworkType::PG_TCPIP:
+    case NetworkType::PG_SSH_Tunnel:
 
         setNetworkType(type);
         setServerType(ServerType::PostgreSQL);
@@ -158,6 +160,12 @@ void meow::db::ConnectionParameters::setDefaultValuesForType(
         }
         setUserName("postgres");
         setPort(5432);
+
+        if (type == NetworkType::PG_SSH_Tunnel) {
+            _sshTunnel.setLocalPort( port() + 1 );
+            _sshTunnel.setPort(22);
+            setHostName("127.0.0.1");
+        }
 
         break;
 
@@ -218,6 +226,10 @@ QString networkTypeName(const NetworkType & networkType, bool longFormat)
         case NetworkType::PG_TCPIP:
             return QString("PostgreSQL (%1)").arg(QObject::tr("experimental"));
 
+        case NetworkType::PG_SSH_Tunnel:
+            return QString("PostgreSQL (SSH tunnel) (%1)")
+                    .arg(QObject::tr("experimental"));
+
         case NetworkType::SQLite3_File:
             return QString("SQLite 3 (%1)").arg(QObject::tr("experimental"));;
 
@@ -231,6 +243,7 @@ QString networkTypeName(const NetworkType & networkType, bool longFormat)
             return "MySQL";
 
         case NetworkType::PG_TCPIP:
+        case NetworkType::PG_SSH_Tunnel:
             return "PostgreSQL";
 
         case NetworkType::SQLite3_File:

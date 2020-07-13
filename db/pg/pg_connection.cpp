@@ -9,6 +9,7 @@
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
 #include "pg_entity_create_code_generator.h"
+#include "ssh/openssh_tunnel.h"
 
 namespace meow {
 namespace db {
@@ -16,8 +17,9 @@ namespace db {
 static const int PG_SEND_QUERY_STATUS_SUCCESS = 1;
 
 PGConnection::PGConnection(const ConnectionParameters & params)
-    :Connection(params),
-     _handle(nullptr)
+    : Connection(params)
+    , _handle(nullptr)
+    , _sshTunnel(nullptr)
 {
 
     _identifierQuote = QLatin1Char('"');
@@ -38,6 +40,16 @@ void PGConnection::setActive(bool active)
     if (active) {
         doBeforeConnect();
 
+        if (connectionParams()->isSSHTunnel()) {
+
+            _sshTunnel.reset(new ssh::OpenSSHTunnel());
+            _sshTunnel->connect(*connectionParams()); // throws on error
+
+            connectionParams()->setHostName("127.0.0.1");
+            connectionParams()->setPort(
+                        connectionParams()->sshTunnel().localPort());
+        }
+
         QString connInfoStr = connectionInfo();
         QByteArray connInfoBytes = connInfoStr.toUtf8();
 
@@ -52,6 +64,8 @@ void PGConnection::setActive(bool active)
 
             PQfinish(_handle);
             _handle = nullptr;
+
+            _sshTunnel.reset();
 
             throw db::Exception(error);
         } else {
@@ -78,6 +92,7 @@ void PGConnection::setActive(bool active)
         PQfinish(_handle);
         _active = false;
         _handle = nullptr;
+        _sshTunnel.reset();
         meowLogDebugC(this) << "Closed";
     }
 }

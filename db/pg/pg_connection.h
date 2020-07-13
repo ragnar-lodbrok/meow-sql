@@ -6,6 +6,9 @@
 #include "db/entity/entity_filter.h" // TODO: PGEntityFilter
 
 namespace meow {
+
+namespace ssh { class ISSHTunnel; }
+
 namespace db {
 
 class PGConnection : public Connection
@@ -84,6 +87,7 @@ private:
     inline QString qu(const char * identifier) const;
 
     PGconn * _handle;
+    std::unique_ptr<ssh::ISSHTunnel> _sshTunnel;
 };
 
 } // namespace db
