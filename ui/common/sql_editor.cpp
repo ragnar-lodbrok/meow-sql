@@ -113,7 +113,7 @@ void TextEditor::highlightCurrentLine()
 void TextEditor::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
     QPainter painter(_lineNumberArea);
-    painter.fillRect(event->rect(), QColor(214, 214, 214));
+    painter.fillRect(event->rect(), palette().color(QPalette::Window));
 
     QColor textColor = palette().color(QPalette::Text);
 
