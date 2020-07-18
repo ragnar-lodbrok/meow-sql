@@ -8,9 +8,9 @@
 *.a
 *.la
 *.lai
-*.so
-*.dll
-*.dylib
+#*.so
+#*.dll
+#*.dylib
 
 # Qt-es
 
