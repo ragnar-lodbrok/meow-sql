@@ -1,6 +1,8 @@
 #include "sql_syntax_highlighter.h"
 #include "mysql_syntax.h"
 #include "db/user_query/sentences_parser.h"
+#include <QGuiApplication>
+#include <QPalette>
 #include <QDebug>
 
 namespace meow {
@@ -10,12 +12,22 @@ namespace common {
 SQLSyntaxHighlighter::SQLSyntaxHighlighter(QTextDocument * parent)
     :QSyntaxHighlighter(parent)
 {
+
+    QColor textColor = QGuiApplication::palette().color(QPalette::WindowText);
+    bool isLightTheme
+        = (textColor.redF() + textColor.greenF() + textColor.blueF()) < 0.5*3;
+
+
     _singleLineCommentFormat.setForeground(QColor(149, 149, 158));
     _multiLineCommentFormat = _singleLineCommentFormat;
-    _quotationFormat.setForeground(QColor(102, 153, 0));
-    _reservedKeywordFormat.setForeground(QColor(0, 119, 170));
-    _boolLiteralsFormat.setForeground(QColor(153, 0, 85));
-    _numericFormat.setForeground(QColor(153, 0, 85));
+    _quotationFormat.setForeground(
+        isLightTheme ? QColor(102, 153, 0) : QColor(115, 213, 115));
+    _reservedKeywordFormat.setForeground(
+        isLightTheme ? QColor(0, 119, 170) : QColor(80, 239, 239));
+    _boolLiteralsFormat.setForeground(
+        isLightTheme ? QColor(153, 0, 85) : QColor(201, 115, 115));
+    _numericFormat.setForeground(
+        isLightTheme ? QColor(153, 0, 85) : QColor(201, 115, 115));
     _functionFormat.setForeground(QColor(221, 74, 104));
 
     addKeywordsRules();

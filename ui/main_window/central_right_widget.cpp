@@ -154,9 +154,9 @@ void CentralRightWidget::createRootTabs()
     _rootTabs->setSizePolicy(
                 QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
-    #ifdef Q_OS_MAC
-        _rootTabs->setDocumentMode(true);
-    #endif
+#ifdef Q_OS_MAC
+    _rootTabs->setDocumentMode(true);
+#endif
 
 }
 

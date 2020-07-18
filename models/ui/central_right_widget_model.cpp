@@ -83,8 +83,16 @@ QString CentralRightWidgetModel::titleForHostTab() const
         const db::ConnectionParameters * params = _entityHolder.currentEntity()
                 ->connection()->connectionParams();
 
-        QString host = params->isFilebased() ? params->fileNameShort() :
-                                               params->hostName();
+        QString host;
+        if (params->isFilebased()) {
+            host = params->fileNameShort();
+        } else {
+            if (params->isSSHTunnel()) {
+                host = params->sshTunnel().host() + " (SSH)";
+            } else {
+                host = params->hostName();
+            }
+        }
 
         return QObject::tr("Host") + ": " + host;
     } else {
