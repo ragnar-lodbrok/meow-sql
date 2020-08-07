@@ -20,7 +20,6 @@ enum class NetworkType { // TODO: move to separate file ?
     MySQL_SSH_Tunnel = 3,
     PG_SSH_Tunnel = 4,
     // TODO: add the rest
-    COUNT = 5
 };
 
 enum class ServerType { // TODO: move to separate file ?
@@ -33,6 +32,7 @@ enum class ServerType { // TODO: move to separate file ?
 
 QString networkTypeName(const NetworkType & networkType, bool longFormat = true);
 QStringList networkTypeNames();
+QVector<NetworkType> networkTypes();
 
 using ConnectionPtr = std::shared_ptr<Connection> ;
 using SSHTunnelParametersPtr = std::shared_ptr<ssh::SSHTunnelParameters>;
@@ -77,18 +77,42 @@ public:
     void setId(unsigned id) { _id = id; }
 
     bool isFilebased() const {
-        return _networkType == NetworkType::SQLite3_File;
+#ifdef WITH_SQLITE
+        if (_networkType == NetworkType::SQLite3_File) {
+            return true;
+        }
+#endif
+        return false;
     }
     bool supportsAuth() const {
-        return _networkType != NetworkType::SQLite3_File;
+#ifdef WITH_SQLITE
+        if (_networkType == NetworkType::SQLite3_File) {
+            return false;
+        }
+#endif
+        return true;
     }
     bool supportsMultipleDatabases() const {
-        return _networkType != NetworkType::SQLite3_File;
+#ifdef WITH_SQLITE
+        if (_networkType == NetworkType::SQLite3_File) {
+            return false;
+        }
+#endif
+        return true;
     }
 
     bool isSSHTunnel() const {
-        return _networkType == NetworkType::MySQL_SSH_Tunnel ||
-               _networkType == NetworkType::PG_SSH_Tunnel;
+#ifdef WITH_MYSQL
+        if (_networkType == NetworkType::MySQL_SSH_Tunnel) {
+            return true;
+        }
+#endif
+#ifdef WITH_POSTGRESQL
+        if (_networkType == NetworkType::PG_SSH_Tunnel) {
+            return true;
+        }
+#endif
+        return false;
     }
 
     QString fileNameShort() const {

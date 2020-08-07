@@ -24,13 +24,25 @@ find_package(Qt5Sql REQUIRED)
 
 add_definitions(-DYY_NO_UNISTD_H) # fix flex compilation on win
 
+option(WITH_MYSQL "MySQL support" OFF)
+option(WITH_POSTGRESQL "PostgreSQL support" OFF)
+option(WITH_SQLITE "SQLite support" OFF)
+
+if(WITH_POSTGRESQL)
+    add_definitions(-DWITH_POSTGRESQL)
+endif()
+
+if(WITH_SQLITE)
+    add_definitions(-DWITH_SQLITE)
+endif()
+
+if(WITH_MYSQL)
+    add_definitions(-DWITH_MYSQL)
+endif()
+
 set(HEADER_FILES
     db/data_type/connection_data_types.h
     db/data_type/data_type_category.h
-    db/data_type/mysql_data_type.h
-    db/data_type/pg_data_type.h
-    db/mysql/mysql_query_result.h
-    db/pg/pg_query_result.h
     db/qtsql/qtsql_query_result.h
     db/native_query_result_interface.h
     db/collation_fetcher.h
@@ -38,6 +50,20 @@ set(HEADER_FILES
     db/query_column.h
     ui/common/mysql_syntax.h
 )
+
+if(WITH_MYSQL)
+    list(APPEND HEADER_FILES
+        db/data_type/mysql_data_type.h
+        db/mysql/mysql_query_result.h
+    )
+endif()
+
+if(WITH_POSTGRESQL)
+    list(APPEND HEADER_FILES
+        db/data_type/pg_data_type.h
+        db/pg/pg_query_result.h
+    )
+endif()
 
 set(SOURCE_FILES
     main.cpp
@@ -51,9 +77,6 @@ set(SOURCE_FILES
     db/connections_manager.cpp
     db/database_editor.cpp
     db/data_type/data_type.cpp
-    db/data_type/mysql_connection_data_types.cpp
-    db/data_type/pg_connection_data_types.cpp
-    db/data_type/sqlite_connection_datatypes.cpp
     db/editable_grid_data.cpp
     db/entity/database_entity.cpp
     db/entity/entities_fetcher.cpp
@@ -62,32 +85,13 @@ set(SOURCE_FILES
     db/entity/entity_holder.cpp
     db/entity/entity_list_for_database.cpp
     db/entity/function_entity.cpp
-    db/entity/mysql_entity_filter.cpp
     db/entity/procedure_entity.cpp
     db/entity/session_entity.cpp
     db/entity/table_entity_comparator.cpp
     db/entity/table_entity.cpp
     db/entity/trigger_entity.cpp
     db/entity/view_entity.cpp
-    db/mysql/mysql_database_editor.cpp
-    db/mysql/mysql_entities_fetcher.cpp
-    db/mysql/mysql_query.cpp
-    db/mysql/mysql_query_data_editor.cpp
-    db/mysql/mysql_collation_fetcher.cpp
-    db/mysql/mysql_connection.cpp
-    db/mysql/mysql_query_data_fetcher.cpp
-    db/mysql/mysql_table_editor.cpp
-    db/mysql/mysql_table_engines_fetcher.cpp
-    db/pg/pg_connection.cpp
-    db/pg/pg_entities_fetcher.cpp
-    db/pg/pg_entity_create_code_generator.cpp
-    db/pg/pg_query.cpp
-    db/pg/pg_query_data_editor.cpp
-    db/pg/pg_query_data_fetcher.cpp
     db/qtsql/qtsql_query.cpp
-    db/sqlite/sqlite_connection.cpp
-    db/sqlite/sqlite_entities_fetcher.cpp
-    db/sqlite/sqlite_table_structure_parser.cpp
     db/exception.cpp
     db/foreign_key.cpp
     db/query.cpp
@@ -188,11 +192,57 @@ set(SOURCE_FILES
     ui/session_manager/start_tab.cpp
     ui/session_manager/window.cpp
     utils/exporting/mysql_dump_console.cpp
-    utils/sql_parser/sqlite/sqlite_parser.cpp
-    utils/sql_parser/sqlite/sqlite_bison_parser.cpp
-    utils/sql_parser/sqlite/sqlite_flex_lexer.cpp
-    utils/sql_parser/sqlite/sqlite_types.cpp
 )
+
+if (WITH_MYSQL)
+    list(APPEND SOURCE_FILES
+
+        db/data_type/mysql_connection_data_types.cpp
+
+        db/entity/mysql_entity_filter.cpp
+
+        db/mysql/mysql_database_editor.cpp
+        db/mysql/mysql_entities_fetcher.cpp
+        db/mysql/mysql_query.cpp
+        db/mysql/mysql_query_data_editor.cpp
+        db/mysql/mysql_collation_fetcher.cpp
+        db/mysql/mysql_connection.cpp
+        db/mysql/mysql_query_data_fetcher.cpp
+        db/mysql/mysql_table_editor.cpp
+        db/mysql/mysql_table_engines_fetcher.cpp
+
+    )
+endif()
+
+if (WITH_POSTGRESQL)
+    list(APPEND SOURCE_FILES
+
+        db/data_type/pg_connection_data_types.cpp
+
+        db/pg/pg_connection.cpp
+        db/pg/pg_entities_fetcher.cpp
+        db/pg/pg_entity_create_code_generator.cpp
+        db/pg/pg_query.cpp
+        db/pg/pg_query_data_editor.cpp
+        db/pg/pg_query_data_fetcher.cpp
+    )
+endif()
+
+if (WITH_SQLITE)
+    list(APPEND SOURCE_FILES
+
+        db/data_type/sqlite_connection_datatypes.cpp
+
+        db/sqlite/sqlite_connection.cpp
+        db/sqlite/sqlite_entities_fetcher.cpp
+        db/sqlite/sqlite_table_structure_parser.cpp
+
+        utils/sql_parser/sqlite/sqlite_parser.cpp
+        utils/sql_parser/sqlite/sqlite_bison_parser.cpp
+        utils/sql_parser/sqlite/sqlite_flex_lexer.cpp
+        utils/sql_parser/sqlite/sqlite_types.cpp
+    )
+endif()
 
 qt5_add_resources(RESOURCE_FILES icons.qrc)
 
@@ -215,9 +265,15 @@ add_executable(meowsql
 
 target_link_libraries(meowsql Qt5::Widgets Qt5::Sql)
 
+
+
 if (WIN32)
     target_link_libraries(meowsql User32) #SetProcessDPIAware()
 endif()
+
+# MySQL ---------------------------------------------
+
+if (WITH_MYSQL)
 
 set(MEOW_MYSQL_CLIENT_LIB mysqlclient) #linux
 
@@ -231,9 +287,13 @@ if (WIN32)
 
 endif()
 
+endif() # if (WITH_MYSQL)
+
 # PG --------------------------------------------------
 # ubuntu: apt-get install libpq-dev postgresql-server-dev-all
 # win: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads (10.7 32bit)
+
+if(WITH_POSTGRESQL)
 
 if (WIN32)
     # find postgres in third_party
@@ -257,8 +317,18 @@ message ("PostgreSQL_INCLUDE_DIRS = ${PostgreSQL_INCLUDE_DIRS}")
 message ("PostgreSQL_LIBRARY_DIRS = ${PostgreSQL_LIBRARY_DIRS}")
 message ("PostgreSQL_LIBRARIES = ${PostgreSQL_LIBRARIES}")
 
+endif() # if(WITH_POSTGRESQL)
+
 # PG end ----------------------------------------------
 
-target_link_libraries(meowsql
-    ${MEOW_MYSQL_CLIENT_LIB}
-    ${PostgreSQL_LIBRARIES})
+if(WITH_MYSQL)
+    target_link_libraries(meowsql
+        ${MEOW_MYSQL_CLIENT_LIB}
+    )
+endif()
+
+if(WITH_POSTGRESQL)
+    target_link_libraries(meowsql
+        ${PostgreSQL_LIBRARIES}
+    )
+endif()

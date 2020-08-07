@@ -1,9 +1,19 @@
 #include <QRegularExpression>
 #include "db/connection_parameters.h"
 #include "db/connection_params_manager.h"
+
+#ifdef WITH_MYSQL
 #include "db/mysql/mysql_connection.h"
+#endif
+
+#ifdef WITH_POSTGRESQL
 #include "db/pg/pg_connection.h"
+#endif
+
+#ifdef WITH_SQLITE
 #include "db/sqlite/sqlite_connection.h"
+#endif
+
 #include "helpers/logger.h"
 
 meow::db::ConnectionParameters::ConnectionParameters(
@@ -29,22 +39,27 @@ void meow::db::ConnectionParameters::setNetworkType(NetworkType networkType)
     _networkType = networkType;
     switch (networkType) {
 
+#ifdef WITH_MYSQL
     case NetworkType::MySQL_TCPIP:
     case NetworkType::MySQL_SSH_Tunnel:
         _serverType = ServerType::MySQL;
         break;
+#endif
 
+#ifdef WITH_POSTGRESQL
     case NetworkType::PG_TCPIP:
     case NetworkType::PG_SSH_Tunnel:
         _serverType = ServerType::PostgreSQL;
         break;
+#endif
 
+#ifdef WITH_SQLITE
     case NetworkType::SQLite3_File:
         _serverType = ServerType::SQLite;
         break;
-
+#endif
     default:
-        Q_ASSERT(false);
+        //Q_ASSERT(false);
         _serverType = ServerType::None;
     }
 }
@@ -67,11 +82,12 @@ bool meow::db::ConnectionParameters::operator==(
 
 meow::db::ConnectionParameters::operator QString() const
 {
+#ifdef WITH_SQLITE
     if (_networkType == NetworkType::SQLite3_File) {
         return _fileName;
-    } else {
-        return _userName + "@" + _hostName + ":" +QString::number(_port);
     }
+#endif
+    return _userName + "@" + _hostName + ":" +QString::number(_port);
 }
 
 void meow::db::ConnectionParameters::setManager(
@@ -93,6 +109,7 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
 {
     switch (_serverType) {
 
+#ifdef WITH_MYSQL
     case ServerType::MySQL: {
         MySQLConnection * connection = new MySQLConnection(*this);
         if (_databases.length() > 0) {
@@ -102,7 +119,9 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
         }
         return ConnectionPtr(connection); // TODO: wrap earlier?
     }
+#endif
 
+#ifdef WITH_POSTGRESQL
     case ServerType::PostgreSQL: {
         PGConnection * connection = new PGConnection(*this);
         if (_databases.length() > 0) {
@@ -112,12 +131,15 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
         }
         return ConnectionPtr(connection);
     }
+#endif
 
+#ifdef WITH_SQLITE
     case ServerType::SQLite: {
         SQLiteConnection * connection = new SQLiteConnection(*this);
         connection->setUseAllDatabases();
         return ConnectionPtr(connection);
     }
+#endif
 
     default:
         Q_ASSERT(false);
@@ -131,6 +153,7 @@ void meow::db::ConnectionParameters::setDefaultValuesForType(
 {
     switch (type) {
 
+#ifdef WITH_MYSQL
     case NetworkType::MySQL_TCPIP:
     case NetworkType::MySQL_SSH_Tunnel:
 
@@ -149,7 +172,9 @@ void meow::db::ConnectionParameters::setDefaultValuesForType(
         }
 
         break;
+#endif
 
+#ifdef WITH_POSTGRESQL
     case NetworkType::PG_TCPIP:
     case NetworkType::PG_SSH_Tunnel:
 
@@ -168,7 +193,9 @@ void meow::db::ConnectionParameters::setDefaultValuesForType(
         }
 
         break;
+#endif
 
+#ifdef WITH_SQLITE
     case NetworkType::SQLite3_File:
 
         setNetworkType(type);
@@ -179,7 +206,7 @@ void meow::db::ConnectionParameters::setDefaultValuesForType(
         setPort(0);
 
         break;
-
+#endif
 
     default:
 
@@ -217,38 +244,49 @@ QString networkTypeName(const NetworkType & networkType, bool longFormat)
 {
     if (longFormat) {
         switch (networkType) {
+
+#ifdef WITH_MYSQL
         case NetworkType::MySQL_TCPIP:
             return "MySQL (TCP/IP)";
 
         case NetworkType::MySQL_SSH_Tunnel:
             return "MySQL (SSH tunnel)";
+#endif
 
+#ifdef WITH_POSTGRESQL
         case NetworkType::PG_TCPIP:
             return QString("PostgreSQL (%1)").arg(QObject::tr("experimental"));
 
         case NetworkType::PG_SSH_Tunnel:
             return QString("PostgreSQL (SSH tunnel) (%1)")
                     .arg(QObject::tr("experimental"));
+#endif
 
+#ifdef WITH_SQLITE
         case NetworkType::SQLite3_File:
             return QString("SQLite 3 (%1)").arg(QObject::tr("experimental"));;
-
+#endif
         default:
             break;
         }
     } else {
         switch (networkType) {
+#ifdef WITH_MYSQL
         case NetworkType::MySQL_TCPIP:
         case NetworkType::MySQL_SSH_Tunnel:
             return "MySQL";
+#endif
 
+#ifdef WITH_POSTGRESQL
         case NetworkType::PG_TCPIP:
         case NetworkType::PG_SSH_Tunnel:
             return "PostgreSQL";
+#endif
 
+#ifdef WITH_SQLITE
         case NetworkType::SQLite3_File:
             return QString("SQLite");
-
+#endif
         default:
             break;
         }
@@ -261,16 +299,28 @@ QStringList networkTypeNames()
 {
     QStringList names;
 
-    using IntType = int; //typename std::underlying_type<NetworkType>::type;
-
-    IntType start = 0; //static_cast<IntType>(NetworkType::MySQL_TCPIP);
-    IntType end = static_cast<IntType>(NetworkType::COUNT);
-
-    for ( IntType i = start; i < end; ++i ) {
-        names.append( networkTypeName( static_cast<NetworkType>(i) ) );
+    for (const NetworkType type : networkTypes()) {
+        names.append( networkTypeName(type) );
     }
 
     return names;
+}
+
+QVector<NetworkType> networkTypes()
+{
+    QVector<NetworkType> types;
+#ifdef WITH_MYSQL
+    types << NetworkType::MySQL_TCPIP;
+    types << NetworkType::MySQL_SSH_Tunnel;
+#endif
+#ifdef WITH_POSTGRESQL
+    types << NetworkType::PG_TCPIP;
+    types << NetworkType::PG_SSH_Tunnel;
+#endif
+#ifdef WITH_SQLITE
+    types << NetworkType::SQLite3_File;
+#endif
+    return types;
 }
 
 } // namespace db

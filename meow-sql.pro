@@ -13,6 +13,22 @@ greaterThan(QT_MINOR_VERSION, 4) { # >= 5.5
     CONFIG  += c++11
 }
 
+CONFIG += WITH_MYSQL
+CONFIG += WITH_POSTGRESQL
+CONFIG += WITH_SQLITE
+
+WITH_MYSQL {
+    DEFINES += WITH_MYSQL
+}
+
+WITH_POSTGRESQL {
+    DEFINES += WITH_POSTGRESQL
+}
+
+WITH_SQLITE {
+    DEFINES += WITH_SQLITE
+}
+
 # below doesn't work on win with old Qt
 unix:CONFIG += object_parallel_to_source
 unix:OBJECTS_DIR = .
@@ -32,13 +48,17 @@ macx:LIBS -= -lrt
 win32:LIBS += -lUser32 #SetProcessDPIAware()
 
 # MySQL
-unix:LIBS += -lmysqlclient # mysql client
-win32:LIBS += -l"$$PWD\third_party\libmysql\windows\libmysql"
-macx:LIBS += -L/usr/local/opt/mysql-connector-c/lib
+WITH_MYSQL {
+    unix:LIBS += -lmysqlclient # mysql client
+    win32:LIBS += -l"$$PWD\third_party\libmysql\windows\libmysql"
+    macx:LIBS += -L/usr/local/opt/mysql-connector-c/lib
+}
 
 # PostgreSQL
-unix:LIBS += -lpq # pkg-config --libs libpq
-win32:LIBS += -l"$$PWD\third_party\libpq\windows\lib\libpq"
+WITH_POSTGRESQL {
+    unix:LIBS += -lpq # pkg-config --libs libpq
+    win32:LIBS += -l"$$PWD\third_party\libpq\windows\lib\libpq"
+}
 
 DEFINES += YY_NO_UNISTD_H # fix flex compilation on win
 
@@ -53,9 +73,6 @@ SOURCES += main.cpp\
     db/connections_manager.cpp \
     db/database_editor.cpp \
     db/data_type/data_type.cpp \
-    db/data_type/mysql_connection_data_types.cpp \
-    db/data_type/pg_connection_data_types.cpp \
-    db/data_type/sqlite_connection_datatypes.cpp \
     db/entity/database_entity.cpp \
     db/entity/entities_fetcher.cpp \
     db/entity/entity.cpp \
@@ -63,7 +80,6 @@ SOURCES += main.cpp\
     db/entity/entity_holder.cpp \
     db/entity/entity_list_for_database.cpp \
     db/entity/function_entity.cpp \
-    db/entity/mysql_entity_filter.cpp \
     db/entity/procedure_entity.cpp \
     db/entity/session_entity.cpp \
     db/entity/table_entity_comparator.cpp \
@@ -72,29 +88,11 @@ SOURCES += main.cpp\
     db/entity/view_entity.cpp \
     db/exception.cpp \
     db/foreign_key.cpp \
-    db/mysql/mysql_database_editor.cpp \
-    db/mysql/mysql_entities_fetcher.cpp \
-    db/mysql/mysql_collation_fetcher.cpp \
-    db/mysql/mysql_connection.cpp \
-    db/mysql/mysql_query.cpp \
-    db/mysql/mysql_query_data_editor.cpp \
-    db/mysql/mysql_query_data_fetcher.cpp \
-    db/mysql/mysql_table_editor.cpp \
-    db/mysql/mysql_table_engines_fetcher.cpp \
-    db/pg/pg_connection.cpp \
-    db/pg/pg_entities_fetcher.cpp \
-    db/pg/pg_entity_create_code_generator.cpp \
-    db/pg/pg_query.cpp \
-    db/pg/pg_query_data_editor.cpp \
-    db/pg/pg_query_data_fetcher.cpp \
     db/query.cpp \
     db/query_criteria.cpp \
     db/query_data.cpp \
     db/query_data_fetcher.cpp \
     db/qtsql/qtsql_query.cpp \
-    db/sqlite/sqlite_connection.cpp \
-    db/sqlite/sqlite_entities_fetcher.cpp \
-    db/sqlite/sqlite_table_structure_parser.cpp \
     db/table_column.cpp \
     db/table_editor.cpp \
     db/table_index.cpp \
@@ -189,10 +187,6 @@ SOURCES += main.cpp\
     ui/main_window/central_bottom_widget.cpp \
     ui/main_window/central_log_widget.cpp \
     utils/exporting/mysql_dump_console.cpp \
-    utils/sql_parser/sqlite/sqlite_parser.cpp \
-    utils/sql_parser/sqlite/sqlite_bison_parser.cpp \
-    utils/sql_parser/sqlite/sqlite_flex_lexer.cpp \
-    utils/sql_parser/sqlite/sqlite_types.cpp \
     ui/export_database/export_dialog.cpp
 
 
@@ -210,11 +204,6 @@ HEADERS  +=  app/actions.h \
     db/data_type/connection_data_types.h \
     db/data_type/data_type_category.h \
     db/data_type/data_type.h \
-    db/data_type/mysql_connection_data_types.h \
-    db/data_type/mysql_data_type.h \
-    db/data_type/pg_connection_data_types.h \
-    db/data_type/pg_data_type.h \
-    db/data_type/sqlite_connection_datatypes.cpp \
     db/entity/database_entity.h \
     db/entity/entities_fetcher.h \
     db/entity/entity_filter.h \
@@ -222,8 +211,6 @@ HEADERS  +=  app/actions.h \
     db/entity/entity_holder.h \
     db/entity/entity_list_for_database.h \
     db/entity/function_entity.h \
-    db/mysql/mysql_entities_fetcher.h \
-    db/entity/mysql_entity_filter.h \
     db/entity/procedure_entity.h \
     db/entity/session_entity.h \
     db/entity/table_entity_comparator.h \
@@ -232,26 +219,7 @@ HEADERS  +=  app/actions.h \
     db/entity/view_entity.h \
     db/exception.h \
     db/foreign_key.h \
-    db/mysql/mysql_database_editor.h \
-    db/mysql/mysql_connection.h \
-    db/mysql/mysql_query.h \
-    db/mysql/mysql_query_data_editor.h \
-    db/mysql/mysql_query_result.h \
-    db/mysql/mysql_collation_fetcher.h \
-    db/mysql/mysql_query_data_fetcher.h \
-    db/mysql/mysql_table_editor.h \
-    db/mysql/mysql_table_engines_fetcher.h \
-    db/pg/pg_query_result.h \
-    db/pg/pg_connection.h \
-    db/pg/pg_entities_fetcher.h \
-    db/pg/pg_entity_create_code_generator.h \
-    db/pg/pg_query.h \
-    db/pg/pg_query_data_editor.h \
-    db/pg/pg_query_data_fetcher.h \
     db/qtsql/qtsql_query.h \
-    db/sqlite/sqlite_connection.h \
-    db/sqlite/sqlite_entities_fetcher.h \
-    db/sqlite/sqlite_table_structure_parser.h \
     db/native_query_result_interface.h \
     db/query_column.h \
     db/query_criteria.h \
@@ -355,21 +323,93 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_bottom_widget.h \
     ui/main_window/central_log_widget.h \
     utils/exporting/mysql_dump_console.h \
+    ui/export_database/export_dialog.h
+
+WITH_MYSQL {
+    SOURCES += db/data_type/mysql_connection_data_types.cpp \
+    db/entity/mysql_entity_filter.cpp \
+    db/mysql/mysql_database_editor.cpp \
+    db/mysql/mysql_entities_fetcher.cpp \
+    db/mysql/mysql_query.cpp \
+    db/mysql/mysql_query_data_editor.cpp \
+    db/mysql/mysql_collation_fetcher.cpp \
+    db/mysql/mysql_connection.cpp \
+    db/mysql/mysql_query_data_fetcher.cpp \
+    db/mysql/mysql_table_editor.cpp \
+    db/mysql/mysql_table_engines_fetcher.cpp
+}
+
+WITH_POSTGRESQL {
+    SOURCES += db/data_type/pg_connection_data_types.cpp \
+    db/pg/pg_connection.cpp \
+    db/pg/pg_entities_fetcher.cpp \
+    db/pg/pg_entity_create_code_generator.cpp \
+    db/pg/pg_query.cpp \
+    db/pg/pg_query_data_editor.cpp \
+    db/pg/pg_query_data_fetcher.cpp
+}
+
+WITH_SQLITE {
+    SOURCES += db/data_type/sqlite_connection_datatypes.cpp \
+    db/sqlite/sqlite_connection.cpp \
+    db/sqlite/sqlite_entities_fetcher.cpp \
+    db/sqlite/sqlite_table_structure_parser.cpp \
+    utils/sql_parser/sqlite/sqlite_parser.cpp \
+    utils/sql_parser/sqlite/sqlite_bison_parser.cpp \
+    utils/sql_parser/sqlite/sqlite_flex_lexer.cpp \
+    utils/sql_parser/sqlite/sqlite_types.cpp \
+}
+
+WITH_MYSQL {
+    HEADERS += db/data_type/mysql_data_type.h \
+    db/mysql/mysql_query_result.h \
+    db/data_type/mysql_connection_data_types.h \
+    db/entity/mysql_entity_filter.h \
+    db/mysql/mysql_database_editor.h \
+    db/mysql/mysql_entities_fetcher.h \
+    db/mysql/mysql_query.h \
+    db/mysql/mysql_query_data_editor.h \
+    db/mysql/mysql_collation_fetcher.h \
+    db/mysql/mysql_connection.h \
+    db/mysql/mysql_query_data_fetcher.h \
+    db/mysql/mysql_table_editor.h \
+    db/mysql/mysql_table_engines_fetcher.h
+}
+
+WITH_POSTGRESQL {
+    HEADERS += db/data_type/pg_connection_data_types.h \
+    db/data_type/pg_data_type.h \
+    db/pg/pg_query_result.h \
+    db/pg/pg_connection.h \
+    db/pg/pg_entities_fetcher.h \
+    db/pg/pg_entity_create_code_generator.h \
+    db/pg/pg_query.h \
+    db/pg/pg_query_data_editor.h \
+    db/pg/pg_query_data_fetcher.h
+}
+
+WITH_SQLITE {
+    HEADERS += db/data_type/sqlite_connection_datatypes.cpp \
+    db/sqlite/sqlite_connection.h \
+    db/sqlite/sqlite_entities_fetcher.h \
+    db/sqlite/sqlite_table_structure_parser.h \
     utils/sql_parser/sqlite/sqlite_parser.h \
     utils/sql_parser/sqlite/sqlite_bison_parser.hpp \
     utils/sql_parser/sqlite/sqlite_flex_lexer.h \
     utils/sql_parser/sqlite/sqlite_types.h \
-    ui/export_database/export_dialog.h
+}
 
+WITH_MYSQL {
+    win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"
+    unix:INCLUDEPATH += /usr/include/mysql
+    macx:INCLUDEPATH += /usr/local/include/mysql
+}
 
-
-win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"
-unix:INCLUDEPATH += /usr/include/mysql
-macx:INCLUDEPATH += /usr/local/include/mysql
-
-win32:INCLUDEPATH += "$$PWD\third_party\libpq\windows\include"
-unix:INCLUDEPATH += /usr/include/postgresql # pkg-config --cflags libpq
-macx:INCLUDEPATH += /usr/local/include
+WITH_POSTGRESQL {
+    win32:INCLUDEPATH += "$$PWD\third_party\libpq\windows\include"
+    unix:INCLUDEPATH += /usr/include/postgresql # pkg-config --cflags libpq
+    macx:INCLUDEPATH += /usr/local/include
+}
 
 RESOURCES += \
     icons.qrc

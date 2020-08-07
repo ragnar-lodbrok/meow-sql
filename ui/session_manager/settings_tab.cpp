@@ -24,7 +24,8 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
             static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             [=](int index) {
                 if (_form) {
-                    _form->setNetworkType(static_cast<db::NetworkType>(index));
+                    QVector<db::NetworkType> networkTypes = meow::db::networkTypes();
+                    _form->setNetworkType(networkTypes[index]);
                 }
             });
     row++;
@@ -181,8 +182,9 @@ void SettingsTab::fillDataFromForm()
         return;
     }
 
+    QVector<db::NetworkType> networkTypes = meow::db::networkTypes();
     _networkTypeComboBox->setCurrentIndex(
-        static_cast<int>(_form->networkType()));
+            networkTypes.indexOf(_form->networkType()));
     _hostEdit->setText(_form->hostName());
     _filenameEdit->setText(_form->fileName());
     //_loginPromptCheckBox->setChecked(_form->isLoginPrompt());

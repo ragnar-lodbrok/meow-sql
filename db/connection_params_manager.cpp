@@ -118,8 +118,10 @@ void meow::db::ConnectionParamsManager::load()
                     ssh.setLocalPort(settings.value("localPort", ssh.localPort()).toInt());
                 settings.endGroup(); // ssh
 
-
-                add(loadedParams);
+                // check for supported type
+                if (loadedParams.serverType() != db::ServerType::None) {
+                    add(loadedParams);
+                }
 
                 settings.endGroup();
             }
