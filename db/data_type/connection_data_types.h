@@ -2,7 +2,9 @@
 #define DB_CONNECTION_DATA_TYPES_H
 
 #include <QList>
+#ifdef WITH_QTSQL
 #include <QSqlField>
+#endif
 #include "data_type.h"
 
 namespace meow {
@@ -40,11 +42,12 @@ public:
         );
         return ptr;
     }
-
+#ifdef WITH_QTSQL
     virtual DataTypePtr dataTypeFromField(const QSqlField & field) {
         Q_UNUSED(field)
         return defaultType();
     }
+#endif
 
 protected:
     Connection * _connection;

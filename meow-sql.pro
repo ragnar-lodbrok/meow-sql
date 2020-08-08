@@ -1,6 +1,4 @@
-QT       += core gui
-
-QT += sql
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,6 +14,14 @@ greaterThan(QT_MINOR_VERSION, 4) { # >= 5.5
 CONFIG += WITH_MYSQL
 CONFIG += WITH_POSTGRESQL
 CONFIG += WITH_SQLITE
+CONFIG += WITH_QTSQL
+
+WITH_QTSQL {
+    QT += sql
+} else {
+    # sqlite is made on Qt SQL module
+    CONFIG -= WITH_SQLITE
+}
 
 WITH_MYSQL {
     DEFINES += WITH_MYSQL
@@ -29,6 +35,10 @@ WITH_SQLITE {
     DEFINES += WITH_SQLITE
 }
 
+WITH_QTSQL {
+    DEFINES += WITH_QTSQL
+}
+
 # below doesn't work on win with old Qt
 unix:CONFIG += object_parallel_to_source
 unix:OBJECTS_DIR = .
@@ -40,7 +50,7 @@ macx:QMAKE_LFLAGS += -Wl
 # (mysql_config --libs)
 unix:LIBS += -lpthread # pthread
 unix:LIBS += -lrt
-unix:LIBS += -lz # zlib - compression/decompression library
+#unix:LIBS += -lz # zlib - compression/decompression library
 unix:LIBS += -lm # math?
 unix:LIBS += -ldl # dynamic link
 macx:LIBS -= -lrt
@@ -92,7 +102,6 @@ SOURCES += main.cpp\
     db/query_criteria.cpp \
     db/query_data.cpp \
     db/query_data_fetcher.cpp \
-    db/qtsql/qtsql_query.cpp \
     db/table_column.cpp \
     db/table_editor.cpp \
     db/table_index.cpp \
@@ -219,7 +228,6 @@ HEADERS  +=  app/actions.h \
     db/entity/view_entity.h \
     db/exception.h \
     db/foreign_key.h \
-    db/qtsql/qtsql_query.h \
     db/native_query_result_interface.h \
     db/query_column.h \
     db/query_criteria.h \
@@ -235,7 +243,6 @@ HEADERS  +=  app/actions.h \
     db/user_query/batch_executor.h \
     db/user_query/sentences_parser.h \
     db/user_query/user_query.h \
-    db/qtsql/qtsql_query_result.h \
     helpers/formatting.h \
     helpers/logger.h \
     helpers/parsing.h \
@@ -360,6 +367,10 @@ WITH_SQLITE {
     utils/sql_parser/sqlite/sqlite_types.cpp \
 }
 
+WITH_QTSQL {
+    SOURCES += db/qtsql/qtsql_query.cpp
+}
+
 WITH_MYSQL {
     HEADERS += db/data_type/mysql_data_type.h \
     db/mysql/mysql_query_result.h \
@@ -397,6 +408,11 @@ WITH_SQLITE {
     utils/sql_parser/sqlite/sqlite_bison_parser.hpp \
     utils/sql_parser/sqlite/sqlite_flex_lexer.h \
     utils/sql_parser/sqlite/sqlite_types.h \
+}
+
+WITH_QTSQL {
+    HEADERS += db/qtsql/qtsql_query.h \
+    db/qtsql/qtsql_query_result.h
 }
 
 WITH_MYSQL {

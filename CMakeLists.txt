@@ -24,9 +24,10 @@ find_package(Qt5Sql REQUIRED)
 
 add_definitions(-DYY_NO_UNISTD_H) # fix flex compilation on win
 
-option(WITH_MYSQL "MySQL support" OFF)
-option(WITH_POSTGRESQL "PostgreSQL support" OFF)
-option(WITH_SQLITE "SQLite support" OFF)
+option(WITH_MYSQL "MySQL support" ON)
+option(WITH_POSTGRESQL "PostgreSQL support" ON)
+option(WITH_SQLITE "SQLite support" ON)
+option(WITH_QTSQL "Qt SQL Module" ON)
 
 if(WITH_POSTGRESQL)
     add_definitions(-DWITH_POSTGRESQL)
@@ -40,10 +41,13 @@ if(WITH_MYSQL)
     add_definitions(-DWITH_MYSQL)
 endif()
 
+if(WITH_QTSQL)
+    add_definitions(-DWITH_QTSQL)
+endif()
+
 set(HEADER_FILES
     db/data_type/connection_data_types.h
     db/data_type/data_type_category.h
-    db/qtsql/qtsql_query_result.h
     db/native_query_result_interface.h
     db/collation_fetcher.h
     db/common.h
@@ -62,6 +66,12 @@ if(WITH_POSTGRESQL)
     list(APPEND HEADER_FILES
         db/data_type/pg_data_type.h
         db/pg/pg_query_result.h
+    )
+endif()
+
+if(WITH_QTSQL)
+    list(APPEND HEADER_FILES
+        db/qtsql/qtsql_query_result.h
     )
 endif()
 
@@ -91,7 +101,6 @@ set(SOURCE_FILES
     db/entity/table_entity.cpp
     db/entity/trigger_entity.cpp
     db/entity/view_entity.cpp
-    db/qtsql/qtsql_query.cpp
     db/exception.cpp
     db/foreign_key.cpp
     db/query.cpp
@@ -244,6 +253,12 @@ if (WITH_SQLITE)
     )
 endif()
 
+if(WITH_QTSQL)
+    list(APPEND SOURCE_FILES
+        db/qtsql/qtsql_query.cpp
+    )
+endif()
+
 qt5_add_resources(RESOURCE_FILES icons.qrc)
 
 if (WIN32)
@@ -263,9 +278,11 @@ add_executable(meowsql
     ${SOURCE_FILES}
     ${RESOURCE_FILES})
 
-target_link_libraries(meowsql Qt5::Widgets Qt5::Sql)
+target_link_libraries(meowsql Qt5::Widgets)
 
-
+if(WITH_QTSQL)
+    target_link_libraries(meowsql Qt5::Sql)
+endif()
 
 if (WIN32)
     target_link_libraries(meowsql User32) #SetProcessDPIAware()
