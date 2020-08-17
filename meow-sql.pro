@@ -16,6 +16,8 @@ CONFIG += WITH_POSTGRESQL
 CONFIG += WITH_SQLITE
 CONFIG += WITH_QTSQL
 
+#CONFIG += WITH_LIBMYSQL_SOURCES #tried to experiment with WASM
+
 WITH_QTSQL {
     QT += sql
 } else {
@@ -50,7 +52,7 @@ macx:QMAKE_LFLAGS += -Wl
 # (mysql_config --libs)
 unix:LIBS += -lpthread # pthread
 unix:LIBS += -lrt
-#unix:LIBS += -lz # zlib - compression/decompression library
+unix:LIBS += -lz # zlib - compression/decompression library
 unix:LIBS += -lm # math?
 unix:LIBS += -ldl # dynamic link
 macx:LIBS -= -lrt
@@ -59,7 +61,7 @@ win32:LIBS += -lUser32 #SetProcessDPIAware()
 
 # MySQL
 WITH_MYSQL {
-    unix:LIBS += -lmysqlclient # mysql client
+    !WITH_LIBMYSQL_SOURCES:unix:LIBS += -lmysqlclient # mysql client
     win32:LIBS += -l"$$PWD\third_party\libmysql\windows\libmysql"
     macx:LIBS += -L/usr/local/opt/mysql-connector-c/lib
 }
@@ -417,7 +419,7 @@ WITH_QTSQL {
 
 WITH_MYSQL {
     win32:INCLUDEPATH += "$$PWD\third_party\libmysql\windows\include"
-    unix:INCLUDEPATH += /usr/include/mysql
+    !WITH_LIBMYSQL_SOURCES:unix:INCLUDEPATH += /usr/include/mysql
     macx:INCLUDEPATH += /usr/local/include/mysql
 }
 
@@ -425,6 +427,190 @@ WITH_POSTGRESQL {
     win32:INCLUDEPATH += "$$PWD\third_party\libpq\windows\include"
     unix:INCLUDEPATH += /usr/include/postgresql # pkg-config --cflags libpq
     macx:INCLUDEPATH += /usr/local/include
+}
+
+WITH_LIBMYSQL_SOURCES {
+
+    DEFINES += HAVE_OPENSSL
+    DEFINES += PTHREAD_ADAPTIVE_MUTEX_INITIALIZER_NP
+
+    LIBS += -lssl
+    LIBS += -lcrypto
+
+    INCLUDEPATH += third_party/libmysql/source/src/mysql-5.7.30/include
+    INCLUDEPATH += third_party/libmysql/source/src/mysql-5.7.30/libmysql
+    INCLUDEPATH += third_party/libmysql/source/src/mysql-5.7.30/regex
+    INCLUDEPATH += third_party/libmysql/source/src/mysql-5.7.30/sql
+    INCLUDEPATH += third_party/libmysql/source/src/mysql-5.7.30/strings
+    INCLUDEPATH += third_party/libmysql/source/src/mysql-5.7.30/mysys
+    INCLUDEPATH += third_party/libmysql/source/src/mysql-5.7.30/zlib
+
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/libmysql/libmysql.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/libmysql/errmsg.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/sql-common/client.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/sql-common/client_plugin.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/sql-common/client_authentication.cc
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/sql-common/pack.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/sql-common/my_time.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/sql/net_serv.cc
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/sql/auth/password.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/sql/auth/sha2_password_common.cc
+
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/array.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/charset-def.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/charset.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/checksum.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/errors.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/hash.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/list.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_cache.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_dirname.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_fn_ext.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_format.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_getdate.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_iocache.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_iocache2.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_keycache.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_keycaches.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_loadpath.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_pack.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_path.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_qsort.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_radix.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_same.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_soundex.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_arr_appstr.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_tempfile.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_unixpath.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mf_wcomp.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/mulalloc.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_access.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_alloc.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_bit.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_bitmap.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_chsize.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_compress.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_copy.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_create.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_delete.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_div.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_error.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_file.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_fopen.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_fstream.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_gethwaddr.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_getsystime.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_getwd.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_compare.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_init.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_lib.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_lock.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_malloc.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_mess.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_mkdir.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_mmap.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_once.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_open.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_pread.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_read.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_redel.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_rename.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_seek.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_static.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_symlink.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_symlink2.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_sync.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_thr_init.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_write.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/ptr_cmp.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/queues.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/sql_chars.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/stacktrace.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/string.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/thr_cond.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/thr_lock.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/thr_mutex.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/thr_rwlock.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/tree.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/typelib.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/base64.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_memmem.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/lf_alloc-pin.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/lf_dynarray.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/lf_hash.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_rdtsc.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/psi_noop.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_syslog.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_chmod.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_thread.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_crc32.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys/my_largepage.c
+
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/zlib/crc32.c
+
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/dbug/dbug.c
+
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/vio/vio.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/vio/viosocket.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/vio/viossl.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/vio/viosslfactories.c
+
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/bchange.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-big5.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-bin.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-cp932.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-czech.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-euc_kr.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-eucjpms.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-extra.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-gb2312.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-gbk.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-gb18030.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-latin1.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-mb.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-simple.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-sjis.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-tis620.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-uca.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-ucs2.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-ujis.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-utf8.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype-win1250ch.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/ctype.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/decimal.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/dtoa.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/int2str.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/is_prefix.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/llstr.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/longlong2str.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/my_strtoll10.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/my_vsnprintf.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/str2int.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/str_alloc.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/strcend.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/strend.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/strfill.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/strmake.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/my_stpmov.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/my_stpnmov.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/strxmov.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/strxnmov.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/xml.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/my_strchr.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/strcont.c
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/strings/strappend.c
+
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys_ssl/crypt_genhash_impl.cc
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys_ssl/mf_tempdir.cc
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys_ssl/my_default.cc
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys_ssl/my_getopt.cc
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys_ssl/my_aes.cc
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys_ssl/my_sha1.cc
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys_ssl/my_md5.cc
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys_ssl/my_rnd.cc
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys_ssl/my_murmur3.cc
+    SOURCES += third_party/libmysql/source/src/mysql-5.7.30/mysys_ssl/my_aes_openssl.cc
+
 }
 
 RESOURCES += \
