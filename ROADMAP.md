@@ -1,8 +1,127 @@
 # Roadmap
 
-## 0.3.2
+## Task pool (by priority)
 
-PostgreSQL: view table's structure
+SSH Tunnel via libSSH
+
+Host Tab: Variables for MySQL (r/o)
+
+Host Tab: Variables for MySQL (edit)
+
+ARM (raspberry builds)
+
+MySQL: View form (r/o)
+
+MySQL: View form (edit, create)
+
+MySQL: Procedure form (r/o)
+
+MySQL: Procedure form (edit, create)
+
+MySQL: Trigger form (r/o)
+
+MySQL: Trigger form (edit, create)
+
+MySQL: Function form (r/o)
+
+MySQL: Function form (edit, create)
+
+Main window left tree: filter by db and table
+
+Main window left tree: sorted
+
+Table columns: keys icons
+
+Table data edit: foreign key drop down
+
+Table data edit: date/datetime editor
+
+Table data edit: enum editor
+
+Table data edit: set editor
+
+Multiple Query tabs
+
+Drop: view, procedure, trigger, etc
+
+Query results editing
+
+Query results filter
+
+Connection password encryption
+
+Translations
+
+Query: 3rd party syntax highlighter
+
+Query: autocomplete
+
+Host Tab: status tab for MySQL
+
+MySQL: compressed client-server protocol option
+
+Connection: use SSL option
+
+Table: clear option
+
+Query tab: run current query
+
+Query tab: explain
+
+Data Grid: sorting
+
+Data Grid: export grid rows
+
+Data Grid: insert value options
+
+Data Grid: columns/filters
+
+Query: async execution & cancel
+
+Multithreading
+
+Settings window
+
+Import CSV
+
+User management
+
+Buildable and deployable on macOS
+
+Host tab: Processes
+
+Host tab: Command statistics
+
+Query: side help
+
+Event support
+
+MySQL: export database not via external mysqldump 
+
+Table tools: maintenance
+
+Table tools: bulk table editor
+
+Table tools: find text
+
+Data Grid: insert files into text/blob fields
+
+## 0.4.3
+
+SSH tunnel via OpenSSH (Linux only)
+Text edit popup
+
+## 0.4.2
+
+SQLite3 view table structure (columns, indices, foreign keys) (read-only) 
+
+## 0.4.1
+
+Initial SQLite 3 support (read-only).
+
+## 0.4.0
+
+Export from MySQL via mysqldump
 
 ## 0.3.1
 
@@ -94,18 +213,3 @@ Table Tab: Columns (r/o), minimal
 Buildable and deployable on Linux
 
 Buildable and deployable on Windows
-
-
-## Task pool (by priority)
-
-Connection password encryption
-
-Buildable and deployable on macOS
-
-Translations
-
-Table columns: keys icons
-
-...
-
-Host Tab: Variables (r/o), minimal
