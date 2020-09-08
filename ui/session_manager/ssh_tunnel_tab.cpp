@@ -64,7 +64,7 @@ void SSHTunnelTab::createWidgets()
 
     // Password ----------------------------------------------------------------
 
-    // it is hard to pass password to openSSH, so don't ask it here
+    // TODO: hide it for OpenSSH
 
     /*_passwordLabel = new QLabel(tr("Password:"));
     _mainGridLayout->addWidget(_passwordLabel, row, 0);

@@ -10,13 +10,6 @@ static const quint16 DEFAULT_SSH_PORT = 22;
 namespace meow {
 namespace ssh {
 
-ISSHTunnel::~ISSHTunnel()
-{
-
-}
-
-//------------------------------------------------------------------------------
-
 OpenSSHTunnel::OpenSSHTunnel()
     : _connected(false)
     , _stopWaiting(false)

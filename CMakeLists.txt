@@ -28,6 +28,7 @@ option(WITH_MYSQL "MySQL support" ON)
 option(WITH_POSTGRESQL "PostgreSQL support" ON)
 option(WITH_SQLITE "SQLite support" ON)
 option(WITH_QTSQL "Qt SQL Module" ON)
+option(WITH_LIBSSH "Use libssh" OFF) # not finished
 
 if(WITH_POSTGRESQL)
     add_definitions(-DWITH_POSTGRESQL)
@@ -45,6 +46,10 @@ if(WITH_QTSQL)
     add_definitions(-DWITH_QTSQL)
 endif()
 
+if(WITH_LIBSSH)
+    add_definitions(-DWITH_LIBSSH)
+endif()
+
 set(HEADER_FILES
     db/data_type/connection_data_types.h
     db/data_type/data_type_category.h
@@ -52,6 +57,7 @@ set(HEADER_FILES
     db/collation_fetcher.h
     db/common.h
     db/query_column.h
+    ssh/ssh_tunnel_interface.h
     ui/common/mysql_syntax.h
 )
 
@@ -259,6 +265,12 @@ if(WITH_QTSQL)
     )
 endif()
 
+if(WITH_LIBSSH)
+    list(APPEND SOURCE_FILES
+        ssh/libssh_tunnel.cpp
+    )
+endif()
+
 qt5_add_resources(RESOURCE_FILES icons.qrc)
 
 if (WIN32)
@@ -292,17 +304,15 @@ endif()
 
 if (WITH_MYSQL)
 
-set(MEOW_MYSQL_CLIENT_LIB mysqlclient) #linux
+    set(MEOW_MYSQL_CLIENT_LIB mysqlclient) #linux
 
-if (WIN32)
-
-    # find mysql manually
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-    find_package(MySQL REQUIRED)
-    include_directories(${MYSQL_INCLUDE_DIR})
-    set(MEOW_MYSQL_CLIENT_LIB ${MYSQL_LIBRARY})
-
-endif()
+    if (WIN32)
+        # find mysql manually
+        list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+        find_package(MySQL REQUIRED)
+        include_directories(${MYSQL_INCLUDE_DIR})
+        set(MEOW_MYSQL_CLIENT_LIB ${MYSQL_LIBRARY})
+    endif()
 
 endif() # if (WITH_MYSQL)
 
@@ -337,6 +347,16 @@ message ("PostgreSQL_LIBRARIES = ${PostgreSQL_LIBRARIES}")
 endif() # if(WITH_POSTGRESQL)
 
 # PG end ----------------------------------------------
+
+if(WITH_LIBSSH)
+    # https://www.libssh.org/2019/11/07/libssh-0-9-2/
+    find_package(libssh REQUIRED)
+    message ("LIBSSH_INCLUDE_DIR = ${LIBSSH_INCLUDE_DIR}")
+    message ("LIBSSH_LIBRARIES = ${LIBSSH_LIBRARIES}")
+
+    target_link_libraries(meowsql pthread ssh)
+
+endif()
 
 if(WITH_MYSQL)
     target_link_libraries(meowsql

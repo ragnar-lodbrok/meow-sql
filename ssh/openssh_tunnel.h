@@ -3,19 +3,10 @@
 
 #include <QProcess>
 #include "db/connection_parameters.h"
+#include "ssh_tunnel_interface.h"
 
 namespace meow {
 namespace ssh {
-
-class ISSHTunnel
-{
-public:
-    virtual ~ISSHTunnel();
-
-    virtual bool connect(const db::ConnectionParameters & params) = 0;
-    virtual void disconnect() = 0;
-
-};
 
 class OpenSSHTunnel : public QObject, public ISSHTunnel
 {

@@ -55,6 +55,8 @@ void MySQLConnection::setActive(bool active) // override
         if (connectionParams()->isSSHTunnel()) {
 
             _sshTunnel.reset(new ssh::OpenSSHTunnel()); // TODO: factory
+
+            //_sshTunnel.reset(new ssh::LibSSHTunnel()); // TODO
             _sshTunnel->connect(*connectionParams()); // throws on error
 
             connectionParams()->setHostName("127.0.0.1");
