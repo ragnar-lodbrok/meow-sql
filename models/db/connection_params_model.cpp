@@ -76,7 +76,7 @@ QVariant ConnectionParamsModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DisplayRole) {
 
-        const meow::db::ConnectionParameters params
+        const meow::db::ConnectionParameters & params
                 = _connectionParamsManager->at(index.row());
 
         switch (static_cast<Columns>(index.column())) {
@@ -88,8 +88,15 @@ QVariant ConnectionParamsModel::data(const QModelIndex &index, int role) const
             return modified ? params.sessionName() + " *" : params.sessionName();
         }
         case Columns::Host:
-            return params.isFilebased() ?
-                        params.fileNameShort() : params.hostName();
+            if (params.isFilebased()) {
+                return params.fileNameShort();
+            } else {
+                if (params.isSSHTunnel()) {
+                    return params.sshTunnel().host() + " (SSH)";
+                } else {
+                    return params.hostName();
+                }
+            }
         default:
             break;
         }
@@ -152,9 +159,9 @@ int ConnectionParamsModel::columnWidth(int column) const
 {
     switch (static_cast<Columns>(column)) {
     case Columns::Session:
-        return 120;
+        return 150;
     case Columns::Host:
-        return 120;
+        return 150;
     default:
         break;
     }

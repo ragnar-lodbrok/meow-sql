@@ -60,10 +60,10 @@ void Window::createMainLayout()
     _mainLayout->addWidget(_mainSplitter);
 
     _mainLeftWidget = new QWidget();
-    _mainLeftWidget->setMinimumSize(QSize(270, 400));
+    _mainLeftWidget->setMinimumSize(QSize(330, 400));
 
     _mainRightWidget = new QWidget();
-    _mainRightWidget->setMinimumSize(QSize(350, 400));
+    _mainRightWidget->setMinimumSize(QSize(470, 400));
 
     _mainSplitter->addWidget(_mainLeftWidget);
     _mainSplitter->setStretchFactor(0, 1);
