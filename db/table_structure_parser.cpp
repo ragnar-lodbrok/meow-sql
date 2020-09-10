@@ -339,11 +339,11 @@ QString TableStructureParser::extractId(QString & str, bool remove) const
 
     if (leftPos > 0) {
         const int rightPos =
-            str.indexOf(_quoteChar, leftPos, Qt::CaseInsensitive) - 1;
+            str.indexOf(_quoteChar, leftPos, Qt::CaseInsensitive);
         if (rightPos > leftPos) {
-            QString result = str.mid(leftPos, rightPos - leftPos + 1);
+            QString result = str.mid(leftPos, rightPos - leftPos);
             if (remove) {
-                str.remove(0, rightPos + 2);
+                str.remove(0, rightPos + 1);
             }
             return result;
         }
