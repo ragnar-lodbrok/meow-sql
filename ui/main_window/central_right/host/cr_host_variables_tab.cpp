@@ -1,5 +1,7 @@
 #include "cr_host_variables_tab.h"
 #include "app/app.h"
+#include "db/exception.h"
+#include "central_right_host_tab.h"
 
 namespace meow {
 namespace ui {
@@ -35,11 +37,36 @@ void HostVariablesTab::createVariablesTable()
     for (int i=0; i<_model.columnCount(); ++i) {
         _variablesTable->setColumnWidth(i, _model.columnWidth(i));
     }
+    _variablesTable->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(_variablesTable, &QWidget::customContextMenuRequested,
+            this, &HostVariablesTab::onTableContextMenu);
 }
 
 void HostVariablesTab::setSession(meow::db::SessionEntity * session)
 {
     _model.setSession(session);
+}
+
+void HostVariablesTab::onTableContextMenu(const QPoint &pos)
+{
+    QMenu menu(this);
+
+    QAction refreshAction(QIcon(":/icons/arrow_refresh.png"),
+                          tr("Refresh"));
+    refreshAction.setShortcuts(QKeySequence::Refresh);
+
+    connect(&refreshAction, &QAction::triggered, [=](bool checked) {
+        Q_UNUSED(checked);
+        try {
+            _model.refresh();
+        } catch(meow::db::Exception & ex) {
+            HostTab::showErrorMessage(ex.message());
+        }
+    });
+
+    menu.addAction(&refreshAction);
+
+    menu.exec(_variablesTable->viewport()->mapToGlobal(pos));
 }
 
 } // namespace central_right

@@ -13,11 +13,11 @@ public:
     QAction * disconnect() const { return _disconnect; }
     QAction * sessionManager() const { return _sessionManager; }
 
+    // TODO: group actions
     QAction * dataInsert() const { return _dataInsert; }
     QAction * dataDelete() const { return _dataDelete; }
     QAction * dataPostChanges() const { return _dataPostChanges; }
     QAction * dataCancelChanges() const { return _dataCancelChanges; }
-
     QAction * dataSetNULL() const { return _dataSetNULL; }
 
     QAction * logClear() const { return _logClear; }

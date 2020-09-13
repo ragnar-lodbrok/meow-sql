@@ -23,6 +23,8 @@ public:
         Variables
     };
 
+    static void showErrorMessage(const QString& message);
+
 private:
 
     void createRootTabs();

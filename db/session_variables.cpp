@@ -17,6 +17,42 @@ SessionVariables::~SessionVariables()
 
 }
 
+DataTypeCategoryIndex SessionVariables::dataType(const QString & name) const
+{
+    QString value;
+    if (_sessionVars.contains(name)) {
+        value = _sessionVars.value(name);
+    } else {
+        value = _globalVars.value(name);
+    }
+
+    {
+        bool isInt = false;
+        value.toInt(&isInt);
+        if (isInt) {
+            return DataTypeCategoryIndex::Integer;
+        }
+    }
+
+    {
+        bool isDouble = false;
+        value.toDouble(&isDouble);
+        if (isDouble) {
+            return DataTypeCategoryIndex::Float;
+        }
+    }
+
+    if (value.length() == 2 || value.length() == 3) { // ON/OFF YES/NO len
+        value = value.toUpper();
+        if (value == "ON" || value == "OFF" ||
+                value == "YES" || value == "NO") {
+            return DataTypeCategoryIndex::Other;
+        }
+    }
+
+    return DataTypeCategoryIndex::Text;
+}
+
 void SessionVariables::fetch(bool refresh)
 {
     if (_fetched && !refresh) {

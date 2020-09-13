@@ -2,6 +2,7 @@
 #define DB_SESSION_VARIABLES_H
 
 #include <QMap>
+#include "data_type/data_type_category.h"
 
 namespace meow {
 namespace db {
@@ -18,6 +19,7 @@ public:
     virtual ~SessionVariables();
     virtual VarsMap fetchForSession() = 0;
     virtual VarsMap fetchGlobal() = 0;
+    virtual DataTypeCategoryIndex dataType(const QString & name) const;
 
     void fetch(bool refresh = false);
 

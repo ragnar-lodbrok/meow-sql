@@ -1,5 +1,8 @@
 #include "variables_table_model.h"
 #include "db/connection.h"
+#include "app/app.h"
+#include <QGuiApplication>
+#include <QPalette>
 
 namespace meow {
 namespace models {
@@ -90,7 +93,37 @@ QVariant VariablesTableModel::data(const QModelIndex &index, int role) const
         default:
             break;
         }
+    } else if (role == Qt::BackgroundRole) {
+        if (static_cast<Columns>(index.column()) == Columns::Session) {
 
+            // highlight(red) if session != global
+            const QStringList & names = vars()->allNames();
+            const QString & name = names[index.row()];
+
+            if (vars()->sessionAndGlobalDiffers(name)) {
+                QColor bgColor = QGuiApplication::palette()
+                        .color(QPalette::Window);
+                bgColor.setRedF(bgColor.redF() + 0.075);
+                return QVariant::fromValue(bgColor);
+            }
+
+
+        }
+    } else if (role == Qt::ForegroundRole) {
+
+        switch (static_cast<Columns>(index.column())) {
+
+        case Columns::Session:
+        case Columns::Global: {
+            auto textSettings = meow::app()->settings()->textSettings();
+            const QStringList & names = vars()->allNames();
+            const QString & name = names[index.row()];
+            return textSettings->colorForDataType(vars()->dataType(name));
+        }
+
+        default:
+            break;
+        }
     }
 
     return QVariant();

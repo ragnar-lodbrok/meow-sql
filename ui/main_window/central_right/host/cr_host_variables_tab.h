@@ -23,6 +23,8 @@ private:
 
     void createVariablesTable();
 
+    Q_SLOT void onTableContextMenu(const QPoint &pos);
+
     models::db::VariablesTableModel _model;
 
     QVBoxLayout * _mainLayout;

@@ -1,4 +1,5 @@
 #include "central_right_host_tab.h"
+#include "db/exception.h"
 
 namespace meow {
 namespace ui {
@@ -96,7 +97,12 @@ void HostTab::onSessionChanged(meow::db::SessionEntity * session)
 
         if (_rootTabs->currentIndex() == Tabs::Variables) {
             // lazy load
-            variablesTab()->setSession(session);
+            try {
+                variablesTab()->setSession(session);
+            } catch(meow::db::Exception & ex) {
+                showErrorMessage(ex.message());
+            }
+
         }
         _rootTabs->setTabText(Tabs::Variables, _model.titleForVariablesTab());
 
@@ -108,9 +114,23 @@ void HostTab::onSessionChanged(meow::db::SessionEntity * session)
 void HostTab::rootTabChanged(int index)
 {
     if (_model.showVariablesTab() && index == Tabs::Variables) {
-        variablesTab()->setSession(_model.currentSession());
+        try {
+            variablesTab()->setSession(_model.currentSession());
+        } catch(meow::db::Exception & ex) {
+            showErrorMessage(ex.message());
+        }
         _rootTabs->setTabText(Tabs::Variables, _model.titleForVariablesTab());
     }
+}
+
+void HostTab::showErrorMessage(const QString& message)
+{
+    QMessageBox msgBox;
+    msgBox.setText(message);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
 }
 
 } // namespace central_right
