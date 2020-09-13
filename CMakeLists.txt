@@ -114,6 +114,7 @@ set(SOURCE_FILES
     db/query_data.cpp
     db/query_data_editor.cpp
     db/query_data_fetcher.cpp
+    db/session_variables.cpp
     db/table_column.cpp
     db/table_editor.cpp
     db/table_index.cpp
@@ -133,6 +134,7 @@ set(SOURCE_FILES
     models/db/data_table_model.cpp
     models/db/entities_tree_model.cpp
     models/db/table_columns_model.cpp
+    models/db/variables_table_model.cpp
     models/delegates/checkbox_delegate.cpp
     models/delegates/edit_query_data_delegate.cpp
     models/delegates/foreign_key_columns_delegate.cpp
@@ -183,6 +185,7 @@ set(SOURCE_FILES
     ui/main_window/central_right/data/central_right_data_tab.cpp
     ui/main_window/central_right/host/central_right_host_tab.cpp
     ui/main_window/central_right/host/cr_host_databases_tab.cpp
+    ui/main_window/central_right/host/cr_host_variables_tab.cpp
     ui/main_window/central_right/query/central_right_query_tab.cpp
     ui/main_window/central_right/query/cr_query_data_tab.cpp
     ui/main_window/central_right/query/cr_query_panel.cpp

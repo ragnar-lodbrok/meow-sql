@@ -113,7 +113,8 @@ QStringList Connection::getColumn(const QString & SQL, std::size_t index)
 
     Query * queryPtr = query.get();
 
-    if (queryPtr->recordCount() > 0) {
+    if (queryPtr->recordCount() > 0) {        
+        result.reserve(queryPtr->recordCount());
         while (queryPtr->isEof() == false) {
             result.append(queryPtr->curRowColumn(index));
             queryPtr->seekNext();
@@ -169,6 +170,27 @@ QStringList Connection::getRow(const QString & SQL)
     } else {
         return {};
     }
+}
+
+QList<QStringList> Connection::getRows(const QString & SQL)
+{
+    QueryPtr query = getResults(SQL);
+
+    QList<QStringList> result;
+
+    Query * queryPtr = query.get();
+
+    if (queryPtr->recordCount() > 0) {
+
+        result.reserve(queryPtr->recordCount());
+
+        while (queryPtr->isEof() == false) {
+            result.append(queryPtr->curRow());
+            queryPtr->seekNext();
+        }
+    }
+
+    return result;
 }
 
 QString Connection::quoteIdentifier(const char * identifier,
@@ -357,6 +379,14 @@ ConnectionFeatures * Connection::features()
         _features.reset(createFeatures());
     }
     return _features.get();
+}
+
+SessionVariables * Connection::variables()
+{
+    if (_variables == nullptr) {
+        _variables.reset(createVariables());
+    }
+    return _variables.get();
 }
 
 ConnectionFeatures * Connection::createFeatures()

@@ -75,7 +75,8 @@ protected:
     virtual TableEnginesFetcher * createTableEnginesFetcher() override;
     virtual ConnectionDataTypes * createConnectionDataTypes() override;
 
-    virtual ConnectionFeatures * createFeatures() override;
+    virtual ConnectionFeatures * createFeatures() override;   
+    virtual SessionVariables * createVariables() override;
 
 private:
     MYSQL * _handle;

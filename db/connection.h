@@ -15,6 +15,7 @@
 #include "collation_fetcher.h"
 #include "db/data_type/connection_data_types.h"
 #include "connection_features.h"
+#include "session_variables.h"
 
 namespace meow {
 namespace db {
@@ -59,6 +60,7 @@ public:
                     std::size_t index = 0); //H:  GetVar
     QString getCell(const QString & SQL, const QString & columnName);
     QStringList getRow(const QString & SQL);
+    QList<QStringList> getRows(const QString & SQL);
     QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String):
     QStringList allDatabases(bool refresh = false);
     void setAllDatabases(const QStringList & databases);
@@ -125,6 +127,8 @@ public:
 
     ConnectionFeatures * features();
 
+    SessionVariables * variables();
+
     // TODO: rename to activeDatabaseChanged
     Q_SIGNAL void databaseChanged(const QString & database);
 
@@ -152,6 +156,7 @@ protected:
     virtual ConnectionDataTypes * createConnectionDataTypes() = 0;
     virtual ConnectionFeatures * createFeatures();
     virtual ITableStructureParser * createTableStructureParser();
+    virtual SessionVariables * createVariables() { return nullptr; }
 
 private:
     //int _connectionStarted;
@@ -167,6 +172,7 @@ private:
     std::unique_ptr<TableEnginesFetcher> _tableEnginesFetcher;
     std::shared_ptr<ConnectionDataTypes> _dataTypes;
     std::shared_ptr<ConnectionFeatures> _features;
+    std::unique_ptr<SessionVariables> _variables;
 };
 
 } // namespace db

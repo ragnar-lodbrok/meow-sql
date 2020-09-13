@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 #include "cr_host_databases_tab.h"
+#include "cr_host_variables_tab.h"
 #include "models/ui/central_right_host_widget_model.h"
 
 namespace meow {
@@ -25,10 +26,17 @@ public:
 private:
 
     void createRootTabs();
+    HostVariablesTab * variablesTab();
+    bool removeVariablesTab();
+    bool removeTab(QWidget * tab);
+
     void onSessionChanged(meow::db::SessionEntity * session);
+
+    Q_SLOT void rootTabChanged(int index);
 
     QTabWidget  * _rootTabs;
     HostDatabasesTab * _databasesTab;
+    HostVariablesTab * _variablesTab;
 
     models::ui::CentralRightHostWidgetModel _model;
 

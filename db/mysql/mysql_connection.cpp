@@ -509,5 +509,10 @@ ConnectionFeatures * MySQLConnection::createFeatures()
     return new MySQLConnectionFeatures(this);
 }
 
+SessionVariables * MySQLConnection::createVariables()
+{
+    return new MySQLSessionVariables(this);
+}
+
 } // namespace db
 } // namespace meow

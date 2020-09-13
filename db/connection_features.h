@@ -51,6 +51,10 @@ public:
     virtual bool supportsDumping() const {
         return false;
     }
+
+    virtual bool supportsViewingVariables() const {
+        return false;
+    }
 };
 
 // -----------------------------------------------------------------------------
@@ -102,6 +106,10 @@ public:
     virtual bool supportsForeignKeys(const TableEntity * table) const override;
 
     virtual bool supportsDumping() const override {
+        return true;
+    }
+
+    virtual bool supportsViewingVariables() const override {
         return true;
     }
 };
