@@ -11,7 +11,7 @@ static QRect screenRectForRect(const QRect & rect)
     auto screens = QApplication::screens();
 
     for (const auto & screen : screens) {
-        auto screenRect = screen->virtualGeometry();
+        auto screenRect = screen->availableGeometry();
         if (screenRect.intersects(rect)) {
             return screen->availableGeometry();
         }
