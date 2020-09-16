@@ -104,6 +104,7 @@ SOURCES += main.cpp\
     db/query_criteria.cpp \
     db/query_data.cpp \
     db/query_data_fetcher.cpp \
+    db/session_variables.cpp \
     db/table_column.cpp \
     db/table_editor.cpp \
     db/table_index.cpp \
@@ -123,6 +124,7 @@ SOURCES += main.cpp\
     models/db/data_table_model.cpp \
     models/db/entities_tree_model.cpp \
     models/db/table_columns_model.cpp \
+    models/db/variables_table_model.cpp \
     models/delegates/checkbox_delegate.cpp \
     models/delegates/foreign_key_columns_delegate.cpp \
     models/delegates/foreign_key_foreign_columns_delegate.cpp \
@@ -168,6 +170,7 @@ SOURCES += main.cpp\
     ui/main_window/central_right/data/central_right_data_tab.cpp \
     ui/main_window/central_right/host/central_right_host_tab.cpp \
     ui/main_window/central_right/host/cr_host_databases_tab.cpp \
+    ui/main_window/central_right/host/cr_host_variables_tab.cpp \
     ui/main_window/central_right/query/central_right_query_tab.cpp \
     ui/main_window/central_right/query/cr_query_data_tab.cpp \
     ui/main_window/central_right/query/cr_query_panel.cpp \
@@ -234,6 +237,7 @@ HEADERS  +=  app/actions.h \
     db/query_column.h \
     db/query_criteria.h \
     db/query_data_fetcher.h \
+    db/session_variables.h \
     db/query_data.h \
     db/query.h \
     db/table_column.h \
@@ -256,6 +260,7 @@ HEADERS  +=  app/actions.h \
     models/db/data_table_model.h \
     models/db/entities_tree_model.h \
     models/db/table_columns_model.h \
+    models/db/variables_table_model.h \
     models/delegates/checkbox_delegate.h \
     models/delegates/foreign_key_columns_delegate.h \
     models/delegates/foreign_key_foreign_columns_delegate.h \
@@ -302,6 +307,7 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_right/data/central_right_data_tab.h \
     ui/main_window/central_right/host/central_right_host_tab.h \
     ui/main_window/central_right/host/cr_host_databases_tab.h \
+    ui/main_window/central_right/host/cr_host_variables_tab.h \
     ui/main_window/central_right/query/central_right_query_tab.h \
     ui/main_window/central_right/query/cr_query_data_tab.h \
     ui/main_window/central_right/query/cr_query_panel.h \
