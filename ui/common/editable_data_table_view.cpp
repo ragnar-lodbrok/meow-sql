@@ -18,6 +18,10 @@ void EditableDataTableView::contextMenuEvent(QContextMenuEvent * event)
     // TODO check for supportsEditingTablesData()
     insertValueSubMenu->addAction( meow::app()->actions()->dataSetNULL() );
 
+    menu.addSeparator();
+
+    menu.addAction(meow::app()->actions()->dataRefresh());
+
     menu.exec(event->globalPos());
 }
 

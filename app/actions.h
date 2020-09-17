@@ -19,6 +19,7 @@ public:
     QAction * dataPostChanges() const { return _dataPostChanges; }
     QAction * dataCancelChanges() const { return _dataCancelChanges; }
     QAction * dataSetNULL() const { return _dataSetNULL; }
+    QAction * dataRefresh() const { return _dataRefresh; }
 
     QAction * logClear() const { return _logClear; }
 
@@ -35,8 +36,8 @@ private:
     QAction * _dataDelete;
     QAction * _dataPostChanges;
     QAction * _dataCancelChanges;
-
     QAction * _dataSetNULL;
+    QAction * _dataRefresh;
 
     QAction * _logClear;
 

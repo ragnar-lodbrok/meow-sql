@@ -52,6 +52,11 @@ void Actions::createActions()
 
     // -------------------------------------------------------------------------
 
+    _dataRefresh = new QAction(QIcon(":/icons/arrow_refresh.png"),
+                               tr("Refresh"), this);
+    _dataRefresh->setShortcuts(QKeySequence::Refresh);
+
+    // -------------------------------------------------------------------------
     _logClear = new QAction(tr("Clear"), this);
     _logClear->setStatusTip(tr("Clear query log"));
 

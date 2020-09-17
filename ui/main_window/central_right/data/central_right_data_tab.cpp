@@ -30,6 +30,11 @@ DataTab::DataTab(QWidget *parent) :
             this,
             &DataTab::onDataSetNULLAction);
 
+    connect(meow::app()->actions()->dataRefresh(),
+            &QAction::triggered,
+            this,
+            &DataTab::onDataRefreshAction);
+
     connect(meow::app()->actions()->dataPostChanges(),
             &QAction::triggered,
             this,
@@ -324,6 +329,13 @@ void DataTab::onDataSetNULLAction(bool checked)
     if (curIndex.isValid()) {
         _model.setData(curIndex, QString());
     }
+}
+
+void DataTab::onDataRefreshAction(bool checked)
+{
+    Q_UNUSED(checked);
+    _model.refresh();
+    onLoadData();
 }
 
 void DataTab::applyModifications()
