@@ -2,10 +2,10 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "MeowSQL"
-#define MyAppVersion "0.4.3"
+#define MyAppVersion "0.4.4"
 #define MyAppPublisher "Ragnar Lodbrok"
 #define MyAppURL "https://github.com/ragnar-lodbrok/meow-sql"
-#define MyAppExeName "meow-sql.exe"
+#define MyAppExeName "meowsql.exe"
 
 ; TODO: this is shit!!!
 #define SourceDir "D:\work\projects\build-meow_sql-Desktop_Qt_5_6_2_MSVC2013_32bit-Release"
@@ -67,7 +67,7 @@ Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#SourceDir}\meow-sql.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\meowsql.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\libmysql.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; TODO: call windeployqt instead
 Source: "{#SourceDir}\Qt5Core.dll"; DestDir: "{app}"; Flags: ignoreversion

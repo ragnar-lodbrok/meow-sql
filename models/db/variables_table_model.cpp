@@ -103,7 +103,7 @@ QVariant VariablesTableModel::data(const QModelIndex &index, int role) const
             if (vars()->sessionAndGlobalDiffers(name)) {
                 QColor bgColor = QGuiApplication::palette()
                         .color(QPalette::Window);
-                bgColor.setRedF(bgColor.redF() + 0.075);
+                bgColor.setRedF(qMin(bgColor.redF() + 0.075, 1.0));
                 return QVariant::fromValue(bgColor);
             }
 

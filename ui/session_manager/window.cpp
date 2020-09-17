@@ -13,7 +13,7 @@ Window::Window(main_window::Window * mainWindow)
     _saveConfirmCanceled(false)
 {
 
-    setMinimumSize(QSize(665, 400));
+    setMinimumSize(QSize(800, 400));
     setWindowTitle(tr("Session manager"));
 
     createMainLayout();
@@ -60,7 +60,7 @@ void Window::createMainLayout()
     _mainLayout->addWidget(_mainSplitter);
 
     _mainLeftWidget = new QWidget();
-    _mainLeftWidget->setMinimumSize(QSize(330, 400));
+    _mainLeftWidget->setMinimumSize(QSize(300, 400));
 
     _mainRightWidget = new QWidget();
     _mainRightWidget->setMinimumSize(QSize(470, 400));

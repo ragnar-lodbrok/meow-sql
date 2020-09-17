@@ -52,7 +52,7 @@ void HostVariablesTab::onTableContextMenu(const QPoint &pos)
     QMenu menu(this);
 
     QAction refreshAction(QIcon(":/icons/arrow_refresh.png"),
-                          tr("Refresh"));
+                          tr("Refresh"), nullptr);
     refreshAction.setShortcuts(QKeySequence::Refresh);
 
     connect(&refreshAction, &QAction::triggered, [=](bool checked) {
