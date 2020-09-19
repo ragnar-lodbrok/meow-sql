@@ -21,6 +21,10 @@ public:
     virtual VarsMap fetchGlobal() = 0;
     virtual DataTypeCategoryIndex dataType(const QString & name) const;
 
+    virtual bool editVariableInDB(const QString & name,
+                                  const QString & value,
+                                  bool global) = 0;
+
     void fetch(bool refresh = false);
 
     int totalCount();
@@ -53,6 +57,9 @@ public:
 
     virtual VarsMap fetchForSession() override;
     virtual VarsMap fetchGlobal() override;
+    virtual bool editVariableInDB(const QString & name,
+                                  const QString & value,
+                                  bool global) override; // throws
 private:
     VarsMap fetchWithQuery(const QString & SQL);
 };

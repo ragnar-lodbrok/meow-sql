@@ -3,6 +3,7 @@
 #include "app/app.h"
 #include <QGuiApplication>
 #include <QPalette>
+#include <QDebug>
 
 namespace meow {
 namespace models {
@@ -31,6 +32,16 @@ Qt::ItemFlags VariablesTableModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid()) {
         return Qt::ItemIsEnabled;
+    }
+
+    switch (static_cast<Columns>(index.column())) {
+
+    case Columns::Session:
+    case Columns::Global:
+        return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
+
+    default:
+        break;
     }
 
     return QAbstractItemModel::flags(index);
@@ -74,7 +85,7 @@ QVariant VariablesTableModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
 
         const QStringList & names = vars()->allNames();
         const QString & name = names[index.row()];
@@ -127,6 +138,40 @@ QVariant VariablesTableModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+bool VariablesTableModel::setData(const QModelIndex &index,
+                                const QVariant &value,
+                                int role)
+{
+    if (!index.isValid() || role != Qt::EditRole) {
+        return false;
+    }
+
+    Columns column = static_cast<Columns>(index.column());
+    bool isGlobal = column == Columns::Global;
+
+    if (column == Columns::Session || isGlobal) {
+
+        const QStringList & names = vars()->allNames();
+        const QString & name = names[index.row()];
+
+        bool edited = false;
+
+        try {
+            edited = vars()->editVariableInDB(name, value.toString(), isGlobal);
+        } catch(meow::db::Exception & ex) {
+            emit setDataFailed(ex.message());
+        }
+
+
+        if (edited) {
+            refresh(); // editing global may change local
+            return true;
+        }
+    }
+
+    return false;
 }
 
 int VariablesTableModel::columnWidth(int column) const
@@ -198,6 +243,7 @@ meow::db::SessionVariables * VariablesTableModel::vars() const
     }
     return nullptr;
 }
+
 
 } // namespace db
 } // namespace models
