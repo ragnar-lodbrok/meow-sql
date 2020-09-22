@@ -19,9 +19,20 @@ QString ViewEntity::name() const // override
 
 QVariant ViewEntity::icon() const // override
 {
+    // TODO: not here
     static const QIcon icon = QIcon(":/icons/view.png");
 
     return icon;
+}
+
+ViewStructure * ViewEntity::structure() const
+{
+    if (!_structure) {
+        _structure.reset(
+            new ViewStructure(const_cast<ViewEntity *>(this))
+        );
+    }
+    return _structure.get();
 }
 
 } // namespace db

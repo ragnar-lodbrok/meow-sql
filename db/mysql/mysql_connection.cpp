@@ -430,6 +430,10 @@ QString MySQLConnection::getCreateCode(const Entity * entity) // override
         typeStr = QString("TABLE");
         column = 1;
         break;
+    case Entity::Type::View:
+        typeStr = QString("VIEW");
+        column = 1;
+        break;
     case Entity::Type::Function:
         typeStr = QString("FUNCTION");
         column = 2;
@@ -451,6 +455,8 @@ QString MySQLConnection::getCreateCode(const Entity * entity) // override
     QString SQL = QString("SHOW CREATE %1 %2")
             .arg(typeStr)
             .arg(quotedFullName(entity));
+
+    // TODO: CREATE VIEW can throw privilege errors, use another SQL
 
     return getCell(SQL, column);
 }

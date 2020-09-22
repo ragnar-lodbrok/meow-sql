@@ -5,6 +5,7 @@
 #include "database_editor.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
+#include "db/entity/view_entity.h"
 #include "table_engines_fetcher.h"
 #include "query_data_editor.h"
 
@@ -237,6 +238,29 @@ QStringList Connection::quoteIdentifiers(const QStringList & identifiers) const
     return result;
 }
 
+QString Connection::dequoteIdentifier(const QString & identifier,
+                                      QChar glue) const
+{
+    QString result = identifier;
+    if (identifier.length() >= 2
+            && identifier.front() == _identifierQuote
+            && identifier.back() == _identifierQuote) {
+
+        result = result.mid(1, result.length()-2);
+    }
+
+    if (glue != QChar::Null) {
+        result.replace(QString(_identifierQuote+glue+_identifierQuote), glue);
+    }
+
+    result.replace(QString(_identifierQuote)+QString(_identifierQuote),
+                   QChar(_identifierQuote));
+
+    // TODO: Heidi removes FQuoteChars
+
+    return result;
+}
+
 const QStringList Connection::collationList()
 {
     if (_collationFetcher == nullptr) {
@@ -305,6 +329,18 @@ void Connection::parseTableStructure(TableEntity * table, bool refresh)
         _tableStructureParser.reset(createTableStructureParser());
     }
     _tableStructureParser->run(table);
+}
+
+void Connection::parseViewStructure(ViewEntity * view, bool refresh)
+{
+    if (!refresh && view->hasStructure()) {
+        return;
+    }
+
+    if (_viewStructureParser == nullptr) {
+        _viewStructureParser.reset(new ViewStructureParser(this));
+    }
+    _viewStructureParser->run(view);
 }
 
 bool Connection::editTableInDB(TableEntity * table, TableEntity * newData)
