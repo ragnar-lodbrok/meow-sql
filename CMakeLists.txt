@@ -202,6 +202,7 @@ set(SOURCE_FILES
     ui/main_window/central_right/table/cr_table_info_foreign_keys_tab.cpp
     ui/main_window/central_right/table/cr_table_info_indexes_tab.cpp
     ui/main_window/central_right/table/cr_table_info_options_tab.cpp
+    ui/main_window/central_right/view/central_right_view_tab.cpp
     ui/main_window/central_right_widget.cpp
     ui/main_window/central_widget.cpp
     ui/main_window/main_window.cpp
