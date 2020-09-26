@@ -86,3 +86,6 @@ This project is licensed under the GPL 2.0 License
 * [peek](https://github.com/phw/peek) was used for GIF recording
 * [linuxdeployqt](https://github.com/probonopd/linuxdeployqt) was used for AppImage creation
 
+## Donation
+
+* Ko-fi (via PayPal): https://ko-fi.com/ragnarlodbrok
