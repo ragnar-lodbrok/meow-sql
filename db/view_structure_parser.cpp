@@ -58,14 +58,17 @@ void ViewStructureParser::run(ViewEntity * view)
     }
 
     if (_connection->connectionParams()->serverType() == ServerType::MySQL) {
-        structure->algorithm = match.captured(3);
+        structure->algorithm = match.captured(3).toUpper();
+        if (structure->algorithm.isEmpty()) {
+            structure->algorithm = "UNDEFINED";
+        }
         structure->definer = _connection->dequoteIdentifier(
                     match.captured(5), '@');
-        structure->sqlSecurity = match.captured(7);
+        structure->sqlSecurity = match.captured(7).toUpper();
         if (structure->sqlSecurity.isEmpty()) {
             structure->sqlSecurity = "DEFINER";
         }
-        structure->checkOption = match.captured(11);
+        structure->checkOption = match.captured(11).toUpper();
     }
 
     structure->setSelectStatement(match.captured(9));

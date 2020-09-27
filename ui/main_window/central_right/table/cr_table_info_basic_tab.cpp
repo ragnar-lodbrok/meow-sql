@@ -67,7 +67,7 @@ void BasicTab::createWidgets()
 void BasicTab::fillDataFromForm()
 {
     _nameEdit->setText(_tableForm->tableName());
-    _nameEdit->setEnabled(_tableForm->isEditingSupported());
+    _nameEdit->setEnabled(_tableForm->isEditingSupported()); // TODO: why not r/o ?
 
     _commentEdit->blockSignals(true);
     _commentEdit->setPlainText(_tableForm->tableComment());

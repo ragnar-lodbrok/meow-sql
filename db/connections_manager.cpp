@@ -193,10 +193,10 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
                 TableEntity * table = static_cast<TableEntity *>(activeEntity);
                 connection->parseTableStructure(table);
             } else if (activeEntity->type() == Entity::Type::View) {
-                // TODO: don't parse it here, do when tab is opened
+                // TODO: don't parse it here, do when tab is opened?
                 if (connection->features()->supportsViewingViews()) {
                     ViewEntity * view = static_cast<ViewEntity *>(activeEntity);
-                    connection->parseViewStructure(view); // test
+                    connection->parseViewStructure(view);
                 }
             }
         }

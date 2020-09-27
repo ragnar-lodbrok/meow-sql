@@ -73,8 +73,8 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
             auto tableEntity = static_cast<db::TableEntity *>(entity);
             tableTab()->setTable(tableEntity);
         } else if (entity->type() == db::Entity::Type::View) {
-            //auto viewEntity = static_cast<db::ViewEntity *>(entity);
-            viewTab();//->setView(viewEntity);
+            auto viewEntity = static_cast<db::ViewEntity *>(entity);
+            viewTab()->setView(viewEntity);
         }
     } else {
         removeTableTab();

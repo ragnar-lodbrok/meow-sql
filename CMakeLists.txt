@@ -155,6 +155,7 @@ set(SOURCE_FILES
     models/forms/table_indexes_model_item.cpp
     models/forms/table_info_form.cpp
     models/forms/text_editor_popup_form.cpp
+    models/forms/view_form.cpp
     models/ui/central_right_host_widget_model.cpp
     models/ui/central_right_widget_model.cpp
     models/ui/table_info_widget_model.cpp

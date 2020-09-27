@@ -9,6 +9,8 @@
 #include "table_engines_fetcher.h"
 #include "query_data_editor.h"
 
+#include <QDebug>
+
 namespace meow {
 namespace db {
 
@@ -207,7 +209,12 @@ QString Connection::quoteIdentifier(const QString & identifier,
                                     QChar glue /*= QChar::Null*/) const
 {
     if (glue != QChar::Null) {
-        // TODO
+        int glueIndex = identifier.indexOf(glue);
+        if (glueIndex != -1) { // found
+            QString left = identifier.mid(0, glueIndex);
+            QString right = identifier.mid(glueIndex+1);
+            return quoteIdentifier(left) + glue + quoteIdentifier(right);
+        }
     }
 
     if (alwaysQuote) {
