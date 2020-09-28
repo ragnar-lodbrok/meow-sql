@@ -302,7 +302,7 @@ QString QueryData::whereForCurRow(bool beforeModifications) const
         whereList << whereName + whereVal;
     }
 
-    return whereList.join(" AND");
+    return whereList.join(" AND ");
 }
 
 void QueryData::ensureFullRow(bool refresh)

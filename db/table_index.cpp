@@ -182,6 +182,18 @@ void TableIndex::setTable(TableEntity * table)
     _table = table;
 }
 
+bool TableIndex::hasColumnsWithAllowNull() const
+{
+    for (const auto & column : _columns) {
+        TableColumn * tableColumn = _table->structure()->columnById(column.id());
+        if (tableColumn && tableColumn->isAllowNull()) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 TableIndex * TableIndex::deepCopy(TableEntity * table)
 {
     TableIndex * copy = new TableIndex(*this);

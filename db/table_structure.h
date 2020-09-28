@@ -101,6 +101,13 @@ public:
     TableColumn * columnByName(const QString & name) const;
     TableColumn * prevColumn(TableColumn * column) const;
 
+    QStringList columnNames() const {
+        QStringList names;
+        for (const TableColumn * column : _columns) {
+            names << column->name();
+        }
+        return names;
+    }
 
     TableIndex * indexById(unsigned id) const;
 
