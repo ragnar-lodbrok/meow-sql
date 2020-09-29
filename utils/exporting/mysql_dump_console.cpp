@@ -165,6 +165,9 @@ QStringList MySQLDumpConsole::programArguments() const
 {
     QStringList args;
 
+    // TODO add --column-statistics=0 for v8
+    // see https://serverfault.com/questions/912162/mysqldump-throws-unknown-table-column-statistics-in-information-schema-1109
+
     args << connectionOptions();
 
     if (_form->allDatabases()) {

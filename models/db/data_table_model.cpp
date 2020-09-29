@@ -164,7 +164,13 @@ bool DataTableModel::isEditable() const
     if (_dbEntity == nullptr) {
         return false;
     }
-    return _dbEntity->connection()->features()->supportsEditingTablesData();
+    if (_dbEntity->type() == meow::db::Entity::Type::Table) {
+        return _dbEntity->connection()->features()->supportsEditingTablesData();
+    }
+    if (_dbEntity->type() == meow::db::Entity::Type::View) {
+        return _dbEntity->connection()->features()->supportsEditingViewsData();
+    }
+    return false;
 }
 
 bool DataTableModel::isEditing()

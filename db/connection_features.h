@@ -29,6 +29,10 @@ public:
         return false;
     }
 
+    virtual bool supportsEditingViewsData() const {
+        return false;
+    }
+
     virtual bool supportsEditingTablesStructure() const {
         return false;
     }
