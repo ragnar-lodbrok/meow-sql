@@ -12,6 +12,9 @@ class DbTree : public QTreeView
 public:
     explicit DbTree(QWidget * parent = nullptr);
     virtual ~DbTree() override {}
+
+    void refresh();
+
 protected:
     virtual void contextMenuEvent(QContextMenuEvent * event) override;
 private:

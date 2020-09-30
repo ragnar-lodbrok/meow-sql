@@ -48,6 +48,15 @@ void CentralLeftWidget::selectEntity(meow::db::Entity * entity)
                 QItemSelectionModel::ClearAndSelect);
 }
 
+bool CentralLeftWidget::onGlobalRefresh()
+{
+    if (_dbTree->hasFocus()) {
+        _dbTree->refresh();
+        return true;
+    }
+    return false;
+}
+
 void CentralLeftWidget::selectedDbEntityChanged(
     const QItemSelection &selected,
     const QItemSelection &deselected)

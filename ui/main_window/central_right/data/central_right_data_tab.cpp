@@ -233,6 +233,12 @@ void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
     }
 }
 
+void DataTab::refresh()
+{
+    _model.refresh();
+    onLoadData();
+}
+
 void DataTab::loadData()
 {
     _model.loadData();

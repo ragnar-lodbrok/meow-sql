@@ -22,6 +22,7 @@ public:
     void setActiveDBEntity(db::Entity * entity, bool select = false);
     void onCreatingNewEntity(db::Entity * entity);
 
+    void onGlobalRefresh();
 private:
 
     Q_SLOT void toggleBottomWidget(bool show);

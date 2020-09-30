@@ -22,6 +22,8 @@ public:
 
     void setActiveDBEntity(db::Entity * entity);
 
+    bool onGlobalRefresh();
+
     Q_SLOT void onBeforeEntityEditing();
 
     Q_SLOT void onEntityEdited(db::Entity * entity);
@@ -29,6 +31,9 @@ public:
 private:
 
     void createRootTabs();
+    bool onHostTab() const;
+    bool onDatabaseTab() const;
+    bool onEntityTab() const;
     bool onDataTab() const;
     bool onQueryTab() const;
 

@@ -112,6 +112,23 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     }
 }
 
+bool CentralRightWidget::onGlobalRefresh()
+{
+    if (onHostTab()) {
+        hostTab()->onGlobalRefresh();
+        return true;
+    } else if (onDatabaseTab()) {
+
+    } else if (onEntityTab()) {
+
+    } else if (onDataTab()) {
+        dataTab()->refresh();
+        return true;
+    }
+
+    return false;
+}
+
 void CentralRightWidget::onBeforeEntityEditing()
 {
     meow::db::Entity * entity = _model.currentEntity();
@@ -136,6 +153,24 @@ void CentralRightWidget::onEntityEdited(db::Entity * entity)
                 _model.titleForTableTab());
         }
     }
+}
+
+bool CentralRightWidget::onHostTab() const
+{
+    return _rootTabs->currentIndex()
+            == static_cast<int>(models::ui::CentralRightWidgetTabs::Host);
+}
+
+bool CentralRightWidget::onDatabaseTab() const
+{
+    return _rootTabs->currentIndex()
+            == static_cast<int>(models::ui::CentralRightWidgetTabs::Database);
+}
+
+bool CentralRightWidget::onEntityTab() const
+{
+    return _rootTabs->currentIndex()
+            == static_cast<int>(models::ui::CentralRightWidgetTabs::Entity);
 }
 
 bool CentralRightWidget::onDataTab() const

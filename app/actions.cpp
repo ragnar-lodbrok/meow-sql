@@ -25,6 +25,12 @@ void Actions::createActions()
     _sessionManager->setStatusTip(tr("Display session manager"));
 
     // -------------------------------------------------------------------------
+
+    _globalRefresh = new QAction(QIcon(":/icons/arrow_refresh.png"),
+                               tr("Refresh"), this);
+    _globalRefresh->setShortcuts(QKeySequence::Refresh);
+
+    // -------------------------------------------------------------------------
     // ------------------------------ data -------------------------------------
     _dataInsert = new QAction(QIcon(":/icons/add.png"),
                               tr("&Insert row"), this);

@@ -12,6 +12,7 @@ public:
 
     QAction * disconnect() const { return _disconnect; }
     QAction * sessionManager() const { return _sessionManager; }
+    QAction * globalRefresh() const { return _globalRefresh; }
 
     // TODO: group actions
     QAction * dataInsert() const { return _dataInsert; }
@@ -31,6 +32,7 @@ private:
 
     QAction * _disconnect;
     QAction * _sessionManager;
+    QAction * _globalRefresh;
 
     QAction * _dataInsert;
     QAction * _dataDelete;

@@ -133,6 +133,20 @@ void HostTab::showErrorMessage(const QString& message)
     msgBox.exec();
 }
 
+void HostTab::onGlobalRefresh()
+{
+    if (_rootTabs->currentIndex() == Tabs::Databases) {
+        // TODO
+    } else if (_rootTabs->currentIndex() == Tabs::Variables) {
+        try {
+            variablesTab()->model()->refresh();
+        } catch(meow::db::Exception & ex) {
+            showErrorMessage(ex.message());
+        }
+        _rootTabs->setTabText(Tabs::Variables, _model.titleForVariablesTab());
+    }
+}
+
 } // namespace central_right
 } // namespace main_window
 } // namespace ui

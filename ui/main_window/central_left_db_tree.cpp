@@ -57,6 +57,22 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
     menu.exec(event->globalPos());
 }
 
+void DbTree::refresh()
+{
+    auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
+
+    try {
+        treeModel->refreshActiveSession();
+    } catch(meow::db::Exception & ex) {
+        QMessageBox msgBox;
+        msgBox.setText(ex.message());
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+    }
+}
+
 void DbTree::createActions()
 {
     // drop ====================================================================
@@ -183,23 +199,11 @@ void DbTree::createActions()
                                  tr("Refresh"), this);
     _refreshAction->setShortcuts(QKeySequence::Refresh);
     connect(_refreshAction, &QAction::triggered, [=](bool checked) {
-        meowLogDebug() << "refresh";
-        Q_UNUSED(checked);
-        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
 
-        try {
-            treeModel->refreshActiveSession();
-        } catch(meow::db::Exception & ex) {
-            QMessageBox msgBox;
-            msgBox.setText(ex.message());
-            msgBox.setStandardButtons(QMessageBox::Ok);
-            msgBox.setDefaultButton(QMessageBox::Ok);
-            msgBox.setIcon(QMessageBox::Critical);
-            msgBox.exec();
-        }
+        Q_UNUSED(checked);
+        refresh();
     });
 
-    // disconnect ==============================================================
 }
 
 bool DbTree::currentItemSupportsDumping() const

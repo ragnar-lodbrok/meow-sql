@@ -21,6 +21,8 @@ public:
 
     void setDBEntity(db::Entity * tableOrViewEntity, bool loadData = true);
 
+    void refresh();
+
     void loadData();
 
 private:
