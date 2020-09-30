@@ -30,8 +30,8 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
 
 void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
 {
-    bool wasOnDataTab = onDataTab();
-    bool wasOnQueryTab = onQueryTab();
+    bool wasOnDataTab = entity ? onDataTab() : false;
+    bool wasOnQueryTab = entity ? onQueryTab() : false;
 
     _model.setCurrentEntity(entity);
 
