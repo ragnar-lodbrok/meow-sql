@@ -2,6 +2,7 @@
 #define UTILS_EXPORTING_MYSQL_DUMP_CONSOLE_H
 
 #include <QProcess>
+#include <QVersionNumber>
 #include <memory>
 
 namespace meow {
@@ -31,8 +32,11 @@ public:
 
     bool isRunning() const;
 
-    QString version() const;
+    QString versionString() const;
+    QVersionNumber versionNumber() const;
     QString currentCommand() const;
+
+    bool supportsColumnStatisticsOption() const;
 
     Q_SIGNAL void finished(bool success);
     Q_SIGNAL void progressMessage(const QString & str);
@@ -56,6 +60,7 @@ private:
 
     bool _passwordEntered;
     bool _isCancelledbyUser;
+    mutable QString _versionString;
 };
 
 } // namespace exporting

@@ -14,14 +14,16 @@ TopWidget::TopWidget(models::forms::ExportDatabaseForm *form, QWidget *parent)
     createWidgets();
 
     _checkboxOptions = {
-            { _databaseCreateCheckbox, Option::CreateDatabase },
-            { _databaseDropCheckbox,   Option::AddDropDatabase },
-            { _tablesCreateCheckbox,   Option::CreateTable },
-            { _tablesDropCheckbox,     Option::AddDropTable },
-            { _triggersCreateCheckbox, Option::Triggers },
-            { _triggersDropCheckbox,   Option::AddDropTrigger },
-            { _routinesCreateCheckbox, Option::Routines },
-            { _eventsCreateCheckbox,   Option::Events }};
+            { _databaseCreateCheckbox,          Option::CreateDatabase },
+            { _databaseDropCheckbox,            Option::AddDropDatabase },
+            { _tablesCreateCheckbox,            Option::CreateTable },
+            { _tablesDropCheckbox,              Option::AddDropTable },
+            { _triggersCreateCheckbox,          Option::Triggers },
+            { _triggersDropCheckbox,            Option::AddDropTrigger },
+            { _routinesCreateCheckbox,          Option::Routines },
+            { _eventsCreateCheckbox,            Option::Events },
+            { _disableColumnStatisticsCheckbox, Option::NoColumnStatistics}
+    };
 
     connect(_form, &models::forms::ExportDatabaseForm::optionsChanged,
             this, &TopWidget::onFormOptionsChanged);
@@ -167,6 +169,18 @@ void TopWidget::createWidgets()
     routinesEventsLayout->addWidget(_eventsCreateCheckbox);
     routinesEventsLayout->addStretch(1);
     _mainGridLayout->addLayout(routinesEventsLayout, row, 1);
+
+    row++;
+
+    // -------------------------------------------------------------------------
+
+    _disableColumnStatisticsCheckbox = new QCheckBox(
+                tr("Disable column statistics (mysqldump v8+)"));
+
+    connect(_disableColumnStatisticsCheckbox, &QCheckBox::stateChanged,
+            this, &TopWidget::onOptionsCheckboxChanged);
+
+    _mainGridLayout->addWidget(_disableColumnStatisticsCheckbox, row, 0, 1, 2);
 
     row++;
 

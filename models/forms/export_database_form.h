@@ -35,22 +35,22 @@ enum class MySQLDumpOption
     //NoData           = (1 << 11), // --no-data // TODO
     Routines           = (1 << 12), // --routines
     Triggers           = (1 << 13), // --triggers (enabled by default)
-
+    NoColumnStatistics = (1 << 14), // --column-statistics=0 (v8 and higher)
 
     // internal options:
 
-    NoCreateDatabase   = (1 << 14), // --no-create-db
-    NoTriggers         = (1 << 15), // --skip-triggers
-    NoCreateTable      = (1 << 16), //  --no-create-info
-    //OptGroup         = (1 << 17), // --opt
-    NoOptGroup         = (1 << 18), // --skip-opt
-    AddLocks           = (1 << 19), // --add-locks
-    CreateOptions      = (1 << 20), // --create-options
-    DisableKeys        = (1 << 21), // --disable-keys
-    ExtendedInsert     = (1 << 22), // --extended-insert
-    LockTables         = (1 << 23), // --lock-tables
-    Quick              = (1 << 24), // --quick
-    SetCharset         = (1 << 25), // --set-charset
+    NoCreateDatabase   = (1 << 15), // --no-create-db
+    NoTriggers         = (1 << 16), // --skip-triggers
+    NoCreateTable      = (1 << 17), //  --no-create-info
+    //OptGroup         = (1 << 18), // --opt
+    NoOptGroup         = (1 << 19), // --skip-opt
+    AddLocks           = (1 << 20), // --add-locks
+    CreateOptions      = (1 << 21), // --create-options
+    DisableKeys        = (1 << 22), // --disable-keys
+    ExtendedInsert     = (1 << 23), // --extended-insert
+    LockTables         = (1 << 24), // --lock-tables
+    Quick              = (1 << 25), // --quick
+    SetCharset         = (1 << 26), // --set-charset
 
 };
 

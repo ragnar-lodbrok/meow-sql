@@ -57,6 +57,8 @@ private:
     QCheckBox * _routinesCreateCheckbox;
     QCheckBox * _eventsCreateCheckbox;
 
+    QCheckBox * _disableColumnStatisticsCheckbox;
+
     QPlainTextEdit * _results;
 
     QMap<QCheckBox *, models::forms::MySQLDumpOption> _checkboxOptions;
