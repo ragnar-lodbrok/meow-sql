@@ -245,6 +245,11 @@ void DataTab::loadData()
     onLoadData();
 }
 
+void DataTab::invalidateData()
+{
+    _model.invalidateData();
+}
+
 void DataTab::onLoadData()
 {
     refreshDataLabelText();

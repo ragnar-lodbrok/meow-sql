@@ -25,6 +25,8 @@ public:
 
     void loadData();
 
+    void invalidateData();
+
 private:
 
     void onLoadData();

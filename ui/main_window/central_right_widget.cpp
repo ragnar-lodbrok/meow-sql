@@ -148,9 +148,14 @@ void CentralRightWidget::onEntityEdited(db::Entity * entity)
 {
     if (_model.hasEntityTab()) {
         if (entity->type() == db::Entity::Type::Table) {
+
             _rootTabs->setTabText(
                 (int)models::ui::CentralRightWidgetTabs::Entity,
                 _model.titleForTableTab());
+
+            if (_model.hasDataTab()) {
+                dataTab()->invalidateData();
+            }
         }
     }
 }

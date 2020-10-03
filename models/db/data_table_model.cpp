@@ -257,6 +257,11 @@ void DataTableModel::refresh()
     loadData(true);
 }
 
+void DataTableModel::invalidateData()
+{
+    setEntity(_dbEntity);
+}
+
 QString DataTableModel::rowCountStats() const
 {
     if (_dbEntity == nullptr) {

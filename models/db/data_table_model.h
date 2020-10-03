@@ -30,6 +30,7 @@ public:
     void removeData();
     void loadData(bool force = false);
     void refresh();
+    void invalidateData();
 
     void setNoRowsCountLimit();
     void incRowsCountForOneStep(bool reset = false);
