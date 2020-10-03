@@ -93,6 +93,7 @@ void DataTab::createDataToolBar()
     _dataToolBar->addAction( meow::app()->actions()->dataDelete() );
     _dataToolBar->addAction( meow::app()->actions()->dataPostChanges() );
     _dataToolBar->addAction( meow::app()->actions()->dataCancelChanges() );
+    _dataToolBar->addAction( meow::app()->actions()->dataRefresh() );
 }
 
 void DataTab::createShowToolBar()
