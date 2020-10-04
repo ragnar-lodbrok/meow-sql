@@ -250,8 +250,8 @@ QString Connection::dequoteIdentifier(const QString & identifier,
 {
     QString result = identifier;
     if (identifier.length() >= 2
-            && identifier.front() == _identifierQuote
-            && identifier.back() == _identifierQuote) {
+            && identifier[0] == _identifierQuote
+            && identifier[identifier.length()-1] == _identifierQuote) {
 
         result = result.mid(1, result.length()-2);
     }
