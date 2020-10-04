@@ -14,11 +14,14 @@ int main(int argc, char *argv[])
     ::SetProcessDPIAware();
 #endif // Q_OS_WIN
 
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling); // before app!
+
     QApplication a(argc, argv);
     a.addLibraryPath(QCoreApplication::applicationDirPath() + "/imageformats");
 
     QCoreApplication::setOrganizationName("ragnar-lodbrok");
     QCoreApplication::setApplicationName("MeowSQL");
+
 
     meow::App app;
 
