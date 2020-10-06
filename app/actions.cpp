@@ -60,7 +60,8 @@ void Actions::createActions()
 
     _dataRefresh = new QAction(QIcon(":/icons/arrow_refresh.png"),
                                tr("Refresh"), this);
-    _dataRefresh->setShortcuts(QKeySequence::Refresh);
+    // No F5 shortcut, conflicts with global refresh:
+    //_dataRefresh->setShortcuts(QKeySequence::Refresh);
 
     // -------------------------------------------------------------------------
     _logClear = new QAction(tr("Clear"), this);
