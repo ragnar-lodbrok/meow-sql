@@ -19,6 +19,8 @@ public:
         QWidget * parent = nullptr);
 
     void selectEntity(meow::db::Entity * entity);
+
+    bool onGlobalRefresh();
 private:
 
     void createMainLayout();

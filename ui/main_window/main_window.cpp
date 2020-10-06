@@ -48,6 +48,12 @@ Window::Window(QWidget *parent)
             &QAction::triggered,
             this,
             &Window::onSessionManagerAction);
+
+    connect(meow::app()->actions()->globalRefresh(),
+            &QAction::triggered,
+            this,
+            &Window::onGlobalRefresh);
+    this->addAction(meow::app()->actions()->globalRefresh());
 }
 
 void Window::showSessionManagerDialog()
@@ -120,6 +126,12 @@ void Window::onSessionManagerAction(bool checked)
 {
     Q_UNUSED(checked);
     showSessionManagerDialog();
+}
+
+void Window::onGlobalRefresh(bool checked)
+{
+    Q_UNUSED(checked);
+    _centralWidget->onGlobalRefresh();
 }
 
 void Window::createMenus()

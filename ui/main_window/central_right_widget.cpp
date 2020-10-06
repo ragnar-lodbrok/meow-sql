@@ -3,6 +3,7 @@
 #include "app/app.h"
 #include <QDebug>
 #include "db/entity/table_entity.h"
+#include "db/entity/view_entity.h"
 
 namespace meow {
 namespace ui {
@@ -14,6 +15,7 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
       _hostTab(nullptr),
       _databaseTab(nullptr),
       _tableTab(nullptr),
+      _viewTab(nullptr),
       _dataTab(nullptr),
       _queryTab(nullptr)
 {
@@ -28,6 +30,9 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
 
 void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
 {
+    bool wasOnDataTab = entity ? onDataTab() : false;
+    bool wasOnQueryTab = entity ? onQueryTab() : false;
+
     _model.setCurrentEntity(entity);
 
     if (entity == nullptr) {
@@ -63,12 +68,17 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     }
 
     if (_model.hasEntityTab()) {
+        removeEntityTabsExcept(entity->type());
         if (entity->type() == db::Entity::Type::Table) {
             auto tableEntity = static_cast<db::TableEntity *>(entity);
             tableTab()->setTable(tableEntity);
+        } else if (entity->type() == db::Entity::Type::View) {
+            auto viewEntity = static_cast<db::ViewEntity *>(entity);
+            viewTab()->setView(viewEntity);
         }
     } else {
         removeTableTab();
+        removeViewTab();
     }
 
     if (_model.hasDataTab()) {
@@ -82,13 +92,17 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
 
     if (entity->type() == db::Entity::Type::Session) {
         _rootTabs->setCurrentIndex((int)Tabs::Host);
+
     } else if (entity->type() == db::Entity::Type::Database) {
         _rootTabs->setCurrentIndex((int)Tabs::Database);
-    } else if (entity->type() == db::Entity::Type::Table) {
+
+    } else if (entity->type() == db::Entity::Type::Table
+               || entity->type() == db::Entity::Type::View) {
 
         _rootTabs->setTabText((int)Tabs::Entity,
-                              _model.titleForTableTab());       
-        if ( !onDataTab() && !onQueryTab() ) {
+                              _model.titleForEntityTab());
+
+        if ( !wasOnDataTab && !wasOnQueryTab ) {
             _rootTabs->setCurrentIndex((int)Tabs::Entity);
         }
     }
@@ -96,6 +110,23 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     if (_model.hasQueryTab()) {
         queryTab();
     }
+}
+
+bool CentralRightWidget::onGlobalRefresh()
+{
+    if (onHostTab()) {
+        hostTab()->onGlobalRefresh();
+        return true;
+    } else if (onDatabaseTab()) {
+
+    } else if (onEntityTab()) {
+
+    } else if (onDataTab()) {
+        dataTab()->refresh();
+        return true;
+    }
+
+    return false;
 }
 
 void CentralRightWidget::onBeforeEntityEditing()
@@ -117,11 +148,34 @@ void CentralRightWidget::onEntityEdited(db::Entity * entity)
 {
     if (_model.hasEntityTab()) {
         if (entity->type() == db::Entity::Type::Table) {
+
             _rootTabs->setTabText(
                 (int)models::ui::CentralRightWidgetTabs::Entity,
                 _model.titleForTableTab());
+
+            if (_model.hasDataTab()) {
+                dataTab()->invalidateData();
+            }
         }
     }
+}
+
+bool CentralRightWidget::onHostTab() const
+{
+    return _rootTabs->currentIndex()
+            == static_cast<int>(models::ui::CentralRightWidgetTabs::Host);
+}
+
+bool CentralRightWidget::onDatabaseTab() const
+{
+    return _rootTabs->currentIndex()
+            == static_cast<int>(models::ui::CentralRightWidgetTabs::Database);
+}
+
+bool CentralRightWidget::onEntityTab() const
+{
+    return _rootTabs->currentIndex()
+            == static_cast<int>(models::ui::CentralRightWidgetTabs::Entity);
 }
 
 bool CentralRightWidget::onDataTab() const
@@ -217,6 +271,18 @@ central_right::TableTab * CentralRightWidget::tableTab()
     return _tableTab;
 }
 
+central_right::ViewTab * CentralRightWidget::viewTab()
+{
+    if (!_viewTab) {
+        _viewTab = new central_right::ViewTab();
+        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Entity,
+                             _viewTab,
+                             QIcon(":/icons/view.png"),
+                             _model.titleForViewTab());
+    }
+    return _viewTab;
+}
+
 central_right::DataTab * CentralRightWidget::dataTab()
 {
     if (!_dataTab) {
@@ -251,6 +317,7 @@ void CentralRightWidget::removeAllRootTabs()
     removeQueryTabs();
     removeDatabaseTab();
     removeTableTab();
+    removeViewTab();
     removeDataTab();
 }
 
@@ -290,6 +357,15 @@ bool CentralRightWidget::removeTableTab()
     return false;
 }
 
+bool CentralRightWidget::removeViewTab()
+{
+    if (removeTab(_viewTab)) {
+        _viewTab = nullptr;
+        return true;
+    }
+    return false;
+}
+
 bool CentralRightWidget::removeDataTab()
 {
     if (removeTab(_dataTab)) {
@@ -297,6 +373,16 @@ bool CentralRightWidget::removeDataTab()
         return true;
     }
     return false;
+}
+
+void CentralRightWidget::removeEntityTabsExcept(db::Entity::Type except)
+{
+    if (except != db::Entity::Type::Table) {
+        removeTableTab();
+    }
+    if (except != db::Entity::Type::View) {
+        removeViewTab();
+    }
 }
 
 bool CentralRightWidget::removeTab(QWidget * tab)

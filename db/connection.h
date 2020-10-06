@@ -12,6 +12,7 @@
 #include "exception.h"
 #include "entity/entity_list_for_database.h"
 #include "table_structure_parser.h"
+#include "view_structure_parser.h"
 #include "collation_fetcher.h"
 #include "db/data_type/connection_data_types.h"
 #include "connection_features.h"
@@ -31,6 +32,7 @@ class DataBaseEditor;
 class TableEnginesFetcher;
 class EntityFilter;
 class QueryDataEditor;
+class ViewEntity;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
@@ -76,6 +78,8 @@ public:
                                    bool alwaysQuote = true,
                                    QChar glue = QChar::Null) const;
     QStringList quoteIdentifiers(const QStringList & identifiers) const;
+    QString dequoteIdentifier(const QString & identifier,
+                              QChar glue = QChar::Null) const;
 
     const QStringList collationList();
     QString serverDefaultCollation();
@@ -115,6 +119,7 @@ public:
     virtual QString limitOnePostfix(bool select) const;
 
     void parseTableStructure(TableEntity * table, bool refresh = false);
+    void parseViewStructure(ViewEntity * view, bool refresh = false);
 
     bool editTableInDB(TableEntity * table, TableEntity * newData);
     bool insertTableToDB(TableEntity * table);
@@ -168,6 +173,7 @@ private:
     //QString _databaseName;
     std::pair<bool, QStringList> _allDatabasesCached; // < cached?, data >
     std::unique_ptr<ITableStructureParser> _tableStructureParser;
+    std::unique_ptr<ViewStructureParser> _viewStructureParser;
     std::unique_ptr<CollationFetcher> _collationFetcher;
     std::unique_ptr<TableEnginesFetcher> _tableEnginesFetcher;
     std::shared_ptr<ConnectionDataTypes> _dataTypes;

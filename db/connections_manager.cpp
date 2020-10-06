@@ -3,6 +3,7 @@
 #include "user_query/user_query.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
+#include "db/entity/view_entity.h"
 #include "helpers/logger.h"
 
 namespace meow {
@@ -191,6 +192,12 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
             if (activeEntity->type() == Entity::Type::Table) {
                 TableEntity * table = static_cast<TableEntity *>(activeEntity);
                 connection->parseTableStructure(table);
+            } else if (activeEntity->type() == Entity::Type::View) {
+                // TODO: don't parse it here, do when tab is opened?
+                if (connection->features()->supportsViewingViews()) {
+                    ViewEntity * view = static_cast<ViewEntity *>(activeEntity);
+                    connection->parseViewStructure(view);
+                }
             }
         }
         emit activeEntityChanged(activeEntity, select);

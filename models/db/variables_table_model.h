@@ -21,6 +21,7 @@ namespace db {
 
 class VariablesTableModel : public QAbstractTableModel
 {
+    Q_OBJECT
 public:
 
     enum class Columns {
@@ -34,6 +35,8 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
     QVariant data(const QModelIndex &index, int role) const override;
+    bool setData(const QModelIndex &index, const QVariant &value,
+                 int role = Qt::EditRole) override;
     QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -42,6 +45,8 @@ public:
     int columnWidth(int column) const;
     void setSession(meow::db::SessionEntity * session);
     void refresh();
+
+    Q_SIGNAL void setDataFailed(const QString & message);
 
 private:
 

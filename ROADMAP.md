@@ -4,11 +4,7 @@
 
 SSH Tunnel via libSSH
 
-Host Tab: Variables for MySQL (r/o)
-
-Host Tab: Variables for MySQL (edit)
-
-ARM (raspberry builds)
+HiDPI monitors support
 
 MySQL: View form (r/o)
 
@@ -25,6 +21,10 @@ MySQL: Trigger form (edit, create)
 MySQL: Function form (r/o)
 
 MySQL: Function form (edit, create)
+
+Host Tab: Variables for MySQL (edit)
+
+ARM (raspberry builds)
 
 Main window left tree: filter by db and table
 
@@ -106,9 +106,14 @@ Table tools: find text
 
 Data Grid: insert files into text/blob fields
 
+## 0.4.4
+
+Host Tab: Variables for MySQL (r/o)
+
 ## 0.4.3
 
 SSH tunnel via OpenSSH (Linux only)
+
 Text edit popup
 
 ## 0.4.2

@@ -75,6 +75,9 @@ public:
     bool isPrimaryKey() const {
         return _class == TableIndexClass::PrimaryKey;
     }
+    bool isUniqueKey() const {
+        return _class == TableIndexClass::Unique;
+    }
     void setClassType(TableIndexClass cls) { _class = cls; }
     void setClassType(const QString & clsStr) {
         _class = strToTableIndexClass(clsStr);
@@ -140,6 +143,8 @@ public:
     bool canMoveColumnDown(int index) const {
         return index >=0 && index < (_columns.size() - 1);
     }
+
+    bool hasColumnsWithAllowNull() const;
 
     operator QString() const;
 

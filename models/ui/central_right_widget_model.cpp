@@ -68,6 +68,11 @@ bool CentralRightWidgetModel::hasEntityTab() const
                 ->features()->supportsViewingTables();
     }
 
+    if (_entityHolder.currentEntity()->type() == db::Entity::Type::View) {
+        return _entityHolder.currentEntity()->connection()
+                ->features()->supportsViewingViews();
+    }
+
     return false;
 }
 
@@ -113,6 +118,23 @@ QString CentralRightWidgetModel::titleForDatabaseTab() const
     return QObject::tr("Database");
 }
 
+QString CentralRightWidgetModel::titleForEntityTab() const
+{
+    if (_entityHolder.currentEntity()) {
+        switch (_entityHolder.currentEntity()->type()) {
+
+        case meow::db::Entity::Type::Table:
+            return titleForTableTab();
+
+        case meow::db::Entity::Type::View:
+            return titleForViewTab();
+
+        default:
+            break;
+        }
+    }
+    return QString();
+}
 
 QString CentralRightWidgetModel::titleForTableTab() const
 {
@@ -130,6 +152,22 @@ QString CentralRightWidgetModel::titleForTableTab() const
     return QObject::tr("Table");
 }
 
+QString CentralRightWidgetModel::titleForViewTab() const
+{
+    if (_entityHolder.currentEntity() &&
+        _entityHolder.currentEntity()->type() == meow::db::Entity::Type::View) {
+        QString title = QObject::tr("View") + ": ";
+        if (_entityHolder.currentEntity()->isNew()) {
+            title += "[" + QObject::tr("Untitled") + "]";
+        } else {
+            title += _entityHolder.currentEntity()->name();
+        }
+        return title;
+    }
+
+    return QObject::tr("View");
+}
+
 QString CentralRightWidgetModel::titleForDataTab() const
 {
     return QObject::tr("Data");
@@ -144,8 +182,10 @@ int CentralRightWidgetModel::indexForQueryTab() const
 {
     if (hasDataTab()) {
         return static_cast<int>(CentralRightWidgetTabs::Data) + 1;
+
     } else if (hasEntityTab()) {
         return static_cast<int>(CentralRightWidgetTabs::Entity) + 1;
+
     } else if (hasDatabase()) {
         return static_cast<int>(CentralRightWidgetTabs::Database) + 1;
     }
@@ -156,14 +196,15 @@ int CentralRightWidgetModel::indexForQueryTab() const
 int CentralRightWidgetModel::indexForDataTab() const
 {
     if (hasDataTab()) {
-        if (_entityHolder.currentEntity()->type() == db::Entity::Type::Table) {
+        db::Entity::Type curType = _entityHolder.currentEntity()->type();
+        if (curType == db::Entity::Type::Table
+                || curType == db::Entity::Type::View) {
+
             if (hasEntityTab()) {
                 return static_cast<int>(CentralRightWidgetTabs::Entity) + 1;
             } else {
                 return static_cast<int>(CentralRightWidgetTabs::Database) + 1;
             }
-        } else if (_entityHolder.currentEntity()->type() == db::Entity::Type::View) {
-            return static_cast<int>(CentralRightWidgetTabs::Database) + 1;
         }
     }
     return -1;

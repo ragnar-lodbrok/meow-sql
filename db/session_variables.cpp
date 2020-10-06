@@ -1,5 +1,6 @@
 #include "session_variables.h"
 #include "connection.h"
+#include <QRegularExpression>
 #include <QDebug>
 
 namespace meow {
@@ -108,6 +109,30 @@ VarsMap MySQLSessionVariables::fetchForSession()
 VarsMap MySQLSessionVariables::fetchGlobal()
 {
     return fetchWithQuery("SHOW GLOBAL VARIABLES");
+}
+
+bool MySQLSessionVariables::editVariableInDB(const QString & name,
+                                             const QString & value,
+                                             bool global)
+{
+    QString oldValue = this->value(name, global);
+
+    if (oldValue == value) {
+        return false;
+    }
+
+    QRegularExpression numericRegExp(R"(^\d+(\.\d*)?$)"); // ^\d+(\.\d*)?$
+
+    bool isNumeric = numericRegExp.match(value).hasMatch();
+
+    QString SQL = QString("SET @@%1.%2 = %3")
+            .arg(global ? "GLOBAL" : "SESSION")
+            .arg(name) // from trusted source
+            .arg(isNumeric ? value : _connection->escapeString(value));
+
+    _connection->query(SQL);
+
+    return true;
 }
 
 VarsMap MySQLSessionVariables::fetchWithQuery(const QString & SQL)

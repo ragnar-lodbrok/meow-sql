@@ -121,6 +121,14 @@ void CentralWidget::onCreatingNewEntity(db::Entity * entity)
     _mainRightWidget->onBeforeEntityEditing();
 }
 
+void CentralWidget::onGlobalRefresh()
+{
+    if (_mainLeftWidget->onGlobalRefresh()) {
+        return;
+    }
+    _mainRightWidget->onGlobalRefresh();
+}
+
 void CentralWidget::toggleBottomWidget(bool show)
 {
     if (show) {

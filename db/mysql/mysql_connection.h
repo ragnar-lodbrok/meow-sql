@@ -79,6 +79,9 @@ protected:
     virtual SessionVariables * createVariables() override;
 
 private:
+
+    QString getViewCreateCode(const ViewEntity * view);
+
     MYSQL * _handle;
     std::unique_ptr<ssh::ISSHTunnel> _sshTunnel;
 };

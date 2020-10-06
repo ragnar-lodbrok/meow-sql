@@ -25,6 +25,12 @@ void Actions::createActions()
     _sessionManager->setStatusTip(tr("Display session manager"));
 
     // -------------------------------------------------------------------------
+
+    _globalRefresh = new QAction(QIcon(":/icons/arrow_refresh.png"),
+                               tr("Refresh"), this);
+    _globalRefresh->setShortcuts(QKeySequence::Refresh);
+
+    // -------------------------------------------------------------------------
     // ------------------------------ data -------------------------------------
     _dataInsert = new QAction(QIcon(":/icons/add.png"),
                               tr("&Insert row"), this);
@@ -54,7 +60,8 @@ void Actions::createActions()
 
     _dataRefresh = new QAction(QIcon(":/icons/arrow_refresh.png"),
                                tr("Refresh"), this);
-    _dataRefresh->setShortcuts(QKeySequence::Refresh);
+    // No F5 shortcut, conflicts with global refresh:
+    //_dataRefresh->setShortcuts(QKeySequence::Refresh);
 
     // -------------------------------------------------------------------------
     _logClear = new QAction(tr("Clear"), this);

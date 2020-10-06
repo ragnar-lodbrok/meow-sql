@@ -3,6 +3,7 @@
 #include "db/entity/session_entity.h"
 #include "db/connection.h"
 #include "helpers/logger.h"
+#include <QDebug>
 
 namespace meow {
 namespace utils {
@@ -130,8 +131,12 @@ bool MySQLDumpConsole::isRunning() const
     return _process && _process->state() != QProcess::NotRunning;
 }
 
-QString MySQLDumpConsole::version() const
+QString MySQLDumpConsole::versionString() const
 {
+    if (!_versionString.isEmpty()) {
+        return _versionString;
+    }
+
     QProcess mysqldump;
 
     mysqldump.start(pathToCommand(), QStringList() << "--version");
@@ -144,7 +149,43 @@ QString MySQLDumpConsole::version() const
         return QString();
     }
 
-    return QString::fromUtf8(mysqldump.readAll());
+    _versionString = QString::fromUtf8(mysqldump.readAll());
+    return _versionString;
+}
+
+QVersionNumber MySQLDumpConsole::versionNumber() const
+{
+    // Examples:
+    // * Version 8:
+    // mysqldump Ver 8.0.21-0ubuntu0.20.04.4 for Linux on x86_64 ((Ubuntu))
+    // * Version 5:
+    // mysqldump  Ver 10.13 Distrib 5.7.31, for Linux (x86_64)
+    // Older versions have higher numbers?
+
+    QString versionStr = versionString();
+
+    if (versionStr.isEmpty()) {
+        return QVersionNumber();
+    }
+
+    QStringList versionPrefixes;
+    versionPrefixes << "Distrib ";
+    versionPrefixes << "mysqldump Ver ";
+
+    for (const QString & versionPrefix : versionPrefixes) {
+
+        int prefixIndex = versionStr.indexOf(versionPrefix);
+        if (prefixIndex != -1) {
+            QString versionSubstr = versionStr.mid(
+                        prefixIndex + versionPrefix.length());
+            QVersionNumber number = QVersionNumber::fromString(versionSubstr);
+            if (number.majorVersion() > 0) {
+                return number;
+            }
+        }
+    }
+
+    return QVersionNumber();
 }
 
 QString MySQLDumpConsole::currentCommand() const
@@ -154,6 +195,11 @@ QString MySQLDumpConsole::currentCommand() const
     const QStringList args = programArguments();
 
     return program + ' ' + args.join(' ');
+}
+
+bool MySQLDumpConsole::supportsColumnStatisticsOption() const
+{
+    return versionNumber().majorVersion() >= 8;
 }
 
 QString MySQLDumpConsole::pathToCommand() const
@@ -231,6 +277,10 @@ QStringList MySQLDumpConsole::programArguments() const
         args << "--set-charset";
     }
     // --opt group end
+
+    if (_form->isOptionEnabled(Option::NoColumnStatistics)) {
+        args << "--column-statistics=0";
+    }
 
     args << "--verbose";
 

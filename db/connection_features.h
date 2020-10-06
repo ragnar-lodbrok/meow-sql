@@ -29,6 +29,10 @@ public:
         return false;
     }
 
+    virtual bool supportsEditingViewsData() const {
+        return false;
+    }
+
     virtual bool supportsEditingTablesStructure() const {
         return false;
     }
@@ -53,6 +57,10 @@ public:
     }
 
     virtual bool supportsViewingVariables() const {
+        return false;
+    }
+
+    virtual bool supportsViewingViews() const { // r/o support for views
         return false;
     }
 };
@@ -110,6 +118,10 @@ public:
     }
 
     virtual bool supportsViewingVariables() const override {
+        return true;
+    }
+
+    virtual bool supportsViewingViews() const override {
         return true;
     }
 };

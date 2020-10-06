@@ -93,6 +93,7 @@ void DataTab::createDataToolBar()
     _dataToolBar->addAction( meow::app()->actions()->dataDelete() );
     _dataToolBar->addAction( meow::app()->actions()->dataPostChanges() );
     _dataToolBar->addAction( meow::app()->actions()->dataCancelChanges() );
+    _dataToolBar->addAction( meow::app()->actions()->dataRefresh() );
 }
 
 void DataTab::createShowToolBar()
@@ -233,10 +234,21 @@ void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
     }
 }
 
+void DataTab::refresh()
+{
+    _model.refresh();
+    onLoadData();
+}
+
 void DataTab::loadData()
 {
     _model.loadData();
     onLoadData();
+}
+
+void DataTab::invalidateData()
+{
+    _model.invalidateData();
 }
 
 void DataTab::onLoadData()

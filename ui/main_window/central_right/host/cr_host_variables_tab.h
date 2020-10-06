@@ -24,6 +24,7 @@ private:
     void createVariablesTable();
 
     Q_SLOT void onTableContextMenu(const QPoint &pos);
+    Q_SLOT void onEditError(const QString & message);
 
     models::db::VariablesTableModel _model;
 

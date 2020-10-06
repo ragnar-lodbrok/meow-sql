@@ -16,6 +16,9 @@
 #include "db/data_type/mysql_connection_data_types.h"
 #include "mysql_query_data_editor.h"
 #include "ssh/openssh_tunnel.h"
+#include "db/entity/view_entity.h"
+
+#include <QDebug>
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
@@ -426,22 +429,30 @@ QString MySQLConnection::getCreateCode(const Entity * entity) // override
     std::size_t column = 1;
 
     switch (entity->type()) {
+
     case Entity::Type::Table:
         typeStr = QString("TABLE");
         column = 1;
         break;
+
+    case Entity::Type::View:
+        return getViewCreateCode(static_cast<const ViewEntity*>(entity));
+
     case Entity::Type::Function:
         typeStr = QString("FUNCTION");
         column = 2;
         break;
+
     case Entity::Type::Procedure:
         typeStr = QString("PROCEDURE");
         column = 2;
         break;
+
     case Entity::Type::Trigger:
         typeStr = QString("TRIGGER");
         column = 2;
         break;
+
     default:
         meowLogDebugC(this) << "Unimplemented type in " << __FUNCTION__;
         Q_ASSERT(false);
@@ -512,6 +523,55 @@ ConnectionFeatures * MySQLConnection::createFeatures()
 SessionVariables * MySQLConnection::createVariables()
 {
     return new MySQLSessionVariables(this);
+}
+
+QString MySQLConnection::getViewCreateCode(const ViewEntity * view)
+{
+
+    try {
+
+        QString SQL = QString("SHOW CREATE VIEW %1")
+                .arg(quotedFullName(view));
+        return getCell(SQL, 1);
+
+    } catch (meow::db::Exception & exc) {
+        Q_UNUSED(exc); // no permissions for SHOW CREATE VIEW
+    }
+
+    QString SQL = QString("SELECT * FROM information_schema.VIEWS WHERE " \
+        "TABLE_SCHEMA=%1 AND TABLE_NAME=%2")
+            .arg(escapeString(databaseName(view)))
+            .arg(escapeString(view->name()));
+
+    QueryPtr schemaResult = getResults(SQL);
+
+    QString definer = schemaResult->curRowColumn("DEFINER");
+    QString definition = schemaResult->curRowColumn("VIEW_DEFINITION");
+    QString checkOption = schemaResult->curRowColumn("CHECK_OPTION").toUpper();
+    QString security = schemaResult->curRowColumn("SECURITY_TYPE").toUpper();
+
+    QString createCode = "CREATE";
+    if (!definer.isEmpty()) {
+        createCode += QString(" DEFINER=%1")
+                .arg(quoteIdentifier(definer, true, '@'));
+    }
+
+    if (!security.isEmpty()) {
+        createCode += QString(" SQL SECURITY %1")
+                .arg(security);
+    }
+
+    createCode += QString(" VIEW %1 AS %2")
+            .arg(quoteIdentifier(view->name()))
+            .arg(definition);
+
+    if (!checkOption.isEmpty() && checkOption != "NONE") {
+        createCode += QString(" WITH %1 CHECK OPTION")
+                .arg(checkOption);
+    }
+
+    return createCode;
+
 }
 
 } // namespace db

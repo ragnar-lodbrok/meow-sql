@@ -101,6 +101,8 @@ bool Query::prepareEditing()
 
 QStringList Query::keyColumns() const
 {
+    // TODO: cache?
+
     Q_ASSERT(entity());
 
     QStringList cols;
@@ -108,12 +110,35 @@ QStringList Query::keyColumns() const
     if (entity()->type() == Entity::Type::Table) {
         TableEntity * table = static_cast<TableEntity *>(entity());
 
+        // Primary Keys -----------------------------------------------------
         QList<TableIndex *> & indicies = table->structure()->indicies();
         for (const auto & index : indicies) {
             if (index->isPrimaryKey()) {
                 cols.append(index->columnNames());
+                // TODO: why just don't return here?
             }
         }
+
+        if (!cols.isEmpty()) {
+            return cols;
+        }
+
+        // if no PKs check UNIQUE keys --------------------------------------
+        for (const auto & index : indicies) {
+            if (!index->isUniqueKey()) {
+                continue;
+            }
+            // Check if no column in UNIQUE key allows NULL
+            // which makes it dangerous to use in UPDATES + DELETES
+            if (index->hasColumnsWithAllowNull() == false) {
+                if (index->columnsCount() > 0) {
+                    return index->columnNames();
+                }
+            }
+        }
+
+        // no PK and no good UNIQUE keys - just use all columns -------------
+        return table->structure()->columnNames();
 
     } else {
         // TODO

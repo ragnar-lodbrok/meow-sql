@@ -120,6 +120,8 @@ set(SOURCE_FILES
     db/table_index.cpp
     db/table_structure.cpp
     db/table_structure_parser.cpp
+    db/view_structure.cpp
+    db/view_structure_parser.cpp
     db/user_query/batch_executor.cpp
     db/user_query/sentences_parser.cpp
     db/user_query/user_query.cpp
@@ -153,6 +155,7 @@ set(SOURCE_FILES
     models/forms/table_indexes_model_item.cpp
     models/forms/table_info_form.cpp
     models/forms/text_editor_popup_form.cpp
+    models/forms/view_form.cpp
     models/ui/central_right_host_widget_model.cpp
     models/ui/central_right_widget_model.cpp
     models/ui/table_info_widget_model.cpp
@@ -200,6 +203,7 @@ set(SOURCE_FILES
     ui/main_window/central_right/table/cr_table_info_foreign_keys_tab.cpp
     ui/main_window/central_right/table/cr_table_info_indexes_tab.cpp
     ui/main_window/central_right/table/cr_table_info_options_tab.cpp
+    ui/main_window/central_right/view/central_right_view_tab.cpp
     ui/main_window/central_right_widget.cpp
     ui/main_window/central_widget.cpp
     ui/main_window/main_window.cpp

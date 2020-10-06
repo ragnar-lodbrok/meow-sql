@@ -25,6 +25,8 @@ public:
 
     static void showErrorMessage(const QString& message);
 
+    void onGlobalRefresh();
+
 private:
 
     void createRootTabs();

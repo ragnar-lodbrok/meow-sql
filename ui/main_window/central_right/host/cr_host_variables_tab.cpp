@@ -2,6 +2,7 @@
 #include "app/app.h"
 #include "db/exception.h"
 #include "central_right_host_tab.h"
+#include <QClipboard>
 
 namespace meow {
 namespace ui {
@@ -16,6 +17,9 @@ HostVariablesTab::HostVariablesTab(QWidget *parent)
     this->setLayout(_mainLayout);
 
     createVariablesTable();
+
+    connect(&_model, &models::db::VariablesTableModel::setDataFailed,
+            this, &HostVariablesTab::onEditError);
 }
 
 void HostVariablesTab::createVariablesTable()
@@ -47,9 +51,34 @@ void HostVariablesTab::setSession(meow::db::SessionEntity * session)
     _model.setSession(session);
 }
 
+void HostVariablesTab::onEditError(const QString & message)
+{
+    HostTab::showErrorMessage(message);
+}
+
 void HostVariablesTab::onTableContextMenu(const QPoint &pos)
 {
     QMenu menu(this);
+
+    // -------------------------------------------------
+
+    QModelIndex tableIndex = _variablesTable->selectionModel()->currentIndex();
+
+    QAction copyAction(tr("Copy"), nullptr);
+    copyAction.setShortcuts(QKeySequence::Copy);
+    copyAction.setDisabled(!tableIndex.isValid());
+
+    connect(&copyAction, &QAction::triggered, [=](bool checked) {
+        Q_UNUSED(checked);
+        QModelIndex tableIndex
+                = _variablesTable->selectionModel()->currentIndex();
+        if (tableIndex.isValid()) {
+            QClipboard *clipboard = QGuiApplication::clipboard();
+            clipboard->setText(tableIndex.data().toString());
+        }
+     });
+
+    // -------------------------------------------------
 
     QAction refreshAction(QIcon(":/icons/arrow_refresh.png"),
                           tr("Refresh"), nullptr);
@@ -64,6 +93,7 @@ void HostVariablesTab::onTableContextMenu(const QPoint &pos)
         }
     });
 
+    menu.addAction(&copyAction);
     menu.addAction(&refreshAction);
 
     menu.exec(_variablesTable->viewport()->mapToGlobal(pos));

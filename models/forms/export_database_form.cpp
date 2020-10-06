@@ -232,6 +232,8 @@ void ExportDatabaseForm::resetOptionsToDefault()
     //setOption(MySQLDumpOption::NoData, false);
     setOption(MySQLDumpOption::Routines, true);
     setOption(MySQLDumpOption::Triggers, true);
+    setOption(MySQLDumpOption::NoColumnStatistics,
+              _dumper->supportsColumnStatisticsOption());
 }
 
 QString ExportDatabaseForm::currentCommand() const
