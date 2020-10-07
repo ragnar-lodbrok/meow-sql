@@ -6,8 +6,6 @@ SSH Tunnel via libSSH
 
 HiDPI monitors support
 
-MySQL: View form (r/o)
-
 MySQL: View form (edit, create)
 
 MySQL: Procedure form (r/o)
@@ -105,6 +103,10 @@ Table tools: bulk table editor
 Table tools: find text
 
 Data Grid: insert files into text/blob fields
+
+## 0.4.5
+
+MySQL: View form (r/o)
 
 ## 0.4.4
 
