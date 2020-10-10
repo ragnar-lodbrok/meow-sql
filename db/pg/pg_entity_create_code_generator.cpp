@@ -1,6 +1,7 @@
 #include "pg_entity_create_code_generator.h"
 #include "pg_connection.h"
 #include "db/entity/table_entity.h"
+#include "db/entity/view_entity.h"
 #include "db/query.h"
 #include "helpers/logger.h"
 #include "db/data_type/pg_connection_data_types.h"
@@ -23,6 +24,11 @@ QString PGEntityCreateCodeGenerator::run(const Entity * entity)
     case Entity::Type::Table: {
         auto table = static_cast<const TableEntity *>(entity);
         return run(table);
+    }
+
+    case Entity::Type::View: {
+        auto view = static_cast<const ViewEntity *>(entity);
+        return run(view);
     }
 
     default:
@@ -56,6 +62,22 @@ QString PGEntityCreateCodeGenerator::run(const TableEntity * table)
     SQL += ")";
 
     // TODO: complete
+
+    return SQL;
+}
+
+QString PGEntityCreateCodeGenerator::run(const ViewEntity * view)
+{
+    QString SQL = "CREATE VIEW " + _connection->quoteIdentifier(view->name());
+    SQL += " AS ";
+    SQL += _connection->getCell(
+                QString("SELECT %1 FROM %2 WHERE %3 = %4 AND %5 = %6")
+                .arg(_connection->quoteIdentifier("definition"))
+                .arg(_connection->quoteIdentifier("pg_views"))
+                .arg(_connection->quoteIdentifier("viewname"))
+                .arg(_connection->escapeString(view->name()))
+                .arg(_connection->quoteIdentifier("schemaname"))
+                .arg(_connection->escapeString("public")));
 
     return SQL;
 }

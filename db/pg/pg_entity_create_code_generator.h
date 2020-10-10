@@ -9,6 +9,7 @@ namespace db {
 class PGConnection;
 class Entity;
 class TableEntity;
+class ViewEntity;
 
 class PGEntityCreateCodeGenerator
 {
@@ -18,6 +19,7 @@ public:
 private:
 
     QString run(const TableEntity * table);
+    QString run(const ViewEntity * view);
 
     QString SQLToSelectColumnsInfo(const QString & tableName);
     QString createColumnsSQL(const QString & tableName);

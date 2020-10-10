@@ -159,6 +159,10 @@ public:
         // TODO: implement
         return false;
     }
+
+    virtual bool supportsViewingViews() const override {
+        return true;
+    }
 };
 
 // -----------------------------------------------------------------------------

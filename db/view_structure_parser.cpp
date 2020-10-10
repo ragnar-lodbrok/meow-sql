@@ -11,8 +11,10 @@ ViewStructureParser::ViewStructureParser(Connection * connection)
     :_connection(connection)
 {
 
-    _regexp.setPatternOptions(QRegularExpression::CaseInsensitiveOption
-                              | QRegularExpression::InvertedGreedinessOption);
+    _regexp.setPatternOptions(
+        QRegularExpression::CaseInsensitiveOption
+      | QRegularExpression::InvertedGreedinessOption
+      | QRegularExpression::DotMatchesEverythingOption); // AS is multiline in PG
 
     QString quote = QString(_connection->getIdentQuote()); // TODO: escape
 
