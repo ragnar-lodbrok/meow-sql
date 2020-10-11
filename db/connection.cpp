@@ -432,6 +432,15 @@ SessionVariables * Connection::variables()
     return _variables.get();
 }
 
+IUserManager * Connection::userManager()
+{
+    if (_userManager == nullptr) {
+        _userManager.reset(createUserManager());
+        Q_ASSERT(_userManager != nullptr);
+    }
+    return _userManager.get();
+}
+
 ConnectionFeatures * Connection::createFeatures()
 {
     return new ConnectionFeatures(this);

@@ -112,6 +112,7 @@ SOURCES += main.cpp\
     db/table_structure_parser.cpp \
     db/view_structure.cpp \
     db/view_structure_parser.cpp \
+    db/user_manager.cpp \
     db/user_query/batch_executor.cpp \
     db/user_query/sentences_parser.cpp \
     db/user_query/user_query.cpp \
@@ -252,6 +253,7 @@ HEADERS  +=  app/actions.h \
     db/table_structure_parser.h \
     db/view_structure.h \
     db/view_structure_parser.h \
+    db/user_manager.h \
     db/user_query/batch_executor.h \
     db/user_query/sentences_parser.h \
     db/user_query/user_query.h \

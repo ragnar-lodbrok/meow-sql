@@ -525,6 +525,11 @@ SessionVariables * MySQLConnection::createVariables()
     return new MySQLSessionVariables(this);
 }
 
+IUserManager * MySQLConnection::createUserManager()
+{
+    return new MySQLUserManager(this);
+}
+
 QString MySQLConnection::getViewCreateCode(const ViewEntity * view)
 {
 

@@ -122,6 +122,7 @@ set(SOURCE_FILES
     db/table_structure_parser.cpp
     db/view_structure.cpp
     db/view_structure_parser.cpp
+    db/user_manager.cpp
     db/user_query/batch_executor.cpp
     db/user_query/sentences_parser.cpp
     db/user_query/user_query.cpp
