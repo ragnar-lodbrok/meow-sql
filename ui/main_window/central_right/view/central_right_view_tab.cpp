@@ -1,4 +1,5 @@
 #include "central_right_view_tab.h"
+#include "db/exception.h"
 
 namespace meow {
 namespace ui {
@@ -8,6 +9,14 @@ namespace central_right {
 ViewTab::ViewTab(QWidget * parent) : QWidget(parent)
 {
     createWidgets();
+
+    connect(&_form,
+            &models::forms::ViewForm::unsavedChanged,
+            [=](bool hasUnsavedChanges) {
+                Q_UNUSED(hasUnsavedChanges);
+                validateControls();
+            }
+    );
 }
 
 void ViewTab::createWidgets()
@@ -22,6 +31,11 @@ void ViewTab::createWidgets()
 
     _nameEdit = new QLineEdit();
     _nameLabel->setBuddy(_nameEdit);
+    _nameEdit->setMaxLength(64);
+    connect(_nameEdit, &QLineEdit::textEdited,
+            [=](const QString &name) {
+                _form.setName(name);
+            });
     mainGridLayout->addWidget(_nameEdit, 0, 1);
 
     // definer ---------------------------
@@ -31,6 +45,7 @@ void ViewTab::createWidgets()
 
     _definerComboBox = new QComboBox();
     _definerLabel->setBuddy(_definerComboBox);
+    // TODO: free editing
     connect(_definerComboBox,
             &QComboBox::currentTextChanged,
             [=](const QString & text) {
@@ -40,6 +55,7 @@ void ViewTab::createWidgets()
                         _definerComboBox->findText(_form.definer()));
                     return;
                 }
+                _form.setDefiner(text);
             });
     mainGridLayout->addWidget(_definerComboBox, 0, 3);
 
@@ -59,6 +75,7 @@ void ViewTab::createWidgets()
                         _algorithmComboBox->findText(_form.algorithm()));
                     return;
                 }
+                _form.setAlgorithm(text);
             });
     mainGridLayout->addWidget(_algorithmComboBox, 1, 1);
 
@@ -78,6 +95,7 @@ void ViewTab::createWidgets()
                         _securityComboBox->findText(_form.security()));
                     return;
                 }
+                _form.setSecurity(text);
             });
     mainGridLayout->addWidget(_securityComboBox, 1, 3);
 
@@ -97,6 +115,7 @@ void ViewTab::createWidgets()
                         _checkOptionComboBox->findText(_form.checkOption()));
                     return;
                 }
+                _form.setCheckOption(text);
             });
     mainGridLayout->addWidget(_checkOptionComboBox, 2, 3);
 
@@ -106,6 +125,11 @@ void ViewTab::createWidgets()
     mainGridLayout->addWidget(_selectLabel, 3, 0, 1, 4);
 
     _selectEdit = new ui::common::SQLEditor();
+    connect(_selectEdit, &QPlainTextEdit::textChanged,
+            [=]() {
+                _form.setHasUnsavedChanges(true);
+                // don't copy each time as can be long
+            });
     mainGridLayout->addWidget(_selectEdit, 4, 0, 1, 4);
 
     // -----------------------------------
@@ -117,6 +141,33 @@ void ViewTab::createWidgets()
 
     mainGridLayout->setAlignment(Qt::AlignTop);
     this->setLayout(mainGridLayout);
+
+    createGeneralButtons();
+    validateControls();
+}
+
+void ViewTab::createGeneralButtons()
+{
+    QHBoxLayout * buttonsLayout = new QHBoxLayout();
+    ((QGridLayout *)this->layout())->addLayout(buttonsLayout, 5, 0, 1, 4);
+
+    _discardButton = new QPushButton(tr("Discard"));
+    buttonsLayout->addWidget(_discardButton);
+    connect(_discardButton,
+            &QAbstractButton::clicked,
+            this,
+            &ViewTab::discardViewEditing
+    );
+
+    _saveButton = new QPushButton(tr("Save"));
+    buttonsLayout->addWidget(_saveButton);
+    connect(_saveButton,
+            &QAbstractButton::clicked,
+            this,
+            &ViewTab::saveViewEditing
+    );
+
+    buttonsLayout->addStretch(1);
 }
 
 void ViewTab::fillDataFromForm()
@@ -128,7 +179,9 @@ void ViewTab::fillDataFromForm()
 
     _definerComboBox->blockSignals(true);
     _definerComboBox->clear();
-    _definerComboBox->addItems(_form.allDefinerOptions());
+    _definerComboBox->addItems(
+        _form.allDefinerOptions(_form.isEditingSupported())
+     ); // TODO: lazy load
     _definerComboBox->setCurrentIndex(
         _definerComboBox->findText(_form.definer()));
     _definerComboBox->setEnabled(_form.supportsDefiner());
@@ -162,6 +215,36 @@ void ViewTab::fillDataFromForm()
     _selectEdit->setPlainText(_form.selectStatement());
     _selectEdit->setReadOnly(!_form.isEditingSupported());
     _selectEdit->blockSignals(false);
+
+    _discardButton->setVisible(_form.isEditingSupported());
+    _saveButton->setVisible(_form.isEditingSupported());
+}
+
+void ViewTab::discardViewEditing()
+{
+    this->setView(_form.sourceView());
+}
+
+void ViewTab::saveViewEditing()
+{
+    try {
+        _form.setSelectStatement(_selectEdit->toPlainText());
+        _form.save();
+    } catch(meow::db::Exception & ex) {
+        QMessageBox msgBox;
+        msgBox.setText(ex.message());
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+    }
+}
+
+void ViewTab::validateControls()
+{
+    bool enableEdit = _form.hasUnsavedChanges() && _form.isEditingSupported();
+    _discardButton->setEnabled(enableEdit);
+    _saveButton->setEnabled(enableEdit);
 }
 
 void ViewTab::setView(db::ViewEntity * view)

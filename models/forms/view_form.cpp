@@ -1,6 +1,7 @@
 #include "view_form.h"
 #include "db/entity/view_entity.h"
 #include "db/connection.h"
+#include <QDebug>
 
 namespace meow {
 namespace models {
@@ -12,14 +13,27 @@ bool isMySQL(db::Connection * connection)
             == db::ServerType::MySQL;
 }
 
-ViewForm::ViewForm() : _view(nullptr)
+ViewForm::ViewForm(QObject *parent)
+    : QObject(parent)
+    , _view(nullptr)
+    , _hasUnsavedChanges(false)
 {
 
 }
 
 void ViewForm::setView(meow::db::ViewEntity * view)
 {
-    _view = view;
+    // TODO: copy only when we start editing
+
+    if (view->isNew()) {
+        _sourceView = nullptr;
+        _view.reset(view); // take ownership
+    } else {
+        _sourceView = view; // just hold a ref to view for update
+        _view.reset(_sourceView->deepCopy()); // and edit copy
+    }
+
+    setHasUnsavedChanges(false);
 }
 
 QString ViewForm::name() const
@@ -30,11 +44,28 @@ QString ViewForm::name() const
     return _view->name();
 }
 
+void ViewForm::setName(const QString & name)
+{
+    // Listening: Edict - Genus Ordinis Dei
+    if (_view) {
+        _view->setName(name);
+        setHasUnsavedChanges(true);
+    }
+}
+
 QString ViewForm::selectStatement() const
 {
     if (!_view) return {};
 
     return _view->structure()->selectStatement();
+}
+
+void ViewForm::setSelectStatement(const QString & select)
+{
+    if (_view) {
+        _view->structure()->setSelectStatement(select);
+        setHasUnsavedChanges(true);
+    }
 }
 
 QString ViewForm::definer() const
@@ -44,9 +75,13 @@ QString ViewForm::definer() const
     return _view->structure()->definer;
 }
 
-QStringList ViewForm::allDefinerOptions() const
+QStringList ViewForm::allDefinerOptions(bool loadFromDB) const
 {
     if (!_view) return {};
+
+    if (loadFromDB) {
+        return _view->connection()->userManager()->allUsers();
+    }
 
     QStringList options;
     QString currentDefiner = definer();
@@ -63,6 +98,14 @@ bool ViewForm::supportsDefiner() const
         return isMySQL(_view->connection());
     }
     return false;
+}
+
+void ViewForm::setDefiner(const QString & definer)
+{
+    if (_view) {
+        _view->structure()->definer = definer;
+        setHasUnsavedChanges(true);
+    }
 }
 
 QString ViewForm::security() const
@@ -93,6 +136,14 @@ bool ViewForm::supportsSecurity() const
     return false;
 }
 
+void ViewForm::setSecurity(const QString & security)
+{
+    if (_view) {
+        _view->structure()->sqlSecurity = security;
+        setHasUnsavedChanges(true);
+    }
+}
+
 QString ViewForm::algorithm() const
 {
     if (!_view) return {};
@@ -121,6 +172,14 @@ bool ViewForm::supportsAlgorithm() const
         return isMySQL(_view->connection());
     }
     return false;
+}
+
+void ViewForm::setAlgorithm(const QString & algorithm)
+{
+    if (_view) {
+        _view->structure()->algorithm = algorithm;
+        setHasUnsavedChanges(true);
+    }
 }
 
 QString ViewForm::checkOption() const
@@ -157,6 +216,39 @@ bool ViewForm::supportsCheckOptions() const
         return isMySQL(_view->connection());
     }
     return false;
+}
+
+void ViewForm::setCheckOption(const QString & opt)
+{
+    if (_view) {
+        _view->structure()->checkOption = opt;
+        setHasUnsavedChanges(true);
+    }
+}
+
+void ViewForm::save()
+{
+    if (_view->isNew()) { // insert
+        // TODO
+    } else { // update
+        // TODO
+    }
+
+    setHasUnsavedChanges(false);
+}
+
+void ViewForm::setHasUnsavedChanges(bool modified)
+{
+    if (_hasUnsavedChanges != modified) {
+        _hasUnsavedChanges = modified;
+        emit unsavedChanged(_hasUnsavedChanges);
+    }
+}
+
+bool ViewForm::isEditingSupported() const
+{
+    if (_view == nullptr) return false;
+    return _view->connection()->features()->supportsEditingViewsStructure();
 }
 
 } // namespace forms

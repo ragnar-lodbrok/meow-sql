@@ -35,5 +35,32 @@ ViewStructure * ViewEntity::structure() const
     return _structure.get();
 }
 
+DataBaseEntity * ViewEntity::database() const
+{
+    return static_cast<DataBaseEntity *>(parent());
+}
+
+ViewEntity * ViewEntity::deepCopy() const
+{
+    ViewEntity * copy = new ViewEntity(_viewName, database());
+
+    copy->copyDataFrom(this);
+
+    return copy;
+}
+
+void ViewEntity::copyDataFrom(const ViewEntity * data)
+{
+    EntityInDatabase::copyDataFrom(data);
+
+    this->_viewName = data->_viewName;
+
+    this->_structure.reset();
+
+    if (data->_structure != nullptr) {
+        this->_structure.reset(data->_structure->deepCopy(this));
+    }
+}
+
 } // namespace db
 } // namespace meow

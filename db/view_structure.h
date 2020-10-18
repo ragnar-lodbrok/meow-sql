@@ -29,6 +29,8 @@ public:
         checkOption = QString();
     }
 
+    ViewStructure * deepCopy(ViewEntity * parentView) const;
+
 private:
     ViewEntity * _view; // TODO: need?
     QString _selectStatement;

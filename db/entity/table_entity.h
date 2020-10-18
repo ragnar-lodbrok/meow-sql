@@ -17,7 +17,7 @@ public:
     virtual ~TableEntity() override;
 
     virtual QString name() const override;
-    void setName(const QString & name) {_tableName = name; }
+    void setName(const QString & name) { _tableName = name; }
 
     virtual QVariant icon() const override;
     virtual Type type() const override { return Type::Table; }
@@ -58,7 +58,7 @@ private:
     db::ulonglong _dataSize;
     db::ulonglong _version;
 
-    mutable db::TableStructure * _structure;
+    mutable db::TableStructure * _structure; // TODO: unique_ptr
 };
 
 } // namespace db

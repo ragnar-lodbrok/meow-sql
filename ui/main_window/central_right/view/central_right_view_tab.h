@@ -24,7 +24,13 @@ public:
 
 private:
     void createWidgets();
+    void createGeneralButtons();
     void fillDataFromForm();
+
+    Q_SLOT void discardViewEditing();
+    Q_SLOT void saveViewEditing();
+
+    Q_SLOT void validateControls();
 
     QLabel * _nameLabel;
     QLineEdit * _nameEdit;
@@ -43,6 +49,9 @@ private:
 
     QLabel * _selectLabel;
     ui::common::SQLEditor * _selectEdit;
+
+    QPushButton * _discardButton;
+    QPushButton * _saveButton;
 
     models::forms::ViewForm _form;
 };

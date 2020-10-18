@@ -37,6 +37,10 @@ public:
         return false;
     }
 
+    virtual bool supportsEditingViewsStructure() const {
+        return false;
+    }
+
     virtual bool supportsDrop(Entity::Type type) const {
         Q_UNUSED(type);
         return false;
@@ -88,6 +92,10 @@ public:
     }
 
     virtual bool supportsEditingTablesStructure() const override {
+        return true;
+    }
+
+    virtual bool supportsEditingViewsStructure() const override {
         return true;
     }
 

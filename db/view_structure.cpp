@@ -9,5 +9,18 @@ ViewStructure::ViewStructure(ViewEntity * view)
 
 }
 
+ViewStructure * ViewStructure::deepCopy(ViewEntity * parentView) const
+{
+    ViewStructure * structure = new ViewStructure(parentView);
+
+    structure->_selectStatement = this->_selectStatement;
+    structure->algorithm = this->algorithm;
+    structure->definer = this->definer;
+    structure->sqlSecurity = this->sqlSecurity;
+    structure->checkOption = this->checkOption;
+
+    return structure;
+}
+
 } // namespace db
 } // namespace meow
