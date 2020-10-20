@@ -49,16 +49,20 @@ ViewEntity * ViewEntity::deepCopy() const
     return copy;
 }
 
-void ViewEntity::copyDataFrom(const ViewEntity * data)
+void ViewEntity::copyDataFrom(const Entity * data)
 {
-    EntityInDatabase::copyDataFrom(data);
+    Q_ASSERT(data->type() == Entity::Type::View);
 
-    this->_viewName = data->_viewName;
+    const ViewEntity * view = static_cast<const ViewEntity *>(data);
+
+    EntityInDatabase::copyDataFrom(view);
+
+    this->_viewName = view->_viewName;
 
     this->_structure.reset();
 
-    if (data->_structure != nullptr) {
-        this->_structure.reset(data->_structure->deepCopy(this));
+    if (view->_structure != nullptr) {
+        this->_structure.reset(view->_structure->deepCopy(this));
     }
 }
 

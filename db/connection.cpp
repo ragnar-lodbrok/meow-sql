@@ -2,6 +2,7 @@
 #include "query.h"
 #include "entity/entities_fetcher.h"
 #include "table_editor.h"
+#include "view_editor.h"
 #include "database_editor.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
@@ -15,8 +16,7 @@ namespace meow {
 namespace db {
 
 Connection::Connection(const ConnectionParameters & params)
-    ://QObject(nullptr),
-     _active(false),
+    :_active(false),
      _identifierQuote('`'),
      _connectionParams(params),
      _characterSet(),
@@ -350,23 +350,57 @@ void Connection::parseViewStructure(ViewEntity * view, bool refresh)
     _viewStructureParser->run(view);
 }
 
-bool Connection::editTableInDB(TableEntity * table, TableEntity * newData)
+bool Connection::editEntityInDB(EntityInDatabase * entity,
+                                EntityInDatabase * newData)
 {
+    Q_ASSERT(entity->type() == newData->type());
 
-    TableEditor * editor = createTableEditor();
+    switch (entity->type()) {
 
-    std::shared_ptr<TableEditor> sharedEditor(editor);
+    case Entity::Type::Table: {
 
-    return sharedEditor->edit(table, newData);
+        TableEditor * editor = createTableEditor();
+        std::unique_ptr<TableEditor> sharedEditor(editor);
+        return sharedEditor->edit(
+                    static_cast<TableEntity *>(entity),
+                    static_cast<TableEntity *>(newData));
+    }
+
+    case Entity::Type::View: {
+
+        ViewEditor * editor = createViewEditor();
+        std::unique_ptr<ViewEditor> sharedEditor(editor);
+        return sharedEditor->edit(
+                    static_cast<ViewEntity *>(entity),
+                    static_cast<ViewEntity *>(newData));
+    }
+
+    default:
+        Q_ASSERT(false);
+        break;
+
+    }
+
+    return false;
 }
 
-bool Connection::insertTableToDB(TableEntity * table)
-{
-    TableEditor * editor = createTableEditor();
+bool Connection::insertEntityToDB(EntityInDatabase * entity)
+{    
+    switch (entity->type()) {
 
-    std::shared_ptr<TableEditor> sharedEditor(editor);
+    case Entity::Type::Table: {
+        TableEditor * editor = createTableEditor();
+        std::unique_ptr<TableEditor> sharedEditor(editor);
+        return sharedEditor->insert(static_cast<TableEntity *>(entity));
+    }
 
-    return sharedEditor->insert(table);
+    default:
+        Q_ASSERT(false);
+        break;
+
+    }
+
+    return false;
 }
 
 bool Connection::dropEntityInDB(EntityInDatabase * entity)
@@ -439,6 +473,11 @@ IUserManager * Connection::userManager()
         Q_ASSERT(_userManager != nullptr);
     }
     return _userManager.get();
+}
+
+ViewEditor * Connection::createViewEditor()
+{
+    return new ViewEditor(this);
 }
 
 ConnectionFeatures * Connection::createFeatures()

@@ -259,7 +259,7 @@ void DataTableModel::refresh()
 
 void DataTableModel::invalidateData()
 {
-    setEntity(_dbEntity);
+    setEntity(_dbEntity, false);
 }
 
 QString DataTableModel::rowCountStats() const

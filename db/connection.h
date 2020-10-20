@@ -29,6 +29,7 @@ class TableEntity;
 class EntityInDatabase;
 class DataBaseEntity;
 class TableEditor;
+class ViewEditor;
 class DataBaseEditor;
 class TableEnginesFetcher;
 class EntityFilter;
@@ -122,8 +123,8 @@ public:
     void parseTableStructure(TableEntity * table, bool refresh = false);
     void parseViewStructure(ViewEntity * view, bool refresh = false);
 
-    bool editTableInDB(TableEntity * table, TableEntity * newData);
-    bool insertTableToDB(TableEntity * table);
+    bool editEntityInDB(EntityInDatabase * entity, EntityInDatabase * newData);
+    bool insertEntityToDB(EntityInDatabase * entity);
     bool dropEntityInDB(EntityInDatabase * entity);
     bool dropDatabase(DataBaseEntity * database);
     void createDatabase(const QString & name,
@@ -157,7 +158,9 @@ protected:
     void emitDatabaseChanged(const QString& newName);
 
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() = 0;
+    // TODO: move editors and edit methods to separate class
     virtual TableEditor * createTableEditor() = 0;
+    virtual ViewEditor * createViewEditor();
     virtual DataBaseEditor * createDataBaseEditor() = 0;
     virtual CollationFetcher * createCollationFetcher() = 0;
     virtual TableEnginesFetcher * createTableEnginesFetcher() = 0;

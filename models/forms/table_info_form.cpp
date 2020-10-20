@@ -254,10 +254,10 @@ void TableInfoForm::save()
 {
     // TODO: adding foreign keys may add indices
     if (_table->isNew()) { // insert
-        meow::app()->dbConnectionsManager()->activeSession()->insertTableToDB(
+        meow::app()->dbConnectionsManager()->activeSession()->insertEntityToDB(
             _table);
     } else { // update
-        meow::app()->dbConnectionsManager()->activeSession()->editTableInDB(
+        meow::app()->dbConnectionsManager()->activeSession()->editEntityInDB(
             _sourceTable, _table);
     }
 

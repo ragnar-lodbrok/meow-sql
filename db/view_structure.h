@@ -31,6 +31,8 @@ public:
 
     ViewStructure * deepCopy(ViewEntity * parentView) const;
 
+    bool operator==(const ViewStructure & other);
+
 private:
     ViewEntity * _view; // TODO: need?
     QString _selectStatement;

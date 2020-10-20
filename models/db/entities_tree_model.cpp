@@ -3,6 +3,7 @@
 #include "db/entity/session_entity.h"
 #include "db/entity/database_entity.h"
 #include "db/entity/table_entity.h"
+#include <QDebug>
 
 namespace meow {
 namespace models {

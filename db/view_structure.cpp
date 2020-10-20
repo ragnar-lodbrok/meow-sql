@@ -22,5 +22,14 @@ ViewStructure * ViewStructure::deepCopy(ViewEntity * parentView) const
     return structure;
 }
 
+bool ViewStructure::operator==(const ViewStructure & other)
+{
+    return _selectStatement == other._selectStatement
+         && algorithm == other.algorithm
+         && definer == other.definer
+         && sqlSecurity == other.sqlSecurity
+         && checkOption == other.checkOption;
+}
+
 } // namespace db
 } // namespace meow

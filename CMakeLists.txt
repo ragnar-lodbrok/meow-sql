@@ -120,6 +120,7 @@ set(SOURCE_FILES
     db/table_index.cpp
     db/table_structure.cpp
     db/table_structure_parser.cpp
+    db/view_editor.cpp
     db/view_structure.cpp
     db/view_structure_parser.cpp
     db/user_manager.cpp

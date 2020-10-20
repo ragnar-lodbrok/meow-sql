@@ -2,6 +2,7 @@
 #include "database_entity.h"
 #include "db/connection.h"
 #include <QIcon>
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -70,24 +71,27 @@ TableEntity * TableEntity::deepCopy() const
     return copy;
 }
 
-void TableEntity::copyDataFrom(const TableEntity * data)
+void TableEntity::copyDataFrom(const Entity * data)
 {
+    Q_ASSERT(data->type() == Entity::Type::Table);
 
-    EntityInDatabase::copyDataFrom(data);
+    const TableEntity * table = static_cast<const TableEntity *>(data);
 
-    this->_collation = data->_collation;
-    this->_tableName = data->_tableName;
-    this->_engineStr = data->_engineStr;
+    EntityInDatabase::copyDataFrom(table);
 
-    this->_rowsCount = data->_rowsCount;
-    this->_dataSize  = data->_dataSize;
-    this->_version   = data->_version;
+    this->_collation = table->_collation;
+    this->_tableName = table->_tableName;
+    this->_engineStr = table->_engineStr;
+
+    this->_rowsCount = table->_rowsCount;
+    this->_dataSize  = table->_dataSize;
+    this->_version   = table->_version;
 
     delete this->_structure;
     this->_structure = nullptr;
 
-    if (data->_structure) {
-        this->_structure = data->_structure->deepCopy(this);
+    if (table->_structure) {
+        this->_structure = table->_structure->deepCopy(this);
         //this->_structure->setTable(this);
     }
 }

@@ -31,7 +31,7 @@ public:
     // Returns a copy (with all internal data)
     ViewEntity * deepCopy() const;
 
-    void copyDataFrom(const ViewEntity * data);
+    virtual void copyDataFrom(const Entity * data) override;
 
 private:
     QString _viewName;

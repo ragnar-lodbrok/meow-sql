@@ -34,8 +34,8 @@ public:
 
     void refreshAllEntities();
 
-    void editTableInDB(TableEntity * table, TableEntity * newData);
-    void insertTableToDB(TableEntity * table);
+    void editEntityInDB(EntityInDatabase * entity, EntityInDatabase * newData);
+    void insertEntityToDB(EntityInDatabase * entity);
 
     bool dropEntityInDB(EntityInDatabase * entity);
     bool dropDatabase(DataBaseEntity * database);

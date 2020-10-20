@@ -1,6 +1,7 @@
 #include "view_form.h"
 #include "db/entity/view_entity.h"
 #include "db/connection.h"
+#include "app/app.h"
 #include <QDebug>
 
 namespace meow {
@@ -231,7 +232,8 @@ void ViewForm::save()
     if (_view->isNew()) { // insert
         // TODO
     } else { // update
-        // TODO
+        meow::app()->dbConnectionsManager()->activeSession()->editEntityInDB(
+            _sourceView, _view.get());
     }
 
     setHasUnsavedChanges(false);

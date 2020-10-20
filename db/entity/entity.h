@@ -72,7 +72,7 @@ public:
 
     QString createCode(bool refresh = false);
 
-    void copyDataFrom(const Entity * data);
+    virtual void copyDataFrom(const Entity * data);
 
 protected:
     Entity * _parent;
@@ -93,7 +93,7 @@ class EntityInDatabase : public Entity
 public:
     explicit EntityInDatabase(DataBaseEntity * parent = nullptr);
     DataBaseEntity * dataBaseEntity() const;
-    void copyDataFrom(const EntityInDatabase * data);
+    virtual void copyDataFrom(const Entity * data) override;
 };
 
 // -----------------------------------------------------------------------------

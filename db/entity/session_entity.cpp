@@ -5,6 +5,7 @@
 #include "helpers/logger.h"
 #include "app/app.h"
 #include "db/connection.h"
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -97,22 +98,22 @@ void SessionEntity::refreshAllEntities()
     initDatabasesListIfNeed();
 }
 
-void SessionEntity::editTableInDB(TableEntity * table,
-                                  TableEntity * newData)
+void SessionEntity::editEntityInDB(EntityInDatabase * entity,
+                                   EntityInDatabase * newData)
 {
-    bool changed = connection()->editTableInDB(table, newData);
+    bool changed = connection()->editEntityInDB(entity, newData);
     if (changed) {
-        table->copyDataFrom(newData);
-        emit entityEdited(table);
+        entity->copyDataFrom(newData);
+        emit entityEdited(entity);
     }
 }
 
-void SessionEntity::insertTableToDB(TableEntity * table)
+void SessionEntity::insertEntityToDB(EntityInDatabase * entity)
 {
-    if (connection()->insertTableToDB(table)) {
-        table->setIsNew(false);
-        addEntity(table);
-        emit entityInserted(table);
+    if (connection()->insertEntityToDB(entity)) {
+        entity->setIsNew(false);
+        addEntity(entity);
+        emit entityInserted(entity);
     }
 }
 

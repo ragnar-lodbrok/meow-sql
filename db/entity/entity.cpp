@@ -62,7 +62,7 @@ DataBaseEntity * EntityInDatabase::dataBaseEntity() const
     return static_cast<DataBaseEntity *>(_parent);
 }
 
-void EntityInDatabase::copyDataFrom(const EntityInDatabase * data)
+void EntityInDatabase::copyDataFrom(const Entity *data)
 {
     Entity::copyDataFrom(data);
     // Keep up to date
