@@ -394,6 +394,7 @@ QString MySQLTableEditor::alterColumnSQL(const QString & oldName,
 
 QString MySQLTableEditor::dropSQL(EntityInDatabase * entity) const
 {
+    // TODO: why not just table?
     if (entity->type() == Entity::Type::Table) {
         return QString("DROP TABLE %1").arg(db::quotedName(entity));
     }

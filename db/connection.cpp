@@ -358,19 +358,15 @@ bool Connection::editEntityInDB(EntityInDatabase * entity,
     switch (entity->type()) {
 
     case Entity::Type::Table: {
-
-        TableEditor * editor = createTableEditor();
-        std::unique_ptr<TableEditor> sharedEditor(editor);
-        return sharedEditor->edit(
+        std::unique_ptr<TableEditor> editor(createTableEditor());
+        return editor->edit(
                     static_cast<TableEntity *>(entity),
                     static_cast<TableEntity *>(newData));
     }
 
     case Entity::Type::View: {
-
-        ViewEditor * editor = createViewEditor();
-        std::unique_ptr<ViewEditor> sharedEditor(editor);
-        return sharedEditor->edit(
+        std::unique_ptr<ViewEditor> editor(createViewEditor());
+        return editor->edit(
                     static_cast<ViewEntity *>(entity),
                     static_cast<ViewEntity *>(newData));
     }
@@ -378,7 +374,6 @@ bool Connection::editEntityInDB(EntityInDatabase * entity,
     default:
         Q_ASSERT(false);
         break;
-
     }
 
     return false;
@@ -405,11 +400,26 @@ bool Connection::insertEntityToDB(EntityInDatabase * entity)
 
 bool Connection::dropEntityInDB(EntityInDatabase * entity)
 {
-    TableEditor * editor = createTableEditor();
+    switch (entity->type()) {
 
-    std::shared_ptr<TableEditor> sharedEditor(editor);
+    case Entity::Type::Table: {
+        std::unique_ptr<TableEditor> editor(createTableEditor());
+        return editor->drop(static_cast<TableEntity *>(entity));
+    }
 
-    return sharedEditor->drop(entity);
+    case Entity::Type::View: {
+        std::unique_ptr<ViewEditor> editor(createViewEditor());
+        return editor->drop(static_cast<ViewEntity *>(entity));
+    }
+
+
+    default:
+        Q_ASSERT(false);
+        break;
+
+    }
+
+    return false;
 }
 
 bool Connection::dropDatabase(DataBaseEntity * database)

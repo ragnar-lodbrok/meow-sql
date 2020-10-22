@@ -18,8 +18,8 @@ public:
     ViewEditor(Connection * connection);
     virtual ~ViewEditor() {}
     virtual bool edit(ViewEntity * view, ViewEntity * newData);
-    //virtual bool insert(ViewEntity * view) = 0; // TODO
-    //virtual bool drop(EntityInDatabase * entity) = 0; // TODO
+    virtual bool insert(ViewEntity * view);
+    virtual bool drop(ViewEntity * view);
 protected:
     Connection * _connection;
 private:

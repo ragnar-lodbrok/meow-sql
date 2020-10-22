@@ -34,6 +34,22 @@ bool ViewEditor::edit(ViewEntity * view, ViewEntity * newData)
     return structureChanged || nameChanged;
 }
 
+bool ViewEditor::insert(ViewEntity * view)
+{
+    QString alterSQL = getSQL(view->structure(), view->name(), "CREATE");
+    _connection->query(alterSQL);
+
+    return true;
+}
+
+bool ViewEditor::drop(ViewEntity * view)
+{
+    QString dropSQL = QString("DROP VIEW %1").arg(db::quotedName(view));
+    _connection->query(dropSQL);
+
+    return true;
+}
+
 QString ViewEditor::getSQL(const ViewStructure * view,
                            const QString & viewName,
                            const QString & operation)
