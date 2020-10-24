@@ -384,10 +384,15 @@ bool Connection::insertEntityToDB(EntityInDatabase * entity)
     switch (entity->type()) {
 
     case Entity::Type::Table: {
-        TableEditor * editor = createTableEditor();
-        std::unique_ptr<TableEditor> sharedEditor(editor);
-        return sharedEditor->insert(static_cast<TableEntity *>(entity));
+        std::unique_ptr<TableEditor> editor(createTableEditor());
+        return editor->insert(static_cast<TableEntity *>(entity));
     }
+
+    case Entity::Type::View: {
+        std::unique_ptr<ViewEditor> editor(createViewEditor());
+        return editor->insert(static_cast<ViewEntity *>(entity));
+    }
+
 
     default:
         Q_ASSERT(false);

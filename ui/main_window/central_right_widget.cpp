@@ -139,8 +139,10 @@ void CentralRightWidget::onBeforeEntityEditing()
     if (_model.hasEntityTab()) {
         if (entity->type() == db::Entity::Type::Table) {
             tableTab()->onBeforeEntityEditing();
-            _rootTabs->setCurrentIndex((int)Tabs::Entity);
+        } else if (entity->type() == db::Entity::Type::View) {
+            viewTab()->onBeforeEntityEditing();
         }
+        _rootTabs->setCurrentIndex((int)Tabs::Entity);
     }
 }
 

@@ -36,8 +36,16 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
         treeModel->canCreateDatabaseOnCurrentItem());
     createSubMenu->addAction(_createDatabaseAction);
 
-    _createTableAction->setEnabled(treeModel->canInsertTableOnCurrentItem());
+    _createTableAction->setEnabled(
+            treeModel->canCreateEntityOnCurrentItem(
+                    meow::db::Entity::Type::Table));
     createSubMenu->addAction(_createTableAction);
+
+    _createViewAction->setEnabled(
+            treeModel->canCreateEntityOnCurrentItem(
+                    meow::db::Entity::Type::View));
+    createSubMenu->addAction(_createViewAction);
+
 
     menu.addSeparator();
 
@@ -158,13 +166,22 @@ void DbTree::createActions()
     connect(_createTableAction, &QAction::triggered, [=](bool checked){
         Q_UNUSED(checked);
         auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
-        treeModel->createNewTable();
+        treeModel->createNewEntity(meow::db::Entity::Type::Table);
     });
 
+    // create view =============================================================
+    _createViewAction = new QAction(QIcon(":/icons/view.png"),
+                                     tr("View"), this);
+    _createViewAction->setStatusTip(
+               tr("Create view ..."));
+    connect(_createViewAction, &QAction::triggered, [=](bool checked){
+        Q_UNUSED(checked);
+        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
+        treeModel->createNewEntity(meow::db::Entity::Type::View);
+    });
+
+
     // export ==================================================================
-
-
-
 
     connect(meow::app()->actions()->exportDatabase(),
             &QAction::triggered,

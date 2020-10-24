@@ -57,6 +57,9 @@ public:
     bool isEditingSupported() const;
 
 private:
+
+    void setDefaultValuesForNewView();
+
     std::unique_ptr<meow::db::ViewEntity> _view; // copy of source view to edit
     meow::db::ViewEntity * _sourceView;
 

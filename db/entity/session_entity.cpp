@@ -108,13 +108,15 @@ void SessionEntity::editEntityInDB(EntityInDatabase * entity,
     }
 }
 
-void SessionEntity::insertEntityToDB(EntityInDatabase * entity)
+bool SessionEntity::insertEntityToDB(EntityInDatabase * entity)
 {
     if (connection()->insertEntityToDB(entity)) {
         entity->setIsNew(false);
         addEntity(entity);
         emit entityInserted(entity);
+        return true;
     }
+    return false;
 }
 
 bool SessionEntity::dropEntityInDB(EntityInDatabase * entity)

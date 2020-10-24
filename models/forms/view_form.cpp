@@ -29,6 +29,7 @@ void ViewForm::setView(meow::db::ViewEntity * view)
     if (view->isNew()) {
         _sourceView = nullptr;
         _view.reset(view); // take ownership
+        setDefaultValuesForNewView();
     } else {
         _sourceView = view; // just hold a ref to view for update
         _view.reset(_sourceView->deepCopy()); // and edit copy
@@ -230,7 +231,20 @@ void ViewForm::setCheckOption(const QString & opt)
 void ViewForm::save()
 {
     if (_view->isNew()) { // insert
-        // TODO
+        // try to transfer ownership - take back on error
+        // TODO: why not just use shared_ptr ?
+        meow::db::ViewEntity * view = _view.release();
+        try {
+            bool inserted = meow::app()->dbConnectionsManager()
+                    ->activeSession()->insertEntityToDB(view);
+            if (!inserted) {
+                _view.reset(view);
+            }
+        } catch (meow::db::Exception & exc) {
+            _view.reset(view);
+            throw;
+        }
+
     } else { // update
         meow::app()->dbConnectionsManager()->activeSession()->editEntityInDB(
             _sourceView, _view.get());
@@ -251,6 +265,24 @@ bool ViewForm::isEditingSupported() const
 {
     if (_view == nullptr) return false;
     return _view->connection()->features()->supportsEditingViewsStructure();
+}
+
+void ViewForm::setDefaultValuesForNewView()
+{
+    _view->structure()->setSelectStatement("SELECT");
+
+    if (supportsDefiner()) {
+        _view->structure()->definer
+                = _view->connection()->userManager()->currentUser();
+    }
+
+    if (supportsAlgorithm()) {
+        _view->structure()->algorithm = "UNDEFINED";
+    }
+
+    if (supportsSecurity()) {
+        _view->structure()->sqlSecurity = "DEFINER";
+    }
 }
 
 } // namespace forms

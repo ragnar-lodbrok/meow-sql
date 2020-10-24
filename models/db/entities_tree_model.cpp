@@ -280,21 +280,25 @@ bool EntitiesTreeModel::canCreateDatabaseOnCurrentItem() const
             ->supportsCreation(meow::db::Entity::Type::Database);
 }
 
-bool EntitiesTreeModel::canInsertTableOnCurrentItem() const
+bool EntitiesTreeModel::canCreateEntityOnCurrentItem(
+        meow::db::Entity::Type type) const
 {
+    if (type == meow::db::Entity::Type::Database) {
+        return canCreateDatabaseOnCurrentItem();
+    }
+
     meow::db::Entity * curEntity = _dbConnectionsManager->activeEntity();
     if (!curEntity) {
         return false;
     }
 
     return isCurItemDatabaseOrLess()
-        && curEntity->connection()->features()
-                ->supportsCreation(meow::db::Entity::Type::Table);
+        && curEntity->connection()->features()->supportsCreation(type);
 }
 
-void EntitiesTreeModel::createNewTable()
+void EntitiesTreeModel::createNewEntity(meow::db::Entity::Type type)
 {
-    _dbConnectionsManager->createEntity(meow::db::Entity::Type::Table);
+    _dbConnectionsManager->createEntity(type);
 }
 
 void EntitiesTreeModel::refreshActiveSession()

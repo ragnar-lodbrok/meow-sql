@@ -35,6 +35,7 @@ void ViewTab::createWidgets()
     connect(_nameEdit, &QLineEdit::textEdited,
             [=](const QString &name) {
                 _form.setName(name);
+                validateControls();
             });
     mainGridLayout->addWidget(_nameEdit, 0, 1);
 
@@ -244,13 +245,18 @@ void ViewTab::validateControls()
 {
     bool enableEdit = _form.hasUnsavedChanges() && _form.isEditingSupported();
     _discardButton->setEnabled(enableEdit);
-    _saveButton->setEnabled(enableEdit);
+    _saveButton->setEnabled(enableEdit && !_form.name().isEmpty());
 }
 
 void ViewTab::setView(db::ViewEntity * view)
 {
     _form.setView(view);
     fillDataFromForm();
+}
+
+void ViewTab::onBeforeEntityEditing()
+{
+    _nameEdit->setFocus();
 }
 
 } // namespace central_right

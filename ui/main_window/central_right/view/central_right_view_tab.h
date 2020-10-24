@@ -22,6 +22,8 @@ public:
 
     void setView(db::ViewEntity * view);
 
+    void onBeforeEntityEditing();
+
 private:
     void createWidgets();
     void createGeneralButtons();

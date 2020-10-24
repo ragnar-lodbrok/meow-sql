@@ -104,6 +104,8 @@ UserQuery * ConnectionsManager::userQueryAt(size_t index)
 
 void ConnectionsManager::createEntity(Entity::Type type)
 {
+    Q_ASSERT(type > meow::db::Entity::Type::Database);
+
     Entity * currentEntity = _activeEntity.currentEntity();
     if (!currentEntity) return;
 
@@ -121,6 +123,11 @@ void ConnectionsManager::createEntity(Entity::Type type)
         _activeEntity.setCurrentEntity(nullptr);
         emit creatingNewEntity(table);
         //emit activeEntityChanged(table);
+    } else if (type == Entity::Type::View) {
+        ViewEntity * view = new ViewEntity("", databaseEntity);
+        view->setIsNew(true);
+         _activeEntity.setCurrentEntity(nullptr);
+        emit creatingNewEntity(view);
     }
 }
 

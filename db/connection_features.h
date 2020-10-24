@@ -114,6 +114,7 @@ public:
         switch (type) {
             case meow::db::Entity::Type::Table: // only impl-ed
             case meow::db::Entity::Type::Database:
+            case meow::db::Entity::Type::View:
             return true;
         default:
             return false;

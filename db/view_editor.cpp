@@ -36,8 +36,8 @@ bool ViewEditor::edit(ViewEntity * view, ViewEntity * newData)
 
 bool ViewEditor::insert(ViewEntity * view)
 {
-    QString alterSQL = getSQL(view->structure(), view->name(), "CREATE");
-    _connection->query(alterSQL);
+    QString createSQL = getSQL(view->structure(), view->name(), "CREATE");
+    _connection->query(createSQL);
 
     return true;
 }
@@ -75,7 +75,10 @@ QString ViewEditor::getSQL(const ViewStructure * view,
     SQL += "VIEW " + _connection->quoteIdentifier(viewName);
     SQL += " AS " + view->selectStatement();
 
-    if (isMySQL && !view->checkOption.isEmpty()) {
+    if (isMySQL
+            && !view->checkOption.isEmpty()
+            && view->checkOption != "None") {
+
         SQL += " WITH " + view->checkOption + " CHECK OPTION";
     }
 

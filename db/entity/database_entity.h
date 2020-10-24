@@ -31,6 +31,7 @@ public:
 
     int indexOf(Entity * entity) const;
 
+    // TODO: entity should be shared_ptr?
     void appendEntity(EntityInDatabase * entity);
 
     bool removeEntity(EntityInDatabase * entity);
