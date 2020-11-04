@@ -3,6 +3,7 @@
 #include "models/db/entities_tree_model.h"
 #include "app/app.h"
 #include "helpers/logger.h"
+#include "db/entity/database_entity.h"
 
 #include "ui/edit_database/dialog.h"
 #include "models/forms/edit_database_form.h"
@@ -25,8 +26,18 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
 
     QMenu menu(this);
 
+    // edit
+
+    if (currentItemSupportsEditing()) {
+        menu.addAction(_editAction);
+    }
+
+    // drop
+
     _dropAction->setEnabled(treeModel->canDropCurrentItem());
     menu.addAction(_dropAction);
+
+    // create
 
     QMenu * createSubMenu = menu.addMenu( // owns result
         QIcon(":/icons/application_form_add.png"),
@@ -47,6 +58,7 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
     createSubMenu->addAction(_createViewAction);
 
 
+    // ------------------
     menu.addSeparator();
 
     if (currentItemSupportsDumping()) {
@@ -83,6 +95,36 @@ void DbTree::refresh()
 
 void DbTree::createActions()
 {
+    // edit ====================================================================
+
+    _editAction = new QAction(QIcon(":/icons/application_form_edit.png"),
+                              tr("Edit"), this);
+    _editAction->setStatusTip(tr("Edit selected object"));
+
+    connect(_editAction, &QAction::triggered,  [=](bool checked){
+        Q_UNUSED(checked);
+        auto treeModel =
+        static_cast<models::db::EntitiesTreeModel *>(model());
+
+        db::Entity * currentEntity = treeModel->currentEntity();
+        if (!currentEntity
+                || currentEntity->type() != db::Entity::Type::Database) {
+            return;
+        }
+        auto database = static_cast<db::DataBaseEntity *>(currentEntity);
+
+        db::SessionEntity * session
+            = treeModel->dbConnectionsManager()->activeSession();
+        models::forms::EditDatabaseForm form(session, database, false);
+        meow::ui::edit_database::Dialog dialog(&form);
+        dialog.exec();
+
+        if (form.dropOldDatabase()) {
+            //treeModel->dropCurrentItem();
+            // TODO: not current anymore
+        }
+    });
+
     // drop ====================================================================
     _dropAction = new QAction(QIcon(":/icons/application_form_delete.png"),
                               tr("Drop ..."), this);
@@ -152,7 +194,7 @@ void DbTree::createActions()
 
         db::SessionEntity * session
             = treeModel->dbConnectionsManager()->activeSession();
-        models::forms::EditDatabaseForm form(session);
+        models::forms::EditDatabaseForm form(session, nullptr, true);
         meow::ui::edit_database::Dialog dialog(&form);
         dialog.exec();
     });
@@ -231,6 +273,24 @@ bool DbTree::currentItemSupportsDumping() const
     db::Entity * currentEntity = treeModel->currentEntity();
     if (currentEntity) {
         return currentEntity->connection()->features()->supportsDumping();
+    }
+
+    return false;
+}
+
+bool DbTree::currentItemSupportsEditing() const
+{
+    auto treeModel =
+    static_cast<models::db::EntitiesTreeModel *>(model());
+
+    db::Entity * currentEntity = treeModel->currentEntity();
+    if (currentEntity) {
+
+        if (currentEntity->type() == db::Entity::Type::Database) {
+            return currentEntity->connection()
+                    ->features()->supportsEditingDatabase();
+        }
+        // TODO: other types
     }
 
     return false;

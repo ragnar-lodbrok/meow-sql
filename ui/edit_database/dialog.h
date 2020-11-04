@@ -24,6 +24,7 @@ private:
     void validate();
 
     Q_SLOT void onAccept();
+    bool beforeAlterDatabase();
 
     models::forms::EditDatabaseForm * _form;
 

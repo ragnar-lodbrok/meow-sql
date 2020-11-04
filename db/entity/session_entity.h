@@ -41,6 +41,9 @@ public:
     bool dropDatabase(DataBaseEntity * database);
     void createDatabase(const QString & name,
                         const QString & collation = QString());
+    bool editDatabase(DataBaseEntity * database,
+                      const QString & newName,
+                      const QString & newCollation = QString());
 
     bool removeEntity(Entity * entity);
 
@@ -62,6 +65,7 @@ private:
     void clearAllDatabaseEntities();
 
     void addEntity(Entity * entity);
+    void appendCreatedDatabase(const QString & name);
 
     std::shared_ptr<Connection> _connection;
     QList<DataBaseEntity *> _databases;

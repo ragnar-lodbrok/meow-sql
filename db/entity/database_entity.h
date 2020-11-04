@@ -28,8 +28,11 @@ public:
     virtual bool hasDataSize() const override { return true; }
 
     bool childrenFetched() const;
+    void clearChildren();
 
-    int indexOf(Entity * entity) const;
+    int indexOf(Entity * entity);
+
+    bool hasChild(const QString & name, const Entity::Type type);
 
     // TODO: entity should be shared_ptr?
     void appendEntity(EntityInDatabase * entity);
@@ -37,6 +40,10 @@ public:
     bool removeEntity(EntityInDatabase * entity);
 
     SessionEntity * session() const;
+
+    QString defaultCollation() const {
+        return QString(); // TODO
+    }
 
 private:
 

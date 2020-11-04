@@ -17,7 +17,8 @@ public:
     QList<Entity *> * list() { return &_entities; }
 
     bool hasEntity(const QString & name,
-                   const Entity::Type type = Entity::Type::Table) const {
+                   const Entity::Type type = Entity::Type::Table) const
+    {
 
         for (const Entity * entity : _entities) {
             if (entity->type() == type && entity->name() == name) {
@@ -28,7 +29,7 @@ public:
     }
 
 private:
-    QList<Entity *> _entities;
+    QList<Entity *> _entities; // TODO: map?
 };
 
 } // namespace db

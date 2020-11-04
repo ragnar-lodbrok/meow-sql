@@ -3,6 +3,7 @@
 #include "table_entity.h"
 #include "db/connection.h"
 #include <QIcon>
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -18,7 +19,8 @@ DataBaseEntity::DataBaseEntity(const QString & dbName, SessionEntity * parent)
 
 DataBaseEntity::~DataBaseEntity()
 {
-    connection()->deleteAllCachedEntitiesInDatabase(_dbName);
+    qDebug() << "~DataBaseEntity" << _dbName;
+    clearChildren();
 }
 
 QString DataBaseEntity::name() const // override
@@ -95,12 +97,22 @@ bool DataBaseEntity::childrenFetched() const
     return _entitiesWereInit;
 }
 
-int DataBaseEntity::indexOf(Entity * entity) const
+void DataBaseEntity::clearChildren()
 {
-    if (_entities) {
-        return _entities->list()->indexOf(entity);
-    }
-    return -1;
+    connection()->deleteAllCachedEntitiesInDatabase(_dbName);
+    _entitiesWereInit = false;
+}
+
+int DataBaseEntity::indexOf(Entity * entity)
+{
+    initEntitiesIfNeed();
+    return _entities->list()->indexOf(entity);
+}
+
+bool DataBaseEntity::hasChild(const QString & name, const Type type)
+{
+    initEntitiesIfNeed();
+    return _entities->hasEntity(name, type);
 }
 
 void DataBaseEntity::appendEntity(EntityInDatabase * entity)

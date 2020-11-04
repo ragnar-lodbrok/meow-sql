@@ -41,6 +41,10 @@ public:
         return false;
     }
 
+    virtual bool supportsEditingDatabase() const {
+        return false;
+    }
+
     virtual bool supportsDrop(Entity::Type type) const {
         Q_UNUSED(type);
         return false;
@@ -96,6 +100,10 @@ public:
     }
 
     virtual bool supportsEditingViewsStructure() const override {
+        return true;
+    }
+
+    virtual bool supportsEditingDatabase() const override {
         return true;
     }
 

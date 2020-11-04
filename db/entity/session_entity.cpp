@@ -135,18 +135,22 @@ void SessionEntity::createDatabase(const QString & name,
     _connection->createDatabase(name, collation);
 
     if (_connection->connectionParams()->isAllDatabases()) {
-
-        QStringList allDatabases = _connection->allDatabases(true);
-        if (allDatabases.contains(name) == false) return;
-
-        initDatabasesListIfNeed();
-        DataBaseEntity * dbEntity = new DataBaseEntity(
-                    name,
-                    const_cast<SessionEntity *>(this));
-        _databases.push_back(dbEntity);
-
-        emit entityInserted(dbEntity);
+        appendCreatedDatabase(name);
     }
+}
+
+bool SessionEntity::editDatabase(DataBaseEntity * database,
+                                 const QString & newName,
+                                 const QString & newCollation)
+{
+    bool changed = _connection->editDatabase(database, newName, newCollation);
+
+    if (changed) {
+        removeEntity(database);
+        appendCreatedDatabase(newName);
+    }
+
+    return changed;
 }
 
 db::ulonglong SessionEntity::dataSize() const // override
@@ -183,6 +187,20 @@ void SessionEntity::addEntity(Entity * entity)
         EntityInDatabase * entityInDb = static_cast<EntityInDatabase *>(entity);
         entityInDb->dataBaseEntity()->appendEntity(entityInDb);
     }
+}
+
+void SessionEntity::appendCreatedDatabase(const QString & name)
+{
+    QStringList allDatabases = _connection->allDatabases(true);
+    if (allDatabases.contains(name) == false) return;
+
+    initDatabasesListIfNeed();
+    DataBaseEntity * dbEntity = new DataBaseEntity(
+                name,
+                const_cast<SessionEntity *>(this));
+    _databases.push_back(dbEntity);
+
+    emit entityInserted(dbEntity);
 }
 
 bool SessionEntity::removeEntity(Entity * entity)

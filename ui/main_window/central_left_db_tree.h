@@ -22,7 +22,9 @@ private:
     void createActions();
 
     bool currentItemSupportsDumping() const;
+    bool currentItemSupportsEditing() const;
 
+    QAction * _editAction;
     QAction * _dropAction;
 
     QAction * _createTableAction;

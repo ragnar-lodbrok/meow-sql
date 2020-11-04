@@ -65,7 +65,7 @@
         <file>resources/icons/cross_small.png</file>
         <file>resources/icons/tab_delete.png</file>
         <file>resources/icons/tab_add.png</file>
-        <file>resources/icons/application_form_edit.png</file>
+        <file alias="application_form_edit.png">resources/icons/application_form_edit.png</file>
         <file alias="application_form_delete.png">resources/icons/application_form_delete.png</file>
         <file alias="application_form_add.png">resources/icons/application_form_add.png</file>
         <file alias="key_primary.png">resources/icons/bullet_key.png</file>

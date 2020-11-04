@@ -1,15 +1,29 @@
 #include "edit_database_form.h"
 #include "db/connection.h"
 #include "db/entity/session_entity.h"
+#include "db/entity/database_entity.h"
 
 namespace meow {
 namespace models {
 namespace forms {
 
-EditDatabaseForm::EditDatabaseForm(db::SessionEntity * session)
-    :_session(session)
+EditDatabaseForm::EditDatabaseForm(
+        db::SessionEntity * session,
+        meow::db::DataBaseEntity * database,
+        bool createMode)
+    : _session(session)
+    , _database(database)
+    , _createMode(createMode)
+    , _dropOldDatabase(false)
 {
-    _collation = _session->connection()->serverPrefferedCollation();
+    if (_createMode) {
+        _collation = _session->connection()->serverPrefferedCollation();
+    } else {
+        Q_ASSERT(_database != nullptr);
+        _name = _database->name();
+        //_collation = _session->collation() TODO
+    }
+
 }
 
 QString EditDatabaseForm::name() const
@@ -20,6 +34,14 @@ QString EditDatabaseForm::name() const
 void EditDatabaseForm::setName(const QString & name)
 {
     _name = name;
+}
+
+QString EditDatabaseForm::originalName() const
+{
+    if (_database) {
+        return _database->name();
+    }
+    return QString();
 }
 
 const QStringList EditDatabaseForm::collations() const
@@ -39,7 +61,21 @@ void EditDatabaseForm::setCollation(const QString & collation)
 
 void EditDatabaseForm::save()
 {
-    _session->createDatabase(_name, _collation);
+    _dropOldDatabase = false;
+
+    // TODO: pass collation
+    if (_createMode) {
+        _session->createDatabase(_name/*, _collation*/);
+    } else {
+        _dropOldDatabase = _session->editDatabase(_database,
+                                                  _name/*, _collation*/);
+    }
+}
+
+bool EditDatabaseForm::databaseWithEnteredNameExists(bool refresh) const
+{
+    QStringList allDatabases = _session->connection()->allDatabases(refresh);
+    return allDatabases.contains(_name);
 }
 
 bool EditDatabaseForm::canSave() const

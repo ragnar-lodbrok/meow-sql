@@ -1,6 +1,7 @@
 #include "database_editor.h"
 #include "connection.h"
 
+
 namespace meow {
 namespace db {
 
@@ -27,11 +28,13 @@ void DataBaseEditor::create(const QString & name,
 {
     Q_UNUSED(collation);
 
-    const QString SQL = QString("CREATE DATABASE  %1")
+    QString SQL = QString("CREATE DATABASE %1")
             .arg(_connection->quoteIdentifier(name));
 
     _connection->query(SQL);
 }
+
+
 
 } // namespace db
 } // namespace meow

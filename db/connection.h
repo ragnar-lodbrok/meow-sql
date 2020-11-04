@@ -129,6 +129,9 @@ public:
     bool dropDatabase(DataBaseEntity * database);
     void createDatabase(const QString & name,
                         const QString & collation = QString());
+    bool editDatabase(DataBaseEntity * database,
+                      const QString & newName,
+                      const QString & newCollation = QString());
 
     ConnectionDataTypes * dataTypes();
 

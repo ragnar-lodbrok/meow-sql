@@ -12,7 +12,9 @@ Dialog::Dialog(models::forms::EditDatabaseForm * form)
 {
     setMinimumSize(320, 200);
     setMaximumSize(600, 400);
-    setWindowTitle(tr("Create database ..."));
+    setWindowTitle(_form->isCreateMode()
+                   ? tr("Create database ...")
+                   : tr("Alter database ..."));
 
     createWidgets();
     fillDataFromForm();
@@ -50,7 +52,7 @@ void Dialog::createWidgets()
     ++row;
 
     // Collation ---------------------------------------------------------------
-    _collationLabel = new QLabel(tr("Collation:"));
+    /*_collationLabel = new QLabel(tr("Collation:"));
     mainLayout->addWidget(_collationLabel, row, 0);
 
     _collationComboBox = new QComboBox;
@@ -63,7 +65,7 @@ void Dialog::createWidgets()
     _collationLabel->setBuddy(_collationComboBox);
     mainLayout->addWidget(_collationComboBox, row, 1);
 
-    ++row;
+    ++row;*/
 
     // Buttons -----------------------------------------------------------------
     _buttonBox = new QDialogButtonBox();
@@ -87,12 +89,12 @@ void Dialog::fillDataFromForm()
     _nameEdit->setText(_form->name());
     _nameEdit->blockSignals(false);
 
-    _collationComboBox->blockSignals(true);
+    /*_collationComboBox->blockSignals(true);
     _collationComboBox->clear();
     _collationComboBox->addItems(_form->collations());
     _collationComboBox->setCurrentIndex(
         _collationComboBox->findText(_form->collation()));
-    _collationComboBox->blockSignals(false);
+    _collationComboBox->blockSignals(false);*/
 
     validate();
 }
@@ -106,12 +108,22 @@ void Dialog::onAccept()
 {
     try {
 
+        if (_form->isCreateMode() == false) {
+            if (beforeAlterDatabase() == false) {
+                return;
+            }
+        }
+
         _form->save();
 
     } catch(meow::db::Exception & ex) {
 
-        QString message = QString(tr("Creating database '%1' failed.\n%2")).arg(
-            _form->name(),
+        QString messageTemplate = _form->isCreateMode()
+                ? tr("Creating database '%1' failed.\n%2")
+                : tr("Altering database '%1' failed.\n%2");
+
+        QString message = messageTemplate.arg(
+            _form->isCreateMode() ? _form->name() : _form->originalName(),
             ex.message()
         );
 
@@ -126,6 +138,36 @@ void Dialog::onAccept()
     }
 
     accept();
+}
+
+bool Dialog::beforeAlterDatabase()
+{
+    if (_form->nameChanged()) {
+
+        bool refreshDatabaseList = true;
+        if (_form->databaseWithEnteredNameExists(refreshDatabaseList)) {
+
+            QString confirmMsg = QString(tr(
+                    "Database '%1' already exists.\n"
+                    "Move all objects from '%2' to '%1'?"))
+                    .arg(_form->name())
+                    .arg(_form->originalName());
+
+            QMessageBox msgBox;
+            msgBox.setText(confirmMsg);
+            msgBox.setStandardButtons(
+                        QMessageBox::Yes | QMessageBox::Cancel);
+            msgBox.setDefaultButton(QMessageBox::Yes);
+            msgBox.setIcon(QMessageBox::Question);
+            if (msgBox.exec() != QMessageBox::Yes) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    return false;
 }
 
 } // namespace edit_database
