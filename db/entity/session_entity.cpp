@@ -77,8 +77,13 @@ bool SessionEntity::isActive() const
 
 DataBaseEntity * SessionEntity::activeDatabase() const
 {
-    foreach (DataBaseEntity * entity, _databases) {
-        if (entity->name() == connection()->database()) {
+    return databaseByName(connection()->database());
+}
+
+DataBaseEntity * SessionEntity::databaseByName(const QString & name) const
+{
+    for (DataBaseEntity * entity : _databases) {
+        if (entity->name() == name) {
             return entity;
         }
     }
@@ -143,11 +148,20 @@ bool SessionEntity::editDatabase(DataBaseEntity * database,
                                  const QString & newName,
                                  const QString & newCollation)
 {
+    QStringList allDatabases = _connection->allDatabases();
+    bool moveToExisting = allDatabases.contains(newName);
+
     bool changed = _connection->editDatabase(database, newName, newCollation);
 
     if (changed) {
-        removeEntity(database);
-        appendCreatedDatabase(newName);
+        //removeEntity(database); // nope: remove later
+        if (moveToExisting) {
+            DataBaseEntity * database = databaseByName(newName);
+            database->clearChildren();
+            emit entityEdited(database);
+        } else {
+            appendCreatedDatabase(newName, database->name());
+        }
     }
 
     return changed;
@@ -189,7 +203,9 @@ void SessionEntity::addEntity(Entity * entity)
     }
 }
 
-void SessionEntity::appendCreatedDatabase(const QString & name)
+void SessionEntity::appendCreatedDatabase(
+        const QString & name,
+        const QString & afterName)
 {
     QStringList allDatabases = _connection->allDatabases(true);
     if (allDatabases.contains(name) == false) return;
@@ -198,7 +214,17 @@ void SessionEntity::appendCreatedDatabase(const QString & name)
     DataBaseEntity * dbEntity = new DataBaseEntity(
                 name,
                 const_cast<SessionEntity *>(this));
-    _databases.push_back(dbEntity);
+
+    if (afterName.isNull() == false) {
+        for (int i=0; i<_databases.size(); ++i) {
+            if (_databases.at(i)->name() == afterName) {
+                _databases.insert(i+1, dbEntity);
+                break;
+            }
+        }
+    } else {
+        _databases.push_back(dbEntity);
+    }
 
     emit entityInserted(dbEntity);
 }

@@ -19,7 +19,6 @@ DataBaseEntity::DataBaseEntity(const QString & dbName, SessionEntity * parent)
 
 DataBaseEntity::~DataBaseEntity()
 {
-    qDebug() << "~DataBaseEntity" << _dbName;
     clearChildren();
 }
 

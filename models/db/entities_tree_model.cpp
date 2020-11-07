@@ -314,12 +314,17 @@ void EntitiesTreeModel::dropCurrentItem()
     meow::db::Entity * curEntity = currentEntity();
     if (!curEntity) return;
 
-    QModelIndex curIndex = indexForEntity(curEntity);
+    dropEntity(curEntity);
+}
+
+void EntitiesTreeModel::dropEntity(meow::db::Entity * entity)
+{
+    QModelIndex curIndex = indexForEntity(entity);
     if (!curIndex.isValid()) return;
 
-    if (_dbConnectionsManager->dropActiveEntity()) {
+    if (_dbConnectionsManager->dropEntity(entity)) {
         beginRemoveRows(parent(curIndex), curIndex.row(), curIndex.row());
-        _dbConnectionsManager->activeSession()->removeEntity(curEntity);
+        _dbConnectionsManager->activeSession()->removeEntity(entity);
         endRemoveRows();
     }
 }

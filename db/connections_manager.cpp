@@ -140,19 +140,24 @@ void ConnectionsManager::refreshActiveSession()
     }
 }
 
-bool ConnectionsManager::dropActiveEntity()
+bool ConnectionsManager::dropActiveEntity() // TODO: rm?
 {
     Entity * activeEntity = _activeEntity.currentEntity();
     if (!activeEntity) return false;
 
+    return dropEntity(activeEntity);
+}
+
+bool ConnectionsManager::dropEntity(Entity * entity)
+{
     if (_activeSession) {
-        if ( (int)activeEntity->type() >= (int)Entity::Type::Table) {
+        if ( (int)entity->type() >= (int)Entity::Type::Table) {
             EntityInDatabase * entityDbLvl
-                = static_cast<EntityInDatabase *>(activeEntity);
+                = static_cast<EntityInDatabase *>(entity);
             return _activeSession->dropEntityInDB(entityDbLvl);
-        } else if (activeEntity->type() == Entity::Type::Database) {
+        } else if (entity->type() == Entity::Type::Database) {
             DataBaseEntity * database
-                 = static_cast<DataBaseEntity *>(activeEntity);
+                 = static_cast<DataBaseEntity *>(entity);
             return _activeSession->dropDatabase(database);
         } else {
             Q_ASSERT(0);

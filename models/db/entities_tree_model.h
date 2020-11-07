@@ -43,6 +43,7 @@ public:
     void refreshActiveSession();
 
     void dropCurrentItem();
+    void dropEntity(meow::db::Entity * entity);
 
     meow::db::ConnectionsManager * dbConnectionsManager() const {
         return _dbConnectionsManager;

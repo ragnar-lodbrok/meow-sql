@@ -120,8 +120,7 @@ void DbTree::createActions()
         dialog.exec();
 
         if (form.dropOldDatabase()) {
-            //treeModel->dropCurrentItem();
-            // TODO: not current anymore
+            treeModel->dropEntity(database);
         }
     });
 

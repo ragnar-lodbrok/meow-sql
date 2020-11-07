@@ -52,6 +52,7 @@ public:
 
     bool isActive() const;
     DataBaseEntity * activeDatabase() const;
+    DataBaseEntity * databaseByName(const QString & name) const;
 
     Q_SIGNAL void entityEdited(Entity * entity);
     Q_SIGNAL void entityInserted(Entity * entity);
@@ -65,7 +66,9 @@ private:
     void clearAllDatabaseEntities();
 
     void addEntity(Entity * entity);
-    void appendCreatedDatabase(const QString & name);
+    void appendCreatedDatabase(
+            const QString & name,
+            const QString & afterName = QString());
 
     std::shared_ptr<Connection> _connection;
     QList<DataBaseEntity *> _databases;

@@ -57,6 +57,7 @@ public:
     void refreshActiveSession();
 
     bool dropActiveEntity();
+    bool dropEntity(Entity * entity);
 
     QString activeEntityPath() const;
 

@@ -68,7 +68,7 @@ void EditDatabaseForm::save()
         _session->createDatabase(_name/*, _collation*/);
     } else {
         _dropOldDatabase = _session->editDatabase(_database,
-                                                  _name/*, _collation*/);
+                                             _name/*, _collation*/);
     }
 }
 
