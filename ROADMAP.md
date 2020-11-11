@@ -2,12 +2,6 @@
 
 ## Task pool (by priority)
 
-SSH Tunnel via libSSH
-
-HiDPI monitors support
-
-MySQL: View form (edit, create)
-
 MySQL: Procedure form (r/o)
 
 MySQL: Procedure form (edit, create)
@@ -21,6 +15,10 @@ MySQL: Function form (r/o)
 MySQL: Function form (edit, create)
 
 Host Tab: Variables for MySQL (edit)
+
+SSH Tunnel via libSSH
+
+HiDPI monitors support (+icons)
 
 ARM (raspberry builds)
 
@@ -40,7 +38,7 @@ Table data edit: set editor
 
 Multiple Query tabs
 
-Drop: view, procedure, trigger, etc
+Drop: procedure, trigger, etc
 
 Query results editing
 
@@ -103,6 +101,12 @@ Table tools: bulk table editor
 Table tools: find text
 
 Data Grid: insert files into text/blob fields
+
+## 0.4.6
+
+MySQL: View form (edit, create, drop)
+
+MySQL: renaming database
 
 ## 0.4.5
 
