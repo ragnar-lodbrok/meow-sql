@@ -48,7 +48,7 @@ Note: both QMake and CMake are supported at the moment
 Linux:
 
 1. You need gcc (or other compiler) with c++11 support
-2. Qt (tested with 5.6-5.15) and QMake (Optionally: Qt Creator) or CMake
+2. Qt (tested with 5.6-5.15, apt-get install qt5-default) and QMake (Optionally: Qt Creator) or CMake
 3. Clone the repo
 4. libmysqlclient library, for deb-based distros: apt-get install libmysqlclient-dev
 5. (Optional) Debian: sudo apt-get install mysql-server
