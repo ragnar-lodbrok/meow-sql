@@ -19,6 +19,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 11) # TODO 14 for Qt >= 5.5
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "Release")
+endif()
+
 find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5Sql REQUIRED)
 
@@ -378,3 +382,25 @@ if(WITH_POSTGRESQL)
         ${PostgreSQL_LIBRARIES}
     )
 endif()
+
+if(UNIX)
+
+    if(NOT DEFINED CMAKE_INSTALL_DATAROOTDIR)
+        set(CMAKE_INSTALL_DATAROOTDIR "share")
+    endif()
+
+    install(TARGETS ${PROJECT_NAME}
+            RUNTIME DESTINATION bin
+            LIBRARY DESTINATION lib)
+
+    install(FILES meowsql.png
+        DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/256x256/apps/")
+
+    install(FILES meowsql.svg
+            DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/icons/hicolor/scalable/apps/"
+            RENAME ${PROJECT_NAME}.svg)
+
+    install(FILES meowsql.desktop
+            DESTINATION "${CMAKE_INSTALL_DATAROOTDIR}/applications/")
+
+endif(UNIX)
