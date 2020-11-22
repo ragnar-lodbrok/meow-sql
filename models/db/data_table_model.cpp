@@ -16,6 +16,7 @@ namespace db {
 
 DataTableModel::DataTableModel(QObject *parent)
     :BaseDataTableModel(new meow::db::QueryData(), parent),
+      _sortFilterModel(nullptr),
       _entityChangedProcessed(false),
       _dbEntity(nullptr),
       _wantedRowsCount(meow::db::DATA_MAX_ROWS)
@@ -85,13 +86,18 @@ void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity,
 
 void DataTableModel::removeData()
 {
-    if (rowCount()) {
-        beginRemoveRows(QModelIndex(), 0, rowCount()-1);
+    int rowCount = this->rowCount();
+    int columnCount = this->columnCount();
+
+    if (rowCount) {
+        beginRemoveRows(QModelIndex(), 0, rowCount-1);
+        setRowCount(0);
         endRemoveRows();
     }
 
-    if (columnCount()) {
-        beginRemoveColumns(QModelIndex(), 0, columnCount()-1);
+    if (columnCount) {
+        beginRemoveColumns(QModelIndex(), 0, columnCount-1);
+        setColumnCount(0);
         endRemoveColumns();
     }
 
@@ -148,13 +154,23 @@ void DataTableModel::loadData(bool force)
 
     _entityChangedProcessed = true;
 
-    if (columnCount() > prevColCount) {
-        beginInsertColumns(QModelIndex(), prevColCount, columnCount()-1);
+    int newColumnCount = queryData()->columnCount();
+
+    if (newColumnCount > prevColCount) {
+        beginInsertColumns(QModelIndex(), prevColCount, newColumnCount-1);
+        setColumnCount(newColumnCount); // tell the model we have change in data
         endInsertColumns();
     }
 
-    if (rowCount() > prevRowCount) {
-        beginInsertRows(QModelIndex(), prevRowCount, rowCount()-1);
+    int newRowCount = queryData()->rowCount();
+
+    if (newRowCount > prevRowCount) {
+        // Qt models require actual change in data to happen between
+        // beginInsertRows and endInsertRows. Since we got data from query
+        // emulate this by settings row count by hand. Otherwise proxy models
+        // go crazy.
+        beginInsertRows(QModelIndex(), prevRowCount, newRowCount-1);
+        setRowCount(newRowCount);
         endInsertRows();
     }
 }
@@ -183,20 +199,23 @@ bool DataTableModel::isModified()
     return queryData()->isModified();
 }
 
-void DataTableModel::applyModifications()
+void DataTableModel::applyModifications(int rowToApply)
 {
     if (queryData() && queryData()->isModified()) {
         bool isInserted = queryData()->isInserted();
         int curRow = queryData()->currentRowNumber();
+        rowToApply = (rowToApply != -1) ? rowToApply : curRow;
         int modifiedRow = queryData()->applyModifications();
         if (modifiedRow != -1) {
             emit dataChanged(
                 index(modifiedRow, 0),
                 index(modifiedRow, columnCount() - 1));
         } else {
-            if (isInserted && curRow != -1) {
-                beginRemoveRows(QModelIndex(), curRow, curRow);
-                queryData()->deleteRow(curRow);
+            if (isInserted && rowToApply != -1) {
+                int rowCount = this->rowCount();
+                beginRemoveRows(QModelIndex(), rowToApply, rowToApply);
+                queryData()->deleteRow(rowToApply);
+                setRowCount(rowCount - 1);
                 endRemoveRows();
             }
         }
@@ -212,8 +231,10 @@ void DataTableModel::discardModifications()
         if (modifiedRow != -1) {
             if (isInserted) {
                 if (curRow != -1) {
+                    int rowCount = this->rowCount();
                     beginRemoveRows(QModelIndex(), curRow, curRow);
                     queryData()->deleteRow(curRow);
+                    setRowCount(rowCount - 1);
                     endRemoveRows();
                 }
             } else {
@@ -232,8 +253,10 @@ void DataTableModel::setCurrentRowNumber(int row)
 
 bool DataTableModel::deleteRowInDB(int row)
 {
+    int oldRowCount = rowCount();
     if (queryData()->deleteRowInDB(row)) {
         beginRemoveRows(QModelIndex(), row, row);
+        setRowCount(oldRowCount-1);
         endRemoveRows();
         return true;
     }
@@ -243,12 +266,54 @@ bool DataTableModel::deleteRowInDB(int row)
 
 int DataTableModel::insertEmptyRow()
 {
+    int oldRowCount = rowCount();
     int newRowIndex = queryData()->insertEmptyRow();
     if (newRowIndex != -1) {
         beginInsertRows(QModelIndex(), newRowIndex, newRowIndex);
+        setRowCount(oldRowCount+1);
         endInsertRows();
     }
     return newRowIndex;
+}
+
+QAbstractItemModel * DataTableModel::createSortFilterModel()
+{
+    if (_sortFilterModel == nullptr) {
+        _sortFilterModel = new QueryDataSortFilterProxyModel(queryData(), this);
+        _sortFilterModel->setSourceModel(this);
+        _sortFilterModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+        _sortFilterModel->setFilterKeyColumn(-1); // all columns
+
+        setFilterPattern(_filterPattern);
+    }
+    return _sortFilterModel;
+}
+
+void DataTableModel::setFilterPattern(const QString & pattern)
+{
+    if (_filterPattern == pattern) return;
+
+    _filterPattern = pattern;
+    if (_sortFilterModel) {
+        _sortFilterModel->setFilterWildcard(pattern);
+        // TODO: regexp as option
+        //proxyModel->setFilterRegExp(QRegExp(".png", Qt::CaseInsensitive,
+        //                                            QRegExp::FixedString));
+    }
+}
+
+QString DataTableModel::filterPattern() const
+{
+    return _filterPattern;
+}
+
+int DataTableModel::filterMatchedRowCount() const
+{
+    if (_sortFilterModel) {
+        return _sortFilterModel->rowCount();
+    } else {
+        return rowCount(); // all matched if no filter
+    }
 }
 
 void DataTableModel::refresh()

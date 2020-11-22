@@ -9,20 +9,38 @@ namespace db {
 BaseDataTableModel::BaseDataTableModel(meow::db::QueryData * queryData,
                                          QObject *parent)
     : QAbstractTableModel(parent),
-      _queryData(queryData)
+      _queryData(queryData),
+      _rowCount(0),
+      _colCount(0)
 {
 
+}
+
+void BaseDataTableModel::setRowCount(int newRowCount)
+{
+    _rowCount = newRowCount;
+}
+
+void BaseDataTableModel::setColumnCount(int newColumnCount)
+{
+    _colCount = newColumnCount;
 }
 
 int BaseDataTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
+    if (_colCount != -1) {
+        return _colCount;
+    }
     return _queryData->columnCount();
 }
 
 int BaseDataTableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
+    if (_rowCount != -1) {
+        return _rowCount;
+    }
     return _queryData->rowCount();
 }
 

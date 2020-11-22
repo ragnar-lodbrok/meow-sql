@@ -25,11 +25,13 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
             this,
             &CentralRightWidget::onEntityEdited);
 
-    createRootTabs();
+    createWidgets();
 }
 
 void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
 {
+    _filterWidget->reset();
+
     bool wasOnDataTab = entity ? onDataTab() : false;
     bool wasOnQueryTab = entity ? onQueryTab() : false;
 
@@ -83,6 +85,7 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
 
     if (_model.hasDataTab()) {
         bool loadData = onDataTab();
+        dataTab()->resetFilter();
         dataTab()->setDBEntity(entity, loadData);
         _rootTabs->setTabText(_model.indexForDataTab(),
                               _model.titleForDataTab());
@@ -163,6 +166,17 @@ void CentralRightWidget::onEntityEdited(db::Entity * entity)
     }
 }
 
+void CentralRightWidget::onGlobalDataFilterPatternChanged(
+        const QString & pattern)
+{
+    if (_model.hasDataTab() && onDataTab()) {
+        dataTab()->setFilterPattern(pattern);
+        _filterWidget->setRowCount(
+                    dataTab()->totalRowCount(),
+                    dataTab()->filterMatchedRowCount());
+    }
+}
+
 bool CentralRightWidget::onHostTab() const
 {
     return _rootTabs->currentIndex()
@@ -191,7 +205,7 @@ bool CentralRightWidget::onQueryTab() const
     return _rootTabs->currentIndex() == _model.indexForQueryTab();
 }
 
-void CentralRightWidget::createRootTabs()
+void CentralRightWidget::createWidgets()
 {
     // http://doc.qt.io/qt-5/qtwidgets-dialogs-tabdialog-example.html
     _rootTabs = new QTabWidget();
@@ -201,7 +215,7 @@ void CentralRightWidget::createRootTabs()
             this,
             &CentralRightWidget::rootTabChanged);
 
-    QHBoxLayout * layout = new QHBoxLayout();
+    QVBoxLayout * layout = new QVBoxLayout();
     layout->setSpacing(0);
     layout->setContentsMargins(0,0,0,0);
     this->setLayout(layout);
@@ -215,6 +229,11 @@ void CentralRightWidget::createRootTabs()
     _rootTabs->setDocumentMode(true);
 #endif
 
+    _filterWidget = new central_right::FilterWidget();
+    layout->addWidget(_filterWidget);
+    connect(_filterWidget, &central_right::FilterWidget::onFilterPatterChanged,
+            this, &CentralRightWidget::onGlobalDataFilterPatternChanged);
+
 }
 
 void CentralRightWidget::rootTabChanged(int index)
@@ -224,6 +243,14 @@ void CentralRightWidget::rootTabChanged(int index)
     try {
         if (onDataTab()) {
             dataTab()->loadData();
+
+            _filterWidget->setFilterPattern(dataTab()->filterPattern());
+            _filterWidget->setRowCount(
+                        dataTab()->totalRowCount(),
+                        dataTab()->filterMatchedRowCount());
+
+        } else {
+            _filterWidget->reset();
         }
     } catch(meow::db::Exception & ex) {
         QMessageBox msgBox;
@@ -232,6 +259,15 @@ void CentralRightWidget::rootTabChanged(int index)
         msgBox.setDefaultButton(QMessageBox::Ok);
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
+    }
+}
+
+void CentralRightWidget::onDataTabDataChanged()
+{
+    if (onDataTab()) {
+        _filterWidget->setRowCount(
+                    dataTab()->totalRowCount(),
+                    dataTab()->filterMatchedRowCount());
     }
 }
 
@@ -290,6 +326,18 @@ central_right::DataTab * CentralRightWidget::dataTab()
 {
     if (!_dataTab) {
         _dataTab = new central_right::DataTab();
+
+        // TODO: don't connect if filter is empty?
+
+        connect(_dataTab->model(), &QAbstractItemModel::dataChanged,
+                this, &CentralRightWidget::onDataTabDataChanged);
+
+        connect(_dataTab->model(), &QAbstractItemModel::rowsInserted,
+                this, &CentralRightWidget::onDataTabDataChanged);
+
+        connect(_dataTab->model(), &QAbstractItemModel::rowsRemoved,
+                this, &CentralRightWidget::onDataTabDataChanged);
+
         _rootTabs->insertTab(_model.indexForDataTab(),
                              _dataTab,
                              QIcon(":/icons/data.png"),

@@ -9,6 +9,7 @@
 #include "central_right/data/central_right_data_tab.h"
 #include "central_right/query/central_right_query_tab.h"
 #include "central_right/view/central_right_view_tab.h"
+#include "central_right/filter_widget.h"
 
 namespace meow {
 namespace ui {
@@ -16,7 +17,6 @@ namespace main_window {
 
 class CentralRightWidget : public QWidget
 {
-    Q_OBJECT
 public:
     explicit CentralRightWidget(QWidget *parent = 0);
 
@@ -28,9 +28,11 @@ public:
 
     Q_SLOT void onEntityEdited(db::Entity * entity);
 
+    Q_SLOT void onGlobalDataFilterPatternChanged(const QString & pattern);
+
 private:
 
-    void createRootTabs();
+    void createWidgets();
     bool onHostTab() const;
     bool onDatabaseTab() const;
     bool onEntityTab() const;
@@ -38,6 +40,7 @@ private:
     bool onQueryTab() const;
 
     Q_SLOT void rootTabChanged(int index);
+    Q_SLOT void onDataTabDataChanged();
 
     central_right::HostTab * hostTab();
     central_right::DatabaseTab * databaseTab();
@@ -66,6 +69,7 @@ private:
     central_right::ViewTab * _viewTab;
     central_right::DataTab * _dataTab;
     central_right::QueryTab * _queryTab;
+    central_right::FilterWidget * _filterWidget;
 };
 
 

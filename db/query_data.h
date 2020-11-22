@@ -4,6 +4,8 @@
 #include <QObject>
 #include "db/connection.h"
 #include "db/data_type/data_type_category.h"
+#include "query.h"
+#include "editable_grid_data.h"
 
 namespace meow {
 namespace db {
@@ -33,6 +35,7 @@ public:
     bool setData(int row, int col, const QVariant &value);
     bool isModified() const;
     bool isInserted() const;
+    int modifiedRowNumber() const;
 
     int applyModifications();
     int discardModifications();
@@ -40,6 +43,13 @@ public:
     bool deleteRowInDB(int row);
     void deleteRow(int row);
     int insertEmptyRow();
+    bool isRowInsertedButNotSaved(int rowNumber) {
+        db::Query * query = _queryPtr.get();
+        if (!query || !query->isEditing()) {
+            return false;
+        }
+        return query->editableData()->isRowInserted(rowNumber);
+    }
 
     QString whereForCurRow(bool beforeModifications = false) const;
     void ensureFullRow(bool refresh = false);

@@ -34,11 +34,13 @@ void EditQueryDataDelegate::destroyEditor(QWidget *editor,
     QStyledItemDelegate::destroyEditor(editor, index);
 }
 
-void EditQueryDataDelegate::commit()
+void EditQueryDataDelegate::commit(bool emitCloseEditor)
 {
     if (_editor) {
         emit commitData(_editor);
-        emit closeEditor(_editor);
+        if (emitCloseEditor) { // closing editor causes row change
+            emit closeEditor(_editor);
+        }
         _editor = nullptr;
     }
 }

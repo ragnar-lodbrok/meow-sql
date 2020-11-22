@@ -63,6 +63,7 @@ set(HEADER_FILES
     db/query_column.h
     ssh/ssh_tunnel_interface.h
     ui/common/mysql_syntax.h
+    ui/main_window/central_right/global_data_filter_interface.h
 )
 
 if(WITH_MYSQL)
@@ -143,6 +144,7 @@ set(SOURCE_FILES
     models/db/entities_tree_model.cpp
     models/db/table_columns_model.cpp
     models/db/variables_table_model.cpp
+    models/db/query_data_sort_filter_proxy_model.cpp
     models/delegates/checkbox_delegate.cpp
     models/delegates/edit_query_data_delegate.cpp
     models/delegates/foreign_key_columns_delegate.cpp
@@ -210,6 +212,7 @@ set(SOURCE_FILES
     ui/main_window/central_right/table/cr_table_info_indexes_tab.cpp
     ui/main_window/central_right/table/cr_table_info_options_tab.cpp
     ui/main_window/central_right/view/central_right_view_tab.cpp
+    ui/main_window/central_right/filter_widget.cpp
     ui/main_window/central_right_widget.cpp
     ui/main_window/central_widget.cpp
     ui/main_window/main_window.cpp

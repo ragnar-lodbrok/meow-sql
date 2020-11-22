@@ -1,6 +1,4 @@
 #include "query_data.h"
-#include "editable_grid_data.h"
-#include "query.h"
 #include "helpers/formatting.h"
 #include "query_data_editor.h"
 #include "entity/table_entity.h"
@@ -142,6 +140,14 @@ bool QueryData::isInserted() const
     return _queryPtr
             && _queryPtr->editableData()
             && _queryPtr->editableData()->isInserted();
+}
+
+int QueryData::modifiedRowNumber() const
+{
+    if (isModified()) {
+        return _queryPtr->editableData()->editableRow()->rowNumber;
+    }
+    return -1;
 }
 
 int QueryData::applyModifications()

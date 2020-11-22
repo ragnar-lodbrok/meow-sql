@@ -22,7 +22,7 @@ public:
 
     bool isEditing() const { return _editor != nullptr; }
 
-    void commit();
+    void commit(bool emitCloseEditor = true);
     void discard();
 
 protected:

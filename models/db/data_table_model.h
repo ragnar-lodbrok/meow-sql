@@ -2,6 +2,7 @@
 #define DATA_TABLE_MODEL_H
 
 #include <QObject>
+#include "query_data_sort_filter_proxy_model.h"
 #include "base_data_table_model.h"
 #include "db/common.h"
 
@@ -43,7 +44,7 @@ public:
     bool isEditing();
     bool isModified();
 
-    void applyModifications();
+    void applyModifications(int rowToApply = -1);
     void discardModifications();
 
     void setCurrentRowNumber(int row);
@@ -52,9 +53,63 @@ public:
 
     int insertEmptyRow();
 
+    QAbstractItemModel * createSortFilterModel();
+
+    void setFilterPattern(const QString & pattern);
+    QString filterPattern() const;
+
+    int filterMatchedRowCount() const;
+
     Q_SIGNAL void editingStarted();
 
+    QModelIndex mapToSource(const QModelIndex &proxyIndex) const {
+        if (_sortFilterModel) {
+            return _sortFilterModel->mapToSource(proxyIndex);
+        } else {
+            return proxyIndex;
+        }
+    }
+
+    QModelIndexList mapToSource(const QModelIndexList &proxyIndexList) const {
+        if (_sortFilterModel) {
+            QModelIndexList result = proxyIndexList;
+            for (auto & index : result) {
+                index = _sortFilterModel->mapToSource(index);
+            }
+            return result;
+        } else {
+            return proxyIndexList;
+        }
+    }
+
+    QModelIndex mapFromSource(const QModelIndex &sourceIndex) const {
+        if (_sortFilterModel) {
+            return _sortFilterModel->mapFromSource(sourceIndex);
+        } else {
+            return sourceIndex;
+        }
+    }
+
+    QModelIndexList mapFromSource(const QModelIndexList &sourceIndexList) const {
+        if (_sortFilterModel) {
+            QModelIndexList result = sourceIndexList;
+            for (auto & index : result) {
+                index = _sortFilterModel->mapFromSource(index);
+            }
+            return result;
+        } else {
+            return sourceIndexList;
+        }
+    }
+
+    QModelIndex createIndexForRow(int row) {
+        return createIndex(row, 0);
+    }
+
 private:
+
+    QueryDataSortFilterProxyModel * _sortFilterModel;
+    QString _filterPattern;
 
     bool _entityChangedProcessed;
     meow::db::Entity * _dbEntity;

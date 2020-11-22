@@ -10,6 +10,9 @@ QueryDataTab::QueryDataTab(db::QueryData * queryData, QWidget *parent)
     : QWidget(parent),
       _model(queryData)
 {
+    _model.setRowCount(-1); // Temp: take row/col count from query data
+    _model.setColumnCount(-1);
+
     QVBoxLayout * mainLayout = new QVBoxLayout();
     mainLayout->setContentsMargins(2, 2, 2, 2);
     setLayout(mainLayout);

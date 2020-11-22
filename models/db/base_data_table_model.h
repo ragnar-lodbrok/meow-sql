@@ -29,8 +29,20 @@ public:
         return _queryData->columnDataTypeCategory(column);
     }
 
+    // We need to handle row/col count from outside bc Qt models require
+    // to make something like that:
+    //   beginInsertRows();
+    //   fetchData(); // add actual rows here
+    //   endInsertRows();
+    // But we already changed queryData + plus query may fail
+    void setRowCount(int newRowCount); // set to -1 to take from queryData()
+    void setColumnCount(int newColumnCount);
+
+
 private:
     meow::db::QueryData * _queryData;
+    int _rowCount;
+    int _colCount;
 };
 
 

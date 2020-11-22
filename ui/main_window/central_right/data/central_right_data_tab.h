@@ -4,6 +4,7 @@
 #include <QtWidgets>
 #include "models/db/data_table_model.h"
 #include "models/delegates/edit_query_data_delegate.h"
+#include "ui/main_window/central_right/global_data_filter_interface.h"
 
 namespace meow {
 namespace ui {
@@ -13,7 +14,7 @@ class EditableDataTableView;
 namespace main_window {
 namespace central_right {
 
-class DataTab : public QWidget
+class DataTab : public QWidget, public IGlobalDataFilter
 {
 
 public:
@@ -26,6 +27,16 @@ public:
     void loadData();
 
     void invalidateData();
+
+    virtual void setFilterPattern(const QString & filter) override;
+    virtual QString filterPattern() const override;
+
+    virtual int totalRowCount() const override;
+    virtual int filterMatchedRowCount() const override;
+
+    const models::db::DataTableModel * model() const {
+        return &_model;
+    }
 
 private:
 
@@ -55,7 +66,7 @@ private:
     Q_SLOT void onDataDelete(bool checked);
     Q_SLOT void onDataInsert(bool checked);
 
-    void applyModifications();
+    void applyModifications(int rowToApply = -1);
     void discardModifications();
     void deleteSelectedRows();
     void insertEmptyRow();
@@ -71,6 +82,8 @@ private:
     void errorDialog(const QString & message);
 
     QAbstractItemDelegate * currentItemDelegate() const;
+    
+    QModelIndex currentIndexMapped() const;
 
     QVBoxLayout * _mainLayout;
     // top panel:

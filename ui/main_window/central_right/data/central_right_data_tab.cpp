@@ -75,7 +75,6 @@ void DataTab::createTopPanel()
     _topLayout->addStretch(1);
 
     createShowToolBar();
-
 }
 
 void DataTab::createDataToolBar()
@@ -130,7 +129,6 @@ void DataTab::createShowToolBar()
 
 void DataTab::createDataTable()
 {
-
     _dataTable = new EditableDataTableView();
     _dataTable->verticalHeader()->hide();
      auto geometrySettings = meow::app()->settings()->geometrySettings();
@@ -145,14 +143,16 @@ void DataTab::createDataTable()
     _dataTable->setSelectionBehavior(
         QAbstractItemView::SelectionBehavior::SelectRows);
 
-    _dataTable->setModel(&_model);
+    _dataTable->setModel(_model.createSortFilterModel());
+    //_dataTable->setModel(&_model);
     _mainLayout->addWidget(_dataTable);
     _dataTable->setSortingEnabled(false); // TODO
 
     connect(_dataTable->selectionModel(),
             &QItemSelectionModel::currentRowChanged,
             this,
-            &DataTab::currentRowChanged
+            &DataTab::currentRowChanged//,
+            //Qt::QueuedConnection
     );
 
     connect(_dataTable->selectionModel(),
@@ -251,6 +251,26 @@ void DataTab::invalidateData()
     _model.invalidateData();
 }
 
+void DataTab::setFilterPattern(const QString & filter)
+{
+    _model.setFilterPattern(filter);
+}
+
+QString DataTab::filterPattern() const
+{
+    return _model.filterPattern();
+}
+
+int DataTab::totalRowCount() const
+{
+    return _model.rowCount();
+}
+
+int DataTab::filterMatchedRowCount() const
+{
+    return _model.filterMatchedRowCount();
+}
+
 void DataTab::onLoadData()
 {
     refreshDataLabelText();
@@ -258,7 +278,6 @@ void DataTab::onLoadData()
     if (meow::app()->settings()->textSettings()->autoResizeTableColumns()) {
         _dataTable->resizeColumnsToContents();
     }
-
 
     for (int c = 0; c < _model.columnCount(); ++c) {
         // TODO: better use single delegate
@@ -296,11 +315,29 @@ void DataTab::validateDataToolBarState()
     meow::app()->actions()->dataCancelChanges()->setEnabled(canPost);
 
     validateDataDeleteActionState();
+
+    // Listening: Rob Zombie - The Triumph of King Freak
 }
 
 void DataTab::validateDataDeleteActionState()
 {   
-    meow::app()->actions()->dataInsert()->setEnabled(_model.isEditable());
+    // Disallow insert while any editing since it leads to many bugs and
+    // complexities I can't solve now
+    bool canInsert = _model.isEditable();
+    if (canInsert) {
+        auto delegate = static_cast<models::delegates::EditQueryDataDelegate *>(
+            currentItemDelegate()
+        );
+        if (delegate && delegate->isEditing()) {
+            canInsert = false;
+        }
+        if (canInsert) {
+            canInsert = !_model.queryData()->isInserted();
+        }
+    }
+
+    meow::app()->actions()->dataInsert()->setEnabled(canInsert);
+
     meow::app()->actions()->dataDelete()->setEnabled(
         _dataTable->selectionModel()->hasSelection() && _model.isEditable());
 }
@@ -317,9 +354,12 @@ void DataTab::currentRowChanged(const QModelIndex &current,
     Q_UNUSED(current);
     Q_UNUSED(previous);
 
-    applyModifications();
+    QModelIndex prevIndexMapped = _model.mapToSource(previous);
 
-    QModelIndex curIndex = _dataTable->selectionModel()->currentIndex();
+    applyModifications(prevIndexMapped.row());
+
+    QModelIndex curIndex = currentIndexMapped();
+
     _model.setCurrentRowNumber(curIndex.isValid() ? curIndex.row() : -1);
 
     validateDataToolBarState();
@@ -337,7 +377,7 @@ void DataTab::currentChanged(const QModelIndex &current,
 void DataTab::onDataSetNULLAction(bool checked)
 {
     Q_UNUSED(checked);
-    QModelIndex curIndex = _dataTable->selectionModel()->currentIndex();
+    QModelIndex curIndex = currentIndexMapped();
     if (curIndex.isValid()) {
         _model.setData(curIndex, QString());
     }
@@ -350,7 +390,7 @@ void DataTab::onDataRefreshAction(bool checked)
     onLoadData();
 }
 
-void DataTab::applyModifications()
+void DataTab::applyModifications(int rowToApply)
 {
     if (_skipApplyModifications) return;
 
@@ -359,7 +399,10 @@ void DataTab::applyModifications()
     commitTableEditor();
 
     try {
-        _model.applyModifications();
+        // applying may change the row and start new apply before this finishes
+        _skipApplyModifications = true;
+        _model.applyModifications(rowToApply);
+        _skipApplyModifications = false;
     } catch(meow::db::Exception & ex) {
         errorDialog(ex.message());
     }
@@ -376,7 +419,8 @@ void DataTab::discardModifications()
 
 void DataTab::deleteSelectedRows()
 {
-    QModelIndexList selected = _dataTable->selectionModel()->selectedIndexes();
+    QModelIndexList selected = _model.mapToSource(
+                _dataTable->selectionModel()->selectedIndexes());
     QList<int> selectedRows;
 
     for (const QModelIndex & index: selected) {
@@ -419,16 +463,17 @@ void DataTab::deleteSelectedRows()
 
 void DataTab::insertEmptyRow()
 {
+
     int newRowIntIndex = _model.insertEmptyRow();
     if (newRowIntIndex == -1) return;
 
     // select
-    _skipApplyModifications = true;
-    QModelIndex newRowIndex = _dataTable->model()->index(newRowIntIndex, 0);
+    _skipApplyModifications = true; // TODO: something better
+    QModelIndex newRowIndex = _model.mapFromSource(
+                _model.createIndexForRow(newRowIntIndex));
     _dataTable->selectionModel()
         ->setCurrentIndex(newRowIndex, QItemSelectionModel::Clear);
     _dataTable->scrollTo(_dataTable->selectionModel()->currentIndex());
-    //_dataTable->edit(newRowIndex);
     _skipApplyModifications = false;
 }
 
@@ -469,6 +514,13 @@ QAbstractItemDelegate * DataTab::currentItemDelegate() const
         return nullptr;
     }
     return _dataTable->itemDelegateForColumn(index.column());
+}
+
+QModelIndex DataTab::currentIndexMapped() const
+{
+    QModelIndex curIndex = _dataTable->selectionModel()->currentIndex();
+
+    return _model.mapToSource(curIndex);
 }
 
 } // namespace central_right
