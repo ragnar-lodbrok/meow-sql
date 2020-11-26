@@ -16,7 +16,7 @@ namespace central_right {
 
 class DataTab : public QWidget, public IGlobalDataFilter
 {
-
+    Q_OBJECT
 public:
     explicit DataTab(QWidget *parent = nullptr);
 
@@ -52,6 +52,9 @@ private:
 
     void refreshDataLabelText();
 
+    void connectRowChanged();
+    void disconnectRowChanged();
+
     Q_SLOT void currentRowChanged(const QModelIndex &current,
                                   const QModelIndex &previous);
 
@@ -66,7 +69,10 @@ private:
     Q_SLOT void onDataDelete(bool checked);
     Q_SLOT void onDataInsert(bool checked);
 
-    void applyModifications(int rowToApply = -1);
+    Q_SIGNAL void changeRowSelection(const QModelIndex &index);
+    Q_SLOT void onChangeRowSelectionRequest(const QModelIndex &index);
+
+    bool applyModifications(int rowToApply = -1);
     void discardModifications();
     void deleteSelectedRows();
     void insertEmptyRow();

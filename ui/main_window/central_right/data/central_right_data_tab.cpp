@@ -148,12 +148,7 @@ void DataTab::createDataTable()
     _mainLayout->addWidget(_dataTable);
     _dataTable->setSortingEnabled(false); // TODO
 
-    connect(_dataTable->selectionModel(),
-            &QItemSelectionModel::currentRowChanged,
-            this,
-            &DataTab::currentRowChanged//,
-            //Qt::QueuedConnection
-    );
+    connectRowChanged();
 
     connect(_dataTable->selectionModel(),
             &QItemSelectionModel::currentChanged,
@@ -171,6 +166,10 @@ void DataTab::createDataTable()
                 this->validateDataDeleteActionState();
             }
     );
+
+    connect(this, &DataTab::changeRowSelection,
+            this, &DataTab::onChangeRowSelectionRequest,
+            Qt::QueuedConnection);
 }
 
 void DataTab::actionAllRows(bool checked)
@@ -236,6 +235,7 @@ void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
 
 void DataTab::refresh()
 {
+    applyModifications(); // close pending to avoid crash
     _model.refresh();
     onLoadData();
 }
@@ -292,6 +292,25 @@ void DataTab::onLoadData()
 void DataTab::refreshDataLabelText()
 {
     _dataLabel->setText(_model.rowCountStats());
+}
+
+void DataTab::connectRowChanged()
+{
+    connect(_dataTable->selectionModel(),
+            &QItemSelectionModel::currentRowChanged,
+            this,
+            &DataTab::currentRowChanged//,
+            //Qt::QueuedConnection
+    );
+}
+
+void DataTab::disconnectRowChanged()
+{
+    disconnect(_dataTable->selectionModel(),
+            &QItemSelectionModel::currentRowChanged,
+            this,
+            &DataTab::currentRowChanged
+    );
 }
 
 void DataTab::validateShowToolBarState()
@@ -356,13 +375,30 @@ void DataTab::currentRowChanged(const QModelIndex &current,
 
     QModelIndex prevIndexMapped = _model.mapToSource(previous);
 
-    applyModifications(prevIndexMapped.row());
+    bool error = !applyModifications(prevIndexMapped.row());
+
+    if (error && previous.isValid()) {
+        emit changeRowSelection(previous);
+        return;
+    }
 
     QModelIndex curIndex = currentIndexMapped();
 
     _model.setCurrentRowNumber(curIndex.isValid() ? curIndex.row() : -1);
 
     validateDataToolBarState();
+}
+
+void DataTab::onChangeRowSelectionRequest(const QModelIndex &index)
+{
+    disconnectRowChanged();
+    _dataTable->selectionModel()
+        ->setCurrentIndex(index, QItemSelectionModel::Current);
+
+    _dataTable->selectionModel()
+        ->select(index, QItemSelectionModel::ClearAndSelect);
+
+    connectRowChanged();
 }
 
 void DataTab::currentChanged(const QModelIndex &current,
@@ -386,28 +422,34 @@ void DataTab::onDataSetNULLAction(bool checked)
 void DataTab::onDataRefreshAction(bool checked)
 {
     Q_UNUSED(checked);
-    _model.refresh();
-    onLoadData();
+    refresh();
 }
 
-void DataTab::applyModifications(int rowToApply)
+bool DataTab::applyModifications(int rowToApply)
 {
-    if (_skipApplyModifications) return;
+    if (_skipApplyModifications) return true;
 
     // TODO: doesn't work when you leave tab with text data edited
 
+    bool error = false;
+
     commitTableEditor();
 
+    // applying may change the row and start new apply before this finishes
+    _skipApplyModifications = true;
+
     try {
-        // applying may change the row and start new apply before this finishes
-        _skipApplyModifications = true;
         _model.applyModifications(rowToApply);
-        _skipApplyModifications = false;
     } catch(meow::db::Exception & ex) {
         errorDialog(ex.message());
+        error = true;
     }
 
+    _skipApplyModifications = false;
+
     validateDataToolBarState();
+
+    return !error;
 }
 
 void DataTab::discardModifications()
