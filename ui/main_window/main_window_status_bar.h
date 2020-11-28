@@ -15,6 +15,7 @@ public:
     explicit StatusBar(QWidget *parent = nullptr);
 
 private:
+    QPushButton * _toggleShowFilterButton;
     QPushButton * _toggleLogButton;
 };
 

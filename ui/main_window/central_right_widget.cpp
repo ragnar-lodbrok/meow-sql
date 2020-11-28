@@ -26,6 +26,20 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
             &CentralRightWidget::onEntityEdited);
 
     createWidgets();
+
+    connect(meow::app()->settings()->geometrySettings(),
+            &settings::Geometry::showFilterPanelChanged,
+            [=](bool enabledInSettings){
+                bool show = showGlobalFilterPanel();
+                _filterWidget->setVisible(show);
+                if (show) {
+                    _filterWidget->setFocus();
+                }
+                if (!enabledInSettings) {
+                    _filterWidget->reset();
+                }
+            }
+    );
 }
 
 void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
@@ -230,21 +244,31 @@ void CentralRightWidget::createWidgets()
 #endif
 
     _filterWidget = new central_right::FilterWidget();
+    _filterWidget->setVisible(showGlobalFilterPanel());
     layout->addWidget(_filterWidget);
     connect(_filterWidget, &central_right::FilterWidget::onFilterPatterChanged,
             this, &CentralRightWidget::onGlobalDataFilterPatternChanged);
+
 
 }
 
 void CentralRightWidget::rootTabChanged(int index)
 {
+    _filterWidget->setVisible(showGlobalFilterPanel());
+
     if (index < 0) return;
 
     try {
         if (onDataTab()) {
             dataTab()->loadData();
 
-            _filterWidget->setFilterPattern(dataTab()->filterPattern());
+            bool showFilter = meow::app()->settings()
+                    ->geometrySettings()->showFilterPanel();
+            if (showFilter) {
+                _filterWidget->setFilterPattern(dataTab()->filterPattern());
+            } else {
+                _filterWidget->reset();
+            }
             _filterWidget->setRowCount(
                         dataTab()->totalRowCount(),
                         dataTab()->filterMatchedRowCount());
@@ -445,6 +469,14 @@ bool CentralRightWidget::removeTab(QWidget * tab)
         }
         delete tab;
         return (tabIndex >= 0);
+    }
+    return false;
+}
+
+bool CentralRightWidget::showGlobalFilterPanel() const
+{
+    if (_model.hasDataTab() && onDataTab()) {
+        return meow::app()->settings()->geometrySettings()->showFilterPanel();
     }
     return false;
 }

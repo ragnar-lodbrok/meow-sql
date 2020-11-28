@@ -5,14 +5,17 @@
 
 namespace meow {
 
+class App;
+
 class Actions : public QObject
 {
 public:
-    Actions();
+    Actions(App * app);
 
     QAction * disconnect() const { return _disconnect; }
     QAction * sessionManager() const { return _sessionManager; }
     QAction * globalRefresh() const { return _globalRefresh; }
+    QAction * showGlobalFilterPanel() const { return _showGlobalFilterPanel; }
 
     // TODO: group actions
     QAction * dataInsert() const { return _dataInsert; }
@@ -28,11 +31,12 @@ public:
 
 private:
 
-    void createActions();
+    void createActions(App * app);
 
     QAction * _disconnect;
     QAction * _sessionManager;
     QAction * _globalRefresh;
+    QAction * _showGlobalFilterPanel;
 
     QAction * _dataInsert;
     QAction * _dataDelete;

@@ -19,10 +19,15 @@ public:
     void setShowSQLLog(bool show);
     Q_SIGNAL void showSQLLogChanged(bool show);
 
+    bool showFilterPanel() const;
+    void setShowFilterPanel(bool show);
+    Q_SIGNAL void showFilterPanelChanged(bool show);
+
 private:
 
     void load();
     bool _showSQLLog;
+    bool _showFilterPanel;
 };
 
 } // namespace meow

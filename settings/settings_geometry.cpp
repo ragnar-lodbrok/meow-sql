@@ -7,6 +7,9 @@ namespace settings {
 static const char SHOW_LOG_SETTINGS_KEY[]
     = "ui/main_windows/status_bar/show_log";
 
+static const char SHOW_FILTER_SETTINGS_KEY[]
+    = "ui/main_windows/status_bar/show_filter";
+
 Geometry::Geometry()
 {
     load();
@@ -33,10 +36,26 @@ void Geometry::setShowSQLLog(bool show)
     }
 }
 
+bool Geometry::showFilterPanel() const
+{
+    return _showFilterPanel;
+}
+
+void Geometry::setShowFilterPanel(bool show)
+{
+    if (_showFilterPanel != show) {
+        _showFilterPanel = show;
+        QSettings settings;
+        settings.setValue(SHOW_FILTER_SETTINGS_KEY, show);
+        emit showFilterPanelChanged(show);
+    }
+}
+
 void Geometry::load()
 {
     QSettings settings;
     _showSQLLog = settings.value(SHOW_LOG_SETTINGS_KEY, false).toBool();
+    _showFilterPanel = settings.value(SHOW_FILTER_SETTINGS_KEY, false).toBool();
 
 }
 

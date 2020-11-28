@@ -1,15 +1,21 @@
 #include "actions.h"
+#include "app.h"
+#include <QKeySequence>
 #include <QObject>
+#include <QDebug>
 
 namespace meow {
 
-Actions::Actions() : QObject()
+Actions::Actions(App * app) : QObject()
 {
-    createActions();
+    createActions(app);
 }
 
-void Actions::createActions()
+void Actions::createActions(App * app)
 {
+
+    settings::Geometry * geometrySettings = app->settings()->geometrySettings();
+
     // TODO: "parent" actions to main window so setStatusTip works
 
     // -------------------------------------------------------------------------
@@ -28,7 +34,29 @@ void Actions::createActions()
 
     _globalRefresh = new QAction(QIcon(":/icons/arrow_refresh.png"),
                                tr("Refresh"), this);
-    _globalRefresh->setShortcuts(QKeySequence::Refresh);
+    _globalRefresh->setShortcut(QKeySequence::Refresh);
+
+    // -------------------------------------------------------------------------
+
+    _showGlobalFilterPanel = new QAction(QIcon(":/icons/find.png"),
+                               tr("Filter panel"), this);
+    _showGlobalFilterPanel->setShortcut(
+                QKeySequence(Qt::CTRL + Qt::ALT + Qt::Key_F));
+    _showGlobalFilterPanel->setCheckable(true);
+    _showGlobalFilterPanel->setChecked(geometrySettings->showFilterPanel());
+
+    connect(_showGlobalFilterPanel, &QAction::changed, [=](){
+        geometrySettings->setShowFilterPanel(
+                    _showGlobalFilterPanel->isChecked());
+    });
+
+    connect(geometrySettings, &settings::Geometry::showFilterPanelChanged,
+            [=](bool show){
+                if (_showGlobalFilterPanel->isChecked() != show) {
+                    _showGlobalFilterPanel->setChecked(show);
+                }
+            }
+    );
 
     // -------------------------------------------------------------------------
     // ------------------------------ data -------------------------------------

@@ -60,6 +60,8 @@ private:
 
     bool removeTab(QWidget * tab);
 
+    bool showGlobalFilterPanel() const;
+
     models::ui::CentralRightWidgetModel _model;
 
     QTabWidget  * _rootTabs;

@@ -29,7 +29,7 @@ void FilterWidget::createWidgets()
 
     setLayout(mainLayout);
 
-    connect(_filterEdit, &QLineEdit::textEdited,
+    connect(_filterEdit, &QLineEdit::textChanged,
             this, &FilterWidget::onFilterPatterChanged);
 }
 
@@ -37,6 +37,9 @@ void FilterWidget::reset()
 {
     _filterEdit->setText(QString());
     setRowCount(0, 0);
+
+    // emit filter changed always when reset called
+    emit onFilterPatterChanged(QString());
 }
 
 void FilterWidget::setFilterPattern(const QString & pattern)
@@ -61,6 +64,14 @@ void FilterWidget::setRowCount(int total, int matched)
                 tr("All %1 matching.").arg(total));
         }
     }
+}
+
+void FilterWidget::setFocus()
+{
+    _filterEdit->setCursorPosition(_filterEdit->text().length());
+    _filterEdit->setFocus();
+
+    //QTimer::singleShot(0, _filterEdit, SLOT(setFocus())); // trick
 }
 
 } // namespace central_right

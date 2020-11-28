@@ -20,6 +20,8 @@ public:
     void setFilterPattern(const QString & pattern);
     void setRowCount(int total, int matched);
 
+    void setFocus();
+
 private:
     void createWidgets();
 

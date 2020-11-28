@@ -53,7 +53,10 @@ Window::Window(QWidget *parent)
             &QAction::triggered,
             this,
             &Window::onGlobalRefresh);
+
+    // add hotkeys:
     this->addAction(meow::app()->actions()->globalRefresh());
+    this->addAction(meow::app()->actions()->showGlobalFilterPanel());
 }
 
 void Window::showSessionManagerDialog()
