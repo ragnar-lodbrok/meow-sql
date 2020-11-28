@@ -28,8 +28,10 @@ public:
 
     void invalidateData();
 
-    virtual void setFilterPattern(const QString & filter) override;
+    virtual void setFilterPattern(const QString & filter,
+                                  bool regexp = false) override;
     virtual QString filterPattern() const override;
+    virtual bool filterPatternIsRegexp() const override;
 
     virtual int totalRowCount() const override;
     virtual int filterMatchedRowCount() const override;

@@ -251,14 +251,19 @@ void DataTab::invalidateData()
     _model.invalidateData();
 }
 
-void DataTab::setFilterPattern(const QString & filter)
+void DataTab::setFilterPattern(const QString & filter, bool regexp)
 {
-    _model.setFilterPattern(filter);
+    _model.setFilterPattern(filter, regexp);
 }
 
 QString DataTab::filterPattern() const
 {
     return _model.filterPattern();
+}
+
+bool DataTab::filterPatternIsRegexp() const
+{
+    return _model.filterPatternIsRegexp();
 }
 
 int DataTab::totalRowCount() const

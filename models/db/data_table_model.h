@@ -55,8 +55,9 @@ public:
 
     QAbstractItemModel * createSortFilterModel();
 
-    void setFilterPattern(const QString & pattern);
+    void setFilterPattern(const QString & pattern, bool regexp);
     QString filterPattern() const;
+    bool filterPatternIsRegexp() const { return _filterPatternIsRegexp; }
 
     int filterMatchedRowCount() const;
 
@@ -110,6 +111,7 @@ private:
 
     QueryDataSortFilterProxyModel * _sortFilterModel;
     QString _filterPattern;
+    bool _filterPatternIsRegexp;
 
     bool _entityChangedProcessed;
     meow::db::Entity * _dbEntity;

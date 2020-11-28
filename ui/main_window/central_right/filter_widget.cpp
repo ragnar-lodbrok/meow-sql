@@ -12,39 +12,65 @@ FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
 
 void FilterWidget::createWidgets()
 {
-    QHBoxLayout * mainLayout = new QHBoxLayout();
+    QGridLayout * mainLayout = new QGridLayout();
+
+    int row = 0;
+    int col = 0;
 
     _filterLabel = new QLabel(tr("Filter:"));
-    mainLayout->addWidget(_filterLabel, 0);
+    mainLayout->addWidget(_filterLabel, row, col);
+    mainLayout->setColumnStretch(col++, 0);
 
     _filterEdit = new QLineEdit();
     _filterEdit->setClearButtonEnabled(true);
     _filterLabel->setBuddy(_filterEdit);
-    mainLayout->addWidget(_filterEdit, 2);
+    _filterEdit->setPlaceholderText(tr("Wildcard pattern"));
+    mainLayout->addWidget(_filterEdit, row, col);
+    mainLayout->setColumnStretch(col++, 2);
 
     _filteredStatsLabel = new QLabel();
-    mainLayout->addWidget(_filteredStatsLabel, 2);
+    mainLayout->addWidget(_filteredStatsLabel, row, col);
+    mainLayout->setColumnStretch(col++, 2);
 
-    mainLayout->addStretch(3);
+    mainLayout->setColumnStretch(col++, 3);
+
+    ++row;
+    col = 1;
+
+    _useRegexpCheckbox = new QCheckBox(
+                tr("Use rich Perl-like regular expressions"));
+    mainLayout->addWidget(_useRegexpCheckbox, row, col++, 1, 3);
 
     setLayout(mainLayout);
 
     connect(_filterEdit, &QLineEdit::textChanged,
-            this, &FilterWidget::onFilterPatterChanged);
+            this, &FilterWidget::onFilterEditTextChanged);
+
+    connect(_useRegexpCheckbox, &QCheckBox::stateChanged,
+            this, &FilterWidget::onUseRegexpCheckboxChanged);
 }
 
 void FilterWidget::reset()
 {
+    _filterEdit->blockSignals(true);
+    _useRegexpCheckbox->blockSignals(true);
+
     _filterEdit->setText(QString());
+    _useRegexpCheckbox->setChecked(false);
+
+    _filterEdit->blockSignals(false);
+    _useRegexpCheckbox->blockSignals(false);
+
     setRowCount(0, 0);
 
     // emit filter changed always when reset called
-    emit onFilterPatterChanged(QString());
+    emit onFilterPatterChanged(QString(), _useRegexpCheckbox->isChecked());
 }
 
-void FilterWidget::setFilterPattern(const QString & pattern)
+void FilterWidget::setFilterPattern(const QString & pattern, bool regexp)
 {
     _filterEdit->setText(pattern);
+    _useRegexpCheckbox->setChecked(regexp);
 }
 
 void FilterWidget::setRowCount(int total, int matched)
@@ -70,8 +96,17 @@ void FilterWidget::setFocus()
 {
     _filterEdit->setCursorPosition(_filterEdit->text().length());
     _filterEdit->setFocus();
+}
 
-    //QTimer::singleShot(0, _filterEdit, SLOT(setFocus())); // trick
+void FilterWidget::onFilterEditTextChanged(const QString & text)
+{
+    emit onFilterPatterChanged(text, _useRegexpCheckbox->isChecked());
+}
+
+void FilterWidget::onUseRegexpCheckboxChanged(int state)
+{
+    emit onFilterPatterChanged(_filterEdit->text(),
+                               state == Qt::Checked);
 }
 
 } // namespace central_right

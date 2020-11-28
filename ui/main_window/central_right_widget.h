@@ -28,7 +28,9 @@ public:
 
     Q_SLOT void onEntityEdited(db::Entity * entity);
 
-    Q_SLOT void onGlobalDataFilterPatternChanged(const QString & pattern);
+    Q_SLOT void onGlobalDataFilterPatternChanged(
+            const QString & pattern,
+            bool regexp = false);
 
 private:
 

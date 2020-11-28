@@ -17,6 +17,7 @@ namespace db {
 DataTableModel::DataTableModel(QObject *parent)
     :BaseDataTableModel(new meow::db::QueryData(), parent),
       _sortFilterModel(nullptr),
+      _filterPatternIsRegexp(false),
       _entityChangedProcessed(false),
       _dbEntity(nullptr),
       _wantedRowsCount(meow::db::DATA_MAX_ROWS)
@@ -284,21 +285,25 @@ QAbstractItemModel * DataTableModel::createSortFilterModel()
         _sortFilterModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
         _sortFilterModel->setFilterKeyColumn(-1); // all columns
 
-        setFilterPattern(_filterPattern);
+        setFilterPattern(_filterPattern, _filterPatternIsRegexp);
     }
     return _sortFilterModel;
 }
 
-void DataTableModel::setFilterPattern(const QString & pattern)
+void DataTableModel::setFilterPattern(const QString & pattern, bool regexp)
 {
-    if (_filterPattern == pattern) return;
+    if (_filterPattern == pattern && _filterPatternIsRegexp == regexp) return;
 
     _filterPattern = pattern;
+    _filterPatternIsRegexp = regexp;
     if (_sortFilterModel) {
-        _sortFilterModel->setFilterWildcard(pattern);
-        // TODO: regexp as option
-        //proxyModel->setFilterRegExp(QRegExp(".png", Qt::CaseInsensitive,
-        //                                            QRegExp::FixedString));
+        if (_filterPatternIsRegexp) {
+            _sortFilterModel->setFilterRegExp(QRegExp(pattern,
+                                                      Qt::CaseInsensitive,
+                                                      QRegExp::RegExp));
+        } else {
+            _sortFilterModel->setFilterWildcard(pattern);
+        }
     }
 }
 

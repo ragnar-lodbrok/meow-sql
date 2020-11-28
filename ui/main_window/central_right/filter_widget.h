@@ -13,11 +13,12 @@ class FilterWidget : public QWidget
     Q_OBJECT
 public:
     explicit FilterWidget(QWidget *parent = nullptr);
-    Q_SIGNAL void onFilterPatterChanged(const QString & pattern);
+    Q_SIGNAL void onFilterPatterChanged(const QString & pattern,
+                                        bool regexp = false);
 
     void reset();
 
-    void setFilterPattern(const QString & pattern);
+    void setFilterPattern(const QString & pattern, bool regexp = false);
     void setRowCount(int total, int matched);
 
     void setFocus();
@@ -25,9 +26,14 @@ public:
 private:
     void createWidgets();
 
+    Q_SLOT void onFilterEditTextChanged(const QString & text);
+    Q_SLOT void onUseRegexpCheckboxChanged(int state);
+
+
     QLabel * _filterLabel;
     QLineEdit * _filterEdit;
     QLabel * _filteredStatsLabel;
+    QCheckBox * _useRegexpCheckbox;
 };
 
 } // namespace central_right

@@ -181,10 +181,10 @@ void CentralRightWidget::onEntityEdited(db::Entity * entity)
 }
 
 void CentralRightWidget::onGlobalDataFilterPatternChanged(
-        const QString & pattern)
+        const QString & pattern, bool regexp)
 {
     if (_model.hasDataTab() && onDataTab()) {
-        dataTab()->setFilterPattern(pattern);
+        dataTab()->setFilterPattern(pattern, regexp);
         _filterWidget->setRowCount(
                     dataTab()->totalRowCount(),
                     dataTab()->filterMatchedRowCount());
@@ -265,7 +265,9 @@ void CentralRightWidget::rootTabChanged(int index)
             bool showFilter = meow::app()->settings()
                     ->geometrySettings()->showFilterPanel();
             if (showFilter) {
-                _filterWidget->setFilterPattern(dataTab()->filterPattern());
+                _filterWidget->setFilterPattern(
+                            dataTab()->filterPattern(),
+                            dataTab()->filterPatternIsRegexp());
             } else {
                 _filterWidget->reset();
             }

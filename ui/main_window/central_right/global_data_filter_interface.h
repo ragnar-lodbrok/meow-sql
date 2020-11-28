@@ -13,14 +13,16 @@ class IGlobalDataFilter
 public:
     virtual ~IGlobalDataFilter() {}
 
-    virtual void setFilterPattern(const QString & pattern) = 0;
+    virtual void setFilterPattern(const QString & pattern,
+                                  bool regexp = false) = 0;
     virtual QString filterPattern() const = 0;
+    virtual bool filterPatternIsRegexp() const { return false; }
 
     virtual int totalRowCount() const = 0;
     virtual int filterMatchedRowCount() const = 0;
 
     virtual void resetFilter() {
-        setFilterPattern(QString());
+        setFilterPattern(QString(), false);
     }
 };
 
