@@ -7,6 +7,7 @@
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
 #include "db/entity/view_entity.h"
+#include "db/entity/routine_entity.h"
 #include "table_engines_fetcher.h"
 #include "query_data_editor.h"
 
@@ -348,6 +349,18 @@ void Connection::parseViewStructure(ViewEntity * view, bool refresh)
         _viewStructureParser.reset(new ViewStructureParser(this));
     }
     _viewStructureParser->run(view);
+}
+
+void Connection::parseRoutineStructure(RoutineEntity * routine, bool refresh)
+{
+    if (!refresh && routine->hasStructure()) {
+        return;
+    }
+
+    if (_routineStructureParser == nullptr) {
+        _routineStructureParser.reset(new RoutineStructureParser(this));
+    }
+    _routineStructureParser->run(routine);
 }
 
 bool Connection::editEntityInDB(EntityInDatabase * entity,

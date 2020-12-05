@@ -105,8 +105,7 @@ set(SOURCE_FILES
     db/entity/entity_filter.cpp
     db/entity/entity_holder.cpp
     db/entity/entity_list_for_database.cpp
-    db/entity/function_entity.cpp
-    db/entity/procedure_entity.cpp
+    db/entity/routine_entity.cpp
     db/entity/session_entity.cpp
     db/entity/table_entity_comparator.cpp
     db/entity/table_entity.cpp
@@ -119,6 +118,8 @@ set(SOURCE_FILES
     db/query_data.cpp
     db/query_data_editor.cpp
     db/query_data_fetcher.cpp
+    db/routine_structure_parser.cpp
+    db/routine_structure.cpp
     db/session_variables.cpp
     db/table_column.cpp
     db/table_editor.cpp

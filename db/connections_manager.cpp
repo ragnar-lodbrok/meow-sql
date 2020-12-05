@@ -4,6 +4,7 @@
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
 #include "db/entity/view_entity.h"
+#include "db/entity/routine_entity.h"
 #include "helpers/logger.h"
 
 namespace meow {
@@ -210,6 +211,11 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
                     ViewEntity * view = static_cast<ViewEntity *>(activeEntity);
                     connection->parseViewStructure(view);
                 }
+            } else if (activeEntity->type() == Entity::Type::Procedure
+                       || activeEntity->type() == Entity::Type::Function) {
+                // test
+                auto routine = static_cast<RoutineEntity *>(activeEntity);
+                connection->parseRoutineStructure(routine);
             }
         }
         emit activeEntityChanged(activeEntity, select);

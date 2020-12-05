@@ -3,8 +3,7 @@
 #include "db/query.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/view_entity.h"
-#include "db/entity/function_entity.h"
-#include "db/entity/procedure_entity.h"
+#include "db/entity/routine_entity.h"
 #include "db/entity/trigger_entity.h"
 #include "helpers/parsing.h"
 #include "helpers/logger.h"
@@ -161,7 +160,8 @@ void MySQLEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
 
             QString name = resPtr->curRowColumn(indexOfName);
 
-            FunctionEntity * func = new FunctionEntity(name);
+            RoutineEntity * func = new RoutineEntity(name,
+                                                     Entity::Type::Function);
 
             if (!resPtr->isNull(indexOfCreated)) {
                 func->setCreated(
@@ -213,7 +213,8 @@ void MySQLEntitiesFetcher::fetchStoredProcedures(const QString & dbName,
 
             QString name = resPtr->curRowColumn(indexOfName);
 
-            ProcedureEntity * proc = new ProcedureEntity(name);
+            RoutineEntity * proc = new RoutineEntity(name,
+                                                     Entity::Type::Procedure);
 
             if (!resPtr->isNull(indexOfCreated)) {
                 proc->setCreated(

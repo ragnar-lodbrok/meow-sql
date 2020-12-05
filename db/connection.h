@@ -13,6 +13,7 @@
 #include "entity/entity_list_for_database.h"
 #include "table_structure_parser.h"
 #include "view_structure_parser.h"
+#include "routine_structure_parser.h"
 #include "collation_fetcher.h"
 #include "db/data_type/connection_data_types.h"
 #include "connection_features.h"
@@ -35,6 +36,7 @@ class TableEnginesFetcher;
 class EntityFilter;
 class QueryDataEditor;
 class ViewEntity;
+class RoutineEntity;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
@@ -122,6 +124,7 @@ public:
 
     void parseTableStructure(TableEntity * table, bool refresh = false);
     void parseViewStructure(ViewEntity * view, bool refresh = false);
+    void parseRoutineStructure(RoutineEntity * routine, bool refresh = false);
 
     bool editEntityInDB(EntityInDatabase * entity, EntityInDatabase * newData);
     bool insertEntityToDB(EntityInDatabase * entity);
@@ -184,6 +187,7 @@ private:
     std::pair<bool, QStringList> _allDatabasesCached; // < cached?, data >
     std::unique_ptr<ITableStructureParser> _tableStructureParser;
     std::unique_ptr<ViewStructureParser> _viewStructureParser;
+    std::unique_ptr<RoutineStructureParser> _routineStructureParser;
     std::unique_ptr<CollationFetcher> _collationFetcher;
     std::unique_ptr<TableEnginesFetcher> _tableEnginesFetcher;
     std::shared_ptr<ConnectionDataTypes> _dataTypes;

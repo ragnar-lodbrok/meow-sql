@@ -3,7 +3,7 @@
 #include "db/query.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/view_entity.h"
-#include "db/entity/function_entity.h"
+#include "db/entity/routine_entity.h"
 #include "helpers/logger.h"
 
 namespace meow {
@@ -142,7 +142,7 @@ void PGEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
 
         QString name = resPtr->curRowColumn(indexOfName);
 
-        FunctionEntity * func = new FunctionEntity(name);
+        RoutineEntity * func = new RoutineEntity(name, Entity::Type::Function);
 
         toList->list()->append(func);
 
