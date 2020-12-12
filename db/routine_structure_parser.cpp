@@ -9,6 +9,16 @@
 namespace meow {
 namespace db {
 
+namespace  {
+
+bool isMySQL(db::Connection * connection)
+{
+    return connection->connectionParams()->serverType()
+            == db::ServerType::MySQL;
+}
+
+}
+
 RoutineStructureParser::RoutineStructureParser(Connection * connection)
     :_connection(connection)
 {
@@ -122,9 +132,13 @@ void RoutineStructureParser::run(RoutineEntity * routine)
                     || fullOption.startsWith("NO SQL")
                     || fullOption.startsWith("READS SQL DATA")
                     || fullOption.startsWith("MODIFIES SQL DATA")) {
-             structure->dataAccess = fullOption;
+             structure->dataAccess = fullOption.toUpper();
          }
          characteristicsLength += match.capturedLength(0);
+    }
+
+    if (structure->sqlSecurity.isEmpty() && isMySQL(_connection)) {
+        structure->sqlSecurity = "DEFINER";
     }
 
     body = body.mid(characteristicsLength);

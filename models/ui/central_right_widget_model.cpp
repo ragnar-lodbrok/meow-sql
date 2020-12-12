@@ -1,6 +1,7 @@
 #include "central_right_widget_model.h"
 #include "db/connection.h"
 #include <QObject> // tr()
+#include <QVariant>
 
 namespace meow {
 namespace models {
@@ -62,15 +63,24 @@ bool CentralRightWidgetModel::hasEntityTab() const
     if (_entityHolder.currentEntity() == nullptr) {
         return false;
     }
+
+    db::Entity::Type type = _entityHolder.currentEntity()->type();
+
     // TODO: other types
-    if (_entityHolder.currentEntity()->type() == db::Entity::Type::Table) {
+    if (type == db::Entity::Type::Table) {
         return _entityHolder.currentEntity()->connection()
                 ->features()->supportsViewingTables();
     }
 
-    if (_entityHolder.currentEntity()->type() == db::Entity::Type::View) {
+    if (type == db::Entity::Type::View) {
         return _entityHolder.currentEntity()->connection()
                 ->features()->supportsViewingViews();
+    }
+
+    if (type == db::Entity::Type::Function
+            || type == db::Entity::Type::Procedure) {
+        return _entityHolder.currentEntity()->connection()
+                ->features()->supportsViewingRoutines();
     }
 
     return false;
@@ -129,6 +139,10 @@ QString CentralRightWidgetModel::titleForEntityTab() const
         case meow::db::Entity::Type::View:
             return titleForViewTab();
 
+        case meow::db::Entity::Type::Function:
+        case meow::db::Entity::Type::Procedure:
+            return titleForRoutineTab();
+
         default:
             break;
         }
@@ -168,6 +182,33 @@ QString CentralRightWidgetModel::titleForViewTab() const
     return QObject::tr("View");
 }
 
+QString CentralRightWidgetModel::titleForRoutineTab() const
+{
+    bool isFunction = false;
+    bool isProcedure = false;
+
+    if (_entityHolder.currentEntity()) {
+        isFunction = _entityHolder.currentEntity()->type()
+                == meow::db::Entity::Type::Function;
+        isProcedure = _entityHolder.currentEntity()->type()
+                == meow::db::Entity::Type::Procedure;
+    }
+
+    if (isFunction || isProcedure) {
+        QString title
+            = (isFunction ? QObject::tr("Function") : QObject::tr("Procedure"))
+            + ": ";
+        if (_entityHolder.currentEntity()->isNew()) {
+            title += "[" + QObject::tr("Untitled") + "]";
+        } else {
+            title += _entityHolder.currentEntity()->name();
+        }
+        return title;
+    }
+
+    return QObject::tr("Procedure");
+}
+
 QString CentralRightWidgetModel::titleForDataTab() const
 {
     return QObject::tr("Data");
@@ -176,6 +217,14 @@ QString CentralRightWidgetModel::titleForDataTab() const
 QString CentralRightWidgetModel::titleForQueryTab() const
 {
     return QObject::tr("Query");
+}
+
+QIcon CentralRightWidgetModel::iconForRoutineTab() const
+{
+    if (_entityHolder.currentEntity()) {
+        return _entityHolder.currentEntity()->icon().value<QIcon>();
+    }
+    return QIcon(":/icons/stored_procedure.png");
 }
 
 int CentralRightWidgetModel::indexForQueryTab() const

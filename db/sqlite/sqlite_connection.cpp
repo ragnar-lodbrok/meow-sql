@@ -99,7 +99,7 @@ QString SQLiteConnection::getLastError()
 
 QString SQLiteConnection::fetchCharacterSet()
 {
-    return QString::null;
+    return QString();
 }
 
 void SQLiteConnection::setCharacterSet(const QString & characterSet)

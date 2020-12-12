@@ -9,6 +9,7 @@
 #include "central_right/data/central_right_data_tab.h"
 #include "central_right/query/central_right_query_tab.h"
 #include "central_right/view/central_right_view_tab.h"
+#include "central_right/routine/central_right_routine_tab.h"
 #include "central_right/filter_widget.h"
 
 namespace meow {
@@ -48,6 +49,7 @@ private:
     central_right::DatabaseTab * databaseTab();
     central_right::TableTab * tableTab();
     central_right::ViewTab * viewTab();
+    central_right::RoutineTab * routineTab();
     central_right::DataTab * dataTab();
     central_right::QueryTab * queryTab();
 
@@ -57,6 +59,7 @@ private:
     bool removeDatabaseTab();
     bool removeTableTab();
     bool removeViewTab();
+    bool removeRoutineTab();
     bool removeDataTab();
     void removeEntityTabsExcept(db::Entity::Type except);
 
@@ -71,6 +74,7 @@ private:
     central_right::DatabaseTab * _databaseTab;
     central_right::TableTab * _tableTab;
     central_right::ViewTab * _viewTab;
+    central_right::RoutineTab * _routineTab;
     central_right::DataTab * _dataTab;
     central_right::QueryTab * _queryTab;
     central_right::FilterWidget * _filterWidget;

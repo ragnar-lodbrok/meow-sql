@@ -12,7 +12,7 @@ RoutineEntity::RoutineEntity(const QString & name,
     , _name(name)
     , _type(type)
 {
-    Q_ASSERT(type == Type::Procedure | type == Type::Function);
+    Q_ASSERT(type == Type::Procedure || type == Type::Function);
 }
 
 QString RoutineEntity::name() const // override

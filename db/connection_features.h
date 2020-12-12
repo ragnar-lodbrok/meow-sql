@@ -71,6 +71,14 @@ public:
     virtual bool supportsViewingViews() const { // r/o support for views
         return false;
     }
+
+    virtual bool supportsViewingRoutines() const {
+        return false;
+    }
+
+    virtual bool supportsEditingRoutinesStructure() const {
+        return false;
+    }
 };
 
 // -----------------------------------------------------------------------------
@@ -140,6 +148,10 @@ public:
     }
 
     virtual bool supportsViewingViews() const override {
+        return true;
+    }
+
+    virtual bool supportsViewingRoutines() const override {
         return true;
     }
 };

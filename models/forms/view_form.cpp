@@ -8,15 +8,21 @@ namespace meow {
 namespace models {
 namespace forms {
 
+namespace  {
+
 bool isMySQL(db::Connection * connection)
 {
     return connection->connectionParams()->serverType()
             == db::ServerType::MySQL;
 }
 
+}
+
+
 ViewForm::ViewForm(QObject *parent)
     : QObject(parent)
     , _view(nullptr)
+    , _sourceView(nullptr)
     , _hasUnsavedChanges(false)
 {
 

@@ -22,6 +22,9 @@ public:
                       const QString & newName,
                       const QString & newCollation = QString())
     {
+        Q_UNUSED(database);
+        Q_UNUSED(newName);
+        Q_UNUSED(newCollation);
         return false; // not implemented in base, see ancestors
     }
 

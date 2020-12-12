@@ -4,6 +4,7 @@
 #include <QDebug>
 #include "db/entity/table_entity.h"
 #include "db/entity/view_entity.h"
+#include "db/entity/routine_entity.h"
 
 namespace meow {
 namespace ui {
@@ -16,6 +17,7 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
       _databaseTab(nullptr),
       _tableTab(nullptr),
       _viewTab(nullptr),
+      _routineTab(nullptr),
       _dataTab(nullptr),
       _queryTab(nullptr)
 {
@@ -83,18 +85,36 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
         }
     }
 
+    bool isTable = false;
+    bool isView = false;
+    bool isFunction = false;
+    bool isProcedure = false;
+    bool isRoutine = false;
+
     if (_model.hasEntityTab()) {
+
+        isTable = entity->type() == db::Entity::Type::Table;
+        isView = entity->type() == db::Entity::Type::View;
+        isFunction = entity->type() == db::Entity::Type::Function;
+        isProcedure = entity->type() == db::Entity::Type::Procedure;
+        isRoutine = isFunction || isProcedure;
+
+
         removeEntityTabsExcept(entity->type());
-        if (entity->type() == db::Entity::Type::Table) {
+        if (isTable) {
             auto tableEntity = static_cast<db::TableEntity *>(entity);
             tableTab()->setTable(tableEntity);
-        } else if (entity->type() == db::Entity::Type::View) {
+        } else if (isView) {
             auto viewEntity = static_cast<db::ViewEntity *>(entity);
             viewTab()->setView(viewEntity);
+        } else if (isRoutine) {
+            auto routineEntity = static_cast<db::RoutineEntity *>(entity);
+            routineTab()->setRoutine(routineEntity);
         }
     } else {
         removeTableTab();
         removeViewTab();
+        removeRoutineTab();
     }
 
     if (_model.hasDataTab()) {
@@ -113,11 +133,15 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     } else if (entity->type() == db::Entity::Type::Database) {
         _rootTabs->setCurrentIndex((int)Tabs::Database);
 
-    } else if (entity->type() == db::Entity::Type::Table
-               || entity->type() == db::Entity::Type::View) {
+    } else if (isTable || isView || isRoutine) {
 
         _rootTabs->setTabText((int)Tabs::Entity,
                               _model.titleForEntityTab());
+
+        if (isRoutine) {
+            _rootTabs->setTabIcon((int)Tabs::Entity,
+                                  _model.iconForRoutineTab());
+        }
 
         if ( !wasOnDataTab && !wasOnQueryTab ) {
             _rootTabs->setCurrentIndex((int)Tabs::Entity);
@@ -348,6 +372,18 @@ central_right::ViewTab * CentralRightWidget::viewTab()
     return _viewTab;
 }
 
+central_right::RoutineTab * CentralRightWidget::routineTab()
+{
+    if (!_routineTab) {
+        _routineTab = new central_right::RoutineTab();
+        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Entity,
+                             _routineTab,
+                             _model.iconForRoutineTab(),
+                             _model.titleForRoutineTab());
+    }
+    return _routineTab;
+}
+
 central_right::DataTab * CentralRightWidget::dataTab()
 {
     if (!_dataTab) {
@@ -395,6 +431,7 @@ void CentralRightWidget::removeAllRootTabs()
     removeDatabaseTab();
     removeTableTab();
     removeViewTab();
+    removeRoutineTab();
     removeDataTab();
 }
 
@@ -443,6 +480,15 @@ bool CentralRightWidget::removeViewTab()
     return false;
 }
 
+bool CentralRightWidget::removeRoutineTab()
+{
+    if (removeTab(_routineTab)) {
+        _routineTab = nullptr;
+        return true;
+    }
+    return false;
+}
+
 bool CentralRightWidget::removeDataTab()
 {
     if (removeTab(_dataTab)) {
@@ -459,6 +505,10 @@ void CentralRightWidget::removeEntityTabsExcept(db::Entity::Type except)
     }
     if (except != db::Entity::Type::View) {
         removeViewTab();
+    }
+    if (except != db::Entity::Type::Function
+            || except != db::Entity::Type::Procedure) {
+        removeRoutineTab();
     }
 }
 

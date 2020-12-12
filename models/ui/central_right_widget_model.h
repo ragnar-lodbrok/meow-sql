@@ -7,6 +7,7 @@
 //      Root Model
 
 #include <QString>
+#include <QIcon>
 #include "db/entity/entity_holder.h"
 
 namespace meow {
@@ -35,8 +36,11 @@ public:
     QString titleForEntityTab() const;
     QString titleForTableTab() const;
     QString titleForViewTab() const;
+    QString titleForRoutineTab() const;
     QString titleForDataTab() const;
     QString titleForQueryTab() const;
+
+    QIcon iconForRoutineTab() const;
 
     int indexForQueryTab() const;
     int indexForDataTab() const;

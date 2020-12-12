@@ -27,6 +27,8 @@ public:
         return _structure != nullptr;
     }
 
+    void setName(const QString & name) { _name = name; }
+
     // Returns a copy (with all internal data)
     RoutineEntity * deepCopy() const;
 

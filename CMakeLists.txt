@@ -159,6 +159,7 @@ set(SOURCE_FILES
     models/forms/connection_parameters_form.cpp
     models/forms/edit_database_form.cpp
     models/forms/export_database_form.cpp
+    models/forms/routine_form.cpp
     models/forms/table_foreign_keys_model.cpp
     models/forms/table_indexes_model.cpp
     models/forms/table_indexes_model_item.cpp
@@ -168,6 +169,7 @@ set(SOURCE_FILES
     models/ui/central_right_host_widget_model.cpp
     models/ui/central_right_widget_model.cpp
     models/ui/table_info_widget_model.cpp
+    models/ui/routine_info_widget_model.cpp
     settings/settings_core.cpp
     settings/settings_geometry.cpp
     settings/settings_icons.cpp
@@ -198,6 +200,11 @@ set(SOURCE_FILES
     ui/main_window/central_right/host/central_right_host_tab.cpp
     ui/main_window/central_right/host/cr_host_databases_tab.cpp
     ui/main_window/central_right/host/cr_host_variables_tab.cpp
+    ui/main_window/central_right/routine/central_right_routine_tab.cpp
+    ui/main_window/central_right/routine/cr_routine_body.cpp
+    ui/main_window/central_right/routine/cr_routine_info.cpp
+    ui/main_window/central_right/routine/cr_routine_info_options_tab.cpp
+    ui/main_window/central_right/routine/cr_routine_info_parameters_tab.cpp
     ui/main_window/central_right/query/central_right_query_tab.cpp
     ui/main_window/central_right/query/cr_query_data_tab.cpp
     ui/main_window/central_right/query/cr_query_panel.cpp

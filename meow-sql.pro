@@ -91,8 +91,7 @@ SOURCES += main.cpp\
     db/entity/entity_filter.cpp \
     db/entity/entity_holder.cpp \
     db/entity/entity_list_for_database.cpp \
-    db/entity/function_entity.cpp \
-    db/entity/procedure_entity.cpp \
+    db/entity/routine_entity.cpp \
     db/entity/session_entity.cpp \
     db/entity/table_entity_comparator.cpp \
     db/entity/table_entity.cpp \
@@ -104,6 +103,8 @@ SOURCES += main.cpp\
     db/query_criteria.cpp \
     db/query_data.cpp \
     db/query_data_fetcher.cpp \
+    db/routine_structure_parser.cpp \
+    db/routine_structure.cpp \
     db/session_variables.cpp \
     db/table_column.cpp \
     db/table_editor.cpp \
@@ -148,9 +149,11 @@ SOURCES += main.cpp\
     models/forms/table_info_form.cpp \
     models/forms/text_editor_popup_form.cpp \
     models/forms/view_form.cpp \
+    models/forms/routine_form.cpp \
     models/ui/central_right_host_widget_model.cpp \
     models/ui/central_right_widget_model.cpp \
     models/ui/table_info_widget_model.cpp \
+    models/ui/routine_info_widget_model.cpp \
     settings/settings_core.cpp \
     settings/settings_geometry.cpp \
     settings/settings_icons.cpp \
@@ -193,6 +196,11 @@ SOURCES += main.cpp\
     ui/main_window/central_right/table/cr_table_info_indexes_tab.cpp \
     ui/main_window/central_right/table/cr_table_info_options_tab.cpp \
     ui/main_window/central_right/view/central_right_view_tab.cpp \
+    ui/main_window/central_right/routine/central_right_routine_tab.cpp \
+    ui/main_window/central_right/routine/cr_routine_body.cpp \
+    ui/main_window/central_right/routine/cr_routine_info.cpp \
+    ui/main_window/central_right/routine/cr_routine_info_options_tab.cpp \
+    ui/main_window/central_right/routine/cr_routine_info_parameters_tab.cpp \
     ui/main_window/central_right_widget.cpp \
     ui/main_window/central_widget.cpp \
     ui/main_window/main_window.cpp \
@@ -232,8 +240,7 @@ HEADERS  +=  app/actions.h \
     db/entity/entity.h \
     db/entity/entity_holder.h \
     db/entity/entity_list_for_database.h \
-    db/entity/function_entity.h \
-    db/entity/procedure_entity.h \
+    db/entity/routine_entity.h \
     db/entity/session_entity.h \
     db/entity/table_entity_comparator.h \
     db/entity/table_entity.h \
@@ -245,6 +252,8 @@ HEADERS  +=  app/actions.h \
     db/query_column.h \
     db/query_criteria.h \
     db/query_data_fetcher.h \
+    db/routine_structure_parser.h \
+    db/routine_structure.h \
     db/session_variables.h \
     db/query_data.h \
     db/query.h \
@@ -292,9 +301,11 @@ HEADERS  +=  app/actions.h \
     models/forms/table_info_form.h \
     models/forms/text_editor_popup_form.h \
     models/forms/view_form.h \
+    models/forms/routine_form.h \
     models/ui/central_right_host_widget_model.h \
     models/ui/central_right_widget_model.h \
     models/ui/table_info_widget_model.h \
+    models/ui/routine_info_widget_model.h \
     settings/settings_core.h \
     settings/settings_geometry.h \
     settings/settings_icons.h \
@@ -339,6 +350,11 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_right/table/cr_table_info_indexes_tab.h \
     ui/main_window/central_right/table/cr_table_info_options_tab.h \
     ui/main_window/central_right/view/central_right_view_tab.h \
+    ui/main_window/central_right/routine/central_right_routine_tab.h \
+    ui/main_window/central_right/routine/cr_routine_body.h \
+    ui/main_window/central_right/routine/cr_routine_info.h \
+    ui/main_window/central_right/routine/cr_routine_info_options_tab.h \
+    ui/main_window/central_right/routine/cr_routine_info_parameters_tab.h \
     ui/main_window/central_right_widget.h \
     ui/main_window/central_widget.h \
     ui/main_window/main_window.h \
