@@ -135,9 +135,9 @@ void ConnectionsManager::createEntity(Entity::Type type)
 void ConnectionsManager::refreshActiveSession()
 {
     if (_activeSession) {
+        setActiveEntity(nullptr);
         _activeSession->refreshAllEntities();
         emit activeSessionRefreshed();
-        setActiveEntity(nullptr);
     }
 }
 
