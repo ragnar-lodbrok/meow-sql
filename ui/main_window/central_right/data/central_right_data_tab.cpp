@@ -226,6 +226,7 @@ void DataTab::onDataInsert(bool checked)
 
 void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
 {
+    applyModifications(); // close pending to avoid crash
     _model.incRowsCountForOneStep(true);
     _model.setEntity(tableOrViewEntity, loadData);
     if (loadData) {
