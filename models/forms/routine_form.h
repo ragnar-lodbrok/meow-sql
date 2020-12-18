@@ -6,6 +6,7 @@
 #include <QMap>
 #include <memory>
 #include "db/entity/routine_entity.h"
+#include "models/db/routine_parameters_model.h"
 
 namespace meow {
 namespace models {
@@ -68,11 +69,17 @@ public:
 
     bool isEditingSupported() const;
 
+    models::db::RoutineParametersModel * parametersModel() {
+        return &_paramsModel;
+    }
+
 private:
     std::unique_ptr<meow::db::RoutineEntity> _routine; // copy of source to edit
     meow::db::RoutineEntity * _sourceRoutine;
 
     bool _hasUnsavedChanges; // TODO: do we really need to store it?
+
+    models::db::RoutineParametersModel _paramsModel;
 };
 
 } // namespace forms

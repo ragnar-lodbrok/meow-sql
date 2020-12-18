@@ -50,7 +50,6 @@ void RoutineInfo::createTabs()
 void RoutineInfo::refreshData()
 {
     _optionsTab->refreshData();
-    _parametersTab->refreshData();
 }
 
 } // namespace central_right

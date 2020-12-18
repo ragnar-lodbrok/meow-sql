@@ -21,7 +21,12 @@ class ParametersTab : public QWidget
 public:
     ParametersTab(models::forms::RoutineForm * form,
                   QWidget *parent = nullptr);
-    void refreshData();
+private:
+
+    void createWidgets();
+
+    models::forms::RoutineForm * _form;
+    QTableView * _paramsTable;
 };
 
 } // namespace routine_info

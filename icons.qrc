@@ -77,8 +77,8 @@
         <file alias="os_unix.png">resources/icons/os_unix.png</file>
         <file alias="os_mac.png">resources/icons/os_mac.png</file>
         <file alias="stored_procedure.png">resources/icons/script_gear.png</file>
-        <file>resources/icons/go_right.png</file>
-        <file>resources/icons/go_left.png</file>
+        <file alias="go_right.png">resources/icons/go_right.png</file>
+        <file alias="go_left.png">resources/icons/go_left.png</file>
         <file alias="go_both.png">resources/icons/go_both.png</file>
         <file>resources/icons/selectall.png</file>
         <file>resources/icons/tab_previous.png</file>

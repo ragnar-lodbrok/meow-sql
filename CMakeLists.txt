@@ -144,8 +144,9 @@ set(SOURCE_FILES
     models/db/data_table_model.cpp
     models/db/entities_tree_model.cpp
     models/db/table_columns_model.cpp
-    models/db/variables_table_model.cpp
+    models/db/routine_parameters_model.cpp
     models/db/query_data_sort_filter_proxy_model.cpp
+    models/db/variables_table_model.cpp
     models/delegates/checkbox_delegate.cpp
     models/delegates/edit_query_data_delegate.cpp
     models/delegates/foreign_key_columns_delegate.cpp

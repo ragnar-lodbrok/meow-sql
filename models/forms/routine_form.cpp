@@ -7,10 +7,10 @@ namespace forms {
 
 namespace  {
 
-bool isMySQL(db::Connection * connection)
+bool isMySQL(meow::db::Connection * connection)
 {
     return connection->connectionParams()->serverType()
-            == db::ServerType::MySQL;
+            == meow::db::ServerType::MySQL;
 }
 
 }
@@ -21,11 +21,12 @@ RoutineForm::RoutineForm()
     : _routine(nullptr)
     , _sourceRoutine(nullptr)
     , _hasUnsavedChanges(false)
+    , _paramsModel(this)
 {
 
 }
 
-void RoutineForm::setRoutine(db::RoutineEntity * routine)
+void RoutineForm::setRoutine(meow::db::RoutineEntity * routine)
 {
     // TODO: copy only when we start editing
 
@@ -37,6 +38,8 @@ void RoutineForm::setRoutine(db::RoutineEntity * routine)
         _sourceRoutine = routine; // just hold a ref for update
         _routine.reset(_sourceRoutine->deepCopy()); // and edit copy
     }
+
+    _paramsModel.setRoutine(_routine.get());
 
     setHasUnsavedChanges(false);
 }
@@ -89,12 +92,12 @@ bool RoutineForm::supportsDefiner() const
     return false;
 }
 
-QMap<db::Entity::Type, QString> RoutineForm::typeNames() const
+QMap<meow::db::Entity::Type, QString> RoutineForm::typeNames() const
 {
     return {
-        { db::Entity::Type::Procedure,
+        { meow::db::Entity::Type::Procedure,
                     tr("Procedure (doesn't return a result)") },
-        { db::Entity::Type::Function,
+        { meow::db::Entity::Type::Function,
                     tr("Function (returns a result)") }
     };
 }
@@ -112,7 +115,7 @@ QStringList RoutineForm::returnTypes() const
 
 bool RoutineForm::supportsReturnType() const
 {
-    return type() == db::Entity::Type::Function;
+    return type() == meow::db::Entity::Type::Function;
 }
 
 QString RoutineForm::dataAccess() const
