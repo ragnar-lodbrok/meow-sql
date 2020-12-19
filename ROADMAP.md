@@ -2,17 +2,15 @@
 
 ## Task pool (by priority)
 
-MySQL: Procedure form (r/o)
-
 MySQL: Procedure form (edit, create)
+
+MySQL: Function form (edit, create)
 
 MySQL: Trigger form (r/o)
 
 MySQL: Trigger form (edit, create)
 
-MySQL: Function form (r/o)
-
-MySQL: Function form (edit, create)
+User management
 
 Host Tab: Variables for MySQL (edit)
 
@@ -80,8 +78,6 @@ Settings window
 
 Import CSV
 
-User management
-
 Buildable and deployable on macOS
 
 Host tab: Processes
@@ -101,6 +97,14 @@ Table tools: bulk table editor
 Table tools: find text
 
 Data Grid: insert files into text/blob fields
+
+## 0.4.7
+
+MySQL: Procedure form (r/o)
+
+MySQL: Function form (r/o)
+
+Table Data Filter
 
 ## 0.4.6
 
