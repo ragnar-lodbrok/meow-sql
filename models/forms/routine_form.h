@@ -34,34 +34,41 @@ public:
     QString comment() const {
         return _routine ? _routine->structure()->comment : QString();
     }
+    void setComment(const QString & comment);
 
     meow::db::Entity::Type type() const {
         return _routine ? _routine->type() : meow::db::Entity::Type::Procedure;
     }
     QMap<meow::db::Entity::Type, QString> typeNames() const;
+    void setType(const meow::db::Entity::Type type);
 
     QString returnType() const {
         return _routine ? _routine->structure()->returnType : QString();
     }
     QStringList returnTypes() const;
     bool supportsReturnType() const;
+    void setReturnType(const QString & type);
 
     QString dataAccess() const;
     QStringList dataAccessList() const;
+    void setDataAccess(const QString & dataAccess);
 
     QString security() const {
         return _routine ? _routine->structure()->sqlSecurity : QString();
     }
     QStringList securityOptions() const;
     bool supportsSecurity() const;
+    void setSecurity(const QString & security);
 
     bool isDeterministic() const {
         return _routine ? _routine->structure()->deterministic : false;
     }
+    void setDeterministic(bool on);
 
     QString body() const {
         return _routine ? _routine->structure()->body : QString();
     }
+    void setBody(const QString & body);
 
     bool hasUnsavedChanges() const { return _hasUnsavedChanges; }
     void setHasUnsavedChanges(bool modified);
@@ -71,6 +78,10 @@ public:
 
     models::db::RoutineParametersModel * parametersModel() {
         return &_paramsModel;
+    }
+
+    meow::db::RoutineEntity * sourceRoutine() {
+        return _sourceRoutine;
     }
 
 private:

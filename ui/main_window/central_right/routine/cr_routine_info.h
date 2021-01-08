@@ -31,6 +31,8 @@ public:
 
     void refreshData();
     
+    void validateControls();
+
 private:
 
     void createTabs();

@@ -213,9 +213,10 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
                 }
             } else if (activeEntity->type() == Entity::Type::Procedure
                        || activeEntity->type() == Entity::Type::Function) {
-                // test
-                auto routine = static_cast<RoutineEntity *>(activeEntity);
-                connection->parseRoutineStructure(routine);
+                if (connection->features()->supportsViewingRoutines()) {
+                    auto routine = static_cast<RoutineEntity *>(activeEntity);
+                    connection->parseRoutineStructure(routine);
+                }
             }
         }
         emit activeEntityChanged(activeEntity, select);

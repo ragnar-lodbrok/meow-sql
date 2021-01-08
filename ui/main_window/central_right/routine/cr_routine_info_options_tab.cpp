@@ -33,6 +33,11 @@ void OptionsTab::createWidgets()
 
     _nameEdit = new QLineEdit();
     _nameLabel->setBuddy(_nameEdit);
+    connect(_nameEdit, &QLineEdit::textEdited,
+            [=](const QString &name) {
+                if (!_form->isEditingSupported()) return;
+                _form->setName(name);
+            });
     mainGridLayout->addWidget(_nameEdit, row, 1);
 
     // Definer
@@ -43,13 +48,14 @@ void OptionsTab::createWidgets()
     _definerLabel->setBuddy(_definerCombobox);
     connect(_definerCombobox,
             &QComboBox::currentTextChanged,
-            [=]() {
+            [=](const QString & definer) {
                 if (!_form->isEditingSupported()) {
                     _definerCombobox->setCurrentIndex(
                         _definerCombobox->findText(_form->definer())
                     );
                     return;
                 }
+                _form->setDefiner(definer);
             });
     mainGridLayout->addWidget(_definerCombobox, row, 3);
 
@@ -61,6 +67,11 @@ void OptionsTab::createWidgets()
 
     _commentEdit = new QLineEdit();
     _commentLabel->setBuddy(_commentEdit);
+    connect(_commentEdit, &QLineEdit::textEdited,
+            [=](const QString &comment) {
+                if (!_form->isEditingSupported()) return;
+                _form->setComment(comment);
+            });
     mainGridLayout->addWidget(_commentEdit, row, 1, 1, 3);
 
     row++;
@@ -78,7 +89,6 @@ void OptionsTab::createWidgets()
             static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
 #endif
             [=](int index) {
-                Q_UNUSED(index);
                 if (!_form->isEditingSupported()) {
                     // QMap is ordered so use position of value as index in cb
                     const auto & types = _form->typeNames();
@@ -87,6 +97,12 @@ void OptionsTab::createWidgets()
                     int formValueIndex = std::distance(types.constBegin(), it);
                     _routineTypeCombobox->setCurrentIndex(formValueIndex);
                     return;
+                }
+                const auto & types = _form->typeNames();
+                auto it = types.constBegin();
+                std::advance(it, index);
+                if (it != types.constEnd()) {
+                    _form->setType(it.key());
                 }
                 validateControls();
             });
@@ -100,13 +116,14 @@ void OptionsTab::createWidgets()
     _dataAccessLabel->setBuddy(_dataAccessCombobox);
     connect(_dataAccessCombobox,
             &QComboBox::currentTextChanged,
-            [=]() {
+            [=](const QString & access) {
                 if (!_form->isEditingSupported()) {
                     _dataAccessCombobox->setCurrentIndex(
                         _dataAccessCombobox->findText(_form->dataAccess())
                     );
                     return;
                 }
+                _form->setDataAccess(access);
             });
     mainGridLayout->addWidget(_dataAccessCombobox, row, 3);
 
@@ -120,13 +137,14 @@ void OptionsTab::createWidgets()
     _returnTypeLabel->setBuddy(_returnTypeCombobox);
     connect(_returnTypeCombobox,
             &QComboBox::currentTextChanged,
-            [=]() {
+            [=](const QString & returnType) {
                 if (!_form->isEditingSupported()) {
                     _returnTypeCombobox->setCurrentIndex(
                         _returnTypeCombobox->findText(_form->returnType())
                     );
                     return;
                 }
+                _form->setReturnType(returnType);
             });
     mainGridLayout->addWidget(_returnTypeCombobox, row, 1);
 
@@ -138,13 +156,14 @@ void OptionsTab::createWidgets()
     _sqlSecurityLabel->setBuddy(_sqlSecurityCombobox);
     connect(_sqlSecurityCombobox,
             &QComboBox::currentTextChanged,
-            [=]() {
+            [=](const QString & security) {
                 if (!_form->isEditingSupported()) {
                     _sqlSecurityCombobox->setCurrentIndex(
                         _sqlSecurityCombobox->findText(_form->security())
                     );
                     return;
                 }
+                _form->setSecurity(security);
             });
     mainGridLayout->addWidget(_sqlSecurityCombobox, row, 3);
 
@@ -158,8 +177,11 @@ void OptionsTab::createWidgets()
                 if (!_form->isEditingSupported()) {
                     _deterministicChecbox->setCheckState(
                         _form->isDeterministic() ?
-                        Qt::CheckState::Checked : Qt::CheckState::Unchecked);                    return;
+                        Qt::CheckState::Checked : Qt::CheckState::Unchecked);
+                    return;
                 }
+                _form->setDeterministic(
+                static_cast<Qt::CheckState>(state) == Qt::CheckState::Checked);
             });
     mainGridLayout->addWidget(_deterministicChecbox, row, 1);
 
@@ -191,6 +213,7 @@ void OptionsTab::fillDataFromForm()
      ); // TODO: lazy load
     _definerCombobox->setCurrentIndex(
         _definerCombobox->findText(_form->definer()));
+    _definerCombobox->setEditable(_form->isEditingSupported());
     _definerCombobox->blockSignals(false);
 
     _commentEdit->blockSignals(true);
@@ -224,6 +247,7 @@ void OptionsTab::fillDataFromForm()
     _returnTypeCombobox->addItems(_form->returnTypes());
     _returnTypeCombobox->setCurrentIndex(
         _returnTypeCombobox->findText(_form->returnType()));
+    _returnTypeCombobox->setEditable(_form->isEditingSupported());
     _returnTypeCombobox->blockSignals(false);
 
     _sqlSecurityCombobox->blockSignals(true);

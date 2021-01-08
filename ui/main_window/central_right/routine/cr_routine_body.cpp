@@ -16,7 +16,9 @@ RoutineBody::RoutineBody(meow::models::forms::RoutineForm * form,
 
 void RoutineBody::refreshData()
 {
+    _bodyEdit->blockSignals(true);
     _bodyEdit->setPlainText(_form->body());
+    _bodyEdit->blockSignals(false);
     _bodyEdit->setReadOnly(!_form->isEditingSupported());
 }
 

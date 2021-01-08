@@ -154,6 +154,10 @@ public:
     virtual bool supportsViewingRoutines() const override {
         return true;
     }
+
+    virtual bool supportsEditingRoutinesStructure() const override {
+        return true;
+    }
 };
 
 // -----------------------------------------------------------------------------

@@ -28,6 +28,7 @@ public:
     }
 
     void setName(const QString & name) { _name = name; }
+    void setType(const Type type) { _type = type; }
 
     // Returns a copy (with all internal data)
     RoutineEntity * deepCopy() const;

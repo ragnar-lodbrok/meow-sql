@@ -2,6 +2,7 @@
 #include "db/entity/routine_entity.h"
 #include "models/forms/routine_form.h"
 #include <QIcon>
+#include <QDebug>
 
 namespace meow {
 namespace models {

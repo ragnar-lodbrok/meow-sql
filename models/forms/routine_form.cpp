@@ -39,8 +39,6 @@ void RoutineForm::setRoutine(meow::db::RoutineEntity * routine)
         _routine.reset(_sourceRoutine->deepCopy()); // and edit copy
     }
 
-    _paramsModel.setRoutine(_routine.get());
-
     setHasUnsavedChanges(false);
 }
 
@@ -92,6 +90,14 @@ bool RoutineForm::supportsDefiner() const
     return false;
 }
 
+void RoutineForm::setComment(const QString & comment)
+{
+    if (_routine) {
+        _routine->structure()->comment = comment;
+        setHasUnsavedChanges(true);
+    }
+}
+
 QMap<meow::db::Entity::Type, QString> RoutineForm::typeNames() const
 {
     return {
@@ -102,12 +108,26 @@ QMap<meow::db::Entity::Type, QString> RoutineForm::typeNames() const
     };
 }
 
+void RoutineForm::setType(const meow::db::Entity::Type type)
+{
+    if (_routine) {
+        _routine->setType(type);
+        setHasUnsavedChanges(true);
+    }
+}
+
 QStringList RoutineForm::returnTypes() const
 {
     QStringList types;
-    types << tr("None");
+    types << tr("UNKNOWN");
+
+    const auto & list = _routine->connection()->dataTypes()->list();
+    for (const meow::db::DataTypePtr & type : list) {
+        types << type->name;
+    }
+
     QString currentType = returnType();
-    if (!currentType.isEmpty()) {
+    if (!currentType.isEmpty() && !types.contains(currentType)) {
         types << currentType;
     }
     return types;
@@ -116,6 +136,14 @@ QStringList RoutineForm::returnTypes() const
 bool RoutineForm::supportsReturnType() const
 {
     return type() == meow::db::Entity::Type::Function;
+}
+
+void RoutineForm::setReturnType(const QString & type)
+{
+    if (_routine) {
+        _routine->structure()->returnType = type;
+        setHasUnsavedChanges(true);
+    }
 }
 
 QString RoutineForm::dataAccess() const
@@ -133,6 +161,14 @@ QStringList RoutineForm::dataAccessList() const
              << "MODIFIES SQL DATA";
     }
     return list;
+}
+
+void RoutineForm::setDataAccess(const QString & dataAccess)
+{
+    if (_routine) {
+        _routine->structure()->dataAccess = dataAccess;
+        setHasUnsavedChanges(true);
+    }
 }
 
 QStringList RoutineForm::securityOptions() const
@@ -155,6 +191,30 @@ bool RoutineForm::supportsSecurity() const
         return isMySQL(_routine->connection());
     }
     return false;
+}
+
+void RoutineForm::setSecurity(const QString & security)
+{
+    if (_routine) {
+        _routine->structure()->sqlSecurity = security;
+        setHasUnsavedChanges(true);
+    }
+}
+
+void RoutineForm::setDeterministic(bool on)
+{
+    if (_routine) {
+        _routine->structure()->deterministic = on;
+        setHasUnsavedChanges(true);
+    }
+}
+
+void RoutineForm::setBody(const QString & body)
+{
+    if (_routine) {
+        _routine->structure()->body = body;
+        setHasUnsavedChanges(true);
+    }
 }
 
 void RoutineForm::setHasUnsavedChanges(bool modified)

@@ -22,10 +22,10 @@ public:
     explicit OptionsTab(models::forms::RoutineForm * form,
                         QWidget *parent = nullptr);
     void refreshData();
+    void validateControls();
 private:
     void createWidgets();
     void fillDataFromForm();
-    void validateControls();
 
     models::forms::RoutineForm * _form;
 

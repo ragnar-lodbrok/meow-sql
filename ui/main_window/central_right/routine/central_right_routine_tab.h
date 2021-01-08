@@ -27,6 +27,12 @@ public:
 private:
 
     void createWidgets();
+    void createGeneralButtons();
+
+    Q_SLOT void discardEditing();
+    Q_SLOT void saveEditing();
+
+    Q_SLOT void validateControls();
 
     models::forms::RoutineForm _form;
 
@@ -34,6 +40,9 @@ private:
 
     RoutineInfo * _info;
     RoutineBody * _body;
+
+    QPushButton * _discardButton;
+    QPushButton * _saveButton;
 };
 
 } // namespace central_right

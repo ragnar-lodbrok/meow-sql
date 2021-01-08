@@ -52,6 +52,11 @@ void RoutineInfo::refreshData()
     _optionsTab->refreshData();
 }
 
+void RoutineInfo::validateControls()
+{
+    _optionsTab->validateControls();
+}
+
 } // namespace central_right
 } // namespace main_window
 } // namespace ui

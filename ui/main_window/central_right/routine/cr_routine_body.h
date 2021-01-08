@@ -24,6 +24,10 @@ public:
 
     void refreshData();
 
+    QString bodyText() const {
+        return _bodyEdit->toPlainText();
+    }
+
 private:
 
     void createWidgets();
