@@ -50,11 +50,13 @@ void RoutineInfo::createTabs()
 void RoutineInfo::refreshData()
 {
     _optionsTab->refreshData();
+    _parametersTab->refreshData();
 }
 
 void RoutineInfo::validateControls()
 {
     _optionsTab->validateControls();
+    _parametersTab->validateControls();
 }
 
 } // namespace central_right

@@ -133,6 +133,7 @@ SOURCES += main.cpp\
     models/db/query_data_sort_filter_proxy_model.cpp \
     models/db/routine_parameters_model.cpp \
     models/delegates/checkbox_delegate.cpp \
+    models/delegates/combobox_delegate.cpp \
     models/delegates/foreign_key_columns_delegate.cpp \
     models/delegates/foreign_key_foreign_columns_delegate.cpp \
     models/delegates/foreign_key_reference_option_delegate.cpp \
@@ -202,6 +203,7 @@ SOURCES += main.cpp\
     ui/main_window/central_right/routine/cr_routine_info.cpp \
     ui/main_window/central_right/routine/cr_routine_info_options_tab.cpp \
     ui/main_window/central_right/routine/cr_routine_info_parameters_tab.cpp \
+    ui/main_window/central_right/routine/cr_routine_parameters_tools.cpp \
     ui/main_window/central_right_widget.cpp \
     ui/main_window/central_widget.cpp \
     ui/main_window/main_window.cpp \
@@ -286,6 +288,7 @@ HEADERS  +=  app/actions.h \
     models/db/query_data_sort_filter_proxy_model.h \
     models/db/routine_parameters_model.h \
     models/delegates/checkbox_delegate.h \
+    models/delegates/combobox_delegate.h \
     models/delegates/foreign_key_columns_delegate.h \
     models/delegates/foreign_key_foreign_columns_delegate.h \
     models/delegates/foreign_key_reference_option_delegate.h \
@@ -357,6 +360,7 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_right/routine/cr_routine_info.h \
     ui/main_window/central_right/routine/cr_routine_info_options_tab.h \
     ui/main_window/central_right/routine/cr_routine_info_parameters_tab.h \
+    ui/main_window/central_right/routine/cr_routine_parameters_tools.h \
     ui/main_window/central_right_widget.h \
     ui/main_window/central_widget.h \
     ui/main_window/main_window.h \

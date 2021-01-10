@@ -9,7 +9,7 @@ ConnectionParamsModel::ConnectionParamsModel(meow::db::ConnectionParamsManager *
      _connectionParamsManager(manager),
      _selectedFormModified(false)
 {
-    //https://doc.qt.io/archives/4.6/itemviews-addressbook.html
+
 }
 
 int ConnectionParamsModel::columnCount(const QModelIndex &parent) const

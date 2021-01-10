@@ -7,6 +7,7 @@ namespace db {
 // To distinguish between binary and nonbinary data for string data types,
 // check whether the charsetnr value is 63.
 static const int MYSQL_BINARY_CHARSET_NUMBER = 63;
+static const int MYSQL_JSON_NATIVE_TYPE_ID = 245;
 
 MySQLConnectionDataTypes::MySQLConnectionDataTypes(MySQLConnection * connection)
     : ConnectionDataTypes(connection),
@@ -87,7 +88,8 @@ const QList<DataTypePtr> & MySQLConnectionDataTypes::list()
             FIELD_TYPE_NEWDECIMAL,
             "DECIMAL",
             true, // hasLength
-            DataTypeCategoryIndex::Float
+            DataTypeCategoryIndex::Float,
+            "10,0" // defLengthSet
         )));
 
         _list.append(DataTypePtr(new DataType(
@@ -135,7 +137,8 @@ const QList<DataTypePtr> & MySQLConnectionDataTypes::list()
             FIELD_TYPE_STRING,
             "CHAR",
             true, // hasLength
-            DataTypeCategoryIndex::Text
+            DataTypeCategoryIndex::Text,
+            "50" // defLengthSet
         )));
 
         _list.append(DataTypePtr(new DataType(
@@ -143,7 +146,8 @@ const QList<DataTypePtr> & MySQLConnectionDataTypes::list()
             FIELD_TYPE_VAR_STRING,
             "VARCHAR",
             true, // hasLength
-            DataTypeCategoryIndex::Text
+            DataTypeCategoryIndex::Text,
+            "50" // defLengthSet
         )));
 
         _list.append(DataTypePtr(new DataType(
@@ -171,10 +175,45 @@ const QList<DataTypePtr> & MySQLConnectionDataTypes::list()
         )));
 
         _list.append(DataTypePtr(new DataType(
+            DataTypeIndex::LongText,
+            FIELD_TYPE_LONG_BLOB,
+            "LONGTEXT",
+            false, // hasLength
+            DataTypeCategoryIndex::Text
+        )));
+
+        // TODO: JSON is available since MySQL 5.7.8 - check version?
+        _list.append(DataTypePtr(new DataType(
+            DataTypeIndex::Json,
+            MYSQL_JSON_NATIVE_TYPE_ID, // native type
+            "JSON",
+            false, // hasLength
+            DataTypeCategoryIndex::Text
+        )));
+
+        _list.append(DataTypePtr(new DataType(
             DataTypeIndex::Binary,
             FIELD_TYPE_STRING, // ?
             "BINARY",
             true, // hasLength
+            DataTypeCategoryIndex::Binary,
+            "50" // defLengthSet
+        )));
+
+        _list.append(DataTypePtr(new DataType(
+            DataTypeIndex::Varbinary,
+            FIELD_TYPE_VAR_STRING,
+            "VARBINARY",
+            true, // hasLength
+            DataTypeCategoryIndex::Binary,
+            "50" // defLengthSet
+        )));
+
+        _list.append(DataTypePtr(new DataType(
+            DataTypeIndex::Tinyblob,
+            FIELD_TYPE_TINY_BLOB,
+            "TINYBLOB",
+            false, // hasLength
             DataTypeCategoryIndex::Binary
         )));
 
@@ -187,11 +226,19 @@ const QList<DataTypePtr> & MySQLConnectionDataTypes::list()
         )));
 
         _list.append(DataTypePtr(new DataType(
-            DataTypeIndex::LongText,
-            FIELD_TYPE_LONG_BLOB,
-            "LONGTEXT",
+            DataTypeIndex::Mediumblob,
+            FIELD_TYPE_MEDIUM_BLOB,
+            "MEDIUMBLOB",
             false, // hasLength
-            DataTypeCategoryIndex::Text
+            DataTypeCategoryIndex::Binary
+        )));
+
+        _list.append(DataTypePtr(new DataType(
+            DataTypeIndex::Longblob,
+            FIELD_TYPE_LONG_BLOB,
+            "LONGBLOB",
+            false, // hasLength
+            DataTypeCategoryIndex::Binary
         )));
 
         _list.append(DataTypePtr(new DataType(
@@ -199,7 +246,8 @@ const QList<DataTypePtr> & MySQLConnectionDataTypes::list()
             FIELD_TYPE_ENUM,
             "ENUM",
             true, // hasLength
-            DataTypeCategoryIndex::Other
+            DataTypeCategoryIndex::Other,
+            "'Y','N'" // defLengthSet
         )));
 
         _list.append(DataTypePtr(new DataType(
@@ -207,7 +255,8 @@ const QList<DataTypePtr> & MySQLConnectionDataTypes::list()
             FIELD_TYPE_SET,
             "SET",
             true, // hasLength
-            DataTypeCategoryIndex::Other
+            DataTypeCategoryIndex::Other,
+            "'A','B'" // defLengthSet
         )));
 
         _list.append(DataTypePtr(new DataType(
@@ -307,8 +356,18 @@ DataTypeIndex MySQLConnectionDataTypes::dataTypeIndexFromNative(
         case FIELD_TYPE_VAR_STRING: // varchar
             return DataTypeIndex::Varbinary;
 
+        case FIELD_TYPE_TINY_BLOB:
+            return DataTypeIndex::Tinyblob;
+
         case FIELD_TYPE_BLOB:
             return DataTypeIndex::Blob;
+
+        case FIELD_TYPE_MEDIUM_BLOB:
+            return DataTypeIndex::Mediumblob;
+
+        case FIELD_TYPE_LONG_BLOB:
+            return DataTypeIndex::Longblob;
+
         default:
             break;
         }
@@ -372,6 +431,9 @@ DataTypeIndex MySQLConnectionDataTypes::dataTypeIndexFromNative(
     case FIELD_TYPE_LONG_BLOB:
         return DataTypeIndex::LongText;
 
+    case MYSQL_JSON_NATIVE_TYPE_ID:
+        return DataTypeIndex::Json;
+
     case FIELD_TYPE_ENUM:
         return DataTypeIndex::Enum;
 
@@ -383,6 +445,7 @@ DataTypeIndex MySQLConnectionDataTypes::dataTypeIndexFromNative(
 
     case FIELD_TYPE_GEOMETRY: // TODO: point/polygon/etc
         return DataTypeIndex::Geometry;
+
 
     default:
         return DataTypeIndex::None;

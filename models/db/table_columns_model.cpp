@@ -190,7 +190,7 @@ int TableColumnsModel::insertEmptyDefaultRow(int afterIndex)
         insertIndex = afterIndex + 1;
     }
     beginInsertRows(QModelIndex(), insertIndex, insertIndex);
-    int newRowIndex =  _table->structure()->insertEmptyDefaultColumn(afterIndex);
+    int newRowIndex = _table->structure()->insertEmptyDefaultColumn(afterIndex);
     endInsertRows();
 
     emit modified();
@@ -230,7 +230,8 @@ bool TableColumnsModel::moveRowUp(int index)
 bool TableColumnsModel::moveRowDown(int index)
 {
     if (_table->structure()->canMoveColumnDown(index)) {
-        beginMoveRows(QModelIndex(), index, index, QModelIndex(), index + 2);
+        beginMoveRows(QModelIndex(), index, index,
+                      QModelIndex(), index + 2); // TODO: why +2 ?
         _table->structure()->moveColumnDown(index);
         endMoveRows();
         emit modified();

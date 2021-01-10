@@ -1,6 +1,7 @@
 #include "routine_parameters_model.h"
 #include "db/entity/routine_entity.h"
 #include "models/forms/routine_form.h"
+#include "db/connection.h"
 #include <QIcon>
 #include <QDebug>
 
@@ -47,7 +48,9 @@ Qt::ItemFlags RoutineParametersModel::flags(const QModelIndex &index) const
 
     Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
-    // TODO: editing flags
+    if (isEditingSupported() && isEditingAllowed(index.row(), index.column())) {
+        flags |= Qt::ItemIsEditable;
+    }
 
     return flags;
 }
@@ -96,6 +99,9 @@ QVariant RoutineParametersModel::data(const QModelIndex &index, int role) const
     case Qt::DisplayRole:
         return textDataAt(index.row(), index.column());
 
+    case Qt::EditRole:
+        return editDataAt(index.row(), index.column());
+
     case Qt::DecorationRole:
         if (static_cast<Columns>(index.column()) == Columns::Context) {
             const meow::db::RoutuneStructureParam & param
@@ -114,6 +120,23 @@ QVariant RoutineParametersModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+bool RoutineParametersModel::setData(const QModelIndex &index,
+                                     const QVariant &value,
+                                     int role)
+{
+    if (!index.isValid() || role != Qt::EditRole) {
+        return false;
+    }
+
+    if (setEditData(index, value)) {
+        emit dataChanged(index, index);
+        emit modified();
+        return true;
+    }
+
+    return false;
 }
 
 int RoutineParametersModel::columnWidth(int column) const
@@ -135,6 +158,105 @@ int RoutineParametersModel::columnWidth(int column) const
     default:
        return 130;
     }
+}
+
+bool RoutineParametersModel::canAddParam() const
+{
+    if (!isEditingSupported()) return false;
+    return true;
+}
+
+bool RoutineParametersModel::canRemoveParam(const QModelIndex & curIndex) const
+{
+    if (!isEditingSupported()) return false;
+    return _routine->structure()->canRemoveParam(curIndex.row());
+}
+
+bool RoutineParametersModel::canRemoveAllParams() const
+{
+    if (!isEditingSupported()) return false;
+    return _routine->structure()->canRemoveAllParams();
+}
+
+bool RoutineParametersModel::canMoveParamUp(const QModelIndex & curIndex) const
+{
+    if (!isEditingSupported()) return false;
+    return _routine->structure()->canMoveParamUp(curIndex.row());
+}
+
+bool RoutineParametersModel::canMoveParamDown(const QModelIndex & curIndex) const
+{
+    if (!isEditingSupported()) return false;
+    return _routine->structure()->canMoveParamDown(curIndex.row());
+}
+
+int RoutineParametersModel::insertEmptyDefaultParam(int afterIndex)
+{
+    int insertIndex = rowCount();
+    if (afterIndex > -1 && afterIndex < rowCount()) {
+        insertIndex = afterIndex + 1;
+    }
+    beginInsertRows(QModelIndex(), insertIndex, insertIndex);
+    int newRowIndex
+            = _routine->structure()->insertEmptyDefaultParam(afterIndex);
+    endInsertRows();
+
+    emit modified();
+
+    return newRowIndex;
+}
+
+bool RoutineParametersModel::removeParamAt(int index)
+{
+    if (!_routine->structure()->canRemoveParam(index)) {
+        return false;
+    }
+
+    beginRemoveRows(QModelIndex(), index, index);
+    _routine->structure()->removeParamAt(index);
+    endRemoveRows();
+
+    emit modified();
+
+    return true;
+}
+
+void RoutineParametersModel::removeAllParams()
+{
+    removeData();
+}
+
+bool RoutineParametersModel::moveParamUp(int index)
+{
+    if (_routine->structure()->canMoveParamUp(index)) {
+        beginMoveRows(QModelIndex(), index, index, QModelIndex(), index - 1);
+        _routine->structure()->moveParamUp(index);
+        endMoveRows();
+
+        emit modified();
+
+        return true;
+    }
+    return false;
+}
+
+bool RoutineParametersModel::moveParamDown(int index)
+{
+    if (_routine->structure()->canMoveParamDown(index)) {
+        beginMoveRows(QModelIndex(), index, index, QModelIndex(), index + 2);
+        _routine->structure()->moveParamDown(index);
+        endMoveRows();
+        emit modified();
+        return true;
+    }
+    return false;
+}
+
+bool RoutineParametersModel::isEditingSupported() const
+{
+    if (_routine == nullptr) return false;
+    return _routine->connection()
+            ->features()->supportsEditingRoutinesStructure();
 }
 
 QString RoutineParametersModel::textDataAt(int row, int col) const
@@ -159,6 +281,72 @@ QString RoutineParametersModel::textDataAt(int row, int col) const
     default:
        return QString();
     }
+}
+
+QVariant RoutineParametersModel::editDataAt(int row, int col) const
+{
+
+    switch (static_cast<Columns>(col)) {
+    case Columns::DataType:{
+        QStringList names;
+
+        const auto & list = _routine->connection()->dataTypes()->list();
+        for (const meow::db::DataTypePtr & type : list) {
+            QString name = type->name;
+            if (type->hasLength && !type->defLengthSet.isEmpty()) {
+                name += "(" + type->defLengthSet + ")";
+            }
+            names << name;
+        }
+
+        return names;
+    }
+    case Columns::Context: {
+        QStringList contexts;
+        contexts << "IN" << "OUT" << "INOUT";
+        return contexts;
+    }
+    default:
+        return textDataAt(row, col);
+    }
+}
+
+bool RoutineParametersModel::setEditData(const QModelIndex &index,
+                                         const QVariant &value)
+{
+    int row = index.row();
+    int col = index.column();
+
+    meow::db::RoutuneStructureParam & param = _routine->structure()->params[row];
+
+    switch (static_cast<Columns>(col)) {
+
+    case Columns::Name: {
+        param.name = value.toString();
+        return true;
+    }
+
+    case Columns::DataType: {
+        param.dataType = value.toString();
+        return true;
+    }
+
+    case Columns::Context: {
+        param.context = value.toString();
+        return true;
+    }
+
+    default:
+        break;
+    }
+
+    return false;
+}
+
+bool RoutineParametersModel::isEditingAllowed(int row, int col) const
+{
+    Q_UNUSED(row);
+    return static_cast<Columns>(col) != Columns::Number;
 }
 
 void RoutineParametersModel::removeData()

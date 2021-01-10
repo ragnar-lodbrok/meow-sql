@@ -23,7 +23,10 @@ RoutineForm::RoutineForm()
     , _hasUnsavedChanges(false)
     , _paramsModel(this)
 {
+    // Listening: Killer Be Killed - Inner Calm From Outer Storms
 
+    connect(&_paramsModel, &models::db::RoutineParametersModel::modified,
+            this, &RoutineForm::onParamsModified);
 }
 
 void RoutineForm::setRoutine(meow::db::RoutineEntity * routine)

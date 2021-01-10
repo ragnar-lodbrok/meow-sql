@@ -26,7 +26,7 @@ void RoutineTab::setRoutine(meow::db::RoutineEntity * routine)
     _form.parametersModel()->setRoutine(nullptr); // TODO: crap
 
     _form.setRoutine(routine);
-    _form.parametersModel()->setRoutine(routine);
+    _form.parametersModel()->setRoutine(_form.editableRoutine());
     _info->refreshData();
     _body->refreshData();
     validateControls();

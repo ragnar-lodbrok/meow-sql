@@ -58,6 +58,17 @@ public:
         params.clear();
     }
 
+     bool canRemoveParam(int index) const;
+     bool canRemoveAllParams() const;
+     bool canMoveParamUp(int index) const;
+     bool canMoveParamDown(int index) const;
+
+     int insertEmptyDefaultParam(int afterIndex = -1);
+     bool removeParamAt(int index);
+     void removeAllParams();
+     bool moveParamUp(int index);
+     bool moveParamDown(int index);
+
 private:
     RoutineEntity * _routine;
 };

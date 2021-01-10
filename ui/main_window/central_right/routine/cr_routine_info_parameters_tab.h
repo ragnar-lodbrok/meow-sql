@@ -16,16 +16,35 @@ namespace main_window {
 namespace central_right {
 namespace routine_info {
 
+class RoutineParametersTools;
+
 class ParametersTab : public QWidget
 {
 public:
     ParametersTab(models::forms::RoutineForm * form,
                   QWidget *parent = nullptr);
+
+    void refreshData();
+    void validateControls();
+
+    Q_SLOT void onAddAction();
+    Q_SLOT void onRemoveAction();
+    Q_SLOT void onClearAction();
+    Q_SLOT void onMoveUpAction();
+    Q_SLOT void onMoveDownAction();
+
 private:
 
     void createWidgets();
 
+    Q_SLOT void currentRowChanged(const QModelIndex &current,
+                                  const QModelIndex &previous);
+
+    void scrollToCurrent();
+
     models::forms::RoutineForm * _form;
+
+    RoutineParametersTools * _tools;
     QTableView * _paramsTable;
 };
 

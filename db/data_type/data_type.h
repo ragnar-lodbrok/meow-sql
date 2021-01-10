@@ -121,7 +121,8 @@ typedef struct DataType {
             int nativeType_,
             const QString & name_,
             bool hasLength_,
-            DataTypeCategoryIndex _category
+            DataTypeCategoryIndex _category,
+            QString defLengthSet_ = QString()
     ) : index(index_),
         nativeType(nativeType_),
         name(name_),
@@ -132,7 +133,7 @@ typedef struct DataType {
         isBinary(false),
         //hasDefault(false),
         //loadPart(false),
-        //defLengthSet(),
+        defLengthSet(defLengthSet_),
         //format(),
         categoryIndex(_category) { }
 
@@ -146,7 +147,7 @@ typedef struct DataType {
     bool isBinary;
     //bool hasDefault;
     //bool loadPart;
-    //QString defLengthSet;
+    QString defLengthSet;
     //QString format;
     DataTypeCategoryIndex categoryIndex;
 

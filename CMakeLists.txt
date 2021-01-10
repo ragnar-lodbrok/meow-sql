@@ -148,6 +148,7 @@ set(SOURCE_FILES
     models/db/query_data_sort_filter_proxy_model.cpp
     models/db/variables_table_model.cpp
     models/delegates/checkbox_delegate.cpp
+    models/delegates/combobox_delegate.cpp
     models/delegates/edit_query_data_delegate.cpp
     models/delegates/foreign_key_columns_delegate.cpp
     models/delegates/foreign_key_foreign_columns_delegate.cpp
@@ -206,6 +207,7 @@ set(SOURCE_FILES
     ui/main_window/central_right/routine/cr_routine_info.cpp
     ui/main_window/central_right/routine/cr_routine_info_options_tab.cpp
     ui/main_window/central_right/routine/cr_routine_info_parameters_tab.cpp
+    ui/main_window/central_right/routine/cr_routine_parameters_tools.cpp
     ui/main_window/central_right/query/central_right_query_tab.cpp
     ui/main_window/central_right/query/cr_query_data_tab.cpp
     ui/main_window/central_right/query/cr_query_panel.cpp

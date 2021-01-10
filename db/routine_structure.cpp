@@ -42,5 +42,74 @@ bool RoutineStructure::operator==(const RoutineStructure & other)
          && params == other.params;
 }
 
+bool RoutineStructure::canRemoveParam(int index) const
+{
+    return index >= 0 && index < params.size();
+}
+
+bool RoutineStructure::canRemoveAllParams() const
+{
+    return params.size() > 0;
+}
+
+bool RoutineStructure::canMoveParamUp(int index) const
+{
+    return index >= 1 && index < params.size();
+}
+
+bool RoutineStructure::canMoveParamDown(int index) const
+{
+    return index >= 0 && index < (params.size() - 1);
+}
+
+int RoutineStructure::insertEmptyDefaultParam(int afterIndex)
+{
+    RoutuneStructureParam newParam;
+    newParam.name = QString("Param_%1").arg(params.count() + 1);
+    newParam.dataType = "INT";
+    newParam.context = "IN";
+
+    if (afterIndex == -1) {
+        params.append(newParam);
+        return params.count() - 1;
+    } else {
+        params.insert(afterIndex + 1, newParam);
+        return afterIndex + 1;
+    }
+}
+
+bool RoutineStructure::removeParamAt(int index)
+{
+    if (canRemoveParam(index)) {
+        params.removeAt(index);
+        return true;
+    }
+    return false;
+}
+
+void RoutineStructure::removeAllParams()
+{
+    // Listening: Sojourner - The Deluge
+    params.clear();
+}
+
+bool RoutineStructure::moveParamUp(int index)
+{
+    if (canMoveParamUp(index)) {
+        params.move(index, index - 1);
+        return true;
+    }
+    return false;
+}
+
+bool RoutineStructure::moveParamDown(int index)
+{
+    if (canMoveParamDown(index)) {
+        params.move(index, index + 1);
+        return true;
+    }
+    return false;
+}
+
 } // namespace db
 } // namespace meow

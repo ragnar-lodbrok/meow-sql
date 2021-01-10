@@ -44,7 +44,7 @@ void TableColumns::actionAddColumn(bool checked)
     // scroll
     _columnsTable->scrollTo(_columnsTable->selectionModel()->currentIndex());
 
-     // edit name
+    // edit name
     _columnsTable->edit(newRowNameIndex);
 }
 

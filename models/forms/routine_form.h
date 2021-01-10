@@ -84,7 +84,16 @@ public:
         return _sourceRoutine;
     }
 
+    meow::db::RoutineEntity * editableRoutine() {
+        return _routine.get();
+    }
+
 private:
+
+    Q_SLOT void onParamsModified() {
+        setHasUnsavedChanges(true);
+    }
+
     std::unique_ptr<meow::db::RoutineEntity> _routine; // copy of source to edit
     meow::db::RoutineEntity * _sourceRoutine;
 
