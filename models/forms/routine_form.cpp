@@ -1,5 +1,6 @@
 #include "routine_form.h"
 #include "db/connection.h"
+#include "app/app.h"
 
 namespace meow {
 namespace models {
@@ -218,6 +219,31 @@ void RoutineForm::setBody(const QString & body)
         _routine->structure()->body = body;
         setHasUnsavedChanges(true);
     }
+}
+
+void RoutineForm::save()
+{
+    if (_routine->isNew()) { // insert
+        // try to transfer ownership - take back on error
+        // TODO: why not just use shared_ptr ?
+        meow::db::RoutineEntity * routine = _routine.release();
+        try {
+            bool inserted = meow::app()->dbConnectionsManager()
+                    ->activeSession()->insertEntityToDB(routine);
+            if (!inserted) {
+                _routine.reset(routine);
+            }
+        } catch (meow::db::Exception & exc) {
+            _routine.reset(routine);
+            throw;
+        }
+
+    } else { // update
+        meow::app()->dbConnectionsManager()->activeSession()->editEntityInDB(
+            _sourceRoutine, _routine.get());
+    }
+
+    setHasUnsavedChanges(false);
 }
 
 void RoutineForm::setHasUnsavedChanges(bool modified)

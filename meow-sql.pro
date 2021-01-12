@@ -103,6 +103,7 @@ SOURCES += main.cpp\
     db/query_criteria.cpp \
     db/query_data.cpp \
     db/query_data_fetcher.cpp \
+    db/routine_editor.cpp \
     db/routine_structure_parser.cpp \
     db/routine_structure.cpp \
     db/session_variables.cpp \
@@ -255,6 +256,7 @@ HEADERS  +=  app/actions.h \
     db/query_column.h \
     db/query_criteria.h \
     db/query_data_fetcher.h \
+    db/routine_editor.h \
     db/routine_structure_parser.h \
     db/routine_structure.h \
     db/session_variables.h \

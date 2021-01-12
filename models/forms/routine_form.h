@@ -70,6 +70,8 @@ public:
     }
     void setBody(const QString & body);
 
+    void save();
+
     bool hasUnsavedChanges() const { return _hasUnsavedChanges; }
     void setHasUnsavedChanges(bool modified);
     Q_SIGNAL void unsavedChanged(bool hasUnsavedChanges);

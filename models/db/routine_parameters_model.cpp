@@ -224,6 +224,7 @@ bool RoutineParametersModel::removeParamAt(int index)
 void RoutineParametersModel::removeAllParams()
 {
     removeData();
+    emit modified();
 }
 
 bool RoutineParametersModel::moveParamUp(int index)

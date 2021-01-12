@@ -94,7 +94,7 @@ void RoutineTab::saveEditing()
 {
     try {
         _form.setBody(_body->bodyText());
-        //_form.save();
+        _form.save();
     } catch(meow::db::Exception & ex) {
         QMessageBox msgBox;
         msgBox.setText(ex.message());

@@ -31,6 +31,7 @@ class EntityInDatabase;
 class DataBaseEntity;
 class TableEditor;
 class ViewEditor;
+class RoutineEditor;
 class DataBaseEditor;
 class TableEnginesFetcher;
 class EntityFilter;
@@ -167,6 +168,7 @@ protected:
     // TODO: move editors and edit methods to separate class
     virtual TableEditor * createTableEditor() = 0;
     virtual ViewEditor * createViewEditor();
+    virtual RoutineEditor * createRoutineEditor();
     virtual DataBaseEditor * createDataBaseEditor() = 0;
     virtual CollationFetcher * createCollationFetcher() = 0;
     virtual TableEnginesFetcher * createTableEnginesFetcher() = 0;

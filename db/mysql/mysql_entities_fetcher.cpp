@@ -43,10 +43,14 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
 
     QueryPtr queryResults;
 
-    if (fullTableStatus || (QString::compare(dbName, "INFORMATION_SCHEMA", Qt::CaseInsensitive) == 0)) {
+    if (fullTableStatus
+            || (QString::compare(dbName, "INFORMATION_SCHEMA",
+                                 Qt::CaseInsensitive) == 0)) {
 
         try {
-            queryResults = _connection->getResults(QString("SHOW TABLE STATUS FROM ") + _connection->quoteIdentifier(dbName));
+            queryResults = _connection->getResults(
+                        QString("SHOW TABLE STATUS FROM ") +
+                        _connection->quoteIdentifier(dbName));
         } catch(meow::db::Exception & ex) {
             meowLogCC(Log::Category::Error, _connection)
                     << "Failed to fetch tables/views: " << ex.message();

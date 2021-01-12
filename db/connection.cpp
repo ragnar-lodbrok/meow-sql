@@ -3,6 +3,7 @@
 #include "entity/entities_fetcher.h"
 #include "table_editor.h"
 #include "view_editor.h"
+#include "routine_editor.h"
 #include "database_editor.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
@@ -366,11 +367,13 @@ void Connection::parseRoutineStructure(RoutineEntity * routine, bool refresh)
 bool Connection::editEntityInDB(EntityInDatabase * entity,
                                 EntityInDatabase * newData)
 {
-    Q_ASSERT(entity->type() == newData->type());
 
     switch (entity->type()) {
 
     case Entity::Type::Table: {
+
+        Q_ASSERT(entity->type() == newData->type());
+
         std::unique_ptr<TableEditor> editor(createTableEditor());
         return editor->edit(
                     static_cast<TableEntity *>(entity),
@@ -378,10 +381,21 @@ bool Connection::editEntityInDB(EntityInDatabase * entity,
     }
 
     case Entity::Type::View: {
+
+        Q_ASSERT(entity->type() == newData->type());
+
         std::unique_ptr<ViewEditor> editor(createViewEditor());
         return editor->edit(
                     static_cast<ViewEntity *>(entity),
                     static_cast<ViewEntity *>(newData));
+    }
+
+    case Entity::Type::Function:
+    case Entity::Type::Procedure: {        
+        std::unique_ptr<RoutineEditor> editor(createRoutineEditor());
+        return editor->edit(
+                    static_cast<RoutineEntity *>(entity),
+                    static_cast<RoutineEntity *>(newData));
     }
 
     default:
@@ -406,6 +420,11 @@ bool Connection::insertEntityToDB(EntityInDatabase * entity)
         return editor->insert(static_cast<ViewEntity *>(entity));
     }
 
+    case Entity::Type::Function:
+    case Entity::Type::Procedure: {
+        std::unique_ptr<RoutineEditor> editor(createRoutineEditor());
+        return editor->insert(static_cast<RoutineEntity *>(entity));
+    }
 
     default:
         Q_ASSERT(false);
@@ -430,6 +449,11 @@ bool Connection::dropEntityInDB(EntityInDatabase * entity)
         return editor->drop(static_cast<ViewEntity *>(entity));
     }
 
+    case Entity::Type::Function:
+    case Entity::Type::Procedure: {
+        std::unique_ptr<RoutineEditor> editor(createRoutineEditor());
+        return editor->drop(static_cast<RoutineEntity *>(entity));
+    }
 
     default:
         Q_ASSERT(false);
@@ -514,6 +538,11 @@ IUserManager * Connection::userManager()
 ViewEditor * Connection::createViewEditor()
 {
     return new ViewEditor(this);
+}
+
+RoutineEditor * Connection::createRoutineEditor()
+{
+    return new RoutineEditor(this);
 }
 
 ConnectionFeatures * Connection::createFeatures()
