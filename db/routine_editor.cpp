@@ -91,9 +91,15 @@ bool RoutineEditor::insert(RoutineEntity * routine)
 
 bool RoutineEditor::drop(RoutineEntity * routine)
 {
-    Q_UNIMPLEMENTED();
-    Q_UNUSED(routine);
-    return false;
+    bool isProcedure = (routine->type() == db::Entity::Type::Procedure);
+
+    QString dropSQL = QString("DROP %1 %2")
+            .arg(isProcedure ? "PROCEDURE" : "FUNCTION")
+            .arg(_connection->quoteIdentifier(routine->name()));
+
+    _connection->query(dropSQL);
+
+    return true;
 }
 
 QString RoutineEditor::createSQL(RoutineEntity * routine,
