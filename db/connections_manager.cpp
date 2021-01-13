@@ -42,7 +42,8 @@ ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & pa
     QObject::connect(newSession,
             &meow::db::SessionEntity::entityInserted,
             this,
-            &meow::db::ConnectionsManager::onEntityInserted);
+            &meow::db::ConnectionsManager::onEntityInserted,
+            Qt::QueuedConnection);
 
     QObject::connect(newSession->connection(),
             &meow::db::Connection::databaseChanged,
@@ -127,8 +128,16 @@ void ConnectionsManager::createEntity(Entity::Type type)
     } else if (type == Entity::Type::View) {
         ViewEntity * view = new ViewEntity("", databaseEntity);
         view->setIsNew(true);
-         _activeEntity.setCurrentEntity(nullptr);
+        _activeEntity.setCurrentEntity(nullptr);
         emit creatingNewEntity(view);
+    } else if (type == Entity::Type::Procedure
+               || type == Entity::Type::Function) {
+        RoutineEntity * routine = new RoutineEntity("", type, databaseEntity);
+        routine->setIsNew(true);
+        _activeEntity.setCurrentEntity(nullptr);
+        emit creatingNewEntity(routine);
+    } else {
+        Q_ASSERT(false);
     }
 }
 

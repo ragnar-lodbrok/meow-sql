@@ -32,6 +32,8 @@ void ViewForm::setView(meow::db::ViewEntity * view)
 {
     // TODO: copy only when we start editing
 
+    Q_ASSERT(view != nullptr);
+
     if (view->isNew()) {
         _sourceView = nullptr;
         _view.reset(view); // take ownership

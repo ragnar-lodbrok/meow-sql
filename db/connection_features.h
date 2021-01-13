@@ -131,6 +131,8 @@ public:
             case meow::db::Entity::Type::Table: // only impl-ed
             case meow::db::Entity::Type::Database:
             case meow::db::Entity::Type::View:
+            case meow::db::Entity::Type::Procedure:
+            case meow::db::Entity::Type::Function:
             return true;
         default:
             return false;

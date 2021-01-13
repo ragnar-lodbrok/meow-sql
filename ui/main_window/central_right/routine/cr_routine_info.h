@@ -33,6 +33,8 @@ public:
     
     void validateControls();
 
+    void onBeforeEntityEditing();
+
 private:
 
     void createTabs();

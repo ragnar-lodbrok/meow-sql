@@ -57,6 +57,10 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
                     meow::db::Entity::Type::View));
     createSubMenu->addAction(_createViewAction);
 
+    _createRoutineAction->setEnabled(
+            treeModel->canCreateEntityOnCurrentItem(
+                    meow::db::Entity::Type::Procedure));
+    createSubMenu->addAction(_createRoutineAction);
 
     // ------------------
     menu.addSeparator();
@@ -221,6 +225,16 @@ void DbTree::createActions()
         treeModel->createNewEntity(meow::db::Entity::Type::View);
     });
 
+    // create routine ==========================================================
+    _createRoutineAction = new QAction(QIcon(":/icons/stored_procedure.png"),
+                                     tr("Stored routine"), this);
+    _createRoutineAction->setStatusTip(
+               tr("Create stored procedure or function"));
+    connect(_createRoutineAction, &QAction::triggered, [=](bool checked){
+        Q_UNUSED(checked);
+        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
+        treeModel->createNewEntity(meow::db::Entity::Type::Procedure);
+    });
 
     // export ==================================================================
 

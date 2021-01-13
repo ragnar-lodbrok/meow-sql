@@ -23,6 +23,8 @@ RoutineTab::RoutineTab(QWidget * parent) : QWidget(parent)
 
 void RoutineTab::setRoutine(meow::db::RoutineEntity * routine)
 {
+    Q_ASSERT(routine != nullptr);
+
     _form.parametersModel()->setRoutine(nullptr); // TODO: crap
 
     _form.setRoutine(routine);
@@ -30,6 +32,11 @@ void RoutineTab::setRoutine(meow::db::RoutineEntity * routine)
     _info->refreshData();
     _body->refreshData();
     validateControls();
+}
+
+void RoutineTab::onBeforeEntityEditing()
+{
+    _info->onBeforeEntityEditing();
 }
 
 void RoutineTab::createWidgets()
@@ -87,7 +94,9 @@ void RoutineTab::createGeneralButtons()
 
 void RoutineTab::discardEditing()
 {
-    this->setRoutine(_form.sourceRoutine());
+    if (_form.sourceRoutine()) {
+        this->setRoutine(_form.sourceRoutine());
+    }
 }
 
 void RoutineTab::saveEditing()

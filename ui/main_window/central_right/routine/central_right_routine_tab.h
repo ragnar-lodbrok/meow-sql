@@ -24,6 +24,8 @@ public:
 
     void setRoutine(meow::db::RoutineEntity * routine);
 
+    void onBeforeEntityEditing();
+
 private:
 
     void createWidgets();

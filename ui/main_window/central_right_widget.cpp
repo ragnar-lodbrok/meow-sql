@@ -182,6 +182,9 @@ void CentralRightWidget::onBeforeEntityEditing()
             tableTab()->onBeforeEntityEditing();
         } else if (entity->type() == db::Entity::Type::View) {
             viewTab()->onBeforeEntityEditing();
+        } else if (entity->type() == db::Entity::Type::Procedure
+                   || entity->type() == db::Entity::Type::Function) {
+            routineTab()->onBeforeEntityEditing();
         }
         _rootTabs->setCurrentIndex((int)Tabs::Entity);
     }
@@ -507,7 +510,7 @@ void CentralRightWidget::removeEntityTabsExcept(db::Entity::Type except)
         removeViewTab();
     }
     if (except != db::Entity::Type::Function
-            || except != db::Entity::Type::Procedure) {
+            && except != db::Entity::Type::Procedure) {
         removeRoutineTab();
     }
 }

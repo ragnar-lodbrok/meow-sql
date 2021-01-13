@@ -271,6 +271,11 @@ void OptionsTab::validateControls()
     _returnTypeCombobox->setEnabled(_form->supportsReturnType());
 }
 
+void OptionsTab::onBeforeEntityEditing()
+{
+    _nameEdit->setFocus();
+}
+
 } // namespace routine_info
 } // namespace central_right
 } // namespace main_window

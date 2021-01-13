@@ -23,6 +23,7 @@ public:
                         QWidget *parent = nullptr);
     void refreshData();
     void validateControls();
+    void onBeforeEntityEditing();
 private:
     void createWidgets();
     void fillDataFromForm();

@@ -1,6 +1,7 @@
 #include "routine_form.h"
 #include "db/connection.h"
 #include "app/app.h"
+#include <QDebug>
 
 namespace meow {
 namespace models {
@@ -37,7 +38,7 @@ void RoutineForm::setRoutine(meow::db::RoutineEntity * routine)
     if (routine->isNew()) {
         _sourceRoutine = nullptr;
         _routine.reset(routine); // take ownership
-        //setDefaultValuesForNewRoutine(); // TODO
+        setDefaultValuesForNew();
     } else {
         _sourceRoutine = routine; // just hold a ref for update
         _routine.reset(_sourceRoutine->deepCopy()); // and edit copy
@@ -259,6 +260,15 @@ bool RoutineForm::isEditingSupported() const
     if (!_routine) return false;
     return _routine->connection()->features()
             ->supportsEditingRoutinesStructure();
+}
+
+void RoutineForm::setDefaultValuesForNew()
+{
+    _routine->structure()->body = "BEGIN\n\nEND";
+    _routine->structure()->definer
+            = _routine->connection()->userManager()->currentUser();
+    _routine->structure()->dataAccess = "CONTAINS SQL";
+    _routine->structure()->sqlSecurity = "DEFINER";
 }
 
 } // namespace forms

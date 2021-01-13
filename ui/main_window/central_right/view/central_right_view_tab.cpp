@@ -223,7 +223,9 @@ void ViewTab::fillDataFromForm()
 
 void ViewTab::discardViewEditing()
 {
-    this->setView(_form.sourceView());
+    if (_form.sourceView()) {
+        this->setView(_form.sourceView());
+    }
 }
 
 void ViewTab::saveViewEditing()

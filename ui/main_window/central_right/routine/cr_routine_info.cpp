@@ -59,6 +59,11 @@ void RoutineInfo::validateControls()
     _parametersTab->validateControls();
 }
 
+void RoutineInfo::onBeforeEntityEditing()
+{
+    _optionsTab->onBeforeEntityEditing();
+}
+
 } // namespace central_right
 } // namespace main_window
 } // namespace ui

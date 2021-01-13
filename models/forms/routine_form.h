@@ -96,6 +96,8 @@ private:
         setHasUnsavedChanges(true);
     }
 
+    void setDefaultValuesForNew();
+
     std::unique_ptr<meow::db::RoutineEntity> _routine; // copy of source to edit
     meow::db::RoutineEntity * _sourceRoutine;
 
