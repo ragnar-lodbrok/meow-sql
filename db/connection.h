@@ -122,6 +122,7 @@ public:
     virtual std::unique_ptr<EntityFilter> entityFilter() = 0;
     virtual std::shared_ptr<QueryDataEditor> queryDataEditor(); // TODO = 0 ?
     virtual QString limitOnePostfix(bool select) const;
+    virtual QDateTime currentServerTimestamp();
 
     void parseTableStructure(TableEntity * table, bool refresh = false);
     void parseViewStructure(ViewEntity * view, bool refresh = false);

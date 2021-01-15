@@ -144,7 +144,6 @@ void DataTab::createDataTable()
         QAbstractItemView::SelectionBehavior::SelectRows);
 
     _dataTable->setModel(_model.createSortFilterModel());
-    //_dataTable->setModel(&_model);
     _mainLayout->addWidget(_dataTable);
     _dataTable->setSortingEnabled(false); // TODO
 

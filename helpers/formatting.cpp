@@ -31,7 +31,22 @@ QString formatNumber(unsigned long long number)
 
 QString formatDateTime(const QDateTime & dateTime)
 {
-    return QLocale().toString(dateTime, "yyyy-MM-dd HH:mm:ss");
+    return dateTime.toString("yyyy-MM-dd HH:mm:ss");
+}
+
+QString formatDate(const QDateTime & dateTime)
+{
+    return dateTime.toString("yyyy-MM-dd");
+}
+
+QString formatTime(const QDateTime & dateTime)
+{
+    return dateTime.toString("HH:mm:ss");
+}
+
+QString formatYear(const QDateTime & dateTime)
+{
+    return dateTime.toString("yyyy");
 }
 
 QString formatAsHex(const QString & str)

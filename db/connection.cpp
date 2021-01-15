@@ -11,6 +11,7 @@
 #include "db/entity/routine_entity.h"
 #include "table_engines_fetcher.h"
 #include "query_data_editor.h"
+#include "helpers/parsing.h"
 
 #include <QDebug>
 
@@ -500,6 +501,18 @@ QString Connection::limitOnePostfix(bool select) const
 {
     Q_UNUSED(select)
     return ""; // some dbs dont have it
+}
+
+QDateTime Connection::currentServerTimestamp()
+{
+    try {
+        QString timestamp = getCell("SELECT CURRENT_TIMESTAMP");
+        return meow::helpers::parseDateTime(timestamp);
+    } catch(meow::db::Exception & ex) {
+        Q_UNUSED(ex);
+        return {};
+    }
+
 }
 
 ConnectionDataTypes * Connection::dataTypes()
