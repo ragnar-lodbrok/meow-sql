@@ -70,6 +70,16 @@ bool DataTableModel::setData(const QModelIndex &index,
     return false;
 }
 
+delegates::EditorType DataTableModel::editorType(
+        const QModelIndex &index) const
+{
+    if (typeCategoryForColumn(index.column())
+            == meow::db::DataTypeCategoryIndex::Text) {
+        return delegates::EditorType::lineEdit;
+    }
+
+    return delegates::EditorType::defaultEditor;
+}
 
 void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity,
                                bool loadData)

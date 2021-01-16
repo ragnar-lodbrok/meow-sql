@@ -107,7 +107,7 @@ private:
     models::db::DataTableModel _model;
 
     models::delegates::EditQueryDataDelegate * _defaultTableDelegate;
-    models::delegates::EditTextQueryDataDelegate * _textColumnTableDelegate;
+    models::delegates::FormatTextQueryDataDelegate * _textColumnTableDelegate;
 
     bool _skipApplyModifications;
 };

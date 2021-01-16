@@ -5,6 +5,7 @@
 #include "query_data_sort_filter_proxy_model.h"
 #include "base_data_table_model.h"
 #include "db/common.h"
+#include "models/delegates/edit_query_data_delegate.h"
 
 // Main Window
 //   Central Right Widget
@@ -15,17 +16,20 @@ namespace meow {
 namespace models {
 namespace db {
 
-class DataTableModel : public BaseDataTableModel
+class DataTableModel : public BaseDataTableModel,
+                       public delegates::IItemDelegateConfig
 {
     Q_OBJECT
 public:
     explicit DataTableModel(QObject *parent = nullptr);
     virtual ~DataTableModel() override;
 
-    Qt::ItemFlags flags(const QModelIndex &index) const override;
-    bool setData(const QModelIndex &index,
+    virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
+    virtual bool setData(const QModelIndex &index,
                  const QVariant &value,
                  int role = Qt::EditRole) override;
+    virtual delegates::EditorType editorType(
+            const QModelIndex &index) const override;
 
     void setEntity(meow::db::Entity * tableOrViewEntity, bool loadData = true);
     void removeData();

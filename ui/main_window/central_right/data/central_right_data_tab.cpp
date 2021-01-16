@@ -13,9 +13,9 @@ DataTab::DataTab(QWidget *parent) :
     QWidget(parent),
     _model(),
     _defaultTableDelegate(
-            new models::delegates::EditQueryDataDelegate(&_model)),
+            new models::delegates::EditQueryDataDelegate(&_model, &_model)),
     _textColumnTableDelegate(
-            new models::delegates::EditTextQueryDataDelegate(&_model)),
+            new models::delegates::FormatTextQueryDataDelegate(&_model, &_model)),
     _skipApplyModifications(false)
 {
     _mainLayout = new QVBoxLayout();
@@ -285,7 +285,6 @@ void DataTab::onLoadData()
     }
 
     for (int c = 0; c < _model.columnCount(); ++c) {
-        // TODO: better use single delegate
         if (_model.typeCategoryForColumn(c) == db::DataTypeCategoryIndex::Text) {
             _dataTable->setItemDelegateForColumn(c, _textColumnTableDelegate);
         } else {

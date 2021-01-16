@@ -143,6 +143,8 @@ SOURCES += main.cpp\
     models/delegates/table_column_default_delegate.cpp \
     models/delegates/table_column_type_delegate.cpp \
     models/delegates/table_index_delegate.cpp \
+    models/delegates/edit_query_data_delegate.cpp \
+    models/delegates/line_edit_query_data_delegate.cpp \
     models/forms/connection_parameters_form.cpp \
     models/forms/edit_database_form.cpp \
     models/forms/export_database_form.cpp \
@@ -217,7 +219,6 @@ SOURCES += main.cpp\
     db/editable_grid_data.cpp \
     db/query_data_editor.cpp \
     ui/common/editable_data_table_view.cpp \
-    models/delegates/edit_query_data_delegate.cpp \
     ui/main_window/central_bottom_widget.cpp \
     ui/main_window/central_log_widget.cpp \
     utils/exporting/mysql_dump_console.cpp \
@@ -299,6 +300,8 @@ HEADERS  +=  app/actions.h \
     models/delegates/table_column_default_delegate.h \
     models/delegates/table_column_type_delegate.h \
     models/delegates/table_index_delegate.h \
+    models/delegates/edit_query_data_delegate.h \
+    models/delegates/line_edit_query_data_delegate.h \
     models/forms/connection_parameters_form.h \
     models/forms/edit_database_form.h \
     models/forms/export_database_form.h \
@@ -375,7 +378,6 @@ HEADERS  +=  app/actions.h \
     db/editable_grid_data.h \
     db/query_data_editor.h \
     ui/common/editable_data_table_view.h \
-    models/delegates/edit_query_data_delegate.h \
     ui/main_window/central_bottom_widget.h \
     ui/main_window/central_log_widget.h \
     utils/exporting/mysql_dump_console.h \

@@ -151,6 +151,7 @@ set(SOURCE_FILES
     models/delegates/checkbox_delegate.cpp
     models/delegates/combobox_delegate.cpp
     models/delegates/edit_query_data_delegate.cpp
+    models/delegates/line_edit_query_data_delegate.cpp
     models/delegates/foreign_key_columns_delegate.cpp
     models/delegates/foreign_key_foreign_columns_delegate.cpp
     models/delegates/foreign_key_reference_option_delegate.cpp

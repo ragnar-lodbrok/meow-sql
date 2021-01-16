@@ -1,15 +1,53 @@
 #include "edit_query_data_delegate.h"
-#include "ui/common/table_cell_line_edit.h"
 #include "helpers/text.h"
+
+#include "line_edit_query_data_delegate.h"
+
 #include <QDebug>
 
 namespace meow {
 namespace models {
 namespace delegates {
 
-EditQueryDataDelegate::EditQueryDataDelegate(QObject * parent)
-    :QStyledItemDelegate(parent),
-     _editor(nullptr)
+
+QWidget * ItemEditorWrapper::createEditor(QWidget *parent,
+                       const QStyleOptionViewItem &option,
+                       const QModelIndex &index) const
+{
+    _editor = _delegate->QStyledItemDelegate::createEditor(
+                parent, option, index);
+    return _editor;
+}
+
+void ItemEditorWrapper::destroyEditor(QWidget *editor,
+                   const QModelIndex &index) const
+{
+    Q_ASSERT(editor == _editor);
+    _editor = nullptr;
+    _delegate->QStyledItemDelegate::destroyEditor(editor, index);
+}
+
+void ItemEditorWrapper::setEditorData(QWidget *editor,
+                               const QModelIndex &index) const
+{
+    _delegate->QStyledItemDelegate::setEditorData(editor, index);
+}
+
+void ItemEditorWrapper::setModelData(QWidget *editor,
+                      QAbstractItemModel *model,
+                      const QModelIndex &index) const
+{
+    _delegate->QStyledItemDelegate::setModelData(editor, model, index);
+}
+
+// -----------------------------------------------------------------------------
+
+EditQueryDataDelegate::EditQueryDataDelegate(
+        IItemDelegateConfig * delegateConfig,
+        QObject * parent)
+    : QStyledItemDelegate(parent)
+    , _delegateConfig(delegateConfig)
+    , _editorWrapper(nullptr)
 {
 
 }
@@ -19,96 +57,95 @@ QWidget * EditQueryDataDelegate::createEditor(
         const QStyleOptionViewItem &option,
         const QModelIndex &index) const
 {
-    Q_UNUSED(option);
-    Q_UNUSED(index);
 
-    _editor = QStyledItemDelegate::createEditor(parent, option, index);
-    return _editor;
+    switch (_delegateConfig->editorType(index)) {
 
+    case EditorType::defaultEditor: {
+        _editorWrapper.reset(
+                    new ItemEditorWrapper(
+                        const_cast<EditQueryDataDelegate *>(this)
+                    ));
+    }
+    break;
+
+    case EditorType::lineEdit: {
+        _editorWrapper.reset(
+                    new LineEditItemEditorWrapper(
+                        const_cast<EditQueryDataDelegate *>(this)
+                    ));
+    }
+    break;
+
+    default:
+        Q_ASSERT(false);
+        return QStyledItemDelegate::createEditor(parent, option, index);
+    }
+
+    return _editorWrapper->createEditor(parent, option, index);
 }
 
 void EditQueryDataDelegate::destroyEditor(QWidget *editor,
                    const QModelIndex &index) const
 {
-    _editor = nullptr;
-    QStyledItemDelegate::destroyEditor(editor, index);
+    if (_editorWrapper) {
+        _editorWrapper->destroyEditor(editor, index);
+        _editorWrapper = nullptr;
+    } else {
+        QStyledItemDelegate::destroyEditor(editor, index);
+    }
+}
+
+void EditQueryDataDelegate::setEditorData(QWidget *editor,
+                               const QModelIndex &index) const
+{
+    if (_editorWrapper) {
+        _editorWrapper->setEditorData(editor, index);
+    } else {
+        QStyledItemDelegate::setEditorData(editor, index);
+    }
+}
+
+void EditQueryDataDelegate::setModelData(QWidget *editor,
+                  QAbstractItemModel *model,
+                  const QModelIndex &index) const
+{
+    if (_editorWrapper) {
+        _editorWrapper->setModelData(editor, model, index);
+    } else {
+        QStyledItemDelegate::setModelData(editor, model, index);
+    }
 }
 
 void EditQueryDataDelegate::commit(bool emitCloseEditor)
 {
-    if (_editor) {
-        emit commitData(_editor);
+    if (_editorWrapper) {
+        emit commitData(_editorWrapper->editor());
         if (emitCloseEditor) { // closing editor causes row change
-            emit closeEditor(_editor);
+            emit closeEditor(_editorWrapper->editor());
         }
-        _editor = nullptr;
+        _editorWrapper = nullptr;
     }
 }
 
 void EditQueryDataDelegate::discard()
 {
-    if (_editor) {
-        emit closeEditor(_editor);
-        _editor = nullptr;
+    if (_editorWrapper) {
+        emit closeEditor(_editorWrapper->editor());
+        _editorWrapper = nullptr;
     }
 }
 
 // -----------------------------------------------------------------------------
 
-EditTextQueryDataDelegate::EditTextQueryDataDelegate(QObject * parent)
-    :EditQueryDataDelegate(parent)
+FormatTextQueryDataDelegate::FormatTextQueryDataDelegate(
+        IItemDelegateConfig * delegateConfig,
+        QObject * parent)
+    : EditQueryDataDelegate(delegateConfig, parent)
 {
 
 }
 
-QWidget * EditTextQueryDataDelegate::createEditor(
-        QWidget *parent,
-        const QStyleOptionViewItem &option,
-        const QModelIndex &index) const
-{
-    Q_UNUSED(option);
-    Q_UNUSED(index);
-
-    _editor = new ui::TableCellLineEdit(parent);
-
-    connect(static_cast<ui::TableCellLineEdit *>(_editor),
-            &ui::TableCellLineEdit::popupEditorClosed,
-            this,
-            &EditTextQueryDataDelegate::onPopupTextEditorClosed,
-            Qt::QueuedConnection);
-
-    return _editor;
-}
-
-void EditTextQueryDataDelegate::setEditorData(
-        QWidget *editor,
-        const QModelIndex &index) const
-{
-    QString value = index.model()->data(index, Qt::EditRole).toString();
-    auto cellLineEdit = static_cast<ui::TableCellLineEdit *>(editor);
-    auto lineEdit = cellLineEdit->lineEdit();
-    lineEdit->setText(value);
-
-    if (value.length() > 10*1024 || helpers::hasLineBreaks(value)) {
-        cellLineEdit->openPopupEditor();
-    } else {
-        lineEdit->setCursorPosition(value.length());
-        lineEdit->selectAll();
-
-        QTimer::singleShot(0, lineEdit, SLOT(setFocus())); // trick
-    }
-}
-
-void EditTextQueryDataDelegate::setModelData(QWidget *editor,
-                  QAbstractItemModel *model,
-                  const QModelIndex &index) const
-{
-    auto lineEdit = static_cast<ui::TableCellLineEdit *>(editor)->lineEdit();
-    QVariant curData = lineEdit->text();
-    model->setData(index, curData, Qt::EditRole);
-}
-
-QString EditTextQueryDataDelegate::displayText(const QVariant &value,
+QString FormatTextQueryDataDelegate::displayText(const QVariant &value,
                                                const QLocale &locale) const
 {
     // TODO: better paint \r and \n so you can distinguish \\n from \n ?
@@ -121,15 +158,6 @@ QString EditTextQueryDataDelegate::displayText(const QVariant &value,
 
     } else {
         return QStyledItemDelegate::displayText(value, locale);
-    }
-}
-
-void EditTextQueryDataDelegate::onPopupTextEditorClosed(bool accepted)
-{
-    if (accepted) {
-        commit();
-    } else {
-        discard();
     }
 }
 
