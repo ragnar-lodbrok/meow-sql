@@ -48,6 +48,15 @@ DataTypeCategoryIndex QueryData::columnDataTypeCategory(int index) const
     return DataTypeCategoryIndex::Other;
 }
 
+db::DataTypePtr QueryData::dataTypeForColumn(int column) const
+{
+    db::Query * query = _queryPtr.get();
+    if (query) {
+        return query->column(column).dataType;
+    }
+    return {};
+}
+
 QString QueryData::displayDataAt(int row, int column) const
 {
     db::Query * query = _queryPtr.get();

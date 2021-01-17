@@ -29,24 +29,29 @@ QString formatNumber(unsigned long long number)
     return QLocale().toString(number);
 }
 
+QString dateTimeFormatString() { return "yyyy-MM-dd HH:mm:ss"; }
+QString dateFormatString() { return "yyyy-MM-dd"; }
+QString timeFormatString() { return "HH:mm:ss"; }
+QString yearFormatString() { return "yyyy"; }
+
 QString formatDateTime(const QDateTime & dateTime)
 {
-    return dateTime.toString("yyyy-MM-dd HH:mm:ss");
+    return dateTime.toString(dateTimeFormatString());
 }
 
 QString formatDate(const QDateTime & dateTime)
 {
-    return dateTime.toString("yyyy-MM-dd");
+    return dateTime.toString(dateFormatString());
 }
 
 QString formatTime(const QDateTime & dateTime)
 {
-    return dateTime.toString("HH:mm:ss");
+    return dateTime.toString(timeFormatString());
 }
 
 QString formatYear(const QDateTime & dateTime)
 {
-    return dateTime.toString("yyyy");
+    return dateTime.toString(yearFormatString());
 }
 
 QString formatAsHex(const QString & str)

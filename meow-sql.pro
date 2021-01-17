@@ -144,7 +144,8 @@ SOURCES += main.cpp\
     models/delegates/table_column_type_delegate.cpp \
     models/delegates/table_index_delegate.cpp \
     models/delegates/edit_query_data_delegate.cpp \
-    models/delegates/line_edit_query_data_delegate.cpp \
+    models/delegates/date_time_item_editor_wrapper.cpp \
+    models/delegates/line_edit_item_editor_wrapper.cpp \
     models/forms/connection_parameters_form.cpp \
     models/forms/edit_database_form.cpp \
     models/forms/export_database_form.cpp \
@@ -163,6 +164,7 @@ SOURCES += main.cpp\
     settings/settings_geometry.cpp \
     settings/settings_icons.cpp \
     settings/settings_text.cpp \
+    settings/data_editors.cpp \
     ssh/openssh_tunnel.cpp \
     ssh/ssh_tunnel_parameters.cpp \
     ui/common/checkbox_list_popup.cpp \
@@ -301,7 +303,8 @@ HEADERS  +=  app/actions.h \
     models/delegates/table_column_type_delegate.h \
     models/delegates/table_index_delegate.h \
     models/delegates/edit_query_data_delegate.h \
-    models/delegates/line_edit_query_data_delegate.h \
+    models/delegates/date_time_item_editor_wrapper.h \
+    models/delegates/line_edit_item_editor_wrapper.h \
     models/forms/connection_parameters_form.h \
     models/forms/edit_database_form.h \
     models/forms/export_database_form.h \
@@ -320,6 +323,7 @@ HEADERS  +=  app/actions.h \
     settings/settings_geometry.h \
     settings/settings_icons.h \
     settings/settings_text.h \
+    settings/data_editors.h \
     ssh/openssh_tunnel.h \
     ssh/ssh_tunnel_parameters.h \
     ui/common/checkbox_list_popup.h \

@@ -7,7 +7,7 @@
 namespace meow {
 namespace helpers {
 
-typedef unsigned long long byteSize;
+using byteSize = unsigned long long ;
 
 QString formatByteSize(byteSize bytes, int decimals = 1);
 QString formatNumber(unsigned long long number);
@@ -16,6 +16,11 @@ QString formatDate(const QDateTime & dateTime);
 QString formatTime(const QDateTime & dateTime);
 QString formatYear(const QDateTime & dateTime);
 QString formatAsHex(const QString & str);
+
+QString dateTimeFormatString();
+QString dateFormatString();
+QString timeFormatString();
+QString yearFormatString();
 
 } // namespace helpers
 } // namespace meow

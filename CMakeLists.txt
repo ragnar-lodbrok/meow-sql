@@ -151,7 +151,8 @@ set(SOURCE_FILES
     models/delegates/checkbox_delegate.cpp
     models/delegates/combobox_delegate.cpp
     models/delegates/edit_query_data_delegate.cpp
-    models/delegates/line_edit_query_data_delegate.cpp
+    models/delegates/line_edit_item_editor_wrapper.cpp
+    models/delegates/date_time_item_editor_wrapper.cpp
     models/delegates/foreign_key_columns_delegate.cpp
     models/delegates/foreign_key_foreign_columns_delegate.cpp
     models/delegates/foreign_key_reference_option_delegate.cpp
@@ -178,6 +179,7 @@ set(SOURCE_FILES
     settings/settings_geometry.cpp
     settings/settings_icons.cpp
     settings/settings_text.cpp
+    settings/data_editors.cpp
     ssh/openssh_tunnel.cpp
     ssh/ssh_tunnel_parameters.cpp
     ui/common/checkbox_list_popup.cpp

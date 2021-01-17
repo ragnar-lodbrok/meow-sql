@@ -30,6 +30,7 @@ public:
     bool isNullAt(int row, int column) const;
     QString columnName(int index) const;
     db::DataTypeCategoryIndex columnDataTypeCategory(int index) const;
+    db::DataTypePtr dataTypeForColumn(int column) const;
 
     void prepareEditing();
     bool setData(int row, int col, const QVariant &value);

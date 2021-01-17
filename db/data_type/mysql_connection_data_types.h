@@ -21,6 +21,8 @@ public:
 
     virtual const DataTypePtr defaultType() const override;
 
+    virtual bool isDateTimeType(const DataTypePtr & type) const override;
+
     DataTypePtr dataTypeOfField(MYSQL_FIELD * field);
 
 private:

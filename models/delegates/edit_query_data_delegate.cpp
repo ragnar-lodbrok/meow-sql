@@ -1,7 +1,8 @@
 #include "edit_query_data_delegate.h"
 #include "helpers/text.h"
 
-#include "line_edit_query_data_delegate.h"
+#include "line_edit_item_editor_wrapper.h"
+#include "date_time_item_editor_wrapper.h"
 
 #include <QDebug>
 
@@ -71,6 +72,14 @@ QWidget * EditQueryDataDelegate::createEditor(
     case EditorType::lineEdit: {
         _editorWrapper.reset(
                     new LineEditItemEditorWrapper(
+                        const_cast<EditQueryDataDelegate *>(this)
+                    ));
+    }
+    break;
+
+    case EditorType::dateTimeEdit: {
+        _editorWrapper.reset(
+                    new DateTimeItemEditorWrapper(
                         const_cast<EditQueryDataDelegate *>(this)
                     ));
     }

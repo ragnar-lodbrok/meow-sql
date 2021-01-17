@@ -4,6 +4,7 @@
 #include "settings_text.h"
 #include "settings_geometry.h"
 #include "settings_icons.h"
+#include "data_editors.h"
 
 namespace meow {
 namespace settings {
@@ -12,15 +13,16 @@ class Core
 {
 public:
     Core();
-
     Text * textSettings() { return &_text; }
     Geometry * geometrySettings() { return &_geometry; }
     Icons * icons() { return &_icons; }
+    DataEditors * dataEditors() { return &_dataEditors; }
 
 private:
     Text _text;
     Geometry _geometry;
     Icons _icons;
+    DataEditors _dataEditors;
 };
 
 } // namespace meow

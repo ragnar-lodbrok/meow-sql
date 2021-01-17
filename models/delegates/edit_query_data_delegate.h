@@ -11,7 +11,7 @@ enum class EditorType
 {
     defaultEditor,
     lineEdit,
-    //dateTimeEdit, // TODO
+    dateTimeEdit
 };
 
 // Provides info for configuring delagate editor

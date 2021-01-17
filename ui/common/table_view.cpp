@@ -5,7 +5,7 @@
 namespace meow {
 namespace ui {
 
-static const int colMargin = 10;
+static const int colMargin = 20; // extra space for editors
 static const int minColWidth = 90;
 static const int maxColWidth = 500;
 

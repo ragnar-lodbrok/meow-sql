@@ -30,6 +30,11 @@ public:
 
     virtual const DataTypePtr defaultType() const = 0;
 
+    virtual bool isDateTimeType(const DataTypePtr & type) const {
+        Q_UNUSED(type);
+        return false;
+    }
+
     DataTypePtr createUnknownType() const { // rm, just use default cted
         DataTypePtr ptr(
             new DataType(

@@ -294,6 +294,12 @@ const DataTypePtr MySQLConnectionDataTypes::defaultType() const
     return _map.value(DataTypeIndex::Int);
 }
 
+bool MySQLConnectionDataTypes::isDateTimeType(const DataTypePtr & type) const
+{
+    return type->index == DataTypeIndex::DateTime
+            || type->index == DataTypeIndex::Timestamp;
+}
+
 DataTypePtr MySQLConnectionDataTypes::dataTypeOfField(MYSQL_FIELD * field)
 {
     // http://dev.mysql.com/doc/refman/5.7/en/c-api-data-structures.html

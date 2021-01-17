@@ -16,17 +16,30 @@ public:
         meow::db::QueryData * queryData,
         QObject * parent = nullptr);
 
-    Qt::ItemFlags flags(const QModelIndex &index) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
-    QVariant headerData(int section, Qt::Orientation orientation,
+    virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
+    virtual QVariant data(const QModelIndex &index, int role) const override;
+    virtual QVariant headerData(int section, Qt::Orientation orientation,
                         int role = Qt::DisplayRole) const override;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+    virtual int rowCount(
+            const QModelIndex &parent = QModelIndex()) const override;
+    virtual int columnCount(
+            const QModelIndex &parent = QModelIndex()) const override;
 
     meow::db::QueryData * queryData() { return _queryData; }
 
     meow::db::DataTypeCategoryIndex typeCategoryForColumn(int column) const {
         return _queryData->columnDataTypeCategory(column);
+    }
+
+    meow::db::DataTypePtr dataTypeForColumn(int column) const {
+        return _queryData->dataTypeForColumn(column);
+    }
+
+    meow::db::Connection * connection() const {
+        if (_queryData->query()) {
+            return _queryData->query()->connection();
+        }
+        return nullptr;
     }
 
     // We need to handle row/col count from outside bc Qt models require

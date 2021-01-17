@@ -76,6 +76,22 @@ delegates::EditorType DataTableModel::editorType(
     if (typeCategoryForColumn(index.column())
             == meow::db::DataTypeCategoryIndex::Text) {
         return delegates::EditorType::lineEdit;
+    } else if (typeCategoryForColumn(index.column())
+               == meow::db::DataTypeCategoryIndex::Temporal) {
+
+        if (meow::app()->settings()->dataEditors()
+                ->enableInplaceDatetimeEditor()) {
+
+            bool isDateTime= connection()->dataTypes()->isDateTimeType(
+                        dataTypeForColumn(index.column()));
+
+            if (isDateTime) {
+                return delegates::EditorType::dateTimeEdit;
+            }
+
+            // TODO: date, time, year editors ...
+
+        }
     }
 
     return delegates::EditorType::defaultEditor;

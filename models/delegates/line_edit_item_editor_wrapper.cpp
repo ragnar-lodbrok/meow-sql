@@ -1,4 +1,4 @@
-#include "line_edit_query_data_delegate.h"
+#include "line_edit_item_editor_wrapper.h"
 #include "ui/common/table_cell_line_edit.h"
 #include "helpers/text.h"
 
