@@ -1,6 +1,7 @@
 #ifndef EDIT_QUERY_DATA_DELEGATE_H
 #define EDIT_QUERY_DATA_DELEGATE_H
 
+#include <memory>
 #include <QStyledItemDelegate>
 
 namespace meow {
