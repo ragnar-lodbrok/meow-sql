@@ -28,7 +28,7 @@ Table columns: keys icons
 
 Table data edit: foreign key drop down
 
-Table data edit: date/datetime editor
+Table data edit: date/time/year editor
 
 Table data edit: enum editor
 
@@ -97,6 +97,12 @@ Table tools: bulk table editor
 Table tools: find text
 
 Data Grid: insert files into text/blob fields
+
+## 0.4.8
+
+MySQL: Procedure/function edit/drop
+
+Table Data: datetime editor
 
 ## 0.4.7
 
