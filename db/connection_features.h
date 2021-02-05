@@ -79,6 +79,10 @@ public:
     virtual bool supportsEditingRoutinesStructure() const {
         return false;
     }
+
+    virtual bool supportsViewingTriggers() const {
+        return false;
+    }
 };
 
 // -----------------------------------------------------------------------------
@@ -160,6 +164,10 @@ public:
     }
 
     virtual bool supportsEditingRoutinesStructure() const override {
+        return true;
+    }
+
+    virtual bool supportsViewingTriggers() const override {
         return true;
     }
 };

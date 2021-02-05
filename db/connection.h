@@ -38,6 +38,7 @@ class EntityFilter;
 class QueryDataEditor;
 class ViewEntity;
 class RoutineEntity;
+class TriggerEntity;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
@@ -127,6 +128,7 @@ public:
     void parseTableStructure(TableEntity * table, bool refresh = false);
     void parseViewStructure(ViewEntity * view, bool refresh = false);
     void parseRoutineStructure(RoutineEntity * routine, bool refresh = false);
+    void parseTriggerStructure(TriggerEntity * trigger, bool refresh = false);
 
     bool editEntityInDB(EntityInDatabase * entity, EntityInDatabase * newData);
     bool insertEntityToDB(EntityInDatabase * entity);

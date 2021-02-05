@@ -2,10 +2,6 @@
 
 ## Task pool (by priority)
 
-MySQL: Procedure form (edit, create)
-
-MySQL: Function form (edit, create)
-
 MySQL: Trigger form (r/o)
 
 MySQL: Trigger form (edit, create)

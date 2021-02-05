@@ -24,5 +24,46 @@ QVariant TriggerEntity::icon() const // override
     return icon;
 }
 
+TriggerStructure * TriggerEntity::structure() const
+{
+    if (!_structure) {
+        _structure.reset(
+            new TriggerStructure(const_cast<TriggerEntity *>(this))
+        );
+    }
+    return _structure.get();
+}
+
+DataBaseEntity * TriggerEntity::database() const
+{
+    return static_cast<DataBaseEntity *>(parent());
+}
+
+TriggerEntity * TriggerEntity::deepCopy() const
+{
+    TriggerEntity * copy = new TriggerEntity(_name, database());
+
+    copy->copyDataFrom(this);
+
+    return copy;
+}
+
+void TriggerEntity::copyDataFrom(const Entity * data)
+{
+    Q_ASSERT(data->type() == Entity::Type::Trigger);
+
+    const TriggerEntity * trigger = static_cast<const TriggerEntity *>(data);
+
+    EntityInDatabase::copyDataFrom(trigger);
+
+    this->_name = trigger->_name;
+
+    this->_structure.reset();
+
+    if (trigger->_structure != nullptr) {
+        this->_structure.reset(trigger->_structure->deepCopy(this));
+    }
+}
+
 } // namespace db
 } // namespace meow

@@ -9,9 +9,11 @@
 #include "db/entity/database_entity.h"
 #include "db/entity/view_entity.h"
 #include "db/entity/routine_entity.h"
+#include "db/entity/trigger_entity.h"
 #include "table_engines_fetcher.h"
 #include "query_data_editor.h"
 #include "helpers/parsing.h"
+#include "trigger_structure_parser.h"
 
 #include <QDebug>
 
@@ -363,6 +365,16 @@ void Connection::parseRoutineStructure(RoutineEntity * routine, bool refresh)
         _routineStructureParser.reset(new RoutineStructureParser(this));
     }
     _routineStructureParser->run(routine);
+}
+
+void Connection::parseTriggerStructure(TriggerEntity * trigger, bool refresh)
+{
+    if (!refresh && trigger->hasStructure()) {
+        return;
+    }
+
+    TriggerStructureParser parser(this);
+    parser.run(trigger);
 }
 
 bool Connection::editEntityInDB(EntityInDatabase * entity,
