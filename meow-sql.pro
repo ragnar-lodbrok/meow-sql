@@ -112,6 +112,7 @@ SOURCES += main.cpp\
     db/table_index.cpp \
     db/table_structure.cpp \
     db/table_structure_parser.cpp \
+    db/trigger_editor.cpp \
     db/trigger_structure_parser.cpp \
     db/trigger_structure.cpp \
     db/view_editor.cpp \
@@ -277,6 +278,7 @@ HEADERS  +=  app/actions.h \
     db/table_index.h \
     db/table_structure.h \
     db/table_structure_parser.h \
+    db/trigger_editor.h \
     db/trigger_structure_parser.h \
     db/trigger_structure.h \
     db/view_editor.h \

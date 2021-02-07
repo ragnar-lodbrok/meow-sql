@@ -3,6 +3,7 @@
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
 #include "db/entity/entity_list_for_database.h"
+#include "app/app.h"
 
 namespace meow {
 namespace models {
@@ -21,6 +22,7 @@ bool isMySQL(db::Connection * connection)
 TriggerForm::TriggerForm()
     : _trigger(nullptr)
     , _sourceTrigger(nullptr)
+    , _hasUnsavedChanges(false)
 {
 
 }
@@ -50,6 +52,14 @@ QString TriggerForm::name() const
     return _trigger->name();
 }
 
+void TriggerForm::setName(const QString & name)
+{
+    if (_trigger) {
+        _trigger->setName(name);
+        setHasUnsavedChanges(true);
+    }
+}
+
 QString TriggerForm::statement() const
 {
     if (!_trigger) return {};
@@ -57,11 +67,27 @@ QString TriggerForm::statement() const
     return _trigger->structure()->statement();
 }
 
+void TriggerForm::setStatement(const QString & statement)
+{
+    if (_trigger) {
+        _trigger->structure()->setStatement(statement);
+        setHasUnsavedChanges(true);
+    }
+}
+
 QString TriggerForm::definer() const
 {
     if (!_trigger) return {};
 
     return _trigger->structure()->definer();
+}
+
+void TriggerForm::setDefiner(const QString & definer)
+{
+    if (_trigger) {
+        _trigger->structure()->setDefiner(definer);
+        setHasUnsavedChanges(true);
+    }
 }
 
 QStringList TriggerForm::allDefinerOptions(bool loadFromDB) const
@@ -96,6 +122,14 @@ QString TriggerForm::tableName() const
     return _trigger->structure()->tableName();
 }
 
+void TriggerForm::setTableName(const QString & tableName)
+{
+    if (_trigger) {
+        _trigger->structure()->setTableName(tableName);
+        setHasUnsavedChanges(true);
+    }
+}
+
 QStringList TriggerForm::allTableNameOptions() const
 {
     if (!_trigger) return {};
@@ -124,6 +158,14 @@ QString TriggerForm::actionTime() const
     return _trigger->structure()->actionTime();
 }
 
+void TriggerForm::setActionTime(const QString & actionTime)
+{
+    if (_trigger) {
+        _trigger->structure()->setActionTime(actionTime);
+        setHasUnsavedChanges(true);
+    }
+}
+
 QStringList TriggerForm::allActionTimeOptions() const
 {
     if (!_trigger) return {};
@@ -136,11 +178,19 @@ QStringList TriggerForm::allActionTimeOptions() const
     return options;
 }
 
-QString TriggerForm::event() const
+QString TriggerForm::eventName() const
 {
     if (!_trigger) return {};
 
     return _trigger->structure()->event();
+}
+
+void TriggerForm::setEventName(const QString & eventName)
+{
+    if (_trigger) {
+        _trigger->structure()->setEvent(eventName);
+        setHasUnsavedChanges(true);
+    }
 }
 
 QStringList TriggerForm::allEventOptions() const
@@ -156,16 +206,47 @@ QStringList TriggerForm::allEventOptions() const
     return options;
 }
 
+void TriggerForm::save()
+{
+    if (_trigger->isNew()) { // insert
+        meow::db::TriggerEntity * trigger = _trigger.release();
+        try {
+            bool inserted = meow::app()->dbConnectionsManager()
+                    ->activeSession()->insertEntityToDB(trigger);
+            if (!inserted) {
+                _trigger.reset(trigger);
+            }
+        } catch (meow::db::Exception & exc) {
+            _trigger.reset(trigger);
+            throw;
+        }
+
+    } else { // update
+        meow::app()->dbConnectionsManager()->activeSession()->editEntityInDB(
+            _sourceTrigger, _trigger.get());
+    }
+
+    setHasUnsavedChanges(false);
+}
+
 void TriggerForm::setHasUnsavedChanges(bool modified)
 {
-    Q_UNUSED(modified);
-    // TODO
+    if (_hasUnsavedChanges != modified) {
+        _hasUnsavedChanges = modified;
+        emit unsavedChanged(_hasUnsavedChanges);
+    }
 }
 
 bool TriggerForm::isEditingSupported() const
 {
+    if (!_trigger) return false;
+    return _trigger->connection()->features()
+            ->supportsEditingRoutinesStructure();
+}
+
+void TriggerForm::setDefaultValuesForNew()
+{
     // TODO
-    return false;
 }
 
 } // namespace forms

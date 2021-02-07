@@ -83,6 +83,10 @@ public:
     virtual bool supportsViewingTriggers() const {
         return false;
     }
+
+    virtual bool supportsEditingTriggers() const {
+        return false;
+    }
 };
 
 // -----------------------------------------------------------------------------
@@ -168,6 +172,10 @@ public:
     }
 
     virtual bool supportsViewingTriggers() const override {
+        return true;
+    }
+
+    virtual bool supportsEditingTriggers() const override {
         return true;
     }
 };

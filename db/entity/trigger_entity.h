@@ -20,6 +20,8 @@ public:
     virtual QVariant icon() const override;
     virtual Type type() const override { return Type::Trigger; }
 
+    void setName(const QString & name) { _name = name; }
+
     TriggerStructure * structure() const;
     bool hasStructure() const {
         return _structure != nullptr;

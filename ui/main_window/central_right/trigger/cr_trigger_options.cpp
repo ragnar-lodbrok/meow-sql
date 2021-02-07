@@ -32,8 +32,7 @@ void TriggerOptions::createWidgets()
     connect(_nameEdit, &QLineEdit::textEdited,
             [=](const QString &name) {
                 if (!_form->isEditingSupported()) return;
-                //_form->setName(name);
-                Q_UNUSED(name); // TODO
+                _form->setName(name);
             });
 
     _definerLabel = new QLabel(tr("Definer:"));
@@ -48,8 +47,7 @@ void TriggerOptions::createWidgets()
                     );
                     return;
                 }
-                Q_UNUSED(definer); // TODO
-                //_form->setDefiner(definer);
+                _form->setDefiner(definer);
             });
 
     // Table
@@ -66,7 +64,7 @@ void TriggerOptions::createWidgets()
                     );
                     return;
                 }
-                Q_UNUSED(tableName); // TODO
+                _form->setTableName(tableName);
             });
 
     // Event
@@ -83,7 +81,7 @@ void TriggerOptions::createWidgets()
                     );
                     return;
                 }
-                Q_UNUSED(actionTime); // TODO
+                _form->setActionTime(actionTime);
             });
 
     _eventCombobox = new QComboBox();
@@ -92,11 +90,11 @@ void TriggerOptions::createWidgets()
             [=](const QString & event) {
                 if (!_form->isEditingSupported()) {
                     _eventCombobox->setCurrentIndex(
-                        _eventCombobox->findText(_form->event())
+                        _eventCombobox->findText(_form->eventName())
                     );
                     return;
                 }
-                Q_UNUSED(event); // TODO
+                _form->setEventName(event);
             });
 
     QHBoxLayout * eventLayout = new QHBoxLayout();
@@ -172,7 +170,7 @@ void TriggerOptions::fillDataFromForm()
     _eventCombobox->clear();
     _eventCombobox->addItems(_form->allEventOptions());
     _eventCombobox->setCurrentIndex(
-        _eventCombobox->findText(_form->event()));
+        _eventCombobox->findText(_form->eventName()));
     _eventCombobox->blockSignals(false);
 }
 

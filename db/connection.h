@@ -32,6 +32,7 @@ class DataBaseEntity;
 class TableEditor;
 class ViewEditor;
 class RoutineEditor;
+class TriggerEditor;
 class DataBaseEditor;
 class TableEnginesFetcher;
 class EntityFilter;
@@ -172,6 +173,7 @@ protected:
     virtual TableEditor * createTableEditor() = 0;
     virtual ViewEditor * createViewEditor();
     virtual RoutineEditor * createRoutineEditor();
+    virtual TriggerEditor * createTriggerEditor();
     virtual DataBaseEditor * createDataBaseEditor() = 0;
     virtual CollationFetcher * createCollationFetcher() = 0;
     virtual TableEnginesFetcher * createTableEnginesFetcher() = 0;

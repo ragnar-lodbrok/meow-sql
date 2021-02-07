@@ -5,6 +5,7 @@
 #include "view_editor.h"
 #include "routine_editor.h"
 #include "database_editor.h"
+#include "trigger_editor.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
 #include "db/entity/view_entity.h"
@@ -411,6 +412,16 @@ bool Connection::editEntityInDB(EntityInDatabase * entity,
                     static_cast<RoutineEntity *>(newData));
     }
 
+    case Entity::Type::Trigger: {
+
+        Q_ASSERT(entity->type() == newData->type());
+
+        std::unique_ptr<TriggerEditor> editor(createTriggerEditor());
+        return editor->edit(
+                    static_cast<TriggerEntity *>(entity),
+                    static_cast<TriggerEntity *>(newData));
+    }
+
     default:
         Q_ASSERT(false);
         break;
@@ -568,6 +579,11 @@ ViewEditor * Connection::createViewEditor()
 RoutineEditor * Connection::createRoutineEditor()
 {
     return new RoutineEditor(this);
+}
+
+TriggerEditor * Connection::createTriggerEditor()
+{
+    return new TriggerEditor(this);
 }
 
 ConnectionFeatures * Connection::createFeatures()
