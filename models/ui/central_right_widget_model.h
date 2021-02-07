@@ -37,6 +37,7 @@ public:
     QString titleForTableTab() const;
     QString titleForViewTab() const;
     QString titleForRoutineTab() const;
+    QString titleForTriggerTab() const;
     QString titleForDataTab() const;
     QString titleForQueryTab() const;
 

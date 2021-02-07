@@ -171,6 +171,7 @@ set(SOURCE_FILES
     models/forms/table_indexes_model.cpp
     models/forms/table_indexes_model_item.cpp
     models/forms/table_info_form.cpp
+    models/forms/trigger_form.cpp
     models/forms/text_editor_popup_form.cpp
     models/forms/view_form.cpp
     models/ui/central_right_host_widget_model.cpp
@@ -228,6 +229,9 @@ set(SOURCE_FILES
     ui/main_window/central_right/table/cr_table_info_foreign_keys_tab.cpp
     ui/main_window/central_right/table/cr_table_info_indexes_tab.cpp
     ui/main_window/central_right/table/cr_table_info_options_tab.cpp
+    ui/main_window/central_right/trigger/central_right_trigger_tab.cpp
+    ui/main_window/central_right/trigger/cr_trigger_body.cpp
+    ui/main_window/central_right/trigger/cr_trigger_options.cpp
     ui/main_window/central_right/view/central_right_view_tab.cpp
     ui/main_window/central_right/filter_widget.cpp
     ui/main_window/central_right_widget.cpp

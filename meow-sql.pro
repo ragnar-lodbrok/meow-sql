@@ -156,6 +156,7 @@ SOURCES += main.cpp\
     models/forms/table_indexes_model_item.cpp \
     models/forms/table_info_form.cpp \
     models/forms/text_editor_popup_form.cpp \
+    models/forms/trigger_form.cpp \
     models/forms/view_form.cpp \
     models/forms/routine_form.cpp \
     models/ui/central_right_host_widget_model.cpp \
@@ -204,6 +205,9 @@ SOURCES += main.cpp\
     ui/main_window/central_right/table/cr_table_info_foreign_keys_tab.cpp \
     ui/main_window/central_right/table/cr_table_info_indexes_tab.cpp \
     ui/main_window/central_right/table/cr_table_info_options_tab.cpp \
+    ui/main_window/central_right/trigger/central_right_trigger_tab.cpp \
+    ui/main_window/central_right/trigger/cr_trigger_body.cpp \
+    ui/main_window/central_right/trigger/cr_trigger_options.cpp \
     ui/main_window/central_right/view/central_right_view_tab.cpp \
     ui/main_window/central_right/routine/central_right_routine_tab.cpp \
     ui/main_window/central_right/routine/cr_routine_body.cpp \
@@ -317,6 +321,7 @@ HEADERS  +=  app/actions.h \
     models/forms/table_indexes_model_item.h \
     models/forms/table_info_form.h \
     models/forms/text_editor_popup_form.h \
+    models/forms/trigger_form.h \
     models/forms/view_form.h \
     models/forms/routine_form.h \
     models/ui/central_right_host_widget_model.h \
@@ -367,6 +372,9 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_right/table/cr_table_info.h \
     ui/main_window/central_right/table/cr_table_info_indexes_tab.h \
     ui/main_window/central_right/table/cr_table_info_options_tab.h \
+    ui/main_window/central_right/trigger/central_right_trigger_tab.h \
+    ui/main_window/central_right/trigger/cr_trigger_body.h \
+    ui/main_window/central_right/trigger/cr_trigger_options.h \
     ui/main_window/central_right/view/central_right_view_tab.h \
     ui/main_window/central_right/routine/central_right_routine_tab.h \
     ui/main_window/central_right/routine/cr_routine_body.h \

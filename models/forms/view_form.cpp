@@ -1,5 +1,4 @@
 #include "view_form.h"
-#include "db/entity/view_entity.h"
 #include "db/connection.h"
 #include "app/app.h"
 #include <QDebug>

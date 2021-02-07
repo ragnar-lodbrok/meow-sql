@@ -83,6 +83,11 @@ bool CentralRightWidgetModel::hasEntityTab() const
                 ->features()->supportsViewingRoutines();
     }
 
+    if (type == db::Entity::Type::Trigger) {
+        return _entityHolder.currentEntity()->connection()
+                ->features()->supportsViewingTriggers();
+    }
+
     return false;
 }
 
@@ -142,6 +147,9 @@ QString CentralRightWidgetModel::titleForEntityTab() const
         case meow::db::Entity::Type::Function:
         case meow::db::Entity::Type::Procedure:
             return titleForRoutineTab();
+
+        case meow::db::Entity::Type::Trigger:
+            return titleForTriggerTab();
 
         default:
             break;
@@ -207,6 +215,24 @@ QString CentralRightWidgetModel::titleForRoutineTab() const
     }
 
     return QObject::tr("Procedure");
+}
+
+QString CentralRightWidgetModel::titleForTriggerTab() const
+{
+    if (_entityHolder.currentEntity() &&
+        _entityHolder.currentEntity()->type()
+            == meow::db::Entity::Type::Trigger)
+    {
+        QString title = QObject::tr("Trigger") + ": ";
+        if (_entityHolder.currentEntity()->isNew()) {
+            title += "[" + QObject::tr("Untitled") + "]";
+        } else {
+            title += _entityHolder.currentEntity()->name();
+        }
+        return title;
+    }
+
+    return QObject::tr("Trigger");
 }
 
 QString CentralRightWidgetModel::titleForDataTab() const

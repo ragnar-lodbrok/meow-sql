@@ -5,6 +5,7 @@
 #include "db/entity/table_entity.h"
 #include "db/entity/view_entity.h"
 #include "db/entity/routine_entity.h"
+#include "db/entity/trigger_entity.h"
 
 namespace meow {
 namespace ui {
@@ -18,6 +19,7 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
       _tableTab(nullptr),
       _viewTab(nullptr),
       _routineTab(nullptr),
+      _triggerTab(nullptr),
       _dataTab(nullptr),
       _queryTab(nullptr)
 {
@@ -90,6 +92,7 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     bool isFunction = false;
     bool isProcedure = false;
     bool isRoutine = false;
+    bool isTrigger = false;
 
     if (_model.hasEntityTab()) {
 
@@ -98,6 +101,7 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
         isFunction = entity->type() == db::Entity::Type::Function;
         isProcedure = entity->type() == db::Entity::Type::Procedure;
         isRoutine = isFunction || isProcedure;
+        isTrigger = entity->type() == db::Entity::Type::Trigger;
 
 
         removeEntityTabsExcept(entity->type());
@@ -110,11 +114,15 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
         } else if (isRoutine) {
             auto routineEntity = static_cast<db::RoutineEntity *>(entity);
             routineTab()->setRoutine(routineEntity);
+        } else if (isTrigger) {
+            auto triggerEntity = static_cast<db::TriggerEntity *>(entity);
+            triggerTab()->setTrigger(triggerEntity);
         }
     } else {
         removeTableTab();
         removeViewTab();
         removeRoutineTab();
+        removeTriggerTab();
     }
 
     if (_model.hasDataTab()) {
@@ -133,7 +141,7 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     } else if (entity->type() == db::Entity::Type::Database) {
         _rootTabs->setCurrentIndex((int)Tabs::Database);
 
-    } else if (isTable || isView || isRoutine) {
+    } else if (isTable || isView || isRoutine || isTrigger) {
 
         _rootTabs->setTabText((int)Tabs::Entity,
                               _model.titleForEntityTab());
@@ -186,6 +194,7 @@ void CentralRightWidget::onBeforeEntityEditing()
                    || entity->type() == db::Entity::Type::Function) {
             routineTab()->onBeforeEntityEditing();
         }
+        // TODO: trigger
         _rootTabs->setCurrentIndex((int)Tabs::Entity);
     }
 }
@@ -194,7 +203,10 @@ void CentralRightWidget::onEntityEdited(db::Entity * entity)
 {
     if (_model.hasEntityTab()) {
         if (entity->type() == db::Entity::Type::Table
-         || entity->type() == db::Entity::Type::View) {
+         || entity->type() == db::Entity::Type::View
+         || entity->type() == db::Entity::Type::Procedure
+         || entity->type() == db::Entity::Type::Function
+         || entity->type() == db::Entity::Type::Trigger) {
 
             _rootTabs->setTabText(
                 (int)models::ui::CentralRightWidgetTabs::Entity,
@@ -387,6 +399,18 @@ central_right::RoutineTab * CentralRightWidget::routineTab()
     return _routineTab;
 }
 
+central_right::TriggerTab * CentralRightWidget::triggerTab()
+{
+    if (!_triggerTab) {
+        _triggerTab = new central_right::TriggerTab();
+        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Entity,
+                             _triggerTab,
+                             QIcon(":/icons/trigger.png"),
+                             _model.titleForTriggerTab());
+    }
+    return _triggerTab;
+}
+
 central_right::DataTab * CentralRightWidget::dataTab()
 {
     if (!_dataTab) {
@@ -435,6 +459,7 @@ void CentralRightWidget::removeAllRootTabs()
     removeTableTab();
     removeViewTab();
     removeRoutineTab();
+    removeTriggerTab();
     removeDataTab();
 }
 
@@ -492,6 +517,15 @@ bool CentralRightWidget::removeRoutineTab()
     return false;
 }
 
+bool CentralRightWidget::removeTriggerTab()
+{
+    if (removeTab(_triggerTab)) {
+        _triggerTab = nullptr;
+        return true;
+    }
+    return false;
+}
+
 bool CentralRightWidget::removeDataTab()
 {
     if (removeTab(_dataTab)) {
@@ -512,6 +546,9 @@ void CentralRightWidget::removeEntityTabsExcept(db::Entity::Type except)
     if (except != db::Entity::Type::Function
             && except != db::Entity::Type::Procedure) {
         removeRoutineTab();
+    }
+    if (except != db::Entity::Type::Trigger) {
+        removeTriggerTab();
     }
 }
 
