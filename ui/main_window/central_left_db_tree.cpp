@@ -62,6 +62,11 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
                     meow::db::Entity::Type::Procedure));
     createSubMenu->addAction(_createRoutineAction);
 
+    _createTriggerAction->setEnabled(
+            treeModel->canCreateEntityOnCurrentItem(
+                    meow::db::Entity::Type::Trigger));
+    createSubMenu->addAction(_createTriggerAction);
+
     // ------------------
     menu.addSeparator();
 
@@ -234,6 +239,17 @@ void DbTree::createActions()
         Q_UNUSED(checked);
         auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
         treeModel->createNewEntity(meow::db::Entity::Type::Procedure);
+    });
+
+    // create trigger ==========================================================
+    _createTriggerAction = new QAction(QIcon(":/icons/trigger.png"),
+                                     tr("Trigger"), this);
+    _createTriggerAction->setStatusTip(
+               tr("Create a trigger"));
+    connect(_createTriggerAction, &QAction::triggered, [=](bool checked){
+        Q_UNUSED(checked);
+        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
+        treeModel->createNewEntity(meow::db::Entity::Type::Trigger);
     });
 
     // export ==================================================================

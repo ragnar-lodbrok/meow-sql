@@ -24,6 +24,8 @@ public:
 
     void setTrigger(db::TriggerEntity * trigger);
 
+    void onBeforeEntityEditing();
+
 private:
 
     void createWidgets();

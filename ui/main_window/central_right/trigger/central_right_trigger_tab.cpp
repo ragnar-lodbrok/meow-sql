@@ -29,6 +29,11 @@ void TriggerTab::setTrigger(db::TriggerEntity * trigger)
     validateControls();
 }
 
+void TriggerTab::onBeforeEntityEditing()
+{
+    _options->onBeforeEntityEditing();
+}
+
 void TriggerTab::createWidgets()
 {
     QVBoxLayout * mainLayout = new QVBoxLayout();

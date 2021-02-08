@@ -36,7 +36,7 @@ void TriggerForm::setTrigger(meow::db::TriggerEntity * trigger)
     if (trigger->isNew()) {
         _sourceTrigger = nullptr;
         _trigger.reset(trigger); // take ownership
-        //setDefaultValuesForNewView();
+        setDefaultValuesForNew();
     } else {
         _sourceTrigger = trigger; // just hold a ref to trigger for update
         _trigger.reset(_sourceTrigger->deepCopy()); // and edit copy
@@ -246,7 +246,11 @@ bool TriggerForm::isEditingSupported() const
 
 void TriggerForm::setDefaultValuesForNew()
 {
-    // TODO
+    _trigger->structure()->setStatement("BEGIN\n\nEND");
+    _trigger->structure()->setDefiner(
+        _trigger->connection()->userManager()->currentUser());
+    _trigger->structure()->setActionTime("BEFORE");
+    _trigger->structure()->setEvent("INSERT");
 }
 
 } // namespace forms

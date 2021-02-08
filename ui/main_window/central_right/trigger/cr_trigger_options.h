@@ -24,6 +24,8 @@ public:
     void refreshData();
     void validateControls();
 
+    void onBeforeEntityEditing();
+
 private:
 
     void createWidgets();

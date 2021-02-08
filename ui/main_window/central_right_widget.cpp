@@ -193,8 +193,9 @@ void CentralRightWidget::onBeforeEntityEditing()
         } else if (entity->type() == db::Entity::Type::Procedure
                    || entity->type() == db::Entity::Type::Function) {
             routineTab()->onBeforeEntityEditing();
+        } else if (entity->type() == db::Entity::Type::Trigger) {
+            triggerTab()->onBeforeEntityEditing();
         }
-        // TODO: trigger
         _rootTabs->setCurrentIndex((int)Tabs::Entity);
     }
 }

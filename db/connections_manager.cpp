@@ -137,6 +137,11 @@ void ConnectionsManager::createEntity(Entity::Type type)
         routine->setIsNew(true);
         _activeEntity.setCurrentEntity(nullptr);
         emit creatingNewEntity(routine);
+    } else if (type == Entity::Type::Trigger) {
+        TriggerEntity * trigger = new TriggerEntity("", databaseEntity);
+        trigger->setIsNew(true);
+        _activeEntity.setCurrentEntity(nullptr);
+        emit creatingNewEntity(trigger);
     } else {
         Q_ASSERT(false);
     }

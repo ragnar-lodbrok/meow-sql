@@ -180,6 +180,11 @@ void TriggerOptions::validateControls()
     _definerCombobox->setEnabled(_form->supportsDefiner());
 }
 
+void TriggerOptions::onBeforeEntityEditing()
+{
+    _nameEdit->setFocus();
+}
+
 } // namespace central_right
 } // namespace main_window
 } // namespace ui

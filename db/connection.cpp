@@ -450,6 +450,11 @@ bool Connection::insertEntityToDB(EntityInDatabase * entity)
         return editor->insert(static_cast<RoutineEntity *>(entity));
     }
 
+    case Entity::Type::Trigger: {
+        std::unique_ptr<TriggerEditor> editor(createTriggerEditor());
+        return editor->insert(static_cast<TriggerEntity *>(entity));
+    }
+
     default:
         Q_ASSERT(false);
         break;
