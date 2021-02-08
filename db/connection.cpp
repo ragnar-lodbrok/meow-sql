@@ -484,6 +484,11 @@ bool Connection::dropEntityInDB(EntityInDatabase * entity)
         return editor->drop(static_cast<RoutineEntity *>(entity));
     }
 
+    case Entity::Type::Trigger: {
+        std::unique_ptr<TriggerEditor> editor(createTriggerEditor());
+        return editor->drop(static_cast<TriggerEntity *>(entity));
+    }
+
     default:
         Q_ASSERT(false);
         break;

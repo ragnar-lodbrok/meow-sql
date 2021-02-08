@@ -130,6 +130,7 @@ public:
             case meow::db::Entity::Type::View:
             case meow::db::Entity::Type::Procedure:
             case meow::db::Entity::Type::Function:
+            case meow::db::Entity::Type::Trigger:
             return true;
         default:
             return false;
