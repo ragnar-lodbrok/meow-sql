@@ -87,6 +87,10 @@ public:
     virtual bool supportsEditingTriggers() const {
         return false;
     }
+
+    virtual bool supportsUserManagement() const {
+        return false;
+    }
 };
 
 // -----------------------------------------------------------------------------
@@ -178,6 +182,10 @@ public:
     }
 
     virtual bool supportsEditingTriggers() const override {
+        return true;
+    }
+
+    virtual bool supportsUserManagement() const override {
         return true;
     }
 };

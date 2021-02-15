@@ -32,11 +32,14 @@ public:
 
     QModelIndex indexForEntity(meow::db::Entity * entity);
     meow::db::Entity * currentEntity() const;
+    meow::db::SessionEntity * currentSession() const;
 
     bool canDropCurrentItem() const;
 
     bool canCreateDatabaseOnCurrentItem() const;
     bool canCreateEntityOnCurrentItem(meow::db::Entity::Type type) const;
+
+    bool allowUserManager() const;
 
     void createNewEntity(meow::db::Entity::Type type);
 

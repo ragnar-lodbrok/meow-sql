@@ -61,6 +61,7 @@ set(HEADER_FILES
     db/collation_fetcher.h
     db/common.h
     db/query_column.h
+    db/user_manager.h
     ssh/ssh_tunnel_interface.h
     ui/common/mysql_syntax.h
     ui/main_window/central_right/global_data_filter_interface.h
@@ -133,7 +134,6 @@ set(SOURCE_FILES
     db/view_editor.cpp
     db/view_structure.cpp
     db/view_structure_parser.cpp
-    db/user_manager.cpp
     db/user_query/batch_executor.cpp
     db/user_query/sentences_parser.cpp
     db/user_query/user_query.cpp
@@ -150,6 +150,7 @@ set(SOURCE_FILES
     models/db/table_columns_model.cpp
     models/db/routine_parameters_model.cpp
     models/db/query_data_sort_filter_proxy_model.cpp
+    models/db/users_table_model.cpp
     models/db/variables_table_model.cpp
     models/delegates/checkbox_delegate.cpp
     models/delegates/combobox_delegate.cpp
@@ -244,6 +245,9 @@ set(SOURCE_FILES
     ui/session_manager/ssh_tunnel_tab.cpp
     ui/session_manager/start_tab.cpp
     ui/session_manager/window.cpp
+    ui/user_manager/window.cpp
+    ui/user_manager/left_widget.cpp
+    ui/user_manager/right_widget.cpp
     utils/exporting/mysql_dump_console.cpp
 )
 
@@ -263,6 +267,8 @@ if (WITH_MYSQL)
         db/mysql/mysql_query_data_fetcher.cpp
         db/mysql/mysql_table_editor.cpp
         db/mysql/mysql_table_engines_fetcher.cpp
+
+        db/mysql/mysql_user_manager.cpp
 
     )
 endif()

@@ -57,7 +57,8 @@ private:
     void createRightSubWidgets();
     void createRightWidgetButtons();
 
-    Q_SLOT void currentSessionDetailsChanged(const QItemSelection &selected, const QItemSelection &deselected);
+    Q_SLOT void currentSessionDetailsChanged(const QItemSelection &selected,
+                                             const QItemSelection &deselected);
 
     Q_SLOT void saveCurrentSession();
     Q_SLOT void createNewSession();

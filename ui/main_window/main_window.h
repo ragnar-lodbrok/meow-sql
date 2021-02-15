@@ -43,6 +43,8 @@ private:
 
     Q_SLOT void onSessionManagerAction(bool checked);
 
+    Q_SLOT void onUserManagerAction();
+
     Q_SLOT void onGlobalRefresh(bool checked);
 
     CentralWidget * _centralWidget;

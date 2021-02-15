@@ -89,7 +89,7 @@ QStringList ViewForm::allDefinerOptions(bool loadFromDB) const
     if (!_view) return {};
 
     if (loadFromDB) {
-        return _view->connection()->userManager()->allUsers();
+        return _view->connection()->userManager()->allUserNames();
     }
 
     QStringList options;
@@ -280,7 +280,7 @@ void ViewForm::setDefaultValuesForNewView()
 
     if (supportsDefiner()) {
         _view->structure()->definer
-                = _view->connection()->userManager()->currentUser();
+                = _view->connection()->userManager()->currentUserName();
     }
 
     if (supportsAlgorithm()) {

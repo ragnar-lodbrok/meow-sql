@@ -82,6 +82,9 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
 
     menu.addAction(meow::app()->actions()->disconnect());
     menu.addAction(meow::app()->actions()->sessionManager());
+    if (treeModel->allowUserManager()) {
+        menu.addAction(meow::app()->actions()->userManager());
+    }
 
     menu.exec(event->globalPos());
 }

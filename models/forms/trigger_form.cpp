@@ -95,7 +95,7 @@ QStringList TriggerForm::allDefinerOptions(bool loadFromDB) const
     if (!_trigger) return {};
 
     if (loadFromDB) {
-        return _trigger->connection()->userManager()->allUsers();
+        return _trigger->connection()->userManager()->allUserNames();
     }
 
     QStringList options;
@@ -248,7 +248,7 @@ void TriggerForm::setDefaultValuesForNew()
 {
     _trigger->structure()->setStatement("BEGIN\n\nEND");
     _trigger->structure()->setDefiner(
-        _trigger->connection()->userManager()->currentUser());
+        _trigger->connection()->userManager()->currentUserName());
     _trigger->structure()->setActionTime("BEFORE");
     _trigger->structure()->setEvent("INSERT");
 }

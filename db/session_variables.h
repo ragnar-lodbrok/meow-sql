@@ -29,7 +29,7 @@ public:
 
     int totalCount();
 
-    QString value(const QString & name, bool global) const;
+    QString value(const QString & name, bool global = false) const;
 
     bool sessionAndGlobalDiffers(const QString & name) const {
         return value(name, false) != value(name, true);

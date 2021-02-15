@@ -2,6 +2,7 @@
 #include <QMenuBar>
 #include "helpers/logger.h"
 #include "ui/session_manager/window.h"
+#include "ui/user_manager/window.h"
 #include "app/app.h"
 #include "db/exception.h"
 
@@ -48,6 +49,11 @@ Window::Window(QWidget *parent)
             &QAction::triggered,
             this,
             &Window::onSessionManagerAction);
+
+    connect(meow::app()->actions()->userManager(),
+            &QAction::triggered,
+            this,
+            &Window::onUserManagerAction);
 
     connect(meow::app()->actions()->globalRefresh(),
             &QAction::triggered,
@@ -129,6 +135,18 @@ void Window::onSessionManagerAction(bool checked)
 {
     Q_UNUSED(checked);
     showSessionManagerDialog();
+}
+
+void Window::onUserManagerAction()
+{
+    meow::db::SessionEntity * currentSession
+            = meow::app()->dbConnectionsManager()->activeSession();
+
+    Q_ASSERT(currentSession != nullptr);
+    if (!currentSession) return;
+
+    meow::ui::user_manager::Window userManagerWindow(this, currentSession);
+    userManagerWindow.exec();
 }
 
 void Window::onGlobalRefresh(bool checked)

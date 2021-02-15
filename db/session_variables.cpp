@@ -85,6 +85,7 @@ int SessionVariables::totalCount()
 
 QString SessionVariables::value(const QString & name, bool global) const
 {
+    Q_ASSERT(_fetched == true); // TODO: fetch if not
     if (global) {
         return _globalVars.value(name, QString());
     } else {
