@@ -118,7 +118,6 @@ SOURCES += main.cpp\
     db/view_editor.cpp \
     db/view_structure.cpp \
     db/view_structure_parser.cpp \
-    db/user_manager.cpp \
     db/user_query/batch_executor.cpp \
     db/user_query/sentences_parser.cpp \
     db/user_query/user_query.cpp \
@@ -136,6 +135,7 @@ SOURCES += main.cpp\
     models/db/variables_table_model.cpp \
     models/db/query_data_sort_filter_proxy_model.cpp \
     models/db/routine_parameters_model.cpp \
+    models/db/users_table_model.cpp \
     models/delegates/checkbox_delegate.cpp \
     models/delegates/combobox_delegate.cpp \
     models/delegates/foreign_key_columns_delegate.cpp \
@@ -220,6 +220,9 @@ SOURCES += main.cpp\
     ui/main_window/central_widget.cpp \
     ui/main_window/main_window.cpp \
     ui/main_window/main_window_status_bar.cpp \
+    ui/user_manager/window.cpp \
+    ui/user_manager/left_widget.cpp \
+    ui/user_manager/right_widget.cpp \
     ui/session_manager/session_form.cpp \
     ui/session_manager/settings_tab.cpp \
     ui/session_manager/ssh_tunnel_tab.cpp \
@@ -302,6 +305,7 @@ HEADERS  +=  app/actions.h \
     models/db/variables_table_model.h \
     models/db/query_data_sort_filter_proxy_model.h \
     models/db/routine_parameters_model.h \
+    models/db/users_table_model.h \
     models/delegates/checkbox_delegate.h \
     models/delegates/combobox_delegate.h \
     models/delegates/foreign_key_columns_delegate.h \
@@ -388,6 +392,9 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_widget.h \
     ui/main_window/main_window.h \
     ui/main_window/main_window_status_bar.h \
+    ui/user_manager/window.h \
+    ui/user_manager/left_widget.h \
+    ui/user_manager/right_widget.h \
     ui/session_manager/session_form.h \
     ui/session_manager/settings_tab.h \
     ui/session_manager/ssh_tunnel_tab.h \
@@ -412,7 +419,8 @@ WITH_MYSQL {
     db/mysql/mysql_connection.cpp \
     db/mysql/mysql_query_data_fetcher.cpp \
     db/mysql/mysql_table_editor.cpp \
-    db/mysql/mysql_table_engines_fetcher.cpp
+    db/mysql/mysql_table_engines_fetcher.cpp \
+    db/mysql/mysql_user_manager.cpp
 }
 
 WITH_POSTGRESQL {
@@ -453,7 +461,8 @@ WITH_MYSQL {
     db/mysql/mysql_connection.h \
     db/mysql/mysql_query_data_fetcher.h \
     db/mysql/mysql_table_editor.h \
-    db/mysql/mysql_table_engines_fetcher.h
+    db/mysql/mysql_table_engines_fetcher.h \
+    db/mysql/mysql_user_manager.h
 }
 
 WITH_POSTGRESQL {
