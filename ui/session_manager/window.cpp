@@ -401,6 +401,8 @@ void Window::openCurrentSession()
     if (opened) {
         accept(); // close this dialog
     }
+
+    _mainWindow->show();
 }
 
 void Window::selectSessionAt(int rowIndex)
