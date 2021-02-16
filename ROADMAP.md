@@ -2,16 +2,6 @@
 
 ## Task pool (by priority)
 
-MySQL: Procedure form (edit, create)
-
-MySQL: Function form (edit, create)
-
-MySQL: Trigger form (r/o)
-
-MySQL: Trigger form (edit, create)
-
-User management
-
 Host Tab: Variables for MySQL (edit)
 
 SSH Tunnel via libSSH
@@ -97,6 +87,14 @@ Table tools: bulk table editor
 Table tools: find text
 
 Data Grid: insert files into text/blob fields
+
+## 0.4.9
+
+MySQL: Trigger form (r/o)
+
+MySQL: Trigger form (edit, create)
+
+User management
 
 ## 0.4.8
 
