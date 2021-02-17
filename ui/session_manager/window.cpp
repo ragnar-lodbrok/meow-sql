@@ -78,7 +78,6 @@ void Window::createLeftSubWidgets()
 
     createSessionsList();
     createLeftWidgetButtons();
-
 }
 
 void Window::createSessionsList()
@@ -116,6 +115,12 @@ void Window::createSessionsList()
             &QItemSelectionModel::selectionChanged,
             this,
             &Window::currentSessionDetailsChanged
+    );
+
+    connect(_sessionsList,
+            &QTableView::doubleClicked,
+            this,
+            &Window::currentSessionDoubleClicked
     );
 }
 
@@ -275,6 +280,17 @@ void Window::currentSessionDetailsChanged(
     validateControls();
 }
 
+void Window::currentSessionDoubleClicked(const QModelIndex &index)
+{
+    // Allow session name to be edibable
+    if (index.column() == 0) {
+        return;
+    }
+
+    selectSessionAt(index.row());
+    openCurrentSession();
+}
+
 void Window::validateControls()
 {
     // TODO: session form controls
@@ -314,14 +330,11 @@ void Window::createNewSession()
     if (selectedIndexes.size() == 0) {
         return;
     }
+
     QModelIndex index = selectedIndexes.at(0);
     _sessionsList->scrollTo(index);
-
-    _sessionsList->edit(
-                _connectionParamsModel->indexForSessionNameAt(index.row()));
+    _sessionsList->edit(index);
 }
-
-
 
 void Window::deleteCurrentSession()
 {
