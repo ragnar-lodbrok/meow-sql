@@ -21,7 +21,8 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
       _routineTab(nullptr),
       _triggerTab(nullptr),
       _dataTab(nullptr),
-      _queryTab(nullptr)
+      _addQueryTab(nullptr),
+      _queryTabsTitleIndex(0)
 {
 
     connect(meow::app()->dbConnectionsManager(),
@@ -44,6 +45,8 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
                 }
             }
     );
+
+    _queryTabs = new QHash<QString, central_right::QueryTab *>();
 }
 
 void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
@@ -156,8 +159,22 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
         }
     }
 
-    if (_model.hasQueryTab()) {
+    if (!hasQueryTabs()) {
+        _rootTabs->setTabsClosable(true);
+
+        // an ugly hack to hide close button for every tab except for query tabs
+        // QTabWidget doesn't allow us to set per-tab close button so we enable
+        // close buttons for all tabs and then hide them for every tab before
+        // query tabs start. it's save because query tabs will always be after
+        // other tabs
+        for (int i = 0; i < _model.indexForQueryTab(); i++) {
+            _rootTabs->tabBar()->tabButton(i, QTabBar::RightSide)->resize(0, 0);
+        }
+
+        connect(_rootTabs, &QTabWidget::tabCloseRequested, this, &CentralRightWidget::onCloseQueryTabClicked);
+
         queryTab();
+        addQueryTab();
     }
 }
 
@@ -337,6 +354,21 @@ void CentralRightWidget::onDataTabDataChanged()
     }
 }
 
+void CentralRightWidget::onAddQueryTabClicked(int index)
+{
+    queryTab();
+}
+
+void CentralRightWidget::onCloseQueryTabClicked(int index)
+{
+    QWidget *tab = _rootTabs->widget(index);
+
+    QString tabTitle = _rootTabs->tabText(index);
+    _queryTabs->remove(tabTitle);
+
+    removeTab(tab);
+}
+
 central_right::HostTab * CentralRightWidget::hostTab()
 {
     if (!_hostTab) {
@@ -437,19 +469,48 @@ central_right::DataTab * CentralRightWidget::dataTab()
     return _dataTab;
 }
 
+central_right::AddQueryTab * CentralRightWidget::addQueryTab()
+{
+    if (!_addQueryTab) {
+        _addQueryTab = new central_right::AddQueryTab();
+
+        int tabIndex = _rootTabs->insertTab(_rootTabs->count(), // already +1
+                _addQueryTab,
+                QString());
+
+        _rootTabs->setTabEnabled(tabIndex, false);
+
+        QPushButton *addTabBtn = new QPushButton();
+        addTabBtn->setIcon(QIcon::fromTheme("tab-new")); // TODO internal icon
+        _rootTabs->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, addTabBtn);
+
+        _rootTabs->setStyleSheet(QString::fromUtf8("QTabBar::tab:disabled { background: transparent; }"
+                                                   "QPushButton { background-color: transparent; border: none; }"
+                                                   "QPushButton:hover { background-color: black; }"));
+
+        connect(addTabBtn, &QPushButton::clicked,
+                this, &CentralRightWidget::onAddQueryTabClicked);
+    }
+
+    return _addQueryTab;
+}
 
 central_right::QueryTab * CentralRightWidget::queryTab()
 {
-    if (!_queryTab) {
-        auto conMngr = meow::app()->dbConnectionsManager();
-        _queryTab = new central_right::QueryTab(conMngr->userQueryAt(0));
-        _rootTabs->insertTab(_model.indexForQueryTab(),
-                             _queryTab,
-                             QIcon(":/icons/execute.png"),
-                             _model.titleForQueryTab());
-    }
+    auto conMngr = meow::app()->dbConnectionsManager();
 
-    return _queryTab;
+    int tabIndex = _model.indexForQueryTab() + _queryTabs->size(); // already +1
+    central_right::QueryTab *queryTab = new central_right::QueryTab(conMngr->userQueryAt(tabIndex));
+
+    QString tabTitle = _model.titleForQueryTab(_queryTabsTitleIndex++);
+    _queryTabs->insert(tabTitle, queryTab);
+
+    _rootTabs->insertTab(tabIndex,
+            queryTab,
+            QIcon(":/icons/execute.png"),
+            tabTitle);
+
+    return queryTab;
 }
 
 void CentralRightWidget::removeAllRootTabs()
@@ -462,6 +523,7 @@ void CentralRightWidget::removeAllRootTabs()
     removeRoutineTab();
     removeTriggerTab();
     removeDataTab();
+    removeAddQueryTab();
 }
 
 bool CentralRightWidget::removeHostTab()
@@ -475,10 +537,31 @@ bool CentralRightWidget::removeHostTab()
 
 bool CentralRightWidget::removeQueryTabs()
 {
-    if (removeTab(_queryTab)) {
-        _queryTab = nullptr;
+    // TODO find a better way to distinguish query tabs among other tabs
+    if (_queryTabs->size()) {
+        int totalTabCount = _rootTabs->count();
+
+        QList<QString> tabTitles = _queryTabs->keys();
+        for (QList<QString>::iterator it = tabTitles.begin(); it != tabTitles.end(); ++it) {
+
+            // check if totalTabs[i] is a query tab, remove it if yes
+            for (int i = 0; i < totalTabCount; i++) {
+                QWidget *tab = _rootTabs->widget(i);
+                QString tabTitle = _rootTabs->tabText(i);
+
+                if (*it == tabTitle) {
+                    removeTab(tab);
+                }
+            }
+        }
+
+        _queryTabs->clear();
+
+        _queryTabsTitleIndex = 0;
+
         return true;
     }
+
     return false;
 }
 
@@ -536,6 +619,15 @@ bool CentralRightWidget::removeDataTab()
     return false;
 }
 
+bool CentralRightWidget::removeAddQueryTab()
+{
+    if (removeTab(_addQueryTab)) {
+        _addQueryTab = nullptr;
+        return true;
+    }
+    return false;
+}
+
 void CentralRightWidget::removeEntityTabsExcept(db::Entity::Type except)
 {
     if (except != db::Entity::Type::Table) {
@@ -572,6 +664,11 @@ bool CentralRightWidget::showGlobalFilterPanel() const
         return meow::app()->settings()->geometrySettings()->showFilterPanel();
     }
     return false;
+}
+
+bool CentralRightWidget::hasQueryTabs() const
+{
+    return !_queryTabs->empty();
 }
 
 } // namespace meow

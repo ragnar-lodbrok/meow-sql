@@ -218,6 +218,7 @@ set(SOURCE_FILES
     ui/main_window/central_right/routine/cr_routine_info_parameters_tab.cpp
     ui/main_window/central_right/routine/cr_routine_parameters_tools.cpp
     ui/main_window/central_right/query/central_right_query_tab.cpp
+    ui/main_window/central_right/query/central_right_add_query_tab.cpp
     ui/main_window/central_right/query/cr_query_data_tab.cpp
     ui/main_window/central_right/query/cr_query_panel.cpp
     ui/main_window/central_right/query/cr_query_result.cpp

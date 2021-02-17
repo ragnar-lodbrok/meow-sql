@@ -8,10 +8,12 @@
 #include "central_right/table/central_right_table_tab.h"
 #include "central_right/data/central_right_data_tab.h"
 #include "central_right/query/central_right_query_tab.h"
+#include "central_right/query/central_right_add_query_tab.h"
 #include "central_right/view/central_right_view_tab.h"
 #include "central_right/routine/central_right_routine_tab.h"
 #include "central_right/trigger/central_right_trigger_tab.h"
 #include "central_right/filter_widget.h"
+#include <iostream>
 
 namespace meow {
 namespace ui {
@@ -45,6 +47,8 @@ private:
 
     Q_SLOT void rootTabChanged(int index);
     Q_SLOT void onDataTabDataChanged();
+    Q_SLOT void onAddQueryTabClicked(int index);
+    Q_SLOT void onCloseQueryTabClicked(int index);
 
     central_right::HostTab * hostTab();
     central_right::DatabaseTab * databaseTab();
@@ -54,10 +58,12 @@ private:
     central_right::TriggerTab * triggerTab();
     central_right::DataTab * dataTab();
     central_right::QueryTab * queryTab();
+    central_right::AddQueryTab * addQueryTab();
 
     void removeAllRootTabs();
     bool removeHostTab();
     bool removeQueryTabs();
+    bool removeAddQueryTab();
     bool removeDatabaseTab();
     bool removeTableTab();
     bool removeViewTab();
@@ -69,6 +75,7 @@ private:
     bool removeTab(QWidget * tab);
 
     bool showGlobalFilterPanel() const;
+    bool hasQueryTabs() const; // TODO as Entry::Type::Query ?
 
     models::ui::CentralRightWidgetModel _model;
 
@@ -80,8 +87,11 @@ private:
     central_right::RoutineTab * _routineTab;
     central_right::TriggerTab * _triggerTab;
     central_right::DataTab * _dataTab;
-    central_right::QueryTab * _queryTab;
+    central_right::AddQueryTab * _addQueryTab;
+    QHash<QString, central_right::QueryTab *> * _queryTabs;
     central_right::FilterWidget * _filterWidget;
+
+    int _queryTabsTitleIndex;
 };
 
 

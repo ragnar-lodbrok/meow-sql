@@ -9,7 +9,7 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) : 
+QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) :
     QWidget(parent),
     _query(query)
 {

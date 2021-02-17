@@ -39,7 +39,7 @@ public:
     QString titleForRoutineTab() const;
     QString titleForTriggerTab() const;
     QString titleForDataTab() const;
-    QString titleForQueryTab() const;
+    QString titleForQueryTab(int index) const;
 
     QIcon iconForRoutineTab() const;
 
@@ -51,7 +51,7 @@ public:
     bool hasDatabase() const;
     bool hasDataTab() const;
     bool hasEntityTab() const;
-    bool hasQueryTab() const;
+    bool hasQueryTabs() const;
 
 private:
     meow::db::EntityHolder _entityHolder;

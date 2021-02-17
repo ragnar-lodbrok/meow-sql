@@ -91,11 +91,6 @@ bool CentralRightWidgetModel::hasEntityTab() const
     return false;
 }
 
-bool CentralRightWidgetModel::hasQueryTab() const
-{
-    return _entityHolder.currentEntity() != nullptr;
-}
-
 QString CentralRightWidgetModel::titleForHostTab() const
 {
     if (_entityHolder.currentEntity()) {
@@ -240,9 +235,9 @@ QString CentralRightWidgetModel::titleForDataTab() const
     return QObject::tr("Data");
 }
 
-QString CentralRightWidgetModel::titleForQueryTab() const
+QString CentralRightWidgetModel::titleForQueryTab(int index = 0) const
 {
-    return QObject::tr("Query");
+    return QObject::tr("Query #%1").arg(index);
 }
 
 QIcon CentralRightWidgetModel::iconForRoutineTab() const

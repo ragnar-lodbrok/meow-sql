@@ -192,6 +192,7 @@ SOURCES += main.cpp\
     ui/main_window/central_right/host/central_right_host_tab.cpp \
     ui/main_window/central_right/host/cr_host_databases_tab.cpp \
     ui/main_window/central_right/host/cr_host_variables_tab.cpp \
+    ui/main_window/central_right/query/central_right_add_query_tab.cpp \
     ui/main_window/central_right/query/central_right_query_tab.cpp \
     ui/main_window/central_right/query/cr_query_data_tab.cpp \
     ui/main_window/central_right/query/cr_query_panel.cpp \
@@ -364,6 +365,7 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_right/host/central_right_host_tab.h \
     ui/main_window/central_right/host/cr_host_databases_tab.h \
     ui/main_window/central_right/host/cr_host_variables_tab.h \
+    ui/main_window/central_right/query/central_right_add_query_tab.h \
     ui/main_window/central_right/query/central_right_query_tab.h \
     ui/main_window/central_right/query/cr_query_data_tab.h \
     ui/main_window/central_right/query/cr_query_panel.h \
