@@ -87,10 +87,10 @@ private:
     central_right::TriggerTab * _triggerTab;
     central_right::DataTab * _dataTab;
     central_right::AddQueryTab * _addQueryTab;
-    QHash<QString, central_right::QueryTab *> * _queryTabs;
     central_right::FilterWidget * _filterWidget;
 
     int _queryTabsTitleIndex;
+    QStringList * _queryTabTitles;
 };
 
 

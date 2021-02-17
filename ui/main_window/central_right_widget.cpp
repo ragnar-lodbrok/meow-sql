@@ -46,7 +46,7 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
             }
     );
 
-    _queryTabs = new QHash<QString, central_right::QueryTab *>();
+    _queryTabTitles = new QStringList();
 }
 
 void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
@@ -365,7 +365,7 @@ void CentralRightWidget::onCloseQueryTabClicked(int index)
     QWidget *tab = _rootTabs->widget(index);
 
     QString tabTitle = _rootTabs->tabText(index);
-    _queryTabs->remove(tabTitle);
+    _queryTabTitles->removeOne(tabTitle);
 
     removeTab(tab);
 }
@@ -500,11 +500,11 @@ central_right::QueryTab * CentralRightWidget::queryTab()
 {
     auto conMngr = meow::app()->dbConnectionsManager();
 
-    int tabIndex = _model.indexForQueryTab() + _queryTabs->size(); // already +1
+    int tabIndex = _model.indexForQueryTab() + _queryTabTitles->size(); // already +1
     central_right::QueryTab *queryTab = new central_right::QueryTab(conMngr->userQueryAt(tabIndex));
 
     QString tabTitle = _model.titleForQueryTab(!_queryTabsTitleIndex ? 0 : _queryTabsTitleIndex + 1); // start tab names from 1
-    _queryTabs->insert(tabTitle, queryTab);
+    _queryTabTitles->append(tabTitle);
 
     _queryTabsTitleIndex++;
 
@@ -541,24 +541,22 @@ bool CentralRightWidget::removeHostTab()
 bool CentralRightWidget::removeQueryTabs()
 {
     // TODO find a better way to distinguish query tabs among other tabs
-    if (_queryTabs->size()) {
+    if (_queryTabTitles->size()) {
         int totalTabCount = _rootTabs->count();
 
-        QList<QString> tabTitles = _queryTabs->keys();
-        for (QList<QString>::iterator it = tabTitles.begin(); it != tabTitles.end(); ++it) {
+        for (QStringList::iterator it = _queryTabTitles->begin(); it != _queryTabTitles->end(); ++it) {
 
             // check if totalTabs[i] is a query tab, remove it if yes
             for (int i = 0; i < totalTabCount; i++) {
-                QWidget *tab = _rootTabs->widget(i);
                 QString tabTitle = _rootTabs->tabText(i);
-
                 if (*it == tabTitle) {
+                    QWidget *tab = _rootTabs->widget(i);
                     removeTab(tab);
                 }
             }
         }
 
-        _queryTabs->clear();
+        _queryTabTitles->clear();
 
         _queryTabsTitleIndex = 0;
 
@@ -671,7 +669,7 @@ bool CentralRightWidget::showGlobalFilterPanel() const
 
 bool CentralRightWidget::hasQueryTabs() const
 {
-    return !_queryTabs->empty();
+    return !_queryTabTitles->empty();
 }
 
 } // namespace meow
