@@ -120,7 +120,7 @@ void Window::createSessionsList()
     connect(_sessionsList,
             &QTableView::doubleClicked,
             this,
-            &Window::currentSessionDoubleClicked
+            &Window::sessionDoubleClicked
     );
 }
 
@@ -280,10 +280,11 @@ void Window::currentSessionDetailsChanged(
     validateControls();
 }
 
-void Window::currentSessionDoubleClicked(const QModelIndex &index)
+void Window::sessionDoubleClicked(const QModelIndex &index)
 {
-    // Allow session name to be edibable
-    if (index.column() == 0) {
+    // Allow session name to be editable
+    using SessionColumns = meow::models::db::ConnectionParamsModel::Columns;
+    if (static_cast<SessionColumns>(index.column()) == SessionColumns::SessionName) {
         return;
     }
 
@@ -333,7 +334,8 @@ void Window::createNewSession()
 
     QModelIndex index = selectedIndexes.at(0);
     _sessionsList->scrollTo(index);
-    _sessionsList->edit(index);
+    _sessionsList->edit(
+                    _connectionParamsModel->indexForSessionNameAt(index.row()));
 }
 
 void Window::deleteCurrentSession()
