@@ -315,6 +315,12 @@ void CentralRightWidget::rootTabChanged(int index)
 
     if (index < 0) return;
 
+    // If last query tab closed, select previous tab
+    if (index == _rootTabs->count() - 1) {
+        int tabIndex = _model.indexForQueryTab() + _queryTabTitles->size() - 1;
+        _rootTabs->setCurrentIndex(tabIndex);
+    }
+
     try {
         if (onDataTab()) {
             dataTab()->loadData();
@@ -358,6 +364,10 @@ void CentralRightWidget::onAddQueryTabClicked(int index)
 {
     Q_UNUSED(index);
     queryTab();
+
+    // Switch to new query tab
+    int tabIndex = _model.indexForQueryTab() + _queryTabTitles->size() - 1;
+    _rootTabs->setCurrentIndex(tabIndex);
 }
 
 void CentralRightWidget::onCloseQueryTabClicked(int index)
