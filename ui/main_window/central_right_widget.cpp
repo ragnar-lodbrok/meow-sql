@@ -162,19 +162,19 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
     if (!hasQueryTabs()) {
         _rootTabs->setTabsClosable(true);
 
+        queryTab();
+        addQueryTab();
+
         // an ugly hack to hide close button for every tab except for query tabs
         // QTabWidget doesn't allow us to set per-tab close button so we enable
         // close buttons for all tabs and then hide them for every tab before
         // query tabs start. it's save because query tabs will always be after
         // other tabs
-        for (int i = 0; i < _model.indexForQueryTab(); i++) {
+        for (int i = 0; i <= _model.indexForQueryTab(); i++) {
             _rootTabs->tabBar()->tabButton(i, QTabBar::RightSide)->resize(0, 0);
         }
 
         connect(_rootTabs, &QTabWidget::tabCloseRequested, this, &CentralRightWidget::onCloseQueryTabClicked);
-
-        queryTab();
-        addQueryTab();
     }
 }
 
@@ -356,6 +356,7 @@ void CentralRightWidget::onDataTabDataChanged()
 
 void CentralRightWidget::onAddQueryTabClicked(int index)
 {
+    Q_UNUSED(index);
     queryTab();
 }
 
@@ -481,12 +482,12 @@ central_right::AddQueryTab * CentralRightWidget::addQueryTab()
         _rootTabs->setTabEnabled(tabIndex, false);
 
         QPushButton *addTabBtn = new QPushButton();
-        addTabBtn->setIcon(QIcon::fromTheme("tab-new")); // TODO internal icon
+        addTabBtn->setIcon(QIcon(":/icons/tab_add.png"));
         _rootTabs->tabBar()->setTabButton(tabIndex, QTabBar::RightSide, addTabBtn);
 
-        _rootTabs->setStyleSheet(QString::fromUtf8("QTabBar::tab:disabled { background: transparent; }"
+        _rootTabs->setStyleSheet(QString::fromUtf8("QTabBar::tab:disabled { background: transparent; padding-left: 5px; }"
                                                    "QPushButton { background-color: transparent; border: none; }"
-                                                   "QPushButton:hover { background-color: black; }"));
+                                                   "QPushButton:hover { background-color: rgba(0, 0, 0, .2); }"));
 
         connect(addTabBtn, &QPushButton::clicked,
                 this, &CentralRightWidget::onAddQueryTabClicked);
@@ -502,8 +503,10 @@ central_right::QueryTab * CentralRightWidget::queryTab()
     int tabIndex = _model.indexForQueryTab() + _queryTabs->size(); // already +1
     central_right::QueryTab *queryTab = new central_right::QueryTab(conMngr->userQueryAt(tabIndex));
 
-    QString tabTitle = _model.titleForQueryTab(_queryTabsTitleIndex++);
+    QString tabTitle = _model.titleForQueryTab(!_queryTabsTitleIndex ? 0 : _queryTabsTitleIndex + 1); // start tab names from 1
     _queryTabs->insert(tabTitle, queryTab);
+
+    _queryTabsTitleIndex++;
 
     _rootTabs->insertTab(tabIndex,
             queryTab,

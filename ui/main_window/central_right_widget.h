@@ -13,7 +13,6 @@
 #include "central_right/routine/central_right_routine_tab.h"
 #include "central_right/trigger/central_right_trigger_tab.h"
 #include "central_right/filter_widget.h"
-#include <iostream>
 
 namespace meow {
 namespace ui {

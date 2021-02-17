@@ -237,6 +237,10 @@ QString CentralRightWidgetModel::titleForDataTab() const
 
 QString CentralRightWidgetModel::titleForQueryTab(int index = 0) const
 {
+    if (!index) {
+        return QObject::tr("Query");
+    }
+
     return QObject::tr("Query #%1").arg(index);
 }
 
