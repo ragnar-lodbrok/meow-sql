@@ -358,6 +358,7 @@ HEADERS  +=  app/actions.h \
     ui/export_database/top_widget.h \
     ui/main_window/central_left_db_tree.h \
     ui/main_window/central_left_widget.h \
+    ui/main_window/central_right/base_root_tab.h \
     ui/main_window/central_right/database/central_right_database_tab.h \
     ui/main_window/central_right/data/central_right_data_tab.h \
     ui/main_window/central_right/filter_widget.h \

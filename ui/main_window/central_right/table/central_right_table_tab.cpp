@@ -8,7 +8,8 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-TableTab::TableTab(QWidget * parent) : QWidget(parent)
+TableTab::TableTab(QWidget * parent)
+    : BaseRootTab(BaseRootTab::Type::Entity, parent)
 {
     createWidgets();
 

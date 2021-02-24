@@ -19,7 +19,7 @@ class ConnectionParamsModel : public QAbstractTableModel
 
 public:
     enum class Columns {
-      Session = 0,
+      SessionName = 0,
       Host,
       Count
     };

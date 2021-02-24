@@ -2,6 +2,7 @@
 #define UI_CENTRAL_RIGHT_ROUTINE_TAB_H
 
 #include <QtWidgets>
+#include "ui/main_window/central_right/base_root_tab.h"
 #include "models/forms/routine_form.h"
 
 namespace meow {
@@ -17,7 +18,7 @@ namespace central_right {
 class RoutineInfo;
 class RoutineBody;
 
-class RoutineTab : public QWidget
+class RoutineTab : public BaseRootTab
 {
 public:
     explicit RoutineTab(QWidget * parent = nullptr);

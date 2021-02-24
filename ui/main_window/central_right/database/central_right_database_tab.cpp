@@ -7,8 +7,8 @@ namespace main_window {
 namespace central_right {
 
 DatabaseTab::DatabaseTab(QWidget *parent)
-    : QWidget(parent),
-      _model()
+    : BaseRootTab(BaseRootTab::Type::DataBase, parent)
+    , _model()
 {
     _mainLayout = new QVBoxLayout();
     _mainLayout->setContentsMargins(2, 2, 2, 2);

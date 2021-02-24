@@ -10,7 +10,7 @@ namespace main_window {
 namespace central_right {
 
 QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) :
-    QWidget(parent),
+    BaseRootTab(BaseRootTab::Type::Query, parent),
     _query(query)
 {
     createWidgets();

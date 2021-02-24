@@ -6,7 +6,8 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-ViewTab::ViewTab(QWidget * parent) : QWidget(parent)
+ViewTab::ViewTab(QWidget * parent)
+    : BaseRootTab(BaseRootTab::Type::Entity, parent)
 {
     createWidgets();
 
