@@ -65,6 +65,7 @@ set(HEADER_FILES
     ssh/ssh_tunnel_interface.h
     ui/common/mysql_syntax.h
     ui/main_window/central_right/global_data_filter_interface.h
+    ui/main_window/central_right/base_root_tab.h
 )
 
 if(WITH_MYSQL)

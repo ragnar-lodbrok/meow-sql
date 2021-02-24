@@ -7,7 +7,7 @@ namespace main_window {
 namespace central_right {
 
 HostTab::HostTab(QWidget *parent)
-    : QWidget(parent)
+    : BaseRootTab(BaseRootTab::Type::Host, parent)
     , _variablesTab(nullptr)
 {
     createRootTabs();
@@ -89,13 +89,14 @@ void HostTab::setCurrentEntity(meow::db::SessionEntity * curEntity)
 void HostTab::onSessionChanged(meow::db::SessionEntity * session)
 {
     _databasesTab->setSession(session);
-    _rootTabs->setTabText(Tabs::Databases, _model.titleForDatabasesTab());
+    _rootTabs->setTabText(static_cast<int>(Tabs::Databases),
+                          _model.titleForDatabasesTab());
 
     if (_model.showVariablesTab()) {
 
         variablesTab(); // create tab
 
-        if (_rootTabs->currentIndex() == Tabs::Variables) {
+        if (static_cast<Tabs>(_rootTabs->currentIndex()) == Tabs::Variables) {
             // lazy load
             try {
                 variablesTab()->setSession(session);
@@ -104,7 +105,8 @@ void HostTab::onSessionChanged(meow::db::SessionEntity * session)
             }
 
         }
-        _rootTabs->setTabText(Tabs::Variables, _model.titleForVariablesTab());
+        _rootTabs->setTabText(static_cast<int>(Tabs::Variables),
+                              _model.titleForVariablesTab());
 
     } else {
         removeVariablesTab();
@@ -113,13 +115,14 @@ void HostTab::onSessionChanged(meow::db::SessionEntity * session)
 
 void HostTab::rootTabChanged(int index)
 {
-    if (_model.showVariablesTab() && index == Tabs::Variables) {
+    if (_model.showVariablesTab() && static_cast<Tabs>(index) == Tabs::Variables) {
         try {
             variablesTab()->setSession(_model.currentSession());
         } catch(meow::db::Exception & ex) {
             showErrorMessage(ex.message());
         }
-        _rootTabs->setTabText(Tabs::Variables, _model.titleForVariablesTab());
+        _rootTabs->setTabText(static_cast<int>(Tabs::Variables),
+                              _model.titleForVariablesTab());
     }
 }
 
@@ -135,15 +138,16 @@ void HostTab::showErrorMessage(const QString& message)
 
 void HostTab::onGlobalRefresh()
 {
-    if (_rootTabs->currentIndex() == Tabs::Databases) {
+    if (static_cast<Tabs>(_rootTabs->currentIndex()) == Tabs::Databases) {
         // TODO
-    } else if (_rootTabs->currentIndex() == Tabs::Variables) {
+    } else if (static_cast<Tabs>(_rootTabs->currentIndex()) == Tabs::Variables) {
         try {
             variablesTab()->model()->refresh();
         } catch(meow::db::Exception & ex) {
             showErrorMessage(ex.message());
         }
-        _rootTabs->setTabText(Tabs::Variables, _model.titleForVariablesTab());
+        _rootTabs->setTabText(static_cast<int>(Tabs::Variables),
+                              _model.titleForVariablesTab());
     }
 }
 

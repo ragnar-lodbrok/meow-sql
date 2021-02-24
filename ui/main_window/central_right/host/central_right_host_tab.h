@@ -2,6 +2,7 @@
 #define UI_CENTRAL_RIGHT_HOST_TAB_H
 
 #include <QtWidgets>
+#include "ui/main_window/central_right/base_root_tab.h"
 #include "cr_host_databases_tab.h"
 #include "cr_host_variables_tab.h"
 #include "models/ui/central_right_host_widget_model.h"
@@ -11,14 +12,14 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-class HostTab : public QWidget
+class HostTab : public BaseRootTab
 {
     Q_OBJECT
 public:
     explicit HostTab(QWidget *parent = nullptr);
     void setCurrentEntity(meow::db::SessionEntity * curEntity);
 
-    enum Tabs {
+    enum class Tabs {
         Databases,
         Variables
     };

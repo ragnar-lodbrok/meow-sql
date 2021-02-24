@@ -2,6 +2,7 @@
 #define UI_CENTRAL_RIGHT_TRIGGER_TAB_H
 
 #include <QtWidgets>
+#include "ui/main_window/central_right/base_root_tab.h"
 #include "models/forms/trigger_form.h"
 
 namespace meow {
@@ -17,7 +18,7 @@ namespace central_right {
 class TriggerOptions;
 class TriggerBody;
 
-class TriggerTab : public QWidget
+class TriggerTab : public BaseRootTab
 {
 public:
     explicit TriggerTab(QWidget * parent = nullptr);
