@@ -90,7 +90,7 @@ private:
     central_right::FilterWidget * _filterWidget;
 
     int _queryTabsTitleIndex;
-    QStringList * _queryTabTitles;
+    QStringList _queryTabTitles;
 };
 
 

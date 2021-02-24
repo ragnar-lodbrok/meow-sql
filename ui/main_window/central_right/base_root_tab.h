@@ -18,7 +18,8 @@ public:
         DataBase,
         Entity,
         Data,
-        Query
+        Query,
+        AddQuery
     };
 
     explicit BaseRootTab(Type type, QWidget * parent = nullptr)

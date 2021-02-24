@@ -91,6 +91,11 @@ bool CentralRightWidgetModel::hasEntityTab() const
     return false;
 }
 
+bool CentralRightWidgetModel::hasQueryTabs() const
+{
+    return _entityHolder.currentEntity() != nullptr;
+}
+
 QString CentralRightWidgetModel::titleForHostTab() const
 {
     if (_entityHolder.currentEntity()) {

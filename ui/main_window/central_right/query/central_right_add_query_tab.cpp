@@ -5,15 +5,15 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-AddQueryTab::AddQueryTab(QWidget *parent) :
-    QWidget(parent)
+AddQueryTab::AddQueryTab(QWidget *parent)
+    : BaseRootTab(BaseRootTab::Type::AddQuery, parent)
 {
     createWidgets();
 }
 
 void AddQueryTab::createWidgets()
 {
-    
+
 }
 
 } // namespace central_right
