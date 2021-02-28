@@ -9,6 +9,7 @@ namespace user_manager {
 
 Window::Window(main_window::Window * mainWindow, db::SessionEntity * session)
     : QDialog(mainWindow, Qt::WindowCloseButtonHint)
+    , _form(session->connection()->userManager())
     , _mainWindow(mainWindow)
     , _session(session)
 {
@@ -17,6 +18,9 @@ Window::Window(main_window::Window * mainWindow, db::SessionEntity * session)
 
     setMinimumSize(QSize(800, 400));
     setWindowTitle(tr("User manager"));
+
+    connect(&_form, &models::forms::UserManagementForm::selectedUserChanged,
+            this, &Window::onSelectedUserChanged);
 
     //loadGeometryFromSettings(); // TODO
 }
@@ -28,24 +32,34 @@ Window::~Window()
 
 void Window::createWidgets()
 {
-    QHBoxLayout * mainLayout = new QHBoxLayout();
-    mainLayout->setContentsMargins(0, 0, 0, 0);
+    QVBoxLayout * mainLayout = new QVBoxLayout();
+    //mainLayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(mainLayout);
 
     _splitter = new QSplitter(this);
     _splitter->setChildrenCollapsible(false);
     mainLayout->addWidget(_splitter);
 
-    _leftWidget = new LeftWidget(_session);
+    _leftWidget = new LeftWidget(&_form);
     _leftWidget->setMinimumSize(QSize(300, 400));
 
-    _rightWidget = new RightWidget();
+    _rightWidget = new RightWidget(&_form);
     _rightWidget->setMinimumSize(QSize(470, 400));
 
     _splitter->addWidget(_leftWidget);
     _splitter->setStretchFactor(0, 1);
     _splitter->addWidget(_rightWidget);
     _splitter->setStretchFactor(1, 2);
+
+    _warningLabel = new QLabel();
+    _warningLabel->setWordWrap(true);
+    mainLayout->addWidget(_warningLabel);
+
+}
+
+void Window::onSelectedUserChanged()
+{
+    _warningLabel->setText(_form.userWarningMessage());
 }
 
 } // namespace user_manager

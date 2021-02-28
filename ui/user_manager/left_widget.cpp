@@ -2,23 +2,29 @@
 #include "app/app.h"
 #include "db/entity/session_entity.h"
 #include "db/connection.h"
+#include <QDebug>
 
 namespace meow {
 namespace ui {
 namespace user_manager {
 
-LeftWidget::LeftWidget(db::SessionEntity *session,
+LeftWidget::LeftWidget(models::forms::UserManagementForm * form,
                        QWidget *parent)
     : QWidget(parent)
     , _tableModel(this)
+    , _form(form)
 {
-    _tableModel.setUserManager(session->connection()->userManager());
+    _tableModel.setUserManager(form->userManager());
     createWidgets();
+
+    connect(_form, &models::forms::UserManagementForm::selectedUserChanged,
+            this, &LeftWidget::onSelectedUserChanged);
 }
 
 void LeftWidget::createWidgets()
 {
     QVBoxLayout * mainLayout = new QVBoxLayout();
+    mainLayout->setContentsMargins(0, 0, 0, 0);
 
     _usersLabel = new QLabel(tr("Select user account:"));
     mainLayout->addWidget(_usersLabel);
@@ -45,13 +51,40 @@ void LeftWidget::createWidgets()
         _userList->setColumnWidth(i, _tableModel.columnWidth(i));
     }
 
-    /*connect(_userList->selectionModel(),
+    connect(_userList->selectionModel(),
             &QItemSelectionModel::selectionChanged,
             this,
-            &Window::currentSessionDetailsChanged
-    );*/
+            &LeftWidget::userListSelectionChanged
+    );
 
     this->setLayout(mainLayout);
+}
+
+void LeftWidget::userListSelectionChanged(const QItemSelection &selected,
+                                          const QItemSelection &deselected)
+{
+
+    Q_UNUSED(deselected);
+
+    QModelIndex index;
+    QModelIndexList items = selected.indexes();
+
+    if (!items.isEmpty()) {
+        index = items.at(0);
+        QModelIndex realIndex = _proxyTableModel.mapToSource(index);
+
+        const meow::db::UserPtr & user
+                = _form->userManager()->userList().value(realIndex.row());
+        _form->selectUser(user);
+
+    } else {
+        _form->selectUser(nullptr);
+    }
+}
+
+void LeftWidget::onSelectedUserChanged()
+{
+
 }
 
 } // namespace user_manager

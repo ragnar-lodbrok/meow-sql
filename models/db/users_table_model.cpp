@@ -98,9 +98,9 @@ int UsersTableModel::columnWidth(int column) const
     switch (static_cast<Columns>(column)) {
 
     case Columns::Username:
-        return 140;
+        return 145;
     case Columns::Host:
-        return 140;
+        return 150;
 
     default:
         break;

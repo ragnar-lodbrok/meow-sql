@@ -14,6 +14,13 @@ public:
     virtual QString currentUserName() const override;
     virtual QStringList allUserNames() const override;
     virtual const QList<UserPtr> & userList(bool refresh = false) const override;
+    virtual QList<User::LimitType> supportedLimitTypes() const override {
+        return { User::LimitType::MaxQueriesPerHour,
+                 User::LimitType::MaxUpdatesPerHour,
+                 User::LimitType::MaxConnectionsPerHour,
+                 User::LimitType::MaxUserConnections
+        };
+    }
 private:
 
     bool skipNameResolve() const;

@@ -159,6 +159,7 @@ SOURCES += main.cpp\
     models/forms/text_editor_popup_form.cpp \
     models/forms/trigger_form.cpp \
     models/forms/view_form.cpp \
+    models/forms/user_management_form.cpp \
     models/forms/routine_form.cpp \
     models/ui/central_right_host_widget_model.cpp \
     models/ui/central_right_widget_model.cpp \
@@ -223,6 +224,10 @@ SOURCES += main.cpp\
     ui/user_manager/window.cpp \
     ui/user_manager/left_widget.cpp \
     ui/user_manager/right_widget.cpp \
+    ui/user_manager/options_widget.cpp \
+    ui/user_manager/privileges_widget.cpp \
+    ui/user_manager/credentials_tab.cpp \
+    ui/user_manager/limitations_tab.cpp \
     ui/session_manager/session_form.cpp \
     ui/session_manager/settings_tab.cpp \
     ui/session_manager/ssh_tunnel_tab.cpp \
@@ -329,6 +334,7 @@ HEADERS  +=  app/actions.h \
     models/forms/text_editor_popup_form.h \
     models/forms/trigger_form.h \
     models/forms/view_form.h \
+    models/forms/user_management_form.h \
     models/forms/routine_form.h \
     models/ui/central_right_host_widget_model.h \
     models/ui/central_right_widget_model.h \
@@ -396,6 +402,10 @@ HEADERS  +=  app/actions.h \
     ui/user_manager/window.h \
     ui/user_manager/left_widget.h \
     ui/user_manager/right_widget.h \
+    ui/user_manager/options_widget.h \
+    ui/user_manager/privileges_widget.h \
+    ui/user_manager/credentials_tab.h \
+    ui/user_manager/limitations_tab.h \
     ui/session_manager/session_form.h \
     ui/session_manager/settings_tab.h \
     ui/session_manager/ssh_tunnel_tab.h \

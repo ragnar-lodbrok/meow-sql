@@ -7,9 +7,9 @@ namespace models {
 namespace forms {
 
 ConnectionParametersForm::ConnectionParametersForm(
-        const meow::db::ConnectionParameters & connectionParams
-    ):QObject(nullptr),
-     _connectionParams(connectionParams)
+        const meow::db::ConnectionParameters & connectionParams)
+    : QObject(nullptr)
+    , _connectionParams(connectionParams)
 {
 
 }

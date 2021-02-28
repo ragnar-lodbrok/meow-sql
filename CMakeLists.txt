@@ -177,6 +177,7 @@ set(SOURCE_FILES
     models/forms/trigger_form.cpp
     models/forms/text_editor_popup_form.cpp
     models/forms/view_form.cpp
+    models/forms/user_management_form.cpp
     models/ui/central_right_host_widget_model.cpp
     models/ui/central_right_widget_model.cpp
     models/ui/table_info_widget_model.cpp
@@ -249,6 +250,10 @@ set(SOURCE_FILES
     ui/user_manager/window.cpp
     ui/user_manager/left_widget.cpp
     ui/user_manager/right_widget.cpp
+    ui/user_manager/options_widget.cpp
+    ui/user_manager/privileges_widget.cpp
+    ui/user_manager/credentials_tab.cpp
+    ui/user_manager/limitations_tab.cpp
     utils/exporting/mysql_dump_console.cpp
 )
 
