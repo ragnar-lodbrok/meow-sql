@@ -42,6 +42,12 @@ void OptionsWidget::createWidgets(models::forms::UserManagementForm * form)
 
 }
 
+void OptionsWidget::fillDataFromForm()
+{
+    _credentialsTab->fillDataFromForm();
+    _limitationsTab->fillDataFromForm();
+}
+
 } // namespace user_manager
 } // namespace ui
 } // namespace meow

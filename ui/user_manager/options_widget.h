@@ -49,6 +49,7 @@ class OptionsWidget : public QWidget
 public:
     explicit OptionsWidget(models::forms::UserManagementForm * form,
                            QWidget * parent = nullptr);
+    void fillDataFromForm();
 private:
 
     void createWidgets(models::forms::UserManagementForm * form);

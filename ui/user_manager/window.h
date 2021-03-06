@@ -28,6 +28,10 @@ public:
                     db::SessionEntity * session);
     ~Window() override;
 
+    void loadData();
+
+    void showErrorMessage(const QString& message);
+
 private:
 
     void createWidgets();

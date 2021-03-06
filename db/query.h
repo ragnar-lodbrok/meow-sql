@@ -58,6 +58,8 @@ public:
 
     QStringList curRow();
 
+    QMap<QString, QString> curRowAsObject();
+
     virtual bool isNull(std::size_t index) = 0; // TODO: add by name mthd
 
     // true if was already prepared

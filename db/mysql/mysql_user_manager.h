@@ -14,21 +14,19 @@ public:
     virtual QString currentUserName() const override;
     virtual QStringList allUserNames() const override;
     virtual const QList<UserPtr> & userList(bool refresh = false) const override;
-    virtual QList<User::LimitType> supportedLimitTypes() const override {
-        return { User::LimitType::MaxQueriesPerHour,
-                 User::LimitType::MaxUpdatesPerHour,
-                 User::LimitType::MaxConnectionsPerHour,
-                 User::LimitType::MaxUserConnections
-        };
-    }
+    virtual QList<User::LimitType> supportedLimitTypes() const override;
+    virtual void loadPrivileges(const UserPtr & user) override;
 private:
 
     bool skipNameResolve() const;
     bool isValidPasswordHashLen(const QString & passwordHash) const;
 
+    QStringList userTableColumns() const;
+
     mutable QString _currentUserName;
     mutable QStringList _currentUserNames;
     mutable QList<UserPtr> _userList;
+    mutable QStringList _userTableColumns;
 };
 
 } // namespace db

@@ -10,6 +10,37 @@ namespace db {
 
 class Connection;
 
+class UserScopePrivilege
+{
+public:
+    enum class Scope {
+        Global,
+        DatabaseLevel,
+        TableLevel,
+        ColumnLevel,
+        RoutineLevel,
+        Proxy // TODO
+    };
+
+    UserScopePrivilege(Scope scope = Scope::Global,
+                       QString databaseName = QString(),
+                       QString entityName = QString())
+        : _scope(scope)
+        , _databaseName(databaseName)
+        , _entityName(entityName)
+    {
+
+    }
+
+private:
+    Scope _scope;
+    QString _databaseName;
+    QString _entityName;
+    QStringList _grantedPrivileges;
+};
+
+using UserScopePrivilegePtr = std::shared_ptr<UserScopePrivilege>;
+
 class User
 {
 public:
@@ -50,6 +81,10 @@ public:
         _limits[type] = value;
     }
 
+    void clearPrivileges() {
+        _limits.clear();
+    }
+
 private:
     Status _status;
     QString _username;
@@ -73,6 +108,9 @@ public:
     virtual QList<User::LimitType> supportedLimitTypes() const {
         return {};
     }
+    virtual void loadPrivileges(const UserPtr & user) = 0;
+    //virtual QStringList supportedPrivilegesForScope(
+    // UserScopePrivilege::Scope scope) = 0; TODO
 protected:
     Connection * _connection;
 };

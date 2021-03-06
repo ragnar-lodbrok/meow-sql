@@ -11,6 +11,11 @@ PrivilegesWidget::PrivilegesWidget(models::forms::UserManagementForm * form,
 
 }
 
+void PrivilegesWidget::fillDataFromForm()
+{
+
+}
+
 } // namespace user_manager
 } // namespace ui
 } // namespace meow

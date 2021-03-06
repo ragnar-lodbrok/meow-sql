@@ -9,11 +9,15 @@ namespace meow {
 namespace ui {
 namespace user_manager {
 
+class Window;
+
 class LeftWidget : public QWidget
 {
 public:
     explicit LeftWidget(models::forms::UserManagementForm * form,
-                        QWidget *parent = nullptr);
+                        Window * window = nullptr);
+
+    void loadData();
 private:
 
     void createWidgets();
@@ -29,6 +33,7 @@ private:
 
     QLabel * _usersLabel;
     QTableView * _userList;
+    Window * _window;
 };
 
 } // namespace user_manager

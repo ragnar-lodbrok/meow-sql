@@ -63,10 +63,9 @@ const QList<UserPtr> & MySQLUserManager::userList(bool refresh) const
 
     _userList.clear();
 
-    _connection->query("FLUSH PRIVILEGES");
+    _connection->query("FLUSH PRIVILEGES"); // do we need it?
 
-    QStringList userTableColumns = _connection->getColumn(
-                "SHOW COLUMNS FROM `mysql`.`user`");
+    QStringList userTableColumns = this->userTableColumns();
 
     bool hasPassword = userTableColumns.contains("password",
                                                  Qt::CaseInsensitive);
@@ -144,6 +143,89 @@ bool MySQLUserManager::isValidPasswordHashLen(const QString & passwordHash) cons
 
     // TODO: is 0 valid len?
     return len == 0 || len == 16 || len == 41;
+}
+
+QList<User::LimitType> MySQLUserManager::supportedLimitTypes() const {
+    QList<User::LimitType> list;
+
+    if (_connection->serverVersionInt() >= 40002) {
+        list << User::LimitType::MaxQueriesPerHour;
+        list << User::LimitType::MaxUpdatesPerHour;
+        list << User::LimitType::MaxConnectionsPerHour;
+    }
+
+    if (_connection->serverVersionInt() >= 50003) {
+        list << User::LimitType::MaxUserConnections;
+    }
+    return list;
+}
+
+void MySQLUserManager::loadPrivileges(const UserPtr & user)
+{
+    user->clearPrivileges();
+
+    // SHOW CREATE USER is available since MySQL 5.7, so we can't use it for
+    // nonprivilege properties on older, so let's use `mysql`.`user`
+
+    QMap<QString, User::LimitType> limitColumns = {
+        { "max_questions" , User::LimitType::MaxQueriesPerHour },
+        { "max_updates" , User::LimitType::MaxUpdatesPerHour },
+        { "max_connections" , User::LimitType::MaxConnectionsPerHour },
+        { "max_user_connections" , User::LimitType::MaxUserConnections },
+    };
+
+    QStringList queryUserColumns;
+    QStringList availableUserColumns = userTableColumns();
+    QStringList wantedUserColumns;
+    wantedUserColumns << limitColumns.keys();
+
+    for (const QString & wanted : wantedUserColumns) {
+        if (availableUserColumns.contains(wanted)) {
+            queryUserColumns << wanted;
+        }
+    }
+
+    if (queryUserColumns.isEmpty()) {
+        return;
+    }
+
+    QString userRowSQL = "SELECT "
+        + _connection->quoteIdentifiers(queryUserColumns).join(", ")
+        + " FROM " + _connection->quoteIdentifier("mysql") + "."
+        + _connection->quoteIdentifier("user")
+        + QString("WHERE `Host` = %1 AND `User` = %2")
+            .arg(_connection->escapeString(user->host()))
+            .arg(_connection->escapeString(user->username()));
+
+
+    QStringList userRow = _connection->getRow(userRowSQL);
+
+    if (userRow.isEmpty()) {
+        return;
+    }
+
+    int columnIndex = 0;
+    for (const QString & columnName : queryUserColumns) {
+
+        const QString & columnValue = userRow.at(columnIndex);
+
+        if (limitColumns.contains(columnName)) {
+            User::LimitType limitType = limitColumns.value(columnName);
+            user->setLimit(limitType, columnValue.toInt());
+        }
+
+        ++columnIndex;
+    }
+}
+
+QStringList MySQLUserManager::userTableColumns() const
+{
+    // stupid cache
+    if (_userTableColumns.isEmpty()) {
+        _userTableColumns = _connection->getColumn(
+                    "SHOW COLUMNS FROM `mysql`.`user`");
+    }
+    return _userTableColumns;
 }
 
 } // namespace db

@@ -1,4 +1,5 @@
 #include "left_widget.h"
+#include "window.h"
 #include "app/app.h"
 #include "db/entity/session_entity.h"
 #include "db/connection.h"
@@ -9,12 +10,13 @@ namespace ui {
 namespace user_manager {
 
 LeftWidget::LeftWidget(models::forms::UserManagementForm * form,
-                       QWidget *parent)
-    : QWidget(parent)
+                       Window * window)
+    : QWidget(window)
     , _tableModel(this)
     , _form(form)
+    , _window(window)
 {
-    _tableModel.setUserManager(form->userManager());
+    //_tableModel.setUserManager(form->userManager());
     createWidgets();
 
     connect(_form, &models::forms::UserManagementForm::selectedUserChanged,
@@ -60,26 +62,38 @@ void LeftWidget::createWidgets()
     this->setLayout(mainLayout);
 }
 
+void LeftWidget::loadData()
+{
+     _tableModel.setUserManager(_form->userManager());
+}
+
 void LeftWidget::userListSelectionChanged(const QItemSelection &selected,
                                           const QItemSelection &deselected)
 {
 
     Q_UNUSED(deselected);
 
-    QModelIndex index;
-    QModelIndexList items = selected.indexes();
+    try {
 
-    if (!items.isEmpty()) {
-        index = items.at(0);
-        QModelIndex realIndex = _proxyTableModel.mapToSource(index);
+        QModelIndex index;
+        QModelIndexList items = selected.indexes();
 
-        const meow::db::UserPtr & user
-                = _form->userManager()->userList().value(realIndex.row());
-        _form->selectUser(user);
+        if (!items.isEmpty()) {
+            index = items.at(0);
+            QModelIndex realIndex = _proxyTableModel.mapToSource(index);
 
-    } else {
-        _form->selectUser(nullptr);
+            const meow::db::UserPtr & user
+                    = _form->userManager()->userList().value(realIndex.row());
+            _form->selectUser(user);
+
+        } else {
+            _form->selectUser(nullptr);
+        }
+
+    } catch (const meow::db::Exception & ex) {
+        _window->showErrorMessage(ex.message());
     }
+
 }
 
 void LeftWidget::onSelectedUserChanged()

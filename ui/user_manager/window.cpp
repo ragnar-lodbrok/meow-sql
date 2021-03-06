@@ -2,6 +2,7 @@
 #include "left_widget.h"
 #include "right_widget.h"
 #include "ui/main_window/main_window.h"
+#include <QDebug>
 
 namespace meow {
 namespace ui {
@@ -22,12 +23,23 @@ Window::Window(main_window::Window * mainWindow, db::SessionEntity * session)
     connect(&_form, &models::forms::UserManagementForm::selectedUserChanged,
             this, &Window::onSelectedUserChanged);
 
+    onSelectedUserChanged();
+
     //loadGeometryFromSettings(); // TODO
 }
 
 Window::~Window()
 {
     //saveGeometryToSettings(); // TODO
+}
+
+void Window::loadData()
+{
+    try {
+        _leftWidget->loadData();
+    } catch (meow::db::Exception & ex) {
+        showErrorMessage(ex.message());
+    }
 }
 
 void Window::createWidgets()
@@ -57,9 +69,20 @@ void Window::createWidgets()
 
 }
 
+void Window::showErrorMessage(const QString& message)
+{
+    QMessageBox msgBox;
+    msgBox.setText(message);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
+}
+
 void Window::onSelectedUserChanged()
 {
     _warningLabel->setText(_form.userWarningMessage());
+    _rightWidget->fillDataFromForm();
 }
 
 } // namespace user_manager

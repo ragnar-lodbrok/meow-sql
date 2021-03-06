@@ -19,6 +19,7 @@ class PrivilegesWidget : public QWidget
 public:
     explicit PrivilegesWidget(models::forms::UserManagementForm * form,
                               QWidget * parent = nullptr);
+    void fillDataFromForm();
 };
 
 } // namespace user_manager

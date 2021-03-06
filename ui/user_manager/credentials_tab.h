@@ -19,6 +19,8 @@ class CredentialsTab : public QWidget
 public:
     explicit CredentialsTab(models::forms::UserManagementForm * form,
                             QWidget * parent = nullptr);
+
+    void fillDataFromForm();
 private:
 
     void createWidgets();

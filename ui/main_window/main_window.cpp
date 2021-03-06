@@ -145,14 +145,25 @@ void Window::onUserManagerAction()
     Q_ASSERT(currentSession != nullptr);
     if (!currentSession) return;
 
-    meow::ui::user_manager::Window userManagerWindow(this, currentSession);
-    userManagerWindow.exec();
+    meow::ui::user_manager::Window * userManagerWindow
+            = new meow::ui::user_manager::Window(this, currentSession);
+    connect(userManagerWindow,
+            &QDialog::finished,
+            this,
+            &Window::onUserManagerFinished);
+    userManagerWindow->open();
+    userManagerWindow->loadData();
 }
 
 void Window::onGlobalRefresh(bool checked)
 {
     Q_UNUSED(checked);
     _centralWidget->onGlobalRefresh();
+}
+
+void Window::onUserManagerFinished()
+{
+    sender()->deleteLater();
 }
 
 void Window::createMenus()

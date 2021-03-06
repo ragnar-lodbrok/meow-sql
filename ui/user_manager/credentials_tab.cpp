@@ -1,4 +1,5 @@
 #include "credentials_tab.h"
+#include "models/forms/user_management_form.h"
 
 namespace meow {
 namespace ui {
@@ -39,6 +40,23 @@ void CredentialsTab::createWidgets()
     mainGridLayout->setAlignment(Qt::AlignTop);
 
     this->setLayout(mainGridLayout);
+}
+
+void CredentialsTab::fillDataFromForm()
+{
+    _usernameLabel->setEnabled(_form->hasUser());
+    _hostLabel->setEnabled(_form->hasUser());
+    _usernameEdit->setEnabled(_form->hasUser());
+    _hosteEdit->setEnabled(_form->hasUser());
+
+    _usernameEdit->blockSignals(true);
+    _usernameEdit->setText(_form->userName());
+    _usernameEdit->blockSignals(false);
+
+
+    _hosteEdit->blockSignals(true);
+    _hosteEdit->setText(_form->userHost());
+    _hosteEdit->blockSignals(false);
 }
 
 } // namespace user_manager

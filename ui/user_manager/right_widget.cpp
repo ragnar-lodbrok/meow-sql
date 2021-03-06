@@ -24,6 +24,12 @@ void RightWidget::createWidgets(models::forms::UserManagementForm * form)
     this->setLayout(mainLayout);
 }
 
+void RightWidget::fillDataFromForm()
+{
+    _options->fillDataFromForm();
+    _privileges->fillDataFromForm();
+}
+
 } // namespace user_manager
 } // namespace ui
 } // namespace

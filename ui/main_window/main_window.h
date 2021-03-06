@@ -47,6 +47,8 @@ private:
 
     Q_SLOT void onGlobalRefresh(bool checked);
 
+    Q_SLOT void onUserManagerFinished();
+
     CentralWidget * _centralWidget;
     StatusBar     * _statusBar;
 

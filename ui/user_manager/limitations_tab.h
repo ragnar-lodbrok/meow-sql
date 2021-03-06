@@ -20,10 +20,12 @@ class LimitationsTab : public QWidget
 public:
     LimitationsTab(models::forms::UserManagementForm * form,
                    QWidget * parent = nullptr);
+    void fillDataFromForm();
 private:
 
     void createWidgets();
 
+    QMap<meow::db::User::LimitType, QLabel *> _limitLabels;
     QMap<meow::db::User::LimitType, QSpinBox *> _limitEditors;
 
     models::forms::UserManagementForm * _form;

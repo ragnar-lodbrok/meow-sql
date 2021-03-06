@@ -1,5 +1,6 @@
 #include "limitations_tab.h"
 #include <limits>
+#include "models/forms/user_management_form.h"
 
 namespace meow {
 namespace ui {
@@ -19,14 +20,13 @@ void LimitationsTab::createWidgets()
 
     int row = 0;
 
-    const QMap<db::User::LimitType, int> limits = _form->userLimits();
+    using LimitType = meow::db::User::LimitType;
+    const QList<LimitType> limits = _form->supportedLimitTypes();
 
-    auto it = limits.constBegin();
-    while (it != limits.constEnd()) {
-
-        db::User::LimitType limitType = it.key();
+    for (const LimitType limitType : limits) {
 
         QLabel * label = new QLabel(_form->limitName(limitType));
+        _limitLabels[limitType] = label;
         mainGridLayout->addWidget(label, row, 0);
 
         QSpinBox * editor = new QSpinBox();
@@ -36,7 +36,6 @@ void LimitationsTab::createWidgets()
         _limitEditors[limitType] = editor;
         mainGridLayout->addWidget(editor, row, 1);
 
-        ++it;
         ++row;
     }
 
@@ -46,6 +45,27 @@ void LimitationsTab::createWidgets()
     mainGridLayout->setAlignment(Qt::AlignTop);
 
     this->setLayout(mainGridLayout);
+}
+
+void LimitationsTab::fillDataFromForm()
+{
+    auto it = _limitEditors.constBegin();
+    while (it != _limitEditors.constEnd()) {
+
+        db::User::LimitType limitType = it.key();
+
+        QSpinBox * editor = it.value();
+        QLabel * label = _limitLabels[limitType];
+
+        label->setEnabled(_form->hasUser());
+        editor->setEnabled(_form->hasUser());
+
+        editor->blockSignals(true);
+        editor->setValue(_form->limitValue(limitType));
+        editor->blockSignals(false);
+
+        ++it;
+    }
 }
 
 } // namespace user_manager

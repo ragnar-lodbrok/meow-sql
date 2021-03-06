@@ -22,7 +22,9 @@ public:
     meow::db::UserPtr selectedUser() const {
         return _selectedUser;
     }
-
+    bool hasUser() const {
+        return _selectedUser != nullptr;
+    }
     Q_SIGNAL void selectedUserChanged();
 
     QString userWarningMessage() const;
@@ -30,9 +32,12 @@ public:
     QString userName() const;
     QString userHost() const;
 
+
+    QList<meow::db::User::LimitType> supportedLimitTypes() const;
     QMap<meow::db::User::LimitType, int> userLimits() const;
 
     QString limitName(meow::db::User::LimitType limit) const;
+    inline int limitValue(meow::db::User::LimitType limit) const;
 
 private:
     meow::db::IUserManager * _userManager;
