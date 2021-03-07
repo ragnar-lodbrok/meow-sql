@@ -164,9 +164,24 @@ void MySQLUserManager::loadPrivileges(const UserPtr & user)
 {
     user->clearPrivileges();
 
+    user->privileges() << std::make_shared<UserPrivilege>(
+                              UserPrivilege::Scope::Global);
+
     // SHOW CREATE USER is available since MySQL 5.7, so we can't use it for
     // nonprivilege properties on older, so let's use `mysql`.`user`
 
+    // Heidi uses SHOW GRANTS FOR, but parsing SQL is a pain, so I'll just read
+    // `mysql`.`user` and other tables (mysql server does the same)
+
+    loadFromUserTable(user); // `mysql`.`user`
+    loadFromDBTable(user); // `mysql`.`db`
+    loadFromTablePriv(user); // `mysql`.`tables_priv`
+    loadFromProcsPriv(user); // `mysql`.`procs_priv`
+    loadFromColumnsPriv(user); // `mysql`.`columns_priv`
+}
+
+void MySQLUserManager::loadFromUserTable(const UserPtr & user)
+{
     QMap<QString, User::LimitType> limitColumns = {
         { "max_questions" , User::LimitType::MaxQueriesPerHour },
         { "max_updates" , User::LimitType::MaxUpdatesPerHour },
@@ -174,9 +189,43 @@ void MySQLUserManager::loadPrivileges(const UserPtr & user)
         { "max_user_connections" , User::LimitType::MaxUserConnections },
     };
 
+    QMap<QString, QString> privilegeColumns = {
+        {"Select_priv",           "SELECT"},
+        {"Insert_priv",           "INSERT"},
+        {"Update_priv",           "UPDATE"},
+        {"Delete_priv",           "DELETE"},
+        {"Index_priv",            "INDEX"},
+        {"Alter_priv",            "ALTER"},
+        {"Create_priv",           "CREATE"},
+        {"Drop_priv",             "DROP"},
+        {"Grant_priv",            "GRANT"},
+        {"Create_view_priv",      "CREATE VIEW"},
+        {"Show_view_priv",        "SHOW VIEW"},
+        {"Create_routine_priv",   "CREATE ROUTINE"},
+        {"Alter_routine_priv",    "ALTER ROUTINE"},
+        {"Execute_priv",          "EXECUTE"},
+        {"Trigger_priv",          "TRIGGER"},
+        {"Event_priv",            "EVENT"},
+        {"Create_tmp_table_priv", "CREATE TEMPORARY TABLES"},
+        {"Lock_tables_priv",      "LOCK TABLES"},
+        {"References_priv",       "REFERENCES"},
+        // global only:
+        {"Reload_priv",           "RELOAD"},
+        {"Shutdown_priv",         "SHUTDOWN"},
+        {"Process_priv",          "PROCESS"},
+        {"File_priv",             "FILE"},
+        {"Show_db_priv",          "SHOW DATABASES"},
+        {"Super_priv",            "SUPER"},
+        {"Repl_slave_priv",       "REPLICATION SLAVE"},
+        {"Repl_client_priv",      "REPLICATION CLIENT"},
+        {"Create_user_priv",      "CREATE USER"},
+        {"Create_tablespace_priv","CREATE TABLESPACE"},
+    };
+
     QStringList queryUserColumns;
     QStringList availableUserColumns = userTableColumns();
     QStringList wantedUserColumns;
+    wantedUserColumns << privilegeColumns.keys();
     wantedUserColumns << limitColumns.keys();
 
     for (const QString & wanted : wantedUserColumns) {
@@ -193,7 +242,7 @@ void MySQLUserManager::loadPrivileges(const UserPtr & user)
         + _connection->quoteIdentifiers(queryUserColumns).join(", ")
         + " FROM " + _connection->quoteIdentifier("mysql") + "."
         + _connection->quoteIdentifier("user")
-        + QString("WHERE `Host` = %1 AND `User` = %2")
+        + QString(" WHERE `Host` = %1 AND `User` = %2")
             .arg(_connection->escapeString(user->host()))
             .arg(_connection->escapeString(user->username()));
 
@@ -204,17 +253,225 @@ void MySQLUserManager::loadPrivileges(const UserPtr & user)
         return;
     }
 
+    UserPrivilegePtr globalPrivileges = user->globalPrivileges();
+    Q_ASSERT(globalPrivileges != nullptr);
+
     int columnIndex = 0;
     for (const QString & columnName : queryUserColumns) {
 
         const QString & columnValue = userRow.at(columnIndex);
 
-        if (limitColumns.contains(columnName)) {
+        if (privilegeColumns.contains(columnName)) {
+
+            if (columnValue == "Y") {
+                const QString & privilegeName
+                        = privilegeColumns.value(columnName);
+                globalPrivileges->grantPrivilege(privilegeName);
+            }
+
+        } else if (limitColumns.contains(columnName)) {
+
             User::LimitType limitType = limitColumns.value(columnName);
             user->setLimit(limitType, columnValue.toInt());
         }
 
         ++columnIndex;
+    }
+}
+
+void MySQLUserManager::loadFromDBTable(const UserPtr & user)
+{
+    QMap<QString, QString> privilegeColumns = {
+        {"Select_priv",           "SELECT"},
+        {"Insert_priv",           "INSERT"},
+        {"Update_priv",           "UPDATE"},
+        {"Delete_priv",           "DELETE"},
+        {"Index_priv",            "INDEX"},
+        {"Alter_priv",            "ALTER"},
+        {"Create_priv",           "CREATE"},
+        {"Drop_priv",             "DROP"},
+        {"Grant_priv",            "GRANT"},
+        {"Create_view_priv",      "CREATE VIEW"},
+        {"Show_view_priv",        "SHOW VIEW"},
+        {"Create_routine_priv",   "CREATE ROUTINE"},
+        {"Alter_routine_priv",    "ALTER ROUTINE"},
+        {"Execute_priv",          "EXECUTE"},
+        {"Trigger_priv",          "TRIGGER"},
+        {"Event_priv",            "EVENT"},
+        {"Create_tmp_table_priv", "CREATE TEMPORARY TABLES"},
+        {"Lock_tables_priv",      "LOCK TABLES"},
+        {"References_priv",       "REFERENCES"},
+    };
+
+    QStringList queryColumns = { "Db" }; // take db name
+    QStringList availableColumns = dbTableColumns();
+    QStringList wantedColumns;
+    wantedColumns << privilegeColumns.keys();
+
+    for (const QString & wanted : wantedColumns) {
+        if (availableColumns.contains(wanted)) {
+            queryColumns << wanted;
+        }
+    }
+
+    if (queryColumns.size() == 1) {
+        return;
+    }
+
+    QString dbRowSQL = "SELECT "
+        + _connection->quoteIdentifiers(queryColumns).join(", ")
+        + " FROM " + _connection->quoteIdentifier("mysql") + "."
+        + _connection->quoteIdentifier("db")
+        + QString(" WHERE `Host` = %1 AND `User` = %2")
+            .arg(_connection->escapeString(user->host()))
+            .arg(_connection->escapeString(user->username()));
+
+
+    QList<QStringList> dbRows = _connection->getRows(dbRowSQL);
+
+    for (const QStringList & dbRow : dbRows) {
+
+        const QString & dbName = dbRow.at(0);
+
+        auto dbPrivilege = std::make_shared<UserPrivilege>(
+                                      UserPrivilege::Scope::Global,
+                                      dbName, dbName);
+
+        user->privileges() << dbPrivilege;
+
+        int columnIndex = 0;
+
+        for (const QString & columnName : queryColumns) {
+
+            const QString & columnValue = dbRow.at(columnIndex);
+
+            if (privilegeColumns.contains(columnName)) {
+
+                if (columnValue == "Y") {
+
+                    const QString & privilegeName
+                        = privilegeColumns.value(columnName);
+
+                    dbPrivilege->grantPrivilege(privilegeName);
+                }
+
+            }
+
+            ++columnIndex;
+        }
+    }
+}
+
+void MySQLUserManager::loadFromTablePriv(const UserPtr & user)
+{
+    QStringList queryColumns = { "Db", "Table_name", "Table_priv" };
+
+    QString tablePrivRowSQL = "SELECT "
+        + _connection->quoteIdentifiers(queryColumns).join(", ")
+        + " FROM " + _connection->quoteIdentifier("mysql") + "."
+        + _connection->quoteIdentifier("tables_priv")
+        + QString(" WHERE `Host` = %1 AND `User` = %2"
+                  " AND LENGTH(`Table_priv`) > 0")
+            .arg(_connection->escapeString(user->host()))
+            .arg(_connection->escapeString(user->username()));
+
+    QList<QStringList> tablePrivRows = _connection->getRows(tablePrivRowSQL);
+
+    for (const QStringList & tablePrivRow : tablePrivRows) {
+
+        const QString & dbName = tablePrivRow.at(0);
+        const QString & tableName = tablePrivRow.at(1);
+        const QString & tablePrivilegesString = tablePrivRow.at(2);
+
+        if (tablePrivilegesString.isEmpty()) {
+            continue; // TODO: looks like we can ignore it and read `Column_priv`
+            // from `columns_priv`
+        }
+
+        QStringList privilegesName = tablePrivilegesString.split(',');
+
+        auto tablePrivilege = std::make_shared<UserPrivilege>(
+                                      UserPrivilege::Scope::TableLevel,
+                                      dbName, tableName);
+
+        for (const QString & privName : privilegesName) {
+            tablePrivilege->grantPrivilege(privName.toUpper());
+        }
+
+        user->privileges() << tablePrivilege;
+    }
+}
+
+void MySQLUserManager::loadFromProcsPriv(const UserPtr & user)
+{
+    QStringList queryColumns = { "Db", "Routine_name",
+                                 "Routine_type", "Proc_priv" };
+
+    QString procsPrivRowSQL = "SELECT "
+        + _connection->quoteIdentifiers(queryColumns).join(", ")
+        + " FROM " + _connection->quoteIdentifier("mysql") + "."
+        + _connection->quoteIdentifier("procs_priv")
+        + QString(" WHERE `Host` = %1 AND `User` = %2")
+            .arg(_connection->escapeString(user->host()))
+            .arg(_connection->escapeString(user->username()));
+
+    QList<QStringList> procsPrivRows = _connection->getRows(procsPrivRowSQL);
+
+    for (const QStringList & procPrivRow : procsPrivRows) {
+
+        const QString & dbName = procPrivRow.at(0);
+        const QString & routineName = procPrivRow.at(1);
+        const QString & routineType = procPrivRow.at(2);
+        const QString & privString = procPrivRow.at(3);
+
+        QStringList privilegesName = privString.split(',');
+
+        auto routinePrivilege = std::make_shared<UserPrivilege>(
+            routineType == "PROCEDURE" ? UserPrivilege::Scope::ProcedureLevel
+                                       : UserPrivilege::Scope::FunctionLevel,
+            dbName, routineName);
+
+        for (const QString & privName : privilegesName) {
+            routinePrivilege->grantPrivilege(privName.toUpper());
+        }
+
+        user->privileges() << routinePrivilege;
+    }
+}
+
+void MySQLUserManager::loadFromColumnsPriv(const UserPtr & user)
+{
+    QStringList queryColumns = { "Db", "Table_name",
+                                 "Column_name", "Column_priv" };
+
+    QString columnPrivRowSQL = "SELECT "
+        + _connection->quoteIdentifiers(queryColumns).join(", ")
+        + " FROM " + _connection->quoteIdentifier("mysql") + "."
+        + _connection->quoteIdentifier("columns_priv")
+        + QString(" WHERE `Host` = %1 AND `User` = %2")
+            .arg(_connection->escapeString(user->host()))
+            .arg(_connection->escapeString(user->username()));
+
+    QList<QStringList> columnPrivRows = _connection->getRows(columnPrivRowSQL);
+
+    for (const QStringList & columnPrivRow : columnPrivRows) {
+
+        const QString & dbName = columnPrivRow.at(0);
+        const QString & tableName = columnPrivRow.at(1);
+        const QString & columnName = columnPrivRow.at(2);
+        const QString & privString = columnPrivRow.at(3);
+
+        QStringList privilegesName = privString.split(',');
+
+        auto columnPrivilege = std::make_shared<UserPrivilege>(
+                                      UserPrivilege::Scope::TableColumnLevel,
+                                      dbName, tableName, columnName);
+
+        for (const QString & privName : privilegesName) {
+            columnPrivilege->grantPrivilege(privName.toUpper());
+        }
+
+        user->privileges() << columnPrivilege;
     }
 }
 
@@ -226,6 +483,196 @@ QStringList MySQLUserManager::userTableColumns() const
                     "SHOW COLUMNS FROM `mysql`.`user`");
     }
     return _userTableColumns;
+}
+
+QStringList MySQLUserManager::dbTableColumns() const
+{
+    if (_dbTableColumns.isEmpty()) {
+        _dbTableColumns = _connection->getColumn(
+                    "SHOW COLUMNS FROM `mysql`.`db`");
+    }
+    return _dbTableColumns;
+}
+
+void MySQLUserManager::initScopePrivileges() const
+{
+    if (!_scopePrivileges.isEmpty()) return;
+
+    // keep all lists sorted!
+
+    // read global -------------------------------------------------------------
+    QStringList readGlobalPriveleges;
+    if (_connection->serverVersionInt() >= 40002) { // Who runs such old?
+        readGlobalPriveleges << "EXECUTE";
+    }
+    readGlobalPriveleges << "PROCESS";
+    readGlobalPriveleges << "SELECT";
+    if (_connection->serverVersionInt() >= 40002) {
+        readGlobalPriveleges << "SHOW DATABASES";
+    }
+    if (_connection->serverVersionInt() >= 50001) {
+        readGlobalPriveleges << "SHOW VIEW";
+    }
+
+    // write global ------------------------------------------------------------
+    QStringList writeGlobalPriveleges;
+    writeGlobalPriveleges << "ALTER";
+    if (_connection->serverVersionInt() >= 50003) {
+        writeGlobalPriveleges << "ALTER ROUTINE";
+    }
+    writeGlobalPriveleges << "CREATE";
+    if (_connection->serverVersionInt() >= 50003) {
+        writeGlobalPriveleges << "CREATE ROUTINE";
+    }
+    if (_connection->serverVersionInt() >= 50404) {
+        writeGlobalPriveleges << "CREATE TABLESPACE";
+    }
+    if (_connection->serverVersionInt() >= 40002) {
+        writeGlobalPriveleges << "CREATE TEMPORARY TABLES";
+    }
+    if (_connection->serverVersionInt() >= 50001) {
+        writeGlobalPriveleges << "CREATE VIEW";
+    }
+    writeGlobalPriveleges << "DELETE";
+    writeGlobalPriveleges << "DROP";
+    if (_connection->serverVersionInt() >= 50106) {
+        writeGlobalPriveleges << "EVENT";
+    }
+    writeGlobalPriveleges << "INDEX";
+    writeGlobalPriveleges << "INSERT";
+    writeGlobalPriveleges << "REFERENCES";
+    if (_connection->serverVersionInt() >= 50106) {
+        writeGlobalPriveleges << "TRIGGER";
+    }
+    writeGlobalPriveleges << "UPDATE";
+
+    // admin global ------------------------------------------------------------
+    QStringList adminGlobalPriveleges;
+    if (_connection->serverVersionInt() >= 50003) {
+        adminGlobalPriveleges << "CREATE USER";
+    }
+    adminGlobalPriveleges << "FILE";
+    adminGlobalPriveleges << "GRANT";
+    if (_connection->serverVersionInt() >= 40002) {
+        adminGlobalPriveleges << "LOCK TABLES";
+    }
+    adminGlobalPriveleges << "RELOAD";
+    if (_connection->serverVersionInt() >= 40002) {
+        adminGlobalPriveleges << "REPLICATION CLIENT";
+        adminGlobalPriveleges << "REPLICATION SLAVE";
+    }
+    adminGlobalPriveleges << "SHUTDOWN";
+    if (_connection->serverVersionInt() >= 40002) {
+        adminGlobalPriveleges << "SUPER";
+    }
+
+
+    QStringList globalPrivileges;
+    globalPrivileges << readGlobalPriveleges;
+    globalPrivileges << writeGlobalPriveleges;
+    globalPrivileges << adminGlobalPriveleges;
+
+
+    _scopePrivileges[UserPrivilege::Scope::Global] = globalPrivileges;
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    QStringList dbLevelPrivileges;
+    if (_connection->serverVersionInt() >= 40002) {
+        dbLevelPrivileges << "EXECUTE";
+    }
+    dbLevelPrivileges << "SELECT";
+    if (_connection->serverVersionInt() >= 50001) {
+        dbLevelPrivileges << "SHOW VIEW";
+    }
+    dbLevelPrivileges << "ALTER";
+    if (_connection->serverVersionInt() >= 50003) {
+        dbLevelPrivileges << "ALTER ROUTINE";
+    }
+    dbLevelPrivileges << "CREATE";
+    if (_connection->serverVersionInt() >= 50003) {
+        dbLevelPrivileges << "CREATE ROUTINE";
+    }
+    if (_connection->serverVersionInt() >= 40002) {
+        dbLevelPrivileges << "CREATE TEMPORARY TABLES";
+    }
+    if (_connection->serverVersionInt() >= 50001) {
+        dbLevelPrivileges << "CREATE VIEW";
+    }
+    dbLevelPrivileges << "DELETE";
+    dbLevelPrivileges << "DROP";
+    if (_connection->serverVersionInt() >= 50106) {
+        dbLevelPrivileges << "EVENT";
+    }
+    dbLevelPrivileges << "INDEX";
+    dbLevelPrivileges << "INSERT";
+    dbLevelPrivileges << "REFERENCES";
+    if (_connection->serverVersionInt() >= 50106) {
+        dbLevelPrivileges << "TRIGGER";
+    }
+    dbLevelPrivileges << "UPDATE";
+    dbLevelPrivileges << "GRANT";
+    if (_connection->serverVersionInt() >= 40002) {
+        dbLevelPrivileges << "LOCK TABLES";
+    }
+
+    _scopePrivileges[UserPrivilege::Scope::DatabaseLevel] = dbLevelPrivileges;
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    QStringList tableLevelPrivileges;
+
+    tableLevelPrivileges << "SELECT";
+    if (_connection->serverVersionInt() >= 50001) {
+        tableLevelPrivileges << "SHOW VIEW";
+    }
+    tableLevelPrivileges << "ALTER";
+    if (_connection->serverVersionInt() >= 50003) {
+        tableLevelPrivileges << "ALTER ROUTINE";
+    }
+    tableLevelPrivileges << "CREATE";
+    if (_connection->serverVersionInt() >= 50001) {
+        tableLevelPrivileges << "CREATE VIEW";
+    }
+    tableLevelPrivileges << "DELETE";
+    tableLevelPrivileges << "DROP";
+    tableLevelPrivileges << "INDEX";
+    tableLevelPrivileges << "INSERT";
+    tableLevelPrivileges << "REFERENCES";
+    if (_connection->serverVersionInt() >= 50106) {
+        tableLevelPrivileges << "TRIGGER";
+    }
+    tableLevelPrivileges << "UPDATE";
+    tableLevelPrivileges << "GRANT";
+
+    _scopePrivileges[UserPrivilege::Scope::TableLevel] = tableLevelPrivileges;
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    QStringList routinePrivileges;
+
+    if (_connection->serverVersionInt() >= 40002) {
+        routinePrivileges << "EXECUTE";
+    }
+    if (_connection->serverVersionInt() >= 50003) {
+        routinePrivileges << "ALTER ROUTINE";
+    }
+    routinePrivileges << "GRANT";
+
+    _scopePrivileges[UserPrivilege::Scope::ProcedureLevel] = routinePrivileges;
+    _scopePrivileges[UserPrivilege::Scope::FunctionLevel] = routinePrivileges;
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    QStringList tableColumnPrivileges;
+
+    tableColumnPrivileges << "SELECT";
+    tableColumnPrivileges << "INSERT";
+    tableColumnPrivileges << "REFERENCES";
+    tableColumnPrivileges << "UPDATE";
+
+    _scopePrivileges[UserPrivilege::Scope::TableColumnLevel]
+            = tableColumnPrivileges;
 }
 
 } // namespace db
