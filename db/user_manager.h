@@ -64,6 +64,10 @@ public:
         return _grantedPrivileges.contains(name);
     }
 
+    int grantedPrivilegeCount() const {
+        return _grantedPrivileges.count();
+    }
+
 private:
     Scope _scope;
     QString _databaseName;
@@ -73,6 +77,13 @@ private:
 };
 
 using UserPrivilegePtr = std::shared_ptr<UserPrivilege>;
+
+enum class PrivilegeType {
+    None,
+    Read,
+    Write,
+    Admin
+};
 
 class User
 {
@@ -159,6 +170,27 @@ public:
     virtual void loadPrivileges(const UserPtr & user) = 0;
     virtual QStringList supportedPrivilegesForScope(
             UserPrivilege::Scope scope) const = 0;
+
+    virtual PrivilegeType typeOfPrivilege(const QString & privilegeName) const {
+        Q_UNUSED(privilegeName);
+        return PrivilegeType::None;
+    }
+
+    // 1  - all granted
+    // -1 - none granted
+    // 0  - some granted
+    int allPrivilegesGranted(const UserPrivilegePtr & privileges)
+    {
+        int allCount
+                = supportedPrivilegesForScope(privileges->scope()).size();
+        int grantedCount = privileges->grantedPrivilegeCount();
+
+        if (grantedCount == 0 && allCount != 0) {
+            return -1;
+        }
+
+        return (grantedCount == allCount) ? 1 : 0;
+    }
 protected:
     Connection * _connection;
 };

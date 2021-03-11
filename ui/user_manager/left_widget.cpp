@@ -26,7 +26,7 @@ LeftWidget::LeftWidget(models::forms::UserManagementForm * form,
 void LeftWidget::createWidgets()
 {
     QVBoxLayout * mainLayout = new QVBoxLayout();
-    mainLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->setContentsMargins(0, 0, 4, 0);
 
     _usersLabel = new QLabel(tr("Select user account:"));
     mainLayout->addWidget(_usersLabel);

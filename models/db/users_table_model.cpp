@@ -100,7 +100,7 @@ int UsersTableModel::columnWidth(int column) const
     case Columns::Username:
         return 145;
     case Columns::Host:
-        return 150;
+        return 145;
 
     default:
         break;

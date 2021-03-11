@@ -4,8 +4,10 @@ namespace meow {
 namespace models {
 namespace forms {
 
-UserManagementForm::UserManagementForm(meow::db::IUserManager * userManager)
-    : _userManager(userManager)
+UserManagementForm::UserManagementForm(db::SessionEntity * session,
+                                       meow::db::IUserManager * userManager)
+    : _session(session)
+    , _userManager(userManager)
     , _selectedUser(nullptr)
 {
 

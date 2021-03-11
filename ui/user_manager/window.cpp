@@ -10,7 +10,7 @@ namespace user_manager {
 
 Window::Window(main_window::Window * mainWindow, db::SessionEntity * session)
     : QDialog(mainWindow, Qt::WindowCloseButtonHint)
-    , _form(session->connection()->userManager())
+    , _form(session, session->connection()->userManager())
     , _mainWindow(mainWindow)
     , _session(session)
 {
@@ -50,7 +50,7 @@ void Window::createWidgets()
 
     _splitter = new QSplitter(this);
     _splitter->setChildrenCollapsible(false);
-    mainLayout->addWidget(_splitter);
+    mainLayout->addWidget(_splitter, 1);
 
     _leftWidget = new LeftWidget(&_form);
     _leftWidget->setMinimumSize(QSize(300, 400));
@@ -59,13 +59,13 @@ void Window::createWidgets()
     _rightWidget->setMinimumSize(QSize(470, 400));
 
     _splitter->addWidget(_leftWidget);
-    _splitter->setStretchFactor(0, 1);
+    _splitter->setStretchFactor(0, 0);
     _splitter->addWidget(_rightWidget);
-    _splitter->setStretchFactor(1, 2);
+    _splitter->setStretchFactor(1, 1);
 
     _warningLabel = new QLabel();
     _warningLabel->setWordWrap(true);
-    mainLayout->addWidget(_warningLabel);
+    mainLayout->addWidget(_warningLabel, 0);
 
 }
 

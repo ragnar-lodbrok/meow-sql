@@ -334,7 +334,7 @@ void MySQLUserManager::loadFromDBTable(const UserPtr & user)
         const QString & dbName = dbRow.at(0);
 
         auto dbPrivilege = std::make_shared<UserPrivilege>(
-                                      UserPrivilege::Scope::Global,
+                                      UserPrivilege::Scope::DatabaseLevel,
                                       dbName, dbName);
 
         user->privileges() << dbPrivilege;
@@ -673,6 +673,48 @@ void MySQLUserManager::initScopePrivileges() const
 
     _scopePrivileges[UserPrivilege::Scope::TableColumnLevel]
             = tableColumnPrivileges;
+}
+
+PrivilegeType MySQLUserManager::typeOfPrivilege(
+        const QString & privilegeName) const
+{
+    if (_privilegeTypes.isEmpty()) { // cache
+        _privilegeTypes = {
+            { "SELECT",         PrivilegeType::Read },
+            { "SHOW VIEW",      PrivilegeType::Read },
+            { "SHOW DATABASES", PrivilegeType::Read },
+            { "PROCESS",        PrivilegeType::Read },
+            { "EXECUTE",        PrivilegeType::Read },
+
+            { "ALTER",                    PrivilegeType::Write },
+            { "CREATE",                   PrivilegeType::Write },
+            { "DROP",                     PrivilegeType::Write },
+            { "DELETE",                   PrivilegeType::Write },
+            { "UPDATE",                   PrivilegeType::Write },
+            { "INSERT",                   PrivilegeType::Write },
+            { "ALTER ROUTINE",            PrivilegeType::Write },
+            { "CREATE ROUTINE",           PrivilegeType::Write },
+            { "CREATE TEMPORARY TABLES",  PrivilegeType::Write },
+            { "CREATE VIEW",              PrivilegeType::Write },
+            { "INDEX",                    PrivilegeType::Write },
+            { "TRIGGER",                  PrivilegeType::Write },
+            { "EVENT",                    PrivilegeType::Write },
+            { "REFERENCES",               PrivilegeType::Write },
+            { "CREATE TABLESPACE",        PrivilegeType::Write },
+
+            { "RELOAD",             PrivilegeType::Admin },
+            { "SHUTDOWN",           PrivilegeType::Admin },
+            { "REPLICATION CLIENT", PrivilegeType::Admin },
+            { "REPLICATION SLAVE",  PrivilegeType::Admin },
+            { "SUPER",              PrivilegeType::Admin },
+            { "LOCK TABLES",        PrivilegeType::Admin },
+            { "GRANT",              PrivilegeType::Admin },
+            { "FILE",               PrivilegeType::Admin },
+            { "CREATE USER",        PrivilegeType::Admin },
+        };
+    }
+
+    return _privilegeTypes.value(privilegeName, PrivilegeType::None);
 }
 
 } // namespace db

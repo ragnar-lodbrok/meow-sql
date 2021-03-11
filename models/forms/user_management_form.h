@@ -5,6 +5,11 @@
 #include "db/user_manager.h"
 
 namespace meow {
+
+namespace db {
+class SessionEntity;
+}
+
 namespace models {
 namespace forms {
 
@@ -12,7 +17,12 @@ class UserManagementForm : public QObject
 {
     Q_OBJECT
 public:
-    UserManagementForm(meow::db::IUserManager * userManager);
+    UserManagementForm(meow::db::SessionEntity * session,
+                       meow::db::IUserManager * userManager);
+
+    meow::db::SessionEntity * session() const {
+        return _session;
+    }
 
     meow::db::IUserManager * userManager() const {
         return _userManager;
@@ -40,6 +50,7 @@ public:
     inline int limitValue(meow::db::User::LimitType limit) const;
 
 private:
+    meow::db::SessionEntity * _session;
     meow::db::IUserManager * _userManager;
     meow::db::UserPtr _selectedUser;
 };

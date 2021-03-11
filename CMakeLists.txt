@@ -152,6 +152,7 @@ set(SOURCE_FILES
     models/db/routine_parameters_model.cpp
     models/db/query_data_sort_filter_proxy_model.cpp
     models/db/users_table_model.cpp
+    models/db/user_privileges_model.cpp
     models/db/variables_table_model.cpp
     models/delegates/checkbox_delegate.cpp
     models/delegates/combobox_delegate.cpp

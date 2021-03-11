@@ -2,6 +2,7 @@
 #define DB_MYSQL_USER_MANAGER_H
 
 #include "db/user_manager.h"
+#include <QHash>
 
 namespace meow {
 namespace db {
@@ -21,6 +22,7 @@ public:
         initScopePrivileges();
         return _scopePrivileges.value(scope);
     }
+    PrivilegeType typeOfPrivilege(const QString & privilegeName) const override;
 private:
 
     bool skipNameResolve() const;
@@ -42,6 +44,7 @@ private:
     mutable QStringList _userTableColumns;
     mutable QStringList _dbTableColumns;
     mutable QMap<UserPrivilege::Scope, QStringList> _scopePrivileges;
+    mutable QHash<QString, PrivilegeType> _privilegeTypes;
 };
 
 } // namespace db
