@@ -47,7 +47,7 @@ public:
     QMap<meow::db::User::LimitType, int> userLimits() const;
 
     QString limitName(meow::db::User::LimitType limit) const;
-    inline int limitValue(meow::db::User::LimitType limit) const;
+    int limitValue(meow::db::User::LimitType limit) const;
 
 private:
     meow::db::SessionEntity * _session;
