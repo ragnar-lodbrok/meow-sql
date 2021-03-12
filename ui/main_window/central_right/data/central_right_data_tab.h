@@ -2,6 +2,7 @@
 #define CENTRAL_RIGHT_DATA_TAB_H
 
 #include <QtWidgets>
+#include "ui/main_window/central_right/base_root_tab.h"
 #include "models/db/data_table_model.h"
 #include "models/delegates/edit_query_data_delegate.h"
 #include "ui/main_window/central_right/global_data_filter_interface.h"
@@ -14,7 +15,7 @@ class EditableDataTableView;
 namespace main_window {
 namespace central_right {
 
-class DataTab : public QWidget, public IGlobalDataFilter
+class DataTab : public BaseRootTab, public IGlobalDataFilter
 {
     Q_OBJECT
 public:

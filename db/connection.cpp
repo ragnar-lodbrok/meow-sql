@@ -5,13 +5,16 @@
 #include "view_editor.h"
 #include "routine_editor.h"
 #include "database_editor.h"
+#include "trigger_editor.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
 #include "db/entity/view_entity.h"
 #include "db/entity/routine_entity.h"
+#include "db/entity/trigger_entity.h"
 #include "table_engines_fetcher.h"
 #include "query_data_editor.h"
 #include "helpers/parsing.h"
+#include "trigger_structure_parser.h"
 
 #include <QDebug>
 
@@ -365,6 +368,16 @@ void Connection::parseRoutineStructure(RoutineEntity * routine, bool refresh)
     _routineStructureParser->run(routine);
 }
 
+void Connection::parseTriggerStructure(TriggerEntity * trigger, bool refresh)
+{
+    if (!refresh && trigger->hasStructure()) {
+        return;
+    }
+
+    TriggerStructureParser parser(this);
+    parser.run(trigger);
+}
+
 bool Connection::editEntityInDB(EntityInDatabase * entity,
                                 EntityInDatabase * newData)
 {
@@ -399,6 +412,16 @@ bool Connection::editEntityInDB(EntityInDatabase * entity,
                     static_cast<RoutineEntity *>(newData));
     }
 
+    case Entity::Type::Trigger: {
+
+        Q_ASSERT(entity->type() == newData->type());
+
+        std::unique_ptr<TriggerEditor> editor(createTriggerEditor());
+        return editor->edit(
+                    static_cast<TriggerEntity *>(entity),
+                    static_cast<TriggerEntity *>(newData));
+    }
+
     default:
         Q_ASSERT(false);
         break;
@@ -425,6 +448,11 @@ bool Connection::insertEntityToDB(EntityInDatabase * entity)
     case Entity::Type::Procedure: {
         std::unique_ptr<RoutineEditor> editor(createRoutineEditor());
         return editor->insert(static_cast<RoutineEntity *>(entity));
+    }
+
+    case Entity::Type::Trigger: {
+        std::unique_ptr<TriggerEditor> editor(createTriggerEditor());
+        return editor->insert(static_cast<TriggerEntity *>(entity));
     }
 
     default:
@@ -454,6 +482,11 @@ bool Connection::dropEntityInDB(EntityInDatabase * entity)
     case Entity::Type::Procedure: {
         std::unique_ptr<RoutineEditor> editor(createRoutineEditor());
         return editor->drop(static_cast<RoutineEntity *>(entity));
+    }
+
+    case Entity::Type::Trigger: {
+        std::unique_ptr<TriggerEditor> editor(createTriggerEditor());
+        return editor->drop(static_cast<TriggerEntity *>(entity));
     }
 
     default:
@@ -556,6 +589,11 @@ ViewEditor * Connection::createViewEditor()
 RoutineEditor * Connection::createRoutineEditor()
 {
     return new RoutineEditor(this);
+}
+
+TriggerEditor * Connection::createTriggerEditor()
+{
+    return new TriggerEditor(this);
 }
 
 ConnectionFeatures * Connection::createFeatures()

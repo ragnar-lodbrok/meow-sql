@@ -164,7 +164,7 @@
         <file>resources/icons/images.png</file>
         <file>resources/icons/html.png</file>
         <file>resources/icons/help.png</file>
-        <file>resources/icons/group.png</file>
+        <file alias="group.png">resources/icons/group.png</file>
         <file alias="folder_explore.png">resources/icons/folder_explore.png</file>
         <file alias="find.png">resources/icons/find.png</file>
         <file>resources/icons/filter.png</file>

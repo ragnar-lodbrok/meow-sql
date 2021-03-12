@@ -31,7 +31,7 @@ Qt::ItemFlags ConnectionParamsModel::flags(const QModelIndex &index) const
     }
 
     switch (static_cast<Columns>(index.column())) {
-    case Columns::Session: {
+    case Columns::SessionName: {
         return QAbstractItemModel::flags(index) | Qt::ItemIsEditable;
     }
     default:
@@ -51,7 +51,7 @@ QVariant ConnectionParamsModel::headerData(int section,
 
     if (orientation == Qt::Horizontal) {
         switch (static_cast<Columns>(section)) {
-        case Columns::Session:
+        case Columns::SessionName:
             return QString(tr("Session name"));
         case Columns::Host:
             return QString(tr("Host"));
@@ -80,7 +80,7 @@ QVariant ConnectionParamsModel::data(const QModelIndex &index, int role) const
                 = _connectionParamsManager->at(index.row());
 
         switch (static_cast<Columns>(index.column())) {
-        case Columns::Session: {
+        case Columns::SessionName: {
             bool modified = false;
             if (_selectedForm) {
                 modified = _selectedFormModified && (index.row() == _selectedForm->index());
@@ -107,7 +107,7 @@ QVariant ConnectionParamsModel::data(const QModelIndex &index, int role) const
                 = _connectionParamsManager->at(index.row());
 
         switch (static_cast<Columns>(index.column())) {
-        case Columns::Session:
+        case Columns::SessionName:
             return params.sessionName();
         default:
             break;
@@ -121,7 +121,7 @@ bool ConnectionParamsModel::setData(const QModelIndex &index, const QVariant &va
 {
     if (index.isValid()
             && role == Qt::EditRole
-            && static_cast<Columns>(index.column()) == Columns::Session) {
+            && static_cast<Columns>(index.column()) == Columns::SessionName) {
 
         QString newSessionName = value.toString();
 
@@ -158,7 +158,7 @@ bool ConnectionParamsModel::setData(const QModelIndex &index, const QVariant &va
 int ConnectionParamsModel::columnWidth(int column) const
 {
     switch (static_cast<Columns>(column)) {
-    case Columns::Session:
+    case Columns::SessionName:
         return 150;
     case Columns::Host:
         return 150;
@@ -231,7 +231,7 @@ void ConnectionParamsModel::emitSelectedChanged()
         return;
     }
     QModelIndex indexStart = this->index(_selectedForm->index(),
-                                     static_cast<int>(Columns::Session));
+                                     static_cast<int>(Columns::SessionName));
     QModelIndex indexEnd = this->index(_selectedForm->index(),
                                      static_cast<int>(Columns::Host));
     emit dataChanged(indexStart, indexEnd);
@@ -270,7 +270,7 @@ void ConnectionParamsModel::deleteSelectedFormAt(const QModelIndex &index)
 
 QModelIndex ConnectionParamsModel::indexForSessionNameAt(int row)
 {
-    return index(row, static_cast<int>(Columns::Session));
+    return index(row, static_cast<int>(Columns::SessionName));
 }
 
 } // namespace db

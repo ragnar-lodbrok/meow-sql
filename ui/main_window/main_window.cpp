@@ -2,6 +2,7 @@
 #include <QMenuBar>
 #include "helpers/logger.h"
 #include "ui/session_manager/window.h"
+#include "ui/user_manager/window.h"
 #include "app/app.h"
 #include "db/exception.h"
 
@@ -48,6 +49,11 @@ Window::Window(QWidget *parent)
             &QAction::triggered,
             this,
             &Window::onSessionManagerAction);
+
+    connect(meow::app()->actions()->userManager(),
+            &QAction::triggered,
+            this,
+            &Window::onUserManagerAction);
 
     connect(meow::app()->actions()->globalRefresh(),
             &QAction::triggered,
@@ -131,10 +137,33 @@ void Window::onSessionManagerAction(bool checked)
     showSessionManagerDialog();
 }
 
+void Window::onUserManagerAction()
+{
+    meow::db::SessionEntity * currentSession
+            = meow::app()->dbConnectionsManager()->activeSession();
+
+    Q_ASSERT(currentSession != nullptr);
+    if (!currentSession) return;
+
+    meow::ui::user_manager::Window * userManagerWindow
+            = new meow::ui::user_manager::Window(this, currentSession);
+    connect(userManagerWindow,
+            &QDialog::finished,
+            this,
+            &Window::onUserManagerFinished);
+    userManagerWindow->open();
+    userManagerWindow->loadData();
+}
+
 void Window::onGlobalRefresh(bool checked)
 {
     Q_UNUSED(checked);
     _centralWidget->onGlobalRefresh();
+}
+
+void Window::onUserManagerFinished()
+{
+    sender()->deleteLater();
 }
 
 void Window::createMenus()

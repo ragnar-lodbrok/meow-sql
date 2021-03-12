@@ -1,8 +1,8 @@
 #include <QObject> // tr()
 
 #include "mysql_connection.h"
-#include "db/mysql/mysql_query.h"
-#include "db/mysql/mysql_entities_fetcher.h"
+#include "mysql_query.h"
+#include "mysql_entities_fetcher.h"
 #include "mysql_query_data_fetcher.h"
 #include "db/entity/table_entity.h"
 #include "mysql_table_editor.h"
@@ -10,11 +10,12 @@
 #include "mysql_collation_fetcher.h"
 #include "mysql_table_engines_fetcher.h"
 #include "db/entity/mysql_entity_filter.h"
-#include "db/mysql/mysql_query_result.h"
+#include "mysql_query_result.h"
 #include "helpers/logger.h"
-#include "db/mysql/mysql_database_editor.h"
+#include "mysql_database_editor.h"
 #include "db/data_type/mysql_connection_data_types.h"
 #include "mysql_query_data_editor.h"
+#include "mysql_user_manager.h"
 #include "ssh/openssh_tunnel.h"
 #include "db/entity/view_entity.h"
 

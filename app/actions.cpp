@@ -31,6 +31,12 @@ void Actions::createActions(App * app)
     _sessionManager->setStatusTip(tr("Display session manager"));
 
     // -------------------------------------------------------------------------
+    _userManager = new QAction(QIcon(":/icons/group.png"),
+                                  tr("User manager"), this);
+
+    _userManager->setStatusTip(tr("Manage user authentication and privileges"));
+
+    // -------------------------------------------------------------------------
 
     _globalRefresh = new QAction(QIcon(":/icons/arrow_refresh.png"),
                                tr("Refresh"), this);

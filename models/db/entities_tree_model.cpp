@@ -219,6 +219,16 @@ meow::db::Entity * EntitiesTreeModel::currentEntity() const
     return _dbConnectionsManager->activeEntity();
 }
 
+meow::db::SessionEntity * EntitiesTreeModel::currentSession() const
+{
+    meow::db::Entity * curEntity = _dbConnectionsManager->activeEntity();
+    if (!curEntity) {
+        return nullptr;
+    }
+
+    return meow::db::sessionForEntity(curEntity);
+}
+
 void EntitiesTreeModel::onEntityEdited(meow::db::Entity * entity)
 {    
     // TODO: refresh entire database since renaming may change eg sorting?
@@ -294,6 +304,16 @@ bool EntitiesTreeModel::canCreateEntityOnCurrentItem(
 
     return isCurItemDatabaseOrLess()
         && curEntity->connection()->features()->supportsCreation(type);
+}
+
+bool EntitiesTreeModel::allowUserManager() const
+{
+    meow::db::Entity * curEntity = _dbConnectionsManager->activeEntity();
+    if (!curEntity) {
+        return false;
+    }
+
+    return curEntity->connection()->features()->supportsUserManagement();
 }
 
 void EntitiesTreeModel::createNewEntity(meow::db::Entity::Type type)

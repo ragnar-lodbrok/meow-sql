@@ -2,6 +2,7 @@
 #define UI_CENTRAL_RIGHT_VIEWTAB_H
 
 #include <QtWidgets>
+#include "ui/main_window/central_right/base_root_tab.h"
 #include "ui/common/sql_editor.h"
 #include "models/forms/view_form.h"
 
@@ -15,7 +16,7 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-class ViewTab : public QWidget
+class ViewTab : public BaseRootTab
 {
 public:
     explicit ViewTab(QWidget * parent = nullptr);

@@ -31,6 +31,7 @@ private:
     QAction * _createDatabaseAction;
     QAction * _createViewAction;
     QAction * _createRoutineAction;
+    QAction * _createTriggerAction;
 
     QAction * _refreshAction;
 };

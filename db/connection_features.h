@@ -79,6 +79,18 @@ public:
     virtual bool supportsEditingRoutinesStructure() const {
         return false;
     }
+
+    virtual bool supportsViewingTriggers() const {
+        return false;
+    }
+
+    virtual bool supportsEditingTriggers() const {
+        return false;
+    }
+
+    virtual bool supportsUserManagement() const {
+        return false;
+    }
 };
 
 // -----------------------------------------------------------------------------
@@ -122,6 +134,7 @@ public:
             case meow::db::Entity::Type::View:
             case meow::db::Entity::Type::Procedure:
             case meow::db::Entity::Type::Function:
+            case meow::db::Entity::Type::Trigger:
             return true;
         default:
             return false;
@@ -135,6 +148,7 @@ public:
             case meow::db::Entity::Type::View:
             case meow::db::Entity::Type::Procedure:
             case meow::db::Entity::Type::Function:
+            case meow::db::Entity::Type::Trigger:
             return true;
         default:
             return false;
@@ -160,6 +174,18 @@ public:
     }
 
     virtual bool supportsEditingRoutinesStructure() const override {
+        return true;
+    }
+
+    virtual bool supportsViewingTriggers() const override {
+        return true;
+    }
+
+    virtual bool supportsEditingTriggers() const override {
+        return true;
+    }
+
+    virtual bool supportsUserManagement() const override {
         return true;
     }
 };

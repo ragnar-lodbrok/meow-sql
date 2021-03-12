@@ -30,7 +30,7 @@ void TableIndexesModel::setTable(meow::db::TableEntity * table)
 Qt::ItemFlags TableIndexesModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid()) {
-        return 0;
+        return Qt::NoItemFlags;
     }
 
     Qt::ItemFlags flags = QAbstractItemModel::flags(index);

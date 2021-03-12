@@ -1,8 +1,5 @@
 #include "ui/session_manager/settings_tab.h"
 
-#define MEOW_FIRST_COL  0
-#define MEOW_SECOND_COL 1
-
 namespace meow {
 namespace ui {
 namespace session_manager {
@@ -15,11 +12,11 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
 
     // Network type ------------------------------------------------------------
     _networkTypeLabel = new QLabel(tr("Network type:"));
-    _mainGridLayout->addWidget(_networkTypeLabel, row, MEOW_FIRST_COL);
+    _mainGridLayout->addWidget(_networkTypeLabel, row, 0);
     _networkTypeComboBox = new QComboBox();
     _networkTypeLabel->setBuddy(_networkTypeComboBox);
     _networkTypeComboBox->insertItems(0, meow::db::networkTypeNames());
-    _mainGridLayout->addWidget(_networkTypeComboBox, row, MEOW_SECOND_COL);
+    _mainGridLayout->addWidget(_networkTypeComboBox, row, 1);
     connect(_networkTypeComboBox,
             static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             [=](int index) {
@@ -32,10 +29,10 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
 
     // Hostname / IP -----------------------------------------------------------
     _hostLabel = new QLabel(tr("Hostname / IP:"));
-    _mainGridLayout->addWidget(_hostLabel, row, MEOW_FIRST_COL);
+    _mainGridLayout->addWidget(_hostLabel, row, 0);
     _hostEdit = new QLineEdit();
     _hostLabel->setBuddy(_hostEdit);
-    _mainGridLayout->addWidget(_hostEdit, row, MEOW_SECOND_COL);
+    _mainGridLayout->addWidget(_hostEdit, row, 1);
     connect(_hostEdit, &QLineEdit::textEdited,
             [=](const QString &newHost) {
                 if (_form) {
@@ -47,7 +44,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
     // Filename ----------------------------------------------------------------
 
     _filenameLabel = new QLabel(tr("Filename:"));
-    _mainGridLayout->addWidget(_filenameLabel, row, MEOW_FIRST_COL);
+    _mainGridLayout->addWidget(_filenameLabel, row, 0);
 
     QHBoxLayout * filenameLayout = new QHBoxLayout();
 
@@ -73,13 +70,13 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
     filenameLayout->addWidget(_filenameEdit, 20);
     filenameLayout->addWidget(_filenameSelectionButton, 1);
 
-    _mainGridLayout->addLayout(filenameLayout, row, MEOW_SECOND_COL);
+    _mainGridLayout->addLayout(filenameLayout, row, 1);
 
     row++;
 
     // Prompt for credentials --------------------------------------------------
     /*_loginPromptCheckBox = new QCheckBox(tr("Prompt for credentials"));
-    _mainGridLayout->addWidget(_loginPromptCheckBox, row, MEOW_SECOND_COL);
+    _mainGridLayout->addWidget(_loginPromptCheckBox, row, 1);
     connect(_loginPromptCheckBox, &QCheckBox::stateChanged,
             [=](int newState) {
                 onLoginPromptUpdate();
@@ -91,10 +88,10 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
 
     // User --------------------------------------------------------------------
     _userLabel = new QLabel(tr("User:"));
-    _mainGridLayout->addWidget(_userLabel, row, MEOW_FIRST_COL);
+    _mainGridLayout->addWidget(_userLabel, row, 0);
     _userEdit = new QLineEdit();
     _userLabel->setBuddy(_userEdit);
-    _mainGridLayout->addWidget(_userEdit, row, MEOW_SECOND_COL);
+    _mainGridLayout->addWidget(_userEdit, row, 1);
     connect(_userEdit, &QLineEdit::textEdited,
             [=](const QString &newUser) {
                 if (_form) {
@@ -105,11 +102,11 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
 
     // Password ----------------------------------------------------------------
     _passwordLabel = new QLabel(tr("Password:"));
-    _mainGridLayout->addWidget(_passwordLabel, row, MEOW_FIRST_COL);
+    _mainGridLayout->addWidget(_passwordLabel, row, 0);
     _passwordEdit = new QLineEdit();
     _passwordEdit->setEchoMode(QLineEdit::Password);
     _passwordLabel->setBuddy(_passwordEdit);
-    _mainGridLayout->addWidget(_passwordEdit, row, MEOW_SECOND_COL);
+    _mainGridLayout->addWidget(_passwordEdit, row, 1);
     connect(_passwordEdit, &QLineEdit::textEdited,
             [=](const QString &newPassword) {
                 if (_form) {
@@ -120,7 +117,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
 
     // Port --------------------------------------------------------------------
     _portLabel = new QLabel(tr("Port:"));
-    _mainGridLayout->addWidget(_portLabel, row, MEOW_FIRST_COL);
+    _mainGridLayout->addWidget(_portLabel, row, 0);
     _portSpinBox = new QSpinBox();
     _portSpinBox->setMinimum(0);
     _portSpinBox->setMaximum(65535);
@@ -129,7 +126,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
     QHBoxLayout * spinBoxLayout = new QHBoxLayout();
     spinBoxLayout->addWidget(_portSpinBox);
     spinBoxLayout->addStretch(1);
-    _mainGridLayout->addLayout(spinBoxLayout, row, MEOW_SECOND_COL);
+    _mainGridLayout->addLayout(spinBoxLayout, row, 1);
     connect(_portSpinBox,
             static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
             [=](int newPort){
@@ -141,7 +138,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
 
     // Databases ---------------------------------------------------------------
     _databasesLabel = new QLabel(tr("Databases:"));
-    _mainGridLayout->addWidget(_databasesLabel, row, MEOW_FIRST_COL);
+    _mainGridLayout->addWidget(_databasesLabel, row, 0);
     _databasesEdit = new QLineEdit();
     _databasesEdit->setToolTip(tr("Separated by semicolon"));
     QAction * showListAction = _databasesEdit->addAction(
@@ -151,7 +148,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
             this, &SettingsTab::onShowDatabaseListAction);
 
     _databasesLabel->setBuddy(_databasesEdit);
-    _mainGridLayout->addWidget(_databasesEdit, row, MEOW_SECOND_COL);
+    _mainGridLayout->addWidget(_databasesEdit, row, 1);
     connect(_databasesEdit, &QLineEdit::textChanged,
             [=](const QString &newDatabaseList) {
                 if (_form) {
@@ -161,8 +158,8 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
     row++;
 
 
-    _mainGridLayout->setColumnMinimumWidth(MEOW_FIRST_COL, 150);
-    _mainGridLayout->setColumnStretch(MEOW_SECOND_COL, 2);
+    _mainGridLayout->setColumnMinimumWidth(0, 150);
+    _mainGridLayout->setColumnStretch(1, 2);
     _mainGridLayout->setAlignment(Qt::AlignTop);
     this->setLayout(_mainGridLayout);
 

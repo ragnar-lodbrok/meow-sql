@@ -112,10 +112,12 @@ SOURCES += main.cpp\
     db/table_index.cpp \
     db/table_structure.cpp \
     db/table_structure_parser.cpp \
+    db/trigger_editor.cpp \
+    db/trigger_structure_parser.cpp \
+    db/trigger_structure.cpp \
     db/view_editor.cpp \
     db/view_structure.cpp \
     db/view_structure_parser.cpp \
-    db/user_manager.cpp \
     db/user_query/batch_executor.cpp \
     db/user_query/sentences_parser.cpp \
     db/user_query/user_query.cpp \
@@ -133,6 +135,8 @@ SOURCES += main.cpp\
     models/db/variables_table_model.cpp \
     models/db/query_data_sort_filter_proxy_model.cpp \
     models/db/routine_parameters_model.cpp \
+    models/db/users_table_model.cpp \
+    models/db/user_privileges_model.cpp \
     models/delegates/checkbox_delegate.cpp \
     models/delegates/combobox_delegate.cpp \
     models/delegates/foreign_key_columns_delegate.cpp \
@@ -154,7 +158,9 @@ SOURCES += main.cpp\
     models/forms/table_indexes_model_item.cpp \
     models/forms/table_info_form.cpp \
     models/forms/text_editor_popup_form.cpp \
+    models/forms/trigger_form.cpp \
     models/forms/view_form.cpp \
+    models/forms/user_management_form.cpp \
     models/forms/routine_form.cpp \
     models/ui/central_right_host_widget_model.cpp \
     models/ui/central_right_widget_model.cpp \
@@ -202,6 +208,9 @@ SOURCES += main.cpp\
     ui/main_window/central_right/table/cr_table_info_foreign_keys_tab.cpp \
     ui/main_window/central_right/table/cr_table_info_indexes_tab.cpp \
     ui/main_window/central_right/table/cr_table_info_options_tab.cpp \
+    ui/main_window/central_right/trigger/central_right_trigger_tab.cpp \
+    ui/main_window/central_right/trigger/cr_trigger_body.cpp \
+    ui/main_window/central_right/trigger/cr_trigger_options.cpp \
     ui/main_window/central_right/view/central_right_view_tab.cpp \
     ui/main_window/central_right/routine/central_right_routine_tab.cpp \
     ui/main_window/central_right/routine/cr_routine_body.cpp \
@@ -213,6 +222,13 @@ SOURCES += main.cpp\
     ui/main_window/central_widget.cpp \
     ui/main_window/main_window.cpp \
     ui/main_window/main_window_status_bar.cpp \
+    ui/user_manager/window.cpp \
+    ui/user_manager/left_widget.cpp \
+    ui/user_manager/right_widget.cpp \
+    ui/user_manager/options_widget.cpp \
+    ui/user_manager/privileges_widget.cpp \
+    ui/user_manager/credentials_tab.cpp \
+    ui/user_manager/limitations_tab.cpp \
     ui/session_manager/session_form.cpp \
     ui/session_manager/settings_tab.cpp \
     ui/session_manager/ssh_tunnel_tab.cpp \
@@ -271,6 +287,9 @@ HEADERS  +=  app/actions.h \
     db/table_index.h \
     db/table_structure.h \
     db/table_structure_parser.h \
+    db/trigger_editor.h \
+    db/trigger_structure_parser.h \
+    db/trigger_structure.h \
     db/view_editor.h \
     db/view_structure.h \
     db/view_structure_parser.h \
@@ -292,6 +311,8 @@ HEADERS  +=  app/actions.h \
     models/db/variables_table_model.h \
     models/db/query_data_sort_filter_proxy_model.h \
     models/db/routine_parameters_model.h \
+    models/db/users_table_model.h \
+    models/db/user_privileges_model.h \
     models/delegates/checkbox_delegate.h \
     models/delegates/combobox_delegate.h \
     models/delegates/foreign_key_columns_delegate.h \
@@ -313,7 +334,9 @@ HEADERS  +=  app/actions.h \
     models/forms/table_indexes_model_item.h \
     models/forms/table_info_form.h \
     models/forms/text_editor_popup_form.h \
+    models/forms/trigger_form.h \
     models/forms/view_form.h \
+    models/forms/user_management_form.h \
     models/forms/routine_form.h \
     models/ui/central_right_host_widget_model.h \
     models/ui/central_right_widget_model.h \
@@ -342,6 +365,7 @@ HEADERS  +=  app/actions.h \
     ui/export_database/top_widget.h \
     ui/main_window/central_left_db_tree.h \
     ui/main_window/central_left_widget.h \
+    ui/main_window/central_right/base_root_tab.h \
     ui/main_window/central_right/database/central_right_database_tab.h \
     ui/main_window/central_right/data/central_right_data_tab.h \
     ui/main_window/central_right/filter_widget.h \
@@ -363,6 +387,9 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_right/table/cr_table_info.h \
     ui/main_window/central_right/table/cr_table_info_indexes_tab.h \
     ui/main_window/central_right/table/cr_table_info_options_tab.h \
+    ui/main_window/central_right/trigger/central_right_trigger_tab.h \
+    ui/main_window/central_right/trigger/cr_trigger_body.h \
+    ui/main_window/central_right/trigger/cr_trigger_options.h \
     ui/main_window/central_right/view/central_right_view_tab.h \
     ui/main_window/central_right/routine/central_right_routine_tab.h \
     ui/main_window/central_right/routine/cr_routine_body.h \
@@ -374,6 +401,13 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_widget.h \
     ui/main_window/main_window.h \
     ui/main_window/main_window_status_bar.h \
+    ui/user_manager/window.h \
+    ui/user_manager/left_widget.h \
+    ui/user_manager/right_widget.h \
+    ui/user_manager/options_widget.h \
+    ui/user_manager/privileges_widget.h \
+    ui/user_manager/credentials_tab.h \
+    ui/user_manager/limitations_tab.h \
     ui/session_manager/session_form.h \
     ui/session_manager/settings_tab.h \
     ui/session_manager/ssh_tunnel_tab.h \
@@ -398,7 +432,8 @@ WITH_MYSQL {
     db/mysql/mysql_connection.cpp \
     db/mysql/mysql_query_data_fetcher.cpp \
     db/mysql/mysql_table_editor.cpp \
-    db/mysql/mysql_table_engines_fetcher.cpp
+    db/mysql/mysql_table_engines_fetcher.cpp \
+    db/mysql/mysql_user_manager.cpp
 }
 
 WITH_POSTGRESQL {
@@ -439,7 +474,8 @@ WITH_MYSQL {
     db/mysql/mysql_connection.h \
     db/mysql/mysql_query_data_fetcher.h \
     db/mysql/mysql_table_editor.h \
-    db/mysql/mysql_table_engines_fetcher.h
+    db/mysql/mysql_table_engines_fetcher.h \
+    db/mysql/mysql_user_manager.h
 }
 
 WITH_POSTGRESQL {

@@ -126,6 +126,7 @@ bool SessionEntity::insertEntityToDB(EntityInDatabase * entity)
 
 bool SessionEntity::dropEntityInDB(EntityInDatabase * entity)
 {
+    // Listening: Behemoth - Bartzabel
     return connection()->dropEntityInDB(entity);
 }
 

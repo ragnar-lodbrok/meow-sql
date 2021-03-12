@@ -77,6 +77,19 @@ QStringList Query::curRow()
     return rowData;
 }
 
+QMap<QString, QString> Query::curRowAsObject()
+{
+    QMap<QString, QString> object;
+
+    std::size_t columnCount = this->columnCount();
+    for (std::size_t i = 0; i < columnCount; ++i) {
+        QString value = isNull(i) ? QString() : curRowColumn(i);
+        object[columnName(i)] = value;
+    }
+
+    return object;
+}
+
 std::size_t Query::indexOfColumn(const QString & colName) const
 {
     if (_columnIndexes.contains(colName)) {

@@ -2,6 +2,7 @@
 #define UI_CENTRAL_RIGHT_TABLETAB_H
 
 #include <QtWidgets>
+#include "ui/main_window/central_right/base_root_tab.h"
 #include "models/forms/table_info_form.h"
 
 namespace meow {
@@ -17,7 +18,7 @@ namespace central_right {
 class TableInfo;
 class TableColumns;
 
-class TableTab : public QWidget
+class TableTab : public BaseRootTab
 {
     Q_OBJECT
 public:

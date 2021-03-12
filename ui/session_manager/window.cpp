@@ -78,7 +78,6 @@ void Window::createLeftSubWidgets()
 
     createSessionsList();
     createLeftWidgetButtons();
-
 }
 
 void Window::createSessionsList()
@@ -94,7 +93,7 @@ void Window::createSessionsList()
     _sessionsList->verticalHeader()->hide();
     _sessionsList->horizontalHeader()->setHighlightSections(false);
     auto geometrySettings = meow::app()->settings()->geometrySettings();
-   _sessionsList->verticalHeader()->setDefaultSectionSize(
+    _sessionsList->verticalHeader()->setDefaultSectionSize(
        geometrySettings->tableViewDefaultRowHeight());
 
     //_proxySortModel.setSourceModel(_connectionParamsModel.data());
@@ -116,6 +115,12 @@ void Window::createSessionsList()
             &QItemSelectionModel::selectionChanged,
             this,
             &Window::currentSessionDetailsChanged
+    );
+
+    connect(_sessionsList,
+            &QTableView::doubleClicked,
+            this,
+            &Window::sessionDoubleClicked
     );
 }
 
@@ -275,6 +280,18 @@ void Window::currentSessionDetailsChanged(
     validateControls();
 }
 
+void Window::sessionDoubleClicked(const QModelIndex &index)
+{
+    // Allow session name to be editable
+    using SessionColumns = meow::models::db::ConnectionParamsModel::Columns;
+    if (static_cast<SessionColumns>(index.column()) == SessionColumns::SessionName) {
+        return;
+    }
+
+    selectSessionAt(index.row());
+    openCurrentSession();
+}
+
 void Window::validateControls()
 {
     // TODO: session form controls
@@ -314,14 +331,12 @@ void Window::createNewSession()
     if (selectedIndexes.size() == 0) {
         return;
     }
+
     QModelIndex index = selectedIndexes.at(0);
     _sessionsList->scrollTo(index);
-
     _sessionsList->edit(
-                _connectionParamsModel->indexForSessionNameAt(index.row()));
+                    _connectionParamsModel->indexForSessionNameAt(index.row()));
 }
-
-
 
 void Window::deleteCurrentSession()
 {

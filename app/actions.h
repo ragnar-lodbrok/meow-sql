@@ -14,6 +14,7 @@ public:
 
     QAction * disconnect() const { return _disconnect; }
     QAction * sessionManager() const { return _sessionManager; }
+    QAction * userManager() const { return _userManager; }
     QAction * globalRefresh() const { return _globalRefresh; }
     QAction * showGlobalFilterPanel() const { return _showGlobalFilterPanel; }
 
@@ -35,6 +36,7 @@ private:
 
     QAction * _disconnect;
     QAction * _sessionManager;
+    QAction * _userManager;
     QAction * _globalRefresh;
     QAction * _showGlobalFilterPanel;
 

@@ -10,7 +10,7 @@ namespace central_right {
 
 
 DataTab::DataTab(QWidget *parent) :
-    QWidget(parent),
+    BaseRootTab(BaseRootTab::Type::Data, parent),
     _model(),
     _defaultTableDelegate(
             new models::delegates::EditQueryDataDelegate(&_model, &_model)),

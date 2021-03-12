@@ -2,6 +2,7 @@
 #define UI_CENTRALRIGHT_DATABASETAB_H
 
 #include <QtWidgets>
+#include "ui/main_window/central_right/base_root_tab.h"
 #include "models/db/database_entities_table_model.h"
 
 namespace meow {
@@ -9,7 +10,7 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-class DatabaseTab : public QWidget
+class DatabaseTab : public BaseRootTab
 {
     Q_OBJECT
 public:

@@ -5,6 +5,7 @@
 #include "db/entity/database_entity.h"
 #include "db/entity/view_entity.h"
 #include "db/entity/routine_entity.h"
+#include "db/entity/trigger_entity.h"
 #include "helpers/logger.h"
 
 namespace meow {
@@ -136,6 +137,11 @@ void ConnectionsManager::createEntity(Entity::Type type)
         routine->setIsNew(true);
         _activeEntity.setCurrentEntity(nullptr);
         emit creatingNewEntity(routine);
+    } else if (type == Entity::Type::Trigger) {
+        TriggerEntity * trigger = new TriggerEntity("", databaseEntity);
+        trigger->setIsNew(true);
+        _activeEntity.setCurrentEntity(nullptr);
+        emit creatingNewEntity(trigger);
     } else {
         Q_ASSERT(false);
     }
@@ -211,6 +217,7 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
                 }
             }
 
+            // TODO: use single method for parsing structure
             if (activeEntity->type() == Entity::Type::Table) {
                 TableEntity * table = static_cast<TableEntity *>(activeEntity);
                 connection->parseTableStructure(table);
@@ -226,6 +233,9 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
                     auto routine = static_cast<RoutineEntity *>(activeEntity);
                     connection->parseRoutineStructure(routine);
                 }
+            } else if (activeEntity->type() == Entity::Type::Trigger) {
+                auto trigger = static_cast<TriggerEntity *>(activeEntity);
+                connection->parseTriggerStructure(trigger);
             }
         }
         emit activeEntityChanged(activeEntity, select);

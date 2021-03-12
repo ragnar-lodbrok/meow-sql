@@ -94,7 +94,7 @@ MySQL: Trigger form (r/o)
 
 MySQL: Trigger form (edit, create)
 
-User management
+User management (r/o)
 
 ## 0.4.8
 

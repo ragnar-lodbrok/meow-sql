@@ -67,7 +67,7 @@ QStringList RoutineForm::allDefinerOptions(bool loadFromDB) const
     if (!_routine) return {};
 
     if (loadFromDB) {
-        return _routine->connection()->userManager()->allUsers();
+        return _routine->connection()->userManager()->allUserNames();
     }
 
     QStringList options;
@@ -266,7 +266,7 @@ void RoutineForm::setDefaultValuesForNew()
 {
     _routine->structure()->body = "BEGIN\n\nEND";
     _routine->structure()->definer
-            = _routine->connection()->userManager()->currentUser();
+            = _routine->connection()->userManager()->currentUserName();
     _routine->structure()->dataAccess = "CONTAINS SQL";
     _routine->structure()->sqlSecurity = "DEFINER";
 }

@@ -2,6 +2,7 @@
 #define UI_CENTRAL_RIGHT_QUERY_TAB_H
 
 #include <QtWidgets>
+#include "ui/main_window/central_right/base_root_tab.h"
 
 namespace meow {
 
@@ -18,7 +19,7 @@ namespace central_right {
 class QueryPanel;
 class QueryResult;
 
-class QueryTab : public QWidget
+class QueryTab : public BaseRootTab
 {
     Q_OBJECT
 public:

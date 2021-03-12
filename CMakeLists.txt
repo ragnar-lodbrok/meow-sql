@@ -9,7 +9,7 @@ cmake_minimum_required(VERSION 3.1)
 project(meowsql)
 set(PROJECT_VERSION_MAJOR 0)
 set(PROJECT_VERSION_MINOR 4)
-set(PROJECT_VERSION_PATCH 8)
+set(PROJECT_VERSION_PATCH 9)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -61,9 +61,11 @@ set(HEADER_FILES
     db/collation_fetcher.h
     db/common.h
     db/query_column.h
+    db/user_manager.h
     ssh/ssh_tunnel_interface.h
     ui/common/mysql_syntax.h
     ui/main_window/central_right/global_data_filter_interface.h
+    ui/main_window/central_right/base_root_tab.h
 )
 
 if(WITH_MYSQL)
@@ -127,10 +129,12 @@ set(SOURCE_FILES
     db/table_index.cpp
     db/table_structure.cpp
     db/table_structure_parser.cpp
+    db/trigger_editor.cpp
+    db/trigger_structure_parser.cpp
+    db/trigger_structure.cpp
     db/view_editor.cpp
     db/view_structure.cpp
     db/view_structure_parser.cpp
-    db/user_manager.cpp
     db/user_query/batch_executor.cpp
     db/user_query/sentences_parser.cpp
     db/user_query/user_query.cpp
@@ -147,6 +151,8 @@ set(SOURCE_FILES
     models/db/table_columns_model.cpp
     models/db/routine_parameters_model.cpp
     models/db/query_data_sort_filter_proxy_model.cpp
+    models/db/users_table_model.cpp
+    models/db/user_privileges_model.cpp
     models/db/variables_table_model.cpp
     models/delegates/checkbox_delegate.cpp
     models/delegates/combobox_delegate.cpp
@@ -169,8 +175,10 @@ set(SOURCE_FILES
     models/forms/table_indexes_model.cpp
     models/forms/table_indexes_model_item.cpp
     models/forms/table_info_form.cpp
+    models/forms/trigger_form.cpp
     models/forms/text_editor_popup_form.cpp
     models/forms/view_form.cpp
+    models/forms/user_management_form.cpp
     models/ui/central_right_host_widget_model.cpp
     models/ui/central_right_widget_model.cpp
     models/ui/table_info_widget_model.cpp
@@ -226,6 +234,9 @@ set(SOURCE_FILES
     ui/main_window/central_right/table/cr_table_info_foreign_keys_tab.cpp
     ui/main_window/central_right/table/cr_table_info_indexes_tab.cpp
     ui/main_window/central_right/table/cr_table_info_options_tab.cpp
+    ui/main_window/central_right/trigger/central_right_trigger_tab.cpp
+    ui/main_window/central_right/trigger/cr_trigger_body.cpp
+    ui/main_window/central_right/trigger/cr_trigger_options.cpp
     ui/main_window/central_right/view/central_right_view_tab.cpp
     ui/main_window/central_right/filter_widget.cpp
     ui/main_window/central_right_widget.cpp
@@ -237,6 +248,13 @@ set(SOURCE_FILES
     ui/session_manager/ssh_tunnel_tab.cpp
     ui/session_manager/start_tab.cpp
     ui/session_manager/window.cpp
+    ui/user_manager/window.cpp
+    ui/user_manager/left_widget.cpp
+    ui/user_manager/right_widget.cpp
+    ui/user_manager/options_widget.cpp
+    ui/user_manager/privileges_widget.cpp
+    ui/user_manager/credentials_tab.cpp
+    ui/user_manager/limitations_tab.cpp
     utils/exporting/mysql_dump_console.cpp
 )
 
@@ -256,6 +274,8 @@ if (WITH_MYSQL)
         db/mysql/mysql_query_data_fetcher.cpp
         db/mysql/mysql_table_editor.cpp
         db/mysql/mysql_table_engines_fetcher.cpp
+
+        db/mysql/mysql_user_manager.cpp
 
     )
 endif()
