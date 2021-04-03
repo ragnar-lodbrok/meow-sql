@@ -45,7 +45,6 @@ void Window::loadData()
 void Window::createWidgets()
 {
     QVBoxLayout * mainLayout = new QVBoxLayout();
-    //mainLayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(mainLayout);
 
     _splitter = new QSplitter(this);
@@ -63,10 +62,35 @@ void Window::createWidgets()
     _splitter->addWidget(_rightWidget);
     _splitter->setStretchFactor(1, 1);
 
+    // Bottom ------------------------------------------------------------------
+
+    QHBoxLayout * bottomLayout = new QHBoxLayout();
+    bottomLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->addLayout(bottomLayout);
+
     _warningLabel = new QLabel();
     _warningLabel->setWordWrap(true);
-    mainLayout->addWidget(_warningLabel, 0);
+    bottomLayout->addWidget(_warningLabel, 0);
 
+    bottomLayout->addStretch(1);
+
+    _saveButton = new QPushButton(QIcon(":/icons/disk.png"),
+                                     tr("Save"));
+    bottomLayout->addWidget(_saveButton, 0, Qt::AlignRight);
+    connect(_saveButton,
+            &QAbstractButton::clicked,
+            this,
+            &Window::onSaveClicked
+    );
+
+    _discardButton = new QPushButton(QIcon(":/icons/arrow_undo.png"),
+                                     tr("Discard"));
+    bottomLayout->addWidget(_discardButton, 0, Qt::AlignRight);
+    connect(_discardButton,
+            &QAbstractButton::clicked,
+            this,
+            &Window::onDiscardClicked
+    );
 }
 
 void Window::showErrorMessage(const QString& message)
@@ -83,6 +107,16 @@ void Window::onSelectedUserChanged()
 {
     _warningLabel->setText(_form.userWarningMessage());
     _rightWidget->fillDataFromForm();
+}
+
+void Window::onSaveClicked()
+{
+
+}
+
+void Window::onDiscardClicked()
+{
+
 }
 
 } // namespace user_manager

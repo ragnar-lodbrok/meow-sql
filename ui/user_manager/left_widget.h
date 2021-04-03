@@ -27,11 +27,18 @@ private:
 
     Q_SLOT void onSelectedUserChanged();
 
+    Q_SLOT void onAddUserClicked();
+    Q_SLOT void onCloneUserClicked();
+    Q_SLOT void onDeleteUserClicked();
+
     models::db::UsersTableModel _tableModel;
     QSortFilterProxyModel _proxyTableModel;
     models::forms::UserManagementForm * _form;
 
     QLabel * _usersLabel;
+    QPushButton * _addUserButton;
+    QPushButton * _cloneUserButton;
+    QPushButton * _deleteUserButton;
     QTableView * _userList;
     Window * _window;
 };

@@ -25,14 +25,32 @@ void PrivilegesWidget::createWidgets()
     mainLayout->setContentsMargins(0, 0, 0, 0);
     this->setLayout(mainLayout);
 
+    QHBoxLayout * addObjectLayout = new QHBoxLayout();
+    addObjectLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->addLayout(addObjectLayout);
+
     _accessLabel = new QLabel(tr("Allow access to:"));
-    mainLayout->addWidget(_accessLabel, 0);
+    addObjectLayout->addWidget(_accessLabel, 0);
+
+    _addObjectButton = new QPushButton(QIcon(":/icons/add.png"),
+                                       tr("Add object"));
+    addObjectLayout->addWidget(_addObjectButton, 0, Qt::AlignRight);
+    connect(_addObjectButton,
+            &QAbstractButton::clicked,
+            this,
+            &PrivilegesWidget::onAddObjectClicked
+    );
 
     _privilegesTree = new QTreeView();
     _privilegesTree->setHeaderHidden(true);
     _privilegesTree->setModel(&_treeModel);
 
     mainLayout->addWidget(_privilegesTree, 1);
+}
+
+void PrivilegesWidget::onAddObjectClicked()
+{
+
 }
 
 } // namespace user_manager

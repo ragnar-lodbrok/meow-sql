@@ -24,11 +24,14 @@ public:
 private:
     void createWidgets();
 
+    Q_SLOT void onAddObjectClicked();
+
     models::db::UserPrivilegesModel _treeModel;
 
     models::forms::UserManagementForm * _form;
 
     QLabel * _accessLabel;
+    QPushButton * _addObjectButton;
     QTreeView * _privilegesTree;
 };
 

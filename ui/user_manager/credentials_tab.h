@@ -29,7 +29,13 @@ private:
     QLineEdit * _usernameEdit;
 
     QLabel * _hostLabel;
-    QLineEdit * _hosteEdit;
+    QLineEdit * _hostEdit;
+
+    QLabel * _passwordLabel;
+    QLineEdit * _passwordEdit;
+
+    QLabel * _repeatPasswordLabel;
+    QLineEdit * _repeatPasswordEdit;
 
     models::forms::UserManagementForm * _form;
 };

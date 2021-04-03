@@ -16,7 +16,7 @@ CredentialsTab::CredentialsTab(models::forms::UserManagementForm *form,
 void CredentialsTab::createWidgets()
 {
     QGridLayout * mainGridLayout = new QGridLayout();
-    int row = 0;
+    int row = 0; // ---------------------------
 
     _usernameLabel = new QLabel(tr("User name:"));
     mainGridLayout->addWidget(_usernameLabel, row, 0);
@@ -25,14 +25,34 @@ void CredentialsTab::createWidgets()
     _usernameLabel->setBuddy(_usernameEdit);
     mainGridLayout->addWidget(_usernameEdit, row, 1);
 
-    ++row;
+    ++row; // ------------------------
 
     _hostLabel = new QLabel(tr("From host:"));
     mainGridLayout->addWidget(_hostLabel, row, 0);
 
-    _hosteEdit = new QLineEdit();
-    _hostLabel->setBuddy(_hosteEdit);
-    mainGridLayout->addWidget(_hosteEdit, row, 1);
+    _hostEdit = new QLineEdit();
+    _hostLabel->setBuddy(_hostEdit);
+    mainGridLayout->addWidget(_hostEdit, row, 1);
+
+    ++row; // -----------------------
+
+    _passwordLabel = new QLabel(tr("Password:"));
+    mainGridLayout->addWidget(_passwordLabel, row, 0);
+
+    _passwordEdit = new QLineEdit();
+    _passwordLabel->setBuddy(_passwordEdit);
+    mainGridLayout->addWidget(_passwordEdit, row, 1);
+
+    ++row; // -----------------------
+
+    _repeatPasswordLabel = new QLabel(tr("Repeat password:"));
+    mainGridLayout->addWidget(_repeatPasswordLabel, row, 0);
+
+    _repeatPasswordEdit = new QLineEdit();
+    _repeatPasswordLabel->setBuddy(_repeatPasswordEdit);
+    mainGridLayout->addWidget(_repeatPasswordEdit, row, 1);
+
+    // --------------------------
 
     mainGridLayout->setColumnMinimumWidth(0, 100);
     mainGridLayout->setColumnStretch(0, 1);
@@ -47,16 +67,19 @@ void CredentialsTab::fillDataFromForm()
     _usernameLabel->setEnabled(_form->hasUser());
     _hostLabel->setEnabled(_form->hasUser());
     _usernameEdit->setEnabled(_form->hasUser());
-    _hosteEdit->setEnabled(_form->hasUser());
+    _hostEdit->setEnabled(_form->hasUser());
+    _passwordLabel->setEnabled(_form->hasUser());
+    _passwordEdit->setEnabled(_form->hasUser());
+    _repeatPasswordLabel->setEnabled(_form->hasUser());
+    _repeatPasswordEdit->setEnabled(_form->hasUser());
 
     _usernameEdit->blockSignals(true);
     _usernameEdit->setText(_form->userName());
     _usernameEdit->blockSignals(false);
 
-
-    _hosteEdit->blockSignals(true);
-    _hosteEdit->setText(_form->userHost());
-    _hosteEdit->blockSignals(false);
+    _hostEdit->blockSignals(true);
+    _hostEdit->setText(_form->userHost());
+    _hostEdit->blockSignals(false);
 }
 
 } // namespace user_manager

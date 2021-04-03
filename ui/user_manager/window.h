@@ -37,6 +37,8 @@ private:
     void createWidgets();
 
     Q_SLOT void onSelectedUserChanged();
+    Q_SLOT void onSaveClicked();
+    Q_SLOT void onDiscardClicked();
 
     models::forms::UserManagementForm _form;
 
@@ -48,6 +50,8 @@ private:
     RightWidget * _rightWidget;
 
     QLabel * _warningLabel;
+    QPushButton * _saveButton;
+    QPushButton * _discardButton;
 };
 
 } // namespace user_manager

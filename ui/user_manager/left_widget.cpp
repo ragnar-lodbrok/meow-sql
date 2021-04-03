@@ -16,7 +16,6 @@ LeftWidget::LeftWidget(models::forms::UserManagementForm * form,
     , _form(form)
     , _window(window)
 {
-    //_tableModel.setUserManager(form->userManager());
     createWidgets();
 
     connect(_form, &models::forms::UserManagementForm::selectedUserChanged,
@@ -30,6 +29,8 @@ void LeftWidget::createWidgets()
 
     _usersLabel = new QLabel(tr("Select user account:"));
     mainLayout->addWidget(_usersLabel);
+
+    // Table -------------------------------------------------------------------
 
     _userList = new QTableView();
     _userList->verticalHeader()->hide();
@@ -57,6 +58,39 @@ void LeftWidget::createWidgets()
             &QItemSelectionModel::selectionChanged,
             this,
             &LeftWidget::userListSelectionChanged
+    );
+
+    // Buttons -----------------------------------------------------------------
+
+    QHBoxLayout * buttonsLayout = new QHBoxLayout();
+    buttonsLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->addLayout(buttonsLayout);
+
+    _addUserButton = new QPushButton(QIcon(":/icons/add.png"),
+                                     tr("Add"));
+    buttonsLayout->addWidget(_addUserButton);
+    connect(_addUserButton,
+            &QAbstractButton::clicked,
+            this,
+            &LeftWidget::onAddUserClicked
+    );
+
+    _cloneUserButton = new QPushButton(QIcon(":/icons/page_copy.png"),
+                                       tr("Clone"));
+    buttonsLayout->addWidget(_cloneUserButton);
+    connect(_cloneUserButton,
+            &QAbstractButton::clicked,
+            this,
+            &LeftWidget::onCloneUserClicked
+    );
+
+    _deleteUserButton = new QPushButton(QIcon(":/icons/delete.png"),
+                                        tr("Delete"));
+    buttonsLayout->addWidget(_deleteUserButton);
+    connect(_deleteUserButton,
+            &QAbstractButton::clicked,
+            this,
+            &LeftWidget::onDeleteUserClicked
     );
 
     this->setLayout(mainLayout);
@@ -97,6 +131,21 @@ void LeftWidget::userListSelectionChanged(const QItemSelection &selected,
 }
 
 void LeftWidget::onSelectedUserChanged()
+{
+
+}
+
+void LeftWidget::onAddUserClicked()
+{
+
+}
+
+void LeftWidget::onCloneUserClicked()
+{
+
+}
+
+void LeftWidget::onDeleteUserClicked()
 {
 
 }

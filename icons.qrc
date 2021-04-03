@@ -157,7 +157,7 @@
         <file alias="page_white_text.png">resources/icons/page_white_text.png</file>
         <file>resources/icons/page_excel.png</file>
         <file>resources/icons/page_edit.png</file>
-        <file>resources/icons/page_copy.png</file>
+        <file alias="page_copy.png">resources/icons/page_copy.png</file>
         <file>resources/icons/page_code.png</file>
         <file>resources/icons/note_go.png</file>
         <file alias="lightning.png">resources/icons/lightning.png</file>
@@ -170,7 +170,7 @@
         <file>resources/icons/filter.png</file>
         <file>resources/icons/fileopen.png</file>
         <file>resources/icons/editclear.png</file>
-        <file>resources/icons/disk.png</file>
+        <file alias="disk.png">resources/icons/disk.png</file>
         <file alias="disconnect.png">resources/icons/disconnect.png</file>
         <file alias="delete.png">resources/icons/delete.png</file>
         <file alias="database_save.png">resources/icons/database_save.png</file>
@@ -189,7 +189,7 @@
         <file>resources/icons/book_open.png</file>
         <file>resources/icons/book.png</file>
         <file alias="execute.png">resources/icons/artsbuilderexecute.png</file>
-        <file>resources/icons/arrow_undo.png</file>
+        <file alias="arrow_undo.png">resources/icons/arrow_undo.png</file>
         <file alias="arrow_refresh.png">resources/icons/arrow_refresh.png</file>
         <file alias="add.png">resources/icons/add.png</file>
     </qresource>
