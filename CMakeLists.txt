@@ -62,6 +62,7 @@ set(HEADER_FILES
     db/common.h
     db/query_column.h
     db/user_manager.h
+    db/user_editor_interface.h
     ssh/ssh_tunnel_interface.h
     ui/common/mysql_syntax.h
     ui/main_window/central_right/global_data_filter_interface.h
@@ -276,6 +277,7 @@ if (WITH_MYSQL)
         db/mysql/mysql_table_engines_fetcher.cpp
 
         db/mysql/mysql_user_manager.cpp
+        db/mysql/mysql_user_editor.cpp
 
     )
 endif()

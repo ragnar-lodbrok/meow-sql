@@ -115,6 +115,7 @@ const QList<UserPtr> & MySQLUserManager::userList(bool refresh) const
         } else if (skipNameResolve() && hostRequiresNameResolve(user->host())) {
             user->setStatus(User::Status::SkipNameResolve);
         }
+
         _userList.append(user);
 
         query->seekNext();
@@ -715,6 +716,15 @@ PrivilegeType MySQLUserManager::typeOfPrivilege(
     }
 
     return _privilegeTypes.value(privilegeName, PrivilegeType::None);
+}
+
+void MySQLUserManager::updateUserData(const UserPtr & user,
+                                      const UserPtr & userData)
+{
+    IUserManager::updateUserData(user, userData);
+    // clear cached data
+    _currentUserName = QString();
+    _currentUserNames.clear();
 }
 
 } // namespace db

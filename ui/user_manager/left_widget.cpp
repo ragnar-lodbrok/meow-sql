@@ -98,7 +98,8 @@ void LeftWidget::createWidgets()
 
 void LeftWidget::loadData()
 {
-     _tableModel.setUserManager(_form->userManager());
+    _form->userManager()->refresh();
+    _tableModel.setUserManager(_form->userManager());
 }
 
 void LeftWidget::userListSelectionChanged(const QItemSelection &selected,

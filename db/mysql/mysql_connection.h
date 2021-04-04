@@ -78,6 +78,7 @@ protected:
     virtual ConnectionFeatures * createFeatures() override;   
     virtual SessionVariables * createVariables() override;
     virtual IUserManager * createUserManager() override;
+    virtual IUserEditor * createUserEditor() override;
 
 private:
 

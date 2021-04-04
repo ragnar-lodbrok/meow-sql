@@ -35,6 +35,7 @@ public:
 private:
 
     void createWidgets();
+    void validateControls();
 
     Q_SLOT void onSelectedUserChanged();
     Q_SLOT void onSaveClicked();

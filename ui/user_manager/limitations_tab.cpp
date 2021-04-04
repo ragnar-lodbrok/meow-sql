@@ -34,6 +34,14 @@ void LimitationsTab::createWidgets()
         editor->setMaximum(INT_MAX);
         label->setBuddy(editor);
         _limitEditors[limitType] = editor;
+        connect(editor,
+                static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+                [=](int limitValue){
+                    meow::db::User::LimitType limitType
+                        = _limitEditors.key(static_cast<QSpinBox *>(sender()));
+
+                    _form->setLimit(limitType, limitValue);
+                });
         mainGridLayout->addWidget(editor, row, 1);
 
         ++row;

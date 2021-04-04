@@ -294,6 +294,7 @@ HEADERS  +=  app/actions.h \
     db/view_structure.h \
     db/view_structure_parser.h \
     db/user_manager.h \
+    db/user_editor_interface.h \
     db/user_query/batch_executor.h \
     db/user_query/sentences_parser.h \
     db/user_query/user_query.h \
@@ -433,7 +434,8 @@ WITH_MYSQL {
     db/mysql/mysql_query_data_fetcher.cpp \
     db/mysql/mysql_table_editor.cpp \
     db/mysql/mysql_table_engines_fetcher.cpp \
-    db/mysql/mysql_user_manager.cpp
+    db/mysql/mysql_user_manager.cpp \
+    db/mysql/mysql_user_editor.cpp
 }
 
 WITH_POSTGRESQL {
@@ -475,7 +477,8 @@ WITH_MYSQL {
     db/mysql/mysql_query_data_fetcher.h \
     db/mysql/mysql_table_editor.h \
     db/mysql/mysql_table_engines_fetcher.h \
-    db/mysql/mysql_user_manager.h
+    db/mysql/mysql_user_manager.h \
+    db/mysql/mysql_user_editor.h
 }
 
 WITH_POSTGRESQL {

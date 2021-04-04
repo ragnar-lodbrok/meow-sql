@@ -17,8 +17,7 @@ class UserManagementForm : public QObject
 {
     Q_OBJECT
 public:
-    UserManagementForm(meow::db::SessionEntity * session,
-                       meow::db::IUserManager * userManager);
+    UserManagementForm(meow::db::SessionEntity * session);
 
     meow::db::SessionEntity * session() const {
         return _session;
@@ -28,7 +27,7 @@ public:
         return _userManager;
     }
 
-    void selectUser(const meow::db::UserPtr & selectedUser);
+    void selectUser(const meow::db::UserPtr & user);
     meow::db::UserPtr selectedUser() const {
         return _selectedUser;
     }
@@ -37,22 +36,38 @@ public:
     }
     Q_SIGNAL void selectedUserChanged();
 
+    meow::db::UserPtr sourceUser() const {
+        return _sourceUser;
+    }
+
     QString userWarningMessage() const;
 
     QString userName() const;
-    QString userHost() const;
+    void setUserName(const QString & userName);
 
+    QString userHost() const;
+    void setUserHost(const QString & host);
 
     QList<meow::db::User::LimitType> supportedLimitTypes() const;
     QMap<meow::db::User::LimitType, int> userLimits() const;
 
     QString limitName(meow::db::User::LimitType limit) const;
     int limitValue(meow::db::User::LimitType limit) const;
+    void setLimit(meow::db::User::LimitType limit, int value);
+
+    void save();
+
+    bool hasUnsavedChanges() const { return _hasUnsavedChanges; }
+    void setHasUnsavedChanges(bool modified);
+    Q_SIGNAL void unsavedChanged(bool hasUnsavedChanges);
 
 private:
     meow::db::SessionEntity * _session;
     meow::db::IUserManager * _userManager;
     meow::db::UserPtr _selectedUser;
+    meow::db::UserPtr _sourceUser;
+
+    bool _hasUnsavedChanges;
 };
 
 } // namespace forms

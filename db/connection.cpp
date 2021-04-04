@@ -581,6 +581,15 @@ IUserManager * Connection::userManager()
     return _userManager.get();
 }
 
+IUserEditor * Connection::userEditor()
+{
+    if (_userEditor == nullptr) {
+        _userEditor.reset(createUserEditor());
+        Q_ASSERT(_userEditor != nullptr);
+    }
+    return _userEditor.get();
+}
+
 ViewEditor * Connection::createViewEditor()
 {
     return new ViewEditor(this);

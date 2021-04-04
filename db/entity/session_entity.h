@@ -11,6 +11,7 @@ namespace db {
 class ConnectionsManager;
 class DataBaseEntity;
 class TableEntity;
+class User;
 
 class SessionEntity : public Entity
 {

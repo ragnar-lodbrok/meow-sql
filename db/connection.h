@@ -19,6 +19,7 @@
 #include "connection_features.h"
 #include "session_variables.h"
 #include "user_manager.h"
+#include "user_editor_interface.h"
 
 namespace meow {
 namespace db {
@@ -149,6 +150,8 @@ public:
 
     IUserManager * userManager();
 
+    IUserEditor * userEditor();
+
     // TODO: rename to activeDatabaseChanged
     Q_SIGNAL void databaseChanged(const QString & database);
 
@@ -182,6 +185,7 @@ protected:
     virtual ITableStructureParser * createTableStructureParser();
     virtual SessionVariables * createVariables() { return nullptr; }
     virtual IUserManager * createUserManager() { return nullptr; }
+    virtual IUserEditor * createUserEditor() { return nullptr; }
 
 private:
     //int _connectionStarted;
@@ -201,6 +205,7 @@ private:
     std::shared_ptr<ConnectionFeatures> _features;
     std::unique_ptr<SessionVariables> _variables;
     std::unique_ptr<IUserManager> _userManager;
+    std::unique_ptr<IUserEditor> _userEditor;
 };
 
 } // namespace db

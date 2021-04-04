@@ -1,27 +1,37 @@
 #include "user_management_form.h"
+#include "db/entity/session_entity.h"
+#include "db/connection.h"
 
 namespace meow {
 namespace models {
 namespace forms {
 
-UserManagementForm::UserManagementForm(db::SessionEntity * session,
-                                       meow::db::IUserManager * userManager)
+UserManagementForm::UserManagementForm(db::SessionEntity * session)
     : _session(session)
-    , _userManager(userManager)
+    , _userManager(session->connection()->userManager())
     , _selectedUser(nullptr)
+    , _hasUnsavedChanges(false)
 {
 
 }
 
-void UserManagementForm::selectUser(const meow::db::UserPtr & selectedUser)
+void UserManagementForm::selectUser(const meow::db::UserPtr & user)
 {
-    if (selectedUser.get() == _selectedUser.get()) return;
+    //if (user.get() == _sourceUser.get()) return;
 
-    _selectedUser = selectedUser;
+    //if (selectUser->isNew()) { // TODO
+    //} else {
+
+    _sourceUser = user; // hold a ref to source user for update
+    _selectedUser.reset(user ? user->deepCopy() : nullptr); // copy to edit
+
+    //}
 
     if (_selectedUser) { // TODO: here?
         _userManager->loadPrivileges(_selectedUser);
     }
+
+    setHasUnsavedChanges(false);
 
     emit selectedUserChanged();
 }
@@ -59,9 +69,25 @@ QString UserManagementForm::userName() const
     return _selectedUser ? _selectedUser->username() : QString();
 }
 
+void UserManagementForm::setUserName(const QString & userName)
+{
+    if (_selectedUser) {
+        _selectedUser->setUsername(userName);
+        setHasUnsavedChanges(true);
+    }
+}
+
 QString UserManagementForm::userHost() const
 {
     return _selectedUser ? _selectedUser->host() : QString();
+}
+
+void UserManagementForm::setUserHost(const QString & host)
+{
+    if (_selectedUser) {
+        _selectedUser->setHost(host);
+        setHasUnsavedChanges(true);
+    }
 }
 
 QList<meow::db::User::LimitType> UserManagementForm::supportedLimitTypes() const
@@ -106,6 +132,38 @@ QString UserManagementForm::limitName(db::User::LimitType limit) const
 int UserManagementForm::limitValue(meow::db::User::LimitType limit) const
 {
     return _selectedUser ? _selectedUser->limit(limit) : 0;
+}
+
+void UserManagementForm::setLimit(meow::db::User::LimitType limit, int value)
+{
+    if (_selectedUser) {
+        _selectedUser->setLimit(limit, value);
+        setHasUnsavedChanges(true);
+    }
+}
+
+void UserManagementForm::save()
+{
+    if (_selectedUser && _hasUnsavedChanges) {
+
+        // TODO: if _selectedUser->isNew() -> insert
+
+        if (_session->connection()->userEditor()->edit(
+                    _sourceUser.get(), _selectedUser.get())) {
+
+            _userManager->updateUserData(_sourceUser, _selectedUser);
+
+            selectUser(_sourceUser);
+        }
+    }
+}
+
+void UserManagementForm::setHasUnsavedChanges(bool modified)
+{
+    if (_hasUnsavedChanges != modified) {
+        _hasUnsavedChanges = modified;
+        emit unsavedChanged(_hasUnsavedChanges);
+    }
 }
 
 } // namespace forms

@@ -111,7 +111,19 @@ int UsersTableModel::columnWidth(int column) const
 void UsersTableModel::setUserManager(meow::db::IUserManager * userManager)
 {
     removeAllRows();
+    if (_userManager) {
+        disconnect(_userManager,
+                &meow::db::IUserManager::userDataChanged,
+                this,
+                &UsersTableModel::onUserDataChanged);
+    }
     _userManager = userManager;
+    if (_userManager) {
+        connect(_userManager,
+                &meow::db::IUserManager::userDataChanged,
+                this,
+                &UsersTableModel::onUserDataChanged);
+    }
     insertAllRows();
 }
 
@@ -142,6 +154,19 @@ int UsersTableModel::userCount() const
     return 0;
 }
 
+void UsersTableModel::onUserDataChanged(const meow::db::UserPtr & user)
+{
+    if (_userManager) {
+        const QList<meow::db::UserPtr> & userList = _userManager->userList();
+        int userIndex = userList.indexOf(user);
+        if (userIndex != -1) {
+            emit dataChanged(
+                createIndex(userIndex, static_cast<int>(Columns::Username)),
+                createIndex(userIndex, static_cast<int>(Columns::Host))
+            );
+        }
+    }
+}
 
 } // namespace db
 } // namespace models

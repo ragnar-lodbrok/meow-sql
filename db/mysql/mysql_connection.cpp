@@ -16,6 +16,7 @@
 #include "db/data_type/mysql_connection_data_types.h"
 #include "mysql_query_data_editor.h"
 #include "mysql_user_manager.h"
+#include "mysql_user_editor.h"
 #include "ssh/openssh_tunnel.h"
 #include "db/entity/view_entity.h"
 
@@ -529,6 +530,11 @@ SessionVariables * MySQLConnection::createVariables()
 IUserManager * MySQLConnection::createUserManager()
 {
     return new MySQLUserManager(this);
+}
+
+IUserEditor * MySQLConnection::createUserEditor()
+{
+    return new MySQLUserEditor(this);
 }
 
 QString MySQLConnection::getViewCreateCode(const ViewEntity * view)

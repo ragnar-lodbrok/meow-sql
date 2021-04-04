@@ -10,7 +10,7 @@ namespace user_manager {
 
 Window::Window(main_window::Window * mainWindow, db::SessionEntity * session)
     : QDialog(mainWindow, Qt::WindowCloseButtonHint)
-    , _form(session, session->connection()->userManager())
+    , _form(session)
     , _mainWindow(mainWindow)
     , _session(session)
 {
@@ -93,6 +93,13 @@ void Window::createWidgets()
     );
 }
 
+void Window::validateControls()
+{
+    // TODO
+    _discardButton->setEnabled(_form.hasUnsavedChanges());
+    _saveButton->setEnabled(_form.hasUnsavedChanges());
+}
+
 void Window::showErrorMessage(const QString& message)
 {
     QMessageBox msgBox;
@@ -111,12 +118,18 @@ void Window::onSelectedUserChanged()
 
 void Window::onSaveClicked()
 {
-
+    try {
+        _form.save();
+    } catch(meow::db::Exception & ex) {
+        showErrorMessage(ex.message());
+    }
 }
 
 void Window::onDiscardClicked()
 {
-
+    if (_form.sourceUser()) {
+        _form.selectUser(_form.sourceUser());
+    }
 }
 
 } // namespace user_manager

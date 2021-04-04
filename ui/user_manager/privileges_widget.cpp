@@ -23,6 +23,7 @@ void PrivilegesWidget::createWidgets()
 {
     QVBoxLayout * mainLayout = new QVBoxLayout();
     mainLayout->setContentsMargins(0, 0, 0, 0);
+    mainLayout->setSpacing(0);
     this->setLayout(mainLayout);
 
     QHBoxLayout * addObjectLayout = new QHBoxLayout();
@@ -34,6 +35,7 @@ void PrivilegesWidget::createWidgets()
 
     _addObjectButton = new QPushButton(QIcon(":/icons/add.png"),
                                        tr("Add object"));
+    _addObjectButton->setFlat(true);
     addObjectLayout->addWidget(_addObjectButton, 0, Qt::AlignRight);
     connect(_addObjectButton,
             &QAbstractButton::clicked,

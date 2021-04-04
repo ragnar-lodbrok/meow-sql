@@ -2,11 +2,14 @@
 #define MODELS_USERS_TABLE_MODEL_H
 
 #include <QAbstractTableModel>
+#include <memory>
 
 namespace meow {
 
 namespace db {
     class IUserManager;
+    class User;
+    using UserPtr = std::shared_ptr<User>;
 }
 
 namespace models {
@@ -36,6 +39,8 @@ public:
     void setUserManager(meow::db::IUserManager * userManager);
 
 private:
+
+    Q_SLOT void onUserDataChanged(const meow::db::UserPtr & user);
 
     void removeAllRows();
     void insertAllRows();

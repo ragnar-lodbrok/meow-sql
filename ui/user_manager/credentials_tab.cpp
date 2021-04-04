@@ -23,6 +23,10 @@ void CredentialsTab::createWidgets()
 
     _usernameEdit = new QLineEdit();
     _usernameLabel->setBuddy(_usernameEdit);
+    connect(_usernameEdit, &QLineEdit::textEdited,
+            [=](const QString &name) {
+                _form->setUserName(name);
+            });
     mainGridLayout->addWidget(_usernameEdit, row, 1);
 
     ++row; // ------------------------
@@ -32,6 +36,10 @@ void CredentialsTab::createWidgets()
 
     _hostEdit = new QLineEdit();
     _hostLabel->setBuddy(_hostEdit);
+    connect(_hostEdit, &QLineEdit::textEdited,
+            [=](const QString &host) {
+                _form->setUserHost(host);
+            });
     mainGridLayout->addWidget(_hostEdit, row, 1);
 
     ++row; // -----------------------

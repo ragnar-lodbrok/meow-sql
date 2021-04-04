@@ -4,6 +4,7 @@
 #include <QStringList>
 #include <QMap>
 #include <QSet>
+#include <QObject>
 #include <memory>
 
 namespace meow {
@@ -66,6 +67,12 @@ public:
 
     int grantedPrivilegeCount() const {
         return _grantedPrivileges.count();
+    }
+
+    UserPrivilege * deepCopy() const {
+        UserPrivilege * copy = new UserPrivilege();
+        *copy = *this;
+        return copy;
     }
 
 private:
@@ -143,6 +150,26 @@ public:
         return nullptr;
     }
 
+    void copyDataFrom(const User * user) {
+        this->_status = user->_status;
+        this->_username = user->_username;
+        this->_host = user->_host;
+        this->_password = user->_password;
+        this->_limits = user->_limits;
+        this->_privileges.clear();
+        this->_privileges.reserve(user->_privileges.size());
+        for (const UserPrivilegePtr & privPtr : user->_privileges) {
+            this->_privileges.push_back(
+                        std::shared_ptr<UserPrivilege>(privPtr->deepCopy()));
+        }
+    }
+
+    User * deepCopy() const {
+        User * copy = new User();
+        copy->copyDataFrom(this);
+        return copy;
+    }
+
 private:
     Status _status;
     QString _username;
@@ -154,11 +181,13 @@ private:
 
 using UserPtr = std::shared_ptr<User>;
 
-class IUserManager
+class IUserManager : public QObject
 {
+    Q_OBJECT
 public:
     IUserManager(Connection * connection)
-        : _connection(connection) {}
+        : QObject()
+        , _connection(connection) {}
     virtual ~IUserManager() {}
 
     virtual QString currentUserName() const = 0;
@@ -176,6 +205,16 @@ public:
         return PrivilegeType::None;
     }
 
+    virtual void updateUserData(const UserPtr & user,
+                                const UserPtr & userData) {
+        user->copyDataFrom(userData.get());
+        emit userDataChanged(user);
+    }
+
+    void refresh() {
+        this->userList(true);
+    }
+
     // 1  - all granted
     // -1 - none granted
     // 0  - some granted
@@ -191,6 +230,9 @@ public:
 
         return (grantedCount == allCount) ? 1 : 0;
     }
+
+    Q_SIGNAL void userDataChanged(const UserPtr & user);
+
 protected:
     Connection * _connection;
 };

@@ -22,6 +22,8 @@ public:
         initScopePrivileges();
         return _scopePrivileges.value(scope);
     }
+    virtual void updateUserData(const UserPtr & user,
+                                const UserPtr & userData) override;
     PrivilegeType typeOfPrivilege(const QString & privilegeName) const override;
 private:
 
