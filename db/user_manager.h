@@ -132,6 +132,10 @@ public:
         _limits[type] = value;
     }
 
+    bool limitsAreEqual(const User * another) const {
+        return _limits == another->_limits;
+    }
+
     void clearPrivileges() {
         _limits.clear();
         _privileges.clear();

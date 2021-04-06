@@ -36,12 +36,8 @@ void LimitationsTab::createWidgets()
         _limitEditors[limitType] = editor;
         connect(editor,
                 static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                [=](int limitValue){
-                    meow::db::User::LimitType limitType
-                        = _limitEditors.key(static_cast<QSpinBox *>(sender()));
-
-                    _form->setLimit(limitType, limitValue);
-                });
+                this,
+                &LimitationsTab::onLimitSpinBoxValueChanged);
         mainGridLayout->addWidget(editor, row, 1);
 
         ++row;
@@ -53,6 +49,14 @@ void LimitationsTab::createWidgets()
     mainGridLayout->setAlignment(Qt::AlignTop);
 
     this->setLayout(mainGridLayout);
+}
+
+void LimitationsTab::onLimitSpinBoxValueChanged(int value)
+{
+    meow::db::User::LimitType limitType
+        = _limitEditors.key(static_cast<QSpinBox *>(sender()));
+
+    _form->setLimit(limitType, value);
 }
 
 void LimitationsTab::fillDataFromForm()

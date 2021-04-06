@@ -14,6 +14,8 @@ public:
     virtual bool edit(User * user, User * newData) override;
     virtual bool insert(User * user) override;
     virtual bool drop(User * user) override;
+private:
+    bool editLimits(User * user, User * newData);
 };
 
 } // namespace db

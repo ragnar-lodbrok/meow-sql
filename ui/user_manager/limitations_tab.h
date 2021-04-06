@@ -24,6 +24,7 @@ public:
 private:
 
     void createWidgets();
+    Q_SLOT void onLimitSpinBoxValueChanged(int value);
 
     QMap<meow::db::User::LimitType, QLabel *> _limitLabels;
     QMap<meow::db::User::LimitType, QSpinBox *> _limitEditors;

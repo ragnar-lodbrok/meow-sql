@@ -1,6 +1,7 @@
 #include "user_management_form.h"
 #include "db/entity/session_entity.h"
 #include "db/connection.h"
+#include <QDebug>
 
 namespace meow {
 namespace models {
@@ -19,6 +20,10 @@ void UserManagementForm::selectUser(const meow::db::UserPtr & user)
 {
     //if (user.get() == _sourceUser.get()) return;
 
+    if (user) {
+        _userManager->loadPrivileges(user);
+    }
+
     //if (selectUser->isNew()) { // TODO
     //} else {
 
@@ -26,10 +31,6 @@ void UserManagementForm::selectUser(const meow::db::UserPtr & user)
     _selectedUser.reset(user ? user->deepCopy() : nullptr); // copy to edit
 
     //}
-
-    if (_selectedUser) { // TODO: here?
-        _userManager->loadPrivileges(_selectedUser);
-    }
 
     setHasUnsavedChanges(false);
 

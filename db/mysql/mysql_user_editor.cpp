@@ -39,6 +39,10 @@ bool MySQLUserEditor::edit(User * user, User * newData)
         }
     }
 
+    if (editLimits(user, newData)) {
+        changed = true;
+    }
+
     if (userOrHostChanged) {
         changed = true;
         if (_connection->serverVersionInt() >= 50002) {
@@ -71,6 +75,52 @@ bool MySQLUserEditor::drop(User * user)
 {
     Q_UNUSED(user);
     return false;
+}
+
+bool MySQLUserEditor::editLimits(User * user, User * newData)
+{
+    // https://dev.mysql.com/doc/refman/5.6/en/user-resources.html
+
+    if (user->limitsAreEqual(newData)) {
+        return false;
+    }
+
+    const QList<User::LimitType> & supportedLimits
+            = _connection->userManager()->supportedLimitTypes();
+
+    QMap<User::LimitType, QString> limitNames = {
+        {User::LimitType::MaxQueriesPerHour,     "MAX_QUERIES_PER_HOUR"},
+        {User::LimitType::MaxUpdatesPerHour,     "MAX_UPDATES_PER_HOUR"},
+        {User::LimitType::MaxConnectionsPerHour, "MAX_CONNECTIONS_PER_HOUR"},
+        {User::LimitType::MaxUserConnections,    "MAX_USER_CONNECTIONS"},
+    };
+
+    QStringList withClauses;
+
+    for (const User::LimitType type : supportedLimits) {
+        if (user->limit(type) != newData->limit(type)) {
+            withClauses << (limitNames.value(type) + " "
+                        + QString::number(newData->limit(type)));
+        }
+    }
+
+    // The statement modifies only the limit value specified
+    // and leaves the account otherwise unchanged:
+    // > GRANT USAGE ON *.* TO 'francis'@'localhost'
+    // ->     WITH MAX_QUERIES_PER_HOUR 100;
+
+    if (withClauses.isEmpty()) {
+        return false;
+    }
+
+    QString grantUsageWithLimits = QString("GRANT USAGE ON *.* TO %1@%2 WITH %3")
+            .arg(_connection->escapeString(user->username()))
+            .arg(_connection->escapeString(normalizeHost(user->host())))
+            .arg(withClauses.join(' '));
+
+    _connection->query(grantUsageWithLimits);
+
+    return true;
 }
 
 } // namespace db
