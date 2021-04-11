@@ -127,9 +127,7 @@ void Window::onSaveClicked()
 
 void Window::onDiscardClicked()
 {
-    if (_form.sourceUser()) {
-        _form.selectUser(_form.sourceUser());
-    }
+    _form.discard();
 }
 
 } // namespace user_manager

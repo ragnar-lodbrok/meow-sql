@@ -32,6 +32,8 @@ void UserManagementForm::selectUser(const meow::db::UserPtr & user)
 
     //}
 
+    _repeatPassword = QString();
+
     setHasUnsavedChanges(false);
 
     emit selectedUserChanged();
@@ -89,6 +91,25 @@ void UserManagementForm::setUserHost(const QString & host)
         _selectedUser->setHost(host);
         setHasUnsavedChanges(true);
     }
+}
+
+QString UserManagementForm::password() const
+{
+    return _selectedUser ? _selectedUser->password() : QString();
+}
+
+void UserManagementForm::setPassword(const QString & password)
+{
+    if (_selectedUser) {
+        _selectedUser->setPassword(password);
+        setHasUnsavedChanges(true);
+    }
+}
+
+void UserManagementForm::setRepeatPassword(const QString & password)
+{
+    _repeatPassword = password;
+    setHasUnsavedChanges(true);
 }
 
 QList<meow::db::User::LimitType> UserManagementForm::supportedLimitTypes() const
@@ -149,13 +170,24 @@ void UserManagementForm::save()
 
         // TODO: if _selectedUser->isNew() -> insert
 
+        if (_selectedUser->password() != _repeatPassword) {
+            throw db::Exception("Repeated password does not match first one.");
+        }
+
         if (_session->connection()->userEditor()->edit(
                     _sourceUser.get(), _selectedUser.get())) {
-
+            _selectedUser->setPassword(QString()); // TODO: better place?
             _userManager->updateUserData(_sourceUser, _selectedUser);
 
             selectUser(_sourceUser);
         }
+    }
+}
+
+void UserManagementForm::discard()
+{
+    if (_sourceUser) {
+        selectUser(_sourceUser);
     }
 }
 

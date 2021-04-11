@@ -48,6 +48,14 @@ public:
     QString userHost() const;
     void setUserHost(const QString & host);
 
+    QString password() const;
+    void setPassword(const QString & password);
+
+    QString repeatPassword() const {
+        return _repeatPassword;
+    }
+    void setRepeatPassword(const QString & password);
+
     QList<meow::db::User::LimitType> supportedLimitTypes() const;
     QMap<meow::db::User::LimitType, int> userLimits() const;
 
@@ -56,6 +64,7 @@ public:
     void setLimit(meow::db::User::LimitType limit, int value);
 
     void save();
+    void discard();
 
     bool hasUnsavedChanges() const { return _hasUnsavedChanges; }
     void setHasUnsavedChanges(bool modified);
@@ -66,6 +75,8 @@ private:
     meow::db::IUserManager * _userManager;
     meow::db::UserPtr _selectedUser;
     meow::db::UserPtr _sourceUser;
+
+    QString _repeatPassword;
 
     bool _hasUnsavedChanges;
 };

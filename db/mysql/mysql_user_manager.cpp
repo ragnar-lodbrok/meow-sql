@@ -104,13 +104,14 @@ const QList<UserPtr> & MySQLUserManager::userList(bool refresh) const
 
         user->setUsername(query->curRowColumn(indexOfUser));
         user->setHost(query->curRowColumn(indexOfHost));
-        user->setPassword(query->curRowColumn(indexOfPassword));
+        QString password = query->curRowColumn(indexOfPassword);
+        //user->setPassword(password); // don't store password (not required)
 
-        if (user->password().length() == 0) {
+        if (password.length() == 0) {
             user->setStatus(User::Status::EmptyPassword);
         }
 
-        if (isValidPasswordHashLen(user->password()) == false) {
+        if (isValidPasswordHashLen(password) == false) {
             user->setStatus(User::Status::InvalidPasswordLength);
         } else if (skipNameResolve() && hostRequiresNameResolve(user->host())) {
             user->setStatus(User::Status::SkipNameResolve);

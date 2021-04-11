@@ -43,6 +43,10 @@ bool MySQLUserEditor::edit(User * user, User * newData)
         changed = true;
     }
 
+    if (editPassword(user, newData)) {
+        changed = true;
+    }
+
     if (userOrHostChanged) {
         changed = true;
         if (_connection->serverVersionInt() >= 50002) {
@@ -119,6 +123,34 @@ bool MySQLUserEditor::editLimits(User * user, User * newData)
             .arg(withClauses.join(' '));
 
     _connection->query(grantUsageWithLimits);
+
+    return true;
+}
+
+bool MySQLUserEditor::editPassword(User * user, User * newData)
+{
+    if (newData->password().isEmpty()) {
+        return false; // no new password - ignore
+    }
+
+    // mysql> SET PASSWORD FOR
+    // -> 'jeffrey'@'localhost' = PASSWORD('mypass'); // < 5.7
+    // SET PASSWORD FOR 'jeffrey'@'localhost' = 'auth_string'; // >= 5.7
+
+    bool isMariaDB = false; // TODO
+    bool useRawAuthString = (!isMariaDB
+                             && _connection->serverVersionInt() >= 50706);
+
+    QString escapedPassword = _connection->escapeString(newData->password());
+
+    QString setPasswordSQL = QString("SET PASSWORD FOR %1@%2 = %3")
+            .arg(_connection->escapeString(user->username()))
+            .arg(_connection->escapeString(normalizeHost(user->host())))
+            .arg(useRawAuthString
+                 ? escapedPassword
+                 : ("PASSWORD(" + escapedPassword + ")"));
+
+    _connection->query(setPasswordSQL);
 
     return true;
 }

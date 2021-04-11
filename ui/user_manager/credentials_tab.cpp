@@ -49,6 +49,10 @@ void CredentialsTab::createWidgets()
 
     _passwordEdit = new QLineEdit();
     _passwordLabel->setBuddy(_passwordEdit);
+    connect(_passwordEdit, &QLineEdit::textEdited,
+            [=](const QString &password) {
+                _form->setPassword(password);
+            });
     mainGridLayout->addWidget(_passwordEdit, row, 1);
 
     ++row; // -----------------------
@@ -58,6 +62,10 @@ void CredentialsTab::createWidgets()
 
     _repeatPasswordEdit = new QLineEdit();
     _repeatPasswordLabel->setBuddy(_repeatPasswordEdit);
+    connect(_repeatPasswordEdit, &QLineEdit::textEdited,
+            [=](const QString &password) {
+                _form->setRepeatPassword(password);
+            });
     mainGridLayout->addWidget(_repeatPasswordEdit, row, 1);
 
     // --------------------------
@@ -88,6 +96,14 @@ void CredentialsTab::fillDataFromForm()
     _hostEdit->blockSignals(true);
     _hostEdit->setText(_form->userHost());
     _hostEdit->blockSignals(false);
+
+    _passwordEdit->blockSignals(true);
+    _passwordEdit->setText(_form->password());
+    _passwordEdit->blockSignals(false);
+
+    _repeatPasswordEdit->blockSignals(true);
+    _repeatPasswordEdit->setText(_form->repeatPassword());
+    _repeatPasswordEdit->blockSignals(false);
 }
 
 } // namespace user_manager
