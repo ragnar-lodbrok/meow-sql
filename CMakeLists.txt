@@ -142,6 +142,7 @@ set(SOURCE_FILES
     helpers/formatting.cpp
     helpers/logger.cpp
     helpers/parsing.cpp
+    helpers/random_password_generator.cpp
     helpers/text.cpp
     models/db/base_data_table_model.cpp
     models/db/connection_params_model.cpp

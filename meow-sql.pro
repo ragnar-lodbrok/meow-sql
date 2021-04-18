@@ -124,6 +124,7 @@ SOURCES += main.cpp\
     helpers/formatting.cpp \
     helpers/logger.cpp \
     helpers/parsing.cpp \
+    helpers/random_password_generator.cpp \
     helpers/text.cpp \
     models/db/base_data_table_model.cpp \
     models/db/connection_params_model.cpp \
@@ -301,6 +302,7 @@ HEADERS  +=  app/actions.h \
     helpers/formatting.h \
     helpers/logger.h \
     helpers/parsing.h \
+    helpers/random_password_generator.h \
     helpers/text.h \
     models/db/base_data_table_model.h \
     models/db/connection_params_model.h \

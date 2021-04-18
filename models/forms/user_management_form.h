@@ -70,6 +70,12 @@ public:
     void setHasUnsavedChanges(bool modified);
     Q_SIGNAL void unsavedChanged(bool hasUnsavedChanges);
 
+    QStringList passwordRequirements() const;
+
+    QStringList randomPasswords(int length, int count) const;
+
+    QVector<int> randomPasswordsLengths() const;
+
 private:
     meow::db::SessionEntity * _session;
     meow::db::IUserManager * _userManager;

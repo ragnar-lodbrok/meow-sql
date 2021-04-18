@@ -23,7 +23,7 @@ void CredentialsTab::createWidgets()
 
     _usernameEdit = new QLineEdit();
     _usernameLabel->setBuddy(_usernameEdit);
-    connect(_usernameEdit, &QLineEdit::textEdited,
+    connect(_usernameEdit, &QLineEdit::textChanged,
             [=](const QString &name) {
                 _form->setUserName(name);
             });
@@ -36,7 +36,7 @@ void CredentialsTab::createWidgets()
 
     _hostEdit = new QLineEdit();
     _hostLabel->setBuddy(_hostEdit);
-    connect(_hostEdit, &QLineEdit::textEdited,
+    connect(_hostEdit, &QLineEdit::textChanged,
             [=](const QString &host) {
                 _form->setUserHost(host);
             });
@@ -49,10 +49,19 @@ void CredentialsTab::createWidgets()
 
     _passwordEdit = new QLineEdit();
     _passwordLabel->setBuddy(_passwordEdit);
-    connect(_passwordEdit, &QLineEdit::textEdited,
+    QStringList passwordRequirements = _form->passwordRequirements();
+    if (!passwordRequirements.isEmpty()) {
+        _passwordEdit->setToolTip(passwordRequirements.join("\n"));
+    }
+    connect(_passwordEdit, &QLineEdit::textChanged,
             [=](const QString &password) {
                 _form->setPassword(password);
             });
+    QAction * showPasswordsAction = _passwordEdit->addAction(
+                QIcon(":/icons/dropdown_highlight.png"),
+                QLineEdit::TrailingPosition);
+    connect(showPasswordsAction, &QAction::triggered,
+            this, &CredentialsTab::onShowPasswordsAction);
     mainGridLayout->addWidget(_passwordEdit, row, 1);
 
     ++row; // -----------------------
@@ -62,7 +71,7 @@ void CredentialsTab::createWidgets()
 
     _repeatPasswordEdit = new QLineEdit();
     _repeatPasswordLabel->setBuddy(_repeatPasswordEdit);
-    connect(_repeatPasswordEdit, &QLineEdit::textEdited,
+    connect(_repeatPasswordEdit, &QLineEdit::textChanged,
             [=](const QString &password) {
                 _form->setRepeatPassword(password);
             });
@@ -76,6 +85,41 @@ void CredentialsTab::createWidgets()
     mainGridLayout->setAlignment(Qt::AlignTop);
 
     this->setLayout(mainGridLayout);
+}
+
+void CredentialsTab::onShowPasswordsAction()
+{
+    // Listening: Wolfheart - The Hunt
+
+    QMenu lengthMenu;
+
+    for (int length : _form->randomPasswordsLengths()) {
+
+        QMenu * lenSubMenu = lengthMenu.addMenu( // owns result
+            QString("%1 characters").arg(length));
+
+        for (const QString & password : _form->randomPasswords(length, 10)) {
+            QAction * passwordAction = new QAction(
+                        password,
+                        lenSubMenu);
+            passwordAction->setData(password);
+            lenSubMenu->addAction(passwordAction);
+        }
+    }
+
+    int menuXPos = _passwordEdit->width() - lengthMenu.sizeHint().width();
+    int menuYPos = _passwordEdit->height() - 1;
+
+    QAction * executedAction
+            = lengthMenu.exec(_passwordEdit->mapToGlobal(
+                                 QPoint(menuXPos, menuYPos)));
+    if (!executedAction) return;
+
+    QString password = executedAction->data().toString();
+    if (password.isEmpty()) return;
+
+    _passwordEdit->setText(password);
+    _repeatPasswordEdit->setText(password);
 }
 
 void CredentialsTab::fillDataFromForm()

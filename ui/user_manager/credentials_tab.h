@@ -25,6 +25,8 @@ private:
 
     void createWidgets();
 
+    Q_SLOT void onShowPasswordsAction();
+
     QLabel * _usernameLabel;
     QLineEdit * _usernameEdit;
 

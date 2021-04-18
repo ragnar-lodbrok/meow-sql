@@ -1,6 +1,7 @@
 #include "user_management_form.h"
 #include "db/entity/session_entity.h"
 #include "db/connection.h"
+#include "helpers/random_password_generator.h"
 #include <QDebug>
 
 namespace meow {
@@ -197,6 +198,59 @@ void UserManagementForm::setHasUnsavedChanges(bool modified)
         _hasUnsavedChanges = modified;
         emit unsavedChanged(_hasUnsavedChanges);
     }
+}
+
+QStringList UserManagementForm::passwordRequirements() const
+{
+    QStringList list;
+
+    meow::db::UserPasswordRequirements reqs
+            = _session->connection()->userEditor()->passwordRequirements();
+
+    if (reqs.minLength > 0) {
+        list << tr("%1 or more characters long").arg(reqs.minLength);
+    }
+    if (reqs.minMixedCaseCount > 0) {
+        list << tr("%1 mixed case character(s)").arg(reqs.minMixedCaseCount);
+    }
+    if (reqs.minNumberCount > 0) {
+        list << tr("%1 number(s)").arg(reqs.minNumberCount);
+    }
+    if (reqs.minSpecialCharCount > 0) {
+        list << tr("%1 special character(s)").arg(reqs.minSpecialCharCount);
+    }
+
+    return list;
+}
+
+QStringList UserManagementForm::randomPasswords(int length, int count) const
+{
+    meow::helpers::RandomPasswordGenerator generator;
+
+    QStringList passwords;
+    passwords.reserve(count);
+
+    while(count-- > 0) {
+        passwords << generator.run(length);
+    }
+
+    return passwords;
+}
+
+QVector<int> UserManagementForm::randomPasswordsLengths() const
+{
+    QVector<int> lengths;
+
+    meow::db::UserPasswordRequirements reqs
+            = _session->connection()->userEditor()->passwordRequirements();
+
+    for (int len : {6,8,10,12,15,30}) {
+        if (reqs.minLength == 0 || len >= reqs.minLength) {
+            lengths << len;
+        }
+    }
+
+    return lengths;
 }
 
 } // namespace forms

@@ -81,6 +81,21 @@ bool MySQLUserEditor::drop(User * user)
     return false;
 }
 
+UserPasswordRequirements MySQLUserEditor::passwordRequirements() const
+{
+    UserPasswordRequirements reqs;
+
+    reqs.minLength = sessionVariableAsInt("validate_password_length");
+    reqs.minNumberCount
+            = sessionVariableAsInt("validate_password_number_count");
+    reqs.minMixedCaseCount
+            = sessionVariableAsInt("validate_password_mixed_case_count");
+    reqs.minSpecialCharCount
+            = sessionVariableAsInt("validate_password_special_char_count");
+
+    return reqs;
+}
+
 bool MySQLUserEditor::editLimits(User * user, User * newData)
 {
     // https://dev.mysql.com/doc/refman/5.6/en/user-resources.html
@@ -153,6 +168,14 @@ bool MySQLUserEditor::editPassword(User * user, User * newData)
     _connection->query(setPasswordSQL);
 
     return true;
+}
+
+int MySQLUserEditor::sessionVariableAsInt(const QString & variableName) const
+{
+    SessionVariables * sessionVars = _connection->variables();
+    sessionVars->fetch();
+    QString value = sessionVars->value(variableName, true);
+    return value.isEmpty() ? 0 : value.toInt();
 }
 
 } // namespace db
