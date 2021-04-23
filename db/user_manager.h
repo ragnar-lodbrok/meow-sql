@@ -69,10 +69,51 @@ public:
         return _grantedPrivileges.count();
     }
 
+    const QSet<QString> & grantedPrivileges() const {
+        return _grantedPrivileges;
+    }
+
     UserPrivilege * deepCopy() const {
         UserPrivilege * copy = new UserPrivilege();
         *copy = *this;
         return copy;
+    }
+
+    QString id() const {
+        switch (_scope) {
+        case Scope::Global:
+            return "global";
+        case Scope::DatabaseLevel:
+            return "db:" + _databaseName;
+        case Scope::TableLevel:
+            return "table:" + _databaseName + ":" + _entityName;
+        case Scope::FunctionLevel:
+            return "func:" + _databaseName + ":" + _entityName;
+        case Scope::ProcedureLevel:
+            return "proc:" + _databaseName + ":" + _entityName;
+        case Scope::TableColumnLevel:
+            return "col:" + _databaseName + ":" + _entityName + ":" + _fieldName;
+        case Scope::Proxy:
+            return "proxy"; // TODO
+        default:
+            Q_ASSERT(false);
+            return QString();
+        }
+    }
+
+    bool operator==(const UserPrivilege & other) const
+    {
+       if (this == &other) return true;
+       return _scope == other._scope
+           && _databaseName == other._databaseName
+           && _entityName  == other._entityName
+           && _fieldName == other._fieldName
+           && _grantedPrivileges == other._grantedPrivileges;
+    }
+
+    bool operator!=(const UserPrivilege & other) const
+    {
+        return !(*this == other);
     }
 
 private:
@@ -143,6 +184,15 @@ public:
 
     QList<UserPrivilegePtr> & privileges() {
         return _privileges;
+    }
+
+    UserPrivilegePtr privilegeById(const QString & id) {
+        for (UserPrivilegePtr & priv : _privileges) {
+            if (priv->id() == id) {
+                return priv;
+            }
+        }
+        return nullptr;
     }
 
     UserPrivilegePtr globalPrivileges() const {
@@ -222,7 +272,7 @@ public:
     // 1  - all granted
     // -1 - none granted
     // 0  - some granted
-    int allPrivilegesGranted(const UserPrivilegePtr & privileges)
+    int allPrivilegesGranted(const UserPrivilegePtr & privileges) const
     {
         int allCount
                 = supportedPrivilegesForScope(privileges->scope()).size();
@@ -233,6 +283,31 @@ public:
         }
 
         return (grantedCount == allCount) ? 1 : 0;
+    }
+
+    // true if changed
+    bool setPrivilegeGranted(const UserPrivilegePtr & privileges,
+                             bool granted = true)
+    {
+        QStringList allPrivs = supportedPrivilegesForScope(privileges->scope());
+
+        if (granted &&
+                allPrivs.count() == privileges->grantedPrivilegeCount()) {
+            return false; // no change
+        }
+
+        if (!granted && privileges->grantedPrivilegeCount() == 0) {
+            return false; // no change
+        }
+
+        for (const QString & privName : allPrivs) {
+            if (granted) {
+                privileges->grantPrivilege(privName);
+            } else {
+                privileges->invokePrivilege(privName);
+            }
+        }
+        return true;
     }
 
     Q_SIGNAL void userDataChanged(const UserPtr & user);

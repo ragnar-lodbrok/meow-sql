@@ -3,6 +3,7 @@
 
 #include <QString>
 #include "db/user_editor_interface.h"
+#include "db/user_manager.h"
 
 namespace meow {
 namespace db {
@@ -22,6 +23,22 @@ public:
 private:
     bool editLimits(User * user, User * newData);
     bool editPassword(User * user, User * newData);
+    bool editPrivileges(User * user, User * newData);
+
+    void editPrivileges(const UserPrivilegePtr & oldPriv,
+                        const UserPrivilegePtr & newPriv,
+                        User * user);
+
+    void revoke(const QStringList & privList,
+                const QString & onObject,
+                const QString & fromUser);
+
+    void grant(const QStringList & privList,
+               const QString & onObject,
+               const QString & toUser);
+
+    QString privilegeLevelSQL(const UserPrivilegePtr & priv) const;
+    QString userHostSQL(const User * user) const;
 
     int sessionVariableAsInt(const QString & variableName) const;
 };

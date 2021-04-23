@@ -32,6 +32,10 @@ public:
             const QModelIndex & parent = QModelIndex()) const override;
     virtual int columnCount(
             const QModelIndex & parent = QModelIndex()) const override;
+
+    virtual bool setData(const QModelIndex &index,
+                         const QVariant &value,
+                         int role = Qt::EditRole) override;
 private:
 
     void reinitItems();

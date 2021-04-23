@@ -47,6 +47,10 @@ bool MySQLUserEditor::edit(User * user, User * newData)
         changed = true;
     }
 
+    if (editPrivileges(user, newData)) {
+        changed = true;
+    }
+
     if (userOrHostChanged) {
         changed = true;
         if (_connection->serverVersionInt() >= 50002) {
@@ -168,6 +172,192 @@ bool MySQLUserEditor::editPassword(User * user, User * newData)
     _connection->query(setPasswordSQL);
 
     return true;
+}
+
+bool MySQLUserEditor::editPrivileges(User * user, User * newData)
+{
+    bool changed = false;
+
+    for (const UserPrivilegePtr & oldPriv : user->privileges()) {
+        UserPrivilegePtr newPriv = newData->privilegeById(oldPriv->id());
+        if (newPriv) {
+            if (newPriv->grantedPrivileges() != oldPriv->grantedPrivileges()) {
+                editPrivileges(oldPriv, newPriv, user); // changed
+                changed = true;
+            }
+        } else {
+            Q_ASSERT(false); // privilege object can't be removed in UI
+        }
+    }
+
+    for (const UserPrivilegePtr & newPriv : newData->privileges()) {
+        UserPrivilegePtr oldPriv = user->privilegeById(newPriv->id());
+        if (!oldPriv) {
+            // newPriv was added
+            // TODO
+            changed = true;
+        }
+    }
+
+    return changed;
+}
+
+void MySQLUserEditor::editPrivileges(const UserPrivilegePtr & oldPriv,
+                                     const UserPrivilegePtr & newPriv,
+                                     User * user)
+{
+    // Listening: NINGEN ISU - Heartless Scat
+
+    Q_ASSERT(oldPriv->id() == newPriv->id());
+    Q_ASSERT(oldPriv->grantedPrivileges() != newPriv->grantedPrivileges());
+
+    const QSet<QString> & oldList = oldPriv->grantedPrivileges();
+    const QSet<QString> & newList = newPriv->grantedPrivileges();
+
+    const QString userHost = normalizeHost(user->host());
+
+    QStringList revokedPrivileges;
+    for (const QString & privName : oldList) {
+        if (!newList.contains(privName)) {
+            if (privName == "GRANT") {
+                revokedPrivileges << "GRANT OPTION";
+            } else if (oldPriv->scope()
+                       == UserPrivilege::Scope::TableColumnLevel) {
+                revokedPrivileges
+                    << (privName
+                        + " ("
+                        + _connection->quoteIdentifier(oldPriv->fieldName())
+                        +")");
+            } else {
+                revokedPrivileges << privName;
+            }
+        }
+    }
+
+    if (!revokedPrivileges.isEmpty()) {
+        revoke(revokedPrivileges,
+               privilegeLevelSQL(oldPriv),
+               userHostSQL(user));
+    }
+
+    QStringList grantedPrivileges;
+    for (const QString & privName : newList) {
+        if (!oldList.contains(privName)) {
+            if (oldPriv->scope() == UserPrivilege::Scope::TableColumnLevel) {
+                grantedPrivileges
+                    << (privName
+                        + " ("
+                        + _connection->quoteIdentifier(oldPriv->fieldName())
+                        +")");
+            } else {
+                grantedPrivileges << privName;
+            }
+        }
+    }
+
+    if (!grantedPrivileges.isEmpty()) {
+
+        if (oldPriv->scope() != UserPrivilege::Scope::TableColumnLevel) {
+
+            QStringList newListSorted = newList.values();
+            newListSorted.sort(); // for QList::operator==
+
+            QStringList availableListSorted
+                    = _connection->userManager()->supportedPrivilegesForScope(
+                        oldPriv->scope());
+            availableListSorted.sort(); // for QList::operator==
+
+            // compare full granted list (not granted this time!) to all
+            // supported for this scope and use ALL if equal
+            bool allGranted = newListSorted == availableListSorted;
+
+            if (allGranted) {
+                grantedPrivileges.clear();
+                grantedPrivileges << "ALL";
+            }
+        }
+
+        grant(grantedPrivileges,
+              privilegeLevelSQL(oldPriv),
+              userHostSQL(user));
+    }
+}
+
+void MySQLUserEditor::revoke(const QStringList & privList,
+                             const QString & onObject,
+                             const QString & fromUser)
+{
+    QString SQL = QString("REVOKE %1 ON %2 FROM %3")
+            .arg(privList.join(", "))
+            .arg(onObject)
+            .arg(fromUser);
+    _connection->query(SQL);
+}
+
+void MySQLUserEditor::grant(const QStringList & privList,
+                            const QString & onObject,
+                            const QString & toUser)
+{
+    bool hasGrantOption = privList.contains("GRANT")
+                       || privList.contains("ALL");
+
+    QStringList grantList = privList;
+    if (hasGrantOption) {
+        grantList.removeAll("GRANT");
+    }
+
+    QString grantString = grantList.isEmpty() ? "USAGE" : grantList.join(", ");
+
+    QString withString = hasGrantOption ? "WITH GRANT OPTION" : QString();
+
+    QString SQL = QString("GRANT %1 ON %2 TO %3 %4")
+            .arg(grantString)
+            .arg(onObject)
+            .arg(toUser)
+            .arg(withString).trimmed();
+    _connection->query(SQL);
+}
+
+QString MySQLUserEditor::privilegeLevelSQL(const UserPrivilegePtr & priv) const
+{
+    const QString quotedDb = _connection->quoteIdentifier(priv->databaseName());
+    const QString quotedEntity = _connection->quoteIdentifier(priv->entityName());
+
+    switch (priv->scope()) {
+    case UserPrivilege::Scope::Global:
+        return "*.*";
+    case UserPrivilege::Scope::DatabaseLevel:
+        return quotedDb + ".*";
+    case UserPrivilege::Scope::TableLevel:
+    case UserPrivilege::Scope::FunctionLevel:
+    case UserPrivilege::Scope::ProcedureLevel:
+    case UserPrivilege::Scope::TableColumnLevel: {
+
+        QString objType;
+        if (_connection->serverVersionInt() >= 50006) {
+            if (priv->scope() == UserPrivilege::Scope::TableLevel
+                || priv->scope() == UserPrivilege::Scope::TableColumnLevel ) {
+                objType = "TABLE ";
+            } else if (priv->scope() == UserPrivilege::Scope::FunctionLevel) {
+                objType = "FUNCTION ";
+            } else if (priv->scope() == UserPrivilege::Scope::ProcedureLevel) {
+                objType = "PROCEDURE ";
+            }
+        }
+
+        return objType + quotedDb + '.' + quotedEntity;
+    }
+    case UserPrivilege::Scope::Proxy:
+    default:
+        Q_ASSERT(false);
+        return QString();
+    }
+}
+
+QString MySQLUserEditor::userHostSQL(const User * user) const
+{
+    return _connection->escapeString(user->username()) + '@' +
+           _connection->escapeString(normalizeHost(user->host()));
 }
 
 int MySQLUserEditor::sessionVariableAsInt(const QString & variableName) const

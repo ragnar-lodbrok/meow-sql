@@ -629,9 +629,6 @@ void MySQLUserManager::initScopePrivileges() const
         tableLevelPrivileges << "SHOW VIEW";
     }
     tableLevelPrivileges << "ALTER";
-    if (_connection->serverVersionInt() >= 50003) {
-        tableLevelPrivileges << "ALTER ROUTINE";
-    }
     tableLevelPrivileges << "CREATE";
     if (_connection->serverVersionInt() >= 50001) {
         tableLevelPrivileges << "CREATE VIEW";

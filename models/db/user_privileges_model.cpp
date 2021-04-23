@@ -71,8 +71,6 @@ Qt::ItemFlags UserPrivilegesModel::flags(const QModelIndex &index) const
 
     Qt::ItemFlags flags =  QAbstractItemModel::flags(index);
 
-    // flags |= Qt::ItemIsEditable; // TODO: edit
-
     flags |= Qt::ItemIsUserCheckable;
 
     return flags;
@@ -192,6 +190,46 @@ QVariant UserPrivilegesModel::data(const QModelIndex &index, int role) const
     }
 
     return QVariant();
+}
+
+bool UserPrivilegesModel::setData(const QModelIndex &index,
+                         const QVariant &value,
+                         int role)
+{
+    if (!index.isValid() || role != Qt::CheckStateRole) {
+        return false;
+    }
+
+    TreeItem * item = static_cast<TreeItem *>(index.internalPointer());
+
+    if (item->isScopeLevel) {
+
+        _form->userManager()->setPrivilegeGranted(
+                    item->privilege, (value == Qt::Checked));
+
+        emit dataChanged(index, index);
+        int childenCount = rowCount(index);
+        if (childenCount) {
+            // update all children
+            emit dataChanged(this->index(0,0,index),
+                             this->index(childenCount-1,0,index));
+        }
+
+    } else {
+        if (value == Qt::Checked) {
+            item->privilege->grantPrivilege(item->privilegeName);
+        } else {
+            item->privilege->invokePrivilege(item->privilegeName);
+        }
+        QModelIndex parentIndex = parent(index);
+        emit dataChanged(index, index);
+        // parent may change as a result:
+        emit dataChanged(parentIndex, parentIndex);
+    }
+
+    _form->setHasUnsavedChanges(true);
+
+    return true;
 }
 
 void UserPrivilegesModel::reinitItems()
