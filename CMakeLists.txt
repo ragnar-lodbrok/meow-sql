@@ -378,7 +378,11 @@ if (WIN32)
 
 endif()
 
-set(PostgreSQL_TYPE_INCLUDE_DIR "${PostgreSQL_TYPE_INCLUDE_DIR};/usr/include/postgresql/")
+if (UNIX)
+	if ("${PostgreSQL_TYPE_INCLUDE_DIR}" STREQUAL "")
+		set(PostgreSQL_TYPE_INCLUDE_DIR "/usr/include/postgresql/")
+	endif()
+endif()
 
 find_package(PostgreSQL REQUIRED)
 
