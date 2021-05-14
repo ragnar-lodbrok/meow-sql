@@ -32,6 +32,11 @@ void RightWidget::fillDataFromForm()
     _privileges->fillDataFromForm();
 }
 
+void RightWidget::validateControls()
+{
+    _privileges->validateControls();
+}
+
 } // namespace user_manager
 } // namespace ui
 } // namespace

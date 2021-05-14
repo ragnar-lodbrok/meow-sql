@@ -23,6 +23,9 @@ Window::Window(main_window::Window * mainWindow, db::SessionEntity * session)
     connect(&_form, &models::forms::UserManagementForm::selectedUserChanged,
             this, &Window::onSelectedUserChanged);
 
+    connect(&_form, &models::forms::UserManagementForm::unsavedChanged,
+            this, &Window::validateControls);
+
     onSelectedUserChanged();
 
     //loadGeometryFromSettings(); // TODO
@@ -95,9 +98,10 @@ void Window::createWidgets()
 
 void Window::validateControls()
 {
-    // TODO
-    _discardButton->setEnabled(_form.hasUnsavedChanges());
-    _saveButton->setEnabled(_form.hasUnsavedChanges());
+    _discardButton->setEnabled(_form.canDiscard());
+    _saveButton->setEnabled(_form.canSave());
+    _leftWidget->validateControls();
+    _rightWidget->validateControls();
 }
 
 void Window::showErrorMessage(const QString& message)
@@ -114,6 +118,8 @@ void Window::onSelectedUserChanged()
 {
     _warningLabel->setText(_form.userWarningMessage());
     _rightWidget->fillDataFromForm();
+
+    validateControls();
 }
 
 void Window::onSaveClicked()

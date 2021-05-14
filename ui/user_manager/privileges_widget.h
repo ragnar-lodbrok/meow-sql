@@ -23,6 +23,7 @@ public:
     explicit PrivilegesWidget(models::forms::UserManagementForm * form,
                               Window * window);
     void fillDataFromForm();
+    void validateControls();
 private:
     void createWidgets();
 

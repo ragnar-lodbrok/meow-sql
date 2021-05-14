@@ -23,6 +23,11 @@ void PrivilegesWidget::fillDataFromForm()
     _treeModel.setUser(_form->selectedUser());
 }
 
+void PrivilegesWidget::validateControls()
+{
+    _addObjectButton->setEnabled(_form->canAddObject());
+}
+
 void PrivilegesWidget::createWidgets()
 {
     QVBoxLayout * mainLayout = new QVBoxLayout();

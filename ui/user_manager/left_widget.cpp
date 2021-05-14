@@ -102,6 +102,13 @@ void LeftWidget::loadData()
     _tableModel.setUserManager(_form->userManager());
 }
 
+void LeftWidget::validateControls()
+{
+    _addUserButton->setEnabled(_form->canAddUser());
+    _cloneUserButton->setEnabled(_form->canCloneSelectedUser());
+    _deleteUserButton->setEnabled(_form->canDeleteSelectedUser());
+}
+
 void LeftWidget::userListSelectionChanged(const QItemSelection &selected,
                                           const QItemSelection &deselected)
 {

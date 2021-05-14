@@ -25,6 +25,7 @@ public:
     explicit RightWidget(models::forms::UserManagementForm * form,
                          Window * window);
     void fillDataFromForm();
+    void validateControls();
 private:
 
     void createWidgets(models::forms::UserManagementForm * form,

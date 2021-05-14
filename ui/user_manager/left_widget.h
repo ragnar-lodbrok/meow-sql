@@ -18,6 +18,7 @@ public:
                         Window * window = nullptr);
 
     void loadData();
+    void validateControls();
 private:
 
     void createWidgets();

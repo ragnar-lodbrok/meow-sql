@@ -72,10 +72,12 @@ public:
 
     QVector<int> randomPasswordsLengths() const;
 
-    void addPrivilegeObject(const meow::db::Entity::Type type,
-                           const QString & databaseName,
-                           const QString & entityName = QString(),
-                           const QString & fieldName = QString()); // rm
+    bool canSave() const { return hasUser() && hasUnsavedChanges(); }
+    bool canDiscard() const { return canSave(); }
+    bool canAddObject() const { return hasUser(); }
+    bool canAddUser() const { return true; }
+    bool canDeleteSelectedUser() const { return hasUser(); }
+    bool canCloneSelectedUser() const { return hasUser(); }
 
 private:
     meow::db::SessionEntity * _session;
