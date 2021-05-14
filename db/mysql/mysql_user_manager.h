@@ -40,6 +40,8 @@ private:
     void loadFromProcsPriv(const UserPtr & user);
     void loadFromColumnsPriv(const UserPtr & user);
 
+    bool isView(const QString & dbName, const QString & tableName) const;
+
     mutable QString _currentUserName;
     mutable QStringList _currentUserNames;
     mutable QList<UserPtr> _userList;

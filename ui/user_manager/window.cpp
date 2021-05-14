@@ -54,7 +54,7 @@ void Window::createWidgets()
     _leftWidget = new LeftWidget(&_form);
     _leftWidget->setMinimumSize(QSize(300, 400));
 
-    _rightWidget = new RightWidget(&_form);
+    _rightWidget = new RightWidget(&_form, this);
     _rightWidget->setMinimumSize(QSize(470, 400));
 
     _splitter->addWidget(_leftWidget);

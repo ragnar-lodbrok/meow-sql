@@ -367,7 +367,7 @@ void MySQLUserManager::loadFromDBTable(const UserPtr & user)
 void MySQLUserManager::loadFromTablePriv(const UserPtr & user)
 {
     QStringList queryColumns = { "Db", "Table_name", "Table_priv" };
-
+    
     QString tablePrivRowSQL = "SELECT "
         + _connection->quoteIdentifiers(queryColumns).join(", ")
         + " FROM " + _connection->quoteIdentifier("mysql") + "."
@@ -389,12 +389,13 @@ void MySQLUserManager::loadFromTablePriv(const UserPtr & user)
             continue; // TODO: looks like we can ignore it and read `Column_priv`
             // from `columns_priv`
         }
+        bool isView = this->isView(dbName, tableName);
 
         QStringList privilegesName = tablePrivilegesString.split(',');
 
         auto tablePrivilege = std::make_shared<UserPrivilege>(
                                       UserPrivilege::Scope::TableLevel,
-                                      dbName, tableName);
+                                      dbName, tableName, QString(), isView);
 
         for (const QString & privName : privilegesName) {
             tablePrivilege->grantPrivilege(privName.toUpper());
@@ -723,6 +724,29 @@ void MySQLUserManager::updateUserData(const UserPtr & user,
     // clear cached data
     _currentUserName = QString();
     _currentUserNames.clear();
+}
+
+bool MySQLUserManager::isView(const QString & dbName,
+                              const QString & tableName) const
+{
+    // TODO: something more efficient?
+
+    QString showTableStatusSQL = QString(
+                "SHOW TABLE STATUS FROM %1 WHERE `Name` = %2")
+                .arg(_connection->quoteIdentifier(dbName))
+                .arg(_connection->escapeString(tableName));
+
+    QueryPtr queryResults = _connection->getResults(showTableStatusSQL);
+
+    if (queryResults && !queryResults->isEof()) {
+
+        std::size_t indexOfEngine = queryResults->indexOfColumn("Engine");
+        std::size_t indexOfVersion = queryResults->indexOfColumn("Version");
+
+        return queryResults->isNull(indexOfEngine)
+                && queryResults->isNull(indexOfVersion);
+    }
+    return false;
 }
 
 } // namespace db

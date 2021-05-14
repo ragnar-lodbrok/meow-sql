@@ -3,6 +3,7 @@
 
 #include <QAbstractItemModel>
 #include "db/user_manager.h"
+#include "db/entity/entity.h"
 
 namespace meow {
 namespace models {
@@ -36,6 +37,13 @@ public:
     virtual bool setData(const QModelIndex &index,
                          const QVariant &value,
                          int role = Qt::EditRole) override;
+
+    bool appendPrivilegeObject(const meow::db::Entity::Type type,
+                            const QString & databaseName,
+                            const QString & entityName = QString(),
+                            const QString & fieldName = QString());
+
+    void addPrivilegeScope(const meow::db::UserPrivilegePtr & privilege); // rm
 private:
 
     void reinitItems();
@@ -47,6 +55,9 @@ private:
 
     QVariant iconForPrivilege(
             const meow::db::UserPrivilegePtr & privilege) const;
+
+    void appendPrivilegeToRootItem(
+            const meow::db::UserPrivilegePtr & privilege);
 
     models::forms::UserManagementForm * _form;
     meow::db::UserPtr _user;

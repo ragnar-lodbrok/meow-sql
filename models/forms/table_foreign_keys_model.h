@@ -11,7 +11,7 @@ class ForeignKey;
 }
 
 namespace models {
-namespace forms { // TODO move to db namespace
+namespace forms { // TODO move to db namespace and to models folder
 
 class TableInfoForm;
 

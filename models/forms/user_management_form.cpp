@@ -230,7 +230,7 @@ QStringList UserManagementForm::randomPasswords(int length, int count) const
     QStringList passwords;
     passwords.reserve(count);
 
-    while(count-- > 0) {
+    while (count-- > 0) {
         passwords << generator.run(length);
     }
 
@@ -251,6 +251,46 @@ QVector<int> UserManagementForm::randomPasswordsLengths() const
     }
 
     return lengths;
+}
+
+void UserManagementForm::addPrivilegeObject(
+                       const db::Entity::Type type,
+                       const QString & databaseName,
+                       const QString & entityName,
+                       const QString & fieldName)
+{
+    using PrivScope = meow::db::UserPrivilege::Scope;
+    using Type = db::Entity::Type;
+
+    meow::db::UserPrivilege * privilege = nullptr;
+
+    if (type == Type::Database || type == Type::Database) {
+        privilege = new meow::db::UserPrivilege(PrivScope::DatabaseLevel,
+                                                databaseName);
+    } else if (type == Type::Table) {
+        privilege = new meow::db::UserPrivilege(PrivScope::TableLevel,
+                                                databaseName,
+                                                entityName);
+    } else if (type == Type::Field) {
+        privilege = new meow::db::UserPrivilege(PrivScope::TableColumnLevel,
+                                                databaseName,
+                                                entityName,
+                                                fieldName);
+    } else if (type == Type::Procedure) {
+        privilege = new meow::db::UserPrivilege(PrivScope::ProcedureLevel,
+                                                databaseName,
+                                                entityName);
+    } else if (type == Type::Function) {
+        privilege = new meow::db::UserPrivilege(PrivScope::FunctionLevel,
+                                                databaseName,
+                                                entityName);
+    }
+
+    if (privilege == nullptr) {
+        return;
+    }
+
+    // TODO: to tree model
 }
 
 } // namespace forms

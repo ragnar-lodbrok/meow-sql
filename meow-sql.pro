@@ -138,6 +138,7 @@ SOURCES += main.cpp\
     models/db/routine_parameters_model.cpp \
     models/db/users_table_model.cpp \
     models/db/user_privileges_model.cpp \
+    models/db/session_objects_tree_model.cpp \
     models/delegates/checkbox_delegate.cpp \
     models/delegates/combobox_delegate.cpp \
     models/delegates/foreign_key_columns_delegate.cpp \
@@ -163,6 +164,7 @@ SOURCES += main.cpp\
     models/forms/view_form.cpp \
     models/forms/user_management_form.cpp \
     models/forms/routine_form.cpp \
+    models/forms/select_db_object_form.cpp \
     models/ui/central_right_host_widget_model.cpp \
     models/ui/central_right_widget_model.cpp \
     models/ui/table_info_widget_model.cpp \
@@ -230,6 +232,7 @@ SOURCES += main.cpp\
     ui/user_manager/privileges_widget.cpp \
     ui/user_manager/credentials_tab.cpp \
     ui/user_manager/limitations_tab.cpp \
+    ui/user_manager/select_db_object.cpp \
     ui/session_manager/session_form.cpp \
     ui/session_manager/settings_tab.cpp \
     ui/session_manager/ssh_tunnel_tab.cpp \
@@ -316,6 +319,7 @@ HEADERS  +=  app/actions.h \
     models/db/routine_parameters_model.h \
     models/db/users_table_model.h \
     models/db/user_privileges_model.h \
+    models/db/session_objects_tree_model.h \
     models/delegates/checkbox_delegate.h \
     models/delegates/combobox_delegate.h \
     models/delegates/foreign_key_columns_delegate.h \
@@ -341,6 +345,7 @@ HEADERS  +=  app/actions.h \
     models/forms/view_form.h \
     models/forms/user_management_form.h \
     models/forms/routine_form.h \
+    models/forms/select_db_object_form.h \
     models/ui/central_right_host_widget_model.h \
     models/ui/central_right_widget_model.h \
     models/ui/table_info_widget_model.h \
@@ -411,6 +416,7 @@ HEADERS  +=  app/actions.h \
     ui/user_manager/privileges_widget.h \
     ui/user_manager/credentials_tab.h \
     ui/user_manager/limitations_tab.h \
+    ui/user_manager/select_db_object.h \
     ui/session_manager/session_form.h \
     ui/session_manager/settings_tab.h \
     ui/session_manager/ssh_tunnel_tab.h \

@@ -156,6 +156,7 @@ set(SOURCE_FILES
     models/db/users_table_model.cpp
     models/db/user_privileges_model.cpp
     models/db/variables_table_model.cpp
+    models/db/session_objects_tree_model.cpp
     models/delegates/checkbox_delegate.cpp
     models/delegates/combobox_delegate.cpp
     models/delegates/edit_query_data_delegate.cpp
@@ -173,6 +174,7 @@ set(SOURCE_FILES
     models/forms/edit_database_form.cpp
     models/forms/export_database_form.cpp
     models/forms/routine_form.cpp
+    models/forms/select_db_object_form.cpp
     models/forms/table_foreign_keys_model.cpp
     models/forms/table_indexes_model.cpp
     models/forms/table_indexes_model_item.cpp
@@ -257,6 +259,7 @@ set(SOURCE_FILES
     ui/user_manager/privileges_widget.cpp
     ui/user_manager/credentials_tab.cpp
     ui/user_manager/limitations_tab.cpp
+    ui/user_manager/select_db_object.cpp
     utils/exporting/mysql_dump_console.cpp
 )
 

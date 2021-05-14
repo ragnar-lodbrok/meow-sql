@@ -15,11 +15,13 @@ namespace forms {
 namespace ui {
 namespace user_manager {
 
+class Window;
+
 class PrivilegesWidget : public QWidget
 {
 public:
     explicit PrivilegesWidget(models::forms::UserManagementForm * form,
-                              QWidget * parent = nullptr);
+                              Window * window);
     void fillDataFromForm();
 private:
     void createWidgets();
@@ -29,10 +31,12 @@ private:
     models::db::UserPrivilegesModel _treeModel;
 
     models::forms::UserManagementForm * _form;
+    Window * _window;
 
     QLabel * _accessLabel;
     QPushButton * _addObjectButton;
     QTreeView * _privilegesTree;
+
 };
 
 } // namespace user_manager

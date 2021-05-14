@@ -1,6 +1,7 @@
 #include "user_privileges_model.h"
 #include "models/forms/user_management_form.h"
 #include "db/entity/session_entity.h"
+#include "db/exception.h"
 #include <QDebug>
 #include <QColor>
 #include <QGuiApplication>
@@ -69,7 +70,7 @@ Qt::ItemFlags UserPrivilegesModel::flags(const QModelIndex &index) const
     if (!index.isValid())
         return Qt::NoItemFlags;
 
-    Qt::ItemFlags flags =  QAbstractItemModel::flags(index);
+    Qt::ItemFlags flags = QAbstractItemModel::flags(index);
 
     flags |= Qt::ItemIsUserCheckable;
 
@@ -232,6 +233,90 @@ bool UserPrivilegesModel::setData(const QModelIndex &index,
     return true;
 }
 
+bool UserPrivilegesModel::appendPrivilegeObject(
+                       const meow::db::Entity::Type type,
+                       const QString & databaseName,
+                       const QString & entityName,
+                       const QString & fieldName)
+{
+    Q_ASSERT(_user != nullptr);
+    if (!_user) {
+        return false;
+    }
+
+    using PrivScope = meow::db::UserPrivilege::Scope;
+    using Type = meow::db::Entity::Type;
+
+    std::shared_ptr<meow::db::UserPrivilege> privilege = nullptr;
+
+    if (type == Type::Session || type == Type::Database) {
+        privilege = std::make_shared<meow::db::UserPrivilege>(
+                        PrivScope::DatabaseLevel,
+                        databaseName);
+
+    } else if (type == Type::Table || type == Type::View) {
+        privilege = std::make_shared<meow::db::UserPrivilege>(
+                        PrivScope::TableLevel,
+                        databaseName,
+                        entityName,
+                        QString(),
+                        type == Type::View);
+
+    } else if (type == Type::Field) {
+        privilege = std::make_shared<meow::db::UserPrivilege>(
+                        PrivScope::TableColumnLevel,
+                        databaseName,
+                        entityName,
+                        fieldName);
+
+    } else if (type == Type::Procedure) {
+        privilege = std::make_shared<meow::db::UserPrivilege>(
+                        PrivScope::ProcedureLevel,
+                        databaseName,
+                        entityName);
+
+    } else if (type == Type::Function) {
+        privilege = std::make_shared<meow::db::UserPrivilege>(
+                        PrivScope::FunctionLevel,
+                        databaseName,
+                        entityName);
+    }
+
+    if (privilege == nullptr) {
+        return false;
+    }
+
+    if (_user->privilegeById(privilege->id()) != nullptr) {
+        throw meow::db::Exception("Selected object is already accessible.");
+    }
+
+    // add minimum privileges:
+    if (type == Type::Function || type == Type::Procedure) {
+        privilege->grantPrivilege("EXECUTE");
+    } else {
+        privilege->grantPrivilege("SELECT");
+    }
+
+    int oldRowCount = _user->privileges().count();
+
+    beginInsertRows(QModelIndex(), oldRowCount, oldRowCount+1);
+    _user->privileges().append(privilege);
+    appendPrivilegeToRootItem(privilege);
+    endInsertRows();
+
+    return true;
+}
+
+void UserPrivilegesModel::addPrivilegeScope(
+        const meow::db::UserPrivilegePtr & privilege)
+{
+    Q_ASSERT(_user != nullptr);
+    if (!_user) {
+        return;
+    }
+    _user->privileges().append(privilege);
+}
+
 void UserPrivilegesModel::reinitItems()
 {
     delete _rootItem;
@@ -241,23 +326,29 @@ void UserPrivilegesModel::reinitItems()
     }
 
     for (const meow::db::UserPrivilegePtr & privilege : _user->privileges()) {
-        TreeItem * scopePrivItem = new TreeItem();
-        scopePrivItem->privilege = privilege;
-        scopePrivItem->parent = _rootItem;
-        scopePrivItem->isScopeLevel = true;
-        _rootItem->children.append(scopePrivItem);
+        appendPrivilegeToRootItem(privilege);
+    }
+}
 
-        const QStringList & allScopePrivs
-                = _form->userManager()->supportedPrivilegesForScope(
-                    privilege->scope());
+void UserPrivilegesModel::appendPrivilegeToRootItem(
+        const meow::db::UserPrivilegePtr & privilege)
+{
+    TreeItem * scopePrivItem = new TreeItem();
+    scopePrivItem->privilege = privilege;
+    scopePrivItem->parent = _rootItem;
+    scopePrivItem->isScopeLevel = true;
+    _rootItem->children.append(scopePrivItem);
 
-        for (const QString & privName : allScopePrivs) {
-            TreeItem * privItem = new TreeItem();
-            privItem->privilege = privilege;
-            privItem->parent = scopePrivItem;
-            privItem->privilegeName = privName;
-            scopePrivItem->children.append(privItem);
-        }
+    const QStringList & allScopePrivs
+            = _form->userManager()->supportedPrivilegesForScope(
+                privilege->scope());
+
+    for (const QString & privName : allScopePrivs) {
+        TreeItem * privItem = new TreeItem();
+        privItem->privilege = privilege;
+        privItem->parent = scopePrivItem;
+        privItem->privilegeName = privName;
+        scopePrivItem->children.append(privItem);
     }
 }
 
@@ -299,7 +390,7 @@ QString UserPrivilegesModel::labelForPrivilege(
 
         QString entityType;
         if (privilege->scope() == Scope::TableLevel) {
-            entityType = tr("Table");
+            entityType = privilege->isView() ? tr("View") : tr("Table");
         } else if (privilege->scope() == Scope::FunctionLevel) {
             entityType = tr("Function");
         } else if (privilege->scope() == Scope::ProcedureLevel) {
@@ -335,7 +426,8 @@ QVariant UserPrivilegesModel::iconForPrivilege(
     case Scope::DatabaseLevel:
         return QIcon(":/icons/database.png");
     case Scope::TableLevel:
-        return QIcon(":/icons/table.png");
+        return privilege->isView() ? QIcon(":/icons/view.png")
+                                   : QIcon(":/icons/table.png");
     case Scope::FunctionLevel:
         return QIcon(":/icons/stored_function.png");
     case Scope::ProcedureLevel:

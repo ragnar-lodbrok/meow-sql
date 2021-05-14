@@ -28,11 +28,13 @@ public:
     UserPrivilege(Scope scope = Scope::Global,
                   QString databaseName = QString(),
                   QString entityName = QString(),
-                  QString fieldName = QString())
+                  QString fieldName = QString(),
+                  bool isView = false)
         : _scope(scope)
         , _databaseName(databaseName)
         , _entityName(entityName)
         , _fieldName(fieldName)
+        , _isView(isView)
     {
 
     }
@@ -51,6 +53,10 @@ public:
 
     QString fieldName() const { // e.g. table column
         return _fieldName;
+    }
+
+    bool isView() const {
+        return _isView;
     }
 
     void grantPrivilege(const QString & name) {
@@ -121,6 +127,7 @@ private:
     QString _databaseName;
     QString _entityName;
     QString _fieldName;
+    bool _isView;
     QSet<QString> _grantedPrivileges;
 };
 

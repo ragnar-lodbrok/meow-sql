@@ -29,6 +29,10 @@ private:
                         const UserPrivilegePtr & newPriv,
                         User * user);
 
+    void grantPrivileges(const UserPrivilegePtr & priv,
+                         const QSet<QString> & privList,
+                         User * user);
+
     void revoke(const QStringList & privList,
                 const QString & onObject,
                 const QString & fromUser);

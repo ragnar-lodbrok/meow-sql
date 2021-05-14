@@ -176,6 +176,9 @@ bool MySQLUserEditor::editPassword(User * user, User * newData)
 
 bool MySQLUserEditor::editPrivileges(User * user, User * newData)
 {
+    // TODO: probably we should sort privileges by scope to revoke lower
+    // at first and grant higher at first?
+
     bool changed = false;
 
     for (const UserPrivilegePtr & oldPriv : user->privileges()) {
@@ -193,8 +196,7 @@ bool MySQLUserEditor::editPrivileges(User * user, User * newData)
     for (const UserPrivilegePtr & newPriv : newData->privileges()) {
         UserPrivilegePtr oldPriv = user->privilegeById(newPriv->id());
         if (!oldPriv) {
-            // newPriv was added
-            // TODO
+            grantPrivileges(newPriv, newPriv->grantedPrivileges(), user);
             changed = true;
         }
     }
@@ -240,47 +242,60 @@ void MySQLUserEditor::editPrivileges(const UserPrivilegePtr & oldPriv,
                userHostSQL(user));
     }
 
-    QStringList grantedPrivileges;
+    QSet<QString> grantList;
     for (const QString & privName : newList) {
         if (!oldList.contains(privName)) {
-            if (oldPriv->scope() == UserPrivilege::Scope::TableColumnLevel) {
-                grantedPrivileges
-                    << (privName
+            grantList << privName;
+        }
+    }
+
+    if (!grantList.isEmpty()) {
+        grantPrivileges(oldPriv, grantList, user);
+    }
+}
+
+void MySQLUserEditor::grantPrivileges(const UserPrivilegePtr & priv,
+                                      const QSet<QString> & privList,
+                                      User * user)
+{
+    QStringList grantedPrivileges;
+    for (const QString & privName : privList) {
+        if (priv->scope() == UserPrivilege::Scope::TableColumnLevel) {
+            grantedPrivileges << (privName
                         + " ("
-                        + _connection->quoteIdentifier(oldPriv->fieldName())
+                        + _connection->quoteIdentifier(priv->fieldName())
                         +")");
-            } else {
-                grantedPrivileges << privName;
-            }
+        } else {
+            grantedPrivileges << privName;
         }
     }
 
-    if (!grantedPrivileges.isEmpty()) {
+    if (grantedPrivileges.isEmpty()) return;
 
-        if (oldPriv->scope() != UserPrivilege::Scope::TableColumnLevel) {
+    if (priv->scope() != UserPrivilege::Scope::TableColumnLevel) {
 
-            QStringList newListSorted = newList.values();
-            newListSorted.sort(); // for QList::operator==
+        QStringList newListSorted = privList.values();
+        newListSorted.sort(); // for QList::operator==
 
-            QStringList availableListSorted
-                    = _connection->userManager()->supportedPrivilegesForScope(
-                        oldPriv->scope());
-            availableListSorted.sort(); // for QList::operator==
+        QStringList availableListSorted
+                = _connection->userManager()->supportedPrivilegesForScope(
+                    priv->scope());
+        availableListSorted.sort(); // for QList::operator==
 
-            // compare full granted list (not granted this time!) to all
-            // supported for this scope and use ALL if equal
-            bool allGranted = newListSorted == availableListSorted;
+        // TODO: compare full granted list (not granted this time!) to all
+        // supported for this scope and use ALL if equal
+        bool allGranted = newListSorted == availableListSorted;
 
-            if (allGranted) {
-                grantedPrivileges.clear();
-                grantedPrivileges << "ALL";
-            }
+        if (allGranted) {
+            grantedPrivileges.clear();
+            grantedPrivileges << "ALL";
         }
-
-        grant(grantedPrivileges,
-              privilegeLevelSQL(oldPriv),
-              userHostSQL(user));
     }
+
+    grant(grantedPrivileges,
+          privilegeLevelSQL(priv),
+          userHostSQL(user));
+
 }
 
 void MySQLUserEditor::revoke(const QStringList & privList,
@@ -327,7 +342,7 @@ QString MySQLUserEditor::privilegeLevelSQL(const UserPrivilegePtr & priv) const
     case UserPrivilege::Scope::Global:
         return "*.*";
     case UserPrivilege::Scope::DatabaseLevel:
-        return quotedDb + ".*";
+        return quotedDb + ".*"; // TODO: escape _ to \_ to avoid wildcart
     case UserPrivilege::Scope::TableLevel:
     case UserPrivilege::Scope::FunctionLevel:
     case UserPrivilege::Scope::ProcedureLevel:

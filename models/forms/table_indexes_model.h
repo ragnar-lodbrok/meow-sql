@@ -14,7 +14,7 @@ class TableEntity;
 namespace models {
 namespace forms {
 
-
+// TODO: move to models/db folder
 class TableIndexesModel : public QAbstractItemModel,
                           public ITableIndexesModelItem
 {

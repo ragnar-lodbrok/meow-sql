@@ -24,8 +24,8 @@ class RightWidget;
 class Window : public QDialog
 {
 public:
-    explicit Window(main_window::Window * mainWindow,
-                    db::SessionEntity * session);
+    Window(main_window::Window * mainWindow,
+           db::SessionEntity * session);
     ~Window() override;
 
     void loadData();

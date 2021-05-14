@@ -23,8 +23,7 @@ namespace db {
 class SessionEntity;
 class Connection;
 
-// Intent: represents any db entity like session, database, table for tree data
-// model usage. H: TDBObject
+// Intent: represents any db entity like session, database, table H: TDBObject
 class Entity : public QObject
 {
 public:
@@ -39,6 +38,7 @@ public:
         Procedure,
         Trigger,
         Event,
+        Field, // e.g. Table Column
         COUNT
     };
 

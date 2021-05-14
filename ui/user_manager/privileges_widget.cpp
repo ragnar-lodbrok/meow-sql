@@ -1,15 +1,19 @@
 #include "privileges_widget.h"
 #include "models/forms/user_management_form.h"
+#include "ui/user_manager/select_db_object.h"
+#include "db/exception.h"
+#include "window.h"
 
 namespace meow {
 namespace ui {
 namespace user_manager {
 
 PrivilegesWidget::PrivilegesWidget(models::forms::UserManagementForm * form,
-                                   QWidget * parent)
-    : QWidget(parent)
+                                   Window * window)
+    : QWidget(window)
     , _treeModel(form)
     , _form(form)
+    , _window(window)
 {
     createWidgets();
 }
@@ -52,6 +56,24 @@ void PrivilegesWidget::createWidgets()
 
 void PrivilegesWidget::onAddObjectClicked()
 {
+    SelectDbObject dialog(_form->session());
+    if (dialog.exec() == QDialog::Accepted) {
+        const models::forms::SelectDBObjectForm::Object & object
+                = dialog.form()->currentSelection();
+        try {
+            bool added = _treeModel.appendPrivilegeObject(
+                        object.type,
+                        object.databaseName,
+                        object.entityName,
+                        object.fieldName);
+            if (added) {
+                _form->setHasUnsavedChanges(true);
+            }
+        } catch (const meow::db::Exception & ex) {
+            _window->showErrorMessage(ex.message());
+        }
+
+    }
 
 }
 

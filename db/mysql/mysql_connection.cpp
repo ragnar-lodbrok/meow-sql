@@ -341,16 +341,17 @@ QString MySQLConnection::escapeString(const QString & str,
 
     QString res = str;
 
-    if (processJokerChars) {
-        throw std::runtime_error("not implemented");
-    }
-
     // https://dev.mysql.com/doc/refman/5.7/en/mysql-real-escape-string-quote.html
     // Strictly speaking, MySQL requires only that backslash and the quote
     // character used to quote the string in the query be escaped.
 
     res.replace(QLatin1Char('\''), QLatin1String("''"));
     res.replace(QLatin1String("\\"), QLatin1String("\\\\"));
+
+    if (processJokerChars) {
+        res.replace(QLatin1Char('%'), QLatin1String("\\%"));
+        res.replace(QLatin1Char('_'), QLatin1String("\\_"));
+    }
 
     if (doQuote) {
         QLatin1Char singleQuote('\'');

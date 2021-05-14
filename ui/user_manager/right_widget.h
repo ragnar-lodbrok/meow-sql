@@ -17,15 +17,18 @@ namespace forms {
 namespace ui {
 namespace user_manager {
 
+class Window;
+
 class RightWidget : public QWidget
 {
 public:
     explicit RightWidget(models::forms::UserManagementForm * form,
-                         QWidget *parent = nullptr);
+                         Window * window);
     void fillDataFromForm();
 private:
 
-    void createWidgets(models::forms::UserManagementForm * form);
+    void createWidgets(models::forms::UserManagementForm * form,
+                       Window * window);
 
     OptionsWidget * _options;
     PrivilegesWidget * _privileges;

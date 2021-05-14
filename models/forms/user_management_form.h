@@ -3,13 +3,9 @@
 
 #include <QObject>
 #include "db/user_manager.h"
+#include "db/entity/session_entity.h"
 
 namespace meow {
-
-namespace db {
-class SessionEntity;
-}
-
 namespace models {
 namespace forms {
 
@@ -75,6 +71,11 @@ public:
     QStringList randomPasswords(int length, int count) const;
 
     QVector<int> randomPasswordsLengths() const;
+
+    void addPrivilegeObject(const meow::db::Entity::Type type,
+                           const QString & databaseName,
+                           const QString & entityName = QString(),
+                           const QString & fieldName = QString()); // rm
 
 private:
     meow::db::SessionEntity * _session;
