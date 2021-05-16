@@ -127,6 +127,45 @@ void UsersTableModel::setUserManager(meow::db::IUserManager * userManager)
     insertAllRows();
 }
 
+QModelIndex UsersTableModel::appendEmptyUser()
+{
+
+    if (!_userManager) return QModelIndex();
+
+    meow::db::UserPtr newUser = meow::db::createUserPtr();
+    newUser->setIsNew(true);
+    newUser->setHost("localhost");
+    newUser->setUsername("unnamed");
+    newUser->privileges() << std::make_shared<meow::db::UserPrivilege>(
+                              meow::db::UserPrivilege::Scope::Global);
+
+    int insertRow = rowCount();
+
+    beginInsertRows(QModelIndex(), insertRow, insertRow);
+    _userManager->addUser(newUser);
+    ++_rowCount;
+    endInsertRows();
+
+    onUserDataChanged(newUser);
+
+    return this->index(insertRow, static_cast<int>(Columns::Username));
+}
+
+bool UsersTableModel::deleteUser(const meow::db::UserPtr & user)
+{
+    if (!_userManager) return false;
+
+    int removeRow = _userManager->userList().indexOf(user);
+    if (removeRow == -1) return false;
+
+    beginRemoveRows(QModelIndex(), removeRow, removeRow);
+    _userManager->deleteUser(user);
+    --_rowCount;
+    endRemoveRows();
+
+    return true;
+}
+
 void UsersTableModel::removeAllRows()
 {
     if (_rowCount) {

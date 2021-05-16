@@ -45,6 +45,11 @@ void OptionsWidget::fillDataFromForm()
     _limitationsTab->fillDataFromForm();
 }
 
+void OptionsWidget::onAddUserClicked()
+{
+    _credentialsTab->onAddUserClicked();
+}
+
 } // namespace user_manager
 } // namespace ui
 } // namespace meow

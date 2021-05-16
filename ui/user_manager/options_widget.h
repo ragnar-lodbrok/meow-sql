@@ -50,6 +50,7 @@ public:
     explicit OptionsWidget(models::forms::UserManagementForm * form,
                            QWidget * parent = nullptr);
     void fillDataFromForm();
+    void onAddUserClicked();
 private:
 
     void createWidgets(models::forms::UserManagementForm * form);

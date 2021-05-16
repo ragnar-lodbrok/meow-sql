@@ -38,8 +38,13 @@ private:
     Q_SLOT void validateControls();
 
     Q_SLOT void onSelectedUserChanged();
+
     Q_SLOT void onSaveClicked();
     Q_SLOT void onDiscardClicked();
+
+    Q_SLOT void onAddUserClicked();
+    Q_SLOT void onCloneUserClicked();
+    Q_SLOT void onDeleteUserClicked();
 
     models::forms::UserManagementForm _form;
 

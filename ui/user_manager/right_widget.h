@@ -26,6 +26,9 @@ public:
                          Window * window);
     void fillDataFromForm();
     void validateControls();
+
+    void onAddUserClicked();
+
 private:
 
     void createWidgets(models::forms::UserManagementForm * form,

@@ -21,6 +21,7 @@ public:
                             QWidget * parent = nullptr);
 
     void fillDataFromForm();
+    void onAddUserClicked();
 private:
 
     void createWidgets();

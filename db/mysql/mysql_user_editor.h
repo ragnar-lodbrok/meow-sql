@@ -41,8 +41,15 @@ private:
                const QString & onObject,
                const QString & toUser);
 
+    bool grantUsageWith(const QStringList & withClauses, User * user);
+
+    void createUser(User * user);
+
+    bool grantLimits(User * user);
+
     QString privilegeLevelSQL(const UserPrivilegePtr & priv) const;
     QString userHostSQL(const User * user) const;
+    QString limitSQLName(const User::LimitType limitType) const;
 
     int sessionVariableAsInt(const QString & variableName) const;
 };

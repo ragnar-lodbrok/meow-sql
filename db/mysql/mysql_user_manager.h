@@ -24,7 +24,10 @@ public:
     }
     virtual void updateUserData(const UserPtr & user,
                                 const UserPtr & userData) override;
-    PrivilegeType typeOfPrivilege(const QString & privilegeName) const override;
+    virtual PrivilegeType typeOfPrivilege(
+                const QString & privilegeName) const override;
+    virtual void addUser(const UserPtr & user) override;
+    virtual void deleteUser(const UserPtr & user) override;
 private:
 
     bool skipNameResolve() const;

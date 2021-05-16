@@ -4,6 +4,7 @@
 #include <QObject>
 #include "db/user_manager.h"
 #include "db/entity/session_entity.h"
+#include "models/db/users_table_model.h"
 
 namespace meow {
 namespace models {
@@ -23,12 +24,21 @@ public:
         return _userManager;
     }
 
+    models::db::UsersTableModel * tableModel() {
+        return &_tableModel;
+    }
+
+    void loadData();
+
     void selectUser(const meow::db::UserPtr & user);
     meow::db::UserPtr selectedUser() const {
         return _selectedUser;
     }
     bool hasUser() const {
         return _selectedUser != nullptr;
+    }
+    bool isNewUser() const {
+        return _selectedUser && _selectedUser->isNew();
     }
     Q_SIGNAL void selectedUserChanged();
 
@@ -88,6 +98,8 @@ private:
     QString _repeatPassword;
 
     bool _hasUnsavedChanges;
+
+    models::db::UsersTableModel _tableModel;
 };
 
 } // namespace forms

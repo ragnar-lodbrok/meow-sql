@@ -726,6 +726,18 @@ void MySQLUserManager::updateUserData(const UserPtr & user,
     _currentUserNames.clear();
 }
 
+void MySQLUserManager::addUser(const UserPtr & user)
+{
+    _userList.append(user);
+    emit userAdded(user);
+}
+
+void MySQLUserManager::deleteUser(const UserPtr & user)
+{
+    _userList.removeOne(user);
+    emit userDeleted(user);
+}
+
 bool MySQLUserManager::isView(const QString & dbName,
                               const QString & tableName) const
 {

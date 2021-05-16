@@ -37,6 +37,11 @@ void RightWidget::validateControls()
     _privileges->validateControls();
 }
 
+void RightWidget::onAddUserClicked()
+{
+    _options->onAddUserClicked();
+}
+
 } // namespace user_manager
 } // namespace ui
 } // namespace

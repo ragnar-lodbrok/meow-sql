@@ -8,32 +8,40 @@ namespace meow {
 namespace models {
 namespace forms {
 
-UserManagementForm::UserManagementForm(db::SessionEntity * session)
-    : _session(session)
+UserManagementForm::UserManagementForm(meow::db::SessionEntity * session)
+    : QObject(nullptr)
+    , _session(session)
     , _userManager(session->connection()->userManager())
     , _selectedUser(nullptr)
     , _hasUnsavedChanges(false)
+    , _tableModel(this)
 {
 
 }
 
+void UserManagementForm::loadData()
+{
+    _userManager->refresh();
+    _tableModel.setUserManager(_userManager);
+}
+
 void UserManagementForm::selectUser(const meow::db::UserPtr & user)
 {
-    if (user) {
+    if (user && !user->isNew()) {
         _userManager->loadPrivileges(user);
     }
 
-    //if (selectUser->isNew()) { // TODO
-    //} else {
-
-    _sourceUser = user; // hold a ref to source user for update
-    _selectedUser.reset(user ? user->deepCopy() : nullptr); // copy to edit
-
-    //}
+    if (user && user->isNew()) {
+        _sourceUser = nullptr;
+        _selectedUser = user; // take ownership
+    } else {
+        _sourceUser = user; // hold a ref to source user for update
+        _selectedUser.reset(user ? user->deepCopy() : nullptr); // copy to edit
+    }
 
     _repeatPassword = QString();
 
-    setHasUnsavedChanges(false);
+    setHasUnsavedChanges(user && user->isNew());
 
     emit selectedUserChanged();
 }
@@ -44,20 +52,20 @@ QString UserManagementForm::userWarningMessage() const
 
     switch (_selectedUser->status()) {
 
-    case db::User::Status::EmptyPassword:
+    case meow::db::User::Status::EmptyPassword:
         return tr("This user has an empty password.");
 
-    case db::User::Status::InvalidPasswordLength:
+    case meow::db::User::Status::InvalidPasswordLength:
         return tr("This user is inactive due to an invalid length of its"
                   " encrypted password. Please fix that in the %1 table.")
                 .arg("mysql.user");
 
-    case db::User::Status::SkipNameResolve:
+    case meow::db::User::Status::SkipNameResolve:
         return tr("This user is inactive due to having a host name, "
                   "while the server runs with %1.")
                 .arg("--skip-name-resolve");
 
-    case db::User::Status::UnknownError:
+    case meow::db::User::Status::UnknownError:
         return tr("This user is inactive due to some unknown reason.");
 
     default:
@@ -116,9 +124,9 @@ QList<meow::db::User::LimitType> UserManagementForm::supportedLimitTypes() const
     return _userManager->supportedLimitTypes();
 }
 
-QMap<db::User::LimitType, int> UserManagementForm::userLimits() const
+QMap<meow::db::User::LimitType, int> UserManagementForm::userLimits() const
 {
-    QMap<db::User::LimitType, int> limits;
+    QMap<meow::db::User::LimitType, int> limits;
 
     for (const auto limitType : _userManager->supportedLimitTypes()) {
         limits[limitType] = limitValue(limitType);
@@ -127,20 +135,20 @@ QMap<db::User::LimitType, int> UserManagementForm::userLimits() const
     return limits;
 }
 
-QString UserManagementForm::limitName(db::User::LimitType limit) const
+QString UserManagementForm::limitName(meow::db::User::LimitType limit) const
 {
     switch (limit) {
 
-    case db::User::LimitType::MaxQueriesPerHour:
+    case meow::db::User::LimitType::MaxQueriesPerHour:
         return tr("Queries per hour:");
 
-    case db::User::LimitType::MaxUpdatesPerHour:
+    case meow::db::User::LimitType::MaxUpdatesPerHour:
         return tr("Updates per hour:");
 
-    case db::User::LimitType::MaxConnectionsPerHour:
+    case meow::db::User::LimitType::MaxConnectionsPerHour:
         return tr("Connections per hour:");
 
-    case db::User::LimitType::MaxUserConnections:
+    case meow::db::User::LimitType::MaxUserConnections:
         return tr("Simultaneous connections:");
 
     default:
@@ -167,19 +175,28 @@ void UserManagementForm::save()
 {
     if (_selectedUser && _hasUnsavedChanges) {
 
-        // TODO: if _selectedUser->isNew() -> insert
-
         if (_selectedUser->password() != _repeatPassword) {
-            throw db::Exception("Repeated password does not match first one.");
+            throw meow::db::Exception("Repeated password does not match first one.");
         }
 
-        if (_session->connection()->userEditor()->edit(
-                    _sourceUser.get(), _selectedUser.get())) {
-            _selectedUser->setPassword(QString()); // TODO: better place?
-            _userManager->updateUserData(_sourceUser, _selectedUser);
+        if (_selectedUser->isNew()) {
+            if (_session->connection()->userEditor()->insert(
+                        _selectedUser.get())) {
+                _selectedUser->setIsNew(false);
+                _selectedUser->setPassword(QString());
+                _userManager->setUserDataChanged(_selectedUser);
+                selectUser(_selectedUser);
+            }
+        } else {
+            if (_session->connection()->userEditor()->edit(
+                        _sourceUser.get(), _selectedUser.get())) {
+                _selectedUser->setPassword(QString()); // TODO: better place?
+                _userManager->updateUserData(_sourceUser, _selectedUser);
 
-            selectUser(_sourceUser);
+                selectUser(_sourceUser);
+            }
         }
+
     }
 }
 
@@ -187,6 +204,10 @@ void UserManagementForm::discard()
 {
     if (_sourceUser) {
         selectUser(_sourceUser);
+    } else if (_selectedUser && _selectedUser->isNew()) {
+        auto selectedUser = _selectedUser;
+        selectUser(nullptr);
+        _tableModel.deleteUser(selectedUser);
     }
 }
 

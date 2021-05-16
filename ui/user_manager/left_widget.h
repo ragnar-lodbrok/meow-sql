@@ -2,7 +2,6 @@
 #define UI_USER_MANAGER_LEFT_WIDGET_H
 
 #include <QtWidgets>
-#include "models/db/users_table_model.h"
 #include "models/forms/user_management_form.h"
 
 namespace meow {
@@ -13,12 +12,19 @@ class Window;
 
 class LeftWidget : public QWidget
 {
+    Q_OBJECT
 public:
     explicit LeftWidget(models::forms::UserManagementForm * form,
                         Window * window = nullptr);
 
-    void loadData();
     void validateControls();
+
+    Q_SIGNAL void addUserClicked();
+    Q_SIGNAL void cloneUserClicked();
+    Q_SIGNAL void deleteUserClicked();
+
+    Q_SLOT void onAddUserClicked();
+
 private:
 
     void createWidgets();
@@ -26,13 +32,8 @@ private:
     Q_SLOT void userListSelectionChanged(const QItemSelection &selected,
                                          const QItemSelection &deselected);
 
-    Q_SLOT void onSelectedUserChanged();
+    Q_SLOT void onSelectedUserChanged(); // rm?
 
-    Q_SLOT void onAddUserClicked();
-    Q_SLOT void onCloneUserClicked();
-    Q_SLOT void onDeleteUserClicked();
-
-    models::db::UsersTableModel _tableModel;
     QSortFilterProxyModel _proxyTableModel;
     models::forms::UserManagementForm * _form;
 

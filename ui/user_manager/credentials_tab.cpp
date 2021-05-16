@@ -150,6 +150,13 @@ void CredentialsTab::fillDataFromForm()
     _repeatPasswordEdit->blockSignals(false);
 }
 
+void CredentialsTab::onAddUserClicked()
+{
+    _usernameEdit->setCursorPosition(_usernameEdit->text().length());
+    _usernameEdit->selectAll();
+    _usernameEdit->setFocus();
+}
+
 } // namespace user_manager
 } // namespace ui
 } // namespace meow

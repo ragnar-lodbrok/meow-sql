@@ -39,7 +39,7 @@ Window::~Window()
 void Window::loadData()
 {
     try {
-        _leftWidget->loadData();
+        _form.loadData();
     } catch (meow::db::Exception & ex) {
         showErrorMessage(ex.message());
     }
@@ -56,6 +56,12 @@ void Window::createWidgets()
 
     _leftWidget = new LeftWidget(&_form);
     _leftWidget->setMinimumSize(QSize(300, 400));
+    connect(_leftWidget, &LeftWidget::addUserClicked,
+            this, &Window::onAddUserClicked);
+    connect(_leftWidget, &LeftWidget::cloneUserClicked,
+            this, &Window::onCloneUserClicked);
+    connect(_leftWidget, &LeftWidget::deleteUserClicked,
+            this, &Window::onDeleteUserClicked);
 
     _rightWidget = new RightWidget(&_form, this);
     _rightWidget->setMinimumSize(QSize(470, 400));
@@ -134,6 +140,22 @@ void Window::onSaveClicked()
 void Window::onDiscardClicked()
 {
     _form.discard();
+}
+
+void Window::onAddUserClicked()
+{
+    _leftWidget->onAddUserClicked();
+    _rightWidget->onAddUserClicked();
+}
+
+void Window::onCloneUserClicked()
+{
+
+}
+
+void Window::onDeleteUserClicked()
+{
+
 }
 
 } // namespace user_manager

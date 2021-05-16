@@ -231,6 +231,9 @@ public:
         return copy;
     }
 
+    bool isNew() const { return _isNew; }
+    void setIsNew(bool isNew) { _isNew = isNew; }
+
 private:
     Status _status;
     QString _username;
@@ -238,9 +241,11 @@ private:
     QString _password;
     QMap<LimitType, int> _limits;
     QList<UserPrivilegePtr> _privileges;
+    bool _isNew = false;
 };
 
 using UserPtr = std::shared_ptr<User>;
+inline UserPtr createUserPtr() { return std::make_shared<meow::db::User>(); }
 
 class IUserManager : public QObject
 {
@@ -269,8 +274,10 @@ public:
     virtual void updateUserData(const UserPtr & user,
                                 const UserPtr & userData) {
         user->copyDataFrom(userData.get());
-        emit userDataChanged(user);
+        setUserDataChanged(user);
     }
+    virtual void addUser(const UserPtr & user) = 0;
+    virtual void deleteUser(const UserPtr & user) = 0;
 
     void refresh() {
         this->userList(true);
@@ -317,7 +324,13 @@ public:
         return true;
     }
 
+    void setUserDataChanged(const UserPtr & user) {
+        emit userDataChanged(user);
+    }
+
     Q_SIGNAL void userDataChanged(const UserPtr & user);
+    Q_SIGNAL void userAdded(const UserPtr & user);
+    Q_SIGNAL void userDeleted(const UserPtr & user);
 
 protected:
     Connection * _connection;

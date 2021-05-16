@@ -38,6 +38,10 @@ public:
 
     void setUserManager(meow::db::IUserManager * userManager);
 
+    QModelIndex appendEmptyUser();
+
+    bool deleteUser(const meow::db::UserPtr & user);
+
 private:
 
     Q_SLOT void onUserDataChanged(const meow::db::UserPtr & user);

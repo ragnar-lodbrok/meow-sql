@@ -75,8 +75,36 @@ bool MySQLUserEditor::edit(User * user, User * newData)
 
 bool MySQLUserEditor::insert(User * user)
 {
-    Q_UNUSED(user);
-    return false;
+    if (_connection->serverVersionInt() < 50002) {
+        throw db::Exception("Unsupported version of MySQL");
+    }
+
+    QString host = normalizeHost(user->host());
+
+    const QList<UserPtr> & users = _connection->userManager()->userList();
+    for (const UserPtr & userIt : users) {
+
+        if (user == userIt.get()) continue;
+
+        const QString userItHost = normalizeHost(userIt->host());
+        if (userItHost == host
+                && userIt->username() == user->username()) {
+            throw db::Exception(
+                        QString("User '%1'@'%2' already exists.")
+                        .arg(user->username())
+                        .arg(host));
+        }
+    }
+
+    createUser(user);
+
+    grantLimits(user);
+
+    for (const UserPrivilegePtr & priv : user->privileges()) {
+        grantPrivileges(priv, priv->grantedPrivileges(), user);
+    }
+
+    return true;
 }
 
 bool MySQLUserEditor::drop(User * user)
@@ -111,39 +139,16 @@ bool MySQLUserEditor::editLimits(User * user, User * newData)
     const QList<User::LimitType> & supportedLimits
             = _connection->userManager()->supportedLimitTypes();
 
-    QMap<User::LimitType, QString> limitNames = {
-        {User::LimitType::MaxQueriesPerHour,     "MAX_QUERIES_PER_HOUR"},
-        {User::LimitType::MaxUpdatesPerHour,     "MAX_UPDATES_PER_HOUR"},
-        {User::LimitType::MaxConnectionsPerHour, "MAX_CONNECTIONS_PER_HOUR"},
-        {User::LimitType::MaxUserConnections,    "MAX_USER_CONNECTIONS"},
-    };
-
     QStringList withClauses;
 
     for (const User::LimitType type : supportedLimits) {
         if (user->limit(type) != newData->limit(type)) {
-            withClauses << (limitNames.value(type) + " "
+            withClauses << (limitSQLName(type) + " "
                         + QString::number(newData->limit(type)));
         }
     }
 
-    // The statement modifies only the limit value specified
-    // and leaves the account otherwise unchanged:
-    // > GRANT USAGE ON *.* TO 'francis'@'localhost'
-    // ->     WITH MAX_QUERIES_PER_HOUR 100;
-
-    if (withClauses.isEmpty()) {
-        return false;
-    }
-
-    QString grantUsageWithLimits = QString("GRANT USAGE ON *.* TO %1@%2 WITH %3")
-            .arg(_connection->escapeString(user->username()))
-            .arg(_connection->escapeString(normalizeHost(user->host())))
-            .arg(withClauses.join(' '));
-
-    _connection->query(grantUsageWithLimits);
-
-    return true;
+    return grantUsageWith(withClauses, user);
 }
 
 bool MySQLUserEditor::editPassword(User * user, User * newData)
@@ -333,6 +338,65 @@ void MySQLUserEditor::grant(const QStringList & privList,
     _connection->query(SQL);
 }
 
+bool MySQLUserEditor::grantUsageWith(const QStringList & withClauses, User * user)
+{
+    // The statement modifies only the limit value specified
+    // and leaves the account otherwise unchanged:
+    // > GRANT USAGE ON *.* TO 'francis'@'localhost'
+    // ->     WITH MAX_QUERIES_PER_HOUR 100;
+
+    if (withClauses.isEmpty()) {
+        return false;
+    }
+
+    QString grantUsageWithLimits = QString("GRANT USAGE ON *.* TO %1@%2 WITH %3")
+            .arg(_connection->escapeString(user->username()))
+            .arg(_connection->escapeString(normalizeHost(user->host())))
+            .arg(withClauses.join(' '));
+
+    _connection->query(grantUsageWithLimits);
+
+    return true;
+}
+
+void MySQLUserEditor::createUser(User * user)
+{
+    QString createUserSQL = QString("CREATE USER ") + userHostSQL(user);
+
+    if (!user->password().isEmpty()) {
+        bool isMariaDB = false;
+        bool useRawAuthString = (!isMariaDB
+                                 && _connection->serverVersionInt() >= 50706);
+
+        QString escapedPassword = _connection->escapeString(user->password());
+
+        createUserSQL += " IDENTIFIED BY ";
+        createUserSQL += useRawAuthString
+                         ? escapedPassword
+                         : ("PASSWORD(" + escapedPassword + ")");
+
+    }
+
+    _connection->query(createUserSQL);
+}
+
+bool MySQLUserEditor::grantLimits(User * user)
+{
+    const QList<User::LimitType> & supportedLimits
+            = _connection->userManager()->supportedLimitTypes();
+
+    QStringList withClauses;
+
+    for (const User::LimitType type : supportedLimits) {
+        if (user->limit(type) != 0) {
+            withClauses << (limitSQLName(type) + " "
+                        + QString::number(user->limit(type)));
+        }
+    }
+
+    return grantUsageWith(withClauses, user);
+}
+
 QString MySQLUserEditor::privilegeLevelSQL(const UserPrivilegePtr & priv) const
 {
     const QString quotedDb = _connection->quoteIdentifier(priv->databaseName());
@@ -373,6 +437,18 @@ QString MySQLUserEditor::userHostSQL(const User * user) const
 {
     return _connection->escapeString(user->username()) + '@' +
            _connection->escapeString(normalizeHost(user->host()));
+}
+
+QString MySQLUserEditor::limitSQLName(const User::LimitType limitType) const
+{
+    QMap<User::LimitType, QString> limitNames = {
+        {User::LimitType::MaxQueriesPerHour,     "MAX_QUERIES_PER_HOUR"},
+        {User::LimitType::MaxUpdatesPerHour,     "MAX_UPDATES_PER_HOUR"},
+        {User::LimitType::MaxConnectionsPerHour, "MAX_CONNECTIONS_PER_HOUR"},
+        {User::LimitType::MaxUserConnections,    "MAX_USER_CONNECTIONS"},
+    };
+
+    return limitNames.value(limitType);
 }
 
 int MySQLUserEditor::sessionVariableAsInt(const QString & variableName) const

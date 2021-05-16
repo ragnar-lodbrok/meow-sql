@@ -12,7 +12,6 @@ namespace user_manager {
 LeftWidget::LeftWidget(models::forms::UserManagementForm * form,
                        Window * window)
     : QWidget(window)
-    , _tableModel(this)
     , _form(form)
     , _window(window)
 {
@@ -39,7 +38,7 @@ void LeftWidget::createWidgets()
     _userList->verticalHeader()->setDefaultSectionSize(
        geometrySettings->tableViewDefaultRowHeight());
 
-    _proxyTableModel.setSourceModel(&_tableModel);
+    _proxyTableModel.setSourceModel(_form->tableModel());
     _userList->setModel(&_proxyTableModel);
     mainLayout->addWidget(_userList);
     _userList->setSortingEnabled(true);
@@ -50,8 +49,8 @@ void LeftWidget::createWidgets()
                 QAbstractItemView::SelectionBehavior::SelectRows);
     _userList->setSelectionMode(QAbstractItemView::SingleSelection);
 
-    for (int i=0; i < _tableModel.columnCount(); ++i) {
-        _userList->setColumnWidth(i, _tableModel.columnWidth(i));
+    for (int i=0; i < _form->tableModel()->columnCount(); ++i) {
+        _userList->setColumnWidth(i, _form->tableModel()->columnWidth(i));
     }
 
     connect(_userList->selectionModel(),
@@ -72,7 +71,7 @@ void LeftWidget::createWidgets()
     connect(_addUserButton,
             &QAbstractButton::clicked,
             this,
-            &LeftWidget::onAddUserClicked
+            &LeftWidget::addUserClicked
     );
 
     _cloneUserButton = new QPushButton(QIcon(":/icons/page_copy.png"),
@@ -81,7 +80,7 @@ void LeftWidget::createWidgets()
     connect(_cloneUserButton,
             &QAbstractButton::clicked,
             this,
-            &LeftWidget::onCloneUserClicked
+            &LeftWidget::cloneUserClicked
     );
 
     _deleteUserButton = new QPushButton(QIcon(":/icons/delete.png"),
@@ -90,16 +89,10 @@ void LeftWidget::createWidgets()
     connect(_deleteUserButton,
             &QAbstractButton::clicked,
             this,
-            &LeftWidget::onDeleteUserClicked
+            &LeftWidget::deleteUserClicked
     );
 
     this->setLayout(mainLayout);
-}
-
-void LeftWidget::loadData()
-{
-    _form->userManager()->refresh();
-    _tableModel.setUserManager(_form->userManager());
 }
 
 void LeftWidget::validateControls()
@@ -145,17 +138,16 @@ void LeftWidget::onSelectedUserChanged()
 
 void LeftWidget::onAddUserClicked()
 {
+    QModelIndex newUserIndex = _form->tableModel()->appendEmptyUser();
+    if (!newUserIndex.isValid()) return;
 
-}
+    // select
+    _userList->selectionModel()->select(
+            newUserIndex,
+            QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
-void LeftWidget::onCloneUserClicked()
-{
-
-}
-
-void LeftWidget::onDeleteUserClicked()
-{
-
+    // scroll
+    _userList->scrollTo(_userList->selectionModel()->currentIndex());
 }
 
 } // namespace user_manager
