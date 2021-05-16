@@ -55,7 +55,7 @@ void Window::createWidgets()
     mainLayout->addWidget(_splitter, 1);
 
     _leftWidget = new LeftWidget(&_form);
-    _leftWidget->setMinimumSize(QSize(300, 400));
+    _leftWidget->setMinimumSize(QSize(300, 300));
     connect(_leftWidget, &LeftWidget::addUserClicked,
             this, &Window::onAddUserClicked);
     connect(_leftWidget, &LeftWidget::cloneUserClicked,
@@ -64,7 +64,7 @@ void Window::createWidgets()
             this, &Window::onDeleteUserClicked);
 
     _rightWidget = new RightWidget(&_form, this);
-    _rightWidget->setMinimumSize(QSize(470, 400));
+    _rightWidget->setMinimumSize(QSize(470, 300));
 
     _splitter->addWidget(_leftWidget);
     _splitter->setStretchFactor(0, 0);
