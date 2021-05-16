@@ -279,6 +279,10 @@ public:
     virtual void addUser(const UserPtr & user) = 0;
     virtual void deleteUser(const UserPtr & user) = 0;
 
+    virtual QString fullUserAccount(const UserPtr & user) const {
+        return user->username();
+    }
+
     void refresh() {
         this->userList(true);
     }

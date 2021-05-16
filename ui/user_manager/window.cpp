@@ -155,6 +155,25 @@ void Window::onCloneUserClicked()
 
 void Window::onDeleteUserClicked()
 {
+    QString confirmMsg = QObject::tr("Delete user %1?")
+                            .arg(_form.fullUserAccount());
+
+    QMessageBox msgBox;
+    msgBox.setText(confirmMsg);
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    msgBox.setIcon(QMessageBox::Question);
+    int ret = msgBox.exec();
+    if (ret != QMessageBox::Yes) {
+        return;
+    }
+
+    try {
+        _form.deleteSelectedUser();
+    } catch(meow::db::Exception & ex) {
+        showErrorMessage(ex.message());
+    }
+
 
 }
 

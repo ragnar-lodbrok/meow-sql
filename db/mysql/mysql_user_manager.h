@@ -28,6 +28,7 @@ public:
                 const QString & privilegeName) const override;
     virtual void addUser(const UserPtr & user) override;
     virtual void deleteUser(const UserPtr & user) override;
+    virtual QString fullUserAccount(const UserPtr & user) const override;
 private:
 
     bool skipNameResolve() const;

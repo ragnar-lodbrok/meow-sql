@@ -211,6 +211,23 @@ void UserManagementForm::discard()
     }
 }
 
+void UserManagementForm::deleteSelectedUser()
+{
+    if (!_selectedUser) return;
+
+    if (_selectedUser->isNew()) {
+        auto selectedUser = _selectedUser;
+        selectUser(nullptr);
+        _tableModel.deleteUser(selectedUser);
+    } else if (_sourceUser) {
+        if (_session->connection()->userEditor()->drop(_sourceUser.get())) {
+            auto sourceUser = _sourceUser;
+            selectUser(nullptr);
+            _tableModel.deleteUser(sourceUser);
+        }
+    }
+}
+
 void UserManagementForm::setHasUnsavedChanges(bool modified)
 {
     if (_hasUnsavedChanges != modified) {
@@ -272,6 +289,12 @@ QVector<int> UserManagementForm::randomPasswordsLengths() const
     return lengths;
 }
 
+QString UserManagementForm::fullUserAccount() const
+{
+    if (!_selectedUser) return QString();
+
+    return _userManager->fullUserAccount(_selectedUser);
+}
 
 } // namespace forms
 } // namespace models

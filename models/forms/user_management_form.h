@@ -72,6 +72,8 @@ public:
     void save();
     void discard();
 
+    void deleteSelectedUser();
+
     bool hasUnsavedChanges() const { return _hasUnsavedChanges; }
     void setHasUnsavedChanges(bool modified);
     Q_SIGNAL void unsavedChanged(bool hasUnsavedChanges);
@@ -81,6 +83,8 @@ public:
     QStringList randomPasswords(int length, int count) const;
 
     QVector<int> randomPasswordsLengths() const;
+
+    QString fullUserAccount() const;
 
     bool canSave() const { return hasUser() && hasUnsavedChanges(); }
     bool canDiscard() const { return canSave(); }

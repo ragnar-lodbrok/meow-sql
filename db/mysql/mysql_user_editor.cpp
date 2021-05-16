@@ -109,8 +109,30 @@ bool MySQLUserEditor::insert(User * user)
 
 bool MySQLUserEditor::drop(User * user)
 {
-    Q_UNUSED(user);
-    return false;
+    // Revoke privs explicitly, required on old servers.
+    // Newer servers only require one DROP USER query
+    if (_connection->serverVersionInt() < 50002) {
+        _connection->query(QString("REVOKE ALL PRIVILEGES ON *.* FROM %1")
+                           .arg(userHostSQL(user)));
+        _connection->query(QString("REVOKE GRANT OPTION ON *.* FROM %1")
+                           .arg(userHostSQL(user)));
+    }
+
+    if (_connection->serverVersionInt() < 40101) {
+        const QString host = normalizeHost(user->host());
+        _connection->query(
+            QString("DELETE FROM mysql.user WHERE User=%1 AND Host=%2")
+                .arg(_connection->escapeString(user->username()))
+                .arg(_connection->escapeString(host))
+        );
+    } else {
+        _connection->query(QString("DROP USER %1")
+                .arg(userHostSQL(user)));
+    }
+
+    _connection->query("FLUSH PRIVILEGES");
+
+    return true;
 }
 
 UserPasswordRequirements MySQLUserEditor::passwordRequirements() const

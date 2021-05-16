@@ -738,6 +738,13 @@ void MySQLUserManager::deleteUser(const UserPtr & user)
     emit userDeleted(user);
 }
 
+QString MySQLUserManager::fullUserAccount(const UserPtr & user) const
+{
+    const QString host = user->host().isEmpty() ? "%" : user->host();
+    return _connection->escapeString(user->username()) + '@' +
+           _connection->escapeString(host);
+}
+
 bool MySQLUserManager::isView(const QString & dbName,
                               const QString & tableName) const
 {
