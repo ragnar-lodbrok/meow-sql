@@ -130,6 +130,8 @@ int UserPrivilegesModel::rowCount(const QModelIndex &parent) const
         parentItem = static_cast<TreeItem*>(parent.internalPointer());
     }
 
+    if (!parentItem) return 0;
+
     return parentItem->children.count();
 }
 
@@ -356,6 +358,8 @@ void UserPrivilegesModel::removeData()
 {
     if (rowCount()) {
         beginRemoveRows(QModelIndex(), 0, rowCount()-1);
+        delete _rootItem;
+        _rootItem = nullptr;
         endRemoveRows();
     }
 }

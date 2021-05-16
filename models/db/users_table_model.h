@@ -39,6 +39,7 @@ public:
     void setUserManager(meow::db::IUserManager * userManager);
 
     QModelIndex appendEmptyUser();
+    QModelIndex cloneAndAppendUser(const meow::db::UserPtr & user);
 
     bool deleteUser(const meow::db::UserPtr & user);
 
@@ -49,6 +50,8 @@ private:
     void removeAllRows();
     void insertAllRows();
     int userCount() const;
+
+    QModelIndex appendUser(const meow::db::UserPtr & user);
 
     meow::db::IUserManager * _userManager;
     int _rowCount;

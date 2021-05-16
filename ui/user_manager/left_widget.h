@@ -24,6 +24,7 @@ public:
     Q_SIGNAL void deleteUserClicked();
 
     Q_SLOT void onAddUserClicked();
+    Q_SLOT void onCloneUserClicked();
 
 private:
 
@@ -33,6 +34,7 @@ private:
                                          const QItemSelection &deselected);
 
     Q_SLOT void onSelectedUserChanged(); // rm?
+    void selectRow(const QModelIndex & index);
 
     QSortFilterProxyModel _proxyTableModel;
     models::forms::UserManagementForm * _form;

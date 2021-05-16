@@ -150,7 +150,8 @@ void Window::onAddUserClicked()
 
 void Window::onCloneUserClicked()
 {
-
+    _leftWidget->onCloneUserClicked();
+    _rightWidget->onAddUserClicked();
 }
 
 void Window::onDeleteUserClicked()

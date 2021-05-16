@@ -139,11 +139,26 @@ void LeftWidget::onSelectedUserChanged()
 void LeftWidget::onAddUserClicked()
 {
     QModelIndex newUserIndex = _form->tableModel()->appendEmptyUser();
-    if (!newUserIndex.isValid()) return;
+    selectRow(newUserIndex);
+}
+
+void LeftWidget::onCloneUserClicked()
+{
+    if (!_form->sourceUser()) return;
+    QModelIndex clonedUserIndex = _form->tableModel()->cloneAndAppendUser(
+                _form->sourceUser());
+    selectRow(clonedUserIndex);
+}
+
+void LeftWidget::selectRow(const QModelIndex & index)
+{
+    if (!index.isValid()) return;
+
+    QModelIndex realIndex = _proxyTableModel.mapFromSource(index);
 
     // select
     _userList->selectionModel()->select(
-            newUserIndex,
+            realIndex,
             QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
 
     // scroll

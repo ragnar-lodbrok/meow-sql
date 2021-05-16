@@ -139,16 +139,18 @@ QModelIndex UsersTableModel::appendEmptyUser()
     newUser->privileges() << std::make_shared<meow::db::UserPrivilege>(
                               meow::db::UserPrivilege::Scope::Global);
 
-    int insertRow = rowCount();
+    return appendUser(newUser);
+}
 
-    beginInsertRows(QModelIndex(), insertRow, insertRow);
-    _userManager->addUser(newUser);
-    ++_rowCount;
-    endInsertRows();
+QModelIndex UsersTableModel::cloneAndAppendUser(const meow::db::UserPtr & user)
+{
+    if (!_userManager) return QModelIndex();
 
-    onUserDataChanged(newUser);
+    meow::db::UserPtr newUser = meow::db::createUserPtr();
+    newUser->copyDataFrom(user.get());
+    newUser->setIsNew(true);
 
-    return this->index(insertRow, static_cast<int>(Columns::Username));
+    return appendUser(newUser);
 }
 
 bool UsersTableModel::deleteUser(const meow::db::UserPtr & user)
@@ -191,6 +193,20 @@ int UsersTableModel::userCount() const
         return _userManager->userList().count();
     }
     return 0;
+}
+
+QModelIndex UsersTableModel::appendUser(const meow::db::UserPtr & user)
+{
+    int insertRow = rowCount();
+
+    beginInsertRows(QModelIndex(), insertRow, insertRow);
+    _userManager->addUser(user);
+    ++_rowCount;
+    endInsertRows();
+
+    onUserDataChanged(user);
+
+    return this->index(insertRow, static_cast<int>(Columns::Username));
 }
 
 void UsersTableModel::onUserDataChanged(const meow::db::UserPtr & user)
