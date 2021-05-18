@@ -70,7 +70,7 @@ public:
     void setLimit(meow::db::User::LimitType limit, int value);
 
     void save();
-    void discard();
+    void discard(bool newUserOnly = false);
 
     void deleteSelectedUser();
 

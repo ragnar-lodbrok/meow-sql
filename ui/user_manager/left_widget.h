@@ -33,8 +33,12 @@ private:
     Q_SLOT void userListSelectionChanged(const QItemSelection &selected,
                                          const QItemSelection &deselected);
 
-    Q_SLOT void onSelectedUserChanged(); // rm?
-    void selectRow(const QModelIndex & index);
+    Q_SLOT void selectRow(const QModelIndex & index);
+    Q_SLOT void onSelectRowQueued(const QModelIndex & index);
+    Q_SIGNAL void selectRowQueued(const QModelIndex & index);
+
+    Q_SLOT void connectUserListSelectionChanged();
+    Q_SLOT void disconnectUserListSelectionChanged();
 
     QSortFilterProxyModel _proxyTableModel;
     models::forms::UserManagementForm * _form;

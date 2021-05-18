@@ -200,9 +200,9 @@ void UserManagementForm::save()
     }
 }
 
-void UserManagementForm::discard()
+void UserManagementForm::discard(bool newUserOnly)
 {
-    if (_sourceUser) {
+    if (_sourceUser && !newUserOnly) {
         selectUser(_sourceUser);
     } else if (_selectedUser && _selectedUser->isNew()) {
         auto selectedUser = _selectedUser;

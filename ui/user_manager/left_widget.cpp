@@ -16,9 +16,6 @@ LeftWidget::LeftWidget(models::forms::UserManagementForm * form,
     , _window(window)
 {
     createWidgets();
-
-    connect(_form, &models::forms::UserManagementForm::selectedUserChanged,
-            this, &LeftWidget::onSelectedUserChanged);
 }
 
 void LeftWidget::createWidgets()
@@ -53,10 +50,13 @@ void LeftWidget::createWidgets()
         _userList->setColumnWidth(i, _form->tableModel()->columnWidth(i));
     }
 
-    connect(_userList->selectionModel(),
-            &QItemSelectionModel::selectionChanged,
+    connectUserListSelectionChanged();
+
+    connect(this,
+            &LeftWidget::selectRowQueued,
             this,
-            &LeftWidget::userListSelectionChanged
+            &LeftWidget::onSelectRowQueued,
+            Qt::QueuedConnection
     );
 
     // Buttons -----------------------------------------------------------------
@@ -105,8 +105,58 @@ void LeftWidget::validateControls()
 void LeftWidget::userListSelectionChanged(const QItemSelection &selected,
                                           const QItemSelection &deselected)
 {
+    {
+        QModelIndexList deselectedItems = deselected.indexes();
+        if (!deselectedItems.isEmpty()) {
+            QModelIndex deselectedIndex = _proxyTableModel.mapToSource(
+                            deselectedItems.at(0));
 
-    Q_UNUSED(deselected);
+            const meow::db::UserPtr & deselectedUser
+                    = _form->userManager()->userList().value(
+                        deselectedIndex.row());
+
+            bool isLeavingCurrentEdit = false;
+
+            if (_form->isNewUser()) {
+                isLeavingCurrentEdit = deselectedUser == _form->selectedUser();
+            } else {
+                isLeavingCurrentEdit = deselectedUser == _form->sourceUser();
+            }
+
+            if (deselectedUser
+                    && isLeavingCurrentEdit
+                    && _form->hasUnsavedChanges()) {
+
+                QString confirmMsg = QObject::tr("Save modified user?");
+
+                QMessageBox msgBox;
+                msgBox.setText(confirmMsg);
+                msgBox.setStandardButtons(
+                            QMessageBox::Yes
+                          | QMessageBox::No
+                          | QMessageBox::Cancel);
+                msgBox.setDefaultButton(QMessageBox::Yes);
+                msgBox.setIcon(QMessageBox::Question);
+                int ret = msgBox.exec();
+                if (ret == QMessageBox::Yes) {
+                    try {
+                        _form->save();
+                    } catch(meow::db::Exception & ex) {
+                        _window->showErrorMessage(ex.message());
+                        emit selectRowQueued(deselectedIndex);
+                        return; // don't allow row change on error
+                    }
+
+                } else if (ret == QMessageBox::No) {
+                    _form->discard(true); // new user only
+                    // allow change
+                } else if (ret == QMessageBox::Cancel) {
+                    emit selectRowQueued(deselectedIndex);
+                    return; // don't allow
+                }
+            }
+        }
+    }
 
     try {
 
@@ -118,8 +168,11 @@ void LeftWidget::userListSelectionChanged(const QItemSelection &selected,
             QModelIndex realIndex = _proxyTableModel.mapToSource(index);
 
             const meow::db::UserPtr & user
-                    = _form->userManager()->userList().value(realIndex.row());
-            _form->selectUser(user);
+                    = _form->userManager()->userList().value(realIndex.row());                         
+            if (user != _form->sourceUser()) { // check to allow to revert
+                                            // selection w/o loosing edited data
+                _form->selectUser(user);
+            }
 
         } else {
             _form->selectUser(nullptr);
@@ -128,11 +181,6 @@ void LeftWidget::userListSelectionChanged(const QItemSelection &selected,
     } catch (const meow::db::Exception & ex) {
         _window->showErrorMessage(ex.message());
     }
-
-}
-
-void LeftWidget::onSelectedUserChanged()
-{
 
 }
 
@@ -160,9 +208,36 @@ void LeftWidget::selectRow(const QModelIndex & index)
     _userList->selectionModel()->select(
             realIndex,
             QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+    _userList->selectionModel()->setCurrentIndex(
+            realIndex,
+            QItemSelectionModel::Current);
 
     // scroll
     _userList->scrollTo(_userList->selectionModel()->currentIndex());
+}
+
+void LeftWidget::onSelectRowQueued(const QModelIndex & index)
+{
+    //disconnectUserListSelectionChanged();
+    selectRow(index);
+    //connectUserListSelectionChanged();
+}
+
+void LeftWidget::connectUserListSelectionChanged()
+{
+    connect(_userList->selectionModel(),
+            &QItemSelectionModel::selectionChanged,
+            this,
+            &LeftWidget::userListSelectionChanged
+    );
+}
+void LeftWidget::disconnectUserListSelectionChanged()
+{
+    disconnect(_userList->selectionModel(),
+            &QItemSelectionModel::selectionChanged,
+            this,
+            &LeftWidget::userListSelectionChanged
+    );
 }
 
 } // namespace user_manager
