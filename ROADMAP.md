@@ -88,6 +88,10 @@ Table tools: find text
 
 Data Grid: insert files into text/blob fields
 
+## 0.4.10
+
+User management (edit)
+
 ## 0.4.9
 
 MySQL: Trigger form (r/o)
