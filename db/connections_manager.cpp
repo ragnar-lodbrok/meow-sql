@@ -62,9 +62,9 @@ bool ConnectionsManager::closeActiveConnection()
 {
     SessionEntity * session = activeSession();
     if (session) {
+        setActiveSession(nullptr);
         emit beforeConnectionClosed(session);
         _connections.removeOne(session);
-        setActiveSession(nullptr);
         delete session;
         return true;
     }
