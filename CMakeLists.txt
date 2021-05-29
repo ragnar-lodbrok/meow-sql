@@ -252,7 +252,7 @@ set(SOURCE_FILES
     ui/session_manager/ssh_tunnel_tab.cpp
     ui/session_manager/start_tab.cpp
     ui/session_manager/window.cpp
-    ui/user_manager/window.cpp
+    ui/user_manager/user_manager_window.cpp
     ui/user_manager/left_widget.cpp
     ui/user_manager/right_widget.cpp
     ui/user_manager/options_widget.cpp
@@ -381,10 +381,10 @@ if(WITH_POSTGRESQL)
 
 if (WIN32)
     # find postgres in third_party
-    set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include")
+    set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include/postgresql")
 
     #  PostgreSQL_INCLUDE_DIR  - the path to where the PostgreSQL include files are.
-    set (PostgreSQL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include")
+    set (PostgreSQL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include/postgresql")
 
     #  PostgreSQL_LIBRARY_DIR  - The path to where the PostgreSQL library files are.
     set (PostgreSQL_LIBRARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/lib")

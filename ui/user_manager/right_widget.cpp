@@ -1,5 +1,5 @@
 #include "right_widget.h"
-#include "window.h"
+#include "user_manager_window.h"
 
 namespace meow {
 namespace ui {

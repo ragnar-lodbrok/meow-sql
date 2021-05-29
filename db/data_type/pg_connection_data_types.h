@@ -2,7 +2,7 @@
 #define DB_PG_CONNECTION_DATA_TYPES_H
 
 #include "connection_data_types.h"
-#include <postgresql/libpq-fe.h>
+#include <libpq-fe.h>
 
 namespace meow {
 namespace db {

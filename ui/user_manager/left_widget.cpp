@@ -1,5 +1,5 @@
 #include "left_widget.h"
-#include "window.h"
+#include "user_manager_window.h"
 #include "app/app.h"
 #include "db/entity/session_entity.h"
 #include "db/connection.h"

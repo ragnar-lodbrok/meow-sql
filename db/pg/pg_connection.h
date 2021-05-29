@@ -2,7 +2,7 @@
 #define DB_PG_CONNECTION_H
 
 #include "db/connection.h"
-#include <postgresql/libpq-fe.h>
+#include <libpq-fe.h>
 #include "db/entity/entity_filter.h" // TODO: PGEntityFilter
 
 namespace meow {

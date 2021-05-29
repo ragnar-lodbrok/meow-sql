@@ -7,7 +7,7 @@ namespace meow {
 namespace ui {
 namespace session_manager {
 
-Window::Window(main_window::Window * mainWindow)
+Window::Window(meow::ui::main_window::Window * mainWindow)
     :QDialog(mainWindow, Qt::WindowCloseButtonHint),
     _mainWindow(mainWindow),
     _saveConfirmCanceled(false)

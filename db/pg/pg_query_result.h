@@ -1,7 +1,7 @@
 #ifndef DB_PG_QUERY_RESULT_H
 #define DB_PG_QUERY_RESULT_H
 
-#include <postgresql/libpq-fe.h>
+#include <libpq-fe.h>
 #include "db/native_query_result_interface.h"
 #include "db/common.h"
 

@@ -2,7 +2,7 @@
 #include <QMenuBar>
 #include "helpers/logger.h"
 #include "ui/session_manager/window.h"
-#include "ui/user_manager/window.h"
+#include "ui/user_manager/user_manager_window.h"
 #include "app/app.h"
 #include "db/exception.h"
 

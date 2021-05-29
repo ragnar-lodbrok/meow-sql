@@ -2,7 +2,7 @@
 #include "models/forms/user_management_form.h"
 #include "ui/user_manager/select_db_object.h"
 #include "db/exception.h"
-#include "window.h"
+#include "user_manager_window.h"
 
 namespace meow {
 namespace ui {

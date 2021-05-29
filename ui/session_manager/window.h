@@ -26,7 +26,7 @@ public:
 
 private:
 
-    main_window::Window * _mainWindow;
+    meow::ui::main_window::Window * _mainWindow;
 
     // main layout
     QHBoxLayout * _mainLayout;

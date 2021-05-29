@@ -225,7 +225,7 @@ SOURCES += main.cpp\
     ui/main_window/central_widget.cpp \
     ui/main_window/main_window.cpp \
     ui/main_window/main_window_status_bar.cpp \
-    ui/user_manager/window.cpp \
+    ui/user_manager/user_manager_window.cpp \
     ui/user_manager/left_widget.cpp \
     ui/user_manager/right_widget.cpp \
     ui/user_manager/options_widget.cpp \
@@ -409,7 +409,7 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_widget.h \
     ui/main_window/main_window.h \
     ui/main_window/main_window_status_bar.h \
-    ui/user_manager/window.h \
+    ui/user_manager/user_manager_window.h \
     ui/user_manager/left_widget.h \
     ui/user_manager/right_widget.h \
     ui/user_manager/options_widget.h \
@@ -524,7 +524,7 @@ WITH_MYSQL {
 }
 
 WITH_POSTGRESQL {
-    win32:INCLUDEPATH += "$$PWD\third_party\libpq\windows\include"
+    win32:INCLUDEPATH += "$$PWD\third_party\libpq\windows\include\postgresql"
     unix:INCLUDEPATH += /usr/include/postgresql # pkg-config --cflags libpq
     macx:INCLUDEPATH += /usr/local/include
 }
