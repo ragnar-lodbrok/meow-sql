@@ -207,7 +207,8 @@ bool ConnectionParamsModel::checkIsSelectedFormWasModified() const
         return false;
     }
 
-    const meow::db::ConnectionParameters &oldParams = _connectionParamsManager->at(_selectedForm->index());
+    const meow::db::ConnectionParameters &oldParams
+            = _connectionParamsManager->at(_selectedForm->index());
 
     return !_selectedForm->isEqualTo(oldParams);
 }
@@ -220,7 +221,8 @@ void ConnectionParamsModel::saveSelectedConnectionParam()
         return;
     }
 
-    _connectionParamsManager->updateAndSaveParamsAt(_selectedForm->index(), _selectedForm->connectionParams());
+    _connectionParamsManager->updateAndSaveParamsAt(
+                _selectedForm->index(), _selectedForm->connectionParams());
 
     emitSelectedChanged();
 }

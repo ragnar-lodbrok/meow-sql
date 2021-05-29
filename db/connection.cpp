@@ -26,7 +26,8 @@ Connection::Connection(const ConnectionParameters & params)
      _identifierQuote('`'),
      _connectionParams(params),
      _characterSet(),
-     _isUnicode(false)
+     _isUnicode(false),
+     _useAllDatabases(true)
 {
 
 }
@@ -59,16 +60,20 @@ QStringList Connection::allDatabases(bool refresh /*= false */)
     return _allDatabasesCached.second;
 }
 
-void Connection::setAllDatabases(const QStringList & databases)
+QStringList Connection::databases(bool refresh /*= false */)
 {
-    _allDatabasesCached.first = true;
-    _allDatabasesCached.second = databases;
+    return _useAllDatabases ? allDatabases(refresh) : _databases;
 }
 
-void Connection::setUseAllDatabases()
+void Connection::setDatabases(const QStringList & databases)
 {
-    _allDatabasesCached.first = false;
-    _allDatabasesCached.second = QStringList();
+    _databases = databases;
+    setUseAllDatabases(false);
+}
+
+void Connection::setUseAllDatabases(bool all)
+{
+    _useAllDatabases = all;
 }
 
 EntityListForDataBase * Connection::getDbEntities(const QString & dbName,

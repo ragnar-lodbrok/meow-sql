@@ -142,7 +142,7 @@ int ConnectionParametersForm::index() const
 
 QStringList ConnectionParametersForm::allDatabases()
 {
-    // TODO: is cashed in connection, rm ?
+    // TODO: is cached in connection, rm ?
     if (_allDatabases.first == false) { // cache is empty
 
         _allDatabases.first = true;

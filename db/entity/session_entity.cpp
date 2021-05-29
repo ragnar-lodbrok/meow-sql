@@ -183,7 +183,7 @@ void SessionEntity::initDatabasesListIfNeed()
 {
     if (_databasesWereInit == false) {
 
-        QStringList databaseNames = connection()->allDatabases(true);
+        QStringList databaseNames = connection()->databases(true);
 
         foreach (const QString &dbName, databaseNames) {
             DataBaseEntity * dbEntity = new DataBaseEntity(

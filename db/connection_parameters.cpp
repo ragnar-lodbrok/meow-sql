@@ -113,9 +113,9 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
     case ServerType::MySQL: {
         MySQLConnection * connection = new MySQLConnection(*this);
         if (_databases.length() > 0) {
-            connection->setAllDatabases(databaseList());
+            connection->setDatabases(databaseList());
         } else {
-            connection->setUseAllDatabases();
+            connection->setUseAllDatabases(true);
         }
         return ConnectionPtr(connection); // TODO: wrap earlier?
     }
@@ -125,9 +125,9 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
     case ServerType::PostgreSQL: {
         PGConnection * connection = new PGConnection(*this);
         if (_databases.length() > 0) {
-            connection->setAllDatabases(databaseList());
+            connection->setDatabases(databaseList());
         } else {
-            connection->setUseAllDatabases();
+            connection->setUseAllDatabases(true);
         }
         return ConnectionPtr(connection);
     }
@@ -136,7 +136,7 @@ meow::db::ConnectionPtr meow::db::ConnectionParameters::createConnection()
 #ifdef WITH_SQLITE
     case ServerType::SQLite: {
         SQLiteConnection * connection = new SQLiteConnection(*this);
-        connection->setUseAllDatabases();
+        connection->setUseAllDatabases(true);
         return ConnectionPtr(connection);
     }
 #endif

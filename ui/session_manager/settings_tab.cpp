@@ -141,6 +141,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
     _mainGridLayout->addWidget(_databasesLabel, row, 0);
     _databasesEdit = new QLineEdit();
     _databasesEdit->setToolTip(tr("Separated by semicolon"));
+    _databasesEdit->setPlaceholderText(tr("All"));
     QAction * showListAction = _databasesEdit->addAction(
                 QIcon(":/icons/dropdown_highlight.png"),
                 QLineEdit::TrailingPosition);

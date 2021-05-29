@@ -73,8 +73,9 @@ public:
     QList<QStringList> getRows(const QString & SQL);
     QueryPtr getResults(const QString & SQL); // H: GetResults(SQL: String):
     QStringList allDatabases(bool refresh = false);
-    void setAllDatabases(const QStringList & databases);
-    void setUseAllDatabases();
+    QStringList databases(bool refresh = false);
+    void setDatabases(const QStringList & databases);
+    void setUseAllDatabases(bool all);
     EntityListForDataBase * getDbEntities(const QString & dbName,
                                           bool refresh = false);
     bool deleteAllCachedEntitiesInDatabase(const QString & dbName);
@@ -195,7 +196,9 @@ private:
     bool _isUnicode;
     //bool _loginPromptDone;
     //QString _databaseName;
-    std::pair<bool, QStringList> _allDatabasesCached; // < cached?, data >
+    QStringList _databases;
+    bool _useAllDatabases;
+    std::pair<bool, QStringList> _allDatabasesCached; // <cached?, data>
     std::unique_ptr<ITableStructureParser> _tableStructureParser;
     std::unique_ptr<ViewStructureParser> _viewStructureParser;
     std::unique_ptr<RoutineStructureParser> _routineStructureParser;
