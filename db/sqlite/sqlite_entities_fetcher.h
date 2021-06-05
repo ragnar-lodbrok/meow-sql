@@ -13,8 +13,7 @@ class SQLiteEntitiesFetcher : public DataBaseEntitiesFetcher
 public:
     explicit SQLiteEntitiesFetcher(SQLiteConnection * connection);
 
-    virtual void run(const QString & dbName,
-                     EntityListForDataBase * toList) override;
+    virtual QList<EntityPtr> run(const QString & dbName) override;
 
 };
 

@@ -1,5 +1,6 @@
 #include "view_entity.h"
 #include "database_entity.h"
+#include "entity_factory.h"
 #include <QIcon>
 
 namespace meow {
@@ -40,9 +41,9 @@ DataBaseEntity * ViewEntity::database() const
     return static_cast<DataBaseEntity *>(parent());
 }
 
-ViewEntity * ViewEntity::deepCopy() const
+ViewEntityPtr ViewEntity::deepCopy() const
 {
-    ViewEntity * copy = new ViewEntity(_viewName, database());
+    ViewEntityPtr copy = EntityFactory::createView(_viewName, database());
 
     copy->copyDataFrom(this);
 

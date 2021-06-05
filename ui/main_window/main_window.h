@@ -35,7 +35,8 @@ private:
 
     QString getWindowTitle() const;
 
-    Q_SLOT void activeDBEntityChanged(db::Entity * newEntity, bool select);
+    Q_SLOT void activeDBEntityChanged(const db::EntityPtr & newEntity,
+                                      bool select);
 
     Q_SLOT void sessionManagerDialogCanceled();
 

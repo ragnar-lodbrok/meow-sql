@@ -10,7 +10,6 @@
 #include "native_query_result_interface.h"
 #include "connection_parameters.h"
 #include "exception.h"
-#include "entity/entity_list_for_database.h"
 #include "table_structure_parser.h"
 #include "view_structure_parser.h"
 #include "routine_structure_parser.h"
@@ -76,7 +75,7 @@ public:
     QStringList databases(bool refresh = false);
     void setDatabases(const QStringList & databases);
     void setUseAllDatabases(bool all);
-    EntityListForDataBase * getDbEntities(const QString & dbName,
+    QList<EntityPtr> getDbEntities(const QString & dbName,
                                           bool refresh = false);
     bool deleteAllCachedEntitiesInDatabase(const QString & dbName);
 
@@ -166,7 +165,7 @@ protected:
     int _serverVersionInt;
 
     // db name : db's entities
-    QMap<QString, EntityListForDataBase *> _databaseEntitiesCache;
+    QMap<QString, QList<EntityPtr>> _databaseEntitiesCache;
     QString _database;
     QLatin1Char _identifierQuote;
 

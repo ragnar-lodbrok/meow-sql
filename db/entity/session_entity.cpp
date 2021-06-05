@@ -1,4 +1,5 @@
 #include "session_entity.h"
+#include "entity_factory.h"
 #include "db/connections_manager.h"
 #include "database_entity.h"
 #include "table_entity.h"
@@ -10,7 +11,7 @@
 namespace meow {
 namespace db {
 
-SessionEntity::SessionEntity(std::shared_ptr<Connection> connection,
+SessionEntity::SessionEntity(const std::shared_ptr<Connection> & connection,
                              ConnectionsManager * parent)
     : Entity(parent),
      _connection(connection),
@@ -23,15 +24,14 @@ SessionEntity::SessionEntity(std::shared_ptr<Connection> connection,
 SessionEntity::~SessionEntity()
 {
     meowLogDebug() << "Closing session " << name();
-    qDeleteAll(_databases);
 }
 
-QString SessionEntity::name() const // override
+QString SessionEntity::name() const
 {
     return connection()->connectionParams()->sessionName();
 }
 
-Connection * SessionEntity::connection() const // override
+Connection * SessionEntity::connection() const
 {
     return _connection.get();
 }
@@ -41,24 +41,24 @@ ConnectionsManager * SessionEntity::connectionsManager() const
     return static_cast<ConnectionsManager *>(_parent);
 }
 
-int SessionEntity::row() const // override
+int SessionEntity::row() const
 {
     return connectionsManager()->indexOf(const_cast<SessionEntity *>(this));
 }
 
-int SessionEntity::childCount() // override
+int SessionEntity::childCount()
 {
     initDatabasesListIfNeed();
     return _databases.size();
 }
 
-Entity * SessionEntity::child(int row) // override
+Entity * SessionEntity::child(int row)
 {
     initDatabasesListIfNeed();
-    return _databases.value(row); // null if out of bounds
+    return _databases.value(row).get();
 }
 
-QVariant SessionEntity::icon() const // override
+QVariant SessionEntity::icon() const
 {    
     auto icons = meow::app()->settings()->icons();
     return icons->connection(_connection->connectionParams()->serverType());
@@ -67,7 +67,7 @@ QVariant SessionEntity::icon() const // override
 
 int SessionEntity::indexOf(DataBaseEntity * session) const
 {
-    return _databases.indexOf(session);
+    return _databases.indexOf(session->retain());
 }
 
 bool SessionEntity::isActive() const
@@ -82,9 +82,9 @@ DataBaseEntity * SessionEntity::activeDatabase() const
 
 DataBaseEntity * SessionEntity::databaseByName(const QString & name) const
 {
-    for (DataBaseEntity * entity : _databases) {
+    for (const DataBaseEntityPtr & entity : _databases) {
         if (entity->name() == name) {
-            return entity;
+            return entity.get();
         }
     }
     return nullptr;
@@ -92,7 +92,6 @@ DataBaseEntity * SessionEntity::databaseByName(const QString & name) const
 
 void SessionEntity::clearAllDatabaseEntities()
 {
-    qDeleteAll(_databases);
     _databases.clear();
     _databasesWereInit = false;
 }
@@ -172,7 +171,7 @@ db::ulonglong SessionEntity::dataSize() const // override
 {
     db::ulonglong sum = 0;
 
-    foreach (const DataBaseEntity * entity, _databases) {
+    foreach (const DataBaseEntityPtr & entity, _databases) {
         sum += entity->dataSize();
     }
 
@@ -185,8 +184,8 @@ void SessionEntity::initDatabasesListIfNeed()
 
         QStringList databaseNames = connection()->databases(true);
 
-        foreach (const QString &dbName, databaseNames) {
-            DataBaseEntity * dbEntity = new DataBaseEntity(
+        for (const QString & dbName : databaseNames) {
+            DataBaseEntityPtr dbEntity = EntityFactory::createDataBase(
                         dbName,
                         const_cast<SessionEntity *>(this));
             _databases.push_back(dbEntity);
@@ -212,12 +211,12 @@ void SessionEntity::appendCreatedDatabase(
     if (allDatabases.contains(name) == false) return;
 
     initDatabasesListIfNeed();
-    DataBaseEntity * dbEntity = new DataBaseEntity(
+    DataBaseEntityPtr dbEntity = EntityFactory::createDataBase(
                 name,
                 const_cast<SessionEntity *>(this));
 
     if (afterName.isNull() == false) {
-        for (int i=0; i<_databases.size(); ++i) {
+        for (int i = 0; i < _databases.size(); ++i) {
             if (_databases.at(i)->name() == afterName) {
                 _databases.insert(i+1, dbEntity);
                 break;
@@ -227,7 +226,7 @@ void SessionEntity::appendCreatedDatabase(
         _databases.push_back(dbEntity);
     }
 
-    emit entityInserted(dbEntity);
+    emit entityInserted(dbEntity.get());
 }
 
 bool SessionEntity::removeEntity(Entity * entity)
@@ -242,7 +241,7 @@ bool SessionEntity::removeEntity(Entity * entity)
         success = entityInDb->dataBaseEntity()->removeEntity(entityInDb);
     } else if (entity->type() == Entity::Type::Database) {
         DataBaseEntity * database = static_cast<DataBaseEntity *>(entity);
-        _databases.removeOne(database);
+        _databases.removeOne(database->retain());
         success = true;
     } else {
         Q_ASSERT(0);

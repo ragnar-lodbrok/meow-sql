@@ -18,8 +18,10 @@ class ConnectionsManager : public Entity // root db entity
 {
     Q_OBJECT
 
-public:
+private:
     ConnectionsManager();
+public:
+    static std::shared_ptr<ConnectionsManager> create(); // TODO: Singletone
     ~ConnectionsManager() override;
 
     ConnectionPtr openDBConnection(db::ConnectionParameters & params);
@@ -32,11 +34,11 @@ public:
     // Entity interface (end)
 
     Entity * activeEntity() const { return _activeEntity.currentEntity(); }
-    void setActiveEntity(Entity * activeEntity, bool select = false);
+    void setActiveEntity(const EntityPtr & activeEntity, bool select = false);
 
     Connection * activeConnection() const;
     SessionEntity * activeSession() const { return _activeSession; }
-    const QList <SessionEntity *> & sessions() const { return _connections; }
+    const QList <SessionEntityPtr> & sessions() const { return _connections; }
 
     UserQuery * userQueryAt(size_t index);
 
@@ -44,15 +46,16 @@ public:
 
     Q_SIGNAL void connectionOpened(SessionEntity * newSession);
     Q_SIGNAL void beforeConnectionClosed(SessionEntity * newSession);
-    Q_SIGNAL void activeEntityChanged(Entity * newEntity, bool select = false);
-    Q_SIGNAL void creatingNewEntity(Entity * entity);
+    Q_SIGNAL void activeEntityChanged(const EntityPtr &newEntity,
+                                      bool select = false);
+    Q_SIGNAL void creatingNewEntity(const EntityPtr & entity);
     Q_SIGNAL void entityEdited(Entity * entity);
     Q_SIGNAL void entityInserted(Entity * entity);
     Q_SIGNAL void activeSessionChanged();
     Q_SIGNAL void activeSessionRefreshed();
     Q_SIGNAL void activeDatabaseChanged(const QString & database);
 
-    void createEntity(Entity::Type type);
+    void createNewEntity(Entity::Type type);
 
     void refreshActiveSession();
 
@@ -68,7 +71,7 @@ private:
 
     void setActiveSession(SessionEntity * session);
 
-    QList <SessionEntity *> _connections;
+    QList <SessionEntityPtr> _connections;
     EntityHolder _activeEntity;
     SessionEntity * _activeSession;
     std::vector <UserQuery *> _userQueries;

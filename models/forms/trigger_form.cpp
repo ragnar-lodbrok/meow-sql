@@ -2,7 +2,6 @@
 #include "db/connection.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
-#include "db/entity/entity_list_for_database.h"
 #include "app/app.h"
 
 namespace meow {
@@ -27,7 +26,7 @@ TriggerForm::TriggerForm()
 
 }
 
-void TriggerForm::setTrigger(meow::db::TriggerEntity * trigger)
+void TriggerForm::setTrigger(const db::TriggerEntityPtr & trigger)
 {
     // TODO: copy only when we start editing
 
@@ -35,11 +34,11 @@ void TriggerForm::setTrigger(meow::db::TriggerEntity * trigger)
 
     if (trigger->isNew()) {
         _sourceTrigger = nullptr;
-        _trigger.reset(trigger); // take ownership
+        _trigger = trigger; // take ownership
         setDefaultValuesForNew();
     } else {
         _sourceTrigger = trigger; // just hold a ref to trigger for update
-        _trigger.reset(_sourceTrigger->deepCopy()); // and edit copy
+        _trigger = _sourceTrigger->deepCopy(); // and edit copy
     }
 
     setHasUnsavedChanges(false);
@@ -136,11 +135,10 @@ QStringList TriggerForm::allTableNameOptions() const
 
     QStringList tableNames;
 
-    QList<db::Entity *> * entityList
-        = _trigger->connection()->getDbEntities(
-                _trigger->database()->name())->list();
+    QList<db::EntityPtr> entityList
+        = _trigger->connection()->getDbEntities(_trigger->database()->name());
 
-    for (const db::Entity * entity : *entityList) {
+    for (const db::EntityPtr & entity : entityList) {
         if (entity->type() == db::Entity::Type::Table) {
             tableNames << entity->name();
         }
@@ -209,7 +207,8 @@ QStringList TriggerForm::allEventOptions() const
 void TriggerForm::save()
 {
     if (_trigger->isNew()) { // insert
-        meow::db::TriggerEntity * trigger = _trigger.release();
+        meow::db::TriggerEntity * trigger = _trigger.get();
+        _trigger.reset();
         try {
             bool inserted = meow::app()->dbConnectionsManager()
                     ->activeSession()->insertEntityToDB(trigger);
@@ -223,7 +222,7 @@ void TriggerForm::save()
 
     } else { // update
         meow::app()->dbConnectionsManager()->activeSession()->editEntityInDB(
-            _sourceTrigger, _trigger.get());
+            _sourceTrigger.get(), _trigger.get());
     }
 
     setHasUnsavedChanges(false);

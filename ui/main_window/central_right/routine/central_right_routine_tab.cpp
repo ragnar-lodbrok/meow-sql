@@ -22,14 +22,14 @@ RoutineTab::RoutineTab(QWidget * parent)
     );
 }
 
-void RoutineTab::setRoutine(meow::db::RoutineEntity * routine)
+void RoutineTab::setRoutine(const db::RoutineEntityPtr & routine)
 {
     Q_ASSERT(routine != nullptr);
 
     _form.parametersModel()->setRoutine(nullptr); // TODO: crap
 
     _form.setRoutine(routine);
-    _form.parametersModel()->setRoutine(_form.editableRoutine());
+    _form.parametersModel()->setRoutine(_form.editableRoutine().get());
     _info->refreshData();
     _body->refreshData();
     validateControls();

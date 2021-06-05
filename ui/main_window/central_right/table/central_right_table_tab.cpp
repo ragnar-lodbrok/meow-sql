@@ -44,13 +44,13 @@ void TableTab::loadGeometryFromSettings()
         .toByteArray());
 }
 
-void TableTab::setTable(db::TableEntity * table)
+void TableTab::setTable(const db::TableEntityPtr & table)
 {
     _columns->setTable(nullptr); // TODO: dirty
 
     _form.setTable(table);
     _tableInfo->refreshData();
-    _columns->setTable(_form.editableTable());
+    _columns->setTable(_form.editableTable().get());
 
     // TODO: set focus on table name when table->isNew() == true
 }

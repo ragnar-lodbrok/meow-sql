@@ -8,15 +8,21 @@
 namespace meow {
 namespace db {
 
+class EntityFactory;
 class DataBaseEntity;
+class RoutineEntity;
+using RoutineEntityPtr = std::shared_ptr<RoutineEntity>;
 
 // Intent: procedure or function
 class RoutineEntity : public EntityInDatabase
 {
-public:
+private: // use EntityFactory for instantiation
     RoutineEntity(const QString & name,
                   Type type = Type::Function,
                   DataBaseEntity * parent = nullptr);
+public:
+
+    friend class EntityFactory;
 
     virtual QString name() const override;
     virtual QVariant icon() const override;
@@ -31,7 +37,7 @@ public:
     void setType(const Type type) { _type = type; }
 
     // Returns a copy (with all internal data)
-    RoutineEntity * deepCopy() const;
+    RoutineEntityPtr deepCopy() const;
 
     virtual void copyDataFrom(const Entity * data) override;
 
@@ -40,7 +46,6 @@ private:
     Type _type;
     mutable std::unique_ptr<RoutineStructure> _structure;
 };
-
 
 } // namespace db
 } // namespace meow

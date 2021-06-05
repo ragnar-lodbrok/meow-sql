@@ -183,7 +183,7 @@ void EntitiesTreeModel::onSelectEntityAt(const QModelIndex &index)
     meowLogDebug() << "Tree: selected item " << selectedEntity->name();
 
     selectedEntity->setWasSelected(true);
-    _dbConnectionsManager->setActiveEntity(selectedEntity);
+    _dbConnectionsManager->setActiveEntity(selectedEntity->retain());
 
 }
 
@@ -318,7 +318,7 @@ bool EntitiesTreeModel::allowUserManager() const
 
 void EntitiesTreeModel::createNewEntity(meow::db::Entity::Type type)
 {
-    _dbConnectionsManager->createEntity(type);
+    _dbConnectionsManager->createNewEntity(type);
 }
 
 void EntitiesTreeModel::refreshActiveSession()
@@ -360,9 +360,11 @@ bool EntitiesTreeModel::isCurItemDatabaseOrLess() const
 
 void EntitiesTreeModel::onDatabasesDataChanged()
 {
-    for (meow::db::SessionEntity * session : _dbConnectionsManager->sessions()) {
-        for (meow::db::DataBaseEntity * dbEntity : session->databases()) {
-            QModelIndex dbEntityIndex = indexForEntity(dbEntity);
+    for (const meow::db::SessionEntityPtr & session
+                : _dbConnectionsManager->sessions()) {
+        for (const meow::db::DataBaseEntityPtr & dbEntity
+                    : session->databases()) {
+            QModelIndex dbEntityIndex = indexForEntity(dbEntity.get());
             emit dataChanged(dbEntityIndex, dbEntityIndex);
         }
     }

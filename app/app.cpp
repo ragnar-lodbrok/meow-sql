@@ -6,7 +6,7 @@ namespace meow {
 
 App::App()
     : _dbConnectionParamsManager()
-    , _dbConnectionsManager()
+    , _dbConnectionsManager(db::ConnectionsManager::create())
     , _settingsCore()
     , _actions(this) // after settings
     , _log()
@@ -22,7 +22,7 @@ db::ConnectionParamsManager * App::dbConnectionParamsManager()
 
 db::ConnectionsManager * App::dbConnectionsManager()
 {
-    return &_dbConnectionsManager;
+    return _dbConnectionsManager.get();
 }
 
 App * app()

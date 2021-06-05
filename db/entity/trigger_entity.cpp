@@ -1,5 +1,6 @@
 #include "trigger_entity.h"
 #include "database_entity.h"
+#include "entity_factory.h"
 #include <QIcon>
 
 namespace meow {
@@ -39,9 +40,9 @@ DataBaseEntity * TriggerEntity::database() const
     return static_cast<DataBaseEntity *>(parent());
 }
 
-TriggerEntity * TriggerEntity::deepCopy() const
+TriggerEntityPtr TriggerEntity::deepCopy() const
 {
-    TriggerEntity * copy = new TriggerEntity(_name, database());
+    TriggerEntityPtr copy = EntityFactory::createTrigger(_name, database());
 
     copy->copyDataFrom(this);
 

@@ -1,15 +1,9 @@
 #ifndef MODELS_TABLE_INFO_FORM_H
 #define MODELS_TABLE_INFO_FORM_H
 
-#include <QObject>
-#include <QString>
+#include "db/entity/table_entity.h"
 
 namespace meow {
-
-namespace db {
-    class TableEntity;
-}
-
 namespace models {
 namespace forms {
 
@@ -23,9 +17,9 @@ public:
     explicit TableInfoForm(QObject *parent = nullptr);
     ~TableInfoForm();
 
-    void setTable(meow::db::TableEntity * table);
-    meow::db::TableEntity * editableTable() const { return _table; }
-    meow::db::TableEntity * sourceTable() const { return _sourceTable; }
+    void setTable(const meow::db::TableEntityPtr & table);
+    meow::db::TableEntityPtr editableTable() const { return _table; }
+    meow::db::TableEntityPtr sourceTable() const { return _sourceTable; }
 
     const QString tableName() const;
     void setTableName(const QString & name);
@@ -76,8 +70,8 @@ public:
 
 private:
 
-    meow::db::TableEntity * _table; // copy of source table to edit
-    meow::db::TableEntity * _sourceTable;
+    meow::db::TableEntityPtr _table; // copy of source table to edit
+    meow::db::TableEntityPtr _sourceTable;
     TableIndexesModel * _indexesModel;
     TableForeignKeysModel * _fKeysModel;
 

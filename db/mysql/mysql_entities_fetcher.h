@@ -12,17 +12,16 @@ class MySQLEntitiesFetcher : public DataBaseEntitiesFetcher
 {
 public:
     MySQLEntitiesFetcher(MySQLConnection * connection);
-    virtual void run(const QString & dbName,
-             EntityListForDataBase * toList) override;
+    virtual QList<EntityPtr> run(const QString & dbName) override;
 private:
     void fetchTablesViews(const QString & dbName,
-                          EntityListForDataBase * toList);
+                          QList<EntityPtr> * toList);
     void fetchStoredFunctions(const QString & dbName,
-                          EntityListForDataBase * toList);
+                          QList<EntityPtr> * toList);
     void fetchStoredProcedures(const QString & dbName,
-                          EntityListForDataBase * toList);
+                          QList<EntityPtr> * toList);
     void fetchTriggers(const QString & dbName,
-                       EntityListForDataBase * toList);
+                       QList<EntityPtr> * toList);
 };
 
 } // namespace db

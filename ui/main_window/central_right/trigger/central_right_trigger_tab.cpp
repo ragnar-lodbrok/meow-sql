@@ -22,7 +22,7 @@ TriggerTab::TriggerTab(QWidget * parent)
     );
 }
 
-void TriggerTab::setTrigger(db::TriggerEntity * trigger)
+void TriggerTab::setTrigger(const db::TriggerEntityPtr & trigger)
 {
     _form.setTrigger(trigger);
     _options->refreshData();

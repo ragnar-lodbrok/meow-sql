@@ -5,6 +5,7 @@
 #include "db/entity/view_entity.h"
 #include "db/entity/routine_entity.h"
 #include "db/entity/trigger_entity.h"
+#include "db/entity/entity_factory.h"
 #include "helpers/parsing.h"
 #include "helpers/logger.h"
 
@@ -17,27 +18,30 @@ MySQLEntitiesFetcher::MySQLEntitiesFetcher(MySQLConnection * connection)
 
 }
 
-void MySQLEntitiesFetcher::run(const QString & dbName, EntityListForDataBase * toList) // override
+QList<EntityPtr> MySQLEntitiesFetcher::run(const QString & dbName)
 {
     // TODO SELECT DEFAULT_COLLATION_NAME
 
-    fetchTablesViews(dbName, toList);
+    QList<EntityPtr> list;
+
+    fetchTablesViews(dbName, &list);
 
     unsigned long serverVersion = _connection->serverVersionInt();
 
     if (serverVersion >= 50000) {
-        fetchStoredFunctions(dbName, toList);
-        fetchStoredProcedures(dbName, toList);
+        fetchStoredFunctions(dbName, &list);
+        fetchStoredProcedures(dbName, &list);
     }
 
     if (serverVersion >= 50010) {
-        fetchTriggers(dbName, toList);
+        fetchTriggers(dbName, &list);
         // TODO: Events
     }
+    return list;
 }
 
 void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
-                                            EntityListForDataBase * toList)
+                                            QList<EntityPtr> * toList)
 {
     bool fullTableStatus = _connection->connectionParams()->fullTableStatus();
 
@@ -82,10 +86,10 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
             QString name = resPtr->curRowColumn(indexOfName);
 
             if (isView) {
-                ViewEntity * view = new ViewEntity(name);
-                toList->list()->append(view);
+                ViewEntityPtr view = EntityFactory::createView(name);
+                toList->append(view);
             } else {
-                TableEntity * table = new TableEntity(name);
+                TableEntityPtr table = EntityFactory::createTable(name);
                 // data size
                 if (!resPtr->isNull(indexOfDataLen) && !resPtr->isNull(indexOfIndexLen)) {
                     auto dataLen = resPtr->curRowColumn(indexOfDataLen).toULongLong();
@@ -129,7 +133,7 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
                     );
                 }
 
-                toList->list()->append(table);
+                toList->append(table);
             }
 
             resPtr->seekNext();
@@ -138,7 +142,7 @@ void MySQLEntitiesFetcher::fetchTablesViews(const QString & dbName,
 }
 
 void MySQLEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
-                                                EntityListForDataBase * toList)
+                                                QList<EntityPtr> * toList)
 {
     QueryPtr queryResults;
 
@@ -164,8 +168,7 @@ void MySQLEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
 
             QString name = resPtr->curRowColumn(indexOfName);
 
-            RoutineEntity * func = new RoutineEntity(name,
-                                                     Entity::Type::Function);
+            RoutineEntityPtr func = EntityFactory::createFunction(name);
 
             if (!resPtr->isNull(indexOfCreated)) {
                 func->setCreated(
@@ -183,7 +186,7 @@ void MySQLEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
                 );
             }
 
-            toList->list()->append(func);
+            toList->append(func);
 
             resPtr->seekNext();
         }
@@ -191,7 +194,7 @@ void MySQLEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
 }
 
 void MySQLEntitiesFetcher::fetchStoredProcedures(const QString & dbName,
-                                                 EntityListForDataBase * toList)
+                                                 QList<EntityPtr> * toList)
 {
     QueryPtr queryResults;
 
@@ -217,8 +220,7 @@ void MySQLEntitiesFetcher::fetchStoredProcedures(const QString & dbName,
 
             QString name = resPtr->curRowColumn(indexOfName);
 
-            RoutineEntity * proc = new RoutineEntity(name,
-                                                     Entity::Type::Procedure);
+            RoutineEntityPtr proc = EntityFactory::createProcedure(name);
 
             if (!resPtr->isNull(indexOfCreated)) {
                 proc->setCreated(
@@ -236,7 +238,7 @@ void MySQLEntitiesFetcher::fetchStoredProcedures(const QString & dbName,
                 );
             }
 
-            toList->list()->append(proc);
+            toList->append(proc);
 
             resPtr->seekNext();
         }
@@ -244,7 +246,7 @@ void MySQLEntitiesFetcher::fetchStoredProcedures(const QString & dbName,
 }
 
 void MySQLEntitiesFetcher::fetchTriggers(const QString & dbName,
-                                         EntityListForDataBase * toList)
+                                         QList<EntityPtr> *toList)
 {
 
     QueryPtr queryResults;
@@ -270,7 +272,7 @@ void MySQLEntitiesFetcher::fetchTriggers(const QString & dbName,
 
             QString name = resPtr->curRowColumn(indexOfTrigger);
 
-            TriggerEntity * trigger = new TriggerEntity(name);
+            TriggerEntityPtr trigger = EntityFactory::createTrigger(name);
 
             if (!resPtr->isNull(indexOfCreated)) {
                 trigger->setCreated(
@@ -280,7 +282,7 @@ void MySQLEntitiesFetcher::fetchTriggers(const QString & dbName,
                 );
             }
 
-            toList->list()->append(trigger);
+            toList->append(trigger);
 
             resPtr->seekNext();
         }

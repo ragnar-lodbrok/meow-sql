@@ -2,6 +2,7 @@
 #include "database_entity.h"
 #include "session_entity.h"
 #include "db/connection.h"
+#include <QDebug>
 
 namespace meow {
 namespace db {

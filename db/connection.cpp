@@ -35,7 +35,6 @@ Connection::Connection(const ConnectionParameters & params)
 Connection::~Connection()
 {
     // H: clears
-    qDeleteAll(_databaseEntitiesCache);
 }
 
 void Connection::doBeforeConnect()
@@ -76,8 +75,8 @@ void Connection::setUseAllDatabases(bool all)
     _useAllDatabases = all;
 }
 
-EntityListForDataBase * Connection::getDbEntities(const QString & dbName,
-                                                  bool refresh /*= false*/)
+QList<EntityPtr> Connection::getDbEntities(const QString & dbName,
+                                           bool refresh /*= false*/)
 {
     bool hasInCache = _databaseEntitiesCache.contains(dbName);
 
@@ -90,14 +89,12 @@ EntityListForDataBase * Connection::getDbEntities(const QString & dbName,
         return _databaseEntitiesCache.value(dbName);
     } else {
         // fetch
-        EntityListForDataBase * newList = new EntityListForDataBase();
-        _databaseEntitiesCache.insert(dbName, newList);
-
         DataBaseEntitiesFetcher * fetcherPtr = createDbEntitiesFetcher();
 
         std::shared_ptr<DataBaseEntitiesFetcher> fetcher(fetcherPtr);
 
-        fetcherPtr->run(dbName, newList);
+        QList<EntityPtr> newList = fetcherPtr->run(dbName);
+        _databaseEntitiesCache.insert(dbName, newList);
 
         return newList;
     }
@@ -106,9 +103,7 @@ EntityListForDataBase * Connection::getDbEntities(const QString & dbName,
 bool Connection::deleteAllCachedEntitiesInDatabase(const QString & dbName)
 {
     if (_databaseEntitiesCache.contains(dbName)) {
-        auto list = _databaseEntitiesCache.value(dbName);
         _databaseEntitiesCache.remove(dbName);
-        delete list;
         return true;
     }
     return false;

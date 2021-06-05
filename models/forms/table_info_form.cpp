@@ -1,5 +1,4 @@
 #include "table_info_form.h"
-#include "db/entity/table_entity.h"
 #include "models/forms/table_indexes_model.h"
 #include "models/forms/table_foreign_keys_model.h"
 #include "app/app.h"
@@ -22,12 +21,11 @@ TableInfoForm::TableInfoForm(QObject *parent)
 
 TableInfoForm::~TableInfoForm()
 {
-    delete _table;
     delete _indexesModel;
     delete _fKeysModel;
 }
 
-void TableInfoForm::setTable(meow::db::TableEntity * table)
+void TableInfoForm::setTable(const meow::db::TableEntityPtr & table)
 {
     // TODO: copy only when we start editing
 
@@ -46,15 +44,12 @@ void TableInfoForm::setTable(meow::db::TableEntity * table)
         _sourceTable = table; // just hold a ref to table
         _table = _sourceTable->deepCopy(); // and edit copy
     }
-    if (oldTable != table) {
-        delete oldTable;
-    }
 
     if (_indexesModel) {
-        _indexesModel->setTable(_table);
+        _indexesModel->setTable(_table.get());
     }
     if (_fKeysModel) {
-        _fKeysModel->setTable(_table);
+        _fKeysModel->setTable(_table.get());
     }
 
     setHasUnsavedChanges(false);
@@ -222,7 +217,7 @@ TableIndexesModel * TableInfoForm::indexesModel()
 {
     if (!_indexesModel) {
         _indexesModel = new TableIndexesModel();
-        _indexesModel->setTable(_table);
+        _indexesModel->setTable(_table.get());
     }
     return _indexesModel;
 }
@@ -231,7 +226,7 @@ TableForeignKeysModel * TableInfoForm::foreignKeysModel()
 {
     if (!_fKeysModel) {
         _fKeysModel = new TableForeignKeysModel(this);
-        _fKeysModel->setTable(_table);
+        _fKeysModel->setTable(_table.get());
     }
     return _fKeysModel;
 }
@@ -239,7 +234,8 @@ TableForeignKeysModel * TableInfoForm::foreignKeysModel()
 bool TableInfoForm::supportsForeignKeys() const
 {
     if (_table) {
-        return _table->connection()->features()->supportsForeignKeys(_table);
+        return _table->connection()->features()
+                ->supportsForeignKeys(_table.get());
     }
     return false;
 }
@@ -255,10 +251,10 @@ void TableInfoForm::save()
     // TODO: adding foreign keys may add indices
     if (_table->isNew()) { // insert
         meow::app()->dbConnectionsManager()->activeSession()->insertEntityToDB(
-            _table);
+            _table.get());
     } else { // update
         meow::app()->dbConnectionsManager()->activeSession()->editEntityInDB(
-            _sourceTable, _table);
+            _sourceTable.get(), _table.get());
     }
 
     setHasUnsavedChanges(false);

@@ -27,7 +27,7 @@ ViewForm::ViewForm(QObject *parent)
 
 }
 
-void ViewForm::setView(meow::db::ViewEntity * view)
+void ViewForm::setView(const meow::db::ViewEntityPtr & view)
 {
     // TODO: copy only when we start editing
 
@@ -35,11 +35,11 @@ void ViewForm::setView(meow::db::ViewEntity * view)
 
     if (view->isNew()) {
         _sourceView = nullptr;
-        _view.reset(view); // take ownership
+        _view = view; // take ownership
         setDefaultValuesForNewView();
     } else {
         _sourceView = view; // just hold a ref to view for update
-        _view.reset(_sourceView->deepCopy()); // and edit copy
+        _view = _sourceView->deepCopy(); // and edit copy
     }
 
     setHasUnsavedChanges(false);
@@ -239,8 +239,8 @@ void ViewForm::save()
 {
     if (_view->isNew()) { // insert
         // try to transfer ownership - take back on error
-        // TODO: why not just use shared_ptr ?
-        meow::db::ViewEntity * view = _view.release();
+        meow::db::ViewEntity * view = _view.get();
+        _view.reset();
         try {
             bool inserted = meow::app()->dbConnectionsManager()
                     ->activeSession()->insertEntityToDB(view);
@@ -254,7 +254,7 @@ void ViewForm::save()
 
     } else { // update
         meow::app()->dbConnectionsManager()->activeSession()->editEntityInDB(
-            _sourceView, _view.get());
+            _sourceView.get(), _view.get());
     }
 
     setHasUnsavedChanges(false);

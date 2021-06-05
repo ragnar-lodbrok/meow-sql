@@ -23,7 +23,7 @@ class RoutineTab : public BaseRootTab
 public:
     explicit RoutineTab(QWidget * parent = nullptr);
 
-    void setRoutine(meow::db::RoutineEntity * routine);
+    void setRoutine(const meow::db::RoutineEntityPtr & routine);
 
     void onBeforeEntityEditing();
 

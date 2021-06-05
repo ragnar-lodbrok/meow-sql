@@ -105,9 +105,9 @@ set(SOURCE_FILES
     db/entity/database_entity.cpp
     db/entity/entities_fetcher.cpp
     db/entity/entity.cpp
+    db/entity/entity_factory.cpp
     db/entity/entity_filter.cpp
     db/entity/entity_holder.cpp
-    db/entity/entity_list_for_database.cpp
     db/entity/routine_entity.cpp
     db/entity/session_entity.cpp
     db/entity/table_entity_comparator.cpp

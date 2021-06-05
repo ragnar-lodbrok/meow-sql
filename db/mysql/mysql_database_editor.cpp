@@ -1,6 +1,7 @@
 #include "mysql_database_editor.h"
 #include "db/connection.h"
 #include "db/entity/database_entity.h"
+#include "db/entity/entity_factory.h"
 #include <QDebug>
 
 namespace meow {
@@ -62,10 +63,10 @@ bool MySQLDataBaseEditor::edit(DataBaseEntity * database,
     bool newDatabaseExists =  database->connection()
             ->allDatabases().contains(newName);
 
-    // create db entity to fetch subentities
-    DataBaseEntity * newDatabase = new DataBaseEntity(newName,
-                                                      database->session());
-    std::unique_ptr<DataBaseEntity> newDbPtr(newDatabase);
+    // create db entity to fetch subentities    
+    DataBaseEntityPtr newDatabase = EntityFactory::createDataBase(
+                newName,
+                database->session());
 
     for (int i=0; newDatabaseExists && i < database->childCount(); ++i) {
         Entity * oldEntity = database->child(i);

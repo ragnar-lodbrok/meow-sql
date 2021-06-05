@@ -3,6 +3,7 @@
 #include "db/query.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/view_entity.h"
+#include "db/entity/entity_factory.h"
 
 // https://www.sqlite.org/cli.html
 
@@ -15,8 +16,7 @@ SQLiteEntitiesFetcher::SQLiteEntitiesFetcher(SQLiteConnection * connection)
 
 }
 
-void SQLiteEntitiesFetcher::run(const QString & dbName,
-                            EntityListForDataBase * toList)
+QList<EntityPtr> SQLiteEntitiesFetcher::run(const QString & dbName)
 {
 
     // TODO: manually?
@@ -26,27 +26,31 @@ void SQLiteEntitiesFetcher::run(const QString & dbName,
 
     Q_UNUSED(dbName);
 
+    QList<EntityPtr> list;
+
     const SQLiteConnection * conn = static_cast<SQLiteConnection *>(_connection);
 
     QStringList tables = conn->handle()->tables(QSql::Tables);
 
     for (const QString & tableName : tables) {
-        TableEntity * table = new TableEntity(tableName);
+        TableEntityPtr table = EntityFactory::createTable(tableName);
 
         // TODO: table->setRowsCount
         // TODO: table->setDataSize
 
-        toList->list()->append(table);
+        list.append(table);
     }
 
     QStringList views = conn->handle()->tables(QSql::Views);
 
     for (const QString & viewName : views) {
-        ViewEntity * view = new ViewEntity(viewName);
-        toList->list()->append(view);
+        ViewEntityPtr view = EntityFactory::createView(viewName);
+        list.append(view);
     }
 
     // TODO: triggers
+
+    return list;
 
 }
 

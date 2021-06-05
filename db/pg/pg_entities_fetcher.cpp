@@ -4,6 +4,7 @@
 #include "db/entity/table_entity.h"
 #include "db/entity/view_entity.h"
 #include "db/entity/routine_entity.h"
+#include "db/entity/entity_factory.h"
 #include "helpers/logger.h"
 
 namespace meow {
@@ -16,16 +17,19 @@ PGEntitiesFetcher::PGEntitiesFetcher(PGConnection * connection)
 
 }
 
-void PGEntitiesFetcher::run(const QString & dbName,
-                            EntityListForDataBase * toList)
+QList<EntityPtr> PGEntitiesFetcher::run(const QString & dbName)
 {
 
-    fetchTablesViews(dbName, toList);
-    fetchStoredFunctions(dbName, toList);
+    QList<EntityPtr> list;
+
+    fetchTablesViews(dbName, &list);
+    fetchStoredFunctions(dbName, &list);
+
+    return list;
 }
 
 void PGEntitiesFetcher::fetchTablesViews(const QString & dbName,
-                                         EntityListForDataBase * toList)
+                                         QList<EntityPtr> * toList)
 {
     QString schemaTable;
     if (_connection->serverVersionInt() >= 70300) {
@@ -86,10 +90,10 @@ void PGEntitiesFetcher::fetchTablesViews(const QString & dbName,
         bool isView = (type == "VIEW");
 
         if (isView) {
-            ViewEntity * view = new ViewEntity(name);
-            toList->list()->append(view);
+            ViewEntityPtr view = EntityFactory::createView(name);
+            toList->append(view);
         } else {
-            TableEntity * table = new TableEntity(name);
+            TableEntityPtr table = EntityFactory::createTable(name);
 
             table->setRowsCount(
                 resPtr->curRowColumn(indexOfRows).toULongLong()
@@ -99,7 +103,7 @@ void PGEntitiesFetcher::fetchTablesViews(const QString & dbName,
             auto indexLen = resPtr->curRowColumn(indexOfIndexLen).toULongLong();
             table->setDataSize(dataLen + indexLen);
 
-            toList->list()->append(table);
+            toList->append(table);
         }
 
         resPtr->seekNext();
@@ -107,7 +111,7 @@ void PGEntitiesFetcher::fetchTablesViews(const QString & dbName,
 }
 
 void PGEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
-                                             EntityListForDataBase * toList)
+                                             QList<EntityPtr> * toList)
 {
     QueryPtr queryResults;
 
@@ -142,9 +146,9 @@ void PGEntitiesFetcher::fetchStoredFunctions(const QString & dbName,
 
         QString name = resPtr->curRowColumn(indexOfName);
 
-        RoutineEntity * func = new RoutineEntity(name, Entity::Type::Function);
+        RoutineEntityPtr func = EntityFactory::createFunction(name);
 
-        toList->list()->append(func);
+        toList->append(func);
 
         resPtr->seekNext();
     }

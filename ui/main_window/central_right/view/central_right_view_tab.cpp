@@ -251,7 +251,7 @@ void ViewTab::validateControls()
     _saveButton->setEnabled(enableEdit && !_form.name().isEmpty());
 }
 
-void ViewTab::setView(db::ViewEntity * view)
+void ViewTab::setView(const db::ViewEntityPtr & view)
 {
     _form.setView(view);
     fillDataFromForm();

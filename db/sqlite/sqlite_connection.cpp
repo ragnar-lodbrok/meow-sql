@@ -4,7 +4,6 @@
 #include "sqlite_entities_fetcher.h"
 #include "db/data_type/sqlite_connection_datatypes.h"
 #include "db/query_data_fetcher.h"
-#include "db/entity/entity_list_for_database.h"
 #include "db/entity/table_entity.h"
 #include "sqlite_table_structure_parser.h"
 
@@ -16,7 +15,7 @@ namespace meow {
 namespace db {
 
 SQLiteConnection::SQLiteConnection(const ConnectionParameters & params)
-    :Connection(params)
+    : Connection(params)
 {
     // Listening: Stormlord - Leviathan
 
@@ -201,7 +200,16 @@ void SQLiteConnection::setDatabase(const QString & database)
 
 db::ulonglong SQLiteConnection::getRowCount(const TableEntity * table)
 {
-    if (!getDbEntities(database())->hasEntity("sqlite_stat1")) {
+    QList<EntityPtr> entities = getDbEntities(database());
+    bool hasStatTable = false;
+
+    for (const EntityPtr & entity : entities) {
+        if (entity->name() == "sqlite_stat1") {
+            hasStatTable = true;
+        }
+    }
+
+    if (!hasStatTable) {
         try {
             // create "sqlite_stat1"
             this->query("ANALYZE"); // TODO: pass db name only

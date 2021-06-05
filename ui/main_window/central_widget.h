@@ -19,8 +19,8 @@ public:
 
     ~CentralWidget();
 
-    void setActiveDBEntity(db::Entity * entity, bool select = false);
-    void onCreatingNewEntity(db::Entity * entity);
+    void setActiveDBEntity(const db::EntityPtr & entity, bool select = false);
+    void onCreatingNewEntity(const db::EntityPtr & entity);
 
     void onGlobalRefresh();
 private:

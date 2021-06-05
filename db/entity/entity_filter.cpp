@@ -1,7 +1,6 @@
 #include "entity_filter.h"
 #include "db/connection.h"
 #include "db/entity/table_entity.h"
-#include "db/entity/entity_list_for_database.h"
 
 namespace meow {
 namespace db {
@@ -21,12 +20,11 @@ TableEntity * EntityFilter::tableByName(
         const QString & databaseName,
         const QString & tableName) const
 {
-    QList<Entity *> * entityList
-        = _connection->getDbEntities(databaseName)->list();
+    QList<EntityPtr> entityList = _connection->getDbEntities(databaseName);
 
-    for (Entity * entity : *entityList) {
+    for (const EntityPtr & entity : entityList) {
         if (entity->type() == Entity::Type::Table) {
-            TableEntity * table = static_cast<TableEntity *>(entity);
+            TableEntity * table = static_cast<TableEntity *>(entity.get());
             if (table->name() == tableName) {
                 return table;
             }

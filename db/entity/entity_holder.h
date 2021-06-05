@@ -12,16 +12,16 @@ class EntityHolder
 public:
     EntityHolder();
 
-    bool setCurrentEntity(Entity * currentEntity);
-    Entity * currentEntity() const { return _currentEntity; }
+    bool setCurrentEntity(const db::EntityPtr & currentEntity);
+    Entity * currentEntity() const { return _currentEntity.get(); }
 
     bool connectionChanged() const;
     bool databaseChanged() const;
     bool hasDatabase() const;
 
 private:
-    Entity * _prevEntity;
-    Entity * _currentEntity;
+    EntityPtr _prevEntity; // TODO: own?
+    EntityPtr _currentEntity;
 };
 
 } // namespace db

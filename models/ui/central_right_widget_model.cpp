@@ -13,9 +13,9 @@ CentralRightWidgetModel::CentralRightWidgetModel()
 
 }
 
-bool CentralRightWidgetModel::setCurrentEntity(db::Entity * currentEntity)
+bool CentralRightWidgetModel::setCurrentEntity(const meow::db::EntityPtr & entity)
 {
-    return _entityHolder.setCurrentEntity(currentEntity);
+    return _entityHolder.setCurrentEntity(entity);
 }
 
 meow::db::Entity * CentralRightWidgetModel::currentEntity() const

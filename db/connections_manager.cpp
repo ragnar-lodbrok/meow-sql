@@ -7,13 +7,18 @@
 #include "db/entity/routine_entity.h"
 #include "db/entity/trigger_entity.h"
 #include "helpers/logger.h"
+#include "db/entity/entity_factory.h"
 
 namespace meow {
 namespace db {
 
+std::shared_ptr<ConnectionsManager> ConnectionsManager::create()
+{
+    return std::shared_ptr<ConnectionsManager>(new ConnectionsManager());
+}
+
 ConnectionsManager::ConnectionsManager()
-    :Entity(),
-     _connections(),
+    : Entity(),
      _activeEntity(),
      _activeSession(nullptr),
      _userQueries()
@@ -23,7 +28,6 @@ ConnectionsManager::ConnectionsManager()
 
 ConnectionsManager::~ConnectionsManager()
 {
-    qDeleteAll(_connections);
     qDeleteAll(_userQueries);
 }
 
@@ -33,14 +37,14 @@ ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & pa
 
     connection->setActive(true);
 
-    SessionEntity * newSession = new SessionEntity(connection, this);
+    SessionEntityPtr newSession = EntityFactory::createSession(connection, this);
 
-    QObject::connect(newSession,
+    QObject::connect(newSession.get(),
             &meow::db::SessionEntity::entityEdited,
             this,
             &meow::db::ConnectionsManager::onEntityEdited);
 
-    QObject::connect(newSession,
+    QObject::connect(newSession.get(),
             &meow::db::SessionEntity::entityInserted,
             this,
             &meow::db::ConnectionsManager::onEntityInserted,
@@ -53,7 +57,7 @@ ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & pa
 
     _connections.push_back(newSession);
 
-    emit connectionOpened(newSession);
+    emit connectionOpened(newSession.get());
 
     return connection;
 }
@@ -64,26 +68,26 @@ bool ConnectionsManager::closeActiveConnection()
     if (session) {
         setActiveSession(nullptr);
         emit beforeConnectionClosed(session);
-        _connections.removeOne(session);
+        _connections.removeOne(session->retain());
         delete session;
         return true;
     }
     return false;
 }
 
-int ConnectionsManager::childCount() // override
+int ConnectionsManager::childCount()
 {
     return _connections.size();
 }
 
-SessionEntity * ConnectionsManager::child(int row) // override
+SessionEntity * ConnectionsManager::child(int row)
 {
-    return _connections.value(row); // returns null if out of bounds
+    return _connections.value(row).get();
 }
 
 int ConnectionsManager::indexOf(SessionEntity * session) const
 {
-    return _connections.indexOf(session);
+    return _connections.indexOf(session->retain());
 }
 
 Connection * ConnectionsManager::activeConnection() const
@@ -105,7 +109,7 @@ UserQuery * ConnectionsManager::userQueryAt(size_t index)
     return _userQueries[index];
 }
 
-void ConnectionsManager::createEntity(Entity::Type type)
+void ConnectionsManager::createNewEntity(Entity::Type type)
 {
     Q_ASSERT(type > meow::db::Entity::Type::Database);
 
@@ -118,33 +122,22 @@ void ConnectionsManager::createEntity(Entity::Type type)
     );
     if (!databaseEntity) return;
 
-    if (type == Entity::Type::Table) {
-        TableEntity * table = new TableEntity("", databaseEntity);
-        table->setIsNew(true);
-        // TODO move this code into connection ?
-        table->setEngine(table->connection()->defaultTableEngine());
-        _activeEntity.setCurrentEntity(nullptr);
-        emit creatingNewEntity(table);
-        //emit activeEntityChanged(table);
-    } else if (type == Entity::Type::View) {
-        ViewEntity * view = new ViewEntity("", databaseEntity);
-        view->setIsNew(true);
-        _activeEntity.setCurrentEntity(nullptr);
-        emit creatingNewEntity(view);
-    } else if (type == Entity::Type::Procedure
-               || type == Entity::Type::Function) {
-        RoutineEntity * routine = new RoutineEntity("", type, databaseEntity);
-        routine->setIsNew(true);
-        _activeEntity.setCurrentEntity(nullptr);
-        emit creatingNewEntity(routine);
-    } else if (type == Entity::Type::Trigger) {
-        TriggerEntity * trigger = new TriggerEntity("", databaseEntity);
-        trigger->setIsNew(true);
-        _activeEntity.setCurrentEntity(nullptr);
-        emit creatingNewEntity(trigger);
-    } else {
-        Q_ASSERT(false);
+    std::shared_ptr<EntityInDatabase> entity
+            = EntityFactory::createEntityInDatabase("", type, databaseEntity);
+
+    if (!entity) return;
+
+    entity->setIsNew(true);
+    _activeEntity.setCurrentEntity(nullptr);
+
+    if (entity->type() == meow::db::Entity::Type::Table) {
+        // TODO why it is here?
+        std::static_pointer_cast<TableEntity>(entity)
+                ->setEngine(entity->connection()->defaultTableEngine());
     }
+
+    emit creatingNewEntity(std::static_pointer_cast<Entity>(entity));
+
 }
 
 void ConnectionsManager::refreshActiveSession()
@@ -196,14 +189,17 @@ QString ConnectionsManager::activeEntityPath() const
     return path.join('/');
 }
 
-void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
+void ConnectionsManager::setActiveEntity(const db::EntityPtr & activeEntity,
+                                         bool select)
 {
     bool changed = _activeEntity.setCurrentEntity(activeEntity);
     if (changed) {
 
+        db::Entity * entity = activeEntity.get();
+
         if (activeEntity) {
             if (_activeEntity.connectionChanged()) {
-                setActiveSession(db::sessionForEntity(activeEntity));
+                setActiveSession(db::sessionForEntity(entity));
             }
         }
 
@@ -211,7 +207,7 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
 
         if (connection && activeEntity) {
             if (_activeEntity.databaseChanged()) {
-                QString dbName = databaseName(activeEntity);
+                QString dbName = databaseName(entity);
                 if (dbName.length()) {
                     connection->setDatabase(dbName);
                 }
@@ -219,22 +215,22 @@ void ConnectionsManager::setActiveEntity(Entity * activeEntity, bool select)
 
             // TODO: use single method for parsing structure
             if (activeEntity->type() == Entity::Type::Table) {
-                TableEntity * table = static_cast<TableEntity *>(activeEntity);
+                TableEntity * table = static_cast<TableEntity *>(entity);
                 connection->parseTableStructure(table);
             } else if (activeEntity->type() == Entity::Type::View) {
                 // TODO: don't parse it here, do when tab is opened?
                 if (connection->features()->supportsViewingViews()) {
-                    ViewEntity * view = static_cast<ViewEntity *>(activeEntity);
+                    ViewEntity * view = static_cast<ViewEntity *>(entity);
                     connection->parseViewStructure(view);
                 }
             } else if (activeEntity->type() == Entity::Type::Procedure
                        || activeEntity->type() == Entity::Type::Function) {
                 if (connection->features()->supportsViewingRoutines()) {
-                    auto routine = static_cast<RoutineEntity *>(activeEntity);
+                    auto routine = static_cast<RoutineEntity *>(entity);
                     connection->parseRoutineStructure(routine);
                 }
             } else if (activeEntity->type() == Entity::Type::Trigger) {
-                auto trigger = static_cast<TriggerEntity *>(activeEntity);
+                auto trigger = static_cast<TriggerEntity *>(entity);
                 connection->parseTriggerStructure(trigger);
             }
         }
@@ -250,7 +246,7 @@ void ConnectionsManager::onEntityEdited(Entity * entity)
 void ConnectionsManager::onEntityInserted(Entity * entity)
 {
     emit entityInserted(entity);
-    setActiveEntity(entity, true);
+    setActiveEntity(entity->retain(), true);
 }
 
 void ConnectionsManager::setActiveSession(SessionEntity * session)

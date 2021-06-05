@@ -9,13 +9,16 @@ namespace meow {
 namespace db {
 
 class DataBaseEntity;
+class EntityFactory;
+class TriggerEntity;
+using TriggerEntityPtr = std::shared_ptr<TriggerEntity>;
 
 class TriggerEntity : public EntityInDatabase
 {
-public:
-
+private:
     TriggerEntity(const QString & name, DataBaseEntity * parent = nullptr);
-
+public:
+    friend class EntityFactory;
     virtual QString name() const override;
     virtual QVariant icon() const override;
     virtual Type type() const override { return Type::Trigger; }
@@ -30,7 +33,7 @@ public:
     DataBaseEntity * database() const;
 
     // Returns a copy (with all internal data)
-    TriggerEntity * deepCopy() const;
+    TriggerEntityPtr deepCopy() const;
 
     virtual void copyDataFrom(const Entity * data) override;
 
@@ -39,7 +42,6 @@ private:
     QString _name;
     mutable std::unique_ptr<TriggerStructure> _structure;
 };
-
 
 } // namespace db
 } // namespace meow

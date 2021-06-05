@@ -106,17 +106,17 @@ void CentralWidget::createCenterLayout()
     _mainHorizLayout->addWidget(_mainHorizontalSplitter);
 }
 
-void CentralWidget::setActiveDBEntity(db::Entity * entity, bool select)
+void CentralWidget::setActiveDBEntity(const db::EntityPtr & entity, bool select)
 {
     if (select) {
-        _mainLeftWidget->selectEntity(entity);
+        _mainLeftWidget->selectEntity(entity.get());
     }
     _mainRightWidget->setActiveDBEntity(entity);
 }
 
-void CentralWidget::onCreatingNewEntity(db::Entity * entity)
+void CentralWidget::onCreatingNewEntity(const db::EntityPtr & entity)
 {
-    _mainLeftWidget->selectEntity(entity); // clears prev selection
+    _mainLeftWidget->selectEntity(entity.get()); // clears prev selection
     _mainRightWidget->setActiveDBEntity(entity);
     _mainRightWidget->onBeforeEntityEditing();
 }

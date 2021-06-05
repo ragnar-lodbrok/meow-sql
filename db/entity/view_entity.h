@@ -9,12 +9,16 @@ namespace meow {
 namespace db {
 
 class DataBaseEntity;
+class EntityFactory;
+class ViewEntity;
+using ViewEntityPtr = std::shared_ptr<ViewEntity>;
 
 class ViewEntity : public EntityInDatabase
 {
-public:
+private:
     ViewEntity(const QString & viewName, DataBaseEntity * parent = nullptr);
-
+public:
+    friend class EntityFactory;
     virtual QString name() const override;
     void setName(const QString & name) { _viewName = name; }
 
@@ -29,7 +33,7 @@ public:
     DataBaseEntity * database() const;
 
     // Returns a copy (with all internal data)
-    ViewEntity * deepCopy() const;
+    ViewEntityPtr deepCopy() const;
 
     virtual void copyDataFrom(const Entity * data) override;
 

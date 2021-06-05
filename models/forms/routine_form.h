@@ -19,7 +19,7 @@ class RoutineForm : public QObject
 public:
     RoutineForm();
 
-    void setRoutine(meow::db::RoutineEntity * routine);
+    void setRoutine(const meow::db::RoutineEntityPtr & routine);
 
     QString name() const {
         return _routine ? _routine->name() : QString();
@@ -82,12 +82,12 @@ public:
         return &_paramsModel;
     }
 
-    meow::db::RoutineEntity * sourceRoutine() {
+    meow::db::RoutineEntityPtr sourceRoutine() {
         return _sourceRoutine;
     }
 
-    meow::db::RoutineEntity * editableRoutine() {
-        return _routine.get();
+    meow::db::RoutineEntityPtr editableRoutine() {
+        return _routine;
     }
 
 private:
@@ -98,8 +98,8 @@ private:
 
     void setDefaultValuesForNew();
 
-    std::unique_ptr<meow::db::RoutineEntity> _routine; // copy of source to edit
-    meow::db::RoutineEntity * _sourceRoutine;
+    meow::db::RoutineEntityPtr _routine; // copy of source to edit
+    meow::db::RoutineEntityPtr _sourceRoutine;
 
     bool _hasUnsavedChanges; // TODO: do we really need to store it?
 

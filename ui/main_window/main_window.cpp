@@ -36,7 +36,7 @@ Window::Window(QWidget *parent)
 
     connect(meow::app()->dbConnectionsManager(),
             &meow::db::ConnectionsManager::creatingNewEntity,
-            [=](db::Entity * entity) {
+            [=](const db::EntityPtr & entity) {
                 _centralWidget->onCreatingNewEntity(entity);
             });
 
@@ -197,7 +197,7 @@ QString Window::getWindowTitle() const
     }
 }
 
-void Window::activeDBEntityChanged(db::Entity * newEntity, bool select)
+void Window::activeDBEntityChanged(const db::EntityPtr & newEntity, bool select)
 {
     _centralWidget->setActiveDBEntity(newEntity, select);
     setWindowTitle(getWindowTitle());

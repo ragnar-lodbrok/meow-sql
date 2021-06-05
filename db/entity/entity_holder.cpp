@@ -11,7 +11,7 @@ EntityHolder::EntityHolder()
 }
 
 
-bool EntityHolder::setCurrentEntity(db::Entity * currentEntity)
+bool EntityHolder::setCurrentEntity(const db::EntityPtr & currentEntity)
 {
     _prevEntity = _currentEntity;
     _currentEntity = currentEntity;
@@ -42,10 +42,12 @@ bool EntityHolder::databaseChanged() const
     }
 
     db::Entity * prevDatabaseEntity =
-        db::findParentEntityOfType(_prevEntity, db::Entity::Type::Database);
+        db::findParentEntityOfType(_prevEntity.get(),
+                                   db::Entity::Type::Database);
 
     db::Entity * curDatabaseEntity =
-        db::findParentEntityOfType(_currentEntity, db::Entity::Type::Database);
+        db::findParentEntityOfType(_currentEntity.get(),
+                                   db::Entity::Type::Database);
 
     return prevDatabaseEntity != curDatabaseEntity;
 }
@@ -57,7 +59,7 @@ bool EntityHolder::hasDatabase() const
     }
 
     return db::findParentEntityOfType(
-        _currentEntity, db::Entity::Type::Database) != nullptr;
+        _currentEntity.get(), db::Entity::Type::Database) != nullptr;
 }
 
 } // namespace db

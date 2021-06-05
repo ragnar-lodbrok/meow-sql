@@ -1,5 +1,6 @@
 #include "routine_entity.h"
 #include "database_entity.h"
+#include "entity_factory.h"
 #include <QIcon>
 
 namespace meow {
@@ -38,9 +39,11 @@ RoutineStructure * RoutineEntity::structure() const
     return _structure.get();
 }
 
-RoutineEntity * RoutineEntity::deepCopy() const
+RoutineEntityPtr RoutineEntity::deepCopy() const
 {
-    RoutineEntity * copy = new RoutineEntity(
+    // Listening: Wolfheart - Valkyrie
+
+    RoutineEntityPtr copy = EntityFactory::createRoutine(
                 _name,
                 _type,
                 static_cast<DataBaseEntity *>(parent()));

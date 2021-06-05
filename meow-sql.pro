@@ -90,7 +90,7 @@ SOURCES += main.cpp\
     db/entity/entity.cpp \
     db/entity/entity_filter.cpp \
     db/entity/entity_holder.cpp \
-    db/entity/entity_list_for_database.cpp \
+    db/entity/entity_factory.cpp \
     db/entity/routine_entity.cpp \
     db/entity/session_entity.cpp \
     db/entity/table_entity_comparator.cpp \
@@ -266,7 +266,7 @@ HEADERS  +=  app/actions.h \
     db/entity/entity_filter.h \
     db/entity/entity.h \
     db/entity/entity_holder.h \
-    db/entity/entity_list_for_database.h \
+    db/entity/entity_factory.h \
     db/entity/routine_entity.h \
     db/entity/session_entity.h \
     db/entity/table_entity_comparator.h \

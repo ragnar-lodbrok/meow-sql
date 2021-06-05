@@ -16,9 +16,9 @@ class ViewForm : public QObject
 public:
     ViewForm(QObject * parent = nullptr);
 
-    void setView(meow::db::ViewEntity * view);
+    void setView(const meow::db::ViewEntityPtr & view);
 
-    meow::db::ViewEntity * sourceView() const {
+    meow::db::ViewEntityPtr sourceView() const {
         return _sourceView;
     }
 
@@ -60,8 +60,8 @@ private:
 
     void setDefaultValuesForNewView();
 
-    std::unique_ptr<meow::db::ViewEntity> _view; // copy of source view to edit
-    meow::db::ViewEntity * _sourceView;
+    meow::db::ViewEntityPtr _view; // copy of source view to edit
+    meow::db::ViewEntityPtr _sourceView;
 
     bool _hasUnsavedChanges;
 };

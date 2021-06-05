@@ -2,18 +2,22 @@
 #define DB_DATABASEENTITY_H
 
 #include "entity.h"
-#include "entity_list_for_database.h"
 
 namespace meow {
 namespace db {
 
 class SessionEntity;
 class TableEntity;
+class EntityFactory;
+class DataBaseEntity;
+using DataBaseEntityPtr = std::shared_ptr<DataBaseEntity>;
 
 class DataBaseEntity : public Entity
 {
+private:
+    DataBaseEntity(const QString & dbName, SessionEntity * parent);
 public:
-    explicit DataBaseEntity(const QString & dbName, SessionEntity * parent);
+    friend class EntityFactory;
     virtual ~DataBaseEntity() override;
     virtual QString name() const override;
     virtual Connection * connection() const override;
@@ -45,12 +49,22 @@ public:
         return QString(); // TODO
     }
 
+    bool hasEntity(const QString & name,
+                   const Entity::Type type = Entity::Type::Table) const;
+
+    DataBaseEntityPtr retain() {
+        return std::static_pointer_cast<DataBaseEntity>(shared_from_this());
+    }
+    std::shared_ptr<const DataBaseEntity> retain() const {
+        return std::static_pointer_cast<const DataBaseEntity>(shared_from_this());
+    }
+
 private:
 
     void initEntitiesIfNeed();
 
     QString _dbName;
-    EntityListForDataBase * _entities;
+    QList<EntityPtr> _entities;
     bool _entitiesWereInit;
 };
 

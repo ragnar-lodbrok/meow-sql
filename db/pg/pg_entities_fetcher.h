@@ -13,14 +13,13 @@ class PGEntitiesFetcher : public DataBaseEntitiesFetcher
 public:
     PGEntitiesFetcher(PGConnection * connection);
 
-    virtual void run(const QString & dbName,
-                     EntityListForDataBase * toList) override;
+    virtual QList<EntityPtr> run(const QString & dbName) override;
 private:
     void fetchTablesViews(const QString & dbName,
-                          EntityListForDataBase * toList);
+                          QList<EntityPtr> * toList);
 
     void fetchStoredFunctions(const QString & dbName,
-                              EntityListForDataBase * toList);
+                              QList<EntityPtr> * toList);
 
     inline QString qu(const char * identifier) const;
 };

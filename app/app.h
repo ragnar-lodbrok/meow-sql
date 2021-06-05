@@ -27,7 +27,7 @@ public:
 
 private:
     meow::db::ConnectionParamsManager _dbConnectionParamsManager;
-    meow::db::ConnectionsManager _dbConnectionsManager;
+    std::shared_ptr<meow::db::ConnectionsManager> _dbConnectionsManager;
 
     meow::settings::Core _settingsCore;
 

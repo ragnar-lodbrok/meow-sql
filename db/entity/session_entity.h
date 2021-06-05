@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <QList>
-#include "entity.h"
+#include "database_entity.h"
 
 namespace meow {
 namespace db {
@@ -12,14 +12,20 @@ class ConnectionsManager;
 class DataBaseEntity;
 class TableEntity;
 class User;
+class EntityFactory;
+class SessionEntity;
+using SessionEntityPtr = std::shared_ptr<SessionEntity>;
 
 class SessionEntity : public Entity
 {
     Q_OBJECT
 
-public:
-    SessionEntity(std::shared_ptr<Connection> connection,
+private:
+    SessionEntity(const std::shared_ptr<Connection> & connection,
                   ConnectionsManager * parent);
+public:
+    friend class EntityFactory;
+
     virtual ~SessionEntity() override;
 
     virtual QString name() const override;
@@ -49,11 +55,18 @@ public:
     bool removeEntity(Entity * entity);
 
     int indexOf(DataBaseEntity * session) const;
-    const QList<DataBaseEntity *> & databases() const { return _databases; }
+    const QList<DataBaseEntityPtr> & databases() const { return _databases; }
 
     bool isActive() const;
     DataBaseEntity * activeDatabase() const;
     DataBaseEntity * databaseByName(const QString & name) const;
+
+    SessionEntityPtr retain() {
+        return std::static_pointer_cast<SessionEntity>(shared_from_this());
+    }
+    std::shared_ptr<const SessionEntity> retain() const {
+        return std::static_pointer_cast<const SessionEntity>(shared_from_this());
+    }
 
     Q_SIGNAL void entityEdited(Entity * entity);
     Q_SIGNAL void entityInserted(Entity * entity);
@@ -72,7 +85,7 @@ private:
             const QString & afterName = QString());
 
     std::shared_ptr<Connection> _connection;
-    QList<DataBaseEntity *> _databases;
+    QList<DataBaseEntityPtr> _databases;
     bool _databasesWereInit;
 };
 

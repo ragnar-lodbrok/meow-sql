@@ -2,20 +2,19 @@
 #define DATABASE_ENTITIES_FETCHER_H
 
 #include <QString>
+#include "db/entity/entity.h"
 
 namespace meow {
 namespace db {
 
 class Connection;
-class EntityListForDataBase;
 
 class DataBaseEntitiesFetcher
 {
 public:
     explicit DataBaseEntitiesFetcher(Connection * connection);
     virtual ~DataBaseEntitiesFetcher() {}
-    virtual void run(const QString & dbName,
-             EntityListForDataBase * toList) = 0;
+    virtual QList<EntityPtr> run(const QString & dbName) = 0;
 protected:  
     Connection * _connection;
 };

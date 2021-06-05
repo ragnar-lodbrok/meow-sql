@@ -6,11 +6,6 @@
 #include "models/forms/table_info_form.h"
 
 namespace meow {
-
-namespace db {
-    class TableEntity;
-}
-
 namespace ui {
 namespace main_window {
 namespace central_right {
@@ -26,7 +21,7 @@ public:
     explicit TableTab(QWidget * parent = nullptr);
     ~TableTab();
 
-    void setTable(db::TableEntity * table);
+    void setTable(const db::TableEntityPtr & table);
 
     void onBeforeEntityEditing();
 private:

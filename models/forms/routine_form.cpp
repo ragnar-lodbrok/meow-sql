@@ -31,17 +31,17 @@ RoutineForm::RoutineForm()
             this, &RoutineForm::onParamsModified);
 }
 
-void RoutineForm::setRoutine(meow::db::RoutineEntity * routine)
+void RoutineForm::setRoutine(const meow::db::RoutineEntityPtr & routine)
 {
     // TODO: copy only when we start editing
 
     if (routine->isNew()) {
         _sourceRoutine = nullptr;
-        _routine.reset(routine); // take ownership
+        _routine = routine; // take ownership
         setDefaultValuesForNew();
     } else {
         _sourceRoutine = routine; // just hold a ref for update
-        _routine.reset(_sourceRoutine->deepCopy()); // and edit copy
+        _routine = _sourceRoutine->deepCopy(); // and edit copy
     }
 
     setHasUnsavedChanges(false);
@@ -226,8 +226,8 @@ void RoutineForm::save()
 {
     if (_routine->isNew()) { // insert
         // try to transfer ownership - take back on error
-        // TODO: why not just use shared_ptr ?
-        meow::db::RoutineEntity * routine = _routine.release();
+        meow::db::RoutineEntity * routine = _routine.get();
+        _routine.reset();
         try {
             bool inserted = meow::app()->dbConnectionsManager()
                     ->activeSession()->insertEntityToDB(routine);
@@ -241,7 +241,7 @@ void RoutineForm::save()
 
     } else { // update
         meow::app()->dbConnectionsManager()->activeSession()->editEntityInDB(
-            _sourceRoutine, _routine.get());
+            _sourceRoutine.get(), _routine.get());
     }
 
     setHasUnsavedChanges(false);

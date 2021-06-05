@@ -8,12 +8,19 @@
 namespace meow {
 namespace db {
 
+class EntityFactory;
 class DataBaseEntity;
+class TableEntity;
+using TableEntityPtr = std::shared_ptr<TableEntity>;
 
 class TableEntity : public EntityInDatabase
 {
+private: // use EntityFactory for instantiation
+    TableEntity(const QString & tableName,
+                DataBaseEntity * parent = nullptr);
 public:
-    TableEntity(const QString & tableName, DataBaseEntity * parent = nullptr);
+    friend class EntityFactory;
+
     virtual ~TableEntity() override;
 
     virtual QString name() const override;
@@ -45,7 +52,7 @@ public:
     DataBaseEntity * database() const;
 
     // Returns a copy (with all internal data)
-    TableEntity * deepCopy() const;
+    TableEntityPtr deepCopy() const;
 
     virtual void copyDataFrom(const Entity * data) override;
 

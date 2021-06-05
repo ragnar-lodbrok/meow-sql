@@ -6,11 +6,6 @@
 #include "models/forms/trigger_form.h"
 
 namespace meow {
-
-namespace db {
-    class TriggerEntity;
-}
-
 namespace ui {
 namespace main_window {
 namespace central_right {
@@ -23,7 +18,7 @@ class TriggerTab : public BaseRootTab
 public:
     explicit TriggerTab(QWidget * parent = nullptr);
 
-    void setTrigger(db::TriggerEntity * trigger);
+    void setTrigger(const db::TriggerEntityPtr & trigger);
 
     void onBeforeEntityEditing();
 

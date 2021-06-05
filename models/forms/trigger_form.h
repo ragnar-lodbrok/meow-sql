@@ -14,7 +14,7 @@ class TriggerForm : public QObject
 public:
     TriggerForm();
 
-    void setTrigger(meow::db::TriggerEntity * trigger);
+    void setTrigger(const meow::db::TriggerEntityPtr & trigger);
 
     QString name() const;
     void setName(const QString & name);
@@ -47,7 +47,7 @@ public:
 
     bool isEditingSupported() const;
 
-    meow::db::TriggerEntity * sourceTrigger() {
+    meow::db::TriggerEntityPtr sourceTrigger() {
         return _sourceTrigger;
     }
 
@@ -55,8 +55,8 @@ private:
 
     void setDefaultValuesForNew();
 
-    std::unique_ptr<meow::db::TriggerEntity> _trigger;
-    meow::db::TriggerEntity * _sourceTrigger;
+    meow::db::TriggerEntityPtr _trigger;
+    meow::db::TriggerEntityPtr _sourceTrigger;
 
     bool _hasUnsavedChanges;
 };

@@ -5,6 +5,7 @@
 #include <QString>
 #include <QVariant>
 #include <QDateTime>
+#include <memory>
 
 #include "db/common.h"
 
@@ -22,10 +23,16 @@ namespace db {
 
 class SessionEntity;
 class Connection;
+class Entity;
+using EntityPtr = std::shared_ptr<Entity>;
+
 
 // Intent: represents any db entity like session, database, table H: TDBObject
-class Entity : public QObject
+class Entity : public QObject, public std::enable_shared_from_this<Entity>
 {
+
+protected:
+    explicit Entity(Entity * parent = nullptr);
 public:
 
     enum class Type { // keep order
@@ -42,7 +49,6 @@ public:
         COUNT
     };
 
-    explicit Entity(Entity * parent = nullptr);
     virtual ~Entity() override;
 
     Entity * parent() const { return _parent; }
@@ -57,6 +63,7 @@ public:
     virtual QVariant icon() const { return QVariant(); }
     virtual db::ulonglong dataSize() const { return 0; }
     virtual bool hasDataSize() const { return false; }
+    virtual void copyDataFrom(const Entity * data);
 
     bool wasSelected() const { return _wasSelected; }
     void setWasSelected(bool wasSelected) { _wasSelected = wasSelected; }
@@ -72,7 +79,14 @@ public:
 
     QString createCode(bool refresh = false);
 
-    virtual void copyDataFrom(const Entity * data);
+    EntityPtr retain() {
+        // should be safe if ctor is not public and EntityFabric always returns
+        // shared_ptr
+        return shared_from_this();
+    }
+    std::shared_ptr<const Entity> retain() const {
+        return shared_from_this();
+    }
 
 protected:
     Entity * _parent;
@@ -90,8 +104,9 @@ class DataBaseEntity;
 // Intent: Entity inside Database level
 class EntityInDatabase : public Entity
 {
-public:
+protected:
     explicit EntityInDatabase(DataBaseEntity * parent = nullptr);
+public:
     DataBaseEntity * dataBaseEntity() const;
     virtual void copyDataFrom(const Entity * data) override;
 };

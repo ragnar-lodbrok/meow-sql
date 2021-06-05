@@ -1,5 +1,6 @@
 #include "table_entity.h"
 #include "database_entity.h"
+#include "entity_factory.h"
 #include "db/connection.h"
 #include <QIcon>
 #include <QDebug>
@@ -62,9 +63,9 @@ DataBaseEntity * TableEntity::database() const
     return static_cast<DataBaseEntity *>(parent());
 }
 
-TableEntity * TableEntity::deepCopy() const
+TableEntityPtr TableEntity::deepCopy() const
 {
-    TableEntity * copy = new TableEntity(_tableName, database());
+    TableEntityPtr copy = EntityFactory::createTable(_tableName, database());
 
     copy->copyDataFrom(this);
 

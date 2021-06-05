@@ -46,14 +46,16 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
     );
 }
 
-void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
+void CentralRightWidget::setActiveDBEntity(const db::EntityPtr & entityPtr)
 {
     _filterWidget->reset();
+
+    db::Entity * entity = entityPtr.get(); // temp to compile
 
     bool wasOnDataTab = entity ? onDataTab() : false;
     bool wasOnQueryTab = entity ? onQueryTab() : false;
 
-    _model.setCurrentEntity(entity);
+    _model.setCurrentEntity(entityPtr);
 
     if (entity == nullptr) {
         removeAllRootTabs();
@@ -106,17 +108,17 @@ void CentralRightWidget::setActiveDBEntity(db::Entity * entity)
 
         removeEntityTabsExcept(entity->type());
         if (isTable) {
-            auto tableEntity = static_cast<db::TableEntity *>(entity);
-            tableTab()->setTable(tableEntity);
+            tableTab()->setTable(
+                        std::static_pointer_cast<db::TableEntity>(entityPtr));
         } else if (isView) {
-            auto viewEntity = static_cast<db::ViewEntity *>(entity);
-            viewTab()->setView(viewEntity);
+            viewTab()->setView(
+                        std::static_pointer_cast<db::ViewEntity>(entityPtr));
         } else if (isRoutine) {
-            auto routineEntity = static_cast<db::RoutineEntity *>(entity);
-            routineTab()->setRoutine(routineEntity);
+            routineTab()->setRoutine(
+                        std::static_pointer_cast<db::RoutineEntity>(entityPtr));
         } else if (isTrigger) {
-            auto triggerEntity = static_cast<db::TriggerEntity *>(entity);
-            triggerTab()->setTrigger(triggerEntity);
+            triggerTab()->setTrigger(
+                        std::static_pointer_cast<db::TriggerEntity>(entityPtr));
         }
     } else {
         removeTableTab();

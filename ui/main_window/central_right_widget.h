@@ -22,7 +22,7 @@ class CentralRightWidget : public QWidget
 public:
     explicit CentralRightWidget(QWidget *parent = 0);
 
-    void setActiveDBEntity(db::Entity * entity);
+    void setActiveDBEntity(const db::EntityPtr & entityPtr);
 
     bool onGlobalRefresh();
 

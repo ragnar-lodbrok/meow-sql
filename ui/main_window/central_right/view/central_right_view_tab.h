@@ -7,11 +7,6 @@
 #include "models/forms/view_form.h"
 
 namespace meow {
-
-namespace db {
-    class ViewEntity;
-}
-
 namespace ui {
 namespace main_window {
 namespace central_right {
@@ -21,7 +16,7 @@ class ViewTab : public BaseRootTab
 public:
     explicit ViewTab(QWidget * parent = nullptr);
 
-    void setView(db::ViewEntity * view);
+    void setView(const db::ViewEntityPtr & view);
 
     void onBeforeEntityEditing();
 

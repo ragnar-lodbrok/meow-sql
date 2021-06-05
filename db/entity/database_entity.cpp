@@ -11,7 +11,6 @@ namespace db {
 DataBaseEntity::DataBaseEntity(const QString & dbName, SessionEntity * parent)
     :Entity(parent),
      _dbName(dbName),
-     _entities(nullptr),
      _entitiesWereInit(false)
 {
 
@@ -22,22 +21,22 @@ DataBaseEntity::~DataBaseEntity()
     clearChildren();
 }
 
-QString DataBaseEntity::name() const // override
+QString DataBaseEntity::name() const
 {
     return _dbName;
 }
 
-Connection * DataBaseEntity::connection() const // override
+Connection * DataBaseEntity::connection() const
 {
     return session()->connection();
 }
 
-int DataBaseEntity::row() const // override
+int DataBaseEntity::row() const
 {
     return session()->indexOf(const_cast<DataBaseEntity *>(this));
 }
 
-QVariant DataBaseEntity::icon() const // override
+QVariant DataBaseEntity::icon() const
 {
     static const QIcon icon = QIcon(":/icons/database.png");
     static const QIcon activeIcon = QIcon(":/icons/database_active.png");
@@ -52,26 +51,23 @@ SessionEntity * DataBaseEntity::session() const
     return static_cast<SessionEntity *>(parent());
 }
 
-int DataBaseEntity::childCount() // override
+int DataBaseEntity::childCount()
 {
     initEntitiesIfNeed();
-    return _entities->list()->size();
+    return _entities.size();
 }
 
-Entity * DataBaseEntity::child(int row) // override
+Entity * DataBaseEntity::child(int row)
 {
     initEntitiesIfNeed();
-    return _entities->list()->value(row); // null if out of bounds
+    return _entities.value(row).get();
 }
 
-db::ulonglong DataBaseEntity::dataSize() const // override
+db::ulonglong DataBaseEntity::dataSize() const
 {
     db::ulonglong sum = 0;
-
-    if (_entities) {
-        for (auto entity : *(_entities->list())) {
-            sum += entity->dataSize();
-        }
+    for (auto entity : _entities) {
+        sum += entity->dataSize();
     }
 
     return sum;
@@ -83,7 +79,7 @@ void DataBaseEntity::initEntitiesIfNeed()
 
         _entities = connection()->getDbEntities(_dbName);
 
-        for (auto entity : *(_entities->list())) {
+        for (const auto & entity : _entities) {
             entity->setParent(this);
         }
 
@@ -105,28 +101,35 @@ void DataBaseEntity::clearChildren()
 int DataBaseEntity::indexOf(Entity * entity)
 {
     initEntitiesIfNeed();
-    return _entities->list()->indexOf(entity);
+    return _entities.indexOf(entity->retain());
 }
 
 bool DataBaseEntity::hasChild(const QString & name, const Type type)
 {
     initEntitiesIfNeed();
-    return _entities->hasEntity(name, type);
+    return hasEntity(name, type);
 }
 
 void DataBaseEntity::appendEntity(EntityInDatabase * entity)
 {
     initEntitiesIfNeed();
-    if (_entities) {
-        _entities->list()->append(entity);
-    }
+    _entities.append(entity->retain());
 }
 
 bool DataBaseEntity::removeEntity(EntityInDatabase * entity)
 {
     initEntitiesIfNeed(); // TODO: rm?
-    if (_entities) {
-        return _entities->list()->removeOne(entity);
+    return _entities.removeOne(entity->retain());
+}
+
+bool DataBaseEntity::hasEntity(const QString & name,
+                               const Entity::Type type) const
+{
+
+    for (const auto & entity : _entities) {
+        if (entity->type() == type && entity->name() == name) {
+            return true;
+        }
     }
     return false;
 }
