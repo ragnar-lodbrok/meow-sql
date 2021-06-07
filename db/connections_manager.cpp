@@ -69,7 +69,6 @@ bool ConnectionsManager::closeActiveConnection()
         setActiveSession(nullptr);
         emit beforeConnectionClosed(session);
         _connections.removeOne(session->retain());
-        delete session;
         return true;
     }
     return false;

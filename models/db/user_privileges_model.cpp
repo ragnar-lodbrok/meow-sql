@@ -85,7 +85,7 @@ QModelIndex UserPrivilegesModel::index(int row,
         return QModelIndex();
     }
 
-    TreeItem *parentItem;
+    TreeItem * parentItem;
 
     if (!parent.isValid()) {
         parentItem = _rootItem;
@@ -119,7 +119,7 @@ QModelIndex UserPrivilegesModel::parent(const QModelIndex &index) const
 
 int UserPrivilegesModel::rowCount(const QModelIndex &parent) const
 {
-    TreeItem *parentItem;
+    TreeItem * parentItem;
     if (parent.column() > 0) {
         return 0;
     }

@@ -8,10 +8,25 @@ namespace main_window {
 
 CentralLeftWidget::CentralLeftWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel,
         QWidget * parent)
-    :QWidget(parent),
-     _dbEntitiesTreeModel(dbEntitiesTreeModel)
+    : QWidget(parent)
+    , _dbEntitiesTreeModel(dbEntitiesTreeModel)
 {
     createMainLayout();
+
+    connect(_dbEntitiesTreeModel,
+            &models::db::EntitiesTreeModel::loadDataError,
+            this,
+            &CentralLeftWidget::showErrorMessage);
+}
+
+void CentralLeftWidget::showErrorMessage(const QString & message)
+{
+    QMessageBox msgBox;
+    msgBox.setText(message);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
 }
 
 void CentralLeftWidget::createMainLayout()
@@ -74,12 +89,7 @@ void CentralLeftWidget::selectedDbEntityChanged(
             _dbEntitiesTreeModel->onSelectEntityAt(index);
         } catch(meow::db::Exception & ex) {
             meowLogDebug() << "Tree error: " << ex.message();
-            QMessageBox msgBox;
-            msgBox.setText(ex.message());
-            msgBox.setStandardButtons(QMessageBox::Ok);
-            msgBox.setDefaultButton(QMessageBox::Ok);
-            msgBox.setIcon(QMessageBox::Critical);
-            msgBox.exec();
+            showErrorMessage(ex.message());
         }
 
     } else {

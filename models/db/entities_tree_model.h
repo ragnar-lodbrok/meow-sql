@@ -44,6 +44,7 @@ public:
     void createNewEntity(meow::db::Entity::Type type);
 
     void refreshActiveSession();
+    void reloadData();
 
     void dropCurrentItem();
     void dropEntity(meow::db::Entity * entity);
@@ -52,18 +53,37 @@ public:
         return _dbConnectionsManager;
     }
 
+    Q_SIGNAL void loadDataError(const QString & errorMessage);
+
+protected:
+    virtual bool canFetchMore(const QModelIndex &parent) const override;
+    virtual void fetchMore(const QModelIndex &parent) override;
+
 private:
+
+    Q_SLOT void onConnectionOpened(meow::db::SessionEntity * session);
+    Q_SLOT void onConnectionClosed(meow::db::SessionEntity * session);
 
     Q_SLOT void onEntityEdited(meow::db::Entity * entity);
     Q_SLOT void onEntityInserted(meow::db::Entity * entity);
 
-    meow::db::Entity * rootItem() const { return _dbConnectionsManager; }
+    Q_SLOT void onDatabasesDataChanged();
+
+    void reinitItems();
+    void removeData();
+    void insertData();
+
+    class TreeItem;
+
+    TreeItem * rootItem() const { return _rootItem.get(); }
+
+    TreeItem * itemForEntity(meow::db::Entity * entity);
 
     bool isCurItemDatabaseOrLess() const;
 
-    void onDatabasesDataChanged();
-
     meow::db::ConnectionsManager * _dbConnectionsManager;
+
+    std::shared_ptr<TreeItem> _rootItem;
 };
 
 } // namespace db

@@ -36,7 +36,6 @@ void TableInfoForm::setTable(const meow::db::TableEntityPtr & table)
         _fKeysModel->setTable(nullptr);
     }
 
-    auto oldTable = _table;
     if (table->isNew()) {
         _sourceTable = nullptr;
         _table = table; // take ownership

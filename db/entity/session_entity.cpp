@@ -248,7 +248,6 @@ bool SessionEntity::removeEntity(Entity * entity)
     }
 
     emit enitityRemoved(entity);
-    entity->deleteLater();
 
     return success;
 }

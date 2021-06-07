@@ -139,7 +139,9 @@ void TableTab::createGeneralButtons()
 
 void TableTab::discardTableEditing()
 {
-    this->setTable(_form.sourceTable());
+    if (_form.sourceTable()) {
+        this->setTable(_form.sourceTable());
+    }
 }
 
 void TableTab::saveTableEditing()

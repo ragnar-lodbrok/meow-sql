@@ -23,11 +23,13 @@ public:
     bool onGlobalRefresh();
 private:
 
+    Q_SLOT void showErrorMessage(const QString & message);
+
     void createMainLayout();
+
     Q_SLOT void selectedDbEntityChanged(
         const QItemSelection &selected,
         const QItemSelection &deselected);
-
 
     QVBoxLayout * _mainLayout;
     DbTree * _dbTree;
