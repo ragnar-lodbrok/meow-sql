@@ -34,9 +34,9 @@ void ViewForm::setView(const meow::db::ViewEntityPtr & view)
     Q_ASSERT(view != nullptr);
 
     if (view->isNew()) {
-        _sourceView = nullptr;
         _view = view; // take ownership
         setDefaultValuesForNewView();
+        _sourceView = view->deepCopy();
     } else {
         _sourceView = view; // just hold a ref to view for update
         _view = _sourceView->deepCopy(); // and edit copy

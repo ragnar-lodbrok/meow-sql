@@ -33,9 +33,9 @@ void TriggerForm::setTrigger(const db::TriggerEntityPtr & trigger)
     Q_ASSERT(trigger != nullptr);
 
     if (trigger->isNew()) {
-        _sourceTrigger = nullptr;
         _trigger = trigger; // take ownership
         setDefaultValuesForNew();
+        _sourceTrigger = trigger->deepCopy();
     } else {
         _sourceTrigger = trigger; // just hold a ref to trigger for update
         _trigger = _sourceTrigger->deepCopy(); // and edit copy

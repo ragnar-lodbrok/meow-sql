@@ -36,9 +36,9 @@ void RoutineForm::setRoutine(const meow::db::RoutineEntityPtr & routine)
     // TODO: copy only when we start editing
 
     if (routine->isNew()) {
-        _sourceRoutine = nullptr;
         _routine = routine; // take ownership
         setDefaultValuesForNew();
+        _sourceRoutine = routine->deepCopy();
     } else {
         _sourceRoutine = routine; // just hold a ref for update
         _routine = _sourceRoutine->deepCopy(); // and edit copy

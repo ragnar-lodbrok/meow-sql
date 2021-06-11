@@ -37,7 +37,7 @@ void TableInfoForm::setTable(const meow::db::TableEntityPtr & table)
     }
 
     if (table->isNew()) {
-        _sourceTable = nullptr;
+        _sourceTable = table->deepCopy(); // to reset to default
         _table = table; // take ownership
     } else {
         _sourceTable = table; // just hold a ref to table
