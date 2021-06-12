@@ -387,7 +387,9 @@ void MySQLConnection::setDatabase(const QString & database) // override
     // TODO: FOnDatabaseChanged
     // TODO: clear database
 
-    query(QString("USE ") + quoteIdentifier(database));
+    if (!database.isEmpty()) {
+        query(QString("USE ") + quoteIdentifier(database));
+    }
     _database = database;
     emitDatabaseChanged(database);
 

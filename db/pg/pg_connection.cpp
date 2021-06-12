@@ -303,7 +303,9 @@ void PGConnection::setDatabase(const QString & database)
     //if Value <> 'public' then
     //  s := s + ', ' + EscapeString('public');
 
-    query(QString("SET search_path TO ") + quoteIdentifier(database));
+    if (!database.isEmpty()) {
+        query(QString("SET search_path TO ") + quoteIdentifier(database));
+    }
     _database = database;
     emitDatabaseChanged(database);
 

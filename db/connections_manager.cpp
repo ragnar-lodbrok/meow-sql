@@ -127,7 +127,6 @@ void ConnectionsManager::createNewEntity(Entity::Type type)
     if (!entity) return;
 
     entity->setIsNew(true);
-    _activeEntity.setCurrentEntity(nullptr);
 
     if (entity->type() == meow::db::Entity::Type::Table) {
         // TODO why it is here?
@@ -192,49 +191,60 @@ void ConnectionsManager::setActiveEntity(const db::EntityPtr & activeEntity,
                                          bool select)
 {
     bool changed = _activeEntity.setCurrentEntity(activeEntity);
-    if (changed) {
-
-        db::Entity * entity = activeEntity.get();
-
-        if (activeEntity) {
-            if (_activeEntity.connectionChanged()) {
-                setActiveSession(db::sessionForEntity(entity));
-            }
-        }
-
-        Connection * connection = activeConnection();
-
-        if (connection && activeEntity) {
-            if (_activeEntity.databaseChanged()) {
-                QString dbName = databaseName(entity);
-                if (dbName.length()) {
-                    connection->setDatabase(dbName);
-                }
-            }
-
-            // TODO: use single method for parsing structure
-            if (activeEntity->type() == Entity::Type::Table) {
-                TableEntity * table = static_cast<TableEntity *>(entity);
-                connection->parseTableStructure(table);
-            } else if (activeEntity->type() == Entity::Type::View) {
-                // TODO: don't parse it here, do when tab is opened?
-                if (connection->features()->supportsViewingViews()) {
-                    ViewEntity * view = static_cast<ViewEntity *>(entity);
-                    connection->parseViewStructure(view);
-                }
-            } else if (activeEntity->type() == Entity::Type::Procedure
-                       || activeEntity->type() == Entity::Type::Function) {
-                if (connection->features()->supportsViewingRoutines()) {
-                    auto routine = static_cast<RoutineEntity *>(entity);
-                    connection->parseRoutineStructure(routine);
-                }
-            } else if (activeEntity->type() == Entity::Type::Trigger) {
-                auto trigger = static_cast<TriggerEntity *>(entity);
-                connection->parseTriggerStructure(trigger);
-            }
-        }
-        emit activeEntityChanged(activeEntity, select);
+    if (!changed) {
+        return;
     }
+
+    if (!activeEntity) {
+        Connection * connection = activeConnection();
+        if (_activeEntity.databaseChanged() && connection) {
+            connection->setDatabase(QString());
+        }
+        if (_activeEntity.connectionChanged()) {
+            setActiveSession(nullptr);
+        }
+    }
+
+    db::Entity * entity = activeEntity.get();
+
+    if (activeEntity) {
+        if (_activeEntity.connectionChanged()) {
+            setActiveSession(db::sessionForEntity(entity));
+        }
+    }
+
+    Connection * connection = activeConnection();
+
+    if (connection && activeEntity) {
+        if (_activeEntity.databaseChanged()) {
+            QString dbName = databaseName(entity);
+            if (dbName.length()) {
+                connection->setDatabase(dbName);
+            }
+        }
+
+        // TODO: use single method for parsing structure
+        if (activeEntity->type() == Entity::Type::Table) {
+            TableEntity * table = static_cast<TableEntity *>(entity);
+            connection->parseTableStructure(table);
+        } else if (activeEntity->type() == Entity::Type::View) {
+            // TODO: don't parse it here, do when tab is opened?
+            if (connection->features()->supportsViewingViews()) {
+                ViewEntity * view = static_cast<ViewEntity *>(entity);
+                connection->parseViewStructure(view);
+            }
+        } else if (activeEntity->type() == Entity::Type::Procedure
+                   || activeEntity->type() == Entity::Type::Function) {
+            if (connection->features()->supportsViewingRoutines()) {
+                auto routine = static_cast<RoutineEntity *>(entity);
+                connection->parseRoutineStructure(routine);
+            }
+        } else if (activeEntity->type() == Entity::Type::Trigger) {
+            auto trigger = static_cast<TriggerEntity *>(entity);
+            connection->parseTriggerStructure(trigger);
+        }
+    }
+    emit activeEntityChanged(activeEntity, select);
 }
 
 void ConnectionsManager::onEntityEdited(Entity * entity)

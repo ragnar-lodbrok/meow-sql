@@ -89,7 +89,7 @@ public:
     }
 
 protected:
-    Entity * _parent;
+    Entity * _parent; // TODO: as weak_ptr ?
 private:
     bool _isNew; // is new object to be saved
     bool _wasSelected;

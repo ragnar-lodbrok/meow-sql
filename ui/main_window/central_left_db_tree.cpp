@@ -91,6 +91,8 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
 
 void DbTree::refresh()
 {
+    this->selectionModel()->clear(); // solves a lot of issues
+
     auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
 
     try {

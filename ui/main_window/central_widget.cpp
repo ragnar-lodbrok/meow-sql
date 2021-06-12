@@ -116,7 +116,7 @@ void CentralWidget::setActiveDBEntity(const db::EntityPtr & entity, bool select)
 
 void CentralWidget::onCreatingNewEntity(const db::EntityPtr & entity)
 {
-    _mainLeftWidget->selectEntity(entity.get()); // clears prev selection
+    //_mainLeftWidget->selectEntity(entity.get()); // clears prev selection - ?
     _mainRightWidget->setActiveDBEntity(entity);
     _mainRightWidget->onBeforeEntityEditing();
 }
