@@ -52,6 +52,9 @@ public:
     bool hasEntity(const QString & name,
                    const Entity::Type type = Entity::Type::Table) const;
 
+    QList<EntityPtr> entities() { return _entities; }
+    const QList<EntityPtr> & entities() const { return _entities; }
+
     DataBaseEntityPtr retain() {
         return std::static_pointer_cast<DataBaseEntity>(shared_from_this());
     }

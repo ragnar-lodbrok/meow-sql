@@ -69,8 +69,8 @@ public:
     }
 
     Q_SIGNAL void entityEdited(Entity * entity);
-    Q_SIGNAL void entityInserted(Entity * entity);
-    Q_SIGNAL void enitityRemoved(Entity * entity);
+    Q_SIGNAL void entityInserted(const EntityPtr & entity);
+    Q_SIGNAL void entityRemoved(const EntityPtr & entity);
     Q_SIGNAL void beforeEntityRemoved(Entity * entity);
 
     Q_SIGNAL void databaseInserted(const DataBaseEntityPtr & database);

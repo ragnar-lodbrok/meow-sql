@@ -67,7 +67,7 @@ public:
 private:
 
     Q_SLOT void onEntityEdited(Entity * entity);
-    Q_SLOT void onEntityInserted(Entity * entity);
+    Q_SLOT void onEntityInserted(const EntityPtr & entity);
 
     void setActiveSession(SessionEntity * session);
 

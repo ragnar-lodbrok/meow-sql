@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QAbstractTableModel>
-#include "db/entity/database_entity.h"
+#include "db/entity/session_entity.h"
 
 // Main Window
 //   Central Right Widget
@@ -60,12 +60,14 @@ private:
     void removeAllRows();
     void insertAllRows();
 
-    Q_SLOT void beforeEntityRemoved(meow::db::Entity * entity);
-    Q_SLOT void afterEntityRemoved(meow::db::Entity * entity);
+    Q_SLOT void afterEntityRemoved(const meow::db::EntityPtr & entity);
+    Q_SLOT void onEntityInserted(const meow::db::EntityPtr & entity);
 
     int entitiesCount() const;
 
-    meow::db::DataBaseEntity * _database;
+    meow::db::DataBaseEntityPtr _database;
+    meow::db::SessionEntityPtr _session;
+    QList<meow::db::EntityPtr> _entities;
 };
 
 

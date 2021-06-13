@@ -23,7 +23,14 @@ ConnectionsManager::ConnectionsManager()
      _activeSession(nullptr),
      _userQueries()
 {
-
+    // since Manager is a root entity - it might be a good place (?) to do:
+    qRegisterMetaType<EntityPtr>("EntityPtr");
+    qRegisterMetaType<DataBaseEntityPtr>("DataBaseEntityPtr");
+    qRegisterMetaType<ViewEntityPtr>("ViewEntityPtr");
+    qRegisterMetaType<TableEntityPtr>("TableEntityPtr");
+    qRegisterMetaType<RoutineEntityPtr>("RoutineEntityPtr");
+    qRegisterMetaType<TriggerEntityPtr>("TriggerEntityPtr");
+    qRegisterMetaType<SessionEntityPtr>("SessionEntityPtr");
 }
 
 ConnectionsManager::~ConnectionsManager()
@@ -252,10 +259,10 @@ void ConnectionsManager::onEntityEdited(Entity * entity)
     emit entityEdited(entity);
 }
 
-void ConnectionsManager::onEntityInserted(Entity * entity)
+void ConnectionsManager::onEntityInserted(const EntityPtr & entity)
 {
-    emit entityInserted(entity);
-    setActiveEntity(entity->retain(), true);
+    emit entityInserted(entity.get());
+    setActiveEntity(entity, true);
 }
 
 void ConnectionsManager::setActiveSession(SessionEntity * session)

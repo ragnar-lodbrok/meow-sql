@@ -189,7 +189,7 @@ void DatabasesTableModel::setSession(meow::db::SessionEntity * session)
 
     bool changed = prevSession != session;
 
-    if (_session && changed) {
+    if (prevSession && changed) {
         disconnect(prevSession,
                 &meow::db::SessionEntity::databaseInserted,
                 this,

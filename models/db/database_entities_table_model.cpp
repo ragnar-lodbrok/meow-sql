@@ -10,8 +10,9 @@ namespace db {
 
 DatabaseEntitiesTableModel::DatabaseEntitiesTableModel(
         QObject *parent)
-    :QAbstractTableModel(parent),
-     _database(nullptr)
+    : QAbstractTableModel(parent)
+    , _database(nullptr)
+    , _session(nullptr)
 {
 
 }
@@ -93,92 +94,90 @@ QVariant DatabaseEntitiesTableModel::data(const QModelIndex &index, int role) co
         return QVariant();
     }
 
-    if (_database && _database->childrenFetched()) {
-        if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole) {
 
-            meow::db::Entity * entity = _database->child(index.row());
+        meow::db::Entity * entity = _entities.at(index.row()).get();
 
-            if (!entity) {
+        if (!entity) {
+            return QVariant();
+        }
+
+        meow::db::TableEntity * table = nullptr;
+
+        if (entity->type() == meow::db::Entity::Type::Table) {
+            table = static_cast<meow::db::TableEntity *>(entity);
+        }
+
+        switch (static_cast<Columns>(index.column())) {
+        case Columns::Name:
+            return entity->name();
+
+        case Columns::Rows:
+            if (table) {
+                return helpers::formatNumber(table->rowsCount());
+            } else {
                 return QVariant();
             }
 
-            meow::db::TableEntity * table = nullptr;
-
-            if (entity->type() == meow::db::Entity::Type::Table) {
-                table = static_cast<meow::db::TableEntity *>(entity);
-            }
-
-            switch (static_cast<Columns>(index.column())) {
-            case Columns::Name:
-                return entity->name();
-
-            case Columns::Rows:
-                if (table) {
-                    return helpers::formatNumber(table->rowsCount());
-                } else {
-                    return QVariant();
-                }
-
-            case Columns::Size:
-                if (entity->hasDataSize()) {
-                    return helpers::formatByteSize(entity->dataSize());
-                } else {
-                    return QVariant();
-                }
-
-            case Columns::Created: {
-                QDateTime created = entity->created();
-                if (created.isValid()) {
-                    return helpers::formatDateTime(created);
-                } else {
-                    return QVariant();
-                }
-            }
-
-            case Columns::Updated: {
-                QDateTime updated = entity->updated();
-                if (updated.isValid()) {
-                    return helpers::formatDateTime(updated);
-                } else {
-                    return QVariant();
-                }
-            }
-
-            case Columns::Engine:
-                if (table) {
-                    return table->engineStr();
-                } else {
-                    return QVariant();
-                }
-
-            case Columns::Comment:
+        case Columns::Size:
+            if (entity->hasDataSize()) {
+                return helpers::formatByteSize(entity->dataSize());
+            } else {
                 return QVariant();
-
-            case Columns::Version:
-                if (table && table->version()) {
-                    return table->version();
-                } else {
-                    return QVariant();
-                }
-
-            case Columns::Collation:
-                if (table) {
-                    return table->collation();
-                } else {
-                    return QVariant();
-                }
-
-            default:
-                break;
             }
 
-        } else if (role == Qt::DecorationRole) {
+        case Columns::Created: {
+            QDateTime created = entity->created();
+            if (created.isValid()) {
+                return helpers::formatDateTime(created);
+            } else {
+                return QVariant();
+            }
+        }
 
-            if (static_cast<Columns>(index.column()) == Columns::Name) {
-                meow::db::Entity * entity = _database->child(index.row());
-                if (entity) {
-                    return entity->icon();
-                }
+        case Columns::Updated: {
+            QDateTime updated = entity->updated();
+            if (updated.isValid()) {
+                return helpers::formatDateTime(updated);
+            } else {
+                return QVariant();
+            }
+        }
+
+        case Columns::Engine:
+            if (table) {
+                return table->engineStr();
+            } else {
+                return QVariant();
+            }
+
+        case Columns::Comment:
+            return QVariant();
+
+        case Columns::Version:
+            if (table && table->version()) {
+                return table->version();
+            } else {
+                return QVariant();
+            }
+
+        case Columns::Collation:
+            if (table) {
+                return table->collation();
+            } else {
+                return QVariant();
+            }
+
+        default:
+            break;
+        }
+
+    } else if (role == Qt::DecorationRole) {
+
+        if (static_cast<Columns>(index.column()) == Columns::Name) {
+            meow::db::Entity * entity = _entities.at(index.row()).get();
+            if (entity) {
+                return entity->icon();
             }
         }
     }
@@ -191,7 +190,7 @@ int DatabaseEntitiesTableModel::columnWidth(int column) const
 {
     switch (static_cast<Columns>(column)) {
     case Columns::Name:
-        return 200;
+        return 240;
     case Columns::Collation:
         return 140;
     case Columns::Created:
@@ -207,22 +206,35 @@ void DatabaseEntitiesTableModel::setDataBase(
 {
     removeAllRows();
 
-    bool changed = _database != database;
+    meow::db::DataBaseEntity * prevDb = _database.get();
 
-    if (_database && changed) {
-        disconnect(_database->session(),
-                   &meow::db::SessionEntity::enitityRemoved,
+    bool changed = prevDb != database;
+
+    if (prevDb && changed) {
+        disconnect(_session.get(),
+                   &meow::db::SessionEntity::entityRemoved,
                    this,
                    &DatabaseEntitiesTableModel::afterEntityRemoved);
+
+        disconnect(_session.get(),
+                   &meow::db::SessionEntity::entityInserted,
+                   this,
+                   &DatabaseEntitiesTableModel::onEntityInserted);
     }
 
-    _database = database;
+    // retain database and its session
+    _database = database ? database->retain() : nullptr;
+    _session = database ? database->session()->retain() : nullptr;
 
     if (_database && changed) {
         connect(_database->session(),
-                &meow::db::SessionEntity::enitityRemoved,
+                &meow::db::SessionEntity::entityRemoved,
                 this,
                 &DatabaseEntitiesTableModel::afterEntityRemoved);
+        connect(_session.get(),
+                   &meow::db::SessionEntity::entityInserted,
+                   this,
+                   &DatabaseEntitiesTableModel::onEntityInserted);
     }
 
     insertAllRows();
@@ -232,36 +244,63 @@ void DatabaseEntitiesTableModel::removeAllRows()
 {
     if (entitiesCount()) {
         beginRemoveRows(QModelIndex(), 0, entitiesCount()-1);
+        _entities.clear();
         endRemoveRows();
     }
 }
 
 void DatabaseEntitiesTableModel::insertAllRows()
 {
-    if (entitiesCount()) {
-        beginInsertRows(QModelIndex(), 0, entitiesCount()-1);
+    // Listening: Arch Enemy - Cruelty Without Beauty
+
+    int rowsCount = _database ? _database->childCount() : 0;
+    if (rowsCount) {
+        beginInsertRows(QModelIndex(), 0, rowsCount-1);
+        _entities = _database->entities();
         endInsertRows();
     }
 }
 
-void DatabaseEntitiesTableModel::beforeEntityRemoved(meow::db::Entity * entity)
-{
-    Q_UNUSED(entity);
-    //if ((int)entity->type() >= (int)meow::db::Entity::Type::Table) {
-        // TODO
-    //}
-}
-
-void DatabaseEntitiesTableModel::afterEntityRemoved(meow::db::Entity * entity)
+void DatabaseEntitiesTableModel::afterEntityRemoved(
+        const meow::db::EntityPtr & entity)
 {
     if (entity == _database) {
         setDataBase(nullptr);
+    } else {
+
+        meow::db::Entity * database = meow::db::findParentEntityOfType(
+                    entity.get(),
+                    meow::db::Entity::Type::Database);
+        if (database != _database.get()) return;
+
+        int removeRow = _entities.indexOf(entity);
+        if (removeRow == -1) return;
+
+        beginRemoveRows(QModelIndex(), removeRow, removeRow);
+        _entities.removeOne(entity);
+        endRemoveRows();
     }
+}
+
+void DatabaseEntitiesTableModel::onEntityInserted(
+        const meow::db::EntityPtr & entity)
+{
+    meow::db::Entity * database = meow::db::findParentEntityOfType(entity.get(),
+                                              meow::db::Entity::Type::Database);
+    if (database != _database.get()) return;
+
+    int newRow = _database->indexOf(entity.get());
+    if (newRow == -1) return;
+
+    beginInsertRows(QModelIndex(), newRow, newRow);
+    _entities.insert(newRow, entity);
+    endInsertRows();
+
 }
 
 int DatabaseEntitiesTableModel::entitiesCount() const
 {
-    return _database ? _database->childCount() : 0;
+    return _entities.size();
 }
 
 } // namespace db

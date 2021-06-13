@@ -117,7 +117,7 @@ bool SessionEntity::insertEntityToDB(EntityInDatabase * entity)
     if (connection()->insertEntityToDB(entity)) {
         entity->setIsNew(false);
         addEntity(entity);
-        emit entityInserted(entity);
+        emit entityInserted(entity->retain());
         return true;
     }
     return false;
@@ -231,7 +231,7 @@ void SessionEntity::appendCreatedDatabase(
     }
 
     emit databaseInserted(dbEntity);
-    emit entityInserted(dbEntity.get());
+    emit entityInserted(dbEntity);
 }
 
 bool SessionEntity::removeEntity(Entity * entity)
@@ -240,20 +240,28 @@ bool SessionEntity::removeEntity(Entity * entity)
 
     bool success = false;
 
+    // retain for signals, then remove
+
+    EntityPtr entityPtr = entity->retain();
+
     emit beforeEntityRemoved(entity);
     if ( (int)entity->type() >= (int)Entity::Type::Table ) {
         EntityInDatabase * entityInDb = static_cast<EntityInDatabase *>(entity);
         success = entityInDb->dataBaseEntity()->removeEntity(entityInDb);
     } else if (entity->type() == Entity::Type::Database) {
-        DataBaseEntity * database = static_cast<DataBaseEntity *>(entity);
-        _databases.removeOne(database->retain());
-        success = true;
-        emit databaseRemoved(database->retain());
+        DataBaseEntityPtr database
+                = std::static_pointer_cast<DataBaseEntity>(entityPtr);
+        success = _databases.removeOne(database);
+        if (success) {
+            emit databaseRemoved(database);
+        }
     } else {
         Q_ASSERT(0);
     }
 
-    emit enitityRemoved(entity);
+    if (success) {
+        emit entityRemoved(entityPtr);
+    }
 
     return success;
 }
