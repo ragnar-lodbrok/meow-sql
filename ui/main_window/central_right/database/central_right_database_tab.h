@@ -23,6 +23,7 @@ private:
     void createEntitiesTable();
 
     models::db::DatabaseEntitiesTableModel _model;
+    QSortFilterProxyModel _proxyEntitiesModel;
 
     QVBoxLayout * _mainLayout;
     QTableView  * _entitiesTable;

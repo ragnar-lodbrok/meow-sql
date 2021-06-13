@@ -27,9 +27,17 @@ void DatabaseTab::createEntitiesTable()
     _entitiesTable->verticalHeader()->setDefaultSectionSize(
        geometrySettings->tableViewDefaultRowHeight());
 
-    _entitiesTable->setModel(&_model);
+    //_entitiesTable->setModel(&_model);
+    _proxyEntitiesModel.setSourceModel(&_model);
+    _entitiesTable->setModel(&_proxyEntitiesModel);
+    _entitiesTable->setSortingEnabled(true);
+    _entitiesTable->sortByColumn(
+        static_cast<int>(models::db::DatabaseEntitiesTableModel::Columns::Name),
+        Qt::AscendingOrder);
+    // TODO: natural sorting for numbers
+    // TODO: filter by Filter panel
+
     _mainLayout->addWidget(_entitiesTable);
-    _entitiesTable->setSortingEnabled(false); // TODO
     _entitiesTable->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
     _entitiesTable->setSelectionMode(QAbstractItemView::SingleSelection);
     for (int i=0; i<_model.columnCount(); ++i) {
