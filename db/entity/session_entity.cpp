@@ -148,6 +148,10 @@ bool SessionEntity::editDatabase(DataBaseEntity * database,
                                  const QString & newName,
                                  const QString & newCollation)
 {
+    // editing database is not supported (at least in MySQL), so we move all
+    // its entities to newly created or existing one, create new db and
+    // drop old one (but later and outside this function)
+
     QStringList allDatabases = _connection->allDatabases();
     bool moveToExisting = allDatabases.contains(newName);
 
@@ -226,6 +230,7 @@ void SessionEntity::appendCreatedDatabase(
         _databases.push_back(dbEntity);
     }
 
+    emit databaseInserted(dbEntity);
     emit entityInserted(dbEntity.get());
 }
 
@@ -243,6 +248,7 @@ bool SessionEntity::removeEntity(Entity * entity)
         DataBaseEntity * database = static_cast<DataBaseEntity *>(entity);
         _databases.removeOne(database->retain());
         success = true;
+        emit databaseRemoved(database->retain());
     } else {
         Q_ASSERT(0);
     }

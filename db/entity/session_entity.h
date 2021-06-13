@@ -73,6 +73,9 @@ public:
     Q_SIGNAL void enitityRemoved(Entity * entity);
     Q_SIGNAL void beforeEntityRemoved(Entity * entity);
 
+    Q_SIGNAL void databaseInserted(const DataBaseEntityPtr & database);
+    Q_SIGNAL void databaseRemoved(const DataBaseEntityPtr & database);
+
 private:
     ConnectionsManager * connectionsManager() const;
     void initDatabasesListIfNeed();

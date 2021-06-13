@@ -52,16 +52,17 @@ public:
 
 private:
 
-    Q_SLOT void beforeDatabaseRemoved(meow::db::Entity * entity);
-    Q_SLOT void afterDatabaseRemoved(meow::db::Entity * entity);
+    Q_SLOT void onDatabaseInserted(const meow::db::DataBaseEntityPtr & database);
+    Q_SLOT void onDatabaseRemoved(const meow::db::DataBaseEntityPtr & database);
 
     void removeAllRows();
     void insertAllRows();
     void refresh();
 
-
     int databasesCount() const;
-    meow::db::SessionEntity * _session;
+
+    meow::db::SessionEntityPtr _session;
+    QList<meow::db::DataBaseEntityPtr> _databases;
 };
 
 } // namespace db

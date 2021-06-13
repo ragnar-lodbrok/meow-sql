@@ -9,8 +9,8 @@ namespace db {
 
 DatabasesTableModel::DatabasesTableModel(
         QObject *parent)
-    :QAbstractTableModel(parent),
-     _session(nullptr)
+    : QAbstractTableModel(parent)
+    , _session(nullptr)
 {
 
 }
@@ -100,10 +100,7 @@ QVariant DatabasesTableModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DisplayRole && _session) {
 
-        meow::db::DataBaseEntity * database =
-            static_cast<meow::db::DataBaseEntity *>(
-                _session->child(index.row())
-            );
+        meow::db::DataBaseEntity * database = _databases.at(index.row()).get();
 
         bool childrenFetched = database->childrenFetched();
 
@@ -188,30 +185,32 @@ void DatabasesTableModel::setSession(meow::db::SessionEntity * session)
 {
     removeAllRows();
 
-    bool changed = _session != session;
+    meow::db::SessionEntity * prevSession = _session.get();
+
+    bool changed = prevSession != session;
 
     if (_session && changed) {
-        disconnect(_session,
-                &meow::db::SessionEntity::beforeEntityRemoved,
+        disconnect(prevSession,
+                &meow::db::SessionEntity::databaseInserted,
                 this,
-                &DatabasesTableModel::beforeDatabaseRemoved);
-        disconnect(_session,
-                &meow::db::SessionEntity::enitityRemoved,
+                &DatabasesTableModel::onDatabaseInserted);
+        disconnect(prevSession,
+                &meow::db::SessionEntity::databaseRemoved,
                 this,
-                &DatabasesTableModel::afterDatabaseRemoved);
+                &DatabasesTableModel::onDatabaseRemoved);
     }
 
-    _session = session;
+    _session = session ? session->retain() : nullptr;
 
     if (_session && changed) {
-        connect(_session,
-                &meow::db::SessionEntity::beforeEntityRemoved,
+        connect(_session.get(),
+                &meow::db::SessionEntity::databaseInserted,
                 this,
-                &DatabasesTableModel::beforeDatabaseRemoved);
-        connect(_session,
-                &meow::db::SessionEntity::enitityRemoved,
+                &DatabasesTableModel::onDatabaseInserted);
+        connect(_session.get(),
+                &meow::db::SessionEntity::databaseRemoved,
                 this,
-                &DatabasesTableModel::afterDatabaseRemoved);
+                &DatabasesTableModel::onDatabaseRemoved);
     }
 
     insertAllRows();
@@ -221,48 +220,50 @@ void DatabasesTableModel::removeAllRows()
 {
     if (databasesCount()) {
         beginRemoveRows(QModelIndex(), 0, databasesCount()-1);
+        _databases.clear();
         endRemoveRows();
     }
 }
 
 void DatabasesTableModel::insertAllRows()
 {
-    if (databasesCount()) {
-        beginInsertRows(QModelIndex(), 0, databasesCount()-1);
+    int rowsCount = _session ? _session->childCount() : 0;
+    if (rowsCount) {
+        beginInsertRows(QModelIndex(), 0, rowsCount-1);
+        _databases = _session->databases();
         endInsertRows();
     }
 }
 
-void DatabasesTableModel::beforeDatabaseRemoved(meow::db::Entity * entity)
+void DatabasesTableModel::onDatabaseInserted(
+        const meow::db::DataBaseEntityPtr & database)
 {
-    if (entity->type() == meow::db::Entity::Type::Database) {
-        meow::db::DataBaseEntity * database
-            = static_cast<meow::db::DataBaseEntity *>(entity);
-        if (database->session() == _session) {
-            removeAllRows();
-        }
-    }
+    Q_UNUSED(database);
+    // lazy solution:
+    removeAllRows();
+    insertAllRows();
 }
 
-void DatabasesTableModel::afterDatabaseRemoved(meow::db::Entity * entity)
+void DatabasesTableModel::onDatabaseRemoved(
+        const meow::db::DataBaseEntityPtr & database)
 {
-    if (entity->type() == meow::db::Entity::Type::Database) {
-        meow::db::DataBaseEntity * database
-            = static_cast<meow::db::DataBaseEntity *>(entity);
-        if (database->session() == _session) {
-            insertAllRows();
-        }
-    }
+
+    int removeRow = _databases.indexOf(database);
+    if (removeRow == -1) return;
+
+    beginRemoveRows(QModelIndex(), removeRow, removeRow);
+    _databases.removeOne(database);
+    endRemoveRows();
 }
 
 void DatabasesTableModel::refresh()
 {
-    setSession(_session);
+    setSession(_session.get());
 }
 
 int DatabasesTableModel::databasesCount() const
 {
-    return _session ? _session->childCount() : 0;
+    return _databases.size();
 }
 
 } // namespace db
