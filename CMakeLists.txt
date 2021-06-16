@@ -150,6 +150,7 @@ set(SOURCE_FILES
     models/db/databases_table_model.cpp
     models/db/data_table_model.cpp
     models/db/entities_tree_model.cpp
+    models/db/entities_tree_sort_filter_proxy_model.cpp
     models/db/table_columns_model.cpp
     models/db/routine_parameters_model.cpp
     models/db/query_data_sort_filter_proxy_model.cpp

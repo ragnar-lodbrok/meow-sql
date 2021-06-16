@@ -4,6 +4,13 @@
 #include <QTreeView>
 
 namespace meow {
+
+namespace models {
+namespace db {
+    class EntitiesTreeModel;
+}
+}
+
 namespace ui {
 namespace main_window {
 
@@ -23,6 +30,8 @@ private:
 
     bool currentItemSupportsDumping() const;
     bool currentItemSupportsEditing() const;
+
+    meow::models::db::EntitiesTreeModel * treeModel() const;
 
     QAction * _editAction;
     QAction * _dropAction;

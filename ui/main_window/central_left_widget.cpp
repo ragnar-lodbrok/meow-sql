@@ -1,6 +1,7 @@
 #include "central_left_widget.h"
 #include "central_left_db_tree.h"
 #include "helpers/logger.h"
+#include "db/common.h"
 
 namespace meow {
 namespace ui {
@@ -37,7 +38,16 @@ void CentralLeftWidget::createMainLayout()
 
     _dbTree = new DbTree(this);
     _dbTree->setHeaderHidden(true);
+#ifdef MEOW_SORT_FILTER_ENTITIES_TREE
+    _entitiesProxyModel.setSourceModel(_dbEntitiesTreeModel);
+    _dbTree->setModel(&_entitiesProxyModel);
+    _entitiesProxyModel.sort(
+        static_cast<int>(models::db::EntitiesTreeModel::Columns::Name),
+        Qt::AscendingOrder);
+#endif
+#ifndef MEOW_SORT_FILTER_ENTITIES_TREE
     _dbTree->setModel(_dbEntitiesTreeModel);
+#endif
     _mainLayout->addWidget(_dbTree);
 
     connect(_dbTree->selectionModel(),
@@ -52,6 +62,10 @@ void CentralLeftWidget::selectEntity(meow::db::Entity * entity)
 
     QModelIndex curSelectionIndex = _dbTree->selectionModel()->currentIndex();
     QModelIndex newSelectionIndex = _dbEntitiesTreeModel->indexForEntity(entity);
+
+#ifdef MEOW_SORT_FILTER_ENTITIES_TREE
+    newSelectionIndex = _entitiesProxyModel.mapFromSource(newSelectionIndex);
+#endif
 
     if (curSelectionIndex == newSelectionIndex) return;
 
@@ -84,6 +98,10 @@ void CentralLeftWidget::selectedDbEntityChanged(
 
     if (!items.isEmpty()) {
         index = items.at(0);
+
+#ifdef MEOW_SORT_FILTER_ENTITIES_TREE
+        index = _entitiesProxyModel.mapToSource(index);
+#endif
 
         try {
             _dbEntitiesTreeModel->onSelectEntityAt(index);

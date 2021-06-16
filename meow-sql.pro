@@ -132,6 +132,7 @@ SOURCES += main.cpp\
     models/db/databases_table_model.cpp \
     models/db/data_table_model.cpp \
     models/db/entities_tree_model.cpp \
+    models/db/entities_tree_sort_filter_proxy_model.cpp \
     models/db/table_columns_model.cpp \
     models/db/variables_table_model.cpp \
     models/db/query_data_sort_filter_proxy_model.cpp \
@@ -313,6 +314,7 @@ HEADERS  +=  app/actions.h \
     models/db/databases_table_model.h \
     models/db/data_table_model.h \
     models/db/entities_tree_model.h \
+    models/db/entities_tree_sort_filter_proxy_model.h \
     models/db/table_columns_model.h \
     models/db/variables_table_model.h \
     models/db/query_data_sort_filter_proxy_model.h \

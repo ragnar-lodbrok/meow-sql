@@ -14,6 +14,12 @@ class EntitiesTreeModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
+
+    enum class Columns {
+        Name = 0,
+        Count
+    };
+
     EntitiesTreeModel(meow::db::ConnectionsManager * dbConnectionsManager,
                       QObject * parent = nullptr);
 

@@ -158,8 +158,7 @@ int EntitiesTreeModel::rowCount(const QModelIndex &parent) const // override
 int EntitiesTreeModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-
-    return 1; // TODO: add size column later
+    return static_cast<int>(Columns::Count); // TODO: add size column later
 }
 
 bool EntitiesTreeModel::hasChildren(const QModelIndex &parent) const
@@ -303,8 +302,9 @@ void EntitiesTreeModel::onEntityInserted(meow::db::Entity * entity)
     TreeItem * parent = itemForEntity(entity->parent());
 
     int newRowIndex = parent->children.size();
+    QModelIndex parentIndex = indexForEntity(entity->parent());
 
-    beginInsertRows(QModelIndex(), newRowIndex, newRowIndex);
+    beginInsertRows(parentIndex, newRowIndex, newRowIndex);
     parent->appendChild(entity->retain());
     endInsertRows();
 }

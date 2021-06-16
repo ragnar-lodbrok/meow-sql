@@ -4,6 +4,8 @@
 #define MEOW_SERVER_INT(major, minor, patch) \
     (major)*10000 + (minor)*100 + (patch)
 
+#define MEOW_SORT_FILTER_ENTITIES_TREE 1
+
 namespace meow {
 namespace db {
 

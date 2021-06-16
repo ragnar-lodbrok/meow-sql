@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 #include "models/db/entities_tree_model.h"
+#include "models/db/entities_tree_sort_filter_proxy_model.h"
 
 namespace meow {
 namespace ui {
@@ -34,6 +35,7 @@ private:
     QVBoxLayout * _mainLayout;
     DbTree * _dbTree;
     models::db::EntitiesTreeModel * _dbEntitiesTreeModel;
+    models::db::EntitiesTreeSortFilterProxyModel _entitiesProxyModel;
 };
 
 

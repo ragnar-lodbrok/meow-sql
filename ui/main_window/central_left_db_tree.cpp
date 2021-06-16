@@ -1,9 +1,11 @@
 #include "central_left_db_tree.h"
 #include <QtWidgets>
+#include <QSortFilterProxyModel>
 #include "models/db/entities_tree_model.h"
 #include "app/app.h"
 #include "helpers/logger.h"
 #include "db/entity/database_entity.h"
+#include "db/common.h"
 
 #include "ui/edit_database/dialog.h"
 #include "models/forms/edit_database_form.h"
@@ -22,7 +24,7 @@ DbTree::DbTree(QWidget * parent) : QTreeView(parent)
 
 void DbTree::contextMenuEvent(QContextMenuEvent * event)
 {
-    auto treeModel = static_cast<models::db::EntitiesTreeModel *>( model() );
+    auto treeModel = this->treeModel();
 
     QMenu menu(this);
 
@@ -93,7 +95,7 @@ void DbTree::refresh()
 {
     this->selectionModel()->clear(); // solves a lot of issues
 
-    auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
+    auto treeModel = this->treeModel();
 
     try {
         treeModel->refreshActiveSession();
@@ -117,8 +119,7 @@ void DbTree::createActions()
 
     connect(_editAction, &QAction::triggered,  [=](bool checked){
         Q_UNUSED(checked);
-        auto treeModel =
-        static_cast<models::db::EntitiesTreeModel *>(model());
+        auto treeModel = this->treeModel();
 
         db::Entity * currentEntity = treeModel->currentEntity();
         if (!currentEntity
@@ -145,7 +146,7 @@ void DbTree::createActions()
         tr("Deletes tables, views, procedures and functions"));
     connect(_dropAction, &QAction::triggered,  [=](bool checked){
         Q_UNUSED(checked);
-        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
+        auto treeModel = this->treeModel();
 
         db::Entity * currentEntity = treeModel->currentEntity();
         if (!currentEntity) return;
@@ -202,8 +203,7 @@ void DbTree::createActions()
     _createDatabaseAction->setStatusTip(tr("Create a new, blank database"));
     connect(_createDatabaseAction, &QAction::triggered, [=](bool checked){
         Q_UNUSED(checked);
-        auto treeModel =
-        static_cast<models::db::EntitiesTreeModel *>(model());
+        auto treeModel = this->treeModel();
 
         db::SessionEntity * session
             = treeModel->dbConnectionsManager()->activeSession();
@@ -220,7 +220,7 @@ void DbTree::createActions()
                tr("Create new table in selected database"));
     connect(_createTableAction, &QAction::triggered, [=](bool checked){
         Q_UNUSED(checked);
-        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
+        auto treeModel = this->treeModel();
         treeModel->createNewEntity(meow::db::Entity::Type::Table);
     });
 
@@ -231,7 +231,7 @@ void DbTree::createActions()
                tr("Create view ..."));
     connect(_createViewAction, &QAction::triggered, [=](bool checked){
         Q_UNUSED(checked);
-        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
+        auto treeModel = this->treeModel();
         treeModel->createNewEntity(meow::db::Entity::Type::View);
     });
 
@@ -242,7 +242,7 @@ void DbTree::createActions()
                tr("Create stored procedure or function"));
     connect(_createRoutineAction, &QAction::triggered, [=](bool checked){
         Q_UNUSED(checked);
-        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
+        auto treeModel = this->treeModel();
         treeModel->createNewEntity(meow::db::Entity::Type::Procedure);
     });
 
@@ -253,7 +253,7 @@ void DbTree::createActions()
                tr("Create a trigger"));
     connect(_createTriggerAction, &QAction::triggered, [=](bool checked){
         Q_UNUSED(checked);
-        auto treeModel = static_cast<models::db::EntitiesTreeModel *>(model());
+        auto treeModel = this->treeModel();
         treeModel->createNewEntity(meow::db::Entity::Type::Trigger);
     });
 
@@ -264,8 +264,7 @@ void DbTree::createActions()
             [=](bool checked)
     {
         Q_UNUSED(checked);
-        auto treeModel =
-        static_cast<models::db::EntitiesTreeModel *>(model());
+        auto treeModel = this->treeModel();
 
         db::SessionEntity * session
             = treeModel->dbConnectionsManager()->activeSession();
@@ -301,8 +300,7 @@ void DbTree::createActions()
 
 bool DbTree::currentItemSupportsDumping() const
 {
-    auto treeModel =
-    static_cast<models::db::EntitiesTreeModel *>(model());
+    auto treeModel = this->treeModel();
 
     db::Entity * currentEntity = treeModel->currentEntity();
     if (currentEntity) {
@@ -314,8 +312,7 @@ bool DbTree::currentItemSupportsDumping() const
 
 bool DbTree::currentItemSupportsEditing() const
 {
-    auto treeModel =
-    static_cast<models::db::EntitiesTreeModel *>(model());
+    auto treeModel = this->treeModel();
 
     db::Entity * currentEntity = treeModel->currentEntity();
     if (currentEntity) {
@@ -328,6 +325,18 @@ bool DbTree::currentItemSupportsEditing() const
     }
 
     return false;
+}
+
+meow::models::db::EntitiesTreeModel * DbTree::treeModel() const
+{
+#ifdef MEOW_SORT_FILTER_ENTITIES_TREE
+    QSortFilterProxyModel * proxyModel
+            = static_cast<QSortFilterProxyModel *>(model());
+    return static_cast<models::db::EntitiesTreeModel *>(
+                proxyModel->sourceModel());
+#endif
+
+    return static_cast<models::db::EntitiesTreeModel *>(model());
 }
 
 } // namespace meow
