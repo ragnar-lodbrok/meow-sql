@@ -33,6 +33,8 @@ private:
         const QItemSelection &deselected);
 
     QVBoxLayout * _mainLayout;
+    QLineEdit * _databaseFilterEdit;
+    QLineEdit * _tableFilterEdit;
     DbTree * _dbTree;
     models::db::EntitiesTreeModel * _dbEntitiesTreeModel;
     models::db::EntitiesTreeSortFilterProxyModel _entitiesProxyModel;

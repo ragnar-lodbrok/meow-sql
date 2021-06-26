@@ -34,7 +34,45 @@ void CentralLeftWidget::createMainLayout()
 {
     _mainLayout = new QVBoxLayout();
     _mainLayout->setContentsMargins(0, 0, 0, 0);
+    _mainLayout->setSpacing(2);
     this->setLayout(_mainLayout);
+
+#ifdef MEOW_SORT_FILTER_ENTITIES_TREE
+    auto filterLayout = new QHBoxLayout();
+    filterLayout->setContentsMargins(2, 0, 0, 0);
+    filterLayout->setSpacing(2);
+
+    _databaseFilterEdit = new QLineEdit();
+    //_databaseFilterEdit->setClearButtonEnabled(true);
+    _databaseFilterEdit->setToolTip(tr("Database filter"));
+    _databaseFilterEdit->setPlaceholderText(tr("Database filter"));
+    _databaseFilterEdit->addAction(
+                QIcon(":/icons/database.png"), QLineEdit::LeadingPosition);
+    _databaseFilterEdit->setStatusTip(tr(
+        "A list of databases, separated by |. Can"
+        " contain regular expressions, e.g. \"mydb|test.*|project\\d+\"."));
+    connect(_databaseFilterEdit, &QLineEdit::textChanged,
+            [=](const QString & filter) {
+                _entitiesProxyModel.setDatabaseRegexpFilter(filter);
+            });
+
+    _tableFilterEdit = new QLineEdit();
+    //_tableFilterEdit->setClearButtonEnabled(true);
+    _tableFilterEdit->setToolTip(tr("Table filter"));
+    _tableFilterEdit->setPlaceholderText(tr("Table filter"));
+    _tableFilterEdit->addAction(
+                QIcon(":/icons/table.png"), QLineEdit::LeadingPosition);
+    _tableFilterEdit->setStatusTip(tr(
+        "Can contain regular expressions, e.g. \"phpbb_\\d\""));
+    connect(_tableFilterEdit, &QLineEdit::textChanged,
+            [=](const QString & filter) {
+                _entitiesProxyModel.setTableRegexpFilter(filter);
+            });
+
+    filterLayout->addWidget(_databaseFilterEdit, 1);
+    filterLayout->addWidget(_tableFilterEdit, 1);
+    _mainLayout->addLayout(filterLayout);
+#endif
 
     _dbTree = new DbTree(this);
     _dbTree->setHeaderHidden(true);
@@ -55,6 +93,9 @@ void CentralLeftWidget::createMainLayout()
             this,
             &CentralLeftWidget::selectedDbEntityChanged
     );
+
+    // trick to focus on tree after showing
+    QTimer::singleShot(0, [=](){ _dbTree->setFocus(); });
 }
 
 void CentralLeftWidget::selectEntity(meow::db::Entity * entity)

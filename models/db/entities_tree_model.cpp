@@ -43,6 +43,12 @@ public:
         delete item;
     }
 
+    void removeChildren(int index, int count) {
+        QVector<TreeItem *> itemsToDelete = children.mid(index, count);
+        children.remove(index, count);
+        qDeleteAll(itemsToDelete);
+    }
+
     int row() const {
         if (parent) {
             return parent->children.indexOf(const_cast<TreeItem*>(this));
@@ -162,7 +168,7 @@ int EntitiesTreeModel::columnCount(const QModelIndex &parent) const
 }
 
 bool EntitiesTreeModel::hasChildren(const QModelIndex &parent) const
-{
+{   
     if (parent.isValid()) {
         TreeItem * parentItem = static_cast<TreeItem *>(
                                             parent.internalPointer());
@@ -400,6 +406,69 @@ void EntitiesTreeModel::dropEntity(meow::db::Entity * entity)
         parentItem->removeChild(item);
         endRemoveRows();
     }
+}
+
+bool EntitiesTreeModel::filterAcceptsRow(int row,
+                      const QModelIndex & parent,
+                      const QRegularExpression & databaseFilter,
+                      const QRegularExpression & tableFilter) const
+{
+
+    TreeItem * parentItem;
+
+    if (!parent.isValid()) {
+        parentItem = rootItem();
+    } else {
+        parentItem = static_cast<TreeItem *>(parent.internalPointer());
+    }
+
+    TreeItem * childItem = parentItem->children.value(row, nullptr);
+    if (!childItem) {
+        return true;
+    }
+
+    using EntityType = meow::db::Entity::Type;
+    EntityType type = childItem->entity->type();
+
+    if (type == EntityType::Database) {
+        if (databaseFilter.pattern().isEmpty()) {
+            return true;
+        }
+        return childItem->entity->name().contains(databaseFilter);
+    } else if (static_cast<int>(type) >= static_cast<int>(EntityType::Table)) {
+        if (tableFilter.pattern().isEmpty()) {
+            return true;
+        }
+        return childItem->entity->name().contains(tableFilter);
+    }
+
+    return true;
+}
+
+bool EntitiesTreeModel::removeRows(int row,
+                                   int count,
+                                   const QModelIndex &parent)
+{
+    // TODO: this method is not tested
+
+    TreeItem * parentItem;
+
+    if (!parent.isValid()) {
+        parentItem = rootItem();
+    } else {
+        parentItem = static_cast<TreeItem *>(parent.internalPointer());
+    }
+
+    if (parentItem->children.count() > (row + count)) {
+        return false;
+    }
+
+    // TODO: probably can't be nested, need to call beginRemoveRows recursively
+    beginRemoveRows(parent, row, row+count);
+    parentItem->removeChildren(row, count);
+    endRemoveRows();
+
+    return true;
 }
 
 EntitiesTreeModel::TreeItem *
