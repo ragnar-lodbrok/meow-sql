@@ -10,10 +10,6 @@ HiDPI monitors support (+icons)
 
 ARM (raspberry builds)
 
-Main window left tree: filter by db and table
-
-Main window left tree: sorted
-
 Table columns: keys icons
 
 Table data edit: foreign key drop down
@@ -23,8 +19,6 @@ Table data edit: date/time/year editor
 Table data edit: enum editor
 
 Table data edit: set editor
-
-Multiple Query tabs
 
 Drop: procedure, trigger, etc
 
@@ -48,8 +42,6 @@ Connection: use SSL option
 
 Table: clear option
 
-Query tab: run current query
-
 Query tab: explain
 
 Data Grid: sorting
@@ -59,8 +51,6 @@ Data Grid: export grid rows
 Data Grid: insert value options
 
 Data Grid: columns/filters
-
-Query: async execution & cancel
 
 Multithreading
 
@@ -87,6 +77,20 @@ Table tools: bulk table editor
 Table tools: find text
 
 Data Grid: insert files into text/blob fields
+
+## 0.4.12
+
+Multiple Query tabs
+
+Query tab: run current query
+
+Query: async execution & cancel
+
+## 0.4.11
+
+Main window left tree: filter by db and table
+
+Main window left tree: sorted
 
 ## 0.4.10
 
