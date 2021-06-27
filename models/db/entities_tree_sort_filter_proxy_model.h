@@ -2,6 +2,7 @@
 #define MODELS_DB_ENTITIES_TREE_SORT_FILTER_PROXY_MODEL_H
 
 #include <QSortFilterProxyModel>
+#include <QRegularExpression>
 
 namespace meow {
 namespace models {
