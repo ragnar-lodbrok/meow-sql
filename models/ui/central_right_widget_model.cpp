@@ -96,6 +96,11 @@ bool CentralRightWidgetModel::hasQueryTab() const
     return _entityHolder.currentEntity() != nullptr;
 }
 
+bool CentralRightWidgetModel::isQueryTab(int index) const
+{
+    return index >= indexForFirstQueryTab();
+}
+
 QString CentralRightWidgetModel::titleForHostTab() const
 {
     if (_entityHolder.currentEntity()) {
@@ -240,9 +245,13 @@ QString CentralRightWidgetModel::titleForDataTab() const
     return QObject::tr("Data");
 }
 
-QString CentralRightWidgetModel::titleForQueryTab() const
+QString CentralRightWidgetModel::titleForQueryTab(int index) const
 {
-    return QObject::tr("Query");
+    if (index == 0) {
+        return QObject::tr("Query");
+    } else {
+        return QObject::tr("Query") + " #" + QString::number(index + 1);
+    }
 }
 
 QIcon CentralRightWidgetModel::iconForRoutineTab() const
@@ -253,7 +262,7 @@ QIcon CentralRightWidgetModel::iconForRoutineTab() const
     return QIcon(":/icons/stored_procedure.png");
 }
 
-int CentralRightWidgetModel::indexForQueryTab() const
+int CentralRightWidgetModel::indexForFirstQueryTab() const
 {
     if (hasDataTab()) {
         return static_cast<int>(CentralRightWidgetTabs::Data) + 1;

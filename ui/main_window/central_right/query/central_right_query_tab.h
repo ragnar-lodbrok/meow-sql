@@ -44,6 +44,12 @@ private:
     db::UserQuery * _query;
 };
 
+class AddQueryTab : public BaseRootTab
+{
+public:
+    explicit AddQueryTab(QWidget * parent = nullptr);
+};
+
 } // namespace central_right
 } // namespace main_window
 } // namespace ui

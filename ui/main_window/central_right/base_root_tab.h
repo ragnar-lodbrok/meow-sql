@@ -2,6 +2,7 @@
 #define UI_CENTRAL_RIGHT_BASEROOTTAB_H
 
 #include <QWidget>
+#include <QPushButton>
 
 namespace meow {
 namespace ui {
@@ -18,12 +19,14 @@ public:
         DataBase,
         Entity,
         Data,
-        Query
+        Query,
+        AddQuery
     };
 
     explicit BaseRootTab(Type type, QWidget * parent = nullptr)
         : QWidget(parent)
         , _type(type)
+        , _closeButton(nullptr)
     {
 
     }
@@ -31,8 +34,18 @@ public:
     Type tabType() const {
         return _type;
     }
+
+    QPushButton * closeButton() const {
+        return _closeButton;
+    }
+
+    void setCloseButton(QPushButton * button) {
+        _closeButton = button;
+    }
+
 private:
     Type _type;
+    QPushButton * _closeButton;
 };
 
 } // namespace central_right

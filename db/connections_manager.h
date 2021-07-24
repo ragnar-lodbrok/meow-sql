@@ -40,7 +40,12 @@ public:
     SessionEntity * activeSession() const { return _activeSession; }
     const QList <SessionEntityPtr> & sessions() const { return _connections; }
 
+    // TODO: move to UserQueryManager
     UserQuery * userQueryAt(size_t index);
+    int userQueriesCount() const { return _userQueries.size(); }
+    UserQuery * appendNewUserQuery();
+    bool removeUserQueryAt(size_t index);
+    // end of UserQueryManager
 
     bool isNoOpenedConnections() const { return _connections.isEmpty(); }
 

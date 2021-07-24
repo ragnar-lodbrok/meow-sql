@@ -79,6 +79,12 @@ void QueryTab::onActionRun(bool checked)
     }
 }
 
+AddQueryTab::AddQueryTab(QWidget * parent) :
+    BaseRootTab(BaseRootTab::Type::AddQuery, parent)
+{
+
+}
+
 } // namespace central_right
 } // namespace main_window
 } // namespace ui

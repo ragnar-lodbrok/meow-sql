@@ -31,6 +31,8 @@ ConnectionsManager::ConnectionsManager()
     qRegisterMetaType<RoutineEntityPtr>("RoutineEntityPtr");
     qRegisterMetaType<TriggerEntityPtr>("TriggerEntityPtr");
     qRegisterMetaType<SessionEntityPtr>("SessionEntityPtr");
+
+    appendNewUserQuery();
 }
 
 ConnectionsManager::~ConnectionsManager()
@@ -106,13 +108,26 @@ Connection * ConnectionsManager::activeConnection() const
 
 UserQuery * ConnectionsManager::userQueryAt(size_t index)
 {
-    if (index + 1 > _userQueries.size()) {
-        _userQueries.resize(index + 1, nullptr);
+    Q_ASSERT(index < _userQueries.size());
+    return _userQueries.at(index);
+}
+
+UserQuery * ConnectionsManager::appendNewUserQuery()
+{
+    auto userQuery = new UserQuery(this);
+    _userQueries.push_back(userQuery);
+    return userQuery;
+}
+
+bool ConnectionsManager::removeUserQueryAt(size_t index)
+{
+    if (index >= _userQueries.size()) {
+        return false;
     }
-    if (!_userQueries[index]) {
-        _userQueries[index] = new UserQuery(this);
-    }
-    return _userQueries[index];
+    UserQuery * userQuery = _userQueries.at(index);
+    delete userQuery;
+    _userQueries.erase(_userQueries.begin() + index); // who did this with C++?
+    return true;
 }
 
 void ConnectionsManager::createNewEntity(Entity::Type type)

@@ -39,11 +39,11 @@ public:
     QString titleForRoutineTab() const;
     QString titleForTriggerTab() const;
     QString titleForDataTab() const;
-    QString titleForQueryTab() const;
+    QString titleForQueryTab(int index) const;
 
     QIcon iconForRoutineTab() const;
 
-    int indexForQueryTab() const;
+    int indexForFirstQueryTab() const;
     int indexForDataTab() const;
 
     bool connectionChanged() const;
@@ -52,6 +52,7 @@ public:
     bool hasDataTab() const;
     bool hasEntityTab() const;
     bool hasQueryTab() const;
+    bool isQueryTab(int index) const;
 
 private:
     meow::db::EntityHolder _entityHolder;

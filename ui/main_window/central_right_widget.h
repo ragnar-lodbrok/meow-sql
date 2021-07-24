@@ -42,9 +42,11 @@ private:
     bool onEntityTab() const;
     bool onDataTab() const;
     bool onQueryTab() const;
+    bool onAddQueryTab() const;
 
     Q_SLOT void rootTabChanged(int index);
     Q_SLOT void onDataTabDataChanged();
+    Q_SLOT void onCloseTabButtonClicked();
 
     central_right::HostTab * hostTab();
     central_right::DatabaseTab * databaseTab();
@@ -53,11 +55,14 @@ private:
     central_right::RoutineTab * routineTab();
     central_right::TriggerTab * triggerTab();
     central_right::DataTab * dataTab();
-    central_right::QueryTab * queryTab();
+    central_right::QueryTab * queryTab(size_t index);
+
+    void createQueryTabs();
 
     void removeAllRootTabs();
     bool removeHostTab();
-    bool removeQueryTabs();
+    void removeQueryTabs(size_t fromIndex = 0);
+    bool removeQueryTab(size_t index);
     bool removeDatabaseTab();
     bool removeTableTab();
     bool removeViewTab();
@@ -65,8 +70,11 @@ private:
     bool removeTriggerTab();
     bool removeDataTab();
     void removeEntityTabsExcept(db::Entity::Type except);
-
     bool removeTab(QWidget * tab);
+
+    void appendNewUserQuery();
+    bool removeUserQueryAt(size_t index);
+    void updateQueryTabsTitles();
 
     bool showGlobalFilterPanel() const;
 
@@ -80,8 +88,9 @@ private:
     central_right::RoutineTab * _routineTab;
     central_right::TriggerTab * _triggerTab;
     central_right::DataTab * _dataTab;
-    central_right::QueryTab * _queryTab;
     central_right::FilterWidget * _filterWidget;
+    QVector<central_right::QueryTab *> _queryTabs;
+    central_right::AddQueryTab * _addQueryTab;
 };
 
 
