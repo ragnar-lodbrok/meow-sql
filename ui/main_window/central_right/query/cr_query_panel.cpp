@@ -54,6 +54,11 @@ QString QueryPanel::queryPlainText() const
     return _queryTextEdit->toPlainText();
 }
 
+void QueryPanel::setQueryText(const QString & text)
+{
+    _queryTextEdit->setPlainText(text);
+}
+
 } // namespace central_right
 } // namespace main_window
 } // namespace ui

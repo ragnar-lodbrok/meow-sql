@@ -1,6 +1,7 @@
 #include "user_query.h"
 #include "db/connections_manager.h"
 #include "db/query_data.h"
+#include <QUuid>
 
 namespace meow {
 namespace db {
@@ -18,6 +19,8 @@ UserQuery::~UserQuery()
 
 bool UserQuery::runInCurrentConnection(const QStringList & queries)
 {
+    setCurrentQueryText(queries.join(QChar::LineFeed));
+
     qDeleteAll(_resultsData);
     _resultsData.clear();
 
@@ -39,6 +42,21 @@ bool UserQuery::runInCurrentConnection(const QStringList & queries)
 QString UserQuery::lastError() const
 {
     return _executor.error().message();
+}
+
+QString UserQuery::uniqueId() const
+{
+    if (_uniqieId.isEmpty()) {
+        _uniqieId = generateUniqueId();
+    }
+    return _uniqieId;
+}
+
+QString UserQuery::generateUniqueId() const
+{
+    QUuid uid = QUuid::createUuid();
+    QString uidStr = uid.toString();
+    return uidStr.mid(1, uidStr.length()-2); // trim brackets
 }
 
 } // namespace db

@@ -1,6 +1,5 @@
 #include "connections_manager.h"
 #include "connection.h"
-#include "user_query/user_query.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
 #include "db/entity/view_entity.h"
@@ -8,6 +7,7 @@
 #include "db/entity/trigger_entity.h"
 #include "helpers/logger.h"
 #include "db/entity/entity_factory.h"
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -18,10 +18,10 @@ std::shared_ptr<ConnectionsManager> ConnectionsManager::create()
 }
 
 ConnectionsManager::ConnectionsManager()
-    : Entity(),
-     _activeEntity(),
-     _activeSession(nullptr),
-     _userQueries()
+    : Entity()
+    , _activeEntity()
+    , _activeSession(nullptr)
+    , _userQueriesManager(this)
 {
     // since Manager is a root entity - it might be a good place (?) to do:
     qRegisterMetaType<EntityPtr>("EntityPtr");
@@ -31,13 +31,15 @@ ConnectionsManager::ConnectionsManager()
     qRegisterMetaType<RoutineEntityPtr>("RoutineEntityPtr");
     qRegisterMetaType<TriggerEntityPtr>("TriggerEntityPtr");
     qRegisterMetaType<SessionEntityPtr>("SessionEntityPtr");
+}
 
-    appendNewUserQuery();
+void ConnectionsManager::init()
+{
+    _userQueriesManager.load(); // need inited ref to this
 }
 
 ConnectionsManager::~ConnectionsManager()
 {
-    qDeleteAll(_userQueries);
 }
 
 ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & params)
@@ -106,29 +108,7 @@ Connection * ConnectionsManager::activeConnection() const
     return nullptr;
 }
 
-UserQuery * ConnectionsManager::userQueryAt(size_t index)
-{
-    Q_ASSERT(index < _userQueries.size());
-    return _userQueries.at(index);
-}
 
-UserQuery * ConnectionsManager::appendNewUserQuery()
-{
-    auto userQuery = new UserQuery(this);
-    _userQueries.push_back(userQuery);
-    return userQuery;
-}
-
-bool ConnectionsManager::removeUserQueryAt(size_t index)
-{
-    if (index >= _userQueries.size()) {
-        return false;
-    }
-    UserQuery * userQuery = _userQueries.at(index);
-    delete userQuery;
-    _userQueries.erase(_userQueries.begin() + index); // who did this with C++?
-    return true;
-}
 
 void ConnectionsManager::createNewEntity(Entity::Type type)
 {

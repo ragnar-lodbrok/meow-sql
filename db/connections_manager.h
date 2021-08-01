@@ -1,17 +1,14 @@
 #ifndef DB_CONNECTIONS_MANAGER_H
 #define DB_CONNECTIONS_MANAGER_H
 
-#include <QObject>
 #include <QList>
-#include <vector>
 #include "connection_parameters.h"
 #include "entity/session_entity.h"
 #include "db/entity/entity_holder.h"
+#include "user_queries_manager.h"
 
 namespace meow {
 namespace db {
-
-class UserQuery;
 
 // Intent: holds active db connections
 class ConnectionsManager : public Entity // root db entity
@@ -22,6 +19,7 @@ private:
     ConnectionsManager();
 public:
     static std::shared_ptr<ConnectionsManager> create(); // TODO: Singletone
+    void init();
     ~ConnectionsManager() override;
 
     ConnectionPtr openDBConnection(db::ConnectionParameters & params);
@@ -39,13 +37,6 @@ public:
     Connection * activeConnection() const;
     SessionEntity * activeSession() const { return _activeSession; }
     const QList <SessionEntityPtr> & sessions() const { return _connections; }
-
-    // TODO: move to UserQueryManager
-    UserQuery * userQueryAt(size_t index);
-    int userQueriesCount() const { return _userQueries.size(); }
-    UserQuery * appendNewUserQuery();
-    bool removeUserQueryAt(size_t index);
-    // end of UserQueryManager
 
     bool isNoOpenedConnections() const { return _connections.isEmpty(); }
 
@@ -69,6 +60,13 @@ public:
 
     QString activeEntityPath() const;
 
+    const UserQueriesManager * userQueriesManager() const {
+        return &_userQueriesManager;
+    }
+    UserQueriesManager * userQueriesManager() {
+        return &_userQueriesManager;
+    }
+
 private:
 
     Q_SLOT void onEntityEdited(Entity * entity);
@@ -79,7 +77,7 @@ private:
     QList <SessionEntityPtr> _connections;
     EntityHolder _activeEntity;
     SessionEntity * _activeSession;
-    std::vector <UserQuery *> _userQueries;
+    UserQueriesManager _userQueriesManager;
 };
 
 } // namespace db

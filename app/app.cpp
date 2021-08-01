@@ -13,6 +13,7 @@ App::App()
 {
     g_app = this;
     _dbConnectionParamsManager.load();
+    _dbConnectionsManager->init();
 }
 
 db::ConnectionParamsManager * App::dbConnectionParamsManager()

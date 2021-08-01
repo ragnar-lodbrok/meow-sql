@@ -79,6 +79,16 @@ void QueryTab::onActionRun(bool checked)
     }
 }
 
+QString QueryTab::currentQueryText() const
+{
+    return _queryPanel->queryPlainText();
+}
+
+void QueryTab::setCurrentQueryText(const QString & text)
+{
+    _queryPanel->setQueryText(text);
+}
+
 AddQueryTab::AddQueryTab(QWidget * parent) :
     BaseRootTab(BaseRootTab::Type::AddQuery, parent)
 {

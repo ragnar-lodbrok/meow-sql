@@ -136,6 +136,7 @@ set(SOURCE_FILES
     db/view_editor.cpp
     db/view_structure.cpp
     db/view_structure_parser.cpp
+    db/user_queries_manager.cpp
     db/user_query/batch_executor.cpp
     db/user_query/sentences_parser.cpp
     db/user_query/user_query.cpp
@@ -193,6 +194,7 @@ set(SOURCE_FILES
     settings/settings_icons.cpp
     settings/settings_text.cpp
     settings/data_editors.cpp
+    settings/queries_storage.cpp
     ssh/openssh_tunnel.cpp
     ssh/ssh_tunnel_parameters.cpp
     ui/common/checkbox_list_popup.cpp

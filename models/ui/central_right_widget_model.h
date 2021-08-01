@@ -11,6 +11,11 @@
 #include "db/entity/entity_holder.h"
 
 namespace meow {
+
+namespace db {
+class UserQuery;
+}
+
 namespace models {
 namespace ui {
 
@@ -54,8 +59,24 @@ public:
     bool hasQueryTab() const;
     bool isQueryTab(int index) const;
 
+    void setCurrentTabIndex(int index) {
+        _currentTabIndex = index;
+    }
+    int currentTabIndex() const {
+        return _currentTabIndex;
+    }
+
+    int userQueriesCount() const;
+    meow::db::UserQuery * userQueryAt(size_t index);
+    meow::db::UserQuery * appendNewUserQuery();
+    bool removeUserQueryAt(size_t index);
+    void setUserQueryTextAt(size_t index, const QString & query);
+    QString userQueryTextAt(size_t index);
+    void backupUserQueries();
+
 private:
     meow::db::EntityHolder _entityHolder;
+    int _currentTabIndex;
 };
 
 } // namespace ui

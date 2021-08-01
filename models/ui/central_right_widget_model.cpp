@@ -1,5 +1,7 @@
 #include "central_right_widget_model.h"
 #include "db/connection.h"
+#include "db/user_query/user_query.h"
+#include "app/app.h"
 #include <QObject> // tr()
 #include <QVariant>
 
@@ -9,6 +11,7 @@ namespace ui {
 
 CentralRightWidgetModel::CentralRightWidgetModel()
     : _entityHolder()
+    , _currentTabIndex(-1)
 {
 
 }
@@ -292,6 +295,54 @@ int CentralRightWidgetModel::indexForDataTab() const
         }
     }
     return -1;
+}
+
+int CentralRightWidgetModel::userQueriesCount() const
+{
+    db::UserQueriesManager * userQueriesManager
+            = meow::app()->dbConnectionsManager()->userQueriesManager();
+    return userQueriesManager->userQueriesCount();
+}
+
+db::UserQuery * CentralRightWidgetModel::userQueryAt(size_t index)
+{
+    db::UserQueriesManager * userQueriesManager
+            = meow::app()->dbConnectionsManager()->userQueriesManager();
+    return userQueriesManager->userQueryAt(index);
+}
+
+db::UserQuery * CentralRightWidgetModel::appendNewUserQuery()
+{
+    db::UserQueriesManager * userQueriesManager
+            = meow::app()->dbConnectionsManager()->userQueriesManager();
+    return userQueriesManager->appendNewUserQuery();
+}
+
+bool CentralRightWidgetModel::removeUserQueryAt(size_t index)
+{
+    db::UserQueriesManager * userQueriesManager
+            = meow::app()->dbConnectionsManager()->userQueriesManager();
+    return userQueriesManager->removeUserQueryAt(index);
+}
+
+void CentralRightWidgetModel::setUserQueryTextAt(size_t index,
+                                                 const QString & query)
+{
+    db::UserQuery * userQuery = userQueryAt(index);
+    userQuery->setCurrentQueryText(query);
+}
+
+QString CentralRightWidgetModel::userQueryTextAt(size_t index)
+{
+    db::UserQuery * userQuery = userQueryAt(index);
+    return userQuery->currentQueryText();
+}
+
+void CentralRightWidgetModel::backupUserQueries()
+{
+    db::UserQueriesManager * userQueriesManager
+            = meow::app()->dbConnectionsManager()->userQueriesManager();
+    userQueriesManager->save();
 }
 
 } // namespace ui

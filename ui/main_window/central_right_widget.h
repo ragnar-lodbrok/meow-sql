@@ -20,7 +20,9 @@ namespace main_window {
 class CentralRightWidget : public QWidget
 {
 public:
-    explicit CentralRightWidget(QWidget *parent = 0);
+    explicit CentralRightWidget(QWidget *parent = nullptr);
+
+    ~CentralRightWidget() override;
 
     void setActiveDBEntity(const db::EntityPtr & entityPtr);
 
@@ -75,6 +77,7 @@ private:
     void appendNewUserQuery();
     bool removeUserQueryAt(size_t index);
     void updateQueryTabsTitles();
+    void backupQueryTabs();
 
     bool showGlobalFilterPanel() const;
 

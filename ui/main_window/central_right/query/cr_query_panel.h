@@ -22,6 +22,7 @@ public:
     explicit QueryPanel(QueryTab * queryTab);
 
     QString queryPlainText() const;
+    void setQueryText(const QString & text);
     
 private:
 

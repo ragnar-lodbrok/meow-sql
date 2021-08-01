@@ -27,6 +27,8 @@ public:
     ~QueryTab();
 
     Q_SLOT void onActionRun(bool checked);
+    QString currentQueryText() const;
+    void setCurrentQueryText(const QString & text);
 
 private:
 

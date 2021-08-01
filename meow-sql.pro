@@ -118,6 +118,7 @@ SOURCES += main.cpp\
     db/view_editor.cpp \
     db/view_structure.cpp \
     db/view_structure_parser.cpp \
+    db/user_queries_manager.cpp \
     db/user_query/batch_executor.cpp \
     db/user_query/sentences_parser.cpp \
     db/user_query/user_query.cpp \
@@ -175,6 +176,7 @@ SOURCES += main.cpp\
     settings/settings_icons.cpp \
     settings/settings_text.cpp \
     settings/data_editors.cpp \
+    settings/queries_storage.cpp \
     ssh/openssh_tunnel.cpp \
     ssh/ssh_tunnel_parameters.cpp \
     ui/common/checkbox_list_popup.cpp \
@@ -303,6 +305,7 @@ HEADERS  +=  app/actions.h \
     db/user_query/batch_executor.h \
     db/user_query/sentences_parser.h \
     db/user_query/user_query.h \
+    db/user_queries_manager.h \
     helpers/formatting.h \
     helpers/logger.h \
     helpers/parsing.h \
@@ -357,6 +360,7 @@ HEADERS  +=  app/actions.h \
     settings/settings_icons.h \
     settings/settings_text.h \
     settings/data_editors.h \
+    settings/queries_storage.h \
     ssh/openssh_tunnel.h \
     ssh/ssh_tunnel_parameters.h \
     ui/common/checkbox_list_popup.h \

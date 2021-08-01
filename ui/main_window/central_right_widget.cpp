@@ -46,6 +46,11 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
     );
 }
 
+CentralRightWidget::~CentralRightWidget()
+{
+    backupQueryTabs();
+}
+
 void CentralRightWidget::setActiveDBEntity(const db::EntityPtr & entityPtr)
 {
     _filterWidget->reset();
@@ -235,6 +240,7 @@ void CentralRightWidget::onGlobalDataFilterPatternChanged(
 
 bool CentralRightWidget::onHostTab() const
 {
+    // TODO: move detection to _model
     return _rootTabs->currentIndex()
             == static_cast<int>(models::ui::CentralRightWidgetTabs::Host);
 }
@@ -307,6 +313,8 @@ void CentralRightWidget::createWidgets()
 
 void CentralRightWidget::rootTabChanged(int index)
 {
+    _model.setCurrentTabIndex(index);
+
     _filterWidget->setVisible(showGlobalFilterPanel());
 
     if (index < 0) return;
@@ -477,19 +485,18 @@ central_right::QueryTab * CentralRightWidget::queryTab(size_t index)
 
 void CentralRightWidget::createQueryTabs()
 {
-    auto conManager = meow::app()->dbConnectionsManager();
-
-    if (_queryTabs.size() == conManager->userQueriesCount()) return;
+    if (_queryTabs.size() == _model.userQueriesCount()) return;
 
     // remove extra tabs just in case
-    removeQueryTabs(conManager->userQueriesCount());
+    removeQueryTabs(_model.userQueriesCount());
     // add required number of tabs
     int index = _queryTabs.size();
-    _queryTabs.resize(conManager->userQueriesCount());
+    _queryTabs.resize(_model.userQueriesCount());
 
-    for (; index < conManager->userQueriesCount(); ++index) {
+    for (; index < _model.userQueriesCount(); ++index) {
         auto queryTab = new central_right::QueryTab(
-                    conManager->userQueryAt(index));
+                    _model.userQueryAt(index));
+        queryTab->setCurrentQueryText(_model.userQueryTextAt(index));
         _queryTabs[index] = queryTab;
         _rootTabs->insertTab(_model.indexForFirstQueryTab() + index,
                              queryTab,
@@ -654,16 +661,14 @@ bool CentralRightWidget::removeTab(QWidget * tab)
 
 void CentralRightWidget::appendNewUserQuery()
 {
-    auto conManager = meow::app()->dbConnectionsManager();
-    conManager->appendNewUserQuery();
+    _model.appendNewUserQuery();
     createQueryTabs();
     _rootTabs->setCurrentWidget(_queryTabs.last());
 }
 
 bool CentralRightWidget::removeUserQueryAt(size_t index)
 {
-    auto conManager = meow::app()->dbConnectionsManager();
-    if (conManager->removeUserQueryAt(index)) {
+    if (_model.removeUserQueryAt(index)) {
         removeQueryTab(index);
         updateQueryTabsTitles();
         return true;
@@ -677,6 +682,17 @@ void CentralRightWidget::updateQueryTabsTitles()
         int rootTabIndex = _rootTabs->indexOf(_queryTabs[i]);
         _rootTabs->setTabText(rootTabIndex, _model.titleForQueryTab(i));
     }
+}
+
+void CentralRightWidget::backupQueryTabs()
+{
+    if (_queryTabs.isEmpty()) return; // not created
+
+    for (int i = 0; i < _model.userQueriesCount(); ++i) {
+        Q_ASSERT(i < _queryTabs.size());
+        _model.setUserQueryTextAt(i, _queryTabs[i]->currentQueryText());
+    }
+    _model.backupUserQueries();
 }
 
 bool CentralRightWidget::showGlobalFilterPanel() const
