@@ -7,7 +7,8 @@ namespace meow {
 namespace db {
 
 UserQuery::UserQuery(ConnectionsManager * connectionsManager)
-    :_connectionsManager(connectionsManager)
+    : _connectionsManager(connectionsManager)
+    , _modifiedButNotSaved(false)
 {
 
 }
@@ -19,7 +20,7 @@ UserQuery::~UserQuery()
 
 bool UserQuery::runInCurrentConnection(const QStringList & queries)
 {
-    setCurrentQueryText(queries.join(QChar::LineFeed));
+    //setCurrentQueryText(queries.join(QChar::LineFeed)); // keep ?
 
     qDeleteAll(_resultsData);
     _resultsData.clear();

@@ -29,10 +29,27 @@ public:
     }
     QString currentQueryText() const { return _currentQueryText; }
 
+    void onQueryTextEdited(const QString & query) { // by user
+        bool modified = (_modifiedButNotSaved == false)
+                && _currentQueryText != query; // avoid comparing long text
+        _currentQueryText = query;
+        if (modified) {
+            setModifiedButNotSaved(modified);
+        }
+    }
+
     void setUniqueId(const QString & id) {
         _uniqieId = id;
     }
     QString uniqueId() const;
+
+    bool modifiedButNotSaved() const {
+        return _modifiedButNotSaved;
+    }
+
+    void setModifiedButNotSaved(bool modified) {
+        _modifiedButNotSaved = modified;
+    }
 
 private:
 
@@ -43,6 +60,7 @@ private:
     QVector<QueryData *> _resultsData;
     QString _currentQueryText;
     mutable QString _uniqieId;
+    bool _modifiedButNotSaved;
 };
 
 } // namespace db

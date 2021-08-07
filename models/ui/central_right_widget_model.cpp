@@ -325,11 +325,11 @@ bool CentralRightWidgetModel::removeUserQueryAt(size_t index)
     return userQueriesManager->removeUserQueryAt(index);
 }
 
-void CentralRightWidgetModel::setUserQueryTextAt(size_t index,
-                                                 const QString & query)
+void CentralRightWidgetModel::onUserQueryTextEdited(size_t index,
+                                                    const QString & query)
 {
     db::UserQuery * userQuery = userQueryAt(index);
-    userQuery->setCurrentQueryText(query);
+    userQuery->onQueryTextEdited(query);
 }
 
 QString CentralRightWidgetModel::userQueryTextAt(size_t index)

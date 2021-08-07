@@ -690,7 +690,9 @@ void CentralRightWidget::backupQueryTabs()
 
     for (int i = 0; i < _model.userQueriesCount(); ++i) {
         Q_ASSERT(i < _queryTabs.size());
-        _model.setUserQueryTextAt(i, _queryTabs[i]->currentQueryText());
+        // For performance reasons copy query data only when required,
+        // remove if we copy on each change
+        _model.onUserQueryTextEdited(i, _queryTabs[i]->currentQueryText());
     }
     _model.backupUserQueries();
 }

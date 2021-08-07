@@ -110,16 +110,18 @@ std::vector<db::UserQuery *> QueriesStorage::load()
             continue;
         }
 
+        db::UserQuery * query = queryManager->createUserQueryObject();
+        query->setUniqueId(id);
+
+        queries[index] = query; // save to right pos
+
         QFile file(filename);
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-
-            db::UserQuery * query = queryManager->createUserQueryObject();
-            query->setUniqueId(id);
 
             QTextStream in(&file);
             query->setCurrentQueryText(in.read(maxQueryLength));
 
-            queries[index] = query; // save to right pos
+            // Still continue if no file - may be just empty tab
         }
 
         settings.endGroup();
@@ -135,8 +137,9 @@ std::vector<db::UserQuery *> QueriesStorage::load()
 
 bool QueriesStorage::backup(db::UserQuery * query)
 {
-    // TODO: check if file is up to date by query modify time
-    // and file edit time ?
+    if (query->modifiedButNotSaved() == false) {
+        return true;
+    }
 
     QString fileName = backupFileName(query->uniqueId());
 
@@ -150,6 +153,7 @@ bool QueriesStorage::backup(db::UserQuery * query)
         stream << query->currentQueryText();
         stream.flush();
         file.close();
+        query->setModifiedButNotSaved(false); // saved
         return true;
     } else {
         meowLogC(Log::Category::Error) << "Unable to open query "

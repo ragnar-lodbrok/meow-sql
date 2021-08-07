@@ -70,7 +70,7 @@ public:
     meow::db::UserQuery * userQueryAt(size_t index);
     meow::db::UserQuery * appendNewUserQuery();
     bool removeUserQueryAt(size_t index);
-    void setUserQueryTextAt(size_t index, const QString & query);
+    void onUserQueryTextEdited(size_t index, const QString & query);
     QString userQueryTextAt(size_t index);
     void backupUserQueries();
 
