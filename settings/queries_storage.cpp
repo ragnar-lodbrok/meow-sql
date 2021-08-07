@@ -54,7 +54,7 @@ void QueriesStorage::save(const std::vector<db::UserQuery *> & queries)
         // save index for correct order restore:
         settings.setValue("index", QString::number(index));
         settings.setValue("BackupFilename",
-                          filename);
+                          QDir::toNativeSeparators(filename));
         settings.endGroup();
 
         ++index;
