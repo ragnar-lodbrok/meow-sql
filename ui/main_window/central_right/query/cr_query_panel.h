@@ -23,11 +23,17 @@ public:
 
     QString queryPlainText() const;
     void setQueryText(const QString & text);
+
+    Q_SIGNAL void execQueryRequested();
+    Q_SIGNAL void execCurrentQueryRequested(int charPosition);
     
 private:
 
     void createWidgets();
     void createToolBar();
+
+    Q_SLOT void onQueryTextEditContextMenu(const QPoint & pos);
+    Q_SLOT void onExecCurrentQueryAction();
 
     QueryTab * _queryTab;
     
@@ -35,7 +41,9 @@ private:
     ui::common::SQLEditor * _queryTextEdit;
 
     QToolBar * _toolBar;
-    QAction * _runAction;
+    QAction * _execQueryAction;
+    QAction * _execCurrentQueryAction;
+    QAction * _separatorAction;
 };
 
 } // namespace central_right

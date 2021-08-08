@@ -98,7 +98,7 @@
         <file alias="dropdown_highlight.png">resources/icons/dropdown_highlight.png</file>
         <file>resources/icons/delimiter.png</file>
         <file>resources/icons/execute_selection.png</file>
-        <file>resources/icons/execute_line.png</file>
+        <file alias="execute_line.png">resources/icons/execute_line.png</file>
         <file>resources/icons/wrench_orange.png</file>
         <file alias="wordwrap.png">resources/icons/wordwrap.png</file>
         <file>resources/icons/view_highlight.png</file>

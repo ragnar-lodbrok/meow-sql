@@ -37,10 +37,16 @@ struct SentenceToken {
 
 using SentenceTokenPtr = std::shared_ptr<SentenceToken>;
 
+struct Sentence
+{
+    QString text;
+    int position = 0;
+};
+
 class SentencesParser
 {
 public:    
-    QStringList parseByDelimiter(
+    QList<Sentence> parseByDelimiter(
         const QString & SQL,
         const QString & delim = QString(";")) const;
 

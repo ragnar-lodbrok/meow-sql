@@ -26,9 +26,15 @@ void QueryPanel::createWidgets()
     // http://doc.qt.io/qt-5/qtwidgets-widgets-codeeditor-example.html
     // http://doc.qt.io/qt-5/qtwidgets-richtext-syntaxhighlighter-example.html
     _queryTextEdit = new ui::common::SQLEditor();
+    _queryTextEdit->setContextMenuPolicy(Qt::CustomContextMenu);
     _mainLayout->addWidget(_queryTextEdit);
 
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+
+    connect(_queryTextEdit,
+            &QWidget::customContextMenuRequested,
+            this,
+            &QueryPanel::onQueryTextEditContextMenu);
 }
 
 void QueryPanel::createToolBar()
@@ -40,11 +46,28 @@ void QueryPanel::createToolBar()
         _toolBar->setStyle(QStyleFactory::create("windows"));
     #endif
 
-    _runAction = new QAction(QIcon(":/icons/execute.png"), tr("Run"), this);
-    _runAction->setToolTip(tr("Execute SQL..."));
-    _runAction->setShortcut(QKeySequence(Qt::Key_F9));
-    connect(_runAction, &QAction::triggered, _queryTab, &QueryTab::onActionRun);
-    _toolBar->addAction(_runAction);
+    _execQueryAction = new QAction(QIcon(":/icons/execute.png"),
+                                   tr("Run"), this);
+    _execQueryAction->setToolTip(tr("Execute SQL..."));
+    _execQueryAction->setStatusTip(tr("Execute SQL-query/queries..."));
+    _execQueryAction->setShortcut(QKeySequence(Qt::Key_F9));
+    connect(_execQueryAction, &QAction::triggered,
+            this, &QueryPanel::execQueryRequested);
+    _toolBar->addAction(_execQueryAction);
+
+    _execCurrentQueryAction = new QAction(QIcon(":/icons/execute_line.png"),
+                                          tr("Run current query"), this);
+    _execCurrentQueryAction->setToolTip(tr("Run current query"));
+    _execCurrentQueryAction->setStatusTip(tr("Run currently focused SQL query"));
+    _execCurrentQueryAction->setShortcut(QKeySequence(
+                                             Qt::CTRL + Qt::SHIFT + Qt::Key_F9));
+    connect(_execCurrentQueryAction, &QAction::triggered,
+            this, &QueryPanel::onExecCurrentQueryAction);
+
+    // TODO: add _execCurrentQueryAction to toolbar
+
+    _separatorAction = new QAction();
+    _separatorAction->setSeparator(true);
 
     _mainLayout->addWidget(_toolBar, 0 , Qt::AlignTop);
 }
@@ -57,6 +80,40 @@ QString QueryPanel::queryPlainText() const
 void QueryPanel::setQueryText(const QString & text)
 {
     _queryTextEdit->setPlainText(text);
+}
+
+void QueryPanel::onQueryTextEditContextMenu(const QPoint & pos)
+{
+    // Listening: Disturbed - The Game
+
+    QMenu * menu = _queryTextEdit->createStandardContextMenu();
+
+    QList<QAction *> standardActions = menu->actions();
+
+    QAction * firstStandardAction
+            = standardActions.isEmpty() ? nullptr : standardActions.first();
+
+    QList<QAction *> actions = {
+        _execQueryAction,
+        _execCurrentQueryAction
+    };
+
+    if (firstStandardAction) {
+        actions << _separatorAction;
+        menu->insertActions(firstStandardAction, actions);
+    } else {
+        menu->addActions(actions);
+    }
+
+    menu->exec(_queryTextEdit->mapToGlobal(pos));
+    delete menu;
+}
+
+void QueryPanel::onExecCurrentQueryAction()
+{
+    int currentPosition = _queryTextEdit->textCursor().position();
+
+    emit execCurrentQueryRequested(currentPosition);
 }
 
 } // namespace central_right

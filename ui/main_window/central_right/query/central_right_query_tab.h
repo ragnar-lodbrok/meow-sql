@@ -26,7 +26,6 @@ public:
     explicit QueryTab(db::UserQuery * query, QWidget *parent = nullptr);
     ~QueryTab();
 
-    Q_SLOT void onActionRun(bool checked);
     QString currentQueryText() const;
     void setCurrentQueryText(const QString & text);
 
@@ -36,6 +35,11 @@ private:
     void loadGeometryFromSettings();
 
     void createWidgets();
+
+    Q_SLOT void onActionExecQuery();
+    Q_SLOT void onActionExecCurrentQuery(int charPosition);
+
+    void runQueries(const QStringList & queries);
 
     QHBoxLayout * _mainLayout;
     QSplitter * _mainVerticalSplitter;

@@ -23,10 +23,10 @@ QueryTab::~QueryTab()
 
 void QueryTab::saveGeometryToSettings()
 {
-    // TODO: use number of query tab in string
     QSettings settings;
     settings.setValue(
-        "ui/main_window/center_right/query_tab/0/vsplitter",
+        QString("ui/main_window/center_right/query_tab/%1/vsplitter")
+                .arg(_query->uniqueId()),
         _mainVerticalSplitter->saveState());
 }
 
@@ -34,8 +34,10 @@ void QueryTab::loadGeometryFromSettings()
 {
     QSettings settings;
     _mainVerticalSplitter->restoreState(
-        settings.value("ui/main_window/center_right/query_tab/0/vsplitter")
-        .toByteArray());
+        settings.value(
+            QString("ui/main_window/center_right/query_tab/%1/vsplitter")
+                .arg(_query->uniqueId())
+        ).toByteArray());
 }
 
 void QueryTab::createWidgets()
@@ -52,6 +54,12 @@ void QueryTab::createWidgets()
     _queryPanel->setMinimumHeight(80);
     _mainVerticalSplitter->addWidget(_queryPanel);
 
+    connect(_queryPanel, &QueryPanel::execQueryRequested,
+            this, &QueryTab::onActionExecQuery);
+
+    connect(_queryPanel, &QueryPanel::execCurrentQueryRequested,
+            this, &QueryTab::onActionExecCurrentQuery);
+
     _queryResult = new QueryResult(_query);
     _queryResult->setMinimumHeight(80);
     _mainVerticalSplitter->addWidget(_queryResult);
@@ -61,12 +69,39 @@ void QueryTab::createWidgets()
     loadGeometryFromSettings();
 }
 
-void QueryTab::onActionRun(bool checked)
+void QueryTab::onActionExecQuery()
 {
-    Q_UNUSED(checked);
     meow::db::user_query::SentencesParser parser;
-    QStringList queries = parser.parseByDelimiter(_queryPanel->queryPlainText());
+    QList<meow::db::user_query::Sentence> sentences
+            = parser.parseByDelimiter(_queryPanel->queryPlainText());
+    QStringList queries;
+    for (const meow::db::user_query::Sentence & sentence : sentences) {
+        queries << sentence.text;
+    }
     // Listening: Arch Enemy - On And On
+    runQueries(queries);
+}
+
+void QueryTab::onActionExecCurrentQuery(int charPosition)
+{
+    meow::db::user_query::SentencesParser parser;
+    QList<meow::db::user_query::Sentence> sentences
+            = parser.parseByDelimiter(_queryPanel->queryPlainText());
+    QStringList queries;
+    for (const meow::db::user_query::Sentence & sentence : sentences) {
+        if (sentence.position <= charPosition
+                && charPosition <= (sentence.position + sentence.text.length())) {
+            queries << sentence.text;
+            break;
+        }
+    }
+    runQueries(queries);
+}
+
+void QueryTab::runQueries(const QStringList & queries)
+{
+    if (queries.isEmpty()) return;
+
     bool success = _query->runInCurrentConnection(queries);
     _queryResult->showQueryData();
     if (!success) {
