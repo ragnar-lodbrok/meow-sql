@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QList>
+#include <QMutex>
 
 namespace meow {
 
@@ -11,6 +12,7 @@ namespace db {
 }
 
 
+// Intent: Central log entry
 class Log
 {
 public:
@@ -31,14 +33,19 @@ public:
         virtual ~ISink();
     };
 
+    // Thread-safe
     void message(const QString & msg,
                  Category category = Category::Debug,
                  const db::Connection * connection = nullptr) const;
 
+    // Thread-safe
     void addSink(ISink * sink);
+
+    // Thread-safe
     void removeSink(ISink * sink);
 
 private:
+    mutable QMutex _mutex;
     QList<ISink *> _sinks;
 };
 

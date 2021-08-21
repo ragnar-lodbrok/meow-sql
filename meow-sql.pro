@@ -112,6 +112,7 @@ SOURCES += main.cpp\
     db/table_index.cpp \
     db/table_structure.cpp \
     db/table_structure_parser.cpp \
+    db/db_thread_initializer.cpp \
     db/trigger_editor.cpp \
     db/trigger_structure_parser.cpp \
     db/trigger_structure.cpp \
@@ -294,6 +295,7 @@ HEADERS  +=  app/actions.h \
     db/table_index.h \
     db/table_structure.h \
     db/table_structure_parser.h \
+    db/db_thread_initializer.h \
     db/trigger_editor.h \
     db/trigger_structure_parser.h \
     db/trigger_structure.h \
@@ -363,6 +365,8 @@ HEADERS  +=  app/actions.h \
     settings/queries_storage.h \
     ssh/openssh_tunnel.h \
     ssh/ssh_tunnel_parameters.h \
+    threads/helpers.h \
+    threads/mutex.h \
     ui/common/checkbox_list_popup.h \
     ui/common/data_type_combo_box.h \
     ui/common/geometry_helpers.h \
@@ -449,7 +453,9 @@ WITH_MYSQL {
     db/mysql/mysql_table_editor.cpp \
     db/mysql/mysql_table_engines_fetcher.cpp \
     db/mysql/mysql_user_manager.cpp \
-    db/mysql/mysql_user_editor.cpp
+    db/mysql/mysql_user_editor.cpp \
+    db/mysql/mysql_library_initializer.cpp \
+    db/mysql/mysql_thread_initializer.cpp \
 }
 
 WITH_POSTGRESQL {
@@ -492,7 +498,9 @@ WITH_MYSQL {
     db/mysql/mysql_table_editor.h \
     db/mysql/mysql_table_engines_fetcher.h \
     db/mysql/mysql_user_manager.h \
-    db/mysql/mysql_user_editor.h
+    db/mysql/mysql_user_editor.h \
+    db/mysql/mysql_library_initializer.h \
+    db/mysql/mysql_thread_initializer.h
 }
 
 WITH_POSTGRESQL {

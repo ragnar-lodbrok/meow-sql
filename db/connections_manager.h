@@ -7,6 +7,10 @@
 #include "db/entity/entity_holder.h"
 #include "user_queries_manager.h"
 
+#ifdef WITH_MYSQL
+#include "db/mysql/mysql_library_initializer.h"
+#endif
+
 namespace meow {
 namespace db {
 
@@ -78,6 +82,10 @@ private:
     EntityHolder _activeEntity;
     SessionEntity * _activeSession;
     UserQueriesManager _userQueriesManager;
+
+#ifdef WITH_MYSQL
+    MySQLLibraryInitializer _mySQLLibInit; // TODO: move to ConnectionParameters ?
+#endif
 };
 
 } // namespace db

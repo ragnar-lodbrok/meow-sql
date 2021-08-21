@@ -22,6 +22,9 @@ ConnectionsManager::ConnectionsManager()
     , _activeEntity()
     , _activeSession(nullptr)
     , _userQueriesManager(this)
+#ifdef WITH_MYSQL
+    , _mySQLLibInit(true)
+#endif
 {
     // since Manager is a root entity - it might be a good place (?) to do:
     qRegisterMetaType<EntityPtr>("EntityPtr");
@@ -44,6 +47,14 @@ ConnectionsManager::~ConnectionsManager()
 
 ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & params)
 {
+#ifdef WITH_MYSQL
+    if (params.serverType() == db::ServerType::MySQL) {
+        if (!_mySQLLibInit.init()) {
+            meowLogC(Log::Category::Error) << "Unable to init MySQL lib";
+        }
+    }
+#endif
+
     ConnectionPtr connection = params.createConnection();
 
     connection->setActive(true);

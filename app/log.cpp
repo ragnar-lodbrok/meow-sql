@@ -21,6 +21,7 @@ void Log::message(const QString & msg,
         if (isSQL) {
             logLabel += " [SQL]";
         }
+        // Note: qDebug is thread-safe
         qDebug().noquote() << logLabel << msg;
     } else {
         if (isSQL) {
@@ -59,6 +60,8 @@ void Log::message(const QString & msg,
         messageFormatted = "/* " + messageFormatted + " */"; // TODO: escape?
     }
 
+    QMutexLocker locker(&_mutex);
+
     for (auto & sink : _sinks) {
         sink->onLogMessage(messageFormatted);
     }
@@ -67,11 +70,13 @@ void Log::message(const QString & msg,
 void Log::addSink(ISink * sink)
 {
     // Listening: FOR I AM KING - In Flames
+    QMutexLocker locker(&_mutex);
     _sinks.push_back(sink);
 }
 
 void Log::removeSink(ISink * sink)
 {
+    QMutexLocker locker(&_mutex);
     _sinks.removeAll(sink);
 }
 

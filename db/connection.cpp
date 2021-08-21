@@ -22,12 +22,13 @@ namespace meow {
 namespace db {
 
 Connection::Connection(const ConnectionParameters & params)
-    :_active(false),
-     _identifierQuote('`'),
-     _connectionParams(params),
-     _characterSet(),
-     _isUnicode(false),
-     _useAllDatabases(true)
+    : _mutex(params.supportsMultithreading(), params.supportsMultithreading())
+    , _active(false)
+    , _identifierQuote('`')
+    , _connectionParams(params)
+    , _characterSet()
+    , _isUnicode(false)
+    , _useAllDatabases(true)
 {
 
 }
@@ -146,7 +147,7 @@ QString Connection::getCell(const QString & SQL, std::size_t index /*= 0*/)
     return QString();
 }
 
-QString Connection::getCell(const QString & SQL,const QString & columnName)
+QString Connection::getCell(const QString & SQL, const QString & columnName)
 {
     QueryPtr query = getResults(SQL);
 

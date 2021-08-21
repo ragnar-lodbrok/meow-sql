@@ -57,6 +57,7 @@ endif()
 set(HEADER_FILES
     db/data_type/connection_data_types.h
     db/data_type/data_type_category.h
+    db/db_thread_initializer.h
     db/native_query_result_interface.h
     db/collation_fetcher.h
     db/common.h
@@ -64,6 +65,8 @@ set(HEADER_FILES
     db/user_manager.h
     db/user_editor_interface.h
     ssh/ssh_tunnel_interface.h
+    threads/helpers.h
+    threads/mutex.h
     ui/common/mysql_syntax.h
     ui/main_window/central_right/global_data_filter_interface.h
     ui/main_window/central_right/base_root_tab.h
@@ -100,6 +103,7 @@ set(SOURCE_FILES
     db/connection_params_manager.cpp
     db/connections_manager.cpp
     db/database_editor.cpp
+    db/db_thread_initializer.cpp
     db/data_type/data_type.cpp
     db/editable_grid_data.cpp
     db/entity/database_entity.cpp
@@ -275,6 +279,7 @@ if (WITH_MYSQL)
 
         db/mysql/mysql_database_editor.cpp
         db/mysql/mysql_entities_fetcher.cpp
+        db/mysql/mysql_library_initializer.cpp
         db/mysql/mysql_query.cpp
         db/mysql/mysql_query_data_editor.cpp
         db/mysql/mysql_collation_fetcher.cpp
@@ -285,6 +290,9 @@ if (WITH_MYSQL)
 
         db/mysql/mysql_user_manager.cpp
         db/mysql/mysql_user_editor.cpp
+
+        db/mysql/mysql_thread_initializer.cpp
+
 
     )
 endif()

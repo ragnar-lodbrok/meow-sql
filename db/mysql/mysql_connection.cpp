@@ -19,12 +19,29 @@
 #include "mysql_user_editor.h"
 #include "ssh/openssh_tunnel.h"
 #include "db/entity/view_entity.h"
+#include "threads/helpers.h"
 
 #include <QDebug>
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html
-// https://dev.mysql.com/doc/refman/5.7/en/c-api-threaded-clients.html
+// https://dev.mysql.com/doc/c-api/5.7/en/c-api-threaded-clients.html
+
+// Threads logic:
+// See: https://dev.mysql.com/doc/c-api/5.7/en/c-api-threaded-clients.html
+// 1. Call mysql_library_init() before any other MySQL functions.
+// It is not thread-safe, so call it before threads are created, or protect
+// the call with a mutex. [Done by MySQLLibraryInitializer]
+// 2. Arrange for mysql_thread_init() to be called early in the thread handler
+// before calling any MySQL function. [Implemented by MySQLThreadInitializer,
+// not called yet]
+// Multiple threads cannot send a query to the MySQL server at the same time
+// on the same connection. In particular, you must ensure that between calls
+// to mysql_real_query() and mysql_store_result() in one thread,
+// no other thread uses the same connection. To do this, use a mutex lock
+// around your pair of mysql_real_query() and mysql_store_result() calls.
+// After mysql_store_result() returns, the lock can be released and other
+// threads may query the same connection.
 
 namespace meow {
 namespace db {
@@ -54,6 +71,7 @@ QueryPtr MySQLConnection::createQuery() // override
 
 void MySQLConnection::setActive(bool active) // override
 {
+    // TODO: call mysql_library_init() for multhread
     if (active && _handle == nullptr) {
         doBeforeConnect();
 
@@ -228,8 +246,7 @@ bool MySQLConnection::ping(bool reconnect) // override
 QueryResults MySQLConnection::query(const QString & SQL,
                                     bool storeResult)
 {
-    // H: FLockedByThread
-    // TODO: need mutex when multithreading
+    threads::MutexLocker locker(mutex());
 
     meowLogCC(Log::Category::SQL, this) << SQL; // TODO: userSQL
     

@@ -19,6 +19,7 @@
 #include "session_variables.h"
 #include "user_manager.h"
 #include "user_editor_interface.h"
+#include "threads/mutex.h"
 
 namespace meow {
 namespace db {
@@ -157,7 +158,10 @@ public:
 
     QLatin1Char getIdentQuote() const { return _identifierQuote; }
 
+    threads::Mutex * mutex() { return &_mutex; }
+
 protected:
+    threads::Mutex _mutex;
     bool _active;
     db::ulonglong _rowsFound; // TODO: rm?
     db::ulonglong _rowsAffected; // TODO: rm?
