@@ -3,26 +3,29 @@
 
 #include <QStringList>
 #include <QVector>
-#include "batch_executor.h"
+#include "db/query_data.h"
 
 namespace meow {
+namespace threads {
+class QueryTask;
+}
 namespace db {
 
 class ConnectionsManager;
-class QueryData;
 
 // Arbitrary user query(ies)
-class UserQuery
+class UserQuery : public QObject
 {
+    Q_OBJECT
 public:
     explicit UserQuery(ConnectionsManager * connectionsManager);
-    ~UserQuery();
+    ~UserQuery() override;
 
     bool runInCurrentConnection(const QStringList & queries);
     QString lastError() const;
 
     int resultsDataCount() const { return _resultsData.length(); }
-    QueryData * resultsDataAt(int index) const { return _resultsData[index]; }
+    QueryDataPtr resultsDataAt(int index) const { return _resultsData[index]; }
 
     void setCurrentQueryText(const QString & query) {
         _currentQueryText = query;
@@ -51,16 +54,20 @@ public:
         _modifiedButNotSaved = modified;
     }
 
+    Q_SIGNAL void finished();
+
 private:
+
+    Q_SLOT void onQueryTaskFinished();
 
     QString generateUniqueId() const;
 
     ConnectionsManager * _connectionsManager;
-    user_query::BatchExecutor _executor;
-    QVector<QueryData *> _resultsData;
+    QVector<QueryDataPtr> _resultsData;
     QString _currentQueryText;
     mutable QString _uniqieId;
     bool _modifiedButNotSaved;
+    std::shared_ptr<threads::QueryTask> _queryTask;
 };
 
 } // namespace db

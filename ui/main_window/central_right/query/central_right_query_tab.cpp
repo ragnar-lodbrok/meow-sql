@@ -14,6 +14,9 @@ QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) :
     _query(query)
 {
     createWidgets();
+
+    connect(_query, &db::UserQuery::finished,
+            this, &QueryTab::onExecQueryFinished);
 }
 
 QueryTab::~QueryTab()
@@ -98,13 +101,10 @@ void QueryTab::onActionExecCurrentQuery(int charPosition)
     runQueries(queries);
 }
 
-void QueryTab::runQueries(const QStringList & queries)
+void QueryTab::onExecQueryFinished()
 {
-    if (queries.isEmpty()) return;
-
-    bool success = _query->runInCurrentConnection(queries);
     _queryResult->showQueryData();
-    if (!success) {
+    if (!_query->lastError().isEmpty()) {
         QMessageBox msgBox;
         msgBox.setText(_query->lastError());
         msgBox.setStandardButtons(QMessageBox::Ok);
@@ -112,6 +112,14 @@ void QueryTab::runQueries(const QStringList & queries)
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
     }
+}
+
+void QueryTab::runQueries(const QStringList & queries)
+{
+    if (queries.isEmpty()) return;
+
+    _query->runInCurrentConnection(queries);
+
 }
 
 QString QueryTab::currentQueryText() const

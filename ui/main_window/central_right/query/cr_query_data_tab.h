@@ -4,13 +4,9 @@
 #include <QtWidgets>
 #include "models/db/base_data_table_model.h"
 #include "ui/common/table_view.h"
+#include "db/query_data.h"
 
 namespace meow {
-
-namespace db {
-    class QueryData;
-}
-
 namespace ui {
 namespace main_window {
 namespace central_right {
@@ -18,7 +14,7 @@ namespace central_right {
 class QueryDataTab : public QWidget
 {
 public:
-    explicit QueryDataTab(db::QueryData * queryData, QWidget *parent = 0);
+    explicit QueryDataTab(db::QueryDataPtr queryData, QWidget *parent = 0);
     virtual ~QueryDataTab();
 private:
     models::db::BaseDataTableModel _model;

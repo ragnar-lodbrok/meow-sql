@@ -6,7 +6,7 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-QueryDataTab::QueryDataTab(db::QueryData * queryData, QWidget *parent)
+QueryDataTab::QueryDataTab(db::QueryDataPtr queryData, QWidget *parent)
     : QWidget(parent),
       _model(queryData)
 {

@@ -15,7 +15,9 @@ namespace models {
 namespace db {
 
 DataTableModel::DataTableModel(QObject *parent)
-    :BaseDataTableModel(new meow::db::QueryData(), parent),
+    : BaseDataTableModel(
+          meow::db::QueryDataPtr(new meow::db::QueryData()),
+          parent),
       _sortFilterModel(nullptr),
       _filterPatternIsRegexp(false),
       _entityChangedProcessed(false),
@@ -28,7 +30,7 @@ DataTableModel::DataTableModel(QObject *parent)
 
 DataTableModel::~DataTableModel()
 {
-    delete queryData(); // oh shit
+
 }
 
 Qt::ItemFlags DataTableModel::flags(const QModelIndex &index) const

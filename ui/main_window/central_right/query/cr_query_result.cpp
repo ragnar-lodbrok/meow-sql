@@ -47,7 +47,7 @@ void QueryResult::showQueryData()
 
 QString QueryResult::dataTabCaption(int index) const
 {
-    meow::db::QueryData * queryData = _userQuery->resultsDataAt(index);
+    meow::db::QueryDataPtr queryData = _userQuery->resultsDataAt(index);
     QString caption =  QObject::tr("Result") + " #" + QString::number(index+1);
     caption += QString(" (%1×%2)")
             .arg(helpers::formatNumber(queryData->columnCount()))

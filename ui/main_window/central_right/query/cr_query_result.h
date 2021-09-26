@@ -13,6 +13,7 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
+// TODO: rename to QueryResultWidget to distinguish from db
 class QueryResult : public QWidget
 {
     Q_OBJECT

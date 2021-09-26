@@ -18,10 +18,12 @@ public:
 
     const QList<db::QueryPtr> & results() const { return _results; }
     const db::Exception & error() const { return _error; }
+    bool failed() const { return _failed; }
 
 private:
     QList<db::QueryPtr> _results;
     db::Exception _error;
+    bool _failed;
 };
 
 } // namespace user_query

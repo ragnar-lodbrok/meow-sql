@@ -22,6 +22,11 @@
 #include "threads/mutex.h"
 
 namespace meow {
+
+namespace threads {
+class DbThread;
+}
+
 namespace db {
 
 class Query;
@@ -159,6 +164,7 @@ public:
     QLatin1Char getIdentQuote() const { return _identifierQuote; }
 
     threads::Mutex * mutex() { return &_mutex; }
+    threads::DbThread * thread();
 
 protected:
     threads::Mutex _mutex;
@@ -212,6 +218,7 @@ private:
     std::unique_ptr<SessionVariables> _variables;
     std::unique_ptr<IUserManager> _userManager;
     std::unique_ptr<IUserEditor> _userEditor;
+    std::unique_ptr<threads::DbThread> _thread;
 };
 
 } // namespace db

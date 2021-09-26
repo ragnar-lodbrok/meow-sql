@@ -1,13 +1,16 @@
 #include "user_query.h"
 #include "db/connections_manager.h"
 #include "db/query_data.h"
+#include "threads/db_thread.h"
+#include "threads/query_task.h"
 #include <QUuid>
 
 namespace meow {
 namespace db {
 
 UserQuery::UserQuery(ConnectionsManager * connectionsManager)
-    : _connectionsManager(connectionsManager)
+    : QObject(nullptr)
+    , _connectionsManager(connectionsManager)
     , _modifiedButNotSaved(false)
 {
 
@@ -15,34 +18,25 @@ UserQuery::UserQuery(ConnectionsManager * connectionsManager)
 
 UserQuery::~UserQuery()
 {
-    qDeleteAll(_resultsData);
+
 }
 
 bool UserQuery::runInCurrentConnection(const QStringList & queries)
 {
     //setCurrentQueryText(queries.join(QChar::LineFeed)); // keep ?
 
-    qDeleteAll(_resultsData);
-    _resultsData.clear();
-
-    bool result = _executor.run(
-                _connectionsManager->activeConnection(), queries);
-
-    const QList<db::QueryPtr> & resultsData = _executor.results();
-    _resultsData.reserve(resultsData.length());
-    QList<db::QueryPtr>::const_iterator i;
-    for (i = resultsData.begin(); i != resultsData.end(); ++i) {
-        QueryData * queryData = new QueryData();
-        queryData->setQueryPtr(*i);
-        _resultsData.append(queryData);
-    }
-
-    return result;
+    threads::DbThread * thread
+            = _connectionsManager->activeConnection()->thread();
+    _queryTask = thread->createQueryTask(queries);
+    connect(_queryTask.get(), &threads::ThreadTask::finished,
+            this, &UserQuery::onQueryTaskFinished); // before post!
+    thread->postTask(_queryTask);
+    return true; // rm
 }
 
 QString UserQuery::lastError() const
 {
-    return _executor.error().message();
+    return _queryTask ? _queryTask->errorMessage() : QString();
 }
 
 QString UserQuery::uniqueId() const
@@ -51,6 +45,22 @@ QString UserQuery::uniqueId() const
         _uniqieId = generateUniqueId();
     }
     return _uniqieId;
+}
+
+void UserQuery::onQueryTaskFinished()
+{
+    _resultsData.clear();
+
+    const QList<db::QueryPtr> & resultsData = _queryTask->results();
+    _resultsData.reserve(resultsData.length());
+    QList<db::QueryPtr>::const_iterator i;
+    for (i = resultsData.begin(); i != resultsData.end(); ++i) {
+        QueryDataPtr queryData(new QueryData());
+        queryData->setQueryPtr(*i);
+        _resultsData.append(queryData);
+    }
+
+    emit finished();
 }
 
 QString UserQuery::generateUniqueId() const

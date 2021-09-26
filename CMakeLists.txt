@@ -201,6 +201,8 @@ set(SOURCE_FILES
     settings/queries_storage.cpp
     ssh/openssh_tunnel.cpp
     ssh/ssh_tunnel_parameters.cpp
+    threads/db_thread.cpp
+    threads/query_task.cpp
     ui/common/checkbox_list_popup.cpp
     ui/common/data_type_combo_box.cpp
     ui/common/geometry_helpers.cpp

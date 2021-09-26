@@ -15,6 +15,7 @@
 #include "query_data_editor.h"
 #include "helpers/parsing.h"
 #include "trigger_structure_parser.h"
+#include "threads/db_thread.h"
 
 #include <QDebug>
 
@@ -589,6 +590,14 @@ IUserEditor * Connection::userEditor()
         Q_ASSERT(_userEditor != nullptr);
     }
     return _userEditor.get();
+}
+
+threads::DbThread * Connection::thread()
+{
+    if (_thread == nullptr) {
+        _thread.reset(new threads::DbThread(this));
+    }
+    return _thread.get();
 }
 
 ViewEditor * Connection::createViewEditor()

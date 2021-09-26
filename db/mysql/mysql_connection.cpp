@@ -325,6 +325,7 @@ QueryResults MySQLConnection::query(const QString & SQL,
     }
     // H:     FResultCount := Length(FLastRawResults);
 
+    // TODO: store rows found/affected in QueryResults, not here
     meowLogDebugC(this) << "Query rows found/affected: " << _rowsFound
                         << "/" << _rowsAffected;
 
