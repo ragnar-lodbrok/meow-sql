@@ -16,6 +16,7 @@
 #include "helpers/parsing.h"
 #include "trigger_structure_parser.h"
 #include "threads/db_thread.h"
+#include "db_thread_initializer.h"
 
 #include <QDebug>
 
@@ -598,6 +599,11 @@ threads::DbThread * Connection::thread()
         _thread.reset(new threads::DbThread(this));
     }
     return _thread.get();
+}
+
+std::unique_ptr<DbThreadInitializer> Connection::createThreadInitializer() const
+{
+    return db::createThreadInitializer(connectionParams()->serverType());
 }
 
 ViewEditor * Connection::createViewEditor()

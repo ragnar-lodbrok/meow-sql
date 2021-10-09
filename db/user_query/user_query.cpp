@@ -25,6 +25,8 @@ bool UserQuery::runInCurrentConnection(const QStringList & queries)
 {
     //setCurrentQueryText(queries.join(QChar::LineFeed)); // keep ?
 
+    MEOW_ASSERT_MAIN_THREAD
+
     threads::DbThread * thread
             = _connectionsManager->activeConnection()->thread();
     _queryTask = thread->createQueryTask(queries);
@@ -36,11 +38,13 @@ bool UserQuery::runInCurrentConnection(const QStringList & queries)
 
 QString UserQuery::lastError() const
 {
+    MEOW_ASSERT_MAIN_THREAD
     return _queryTask ? _queryTask->errorMessage() : QString();
 }
 
 QString UserQuery::uniqueId() const
 {
+    MEOW_ASSERT_MAIN_THREAD
     if (_uniqieId.isEmpty()) {
         _uniqieId = generateUniqueId();
     }
@@ -49,6 +53,7 @@ QString UserQuery::uniqueId() const
 
 void UserQuery::onQueryTaskFinished()
 {
+    MEOW_ASSERT_MAIN_THREAD
     _resultsData.clear();
 
     const QList<db::QueryPtr> & resultsData = _queryTask->results();

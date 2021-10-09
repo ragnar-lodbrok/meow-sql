@@ -15,8 +15,6 @@ public:
 
     void init() override;
     void deinit() override;
-private:
-    bool _initialized;
 };
 
 } // namespace db

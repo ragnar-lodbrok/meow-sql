@@ -46,6 +46,7 @@ class QueryDataEditor;
 class ViewEntity;
 class RoutineEntity;
 class TriggerEntity;
+class DbThreadInitializer;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
@@ -165,6 +166,7 @@ public:
 
     threads::Mutex * mutex() { return &_mutex; }
     threads::DbThread * thread();
+    std::unique_ptr<DbThreadInitializer> createThreadInitializer() const;
 
 protected:
     threads::Mutex _mutex;

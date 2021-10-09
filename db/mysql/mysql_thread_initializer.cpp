@@ -8,7 +8,6 @@ namespace db {
 
 MySQLThreadInitializer::MySQLThreadInitializer(bool deinitOnDestroy)
     : DbThreadInitializer(deinitOnDestroy)
-    , _initialized(false)
 {
 
 }

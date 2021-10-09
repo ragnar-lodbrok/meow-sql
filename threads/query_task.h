@@ -13,11 +13,16 @@ using SQLBatch = QStringList;
 class Connection;
 }
 
+namespace db {
+class DbThreadInitializer;
+}
+
 namespace threads {
 
 enum class TaskType
 {
-    Query
+    Query,
+    InitDBThread
 };
 
 class ThreadTask : public QObject
@@ -26,7 +31,7 @@ class ThreadTask : public QObject
 public:
     ThreadTask(TaskType type);
     virtual ~ThreadTask() {}
-    virtual void run() = 0;
+    Q_SLOT virtual void run() = 0;
     virtual bool isFailed() const = 0;
 
     TaskType type() const { return _type; }
@@ -52,6 +57,19 @@ private:
     db::Connection * _connection;
     db::user_query::BatchExecutor _executor;
 };
+
+
+// TODO: rename to DBThreadInitDeinitTask
+class DbThreadInitTask : public ThreadTask
+{
+public:
+    DbThreadInitTask(db::Connection * connection);
+    virtual void run() override;
+    virtual bool isFailed() const override;
+private:
+    std::unique_ptr<db::DbThreadInitializer> _initializer;
+};
+
 
 } // namespace threads
 } // namespace meow

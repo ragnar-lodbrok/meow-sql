@@ -13,6 +13,7 @@ class DbThreadInitializer
 public:
     DbThreadInitializer(bool deinitOnDestroy = false)
         : _deinitOnDestroy(deinitOnDestroy)
+        , _initialized(false)
     {
 
     }
@@ -24,8 +25,13 @@ public:
 
     virtual void init() {}
     virtual void deinit() {}
+
+    bool isInitialized() const {
+        return _initialized;
+    }
 protected:
     bool _deinitOnDestroy;
+    bool _initialized;
 };
 
 enum class ServerType;
