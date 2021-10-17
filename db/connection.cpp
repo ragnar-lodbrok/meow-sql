@@ -24,7 +24,7 @@ namespace meow {
 namespace db {
 
 Connection::Connection(const ConnectionParameters & params)
-    : _mutex(params.supportsMultithreading(), params.supportsMultithreading())
+    : _mutex(!params.supportsMultithreading(), params.supportsMultithreading())
     , _active(false)
     , _identifierQuote('`')
     , _connectionParams(params)

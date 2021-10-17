@@ -45,6 +45,11 @@ void QueryResult::showQueryData()
     }
 }
 
+void QueryResult::hideQueryData()
+{
+    removeAllDataTabs();
+}
+
 QString QueryResult::dataTabCaption(int index) const
 {
     meow::db::QueryDataPtr queryData = _userQuery->resultsDataAt(index);

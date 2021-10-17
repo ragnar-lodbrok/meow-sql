@@ -22,6 +22,7 @@ public:
     ~QueryResult();
 
     void showQueryData();
+    void hideQueryData();
 
 private:
 

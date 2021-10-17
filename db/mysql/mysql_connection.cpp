@@ -71,7 +71,11 @@ QueryPtr MySQLConnection::createQuery() // override
 
 void MySQLConnection::setActive(bool active) // override
 {
-    // TODO: call mysql_library_init() for multhread
+
+    MEOW_ASSERT_MAIN_THREAD
+
+    threads::MutexLocker locker(mutex()); // protects _handle
+
     if (active && _handle == nullptr) {
         doBeforeConnect();
 
@@ -189,6 +193,8 @@ void MySQLConnection::setActive(bool active) // override
 
 QString MySQLConnection::getLastError() // override
 {
+    threads::MutexLocker locker(mutex()); // protects _handle
+
     const char * errMessage = mysql_error(_handle);
 
     return QString(errMessage);
@@ -196,6 +202,8 @@ QString MySQLConnection::getLastError() // override
 
 QString MySQLConnection::fetchCharacterSet() // override
 {
+    MEOW_ASSERT_MAIN_THREAD
+
     const char * charSet = mysql_character_set_name(_handle);
 
     QString charsetStr(charSet);
@@ -210,6 +218,8 @@ QString MySQLConnection::fetchCharacterSet() // override
 
 void MySQLConnection::setCharacterSet(const QString & characterSet) // override
 {
+    MEOW_ASSERT_MAIN_THREAD
+
     // H:   FStatementNum := 0
 
     meowLogDebugC(this) << "Set character set: " << characterSet;
@@ -228,7 +238,16 @@ void MySQLConnection::setCharacterSet(const QString & characterSet) // override
 
 bool MySQLConnection::ping(bool reconnect) // override
 {
+    MEOW_ASSERT_MAIN_THREAD
+
+    if (mutex()->tryLock() == false) {
+        // Don't ping if we are busy in another thread
+        return _active;
+    }
+
     meowLogDebugC(this) << "Ping";
+
+    threads::MutexUnlocker unlocker(mutex()); // protects _handle
 
     if (_handle == nullptr || mysql_ping(_handle) != 0) {
         setActive(false); // TODO: why?
@@ -246,13 +265,19 @@ bool MySQLConnection::ping(bool reconnect) // override
 QueryResults MySQLConnection::query(const QString & SQL,
                                     bool storeResult)
 {
+    // serializes mysql_real_query() and mysql_store_result()
+    // protects _handle
     threads::MutexLocker locker(mutex());
 
     meowLogCC(Log::Category::SQL, this) << SQL; // TODO: userSQL
     
     QueryResults results;
 
-    ping(true);    
+    if (threads::isCurrentThreadMain()) {
+        // ping may change _handle and call UI actions (in future),
+        // allow this action in main thread only (temp solution)
+        ping(true);
+    }
     // TODO: H: FLastQuerySQL
 
     QByteArray nativeSQL;
@@ -398,6 +423,8 @@ QString MySQLConnection::unescapeString(const QString & str) const
 
 void MySQLConnection::setDatabase(const QString & database) // override
 {
+    MEOW_ASSERT_MAIN_THREAD
+
     if (database == _database) {
         return;
     }

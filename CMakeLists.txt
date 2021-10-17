@@ -203,6 +203,8 @@ set(SOURCE_FILES
     ssh/ssh_tunnel_parameters.cpp
     threads/db_thread.cpp
     threads/query_task.cpp
+    threads/thread_task.cpp
+    threads/thread_init_task.cpp
     ui/common/checkbox_list_popup.cpp
     ui/common/data_type_combo_box.cpp
     ui/common/geometry_helpers.cpp

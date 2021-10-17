@@ -1,6 +1,9 @@
 #include "db_thread.h"
 #include "query_task.h"
+#include "helpers.h"
+#include "thread_init_task.h"
 #include <QTimer>
+#include <QDebug>
 
 namespace meow {
 namespace threads {
@@ -54,12 +57,30 @@ std::shared_ptr<QueryTask> DbThread::createQueryTask(
 
 void DbThread::postTask(const std::shared_ptr<ThreadTask> &task)
 {
+    MEOW_ASSERT_MAIN_THREAD
+
     if (_thread) {
-        // TODO: add queue of tasks to own them as someone can delete task?
+        _tasks.push_back(task); // own task ref to avoid external removal
         task->moveToThread(_thread);
+        connect(task.get(), &threads::ThreadTask::finished,
+                this, &DbThread::onTaskFinished);
         QMetaObject::invokeMethod(task.get(), "run", Qt::QueuedConnection);
     } else {
         task->run();
+    }
+}
+
+void DbThread::onTaskFinished()
+{
+    MEOW_ASSERT_MAIN_THREAD
+
+    ThreadTask * finishedTask = static_cast<ThreadTask *>(sender());
+
+    for (auto it = _tasks.begin(); it != _tasks.end(); ++it) {
+        if ((*it).get() == finishedTask) {
+            _tasks.erase(it);
+            break;
+        }
     }
 }
 
@@ -68,7 +89,7 @@ void DbThread::postThreadInitTask()
     if (!_thread) return;
 
     if (!_initTask) {
-        _initTask = new DbThreadInitTask(_connection);
+        _initTask = new DBThreadInitDeinitTask(_connection);
         _initTask->moveToThread(_thread);
     }
     QMetaObject::invokeMethod(_initTask, "run", Qt::QueuedConnection);

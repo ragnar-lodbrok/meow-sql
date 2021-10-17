@@ -27,6 +27,16 @@ bool UserQuery::runInCurrentConnection(const QStringList & queries)
 
     MEOW_ASSERT_MAIN_THREAD
 
+    // do ping in main thead to handle possible reconnection
+    try {
+        _connectionsManager->activeConnection()->ping(true);
+    } catch(meow::db::Exception & ex) {
+        Q_UNUSED(ex);
+        // TODO: process exception?
+    }
+
+    // TODO: setStatus(Running)
+
     threads::DbThread * thread
             = _connectionsManager->activeConnection()->thread();
     _queryTask = thread->createQueryTask(queries);

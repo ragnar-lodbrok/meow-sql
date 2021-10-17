@@ -4,6 +4,7 @@
 #include <QStringList>
 #include <QThread>
 #include <memory>
+#include <list>
 
 namespace meow {
 
@@ -33,12 +34,14 @@ public:
 private:
 
     Q_SIGNAL void runTaskAsync();
+    Q_SLOT void onTaskFinished();
 
     void postThreadInitTask();
 
     db::Connection * _connection;
     QThread * _thread;
     ThreadTask * _initTask;
+    std::list<std::shared_ptr<ThreadTask>> _tasks;
 };
 
 } // namespace threads

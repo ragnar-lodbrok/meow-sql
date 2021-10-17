@@ -118,8 +118,8 @@ void QueryTab::runQueries(const QStringList & queries)
 {
     if (queries.isEmpty()) return;
 
+    _queryResult->hideQueryData();
     _query->runInCurrentConnection(queries);
-
 }
 
 QString QueryTab::currentQueryText() const

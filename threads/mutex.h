@@ -31,6 +31,12 @@ public:
         if (_mutex) { _mutex->unlock(); }
     }
 
+    inline bool tryLock()
+    {
+        return _mutex ? _mutex->tryLock() : true;
+    }
+
+
     ~Mutex()
     {
         delete _mutex;
@@ -55,6 +61,23 @@ public:
 private:
     Mutex * _mutex;
     Q_DISABLE_COPY(MutexLocker)
+};
+
+// Intent: unlocks locked mutex
+class MutexUnlocker
+{
+public:
+    explicit inline MutexUnlocker(Mutex * mutex)
+        : _mutex(mutex)
+    {
+
+    }
+
+    inline ~MutexUnlocker() { _mutex->unlock(); }
+
+private:
+    Mutex * _mutex;
+    Q_DISABLE_COPY(MutexUnlocker)
 };
 
 } // namespace threads
