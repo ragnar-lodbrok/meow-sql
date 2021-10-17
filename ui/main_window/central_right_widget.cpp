@@ -267,13 +267,14 @@ bool CentralRightWidget::onQueryTab() const
     return _model.isQueryTab(_rootTabs->currentIndex());
 }
 
-bool CentralRightWidget::onAddQueryTab() const
+bool CentralRightWidget::isAddQueryTab(int index) const
 {
-    if (_rootTabs->currentWidget()) {
-        auto tab = static_cast<central_right::BaseRootTab *>(
-                    _rootTabs->currentWidget());
+    auto tab = static_cast<central_right::BaseRootTab *>(
+                       _rootTabs->widget(index));
+    if (tab) {
         return tab->tabType() == central_right::BaseRootTab::Type::AddQuery;
     }
+
     return false;
 }
 
@@ -286,6 +287,11 @@ void CentralRightWidget::createWidgets()
             &QTabWidget::currentChanged,
             this,
             &CentralRightWidget::rootTabChanged);
+
+    connect(_rootTabs,
+            &QTabWidget::tabBarClicked,
+            this,
+            &CentralRightWidget::rootTabClicked);
 
     QVBoxLayout * layout = new QVBoxLayout();
     layout->setSpacing(0);
@@ -347,8 +353,11 @@ void CentralRightWidget::rootTabChanged(int index)
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
     }
+}
 
-    if (onAddQueryTab()) {
+void CentralRightWidget::rootTabClicked(int index)
+{
+    if (isAddQueryTab(index)) {
         appendNewUserQuery();
     }
 }
@@ -502,7 +511,6 @@ void CentralRightWidget::createQueryTabs()
                              queryTab,
                              QIcon(":/icons/execute.png"),
                              _model.titleForQueryTab(index));
-
         if (index != 0) {
             QPushButton * closeButton = new QPushButton(
                     QIcon(":/icons/cross_small.png"), QString());
