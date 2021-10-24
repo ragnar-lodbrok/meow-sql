@@ -36,14 +36,13 @@ public:
         return _mutex ? _mutex->tryLock() : true;
     }
 
-
     ~Mutex()
     {
         delete _mutex;
     }
 
 private:
-    QMutex * _mutex;
+    QMutex * _mutex; // TODO: use std?
     Q_DISABLE_COPY(Mutex)
 };
 
@@ -70,7 +69,7 @@ public:
     explicit inline MutexUnlocker(Mutex * mutex)
         : _mutex(mutex)
     {
-
+        // TODO: assert mutex is locked
     }
 
     inline ~MutexUnlocker() { _mutex->unlock(); }

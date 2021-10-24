@@ -27,6 +27,13 @@ public:
     Q_SIGNAL void execQueryRequested();
     Q_SIGNAL void execCurrentQueryRequested(int charPosition);
     
+    QAction * execQueryAction() const {
+        return _execQueryAction;
+    }
+    QAction * execCurrentQueryAction() const {
+        return _execCurrentQueryAction;
+    }
+
 private:
 
     void createWidgets();

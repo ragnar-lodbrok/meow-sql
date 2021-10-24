@@ -12,22 +12,25 @@ UserQuery::UserQuery(ConnectionsManager * connectionsManager)
     : QObject(nullptr)
     , _connectionsManager(connectionsManager)
     , _modifiedButNotSaved(false)
+    , _isRunning(false)
 {
 
 }
 
 UserQuery::~UserQuery()
 {
-
+    // Handle possible case when task is not finished, but we are dead
+    setIsRunning(false);
+    // TODO: emit finished/cancelled if destroyed running query
 }
 
-bool UserQuery::runInCurrentConnection(const QStringList & queries)
+void UserQuery::runInCurrentConnection(const QStringList & queries)
 {
     //setCurrentQueryText(queries.join(QChar::LineFeed)); // keep ?
 
     MEOW_ASSERT_MAIN_THREAD
 
-    // do ping in main thead to handle possible reconnection
+    // do ping in main thread to handle possible reconnection
     try {
         _connectionsManager->activeConnection()->ping(true);
     } catch(meow::db::Exception & ex) {
@@ -35,7 +38,9 @@ bool UserQuery::runInCurrentConnection(const QStringList & queries)
         // TODO: process exception?
     }
 
-    // TODO: setStatus(Running)
+    Q_ASSERT(isRunning() == false); // allow 1 query, block outside
+
+    setIsRunning(true);
 
     threads::DbThread * thread
             = _connectionsManager->activeConnection()->thread();
@@ -43,7 +48,6 @@ bool UserQuery::runInCurrentConnection(const QStringList & queries)
     connect(_queryTask.get(), &threads::ThreadTask::finished,
             this, &UserQuery::onQueryTaskFinished); // before post!
     thread->postTask(_queryTask);
-    return true; // rm
 }
 
 QString UserQuery::lastError() const
@@ -75,7 +79,17 @@ void UserQuery::onQueryTaskFinished()
         _resultsData.append(queryData);
     }
 
+    setIsRunning(false);
+
     emit finished();
+}
+
+void UserQuery::setIsRunning(bool isRunning)
+{
+    bool prev = _isRunning.exchange(isRunning);
+    if (prev != isRunning) {
+        emit isRunningChanged(isRunning);
+    }
 }
 
 QString UserQuery::generateUniqueId() const

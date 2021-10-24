@@ -17,6 +17,9 @@ QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) :
 
     connect(_query, &db::UserQuery::finished,
             this, &QueryTab::onExecQueryFinished);
+
+    connect(_query, &db::UserQuery::isRunningChanged,
+            this, &QueryTab::onExecQueryRunningChanged);
 }
 
 QueryTab::~QueryTab()
@@ -72,6 +75,17 @@ void QueryTab::createWidgets()
     _mainVerticalSplitter->setSizes({150, 500});
 
     loadGeometryFromSettings();
+
+    validateControls();
+}
+
+void QueryTab::validateControls()
+{
+    bool isRunning = _query->isRunning();
+
+    _queryPanel->execQueryAction()->setEnabled(!isRunning);
+    _queryPanel->execCurrentQueryAction()->setEnabled(!isRunning);
+
 }
 
 void QueryTab::onActionExecQuery()
@@ -116,6 +130,11 @@ void QueryTab::onExecQueryFinished()
     }
 }
 
+void QueryTab::onExecQueryRunningChanged()
+{
+    validateControls();
+}
+
 void QueryTab::runQueries(const QStringList & queries)
 {
     if (queries.isEmpty()) return;
@@ -133,6 +152,8 @@ void QueryTab::setCurrentQueryText(const QString & text)
 {
     _queryPanel->setQueryText(text);
 }
+
+// -----------------------------------------------------------------------------
 
 AddQueryTab::AddQueryTab(QWidget * parent) :
     BaseRootTab(BaseRootTab::Type::AddQuery, parent)

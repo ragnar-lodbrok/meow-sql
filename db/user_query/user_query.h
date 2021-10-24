@@ -1,6 +1,7 @@
 #ifndef DB_USER_QUERY_H
 #define DB_USER_QUERY_H
 
+#include <atomic>
 #include <QStringList>
 #include <QVector>
 #include "db/query_data.h"
@@ -22,7 +23,7 @@ public:
     explicit UserQuery(ConnectionsManager * connectionsManager);
     ~UserQuery() override;
 
-    bool runInCurrentConnection(const QStringList & queries);
+    void runInCurrentConnection(const QStringList & queries);
     QString lastError() const;
 
     int resultsDataCount() const {
@@ -64,7 +65,14 @@ public:
         _modifiedButNotSaved = modified;
     }
 
+    bool isRunning() const {
+        return _isRunning;
+    }
+
+    void setIsRunning(bool isRunning);
+
     Q_SIGNAL void finished();
+    Q_SIGNAL void isRunningChanged(bool isRunning);
 
 private:
 
@@ -78,6 +86,7 @@ private:
     mutable QString _uniqieId;
     bool _modifiedButNotSaved;
     std::shared_ptr<threads::QueryTask> _queryTask;
+    std::atomic<bool> _isRunning;
 };
 
 } // namespace db

@@ -35,10 +35,12 @@ private:
     void loadGeometryFromSettings();
 
     void createWidgets();
+    void validateControls();
 
     Q_SLOT void onActionExecQuery();
     Q_SLOT void onActionExecCurrentQuery(int charPosition);
     Q_SLOT void onExecQueryFinished();
+    Q_SLOT void onExecQueryRunningChanged();
 
     void runQueries(const QStringList & queries);
 
