@@ -26,21 +26,23 @@ QueryTab::~QueryTab()
 
 void QueryTab::saveGeometryToSettings()
 {
-    QSettings settings;
-    settings.setValue(
-        QString("ui/main_window/center_right/query_tab/%1/vsplitter")
-                .arg(_query->uniqueId()),
-        _mainVerticalSplitter->saveState());
+    // TODO: no longer works, should not be here but in parent
+    //QSettings settings;
+    //settings.setValue(
+    //    QString("ui/main_window/center_right/query_tab/%1/vsplitter")
+    //            .arg(_query->uniqueId()),
+    //    _mainVerticalSplitter->saveState());
 }
 
 void QueryTab::loadGeometryFromSettings()
 {
-    QSettings settings;
-    _mainVerticalSplitter->restoreState(
-        settings.value(
-            QString("ui/main_window/center_right/query_tab/%1/vsplitter")
-                .arg(_query->uniqueId())
-        ).toByteArray());
+    // TODO: no longer works
+    //QSettings settings;
+    //_mainVerticalSplitter->restoreState(
+    //    settings.value(
+    //        QString("ui/main_window/center_right/query_tab/%1/vsplitter")
+    //            .arg(_query->uniqueId())
+    //    ).toByteArray());
 }
 
 void QueryTab::createWidgets()

@@ -44,9 +44,10 @@ private:
     bool onEntityTab() const;
     bool onDataTab() const;
     bool onQueryTab() const;
-    bool onAddQueryTab() const;
+    bool isAddQueryTab(int index) const;
 
     Q_SLOT void rootTabChanged(int index);
+    Q_SLOT void rootTabClicked(int index);
     Q_SLOT void onDataTabDataChanged();
     Q_SLOT void onCloseTabButtonClicked();
 
