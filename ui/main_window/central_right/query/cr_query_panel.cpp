@@ -66,7 +66,7 @@ void QueryPanel::createToolBar()
 
     // TODO: add _execCurrentQueryAction to toolbar
 
-    _separatorAction = new QAction();
+    _separatorAction = new QAction(this);
     _separatorAction->setSeparator(true);
 
     _mainLayout->addWidget(_toolBar, 0 , Qt::AlignTop);
