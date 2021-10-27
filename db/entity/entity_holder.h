@@ -15,13 +15,25 @@ public:
     bool setCurrentEntity(const db::EntityPtr & currentEntity);
     Entity * currentEntity() const { return _currentEntity.get(); }
 
-    bool connectionChanged() const;
-    bool databaseChanged() const;
+    bool connectionChanged() const {
+        return _connectionChanged;
+    }
+    bool databaseChanged() const {
+        return _databaseChanged;
+    }
     bool hasDatabase() const;
 
 private:
-    EntityPtr _prevEntity; // TODO: own?
+
+    bool connectionChanged(const db::EntityPtr & prevEntity,
+                           const db::EntityPtr & currentEntity) const;
+    bool databaseChanged(const db::EntityPtr & prevEntity,
+                         const db::EntityPtr & currentEntity) const;
+
     EntityPtr _currentEntity;
+
+    bool _connectionChanged;
+    bool _databaseChanged;
 };
 
 } // namespace db
