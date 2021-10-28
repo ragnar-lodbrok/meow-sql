@@ -545,6 +545,8 @@ void CentralRightWidget::createQueryTabs()
 
 void CentralRightWidget::removeAllRootTabs()
 {
+    backupQueryTabs(); // backup before removal
+
     removeHostTab();
     removeQueryTabs();
     removeDatabaseTab();
