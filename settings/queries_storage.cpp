@@ -113,6 +113,11 @@ std::vector<db::UserQuery *> QueriesStorage::load()
         db::UserQuery * query = queryManager->createUserQueryObject();
         query->setUniqueId(id);
 
+        if (queries.at(index) != nullptr) {
+            // avoid memory leak if settings is mailformed
+            delete queries.at(index);
+        }
+
         queries[index] = query; // save to right pos
 
         QFile file(filename);
