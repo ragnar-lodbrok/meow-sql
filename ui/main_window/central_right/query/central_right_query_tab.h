@@ -26,7 +26,8 @@ public:
     explicit QueryTab(db::UserQuery * query, QWidget *parent = nullptr);
     ~QueryTab();
 
-    Q_SLOT void onActionRun(bool checked);
+    QString currentQueryText() const;
+    void setCurrentQueryText(const QString & text);
 
 private:
 
@@ -34,6 +35,14 @@ private:
     void loadGeometryFromSettings();
 
     void createWidgets();
+    void validateControls();
+
+    Q_SLOT void onActionExecQuery();
+    Q_SLOT void onActionExecCurrentQuery(int charPosition);
+    Q_SLOT void onExecQueryFinished();
+    Q_SLOT void onExecQueryRunningChanged();
+
+    void runQueries(const QStringList & queries);
 
     QHBoxLayout * _mainLayout;
     QSplitter * _mainVerticalSplitter;
@@ -42,6 +51,12 @@ private:
     QueryResult * _queryResult;
     
     db::UserQuery * _query;
+};
+
+class AddQueryTab : public BaseRootTab
+{
+public:
+    explicit AddQueryTab(QWidget * parent = nullptr);
 };
 
 } // namespace central_right

@@ -62,9 +62,9 @@
         <file alias="trigger.png">resources/icons/cog.png</file>
         <file alias="table_relationship.png">resources/icons/table_relationship.png</file>
         <file>resources/icons/server_edit.png</file>
-        <file>resources/icons/cross_small.png</file>
+        <file alias="cross_small.png">resources/icons/cross_small.png</file>
         <file>resources/icons/tab_delete.png</file>
-        <file>resources/icons/tab_add.png</file>
+        <file alias="tab_add.png">resources/icons/tab_add.png</file>
         <file alias="application_form_edit.png">resources/icons/application_form_edit.png</file>
         <file alias="application_form_delete.png">resources/icons/application_form_delete.png</file>
         <file alias="application_form_add.png">resources/icons/application_form_add.png</file>
@@ -98,7 +98,7 @@
         <file alias="dropdown_highlight.png">resources/icons/dropdown_highlight.png</file>
         <file>resources/icons/delimiter.png</file>
         <file>resources/icons/execute_selection.png</file>
-        <file>resources/icons/execute_line.png</file>
+        <file alias="execute_line.png">resources/icons/execute_line.png</file>
         <file>resources/icons/wrench_orange.png</file>
         <file alias="wordwrap.png">resources/icons/wordwrap.png</file>
         <file>resources/icons/view_highlight.png</file>

@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.addLibraryPath(QCoreApplication::applicationDirPath() + "/imageformats");
 
-    QCoreApplication::setOrganizationName("ragnar-lodbrok");
+    QCoreApplication::setOrganizationName("ragnar-lodbrok"); // TODO: change to MeowSQL
     QCoreApplication::setApplicationName("MeowSQL");
 
 

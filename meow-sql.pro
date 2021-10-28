@@ -112,12 +112,14 @@ SOURCES += main.cpp\
     db/table_index.cpp \
     db/table_structure.cpp \
     db/table_structure_parser.cpp \
+    db/db_thread_initializer.cpp \
     db/trigger_editor.cpp \
     db/trigger_structure_parser.cpp \
     db/trigger_structure.cpp \
     db/view_editor.cpp \
     db/view_structure.cpp \
     db/view_structure_parser.cpp \
+    db/user_queries_manager.cpp \
     db/user_query/batch_executor.cpp \
     db/user_query/sentences_parser.cpp \
     db/user_query/user_query.cpp \
@@ -175,8 +177,13 @@ SOURCES += main.cpp\
     settings/settings_icons.cpp \
     settings/settings_text.cpp \
     settings/data_editors.cpp \
+    settings/queries_storage.cpp \
     ssh/openssh_tunnel.cpp \
     ssh/ssh_tunnel_parameters.cpp \
+    threads/db_thread.cpp \
+    threads/query_task.cpp \
+    threads/thread_init_task.cpp \
+    threads/thread_task.cpp \
     ui/common/checkbox_list_popup.cpp \
     ui/common/data_type_combo_box.cpp \
     ui/common/geometry_helpers.cpp \
@@ -292,6 +299,7 @@ HEADERS  +=  app/actions.h \
     db/table_index.h \
     db/table_structure.h \
     db/table_structure_parser.h \
+    db/db_thread_initializer.h \
     db/trigger_editor.h \
     db/trigger_structure_parser.h \
     db/trigger_structure.h \
@@ -303,6 +311,7 @@ HEADERS  +=  app/actions.h \
     db/user_query/batch_executor.h \
     db/user_query/sentences_parser.h \
     db/user_query/user_query.h \
+    db/user_queries_manager.h \
     helpers/formatting.h \
     helpers/logger.h \
     helpers/parsing.h \
@@ -357,8 +366,15 @@ HEADERS  +=  app/actions.h \
     settings/settings_icons.h \
     settings/settings_text.h \
     settings/data_editors.h \
+    settings/queries_storage.h \
     ssh/openssh_tunnel.h \
     ssh/ssh_tunnel_parameters.h \
+    threads/helpers.h \
+    threads/mutex.h \
+    threads/db_thread.h \
+    threads/query_task.h \
+    threads/thread_init_task.h \
+    threads/thread_task.h \
     ui/common/checkbox_list_popup.h \
     ui/common/data_type_combo_box.h \
     ui/common/geometry_helpers.h \
@@ -445,7 +461,9 @@ WITH_MYSQL {
     db/mysql/mysql_table_editor.cpp \
     db/mysql/mysql_table_engines_fetcher.cpp \
     db/mysql/mysql_user_manager.cpp \
-    db/mysql/mysql_user_editor.cpp
+    db/mysql/mysql_user_editor.cpp \
+    db/mysql/mysql_library_initializer.cpp \
+    db/mysql/mysql_thread_initializer.cpp \
 }
 
 WITH_POSTGRESQL {
@@ -488,7 +506,9 @@ WITH_MYSQL {
     db/mysql/mysql_table_editor.h \
     db/mysql/mysql_table_engines_fetcher.h \
     db/mysql/mysql_user_manager.h \
-    db/mysql/mysql_user_editor.h
+    db/mysql/mysql_user_editor.h \
+    db/mysql/mysql_library_initializer.h \
+    db/mysql/mysql_thread_initializer.h
 }
 
 WITH_POSTGRESQL {

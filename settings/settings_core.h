@@ -5,6 +5,9 @@
 #include "settings_geometry.h"
 #include "settings_icons.h"
 #include "data_editors.h"
+#include "queries_storage.h"
+
+#include <memory>
 
 namespace meow {
 namespace settings {
@@ -17,12 +20,18 @@ public:
     Geometry * geometrySettings() { return &_geometry; }
     Icons * icons() { return &_icons; }
     DataEditors * dataEditors() { return &_dataEditors; }
-
+    QueriesStorage * queriesStorage() {
+        if (_queriesStorage == nullptr) {
+            _queriesStorage.reset(new QueriesStorage());
+        }
+        return _queriesStorage.get();
+    }
 private:
     Text _text;
     Geometry _geometry;
     Icons _icons;
     DataEditors _dataEditors;
+    std::unique_ptr<QueriesStorage> _queriesStorage;
 };
 
 } // namespace meow

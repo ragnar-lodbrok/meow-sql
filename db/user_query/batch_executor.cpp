@@ -6,7 +6,7 @@ namespace meow {
 namespace db {
 namespace user_query {
 
-BatchExecutor::BatchExecutor()
+BatchExecutor::BatchExecutor() : _failed(false)
 {
 
 }
@@ -15,7 +15,7 @@ bool BatchExecutor::run(Connection * connection, const QStringList & queries)
 {
     _results.clear();
     _error = db::Exception();
-    bool success = true;
+    _failed = false;
 
     for (const QString & SQL : queries) {
 
@@ -28,7 +28,7 @@ bool BatchExecutor::run(Connection * connection, const QStringList & queries)
             meowLogDebugC(connection)
                 << "[UserQuery] " << "Failed to run query: "
                 << SQL << ex.message();
-            success = false;
+            _failed = true;
             _error = ex;
             break;
         }
@@ -37,7 +37,7 @@ bool BatchExecutor::run(Connection * connection, const QStringList & queries)
         }
     }
 
-    return success;
+    return !_failed;
 }
 
 } // namespace user_query

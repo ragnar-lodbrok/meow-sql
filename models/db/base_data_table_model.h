@@ -13,7 +13,7 @@ class BaseDataTableModel : public QAbstractTableModel
 {
 public:
     explicit BaseDataTableModel(
-        meow::db::QueryData * queryData,
+        meow::db::QueryDataPtr queryData,
         QObject * parent = nullptr);
 
     virtual Qt::ItemFlags flags(const QModelIndex &index) const override;
@@ -25,7 +25,7 @@ public:
     virtual int columnCount(
             const QModelIndex &parent = QModelIndex()) const override;
 
-    meow::db::QueryData * queryData() { return _queryData; }
+    meow::db::QueryData * queryData() { return _queryData.get(); }
 
     meow::db::DataTypeCategoryIndex typeCategoryForColumn(int column) const {
         return _queryData->columnDataTypeCategory(column);
@@ -53,7 +53,7 @@ public:
 
 
 private:
-    meow::db::QueryData * _queryData;
+    meow::db::QueryDataPtr _queryData;
     int _rowCount;
     int _colCount;
 };

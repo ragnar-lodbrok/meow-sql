@@ -15,6 +15,8 @@
 #include "query_data_editor.h"
 #include "helpers/parsing.h"
 #include "trigger_structure_parser.h"
+#include "threads/db_thread.h"
+#include "db_thread_initializer.h"
 
 #include <QDebug>
 
@@ -22,12 +24,13 @@ namespace meow {
 namespace db {
 
 Connection::Connection(const ConnectionParameters & params)
-    :_active(false),
-     _identifierQuote('`'),
-     _connectionParams(params),
-     _characterSet(),
-     _isUnicode(false),
-     _useAllDatabases(true)
+    : _mutex(!params.supportsMultithreading(), params.supportsMultithreading())
+    , _active(false)
+    , _identifierQuote('`')
+    , _connectionParams(params)
+    , _characterSet()
+    , _isUnicode(false)
+    , _useAllDatabases(true)
 {
 
 }
@@ -146,7 +149,7 @@ QString Connection::getCell(const QString & SQL, std::size_t index /*= 0*/)
     return QString();
 }
 
-QString Connection::getCell(const QString & SQL,const QString & columnName)
+QString Connection::getCell(const QString & SQL, const QString & columnName)
 {
     QueryPtr query = getResults(SQL);
 
@@ -588,6 +591,19 @@ IUserEditor * Connection::userEditor()
         Q_ASSERT(_userEditor != nullptr);
     }
     return _userEditor.get();
+}
+
+threads::DbThread * Connection::thread()
+{
+    if (_thread == nullptr) {
+        _thread.reset(new threads::DbThread(this));
+    }
+    return _thread.get();
+}
+
+std::unique_ptr<DbThreadInitializer> Connection::createThreadInitializer() const
+{
+    return db::createThreadInitializer(connectionParams()->serverType());
 }
 
 ViewEditor * Connection::createViewEditor()

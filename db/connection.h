@@ -19,8 +19,14 @@
 #include "session_variables.h"
 #include "user_manager.h"
 #include "user_editor_interface.h"
+#include "threads/mutex.h"
 
 namespace meow {
+
+namespace threads {
+class DbThread;
+}
+
 namespace db {
 
 class Query;
@@ -40,6 +46,7 @@ class QueryDataEditor;
 class ViewEntity;
 class RoutineEntity;
 class TriggerEntity;
+class DbThreadInitializer;
 
 typedef std::shared_ptr<Query> QueryPtr;
 
@@ -157,7 +164,12 @@ public:
 
     QLatin1Char getIdentQuote() const { return _identifierQuote; }
 
+    threads::Mutex * mutex() { return &_mutex; }
+    threads::DbThread * thread();
+    std::unique_ptr<DbThreadInitializer> createThreadInitializer() const;
+
 protected:
+    threads::Mutex _mutex;
     bool _active;
     db::ulonglong _rowsFound; // TODO: rm?
     db::ulonglong _rowsAffected; // TODO: rm?
@@ -208,6 +220,7 @@ private:
     std::unique_ptr<SessionVariables> _variables;
     std::unique_ptr<IUserManager> _userManager;
     std::unique_ptr<IUserEditor> _userEditor;
+    std::unique_ptr<threads::DbThread> _thread;
 };
 
 } // namespace db

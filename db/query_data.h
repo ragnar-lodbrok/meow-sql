@@ -68,6 +68,8 @@ private:
     int _curRowNumber;
 };
 
+using QueryDataPtr = std::shared_ptr<QueryData>;
+
 } // namespace db
 } // namespace meow
 

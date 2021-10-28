@@ -5,17 +5,18 @@ namespace meow {
 namespace db {
 namespace user_query {
 
-QStringList SentencesParser::parseByDelimiter(const QString &SQL,
+QList<Sentence> SentencesParser::parseByDelimiter(const QString &SQL,
                                               const QString &delim) const
 {
     // Let's make Chomsky cry
 
-    QStringList list;
+    QList<Sentence> list;
 
     // to unix line ends
     QString str = SQL;
-    str.replace("\r\n", "\n", Qt::CaseInsensitive); // win
-    str.replace(QChar('\r'), QChar('\n'), Qt::CaseInsensitive); // mac
+    // Do new line replacement outside to keep positions unchanged
+    //str.replace("\r\n", "\n", Qt::CaseInsensitive); // win
+    //str.replace(QChar('\r'), QChar('\n'), Qt::CaseInsensitive); // mac
     int allLen = str.length();
     QChar curChar;
     QChar nextChar;
@@ -94,12 +95,22 @@ QStringList SentencesParser::parseByDelimiter(const QString &SQL,
             if (onDelim) {
                 rightOffset -= curDelim.length();
             }
-            QStringRef queryTest =
-                    str.midRef(lastLeftOffset, rightOffset-lastLeftOffset)
-                    .trimmed();
-            if (queryTest.length() != 0) {
-                if (queryTest != curDelim) {
-                    list.append(queryTest.toString());
+            QStringRef queryTest
+                    = str.midRef(lastLeftOffset, rightOffset-lastLeftOffset);
+
+            QStringRef queryTestTrimmed = queryTest.trimmed();
+            if (queryTestTrimmed.length() != 0) {
+                if (queryTestTrimmed != curDelim) {
+                    Sentence sentence;
+                    sentence.text = queryTestTrimmed.toString();
+                    // find start pos, ignoring leading spaces
+                    int spaceCount = 0;
+                    while (spaceCount < queryTest.length()
+                          && queryTest.at(spaceCount).isSpace()) {
+                        ++spaceCount;
+                    }
+                    sentence.position = lastLeftOffset + spaceCount;
+                    list.append(sentence);
                 }
                 lastLeftOffset = i+1;
             }

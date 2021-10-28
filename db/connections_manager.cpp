@@ -1,6 +1,5 @@
 #include "connections_manager.h"
 #include "connection.h"
-#include "user_query/user_query.h"
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
 #include "db/entity/view_entity.h"
@@ -8,6 +7,7 @@
 #include "db/entity/trigger_entity.h"
 #include "helpers/logger.h"
 #include "db/entity/entity_factory.h"
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -18,10 +18,13 @@ std::shared_ptr<ConnectionsManager> ConnectionsManager::create()
 }
 
 ConnectionsManager::ConnectionsManager()
-    : Entity(),
-     _activeEntity(),
-     _activeSession(nullptr),
-     _userQueries()
+    : Entity()
+    , _activeEntity()
+    , _activeSession(nullptr)
+    , _userQueriesManager(this)
+#ifdef WITH_MYSQL
+    , _mySQLLibInit(true)
+#endif
 {
     // since Manager is a root entity - it might be a good place (?) to do:
     qRegisterMetaType<EntityPtr>("EntityPtr");
@@ -33,13 +36,25 @@ ConnectionsManager::ConnectionsManager()
     qRegisterMetaType<SessionEntityPtr>("SessionEntityPtr");
 }
 
+void ConnectionsManager::init()
+{
+    _userQueriesManager.load(); // need inited ref to this
+}
+
 ConnectionsManager::~ConnectionsManager()
 {
-    qDeleteAll(_userQueries);
 }
 
 ConnectionPtr ConnectionsManager::openDBConnection(db::ConnectionParameters & params)
 {
+#ifdef WITH_MYSQL
+    if (params.serverType() == db::ServerType::MySQL) {
+        if (!_mySQLLibInit.init()) {
+            meowLogC(Log::Category::Error) << "Unable to init MySQL lib";
+        }
+    }
+#endif
+
     ConnectionPtr connection = params.createConnection();
 
     connection->setActive(true);
@@ -104,16 +119,7 @@ Connection * ConnectionsManager::activeConnection() const
     return nullptr;
 }
 
-UserQuery * ConnectionsManager::userQueryAt(size_t index)
-{
-    if (index + 1 > _userQueries.size()) {
-        _userQueries.resize(index + 1, nullptr);
-    }
-    if (!_userQueries[index]) {
-        _userQueries[index] = new UserQuery(this);
-    }
-    return _userQueries[index];
-}
+
 
 void ConnectionsManager::createNewEntity(Entity::Type type)
 {

@@ -14,6 +14,12 @@ QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) :
     _query(query)
 {
     createWidgets();
+
+    connect(_query, &db::UserQuery::finished,
+            this, &QueryTab::onExecQueryFinished);
+
+    connect(_query, &db::UserQuery::isRunningChanged,
+            this, &QueryTab::onExecQueryRunningChanged);
 }
 
 QueryTab::~QueryTab()
@@ -23,19 +29,23 @@ QueryTab::~QueryTab()
 
 void QueryTab::saveGeometryToSettings()
 {
-    // TODO: use number of query tab in string
-    QSettings settings;
-    settings.setValue(
-        "ui/main_window/center_right/query_tab/0/vsplitter",
-        _mainVerticalSplitter->saveState());
+    // TODO: no longer works, should not be here but in parent
+    //QSettings settings;
+    //settings.setValue(
+    //    QString("ui/main_window/center_right/query_tab/%1/vsplitter")
+    //            .arg(_query->uniqueId()),
+    //    _mainVerticalSplitter->saveState());
 }
 
 void QueryTab::loadGeometryFromSettings()
 {
-    QSettings settings;
-    _mainVerticalSplitter->restoreState(
-        settings.value("ui/main_window/center_right/query_tab/0/vsplitter")
-        .toByteArray());
+    // TODO: no longer works
+    //QSettings settings;
+    //_mainVerticalSplitter->restoreState(
+    //    settings.value(
+    //        QString("ui/main_window/center_right/query_tab/%1/vsplitter")
+    //            .arg(_query->uniqueId())
+    //    ).toByteArray());
 }
 
 void QueryTab::createWidgets()
@@ -52,6 +62,12 @@ void QueryTab::createWidgets()
     _queryPanel->setMinimumHeight(80);
     _mainVerticalSplitter->addWidget(_queryPanel);
 
+    connect(_queryPanel, &QueryPanel::execQueryRequested,
+            this, &QueryTab::onActionExecQuery);
+
+    connect(_queryPanel, &QueryPanel::execCurrentQueryRequested,
+            this, &QueryTab::onActionExecCurrentQuery);
+
     _queryResult = new QueryResult(_query);
     _queryResult->setMinimumHeight(80);
     _mainVerticalSplitter->addWidget(_queryResult);
@@ -59,17 +75,52 @@ void QueryTab::createWidgets()
     _mainVerticalSplitter->setSizes({150, 500});
 
     loadGeometryFromSettings();
+
+    validateControls();
 }
 
-void QueryTab::onActionRun(bool checked)
+void QueryTab::validateControls()
 {
-    Q_UNUSED(checked);
+    bool isRunning = _query->isRunning();
+
+    _queryPanel->execQueryAction()->setEnabled(!isRunning);
+    _queryPanel->execCurrentQueryAction()->setEnabled(!isRunning);
+
+}
+
+void QueryTab::onActionExecQuery()
+{
     meow::db::user_query::SentencesParser parser;
-    QStringList queries = parser.parseByDelimiter(_queryPanel->queryPlainText());
+    QList<meow::db::user_query::Sentence> sentences
+            = parser.parseByDelimiter(_queryPanel->queryPlainText());
+    QStringList queries;
+    for (const meow::db::user_query::Sentence & sentence : sentences) {
+        queries << sentence.text;
+    }
     // Listening: Arch Enemy - On And On
-    bool success = _query->runInCurrentConnection(queries);
+    runQueries(queries);
+}
+
+void QueryTab::onActionExecCurrentQuery(int charPosition)
+{
+    meow::db::user_query::SentencesParser parser;
+    QList<meow::db::user_query::Sentence> sentences
+            = parser.parseByDelimiter(_queryPanel->queryPlainText());
+    QStringList queries;
+    for (const meow::db::user_query::Sentence & sentence : sentences) {
+        if (sentence.position <= charPosition
+                && charPosition <= (sentence.position + sentence.text.length())) {
+            queries << sentence.text;
+            break;
+        }
+    }
+    runQueries(queries);
+}
+
+void QueryTab::onExecQueryFinished()
+{
     _queryResult->showQueryData();
-    if (!success) {
+    if (!_query->lastError().isEmpty()) {
         QMessageBox msgBox;
         msgBox.setText(_query->lastError());
         msgBox.setStandardButtons(QMessageBox::Ok);
@@ -77,6 +128,37 @@ void QueryTab::onActionRun(bool checked)
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
     }
+}
+
+void QueryTab::onExecQueryRunningChanged()
+{
+    validateControls();
+}
+
+void QueryTab::runQueries(const QStringList & queries)
+{
+    if (queries.isEmpty()) return;
+
+    _queryResult->hideQueryData();
+    _query->runInCurrentConnection(queries);
+}
+
+QString QueryTab::currentQueryText() const
+{
+    return _queryPanel->queryPlainText();
+}
+
+void QueryTab::setCurrentQueryText(const QString & text)
+{
+    _queryPanel->setQueryText(text);
+}
+
+// -----------------------------------------------------------------------------
+
+AddQueryTab::AddQueryTab(QWidget * parent) :
+    BaseRootTab(BaseRootTab::Type::AddQuery, parent)
+{
+
 }
 
 } // namespace central_right

@@ -91,6 +91,10 @@ public:
     virtual bool supportsUserManagement() const {
         return false;
     }
+
+    virtual bool supportsMultithreading() const;
+protected:
+    Connection * _connection;
 };
 
 // -----------------------------------------------------------------------------

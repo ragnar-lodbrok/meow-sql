@@ -1,4 +1,5 @@
 #include "connection_features.h"
+#include "connection_parameters.h"
 #include "db/entity/table_entity.h"
 
 namespace meow {
@@ -6,8 +7,13 @@ namespace db {
 
 
 ConnectionFeatures::ConnectionFeatures(Connection * connection)
+    : _connection(connection)
 {
-    (void)(connection);
+
+}
+
+bool ConnectionFeatures::supportsMultithreading() const {
+    return _connection->connectionParams()->supportsMultithreading();
 }
 
 ConnectionFeatures::~ConnectionFeatures()

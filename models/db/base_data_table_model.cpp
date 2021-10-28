@@ -6,7 +6,7 @@ namespace meow {
 namespace models {
 namespace db {
 
-BaseDataTableModel::BaseDataTableModel(meow::db::QueryData * queryData,
+BaseDataTableModel::BaseDataTableModel(meow::db::QueryDataPtr queryData,
                                          QObject *parent)
     : QAbstractTableModel(parent),
       _queryData(queryData),

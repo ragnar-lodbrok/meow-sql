@@ -115,6 +115,18 @@ public:
         return false;
     }
 
+    bool supportsMultithreading() const {
+#ifdef MEOW_NO_MULTHITHREADING
+        return false;
+#endif
+#ifdef WITH_MYSQL
+        if (_serverType == ServerType::MySQL) {
+            return true;
+        }
+#endif
+        return false; // not implemented for other or not supported
+    }
+
     QString fileNameShort() const {
         QFileInfo fileInfo(_fileName);
         return fileInfo.fileName();

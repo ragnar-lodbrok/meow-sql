@@ -1,5 +1,7 @@
 #include "central_right_widget_model.h"
 #include "db/connection.h"
+#include "db/user_query/user_query.h"
+#include "app/app.h"
 #include <QObject> // tr()
 #include <QVariant>
 
@@ -9,6 +11,7 @@ namespace ui {
 
 CentralRightWidgetModel::CentralRightWidgetModel()
     : _entityHolder()
+    , _currentTabIndex(-1)
 {
 
 }
@@ -94,6 +97,11 @@ bool CentralRightWidgetModel::hasEntityTab() const
 bool CentralRightWidgetModel::hasQueryTab() const
 {
     return _entityHolder.currentEntity() != nullptr;
+}
+
+bool CentralRightWidgetModel::isQueryTab(int index) const
+{
+    return index >= indexForFirstQueryTab();
 }
 
 QString CentralRightWidgetModel::titleForHostTab() const
@@ -240,9 +248,13 @@ QString CentralRightWidgetModel::titleForDataTab() const
     return QObject::tr("Data");
 }
 
-QString CentralRightWidgetModel::titleForQueryTab() const
+QString CentralRightWidgetModel::titleForQueryTab(int index) const
 {
-    return QObject::tr("Query");
+    if (index == 0) {
+        return QObject::tr("Query");
+    } else {
+        return QObject::tr("Query") + " #" + QString::number(index + 1);
+    }
 }
 
 QIcon CentralRightWidgetModel::iconForRoutineTab() const
@@ -253,7 +265,7 @@ QIcon CentralRightWidgetModel::iconForRoutineTab() const
     return QIcon(":/icons/stored_procedure.png");
 }
 
-int CentralRightWidgetModel::indexForQueryTab() const
+int CentralRightWidgetModel::indexForFirstQueryTab() const
 {
     if (hasDataTab()) {
         return static_cast<int>(CentralRightWidgetTabs::Data) + 1;
@@ -283,6 +295,54 @@ int CentralRightWidgetModel::indexForDataTab() const
         }
     }
     return -1;
+}
+
+int CentralRightWidgetModel::userQueriesCount() const
+{
+    db::UserQueriesManager * userQueriesManager
+            = meow::app()->dbConnectionsManager()->userQueriesManager();
+    return userQueriesManager->userQueriesCount();
+}
+
+db::UserQuery * CentralRightWidgetModel::userQueryAt(size_t index)
+{
+    db::UserQueriesManager * userQueriesManager
+            = meow::app()->dbConnectionsManager()->userQueriesManager();
+    return userQueriesManager->userQueryAt(index);
+}
+
+db::UserQuery * CentralRightWidgetModel::appendNewUserQuery()
+{
+    db::UserQueriesManager * userQueriesManager
+            = meow::app()->dbConnectionsManager()->userQueriesManager();
+    return userQueriesManager->appendNewUserQuery();
+}
+
+bool CentralRightWidgetModel::removeUserQueryAt(size_t index)
+{
+    db::UserQueriesManager * userQueriesManager
+            = meow::app()->dbConnectionsManager()->userQueriesManager();
+    return userQueriesManager->removeUserQueryAt(index);
+}
+
+void CentralRightWidgetModel::onUserQueryTextEdited(size_t index,
+                                                    const QString & query)
+{
+    db::UserQuery * userQuery = userQueryAt(index);
+    userQuery->onQueryTextEdited(query);
+}
+
+QString CentralRightWidgetModel::userQueryTextAt(size_t index)
+{
+    db::UserQuery * userQuery = userQueryAt(index);
+    return userQuery->currentQueryText();
+}
+
+void CentralRightWidgetModel::backupUserQueries()
+{
+    db::UserQueriesManager * userQueriesManager
+            = meow::app()->dbConnectionsManager()->userQueriesManager();
+    userQueriesManager->save();
 }
 
 } // namespace ui

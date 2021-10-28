@@ -9,7 +9,7 @@ cmake_minimum_required(VERSION 3.1)
 project(meowsql)
 set(PROJECT_VERSION_MAJOR 0)
 set(PROJECT_VERSION_MINOR 4)
-set(PROJECT_VERSION_PATCH 11)
+set(PROJECT_VERSION_PATCH 12)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -57,6 +57,7 @@ endif()
 set(HEADER_FILES
     db/data_type/connection_data_types.h
     db/data_type/data_type_category.h
+    db/db_thread_initializer.h
     db/native_query_result_interface.h
     db/collation_fetcher.h
     db/common.h
@@ -64,6 +65,8 @@ set(HEADER_FILES
     db/user_manager.h
     db/user_editor_interface.h
     ssh/ssh_tunnel_interface.h
+    threads/helpers.h
+    threads/mutex.h
     ui/common/mysql_syntax.h
     ui/main_window/central_right/global_data_filter_interface.h
     ui/main_window/central_right/base_root_tab.h
@@ -100,6 +103,7 @@ set(SOURCE_FILES
     db/connection_params_manager.cpp
     db/connections_manager.cpp
     db/database_editor.cpp
+    db/db_thread_initializer.cpp
     db/data_type/data_type.cpp
     db/editable_grid_data.cpp
     db/entity/database_entity.cpp
@@ -136,6 +140,7 @@ set(SOURCE_FILES
     db/view_editor.cpp
     db/view_structure.cpp
     db/view_structure_parser.cpp
+    db/user_queries_manager.cpp
     db/user_query/batch_executor.cpp
     db/user_query/sentences_parser.cpp
     db/user_query/user_query.cpp
@@ -193,8 +198,13 @@ set(SOURCE_FILES
     settings/settings_icons.cpp
     settings/settings_text.cpp
     settings/data_editors.cpp
+    settings/queries_storage.cpp
     ssh/openssh_tunnel.cpp
     ssh/ssh_tunnel_parameters.cpp
+    threads/db_thread.cpp
+    threads/query_task.cpp
+    threads/thread_task.cpp
+    threads/thread_init_task.cpp
     ui/common/checkbox_list_popup.cpp
     ui/common/data_type_combo_box.cpp
     ui/common/geometry_helpers.cpp
@@ -273,6 +283,7 @@ if (WITH_MYSQL)
 
         db/mysql/mysql_database_editor.cpp
         db/mysql/mysql_entities_fetcher.cpp
+        db/mysql/mysql_library_initializer.cpp
         db/mysql/mysql_query.cpp
         db/mysql/mysql_query_data_editor.cpp
         db/mysql/mysql_collation_fetcher.cpp
@@ -283,6 +294,9 @@ if (WITH_MYSQL)
 
         db/mysql/mysql_user_manager.cpp
         db/mysql/mysql_user_editor.cpp
+
+        db/mysql/mysql_thread_initializer.cpp
+
 
     )
 endif()
