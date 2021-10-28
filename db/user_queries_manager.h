@@ -2,6 +2,7 @@
 #define DB_USER_QUERIES_MANAGER_H
 
 #include <vector>
+#include <cstddef> // size_t for old gcc
 
 namespace meow {
 namespace db {
