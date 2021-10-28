@@ -2,6 +2,8 @@
 
 ## Task pool (by priority)
 
+Query: cancel, progress
+
 Host Tab: Variables for MySQL (edit)
 
 SSH Tunnel via libSSH
@@ -84,7 +86,7 @@ Multiple Query tabs
 
 Query tab: run current query
 
-Query: async execution & cancel
+Query: async execution
 
 ## 0.4.11
 
