@@ -2,7 +2,7 @@
 #include "db/connections_manager.h"
 #include "db/query_data.h"
 #include "threads/db_thread.h"
-#include "threads/query_task.h"
+#include "threads/queries_task.h"
 #include <QUuid>
 
 namespace meow {
@@ -42,18 +42,25 @@ void UserQuery::runInCurrentConnection(const QStringList & queries)
 
     setIsRunning(true);
 
+    _resultsData.clear();
+
     threads::DbThread * thread
             = _connectionsManager->activeConnection()->thread();
-    _queryTask = thread->createQueryTask(queries);
-    connect(_queryTask.get(), &threads::ThreadTask::finished,
-            this, &UserQuery::onQueryTaskFinished); // before post!
-    thread->postTask(_queryTask);
+    _queriesTask = thread->createQueriesTask(queries);
+
+    connect(_queriesTask.get(), &threads::ThreadTask::finished,
+            this, &UserQuery::onQueriesFinished); // before post!
+
+    connect(_queriesTask.get(), &threads::QueriesTask::queryFinished,
+            this, &UserQuery::onQueryFinished);
+
+    thread->postTask(_queriesTask);
 }
 
 QString UserQuery::lastError() const
 {
     MEOW_ASSERT_MAIN_THREAD
-    return _queryTask ? _queryTask->errorMessage() : QString();
+    return _queriesTask ? _queriesTask->errorMessage() : QString();
 }
 
 QString UserQuery::uniqueId() const
@@ -65,23 +72,31 @@ QString UserQuery::uniqueId() const
     return _uniqieId;
 }
 
-void UserQuery::onQueryTaskFinished()
+void UserQuery::onQueriesFinished()
 {
     MEOW_ASSERT_MAIN_THREAD
-    _resultsData.clear();
-
-    const QList<db::QueryPtr> & resultsData = _queryTask->results();
-    _resultsData.reserve(resultsData.length());
-    QList<db::QueryPtr>::const_iterator i;
-    for (i = resultsData.begin(); i != resultsData.end(); ++i) {
-        QueryDataPtr queryData(new QueryData());
-        queryData->setQueryPtr(*i);
-        _resultsData.append(queryData);
-    }
 
     setIsRunning(false);
 
-    emit finished();
+    emit queriesFinished();
+}
+
+void UserQuery::onQueryFinished(int queryIndex, int totalCount)
+{
+    MEOW_ASSERT_MAIN_THREAD
+
+    db::QueryPtr query = _queriesTask->resultAt(queryIndex);
+
+    if (query->hasResult()) {
+        QueryDataPtr queryData(new QueryData());
+        queryData->setQueryPtr(query);
+        _resultsData.append(queryData);
+    }
+
+    emit queryFinished(queryIndex, totalCount);
+    if (query->hasResult()) {
+        emit newQueryDataResult(_resultsData.size() - 1);
+    }
 }
 
 void UserQuery::setIsRunning(bool isRunning)

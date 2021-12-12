@@ -15,11 +15,17 @@ QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) :
 {
     createWidgets();
 
-    connect(_query, &db::UserQuery::finished,
+    connect(_query, &db::UserQuery::queriesFinished,
+            this, &QueryTab::onExecQueriesFinished);
+
+    connect(_query, &db::UserQuery::queryFinished,
             this, &QueryTab::onExecQueryFinished);
 
+    connect(_query, &db::UserQuery::newQueryDataResult,
+            this, &QueryTab::onExecQueryDataResult);
+
     connect(_query, &db::UserQuery::isRunningChanged,
-            this, &QueryTab::onExecQueryRunningChanged);
+            this, &QueryTab::onExecQueriesRunningChanged);
 }
 
 QueryTab::~QueryTab()
@@ -85,7 +91,6 @@ void QueryTab::validateControls()
 
     _queryPanel->execQueryAction()->setEnabled(!isRunning);
     _queryPanel->execCurrentQueryAction()->setEnabled(!isRunning);
-
 }
 
 void QueryTab::onActionExecQuery()
@@ -117,9 +122,8 @@ void QueryTab::onActionExecCurrentQuery(int charPosition)
     runQueries(queries);
 }
 
-void QueryTab::onExecQueryFinished()
+void QueryTab::onExecQueriesFinished()
 {
-    _queryResult->showQueryData();
     if (!_query->lastError().isEmpty()) {
         QMessageBox msgBox;
         msgBox.setText(_query->lastError());
@@ -130,7 +134,21 @@ void QueryTab::onExecQueryFinished()
     }
 }
 
-void QueryTab::onExecQueryRunningChanged()
+void QueryTab::onExecQueryFinished(int queryIndex, int totalCount)
+{
+    Q_UNUSED(queryIndex);
+    Q_UNUSED(totalCount);
+    // TODO: show progress
+    //qDebug() << "Query finished: " << queryIndex+1 << "/" << totalCount;
+}
+
+void QueryTab::onExecQueryDataResult(int queryIndex)
+{
+    // Listening: Bolt Thrower - The Killchain
+    _queryResult->showQueryData(queryIndex);
+}
+
+void QueryTab::onExecQueriesRunningChanged()
 {
     validateControls();
 }
@@ -139,7 +157,7 @@ void QueryTab::runQueries(const QStringList & queries)
 {
     if (queries.isEmpty()) return;
 
-    _queryResult->hideQueryData();
+    _queryResult->hideAllQueriesData();
     _query->runInCurrentConnection(queries);
 }
 

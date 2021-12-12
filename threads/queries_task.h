@@ -17,15 +17,20 @@ class Connection;
 
 namespace threads {
 
-class QueryTask : public ThreadTask
+class QueriesTask : public ThreadTask
 {
+    Q_OBJECT
 public:
-    QueryTask(const db::SQLBatch & queries, db::Connection * connection);
-    ~QueryTask() override;
+    QueriesTask(const db::SQLBatch & queries, db::Connection * connection);
+    ~QueriesTask() override;
     void run() override;
     bool isFailed() const override;
     QString errorMessage() const;
-    const QList<db::QueryPtr> results() const;
+    int currentResultsCount() const;
+    db::QueryPtr resultAt(int queryIndex) const;
+
+    Q_SIGNAL void queryFinished(int queryIndex, int totalCount);
+
 private:
     db::SQLBatch _queries;
     db::Connection * _connection;

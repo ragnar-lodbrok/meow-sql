@@ -181,7 +181,7 @@ SOURCES += main.cpp\
     ssh/openssh_tunnel.cpp \
     ssh/ssh_tunnel_parameters.cpp \
     threads/db_thread.cpp \
-    threads/query_task.cpp \
+    threads/queries_task.cpp \
     threads/thread_init_task.cpp \
     threads/thread_task.cpp \
     ui/common/checkbox_list_popup.cpp \
@@ -372,7 +372,7 @@ HEADERS  +=  app/actions.h \
     threads/helpers.h \
     threads/mutex.h \
     threads/db_thread.h \
-    threads/query_task.h \
+    threads/queries_task.h \
     threads/thread_init_task.h \
     threads/thread_task.h \
     ui/common/checkbox_list_popup.h \

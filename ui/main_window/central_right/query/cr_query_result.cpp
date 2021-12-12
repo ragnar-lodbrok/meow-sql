@@ -24,9 +24,9 @@ QueryResult::QueryResult(db::UserQuery * userQuery, QWidget *parent)
     _dataTabs->setSizePolicy(
                 QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
-    #ifdef Q_OS_MAC
-        _dataTabs->setDocumentMode(true);
-    #endif
+#ifdef Q_OS_MAC
+    _dataTabs->setDocumentMode(true);
+#endif
 
 }
 
@@ -35,7 +35,7 @@ QueryResult::~QueryResult()
     removeAllDataTabs();
 }
 
-void QueryResult::showQueryData()
+void QueryResult::showAllQueriesData()
 {
     removeAllDataTabs();
     int resultsCount = _userQuery->resultsDataCount();
@@ -45,9 +45,17 @@ void QueryResult::showQueryData()
     }
 }
 
-void QueryResult::hideQueryData()
+void QueryResult::hideAllQueriesData()
 {
     removeAllDataTabs();
+}
+
+void QueryResult::showQueryData(int queryIndex)
+{
+    db::QueryDataPtr queryData = _userQuery->resultsDataAt(queryIndex);
+    Q_ASSERT(queryData);
+    QueryDataTab * dataTab = new QueryDataTab(queryData);
+    _dataTabs->addTab(dataTab, dataTabCaption(queryIndex));
 }
 
 QString QueryResult::dataTabCaption(int index) const

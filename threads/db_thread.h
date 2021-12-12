@@ -17,7 +17,7 @@ class Connection;
 
 namespace threads {
 
-class QueryTask;
+class QueriesTask;
 class ThreadTask;
 
 // Intent: executes db tasks for connection
@@ -27,7 +27,7 @@ class DbThread : public QObject // TODO: rename to TaskThread, ConnectionThread?
 public:
     DbThread(db::Connection * connection);
     virtual ~DbThread() override;
-    std::shared_ptr<QueryTask> createQueryTask(const db::SQLBatch & queries);
+    std::shared_ptr<QueriesTask> createQueriesTask(const db::SQLBatch & queries);
     void postTask(const std::shared_ptr<ThreadTask> & task);
     void quit();
     void wait();

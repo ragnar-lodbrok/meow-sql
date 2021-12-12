@@ -1,5 +1,5 @@
 #include "db_thread.h"
-#include "query_task.h"
+#include "queries_task.h"
 #include "helpers.h"
 #include "thread_init_task.h"
 #include <QTimer>
@@ -49,10 +49,10 @@ void DbThread::wait()
     }
 }
 
-std::shared_ptr<QueryTask> DbThread::createQueryTask(
+std::shared_ptr<QueriesTask> DbThread::createQueriesTask(
         const db::SQLBatch & queries)
 {
-    return std::make_shared<QueryTask>(queries, _connection);
+    return std::make_shared<QueriesTask>(queries, _connection);
 }
 
 void DbThread::postTask(const std::shared_ptr<ThreadTask> &task)

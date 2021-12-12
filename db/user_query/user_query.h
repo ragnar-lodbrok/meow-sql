@@ -9,13 +9,14 @@
 
 namespace meow {
 namespace threads {
-class QueryTask;
+class QueriesTask;
 }
 namespace db {
 
 class ConnectionsManager;
 
 // Arbitrary user query(ies)
+// TODO: rename to UserQueries?
 class UserQuery : public QObject
 {
     Q_OBJECT
@@ -32,7 +33,7 @@ public:
     }
     QueryDataPtr resultsDataAt(int index) const {
         MEOW_ASSERT_MAIN_THREAD
-        return _resultsData[index];
+        return _resultsData.at(index);
     }
     void setCurrentQueryText(const QString & query) {
         MEOW_ASSERT_MAIN_THREAD
@@ -71,12 +72,15 @@ public:
 
     void setIsRunning(bool isRunning);
 
-    Q_SIGNAL void finished();
+    Q_SIGNAL void queryFinished(int queryIndex, int totalCount);
+    Q_SIGNAL void queriesFinished();
+    Q_SIGNAL void newQueryDataResult(int index);
     Q_SIGNAL void isRunningChanged(bool isRunning);
 
 private:
 
-    Q_SLOT void onQueryTaskFinished();
+    Q_SLOT void onQueriesFinished();
+    Q_SLOT void onQueryFinished(int queryIndex, int totalCount);
 
     QString generateUniqueId() const;
 
@@ -85,7 +89,7 @@ private:
     QString _currentQueryText;
     mutable QString _uniqieId;
     bool _modifiedButNotSaved;
-    std::shared_ptr<threads::QueryTask> _queryTask;
+    std::shared_ptr<threads::QueriesTask> _queriesTask;
     std::atomic<bool> _isRunning;
 };
 

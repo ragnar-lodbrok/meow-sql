@@ -21,8 +21,10 @@ public:
     explicit QueryResult(db::UserQuery * userQuery, QWidget *parent = 0);
     ~QueryResult();
 
-    void showQueryData();
-    void hideQueryData();
+    void showAllQueriesData();
+    void hideAllQueriesData();
+
+    void showQueryData(int queryIndex);
 
 private:
 

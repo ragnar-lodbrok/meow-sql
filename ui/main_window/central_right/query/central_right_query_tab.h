@@ -39,8 +39,10 @@ private:
 
     Q_SLOT void onActionExecQuery();
     Q_SLOT void onActionExecCurrentQuery(int charPosition);
-    Q_SLOT void onExecQueryFinished();
-    Q_SLOT void onExecQueryRunningChanged();
+    Q_SLOT void onExecQueriesFinished();
+    Q_SLOT void onExecQueryFinished(int queryIndex, int totalCount);
+    Q_SLOT void onExecQueryDataResult(int queryIndex);
+    Q_SLOT void onExecQueriesRunningChanged();
 
     void runQueries(const QStringList & queries);
 
