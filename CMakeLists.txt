@@ -125,6 +125,7 @@ set(SOURCE_FILES
     db/query_data.cpp
     db/query_data_editor.cpp
     db/query_data_fetcher.cpp
+    db/query_results.cpp
     db/routine_editor.cpp
     db/routine_structure_parser.cpp
     db/routine_structure.cpp

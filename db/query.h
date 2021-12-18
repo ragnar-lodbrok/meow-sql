@@ -79,14 +79,30 @@ public:
 
     QStringList keyColumns() const;
 
+    inline db::ulonglong rowsFound() const {
+        return _rowsFound;
+    }
+
+    inline db::ulonglong rowsAffected() {
+        return _rowsAffected;
+    }
+
+    inline db::ulonglong warningsCount() {
+        return _warningsCount;
+    }
+
 protected:
 
     db::ulonglong _recordCount;
     db::ulonglong  _curRecNo; // H: FRecNo
+    db::ulonglong _rowsFound;
+    db::ulonglong _rowsAffected;
+    db::ulonglong _warningsCount;
     std::vector<QueryColumn> _columns;
     QMap<QString, std::size_t> _columnIndexes; // Column name -> column index
     bool _eof; // H: FEof
     EditableGridData * _editableData; // TODO: move to QueryData?
+
 
 private:
     QString _SQL;

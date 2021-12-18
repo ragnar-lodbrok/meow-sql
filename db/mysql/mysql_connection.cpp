@@ -298,9 +298,7 @@ QueryResults MySQLConnection::query(const QString & SQL,
         throw db::Exception(error);
     }
 
-    // TODO: H: FWarningCount := mysql_warning_count(FHandle);
-    _rowsAffected = 0;
-    _rowsFound = 0;
+    results.setWarningsCount(mysql_warning_count(_handle));
 
     MYSQL_RES * queryResult = nullptr;
 
@@ -310,7 +308,7 @@ QueryResults MySQLConnection::query(const QString & SQL,
 
     if (queryResult == nullptr
             && mysql_affected_rows(_handle) == (my_ulonglong)-1) {
-        // TODO: the doc stands to check mysql_error(), no mysql_affected_rows?
+        // TODO: the doc stands to check mysql_error(), not mysql_affected_rows?
         QString error = getLastError();
         meowLogCC(Log::Category::Error, this) << "Query (store) failed: "
                                               << error;
@@ -322,7 +320,7 @@ QueryResults MySQLConnection::query(const QString & SQL,
     while (queryStatus == 0) {
         if (queryResult != nullptr) {
             // Statement returned a result set
-            _rowsFound += mysql_num_rows(queryResult);
+            results.incRowsFound(mysql_num_rows(queryResult));
             if (storeResult) {
                 auto result = std::make_shared<MySQLQueryResult>(queryResult);
                 results << result;
@@ -331,7 +329,7 @@ QueryResults MySQLConnection::query(const QString & SQL,
             }
         } else {
             // No result, but probably affected rows
-            _rowsAffected += mysql_affected_rows(_handle);
+            results.incRowsAffected(mysql_affected_rows(_handle));
         }
 
         // more results? -1 = no, >0 = error, 0 = yes (keep looping)
@@ -350,9 +348,8 @@ QueryResults MySQLConnection::query(const QString & SQL,
     }
     // H:     FResultCount := Length(FLastRawResults);
 
-    // TODO: store rows found/affected in QueryResults, not here
-    meowLogDebugC(this) << "Query rows found/affected: " << _rowsFound
-                        << "/" << _rowsAffected;
+    meowLogDebugC(this) << "Query rows found/affected: " << results.rowsFound()
+                        << "/" << results.rowsAffected();
 
     return results;
 }

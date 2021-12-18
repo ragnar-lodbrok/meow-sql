@@ -26,8 +26,16 @@ public:
     void run() override;
     bool isFailed() const override;
     QString errorMessage() const;
+
     int currentResultsCount() const;
     db::QueryPtr resultAt(int queryIndex) const;
+
+    db::ulonglong rowsFound() const;
+    db::ulonglong rowsAffected() const;
+    db::ulonglong warningsCount() const;
+
+    int queryTotalCount() const;
+    int queryFailedCount() const;
 
     Q_SIGNAL void queryFinished(int queryIndex, int totalCount);
 

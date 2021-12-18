@@ -25,6 +25,10 @@ void MySQLQuery::execute(bool addResult /*= false*/) // override
 
     QueryResults results = connection()->query(this->SQL(), true);
 
+    _rowsFound = results.rowsFound();
+    _rowsAffected = results.rowsAffected();
+    _warningsCount = results.warningsCount();
+
     MySQLQueryResultPtr lastResult = nullptr;
     if (!results.isEmpty()) {
         lastResult = std::static_pointer_cast<MySQLQueryResult>(

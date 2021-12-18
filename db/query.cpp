@@ -10,6 +10,9 @@ namespace db {
 Query::Query(Connection * connection)
     :_recordCount(0),
      _curRecNo(-1),
+     _rowsFound(0),
+     _rowsAffected(0),
+     _warningsCount(0),
      _eof(false),
      _editableData(nullptr),
      _connection(connection),

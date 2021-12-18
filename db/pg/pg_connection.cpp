@@ -199,10 +199,6 @@ QueryResults PGConnection::query(
         throw db::Exception(error);
     }
 
-    // TODO: H: FWarningCount
-    _rowsAffected = 0;
-    _rowsFound = 0;
-
     auto queryResult = std::make_shared<PGQueryResult>(
                 PQgetResult(_handle), _handle);
 
@@ -212,8 +208,8 @@ QueryResults PGConnection::query(
 
         if (resultStatus == PGRES_TUPLES_OK) { // got data
 
-            _rowsFound += static_cast<db::ulonglong>(
-                        PQntuples(queryResult->nativePtr()));
+            results.incRowsFound(static_cast<db::ulonglong>(
+                        PQntuples(queryResult->nativePtr())));
 
             // TODO: affected is 0 for INSERT ... RETURNING *
 
@@ -225,7 +221,9 @@ QueryResults PGConnection::query(
 
             auto affected =
                 QString::fromUtf8( PQcmdTuples(queryResult->nativePtr()) );
-            _rowsAffected += static_cast<db::ulonglong>(affected.toInt());
+            results.incRowsAffected(
+                    static_cast<db::ulonglong>(affected.toInt())
+            );
 
         } else { // something went wrong
 
@@ -242,8 +240,8 @@ QueryResults PGConnection::query(
                         PQgetResult(_handle), _handle);
     }
 
-    meowLogDebugC(this) << "Query rows found/affected: " << _rowsFound
-                        << "/" << _rowsAffected;
+    meowLogDebugC(this) << "Query rows found/affected: " << results.rowsFound()
+                        << "/" << results.rowsAffected();
 
     return results;
 }

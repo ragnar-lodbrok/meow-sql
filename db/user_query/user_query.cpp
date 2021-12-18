@@ -79,6 +79,52 @@ void UserQuery::onQueriesFinished()
     setIsRunning(false);
 
     emit queriesFinished();
+
+    QStringList logStrings;
+    if (_queriesTask->rowsAffected() != (db::ulonglong)-1) {
+        logStrings << QObject::tr("Affected rows: %1")
+                          .arg(_queriesTask->rowsAffected());
+    }
+
+    if (_queriesTask->rowsFound() != (db::ulonglong)-1) {
+        logStrings << QObject::tr("Found rows: %1")
+                          .arg(_queriesTask->rowsFound());
+    }
+
+    if (_queriesTask->rowsFound() != (db::ulonglong)-1) {
+        logStrings << QObject::tr("Warnings: %1")
+                          .arg(_queriesTask->warningsCount());
+    }
+
+    if (!logStrings.isEmpty()) {
+
+        qDebug() << logStrings.join(" ");
+        //meowLogCC(Log::Category::SQL, this) << SQL; // TODO
+    }
+
+    // TODO:
+    /*
+
+  MetaInfo := _('Affected rows')+': '+FormatNumber(Thread.RowsAffected)+
+    '  '+_('Found rows')+': '+FormatNumber(Thread.RowsFound)+
+    '  '+_('Warnings')+': '+FormatNumber(Thread.WarningCount)+
+    '  '+_('Duration for')+' ' + FormatNumber(Thread.BatchPosition);
+  if Thread.BatchPosition < Thread.Batch.Count then
+    MetaInfo := MetaInfo + ' ' + _('of') + ' ' + FormatNumber(Thread.Batch.Count);
+  if Thread.Batch.Count = 1 then
+    MetaInfo := MetaInfo + ' ' + _('query')
+  else
+    MetaInfo := MetaInfo + ' ' + _('queries');
+  if Thread.QueryTime < 60*1000 then
+    MetaInfo := MetaInfo + ': '+FormatNumber(Thread.QueryTime/1000, 3) +' ' + _('sec.')
+  else
+    MetaInfo := MetaInfo + ': '+FormatTimeNumber(Thread.QueryTime/1000, True);
+  if Thread.QueryNetTime > 0 then
+    MetaInfo := MetaInfo + ' (+ '+FormatNumber(Thread.QueryNetTime/1000, 3) +' ' + _('sec.') + ' ' + _('network') + ')';
+  LogSQL(MetaInfo);
+    */
+
+    // Listening: Hatebreed - I will be heard
 }
 
 void UserQuery::onQueryFinished(int queryIndex, int totalCount)

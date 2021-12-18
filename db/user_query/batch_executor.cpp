@@ -86,6 +86,36 @@ db::QueryPtr BatchExecutor::resultAt(int queryIndex) const
     return _results.at(queryIndex);
 }
 
+db::ulonglong BatchExecutor::rowsFound() const
+{
+    int sumRowsFound = 0;
+    QMutexLocker locker(&_mutex);
+    for (const db::QueryPtr & query : _results) {
+        sumRowsFound += query->rowsFound();
+    }
+    return sumRowsFound;
+}
+
+db::ulonglong BatchExecutor::rowsAffected() const
+{
+    int sumRowsAffected = 0;
+    QMutexLocker locker(&_mutex);
+    for (const db::QueryPtr & query : _results) {
+        sumRowsAffected += query->rowsAffected();
+    }
+    return sumRowsAffected;
+}
+
+db::ulonglong BatchExecutor::warningsCount() const
+{
+    int sumWarningsCount = 0;
+    QMutexLocker locker(&_mutex);
+    for (const db::QueryPtr & query : _results) {
+        sumWarningsCount += query->warningsCount();
+    }
+    return sumWarningsCount;
+}
+
 } // namespace user_query
 } // namespace db
 } // namespace meow

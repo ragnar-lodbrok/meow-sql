@@ -47,5 +47,30 @@ db::QueryPtr QueriesTask::resultAt(int queryIndex) const
     return _executor.resultAt(queryIndex);
 }
 
+db::ulonglong QueriesTask::rowsFound() const
+{
+    return _executor.rowsFound();
+}
+
+db::ulonglong QueriesTask::rowsAffected() const
+{
+    return _executor.rowsAffected();
+}
+
+db::ulonglong QueriesTask::warningsCount() const
+{
+    return _executor.warningsCount();
+}
+
+int QueriesTask::queryTotalCount() const
+{
+    return _executor.queryTotalCount();
+}
+
+int QueriesTask::queryFailedCount() const
+{
+    return _executor.queryFailedCount();
+}
+
 } // namespace threads
 } // namespace meow

@@ -19,7 +19,7 @@ SQLiteConnection::SQLiteConnection(const ConnectionParameters & params)
 {
     // Listening: Stormlord - Leviathan
 
-    // TODO: Qt SQL has multithreading limitations
+    // TODO: QtSQL has multithreading limitations
 
     _handle = QSqlDatabase::addDatabase("QSQLITE", params.sessionName());
 }
@@ -115,9 +115,6 @@ QueryResults SQLiteConnection::query(
     // Some DBs like SQLite can't execute multiple sentences at once
     QStringList SQLs = SQL.split(";", QString::SkipEmptyParts);
 
-    _rowsAffected = 0;
-    _rowsFound = 0;
-
     QueryResults results;
 
     for (const QString & SQL : SQLs) {
@@ -132,16 +129,16 @@ QueryResults SQLiteConnection::query(
             throw db::Exception(error);
         }
 
-        _rowsAffected += query->numRowsAffected();
-        _rowsFound += queryResult->rowsCount();
+        results.incRowsAffected(query->numRowsAffected());
+        results.incRowsFound(queryResult->rowsCount());
 
         if (storeResult && queryResult->rowsCount() > 0) {
             results << queryResult;
         }
     }
 
-    meowLogDebugC(this) << "Query rows found/affected: " << _rowsFound
-                        << "/" << _rowsAffected;
+    meowLogDebugC(this) << "Query rows found/affected: " << results.rowsFound()
+                        << "/" << results.rowsAffected();
 
     return results;
 }

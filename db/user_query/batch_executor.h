@@ -47,6 +47,10 @@ public:
         return _queryFailedCount;
     }
 
+    db::ulonglong rowsFound() const;
+    db::ulonglong rowsAffected() const;
+    db::ulonglong warningsCount() const;
+
     Q_SIGNAL void beforeQueryExecution(int queryIndex, int totalCount);
     Q_SIGNAL void afterQueryExecution(int queryIndex, int totalCount);
 

@@ -7,7 +7,7 @@
 #include <QStringList>
 #include <QMap>
 #include "common.h"
-#include "native_query_result_interface.h"
+#include "query_results.h"
 #include "connection_parameters.h"
 #include "exception.h"
 #include "table_structure_parser.h"
@@ -171,8 +171,6 @@ public:
 protected:
     threads::Mutex _mutex;
     bool _active;
-    db::ulonglong _rowsFound; // TODO: rm?
-    db::ulonglong _rowsAffected; // TODO: rm?
     QString _serverVersionString;
     int _serverVersionInt;
 

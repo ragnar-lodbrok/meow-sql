@@ -23,6 +23,10 @@ void PGQuery::execute(bool addResult)
 
     QueryResults results = connection()->query(this->SQL(), true);
 
+    _rowsFound = results.rowsFound();
+    _rowsAffected = results.rowsAffected();
+    _warningsCount = results.warningsCount();
+
     PGQueryResultPtr lastResult = nullptr;
     if (!results.isEmpty()) {
         lastResult = std::static_pointer_cast<PGQueryResult>(results.front());
