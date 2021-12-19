@@ -31,6 +31,7 @@ PGConnection::PGConnection(const ConnectionParameters & params)
 PGConnection::~PGConnection()
 {
     meowLogDebugC(this) << "Destroying: " << *connectionParams();
+    stopThread();
     if (active()) {
         setActive(false);
     }

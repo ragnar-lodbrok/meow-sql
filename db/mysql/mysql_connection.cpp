@@ -57,6 +57,7 @@ MySQLConnection::MySQLConnection(const ConnectionParameters & params)
 MySQLConnection::~MySQLConnection()
 {
     meowLogDebugC(this) << "Destroying: " << *connectionParams();
+    stopThread();
     if (active()) {
         setActive(false);
     }

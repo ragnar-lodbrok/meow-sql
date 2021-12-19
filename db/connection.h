@@ -180,6 +180,7 @@ protected:
     QLatin1Char _identifierQuote;
 
     void emitDatabaseChanged(const QString& newName);
+    void stopThread();
 
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() = 0;
     // TODO: move editors and edit methods to separate class

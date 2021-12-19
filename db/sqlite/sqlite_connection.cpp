@@ -27,7 +27,7 @@ SQLiteConnection::SQLiteConnection(const ConnectionParameters & params)
 SQLiteConnection::~SQLiteConnection()
 {
     meowLogDebugC(this) << "Destroying: " << *connectionParams();
-
+    stopThread();
     if (active()) {
 
         try {

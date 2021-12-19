@@ -335,6 +335,11 @@ void Connection::emitDatabaseChanged(const QString& newName)
     emit databaseChanged(newName);
 }
 
+void Connection::stopThread()
+{
+    _thread.reset();
+}
+
 void Connection::parseTableStructure(TableEntity * table, bool refresh)
 {
     if (table->isNew()) return;
