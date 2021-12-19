@@ -72,5 +72,15 @@ int QueriesTask::queryFailedCount() const
     return _executor.queryFailedCount();
 }
 
+std::chrono::milliseconds QueriesTask::execDuration() const
+{
+    return _executor.execDuration();
+}
+
+std::chrono::milliseconds QueriesTask::networkDuration() const
+{
+    return _executor.networkDuration();
+}
+
 } // namespace threads
 } // namespace meow

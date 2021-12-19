@@ -292,6 +292,7 @@ HEADERS  +=  app/actions.h \
     db/routine_structure.h \
     db/session_variables.h \
     db/query_data.h \
+    db/query_results.h \
     db/query.h \
     db/table_column.h \
     db/table_editor.h \

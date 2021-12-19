@@ -1,6 +1,7 @@
 #ifndef FORMATTING_H
 #define FORMATTING_H
 
+#include <chrono>
 #include <QString>
 #include <QDateTime>
 
@@ -16,6 +17,7 @@ QString formatDate(const QDateTime & dateTime);
 QString formatTime(const QDateTime & dateTime);
 QString formatYear(const QDateTime & dateTime);
 QString formatAsHex(const QString & str);
+QString formatAsSeconds(std::chrono::milliseconds ms);
 
 QString dateTimeFormatString();
 QString dateFormatString();

@@ -3,6 +3,8 @@
 #include "db/query_data.h"
 #include "threads/db_thread.h"
 #include "threads/queries_task.h"
+#include "helpers/logger.h"
+#include "helpers/formatting.h"
 #include <QUuid>
 
 namespace meow {
@@ -63,6 +65,34 @@ QString UserQuery::lastError() const
     return _queriesTask ? _queriesTask->errorMessage() : QString();
 }
 
+int UserQuery::queryTotalCount() const
+{
+    MEOW_ASSERT_MAIN_THREAD
+    return _queriesTask ? _queriesTask->queryTotalCount() : 0;
+}
+
+int UserQuery::queryFailedCount() const
+{
+    MEOW_ASSERT_MAIN_THREAD
+    return _queriesTask ? _queriesTask->queryFailedCount() : 0;
+}
+
+std::chrono::milliseconds UserQuery::execDuration() const
+{
+    MEOW_ASSERT_MAIN_THREAD
+    return _queriesTask
+            ? _queriesTask->execDuration()
+            : std::chrono::milliseconds(0);
+}
+
+std::chrono::milliseconds UserQuery::networkDuration() const
+{
+    MEOW_ASSERT_MAIN_THREAD
+    return _queriesTask
+            ? _queriesTask->networkDuration()
+            : std::chrono::milliseconds(0);
+}
+
 QString UserQuery::uniqueId() const
 {
     MEOW_ASSERT_MAIN_THREAD
@@ -81,48 +111,47 @@ void UserQuery::onQueriesFinished()
     emit queriesFinished();
 
     QStringList logStrings;
-    if (_queriesTask->rowsAffected() != (db::ulonglong)-1) {
-        logStrings << QObject::tr("Affected rows: %1")
-                          .arg(_queriesTask->rowsAffected());
-    }
 
-    if (_queriesTask->rowsFound() != (db::ulonglong)-1) {
-        logStrings << QObject::tr("Found rows: %1")
-                          .arg(_queriesTask->rowsFound());
-    }
+    logStrings << QObject::tr("Affected rows: %1")
+                     .arg(_queriesTask->rowsAffected());
 
-    if (_queriesTask->rowsFound() != (db::ulonglong)-1) {
+
+    logStrings << QObject::tr("Found rows: %1")
+                      .arg(_queriesTask->rowsFound());
+
+    if (_queriesTask->warningsCount() != 0) {
         logStrings << QObject::tr("Warnings: %1")
                           .arg(_queriesTask->warningsCount());
     }
 
-    if (!logStrings.isEmpty()) {
+    int totalCount = queryTotalCount();
+    int successCount = totalCount - queryFailedCount();
 
-        qDebug() << logStrings.join(" ");
-        //meowLogCC(Log::Category::SQL, this) << SQL; // TODO
+    QString durationAndCountStr = QString("Duration for %1 ").arg(successCount);
+
+    if (successCount != totalCount) {
+        durationAndCountStr += QString("of %1 ").arg(totalCount);
     }
 
-    // TODO:
-    /*
+    if (queryTotalCount() == 1) {
+        durationAndCountStr += QObject::tr("query");
+    } else {
+        durationAndCountStr += QObject::tr("queries");
+    }
 
-  MetaInfo := _('Affected rows')+': '+FormatNumber(Thread.RowsAffected)+
-    '  '+_('Found rows')+': '+FormatNumber(Thread.RowsFound)+
-    '  '+_('Warnings')+': '+FormatNumber(Thread.WarningCount)+
-    '  '+_('Duration for')+' ' + FormatNumber(Thread.BatchPosition);
-  if Thread.BatchPosition < Thread.Batch.Count then
-    MetaInfo := MetaInfo + ' ' + _('of') + ' ' + FormatNumber(Thread.Batch.Count);
-  if Thread.Batch.Count = 1 then
-    MetaInfo := MetaInfo + ' ' + _('query')
-  else
-    MetaInfo := MetaInfo + ' ' + _('queries');
-  if Thread.QueryTime < 60*1000 then
-    MetaInfo := MetaInfo + ': '+FormatNumber(Thread.QueryTime/1000, 3) +' ' + _('sec.')
-  else
-    MetaInfo := MetaInfo + ': '+FormatTimeNumber(Thread.QueryTime/1000, True);
-  if Thread.QueryNetTime > 0 then
-    MetaInfo := MetaInfo + ' (+ '+FormatNumber(Thread.QueryNetTime/1000, 3) +' ' + _('sec.') + ' ' + _('network') + ')';
-  LogSQL(MetaInfo);
-    */
+    durationAndCountStr += QString(" %1 sec.").arg(
+                helpers::formatAsSeconds(execDuration()));
+
+    std::chrono::milliseconds networkDuration = this->networkDuration();
+
+    if (networkDuration.count() > 0) {
+        durationAndCountStr += QString(" (+%1 sec. network)").arg(
+                    helpers::formatAsSeconds(networkDuration));
+    }
+
+    logStrings << durationAndCountStr;
+
+    meowLogC(Log::Category::Info) << logStrings.join(" ");
 
     // Listening: Hatebreed - I will be heard
 }

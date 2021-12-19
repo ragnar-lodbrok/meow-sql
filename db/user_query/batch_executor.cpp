@@ -116,6 +116,26 @@ db::ulonglong BatchExecutor::warningsCount() const
     return sumWarningsCount;
 }
 
+std::chrono::milliseconds BatchExecutor::execDuration() const
+{
+    std::chrono::milliseconds sumDuration = std::chrono::milliseconds(0);
+    QMutexLocker locker(&_mutex);
+    for (const db::QueryPtr & query : _results) {
+        sumDuration += query->execDuration();
+    }
+    return sumDuration;
+}
+
+std::chrono::milliseconds BatchExecutor::networkDuration() const
+{
+    std::chrono::milliseconds sumDuration = std::chrono::milliseconds(0);
+    QMutexLocker locker(&_mutex);
+    for (const db::QueryPtr & query : _results) {
+        sumDuration += query->networkDuration();
+    }
+    return sumDuration;
+}
+
 } // namespace user_query
 } // namespace db
 } // namespace meow

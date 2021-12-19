@@ -62,6 +62,7 @@ set(HEADER_FILES
     db/collation_fetcher.h
     db/common.h
     db/query_column.h
+    db/query_results.h
     db/user_manager.h
     db/user_editor_interface.h
     ssh/ssh_tunnel_interface.h
@@ -125,7 +126,6 @@ set(SOURCE_FILES
     db/query_data.cpp
     db/query_data_editor.cpp
     db/query_data_fetcher.cpp
-    db/query_results.cpp
     db/routine_editor.cpp
     db/routine_structure_parser.cpp
     db/routine_structure.cpp

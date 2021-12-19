@@ -117,17 +117,24 @@ QueryResults SQLiteConnection::query(
 
     QueryResults results;
 
+    QElapsedTimer elapsedTimer;
+
     for (const QString & SQL : SQLs) {
 
         QSqlQuery * query = new QSqlQuery(_handle);
 
         auto queryResult = std::make_shared<QtSQLQueryResult>(query, &_handle);
 
+        elapsedTimer.start();
+
         if (query->exec(SQL) == false) {
             QString error = query->lastError().text();
             meowLogCC(Log::Category::Error, this) << "Query failed: " << error;
             throw db::Exception(error);
         }
+
+        results.incExecDuration(
+                std::chrono::milliseconds(elapsedTimer.elapsed()));
 
         results.incRowsAffected(query->numRowsAffected());
         results.incRowsFound(queryResult->rowsCount());

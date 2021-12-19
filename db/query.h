@@ -1,8 +1,9 @@
 #ifndef DB_QUERY_H
 #define DB_QUERY_H
 
-#include <QStringList>
 #include <vector>
+#include <chrono>
+#include <QStringList>
 #include <QMap>
 
 #include "common.h"
@@ -83,21 +84,31 @@ public:
         return _rowsFound;
     }
 
-    inline db::ulonglong rowsAffected() {
+    inline db::ulonglong rowsAffected() const {
         return _rowsAffected;
     }
 
-    inline db::ulonglong warningsCount() {
+    inline db::ulonglong warningsCount() const {
         return _warningsCount;
+    }
+
+    inline std::chrono::milliseconds execDuration() const {
+        return _execDuration;
+    }
+
+    inline std::chrono::milliseconds networkDuration() const {
+        return _networkDuration;
     }
 
 protected:
 
     db::ulonglong _recordCount;
-    db::ulonglong  _curRecNo; // H: FRecNo
+    db::ulonglong _curRecNo; // H: FRecNo
     db::ulonglong _rowsFound;
     db::ulonglong _rowsAffected;
     db::ulonglong _warningsCount;
+    std::chrono::milliseconds _execDuration;
+    std::chrono::milliseconds _networkDuration;
     std::vector<QueryColumn> _columns;
     QMap<QString, std::size_t> _columnIndexes; // Column name -> column index
     bool _eof; // H: FEof

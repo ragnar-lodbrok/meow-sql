@@ -59,6 +59,14 @@ QString formatAsHex(const QString & str)
     return QString::fromLatin1( str.toLatin1().toHex() ).toUpper();
 }
 
+QString formatAsSeconds(std::chrono::milliseconds ms)
+{
+    // if less than minute format with 3 digits e.g. "0.023" sec
+    // otherwise format with 1 digit e.g "120.1" sec
+    int precision = (ms.count() < 1000 * 60) ? 3 : 1;
+    return QLocale().toString((double)ms.count()/(double)1000, 'f', precision);
+}
+
 } // namespace helpers
 } // namespace meow
 

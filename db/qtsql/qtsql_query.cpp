@@ -25,6 +25,8 @@ void QtSQLQuery::execute(bool addResult)
     _rowsFound = results.rowsFound();
     _rowsAffected = results.rowsAffected();
     _warningsCount = results.warningsCount();
+    _execDuration = results.execDuration();
+    _networkDuration = results.networkDuration();
 
     QtSQLQueryResultPtr lastResult = nullptr;
     if (!results.isEmpty()) {

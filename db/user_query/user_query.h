@@ -31,6 +31,12 @@ public:
         MEOW_ASSERT_MAIN_THREAD
         return _resultsData.length();
     }
+    int queryTotalCount() const;
+    int queryFailedCount() const;
+
+    std::chrono::milliseconds execDuration() const;
+    std::chrono::milliseconds networkDuration() const;
+
     QueryDataPtr resultsDataAt(int index) const {
         MEOW_ASSERT_MAIN_THREAD
         return _resultsData.at(index);

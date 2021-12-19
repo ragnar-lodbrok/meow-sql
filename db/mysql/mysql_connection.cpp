@@ -288,9 +288,13 @@ QueryResults MySQLConnection::query(const QString & SQL,
         nativeSQL = SQL.toLatin1();
     }
 
+    QElapsedTimer elapsedTimer;
+
+    elapsedTimer.start();
     int queryStatus = mysql_real_query(_handle,
                                        nativeSQL.constData(),
                                        nativeSQL.size());
+    results.incExecDuration(std::chrono::milliseconds(elapsedTimer.elapsed()));
 
     if (queryStatus != 0) {
         QString error = getLastError();
@@ -303,7 +307,10 @@ QueryResults MySQLConnection::query(const QString & SQL,
     MYSQL_RES * queryResult = nullptr;
 
     if (storeResult) { 
+        elapsedTimer.start();
         queryResult = mysql_store_result(_handle);
+        results.incNetworkDuration(
+                std::chrono::milliseconds(elapsedTimer.elapsed()));
     }
 
     if (queryResult == nullptr
@@ -333,9 +340,15 @@ QueryResults MySQLConnection::query(const QString & SQL,
         }
 
         // more results? -1 = no, >0 = error, 0 = yes (keep looping)
+        elapsedTimer.start();
         queryStatus = mysql_next_result(_handle);
         if (queryStatus == 0) {
+            results.incExecDuration(
+                        std::chrono::milliseconds(elapsedTimer.elapsed()));
+            elapsedTimer.start();
             queryResult = mysql_store_result(_handle);
+            results.incNetworkDuration(
+                    std::chrono::milliseconds(elapsedTimer.elapsed()));
         } else if (queryStatus > 0) { // err
             // MySQL stops executing a multi-query when an error occurs.
             // So do we here by raising an exception.

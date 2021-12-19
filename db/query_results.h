@@ -1,6 +1,7 @@
 #ifndef DB_QUERY_RESULTS_H
 #define DB_QUERY_RESULTS_H
 
+#include <chrono>
 #include <QList>
 #include "native_query_result_interface.h"
 
@@ -31,6 +32,8 @@ public:
         _rowsFound = 0;
         _rowsAffected = 0;
         _warningsCount = 0;
+        _execDuration = std::chrono::milliseconds(0);
+        _networkDuration = std::chrono::milliseconds(0);
     }
 
     inline db::ulonglong rowsFound() const {
@@ -65,6 +68,30 @@ public:
         _warningsCount = warningsCount;
     }
 
+    inline std::chrono::milliseconds execDuration() const {
+        return _execDuration;
+    }
+
+    inline void setExecDuration(std::chrono::milliseconds duration) {
+        _execDuration = duration;
+    }
+
+    inline void incExecDuration(std::chrono::milliseconds duration) {
+        _execDuration += duration;
+    }
+
+    inline std::chrono::milliseconds networkDuration() const {
+        return _networkDuration;
+    }
+
+    inline void setNetworkDuration(std::chrono::milliseconds duration) {
+        _networkDuration = duration;
+    }
+
+    inline void incNetworkDuration(std::chrono::milliseconds duration) {
+        _networkDuration += duration;
+    }
+
     inline QueryResults & operator<< (const QueryResultPt &result) {
         _list.append(result);
         return *this;
@@ -91,6 +118,8 @@ private:
     db::ulonglong _rowsFound = 0;
     db::ulonglong _rowsAffected = 0;
     db::ulonglong _warningsCount = 0;
+    std::chrono::milliseconds _execDuration = std::chrono::milliseconds(0);
+    std::chrono::milliseconds _networkDuration = std::chrono::milliseconds(0);
 };
 
 

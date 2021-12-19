@@ -51,6 +51,9 @@ public:
     db::ulonglong rowsAffected() const;
     db::ulonglong warningsCount() const;
 
+    std::chrono::milliseconds execDuration() const;
+    std::chrono::milliseconds networkDuration() const;
+
     Q_SIGNAL void beforeQueryExecution(int queryIndex, int totalCount);
     Q_SIGNAL void afterQueryExecution(int queryIndex, int totalCount);
 

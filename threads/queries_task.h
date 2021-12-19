@@ -37,6 +37,9 @@ public:
     int queryTotalCount() const;
     int queryFailedCount() const;
 
+    std::chrono::milliseconds execDuration() const;
+    std::chrono::milliseconds networkDuration() const;
+
     Q_SIGNAL void queryFinished(int queryIndex, int totalCount);
 
 private:

@@ -28,6 +28,8 @@ void MySQLQuery::execute(bool addResult /*= false*/) // override
     _rowsFound = results.rowsFound();
     _rowsAffected = results.rowsAffected();
     _warningsCount = results.warningsCount();
+    _execDuration = results.execDuration();
+    _networkDuration = results.networkDuration();
 
     MySQLQueryResultPtr lastResult = nullptr;
     if (!results.isEmpty()) {

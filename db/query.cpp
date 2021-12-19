@@ -13,6 +13,8 @@ Query::Query(Connection * connection)
      _rowsFound(0),
      _rowsAffected(0),
      _warningsCount(0),
+     _execDuration(std::chrono::milliseconds(0)),
+     _networkDuration(std::chrono::milliseconds(0)),
      _eof(false),
      _editableData(nullptr),
      _connection(connection),

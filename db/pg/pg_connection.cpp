@@ -1,4 +1,5 @@
 #include "pg_connection.h"
+#include <QElapsedTimer>
 #include "helpers/logger.h"
 #include "pg_query_result.h"
 #include "pg_query.h"
@@ -191,6 +192,11 @@ QueryResults PGConnection::query(
         nativeSQL = SQL.toLatin1();
     }
 
+    QElapsedTimer elapsedTimer;
+
+    // PQsendQuery is async, so we don't know exec time on server, add all inc
+    // waiting PQgetResult to exec time. TODO: get network time somehow?
+
     int sendQueryStatus = PQsendQuery(_handle, nativeSQL.constData());
 
     if (sendQueryStatus != PG_SEND_QUERY_STATUS_SUCCESS) {
@@ -199,8 +205,11 @@ QueryResults PGConnection::query(
         throw db::Exception(error);
     }
 
+    elapsedTimer.start();
     auto queryResult = std::make_shared<PGQueryResult>(
                 PQgetResult(_handle), _handle);
+    results.incExecDuration(
+            std::chrono::milliseconds(elapsedTimer.elapsed()));
 
     while (queryResult->nativePtr() != nullptr) {
 
@@ -236,8 +245,11 @@ QueryResults PGConnection::query(
         }
 
         // next query
+        elapsedTimer.start();
         queryResult = std::make_shared<PGQueryResult>(
                         PQgetResult(_handle), _handle);
+        results.incExecDuration(
+                std::chrono::milliseconds(elapsedTimer.elapsed()));
     }
 
     meowLogDebugC(this) << "Query rows found/affected: " << results.rowsFound()
