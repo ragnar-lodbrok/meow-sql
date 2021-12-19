@@ -150,6 +150,11 @@ void QueryTab::onExecQueryDataResult(int queryIndex)
 
 void QueryTab::onExecQueriesRunningChanged()
 {
+    if (_query->isRunning()) {
+        this->setCursor(Qt::BusyCursor);
+    } else {
+        this->unsetCursor();
+    }
     validateControls();
 }
 
