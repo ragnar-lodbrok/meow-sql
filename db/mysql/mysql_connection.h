@@ -66,6 +66,8 @@ public:
 
     virtual QString limitOnePostfix(bool select) const override;
 
+    virtual int64_t connectionIdOnServer() override;
+
 protected:
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() override;
 

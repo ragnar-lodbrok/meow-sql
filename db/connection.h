@@ -133,6 +133,9 @@ public:
     virtual std::shared_ptr<QueryDataEditor> queryDataEditor(); // TODO = 0 ?
     virtual QString limitOnePostfix(bool select) const;
     virtual QDateTime currentServerTimestamp();
+    virtual int64_t connectionIdOnServer() { // H: GetThreadId()
+        return _connectionIdOnServer;
+    }
 
     void parseTableStructure(TableEntity * table, bool refresh = false);
     void parseViewStructure(ViewEntity * view, bool refresh = false);
@@ -178,6 +181,7 @@ protected:
     QMap<QString, QList<EntityPtr>> _databaseEntitiesCache;
     QString _database;
     QLatin1Char _identifierQuote;
+    int64_t _connectionIdOnServer;
 
     void emitDatabaseChanged(const QString& newName);
     void stopThread();

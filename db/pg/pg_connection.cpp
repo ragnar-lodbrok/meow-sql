@@ -399,6 +399,16 @@ QString PGConnection::limitOnePostfix(bool select) const
     }
 }
 
+int64_t PGConnection::connectionIdOnServer()
+{
+    if (_connectionIdOnServer == -1) {
+        if (ping(false)) {
+            _connectionIdOnServer = PQbackendPID(_handle);
+        }
+    }
+    return _connectionIdOnServer;
+}
+
 DataBaseEntitiesFetcher * PGConnection::createDbEntitiesFetcher()
 {
     return new PGEntitiesFetcher(this);

@@ -571,6 +571,17 @@ QString MySQLConnection::limitOnePostfix(bool select) const
     return "LIMIT 1";
 }
 
+int64_t MySQLConnection::connectionIdOnServer()
+{
+    if (_connectionIdOnServer == -1) {
+        if (ping(false)) {
+            _connectionIdOnServer
+                    = getCell("SELECT CONNECTION_ID()").toLongLong();
+        }
+    }
+    return _connectionIdOnServer;
+}
+
 ConnectionDataTypes * MySQLConnection::createConnectionDataTypes()
 {
     return new MySQLConnectionDataTypes(this);

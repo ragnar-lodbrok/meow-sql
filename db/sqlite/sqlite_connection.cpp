@@ -323,6 +323,14 @@ QString SQLiteConnection::limitOnePostfix(bool select) const
     }
 }
 
+int64_t SQLiteConnection::connectionIdOnServer()
+{
+    if (_connectionIdOnServer == -1) {
+        _connectionIdOnServer = QCoreApplication::applicationPid();
+    }
+    return _connectionIdOnServer;
+}
+
 DataBaseEntitiesFetcher * SQLiteConnection::createDbEntitiesFetcher()
 {
     return new SQLiteEntitiesFetcher(this);
