@@ -1,16 +1,16 @@
 #include "cr_query_result.h"
-#include "db/user_query/user_query.h"
 #include "cr_query_data_tab.h"
-#include "helpers/formatting.h"
+#include "models/ui/central_right_query_presenter.h"
 
 namespace meow {
 namespace ui {
 namespace main_window {
 namespace central_right {
 
-QueryResult::QueryResult(db::UserQuery * userQuery, QWidget *parent)
+QueryResult::QueryResult(models::ui::CentralRightQueryPresenter * presenter,
+                         QWidget *parent)
     : QWidget(parent),
-      _userQuery(userQuery)
+      _presenter(presenter)
 {
 
     QVBoxLayout * layout = new QVBoxLayout();
@@ -24,7 +24,7 @@ QueryResult::QueryResult(db::UserQuery * userQuery, QWidget *parent)
     _dataTabs->setSizePolicy(
                 QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
-#ifdef Q_OS_MAC
+#ifdef Q_OS_MACOS
     _dataTabs->setDocumentMode(true);
 #endif
 
@@ -38,10 +38,10 @@ QueryResult::~QueryResult()
 void QueryResult::showAllQueriesData()
 {
     removeAllDataTabs();
-    int resultsCount = _userQuery->resultsDataCount();
+    int resultsCount = _presenter->resultsDataCount();
     for (int i=0; i<resultsCount; ++i) {
-        QueryDataTab * dataTab = new QueryDataTab(_userQuery->resultsDataAt(i));
-        _dataTabs->addTab(dataTab, dataTabCaption(i));
+        QueryDataTab * dataTab = new QueryDataTab(_presenter->resultsDataAt(i));
+        _dataTabs->addTab(dataTab, _presenter->resultTabCaption(i));
     }
 }
 
@@ -52,20 +52,10 @@ void QueryResult::hideAllQueriesData()
 
 void QueryResult::showQueryData(int queryIndex)
 {
-    db::QueryDataPtr queryData = _userQuery->resultsDataAt(queryIndex);
+    db::QueryDataPtr queryData = _presenter->resultsDataAt(queryIndex);
     Q_ASSERT(queryData);
     QueryDataTab * dataTab = new QueryDataTab(queryData);
-    _dataTabs->addTab(dataTab, dataTabCaption(queryIndex));
-}
-
-QString QueryResult::dataTabCaption(int index) const
-{
-    meow::db::QueryDataPtr queryData = _userQuery->resultsDataAt(index);
-    QString caption =  QObject::tr("Result") + " #" + QString::number(index+1);
-    caption += QString(" (%1×%2)")
-            .arg(helpers::formatNumber(queryData->columnCount()))
-            .arg(helpers::formatNumber(queryData->rowCount()));
-    return caption;
+    _dataTabs->addTab(dataTab, _presenter->resultTabCaption(queryIndex));
 }
 
 void QueryResult::removeAllDataTabs()

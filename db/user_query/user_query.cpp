@@ -13,6 +13,7 @@ namespace db {
 UserQuery::UserQuery(ConnectionsManager * connectionsManager)
     : QObject(nullptr)
     , _connectionsManager(connectionsManager)
+    , _lastRunningConnection(nullptr)
     , _modifiedButNotSaved(false)
     , _isRunning(false)
 {
@@ -32,9 +33,11 @@ void UserQuery::runInCurrentConnection(const QStringList & queries)
 
     MEOW_ASSERT_MAIN_THREAD
 
+    _lastRunningConnection = _connectionsManager->activeConnection();
+
     // do ping in main thread to handle possible reconnection
     try {
-        _connectionsManager->activeConnection()->ping(true);
+        _lastRunningConnection->ping(true);
     } catch(meow::db::Exception & ex) {
         Q_UNUSED(ex);
         // TODO: process exception?
@@ -46,8 +49,7 @@ void UserQuery::runInCurrentConnection(const QStringList & queries)
 
     _resultsData.clear();
 
-    threads::DbThread * thread
-            = _connectionsManager->activeConnection()->thread();
+    threads::DbThread * thread = _lastRunningConnection->thread();
     _queriesTask = thread->createQueriesTask(queries);
 
     connect(_queriesTask.get(), &threads::ThreadTask::finished,

@@ -41,19 +41,20 @@ void QueryPanel::createToolBar()
 {
     _toolBar = new QToolBar();
     _toolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    _toolBar->setOrientation(Qt::Vertical);
     // see https://stackoverflow.com/questions/21363350/remove-gradient-from-qtoolbar-in-os-x
-    #ifdef Q_OS_MAC
-        _toolBar->setStyle(QStyleFactory::create("windows"));
-    #endif
+#ifdef Q_OS_MACOS
+    _toolBar->setStyle(QStyleFactory::create("windows"));
+#endif
 
     _execQueryAction = new QAction(QIcon(":/icons/execute.png"),
                                    tr("Run"), this);
-    _execQueryAction->setToolTip(tr("Execute SQL..."));
+    _execQueryAction->setToolTip(tr("Execute SQL (F9)"));
     _execQueryAction->setStatusTip(tr("Execute SQL-query/queries..."));
     _execQueryAction->setShortcut(QKeySequence(Qt::Key_F9));
     connect(_execQueryAction, &QAction::triggered,
             this, &QueryPanel::execQueryRequested);
-    _toolBar->addAction(_execQueryAction);
+
 
     _execCurrentQueryAction = new QAction(QIcon(":/icons/execute_line.png"),
                                           tr("Run current query"), this);
@@ -63,6 +64,19 @@ void QueryPanel::createToolBar()
                                              Qt::CTRL + Qt::SHIFT + Qt::Key_F9));
     connect(_execCurrentQueryAction, &QAction::triggered,
             this, &QueryPanel::onExecCurrentQueryAction);
+
+
+    _cancelQueryAction = new QAction(QIcon(":/icons/cancel.png"),
+                                          tr("Cancel running operation"), this);
+    _cancelQueryAction->setToolTip(tr("Cancel running operation (Esc)"));
+    _cancelQueryAction->setStatusTip(tr("Cancel running operation"));
+    _cancelQueryAction->setShortcut(QKeySequence(Qt::Key_Escape));
+    connect(_cancelQueryAction, &QAction::triggered,
+            this, &QueryPanel::cancelQueryRequested);
+
+
+    _toolBar->addAction(_execQueryAction);
+    _toolBar->addAction(_cancelQueryAction);
 
     // TODO: add _execCurrentQueryAction to toolbar
 
@@ -95,7 +109,8 @@ void QueryPanel::onQueryTextEditContextMenu(const QPoint & pos)
 
     QList<QAction *> actions = {
         _execQueryAction,
-        _execCurrentQueryAction
+        _execCurrentQueryAction,
+        _cancelQueryAction
     };
 
     if (firstStandardAction) {

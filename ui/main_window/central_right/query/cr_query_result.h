@@ -5,8 +5,12 @@
 
 namespace meow {
 
-namespace db {
-    class UserQuery;
+namespace models {
+namespace ui {
+
+class CentralRightQueryPresenter;
+
+}
 }
 
 namespace ui {
@@ -18,7 +22,8 @@ class QueryResult : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QueryResult(db::UserQuery * userQuery, QWidget *parent = 0);
+    explicit QueryResult(models::ui::CentralRightQueryPresenter * presenter,
+                         QWidget *parent = 0);
     ~QueryResult();
 
     void showAllQueriesData();
@@ -28,10 +33,9 @@ public:
 
 private:
 
-    QString dataTabCaption(int index) const;
     void removeAllDataTabs();
 
-    db::UserQuery * _userQuery;
+    models::ui::CentralRightQueryPresenter * _presenter;
 
     QTabWidget  * _dataTabs;
 };

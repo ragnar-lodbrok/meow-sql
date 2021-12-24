@@ -194,6 +194,7 @@ set(SOURCE_FILES
     models/ui/central_right_widget_model.cpp
     models/ui/table_info_widget_model.cpp
     models/ui/routine_info_widget_model.cpp
+    models/ui/central_right_query_presenter.cpp
     settings/settings_core.cpp
     settings/settings_geometry.cpp
     settings/settings_icons.cpp

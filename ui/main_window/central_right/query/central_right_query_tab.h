@@ -3,15 +3,9 @@
 
 #include <QtWidgets>
 #include "ui/main_window/central_right/base_root_tab.h"
+#include "models/ui/central_right_query_presenter.h"
 
 namespace meow {
-
-namespace db {
-
-class UserQuery;
-
-}
-
 namespace ui {
 namespace main_window {
 namespace central_right {
@@ -39,12 +33,13 @@ private:
 
     Q_SLOT void onActionExecQuery();
     Q_SLOT void onActionExecCurrentQuery(int charPosition);
+    Q_SLOT void onActionCancelQuery();
     Q_SLOT void onExecQueriesFinished();
     Q_SLOT void onExecQueryFinished(int queryIndex, int totalCount);
     Q_SLOT void onExecQueryDataResult(int queryIndex);
     Q_SLOT void onExecQueriesRunningChanged();
 
-    void runQueries(const QStringList & queries);
+    void beforeRunQueries();
 
     QHBoxLayout * _mainLayout;
     QSplitter * _mainVerticalSplitter;
@@ -52,7 +47,7 @@ private:
     QueryPanel * _queryPanel;
     QueryResult * _queryResult;
     
-    db::UserQuery * _query;
+    models::ui::CentralRightQueryPresenter _presenter;
 };
 
 class AddQueryTab : public BaseRootTab

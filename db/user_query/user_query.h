@@ -78,6 +78,10 @@ public:
 
     void setIsRunning(bool isRunning);
 
+    Connection * lastRunningConnection() const {
+        return _lastRunningConnection;
+    }
+
     Q_SIGNAL void queryFinished(int queryIndex, int totalCount);
     Q_SIGNAL void queriesFinished();
     Q_SIGNAL void newQueryDataResult(int index);
@@ -91,6 +95,7 @@ private:
     QString generateUniqueId() const;
 
     ConnectionsManager * _connectionsManager;
+    Connection * _lastRunningConnection;
     QVector<QueryDataPtr> _resultsData;
     QString _currentQueryText;
     mutable QString _uniqieId;

@@ -26,12 +26,16 @@ public:
 
     Q_SIGNAL void execQueryRequested();
     Q_SIGNAL void execCurrentQueryRequested(int charPosition);
+    Q_SIGNAL void cancelQueryRequested();
     
     QAction * execQueryAction() const {
         return _execQueryAction;
     }
     QAction * execCurrentQueryAction() const {
         return _execCurrentQueryAction;
+    }
+    QAction * cancelQueryAction() const {
+        return _cancelQueryAction;
     }
 
 private:
@@ -50,6 +54,7 @@ private:
     QToolBar * _toolBar;
     QAction * _execQueryAction;
     QAction * _execCurrentQueryAction;
+    QAction * _cancelQueryAction;
     QAction * _separatorAction;
 };
 

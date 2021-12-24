@@ -93,6 +93,10 @@ public:
     }
 
     virtual bool supportsMultithreading() const;
+
+    virtual bool supportsCancellingQuery() const {
+        return true;
+    }
 protected:
     Connection * _connection;
 };

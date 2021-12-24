@@ -2,7 +2,6 @@
 #include "cr_query_panel.h"
 #include "cr_query_result.h"
 #include "db/user_query/user_query.h"
-#include "db/user_query/sentences_parser.h"
 
 namespace meow {
 namespace ui {
@@ -11,20 +10,20 @@ namespace central_right {
 
 QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) : 
     BaseRootTab(BaseRootTab::Type::Query, parent),
-    _query(query)
+    _presenter(query)
 {
     createWidgets();
 
-    connect(_query, &db::UserQuery::queriesFinished,
+    connect(_presenter.query(), &db::UserQuery::queriesFinished,
             this, &QueryTab::onExecQueriesFinished);
 
-    connect(_query, &db::UserQuery::queryFinished,
+    connect(_presenter.query(), &db::UserQuery::queryFinished,
             this, &QueryTab::onExecQueryFinished);
 
-    connect(_query, &db::UserQuery::newQueryDataResult,
+    connect(_presenter.query(), &db::UserQuery::newQueryDataResult,
             this, &QueryTab::onExecQueryDataResult);
 
-    connect(_query, &db::UserQuery::isRunningChanged,
+    connect(_presenter.query(), &db::UserQuery::isRunningChanged,
             this, &QueryTab::onExecQueriesRunningChanged);
 }
 
@@ -74,7 +73,10 @@ void QueryTab::createWidgets()
     connect(_queryPanel, &QueryPanel::execCurrentQueryRequested,
             this, &QueryTab::onActionExecCurrentQuery);
 
-    _queryResult = new QueryResult(_query);
+    connect(_queryPanel, &QueryPanel::cancelQueryRequested,
+            this, &QueryTab::onActionCancelQuery);
+
+    _queryResult = new QueryResult(&_presenter);
     _queryResult->setMinimumHeight(80);
     _mainVerticalSplitter->addWidget(_queryResult);
 
@@ -87,46 +89,38 @@ void QueryTab::createWidgets()
 
 void QueryTab::validateControls()
 {
-    bool isRunning = _query->isRunning();
-
-    _queryPanel->execQueryAction()->setEnabled(!isRunning);
-    _queryPanel->execCurrentQueryAction()->setEnabled(!isRunning);
+    _queryPanel->execQueryAction()->setEnabled(
+                _presenter.isExecQueryActionEnabled());
+    _queryPanel->execCurrentQueryAction()->setEnabled(
+                _presenter.isExecCurrentQueryActionEnabled());
+    _queryPanel->cancelQueryAction()->setEnabled(
+                _presenter.isCancelQueryActionEnabled());
 }
 
 void QueryTab::onActionExecQuery()
 {
-    meow::db::user_query::SentencesParser parser;
-    QList<meow::db::user_query::Sentence> sentences
-            = parser.parseByDelimiter(_queryPanel->queryPlainText());
-    QStringList queries;
-    for (const meow::db::user_query::Sentence & sentence : sentences) {
-        queries << sentence.text;
-    }
+    beforeRunQueries();
+    _presenter.execQueries(_queryPanel->queryPlainText());
+
     // Listening: Arch Enemy - On And On
-    runQueries(queries);
 }
 
 void QueryTab::onActionExecCurrentQuery(int charPosition)
 {
-    meow::db::user_query::SentencesParser parser;
-    QList<meow::db::user_query::Sentence> sentences
-            = parser.parseByDelimiter(_queryPanel->queryPlainText());
-    QStringList queries;
-    for (const meow::db::user_query::Sentence & sentence : sentences) {
-        if (sentence.position <= charPosition
-                && charPosition <= (sentence.position + sentence.text.length())) {
-            queries << sentence.text;
-            break;
-        }
-    }
-    runQueries(queries);
+    beforeRunQueries();
+    _presenter.execQueries(_queryPanel->queryPlainText(), charPosition);
+}
+
+void QueryTab::onActionCancelQuery()
+{
+    qDebug() << "CANCEL";
 }
 
 void QueryTab::onExecQueriesFinished()
 {
-    if (!_query->lastError().isEmpty()) {
+    if (_presenter.hasError()) {
         QMessageBox msgBox;
-        msgBox.setText(_query->lastError());
+        msgBox.setText(_presenter.lastError());
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.setDefaultButton(QMessageBox::Ok);
         msgBox.setIcon(QMessageBox::Critical);
@@ -150,7 +144,7 @@ void QueryTab::onExecQueryDataResult(int queryIndex)
 
 void QueryTab::onExecQueriesRunningChanged()
 {
-    if (_query->isRunning()) {
+    if (_presenter.isRunning()) {
         this->setCursor(Qt::BusyCursor);
     } else {
         this->unsetCursor();
@@ -158,12 +152,9 @@ void QueryTab::onExecQueriesRunningChanged()
     validateControls();
 }
 
-void QueryTab::runQueries(const QStringList & queries)
+void QueryTab::beforeRunQueries()
 {
-    if (queries.isEmpty()) return;
-
     _queryResult->hideAllQueriesData();
-    _query->runInCurrentConnection(queries);
 }
 
 QString QueryTab::currentQueryText() const

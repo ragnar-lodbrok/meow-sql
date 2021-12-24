@@ -169,6 +169,7 @@ SOURCES += main.cpp\
     models/forms/routine_form.cpp \
     models/forms/select_db_object_form.cpp \
     models/ui/central_right_host_widget_model.cpp \
+    models/ui/central_right_query_presenter.cpp \
     models/ui/central_right_widget_model.cpp \
     models/ui/table_info_widget_model.cpp \
     models/ui/routine_info_widget_model.cpp \
@@ -359,6 +360,7 @@ HEADERS  +=  app/actions.h \
     models/forms/routine_form.h \
     models/forms/select_db_object_form.h \
     models/ui/central_right_host_widget_model.h \
+    models/ui/central_right_query_presenter.h \
     models/ui/central_right_widget_model.h \
     models/ui/table_info_widget_model.h \
     models/ui/routine_info_widget_model.h \
