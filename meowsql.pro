@@ -2,7 +2,7 @@ QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = meow-sql
+TARGET = meowsql
 TEMPLATE = app
 
 greaterThan(QT_MINOR_VERSION, 4) { # >= 5.5
