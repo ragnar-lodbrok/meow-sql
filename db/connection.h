@@ -47,8 +47,10 @@ class ViewEntity;
 class RoutineEntity;
 class TriggerEntity;
 class DbThreadInitializer;
+class ConnectionQueryKiller;
 
-typedef std::shared_ptr<Query> QueryPtr;
+using QueryPtr = std::shared_ptr<Query>;
+using ConnectionQueryKillerPtr = std::shared_ptr<ConnectionQueryKiller>;
 
 class Connection : public QObject
 {
@@ -136,6 +138,7 @@ public:
     virtual int64_t connectionIdOnServer() { // H: GetThreadId()
         return _connectionIdOnServer;
     }
+    virtual ConnectionQueryKillerPtr createQueryKiller() const;
 
     void parseTableStructure(TableEntity * table, bool refresh = false);
     void parseViewStructure(ViewEntity * view, bool refresh = false);

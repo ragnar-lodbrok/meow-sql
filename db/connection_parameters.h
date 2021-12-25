@@ -34,7 +34,7 @@ QString networkTypeName(const NetworkType & networkType, bool longFormat = true)
 QStringList networkTypeNames();
 QVector<NetworkType> networkTypes();
 
-using ConnectionPtr = std::shared_ptr<Connection> ;
+using ConnectionPtr = std::shared_ptr<Connection>;
 using SSHTunnelParametersPtr = std::shared_ptr<ssh::SSHTunnelParameters>;
 
 const char databasesSeparator = ';';

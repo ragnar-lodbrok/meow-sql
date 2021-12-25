@@ -1,6 +1,7 @@
 #include "central_right_query_presenter.h"
 #include "db/user_query/user_query.h"
 #include "db/user_query/sentences_parser.h"
+#include "db/connection_query_killer.h"
 #include "helpers/formatting.h"
 
 namespace meow {
@@ -85,6 +86,28 @@ bool CentralRightQueryPresenter::isCancelQueryActionEnabled() const
         return isRunning();
     }
     return false;
+}
+
+bool CentralRightQueryPresenter::cancelQueries()
+{
+    if (!isRunning()) return true;
+
+    db::Connection * connection = _query->lastRunningConnection();
+
+    if (!connection) return true;
+
+    // TODO: abort _query
+
+    db::ConnectionQueryKillerPtr killer = connection->createQueryKiller();
+
+    try {
+        killer->run();
+    } catch(meow::db::Exception & ex) {
+        _lastCancelError = ex.message();
+        return false;
+    }
+
+    return true;
 }
 
 } // namespace ui

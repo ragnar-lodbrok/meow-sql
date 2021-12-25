@@ -83,6 +83,7 @@ SOURCES += main.cpp\
     db/connection_features.cpp \
     db/connection_params_manager.cpp \
     db/connections_manager.cpp \
+    db/connection_query_killer.cpp \
     db/database_editor.cpp \
     db/data_type/data_type.cpp \
     db/entity/database_entity.cpp \
@@ -266,6 +267,7 @@ HEADERS  +=  app/actions.h \
     db/connection_features.h \
     db/connection_params_manager.h \
     db/connections_manager.h \
+    db/connection_query_killer.h \
     db/database_editor.h \
     db/data_type/connection_data_types.h \
     db/data_type/data_type_category.h \
@@ -460,6 +462,7 @@ WITH_MYSQL {
     db/mysql/mysql_query_data_editor.cpp \
     db/mysql/mysql_collation_fetcher.cpp \
     db/mysql/mysql_connection.cpp \
+    db/mysql/mysql_connection_query_killer.cpp \
     db/mysql/mysql_query_data_fetcher.cpp \
     db/mysql/mysql_table_editor.cpp \
     db/mysql/mysql_table_engines_fetcher.cpp \
@@ -472,6 +475,7 @@ WITH_MYSQL {
 WITH_POSTGRESQL {
     SOURCES += db/data_type/pg_connection_data_types.cpp \
     db/pg/pg_connection.cpp \
+    db/pg/pg_connection_query_killer.cpp \
     db/pg/pg_entities_fetcher.cpp \
     db/pg/pg_entity_create_code_generator.cpp \
     db/pg/pg_query.cpp \
@@ -505,6 +509,7 @@ WITH_MYSQL {
     db/mysql/mysql_query_data_editor.h \
     db/mysql/mysql_collation_fetcher.h \
     db/mysql/mysql_connection.h \
+    db/mysql/mysql_connection_query_killer.h \
     db/mysql/mysql_query_data_fetcher.h \
     db/mysql/mysql_table_editor.h \
     db/mysql/mysql_table_engines_fetcher.h \
@@ -519,6 +524,7 @@ WITH_POSTGRESQL {
     db/data_type/pg_data_type.h \
     db/pg/pg_query_result.h \
     db/pg/pg_connection.h \
+    db/pg/pg_connection_query_killer.h \
     db/pg/pg_entities_fetcher.h \
     db/pg/pg_entity_create_code_generator.h \
     db/pg/pg_query.h \

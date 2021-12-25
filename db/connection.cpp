@@ -17,6 +17,7 @@
 #include "trigger_structure_parser.h"
 #include "threads/db_thread.h"
 #include "db_thread_initializer.h"
+#include "connection_query_killer.h"
 
 #include <QDebug>
 
@@ -555,6 +556,12 @@ QDateTime Connection::currentServerTimestamp()
         return {};
     }
 
+}
+
+ConnectionQueryKillerPtr Connection::createQueryKiller() const
+{
+    return std::make_shared<ConnectionQueryKiller>(
+                const_cast<Connection *>(this));
 }
 
 ConnectionDataTypes * Connection::dataTypes()

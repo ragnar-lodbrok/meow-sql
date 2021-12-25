@@ -68,6 +68,8 @@ public:
 
     virtual int64_t connectionIdOnServer() override;
 
+    virtual ConnectionQueryKillerPtr createQueryKiller() const override;
+
 protected:
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() override;
 

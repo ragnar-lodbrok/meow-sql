@@ -113,7 +113,14 @@ void QueryTab::onActionExecCurrentQuery(int charPosition)
 
 void QueryTab::onActionCancelQuery()
 {
-    qDebug() << "CANCEL";
+    if (!_presenter.cancelQueries()) {
+        QMessageBox msgBox;
+        msgBox.setText(_presenter.lastCancelError());
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+    }
 }
 
 void QueryTab::onExecQueriesFinished()

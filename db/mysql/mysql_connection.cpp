@@ -1,6 +1,7 @@
 #include <QObject> // tr()
 
 #include "mysql_connection.h"
+#include "mysql_connection_query_killer.h"
 #include "mysql_query.h"
 #include "mysql_entities_fetcher.h"
 #include "mysql_query_data_fetcher.h"
@@ -573,13 +574,19 @@ QString MySQLConnection::limitOnePostfix(bool select) const
 
 int64_t MySQLConnection::connectionIdOnServer()
 {
+    MEOW_ASSERT_MAIN_THREAD // TODO: do atomic
     if (_connectionIdOnServer == -1) {
-        if (ping(false)) {
-            _connectionIdOnServer
-                    = getCell("SELECT CONNECTION_ID()").toLongLong();
-        }
+        _connectionIdOnServer = 0; // requesting status to avoid recursion
+        _connectionIdOnServer
+            = getCell("SELECT CONNECTION_ID()").toLongLong();
     }
     return _connectionIdOnServer;
+}
+
+ConnectionQueryKillerPtr MySQLConnection::createQueryKiller() const
+{
+    return std::make_shared<MySQLConnectionQueryKiller>(
+                const_cast<MySQLConnection *>(this));
 }
 
 ConnectionDataTypes * MySQLConnection::createConnectionDataTypes()

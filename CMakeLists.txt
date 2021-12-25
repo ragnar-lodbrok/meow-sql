@@ -102,6 +102,7 @@ set(SOURCE_FILES
     db/connection_features.cpp
     db/connection_parameters.cpp
     db/connection_params_manager.cpp
+    db/connection_query_killer.cpp
     db/connections_manager.cpp
     db/database_editor.cpp
     db/db_thread_initializer.cpp
@@ -290,6 +291,7 @@ if (WITH_MYSQL)
         db/mysql/mysql_query_data_editor.cpp
         db/mysql/mysql_collation_fetcher.cpp
         db/mysql/mysql_connection.cpp
+        db/mysql/mysql_connection_query_killer.cpp
         db/mysql/mysql_query_data_fetcher.cpp
         db/mysql/mysql_table_editor.cpp
         db/mysql/mysql_table_engines_fetcher.cpp
@@ -309,6 +311,7 @@ if (WITH_POSTGRESQL)
         db/data_type/pg_connection_data_types.cpp
 
         db/pg/pg_connection.cpp
+        db/pg/pg_connection_query_killer.cpp
         db/pg/pg_entities_fetcher.cpp
         db/pg/pg_entity_create_code_generator.cpp
         db/pg/pg_query.cpp

@@ -54,8 +54,16 @@ public:
 
     bool isCancelQueryActionEnabled() const;
 
+    // false on error
+    bool cancelQueries();
+
+    QString lastCancelError() const {
+        return _lastCancelError;
+    }
+
 private:
     meow::db::UserQuery * _query;
+    QString _lastCancelError;
 };
 
 } // namespace ui

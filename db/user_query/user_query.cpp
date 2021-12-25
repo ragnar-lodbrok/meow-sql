@@ -38,6 +38,9 @@ void UserQuery::runInCurrentConnection(const QStringList & queries)
     // do ping in main thread to handle possible reconnection
     try {
         _lastRunningConnection->ping(true);
+         // get id before async query execution to allow
+         // KILL QUERY ID from another thread
+        _lastRunningConnection->connectionIdOnServer();
     } catch(meow::db::Exception & ex) {
         Q_UNUSED(ex);
         // TODO: process exception?

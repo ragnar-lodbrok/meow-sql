@@ -1,4 +1,5 @@
 #include "pg_connection.h"
+#include "pg_connection_query_killer.h"
 #include <QElapsedTimer>
 #include "helpers/logger.h"
 #include "pg_query_result.h"
@@ -401,12 +402,19 @@ QString PGConnection::limitOnePostfix(bool select) const
 
 int64_t PGConnection::connectionIdOnServer()
 {
+    // TODO: not tested
     if (_connectionIdOnServer == -1) {
         if (ping(false)) {
             _connectionIdOnServer = PQbackendPID(_handle);
         }
     }
     return _connectionIdOnServer;
+}
+
+ConnectionQueryKillerPtr PGConnection::createQueryKiller() const
+{
+    return std::make_shared<PGConnectionQueryKiller>(
+                const_cast<PGConnection *>(this));
 }
 
 DataBaseEntitiesFetcher * PGConnection::createDbEntitiesFetcher()
