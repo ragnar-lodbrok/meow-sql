@@ -92,11 +92,11 @@ bool CentralRightQueryPresenter::cancelQueries()
 {
     if (!isRunning()) return true;
 
+    _query->abort();
+
     db::Connection * connection = _query->lastRunningConnection();
 
     if (!connection) return true;
-
-    // TODO: abort _query
 
     db::ConnectionQueryKillerPtr killer = connection->createQueryKiller();
 

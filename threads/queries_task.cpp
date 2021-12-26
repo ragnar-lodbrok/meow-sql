@@ -32,6 +32,11 @@ bool QueriesTask::isFailed() const
     return _executor.failed();
 }
 
+void QueriesTask::abort()
+{
+    _executor.abort();
+}
+
 QString QueriesTask::errorMessage() const
 {
     return _executor.error().message();
@@ -70,6 +75,11 @@ int QueriesTask::queryTotalCount() const
 int QueriesTask::queryFailedCount() const
 {
     return _executor.queryFailedCount();
+}
+
+int QueriesTask::querySuccessCount() const
+{
+    return _executor.querySuccessCount();
 }
 
 std::chrono::milliseconds QueriesTask::execDuration() const

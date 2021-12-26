@@ -33,6 +33,7 @@ public:
     }
     int queryTotalCount() const;
     int queryFailedCount() const;
+    int querySuccessCount() const;
 
     std::chrono::milliseconds execDuration() const;
     std::chrono::milliseconds networkDuration() const;
@@ -77,6 +78,8 @@ public:
     }
 
     void setIsRunning(bool isRunning);
+
+    void abort();
 
     Connection * lastRunningConnection() const {
         return _lastRunningConnection;

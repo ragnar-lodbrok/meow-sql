@@ -11,6 +11,7 @@ BatchExecutor::BatchExecutor()
     , _currentQueryIndex(0)
     , _queryTotalCount(0)
     , _queryFailedCount(0)
+    , _isAborted(false)
 {
 
 }
@@ -22,10 +23,12 @@ bool BatchExecutor::run(Connection * connection, const QStringList & queries)
         _results.clear();
         _error = db::Exception();
         _failed = false;
+        _isAborted = false;
 
         _currentQueryIndex = 0;
         _queryTotalCount = queries.size();
         _queryFailedCount = 0;
+        _querySuccessCount = 0;
     }
 
     bool doBreak = false;
@@ -44,6 +47,11 @@ bool BatchExecutor::run(Connection * connection, const QStringList & queries)
 
         try {
             query->execute();
+            {
+                // no inc if above raises
+                QMutexLocker locker(&_mutex);
+                ++_querySuccessCount;
+            }
         } catch(meow::db::Exception & ex) {
             {
                 QMutexLocker locker(&_mutex);
@@ -60,24 +68,28 @@ bool BatchExecutor::run(Connection * connection, const QStringList & queries)
             }
         }
 
-        // TODO: H:
-        //Inc(FQueryTime, FConnection.LastQueryDuration);
-        //Inc(FQueryNetTime, FConnection.LastQueryNetworkDuration);
-        //Inc(FRowsAffected, FConnection.RowsAffected);
-        //Inc(FRowsFound, FConnection.RowsFound);
-        //Inc(FWarningCount, FConnection.WarningCount);
-
         emit afterQueryExecution(_currentQueryIndex, _queryTotalCount);
+
+        if (_isAborted) {
+            doBreak = true;
+        }
 
         if (doBreak) break;
 
         {
             QMutexLocker locker(&_mutex);
-            ++_currentQueryIndex;
+            if (_currentQueryIndex < (_queryTotalCount - 1)) {
+                ++_currentQueryIndex;
+            }
         }
     }
 
     return !_failed;
+}
+
+void BatchExecutor::abort()
+{
+    _isAborted = true;
 }
 
 db::QueryPtr BatchExecutor::resultAt(int queryIndex) const

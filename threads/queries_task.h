@@ -25,6 +25,7 @@ public:
     ~QueriesTask() override;
     void run() override;
     bool isFailed() const override;
+    void abort();
     QString errorMessage() const;
 
     int currentResultsCount() const;
@@ -36,6 +37,7 @@ public:
 
     int queryTotalCount() const;
     int queryFailedCount() const;
+    int querySuccessCount() const;
 
     std::chrono::milliseconds execDuration() const;
     std::chrono::milliseconds networkDuration() const;

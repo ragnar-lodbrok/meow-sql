@@ -18,6 +18,7 @@ class BatchExecutor : public QObject
 public:
     BatchExecutor();
     bool run(Connection * connection, const QStringList & queries);
+    void abort();
 
     db::QueryPtr resultAt(int queryIndex) const;
     const db::Exception & error() const {
@@ -46,6 +47,10 @@ public:
         QMutexLocker locker(&_mutex);
         return _queryFailedCount;
     }
+    int querySuccessCount() const {
+        QMutexLocker locker(&_mutex);
+        return _querySuccessCount;
+    }
 
     db::ulonglong rowsFound() const;
     db::ulonglong rowsAffected() const;
@@ -64,7 +69,9 @@ private:
     int _currentQueryIndex;
     int _queryTotalCount;
     int _queryFailedCount;
+    int _querySuccessCount;
     bool _stopOnError = true;
+    std::atomic<bool> _isAborted;
 
     mutable QMutex _mutex;
 };

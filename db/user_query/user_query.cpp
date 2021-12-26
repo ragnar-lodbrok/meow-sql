@@ -82,6 +82,12 @@ int UserQuery::queryFailedCount() const
     return _queriesTask ? _queriesTask->queryFailedCount() : 0;
 }
 
+int UserQuery::querySuccessCount() const
+{
+    MEOW_ASSERT_MAIN_THREAD
+    return _queriesTask ? _queriesTask->querySuccessCount() : 0;
+}
+
 std::chrono::milliseconds UserQuery::execDuration() const
 {
     MEOW_ASSERT_MAIN_THREAD
@@ -130,7 +136,7 @@ void UserQuery::onQueriesFinished()
     }
 
     int totalCount = queryTotalCount();
-    int successCount = totalCount - queryFailedCount();
+    int successCount = querySuccessCount();
 
     QString durationAndCountStr = QString("Duration for %1 ").arg(successCount);
 
@@ -184,6 +190,13 @@ void UserQuery::setIsRunning(bool isRunning)
     bool prev = _isRunning.exchange(isRunning);
     if (prev != isRunning) {
         emit isRunningChanged(isRunning);
+    }
+}
+
+void UserQuery::abort()
+{
+    if (_queriesTask) {
+        _queriesTask->abort();
     }
 }
 

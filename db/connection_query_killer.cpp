@@ -27,6 +27,8 @@ void ConnectionQueryKiller::run()
 
     ConnectionPtr connection = params->createConnection();
 
+    // TODO: H: Killer.LogPrefix := _('Helper connection');
+
     connection->query(killQueryStatement());
 }
 
