@@ -2,17 +2,15 @@
 #define UI_CENTRAL_RIGHT_ROUTINE_INFO_H
 
 #include <QtWidgets>
-#include "models/ui/routine_info_widget_model.h"
+#include "ui/presenters/routine_info_widget_model.h"
 
 namespace meow {
+namespace ui {
 
-namespace models {
-namespace forms {
+namespace presenters {
     class RoutineForm;
 }
-}
 
-namespace ui {
 namespace main_window {
 namespace central_right {
 
@@ -26,7 +24,7 @@ class ParametersTab;
 class RoutineInfo : public QWidget
 {
 public:
-    explicit RoutineInfo(models::forms::RoutineForm * form,
+    explicit RoutineInfo(presenters::RoutineForm * form,
                          QWidget *parent = nullptr);
 
     void refreshData();
@@ -39,8 +37,8 @@ private:
 
     void createTabs();
 
-    models::ui::RoutineInfoWidgetModel _tabsModel;
-    models::forms::RoutineForm * _form;
+    presenters::RoutineInfoWidgetModel _tabsModel;
+    presenters::RoutineForm * _form;
 
     QTabWidget  * _rootTabs;
     routine_info::OptionsTab * _optionsTab;

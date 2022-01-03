@@ -47,14 +47,14 @@ SSHTunnelTab * SessionForm::sshTunnelTab()
 }
 
 void SessionForm::setConnectionParamsForm(
-        models::forms::ConnectionParametersForm * form)
+        presenters::ConnectionParametersForm * form)
 {
     _connectionParamsForm = form;
     fillDataFromForm();
 
     if (form) {
         connect(form,
-                &models::forms::ConnectionParametersForm::networkTypeChanged,
+                &presenters::ConnectionParametersForm::networkTypeChanged,
                 this,
                 &SessionForm::fillDataFromForm);
     }

@@ -2,7 +2,7 @@
 #define UI_USER_MANAGER_WINDOW_H
 
 #include <QtWidgets>
-#include "models/forms/user_management_form.h"
+#include "ui/presenters/user_management_form.h"
 
 namespace meow {
 
@@ -46,7 +46,7 @@ private:
     Q_SLOT void onCloneUserClicked();
     Q_SLOT void onDeleteUserClicked();
 
-    models::forms::UserManagementForm _form;
+    presenters::UserManagementForm _form;
 
     main_window::Window * _mainWindow;
     db::SessionEntity * _session;

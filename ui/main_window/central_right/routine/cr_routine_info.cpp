@@ -7,7 +7,7 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-RoutineInfo::RoutineInfo(models::forms::RoutineForm * form,
+RoutineInfo::RoutineInfo(presenters::RoutineForm * form,
                          QWidget *parent)
     : QWidget(parent)
     , _form(form)
@@ -29,14 +29,14 @@ void RoutineInfo::createTabs()
     _rootTabs->setSizePolicy(
                 QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
-#ifdef Q_OS_MAC
+#ifdef Q_OS_MACOS
     _rootTabs->setDocumentMode(true);
 #endif
 
     _optionsTab = new routine_info::OptionsTab(_form, this);
     _parametersTab = new routine_info::ParametersTab(_form, this);
 
-    using RoutineInfoTabs = models::ui::RoutineInfoWidgetTabs;
+    using RoutineInfoTabs = presenters::RoutineInfoWidgetTabs;
 
     _rootTabs->addTab(_optionsTab,
                       _tabsModel.tabIcon(RoutineInfoTabs::Options),

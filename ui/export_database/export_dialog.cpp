@@ -1,13 +1,13 @@
 #include "export_dialog.h"
 #include "top_widget.h"
 #include "bottom_widget.h"
-#include "models/forms/export_database_form.h"
+#include "ui/presenters/export_database_form.h"
 
 namespace meow {
 namespace ui {
 namespace export_database {
 
-Dialog::Dialog(models::forms::ExportDatabaseForm * form)
+Dialog::Dialog(presenters::ExportDatabaseForm * form)
     : QDialog(nullptr, Qt::WindowCloseButtonHint),
       _form(form)
 {
@@ -42,12 +42,12 @@ void Dialog::createWidgets()
     );
 
     connect(_form,
-            &models::forms::ExportDatabaseForm::finished,
+            &presenters::ExportDatabaseForm::finished,
             this,
             &Dialog::exportFinished);
 
     connect(_form,
-            &models::forms::ExportDatabaseForm::progressMessage,
+            &presenters::ExportDatabaseForm::progressMessage,
             _topWidget,
             &TopWidget::appendToResults);
 

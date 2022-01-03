@@ -1,5 +1,5 @@
 #include "cr_routine_info_options_tab.h"
-#include "models/forms/routine_form.h"
+#include "ui/presenters/routine_form.h"
 
 namespace meow {
 namespace ui {
@@ -7,7 +7,7 @@ namespace main_window {
 namespace central_right {
 namespace routine_info {
 
-OptionsTab::OptionsTab(models::forms::RoutineForm *form,
+OptionsTab::OptionsTab(presenters::RoutineForm *form,
                        QWidget *parent)
     : QWidget(parent)
     , _form(form)

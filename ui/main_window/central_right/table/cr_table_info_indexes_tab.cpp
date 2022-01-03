@@ -1,9 +1,9 @@
 #include "cr_table_info_indexes_tab.h"
 #include "cr_table_indexes_tools.h"
-#include "models/forms/table_info_form.h"
-#include "models/forms/table_indexes_model.h"
-#include "models/forms/table_foreign_keys_model.h"
-#include "models/delegates/table_index_delegate.h"
+#include "ui/presenters/table_info_form.h"
+#include "ui/models/table_indexes_model.h"
+#include "ui/models/table_foreign_keys_model.h"
+#include "ui/delegates/table_index_delegate.h"
 
 namespace meow {
 namespace ui {
@@ -11,7 +11,7 @@ namespace main_window {
 namespace central_right {
 namespace table_info {
 
-IndexesTab::IndexesTab(models::forms::TableInfoForm * form,
+IndexesTab::IndexesTab(presenters::TableInfoForm * form,
                        QWidget *parent)
     : QWidget(parent),
       _tableForm(form)
@@ -21,7 +21,7 @@ IndexesTab::IndexesTab(models::forms::TableInfoForm * form,
     validateControls();
 
     connect(form,
-            &models::forms::TableInfoForm::tableColumnRemoved,
+            &presenters::TableInfoForm::tableColumnRemoved,
             this,
             &IndexesTab::onTableColumnRemoved
     );
@@ -53,7 +53,7 @@ void IndexesTab::createWidgets()
             this,
             &IndexesTab::selectedIndexItemChanged
     );
-    auto treeDelegate = new models::delegates::TableIndexDelegate(treeModel);
+    auto treeDelegate = new delegates::TableIndexDelegate(treeModel);
     _indexesTree->setItemDelegate(treeDelegate);
     _mainLayout->addWidget(_indexesTree, 1);
 }
@@ -110,7 +110,7 @@ void IndexesTab::actionAddIndex(bool checked)
     // select
     QModelIndex newRowNameIndex = model->index(
         newRowIntIndex,
-        static_cast<int>(meow::models::forms::TableIndexesModel::Columns::Name));
+        static_cast<int>(models::TableIndexesModel::Columns::Name));
     _indexesTree->selectionModel()->setCurrentIndex(
         newRowNameIndex,
         QItemSelectionModel::ClearAndSelect);

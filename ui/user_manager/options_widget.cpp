@@ -4,14 +4,14 @@ namespace meow {
 namespace ui {
 namespace user_manager {
 
-OptionsWidget::OptionsWidget(models::forms::UserManagementForm * form,
+OptionsWidget::OptionsWidget(presenters::UserManagementForm * form,
                              QWidget * parent)
     : QWidget(parent)
 {
     createWidgets(form);
 }
 
-void OptionsWidget::createWidgets(models::forms::UserManagementForm * form)
+void OptionsWidget::createWidgets(presenters::UserManagementForm * form)
 {
     _rootTabs = new QTabWidget();
 
@@ -29,7 +29,7 @@ void OptionsWidget::createWidgets(models::forms::UserManagementForm * form)
     _credentialsTab = new CredentialsTab(form, this);
     _limitationsTab = new LimitationsTab(form, this);
 
-    using Tabs = models::ui::UserOptionsWidgetModel::Tabs;
+    using Tabs = presenters::UserOptionsWidgetModel::Tabs;
 
     _rootTabs->addTab(_credentialsTab,
                       _model.tabTitle(Tabs::Credentials));

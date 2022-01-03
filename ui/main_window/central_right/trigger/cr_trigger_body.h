@@ -6,21 +6,20 @@
 
 
 namespace meow {
+namespace ui {
 
-namespace models {
-namespace forms {
+namespace presenters {
     class TriggerForm;
 }
-}
 
-namespace ui {
+
 namespace main_window {
 namespace central_right {
 
 class TriggerBody : public QWidget
 {
 public:
-    TriggerBody(meow::models::forms::TriggerForm * form,
+    TriggerBody(presenters::TriggerForm * form,
                 QWidget * parent = nullptr);
 
     void refreshData();
@@ -36,7 +35,7 @@ private:
     QLabel * _bodyLabel;
     ui::common::SQLEditor * _bodyEdit;
 
-    meow::models::forms::TriggerForm * _form;
+    presenters::TriggerForm * _form;
 };
 
 } // namespace central_right

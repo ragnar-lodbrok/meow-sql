@@ -2,7 +2,7 @@
 #define UI_USER_MANAGER_PRIVILEGES_WIDGET_H
 
 #include <QtWidgets>
-#include "models/db/user_privileges_model.h"
+#include "ui/models/user_privileges_model.h"
 
 namespace meow {
 
@@ -20,7 +20,7 @@ class Window;
 class PrivilegesWidget : public QWidget
 {
 public:
-    explicit PrivilegesWidget(models::forms::UserManagementForm * form,
+    explicit PrivilegesWidget(presenters::UserManagementForm * form,
                               Window * window);
     void fillDataFromForm();
     void validateControls();
@@ -29,9 +29,9 @@ private:
 
     Q_SLOT void onAddObjectClicked();
 
-    models::db::UserPrivilegesModel _treeModel;
+    models::UserPrivilegesModel _treeModel;
 
-    models::forms::UserManagementForm * _form;
+    presenters::UserManagementForm * _form;
     Window * _window;
 
     QLabel * _accessLabel;

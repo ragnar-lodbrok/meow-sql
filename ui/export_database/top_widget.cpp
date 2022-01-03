@@ -1,13 +1,13 @@
 #include "top_widget.h"
-#include "models/forms/export_database_form.h"
+#include "ui/presenters/export_database_form.h"
 
 namespace meow {
 namespace ui {
 namespace export_database {
 
-using Option = models::forms::MySQLDumpOption;
+using Option = presenters::MySQLDumpOption;
 
-TopWidget::TopWidget(models::forms::ExportDatabaseForm *form, QWidget *parent)
+TopWidget::TopWidget(presenters::ExportDatabaseForm *form, QWidget *parent)
     : QWidget(parent)
     , _form(form)
 {
@@ -25,7 +25,7 @@ TopWidget::TopWidget(models::forms::ExportDatabaseForm *form, QWidget *parent)
             { _disableColumnStatisticsCheckbox, Option::NoColumnStatistics}
     };
 
-    connect(_form, &models::forms::ExportDatabaseForm::optionsChanged,
+    connect(_form, &presenters::ExportDatabaseForm::optionsChanged,
             this, &TopWidget::onFormOptionsChanged);
 }
 

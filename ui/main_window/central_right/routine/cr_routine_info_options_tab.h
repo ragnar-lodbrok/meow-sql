@@ -4,14 +4,12 @@
 #include <QtWidgets>
 
 namespace meow {
+namespace ui {
 
-namespace models {
-namespace forms {
+namespace presenters {
     class RoutineForm;
 }
-}
 
-namespace ui {
 namespace main_window {
 namespace central_right {
 namespace routine_info {
@@ -19,7 +17,7 @@ namespace routine_info {
 class OptionsTab : public QWidget
 {
 public:
-    explicit OptionsTab(models::forms::RoutineForm * form,
+    explicit OptionsTab(presenters::RoutineForm * form,
                         QWidget *parent = nullptr);
     void refreshData();
     void validateControls();
@@ -28,7 +26,7 @@ private:
     void createWidgets();
     void fillDataFromForm();
 
-    models::forms::RoutineForm * _form;
+    presenters::RoutineForm * _form;
 
     QLabel * _nameLabel;
     QLineEdit * _nameEdit;

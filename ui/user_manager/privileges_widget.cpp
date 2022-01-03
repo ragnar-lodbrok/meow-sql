@@ -1,5 +1,5 @@
 #include "privileges_widget.h"
-#include "models/forms/user_management_form.h"
+#include "ui/presenters/user_management_form.h"
 #include "ui/user_manager/select_db_object.h"
 #include "db/exception.h"
 #include "user_manager_window.h"
@@ -8,7 +8,7 @@ namespace meow {
 namespace ui {
 namespace user_manager {
 
-PrivilegesWidget::PrivilegesWidget(models::forms::UserManagementForm * form,
+PrivilegesWidget::PrivilegesWidget(presenters::UserManagementForm * form,
                                    Window * window)
     : QWidget(window)
     , _treeModel(form)
@@ -63,7 +63,7 @@ void PrivilegesWidget::onAddObjectClicked()
 {
     SelectDbObject dialog(_form->session());
     if (dialog.exec() == QDialog::Accepted) {
-        const models::forms::SelectDBObjectForm::Object & object
+        const presenters::SelectDBObjectForm::Object & object
                 = dialog.form()->currentSelection();
         try {
             bool added = _treeModel.appendPrivilegeObject(

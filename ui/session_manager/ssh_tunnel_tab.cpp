@@ -114,7 +114,7 @@ void SSHTunnelTab::createWidgets()
     this->setLayout(_mainGridLayout);
 }
 
-void SSHTunnelTab::setForm(models::forms::ConnectionParametersForm * form)
+void SSHTunnelTab::setForm(presenters::ConnectionParametersForm * form)
 {
     _form = form;
     fillDataFromForm();

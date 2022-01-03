@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 #include "ui/main_window/central_right/base_root_tab.h"
-#include "models/db/database_entities_table_model.h"
+#include "ui/models/database_entities_table_model.h"
 
 namespace meow {
 namespace ui {
@@ -22,7 +22,7 @@ private:
 
     void createEntitiesTable();
 
-    models::db::DatabaseEntitiesTableModel _model;
+    models::DatabaseEntitiesTableModel _model;
     QSortFilterProxyModel _proxyEntitiesModel;
 
     QVBoxLayout * _mainLayout;

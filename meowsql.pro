@@ -129,51 +129,6 @@ SOURCES += main.cpp\
     helpers/parsing.cpp \
     helpers/random_password_generator.cpp \
     helpers/text.cpp \
-    models/db/base_data_table_model.cpp \
-    models/db/connection_params_model.cpp \
-    models/db/database_entities_table_model.cpp \
-    models/db/databases_table_model.cpp \
-    models/db/data_table_model.cpp \
-    models/db/entities_tree_model.cpp \
-    models/db/entities_tree_sort_filter_proxy_model.cpp \
-    models/db/table_columns_model.cpp \
-    models/db/variables_table_model.cpp \
-    models/db/query_data_sort_filter_proxy_model.cpp \
-    models/db/routine_parameters_model.cpp \
-    models/db/users_table_model.cpp \
-    models/db/user_privileges_model.cpp \
-    models/db/session_objects_tree_model.cpp \
-    models/delegates/checkbox_delegate.cpp \
-    models/delegates/combobox_delegate.cpp \
-    models/delegates/foreign_key_columns_delegate.cpp \
-    models/delegates/foreign_key_foreign_columns_delegate.cpp \
-    models/delegates/foreign_key_reference_option_delegate.cpp \
-    models/delegates/foreign_key_reference_table_delegate.cpp \
-    models/delegates/table_column_collation_delegate.cpp \
-    models/delegates/table_column_default_delegate.cpp \
-    models/delegates/table_column_type_delegate.cpp \
-    models/delegates/table_index_delegate.cpp \
-    models/delegates/edit_query_data_delegate.cpp \
-    models/delegates/date_time_item_editor_wrapper.cpp \
-    models/delegates/line_edit_item_editor_wrapper.cpp \
-    models/forms/connection_parameters_form.cpp \
-    models/forms/edit_database_form.cpp \
-    models/forms/export_database_form.cpp \
-    models/forms/table_foreign_keys_model.cpp \
-    models/forms/table_indexes_model.cpp \
-    models/forms/table_indexes_model_item.cpp \
-    models/forms/table_info_form.cpp \
-    models/forms/text_editor_popup_form.cpp \
-    models/forms/trigger_form.cpp \
-    models/forms/view_form.cpp \
-    models/forms/user_management_form.cpp \
-    models/forms/routine_form.cpp \
-    models/forms/select_db_object_form.cpp \
-    models/ui/central_right_host_widget_model.cpp \
-    models/ui/central_right_query_presenter.cpp \
-    models/ui/central_right_widget_model.cpp \
-    models/ui/table_info_widget_model.cpp \
-    models/ui/routine_info_widget_model.cpp \
     settings/settings_core.cpp \
     settings/settings_geometry.cpp \
     settings/settings_icons.cpp \
@@ -196,6 +151,19 @@ SOURCES += main.cpp\
     ui/common/table_cell_line_edit.cpp \
     ui/common/table_view.cpp \
     ui/common/text_editor_popup.cpp \
+    ui/delegates/checkbox_delegate.cpp \
+    ui/delegates/combobox_delegate.cpp \
+    ui/delegates/edit_query_data_delegate.cpp \
+    ui/delegates/line_edit_item_editor_wrapper.cpp \
+    ui/delegates/date_time_item_editor_wrapper.cpp \
+    ui/delegates/foreign_key_columns_delegate.cpp \
+    ui/delegates/foreign_key_foreign_columns_delegate.cpp \
+    ui/delegates/foreign_key_reference_option_delegate.cpp \
+    ui/delegates/foreign_key_reference_table_delegate.cpp \
+    ui/delegates/table_column_collation_delegate.cpp \
+    ui/delegates/table_column_default_delegate.cpp \
+    ui/delegates/table_column_type_delegate.cpp \
+    ui/delegates/table_index_delegate.cpp \
     ui/edit_database/dialog.cpp \
     ui/export_database/bottom_widget.cpp \
     ui/export_database/top_widget.cpp \
@@ -235,6 +203,38 @@ SOURCES += main.cpp\
     ui/main_window/central_widget.cpp \
     ui/main_window/main_window.cpp \
     ui/main_window/main_window_status_bar.cpp \
+    ui/models/base_data_table_model.cpp \
+    ui/models/connection_params_model.cpp \
+    ui/models/database_entities_table_model.cpp \
+    ui/models/databases_table_model.cpp \
+    ui/models/data_table_model.cpp \
+    ui/models/entities_tree_model.cpp \
+    ui/models/entities_tree_sort_filter_proxy_model.cpp \
+    ui/models/query_data_sort_filter_proxy_model.cpp \
+    ui/models/table_columns_model.cpp \
+    ui/models/table_foreign_keys_model.cpp \
+    ui/models/table_indexes_model.cpp \
+    ui/models/table_indexes_model_item.cpp \
+    ui/models/routine_parameters_model.cpp \
+    ui/models/users_table_model.cpp \
+    ui/models/user_privileges_model.cpp \
+    ui/models/variables_table_model.cpp \
+    ui/models/session_objects_tree_model.cpp \
+    ui/presenters/central_right_host_widget_model.cpp \
+    ui/presenters/central_right_widget_model.cpp \
+    ui/presenters/table_info_widget_model.cpp \
+    ui/presenters/routine_info_widget_model.cpp \
+    ui/presenters/central_right_query_presenter.cpp \
+    ui/presenters/connection_parameters_form.cpp \
+    ui/presenters/edit_database_form.cpp \
+    ui/presenters/export_database_form.cpp \
+    ui/presenters/routine_form.cpp \
+    ui/presenters/select_db_object_form.cpp \
+    ui/presenters/table_info_form.cpp \
+    ui/presenters/trigger_form.cpp \
+    ui/presenters/text_editor_popup_form.cpp \
+    ui/presenters/view_form.cpp \
+    ui/presenters/user_management_form.cpp \
     ui/user_manager/user_manager_window.cpp \
     ui/user_manager/left_widget.cpp \
     ui/user_manager/right_widget.cpp \
@@ -321,51 +321,6 @@ HEADERS  +=  app/actions.h \
     helpers/parsing.h \
     helpers/random_password_generator.h \
     helpers/text.h \
-    models/db/base_data_table_model.h \
-    models/db/connection_params_model.h \
-    models/db/database_entities_table_model.h \
-    models/db/databases_table_model.h \
-    models/db/data_table_model.h \
-    models/db/entities_tree_model.h \
-    models/db/entities_tree_sort_filter_proxy_model.h \
-    models/db/table_columns_model.h \
-    models/db/variables_table_model.h \
-    models/db/query_data_sort_filter_proxy_model.h \
-    models/db/routine_parameters_model.h \
-    models/db/users_table_model.h \
-    models/db/user_privileges_model.h \
-    models/db/session_objects_tree_model.h \
-    models/delegates/checkbox_delegate.h \
-    models/delegates/combobox_delegate.h \
-    models/delegates/foreign_key_columns_delegate.h \
-    models/delegates/foreign_key_foreign_columns_delegate.h \
-    models/delegates/foreign_key_reference_option_delegate.h \
-    models/delegates/foreign_key_reference_table_delegate.h \
-    models/delegates/table_column_collation_delegate.h \
-    models/delegates/table_column_default_delegate.h \
-    models/delegates/table_column_type_delegate.h \
-    models/delegates/table_index_delegate.h \
-    models/delegates/edit_query_data_delegate.h \
-    models/delegates/date_time_item_editor_wrapper.h \
-    models/delegates/line_edit_item_editor_wrapper.h \
-    models/forms/connection_parameters_form.h \
-    models/forms/edit_database_form.h \
-    models/forms/export_database_form.h \
-    models/forms/table_foreign_keys_model.h \
-    models/forms/table_indexes_model.h \
-    models/forms/table_indexes_model_item.h \
-    models/forms/table_info_form.h \
-    models/forms/text_editor_popup_form.h \
-    models/forms/trigger_form.h \
-    models/forms/view_form.h \
-    models/forms/user_management_form.h \
-    models/forms/routine_form.h \
-    models/forms/select_db_object_form.h \
-    models/ui/central_right_host_widget_model.h \
-    models/ui/central_right_query_presenter.h \
-    models/ui/central_right_widget_model.h \
-    models/ui/table_info_widget_model.h \
-    models/ui/routine_info_widget_model.h \
     settings/settings_core.h \
     settings/settings_geometry.h \
     settings/settings_icons.h \
@@ -391,6 +346,19 @@ HEADERS  +=  app/actions.h \
     ui/common/table_cell_line_edit.h \
     ui/common/table_view.h \
     ui/common/text_editor_popup.h \
+    ui/delegates/checkbox_delegate.h \
+    ui/delegates/combobox_delegate.h \
+    ui/delegates/edit_query_data_delegate.h \
+    ui/delegates/line_edit_item_editor_wrapper.h \
+    ui/delegates/date_time_item_editor_wrapper.h \
+    ui/delegates/foreign_key_columns_delegate.h \
+    ui/delegates/foreign_key_foreign_columns_delegate.h \
+    ui/delegates/foreign_key_reference_option_delegate.h \
+    ui/delegates/foreign_key_reference_table_delegate.h \
+    ui/delegates/table_column_collation_delegate.h \
+    ui/delegates/table_column_default_delegate.h \
+    ui/delegates/table_column_type_delegate.h \
+    ui/delegates/table_index_delegate.h \
     ui/edit_database/dialog.h \
     ui/export_database/bottom_widget.h \
     ui/export_database/top_widget.h \
@@ -432,6 +400,38 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_widget.h \
     ui/main_window/main_window.h \
     ui/main_window/main_window_status_bar.h \
+    ui/models/base_data_table_model.h \
+    ui/models/connection_params_model.h \
+    ui/models/database_entities_table_model.h \
+    ui/models/databases_table_model.h \
+    ui/models/data_table_model.h \
+    ui/models/entities_tree_model.h \
+    ui/models/entities_tree_sort_filter_proxy_model.h \
+    ui/models/query_data_sort_filter_proxy_model.h \
+    ui/models/table_columns_model.h \
+    ui/models/table_foreign_keys_model.h \
+    ui/models/table_indexes_model.h \
+    ui/models/table_indexes_model_item.h \
+    ui/models/routine_parameters_model.h \
+    ui/models/users_table_model.h \
+    ui/models/user_privileges_model.h \
+    ui/models/variables_table_model.h \
+    ui/models/session_objects_tree_model.h \
+    ui/presenters/central_right_host_widget_model.h \
+    ui/presenters/central_right_widget_model.h \
+    ui/presenters/table_info_widget_model.h \
+    ui/presenters/routine_info_widget_model.h \
+    ui/presenters/central_right_query_presenter.h \
+    ui/presenters/connection_parameters_form.h \
+    ui/presenters/edit_database_form.h \
+    ui/presenters/export_database_form.h \
+    ui/presenters/routine_form.h \
+    ui/presenters/select_db_object_form.h \
+    ui/presenters/table_info_form.h \
+    ui/presenters/trigger_form.h \
+    ui/presenters/text_editor_popup_form.h \
+    ui/presenters/view_form.h \
+    ui/presenters/user_management_form.h \
     ui/user_manager/user_manager_window.h \
     ui/user_manager/left_widget.h \
     ui/user_manager/right_widget.h \

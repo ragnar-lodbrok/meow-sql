@@ -4,14 +4,12 @@
 #include <QtWidgets>
 
 namespace meow {
+namespace ui {
 
-namespace models {
-namespace forms {
+namespace presenters {
     class ExportDatabaseForm;
 }
-}
 
-namespace ui {
 namespace export_database {
 
 class TopWidget;
@@ -20,7 +18,7 @@ class BottomWidget;
 class Dialog : public QDialog
 {
 public:
-    explicit Dialog(models::forms::ExportDatabaseForm * form);
+    explicit Dialog(presenters::ExportDatabaseForm * form);
 
 private:
 
@@ -32,7 +30,7 @@ private:
 
     Q_SLOT void exportFinished(bool success);
 
-    models::forms::ExportDatabaseForm * _form;
+    presenters::ExportDatabaseForm * _form;
 
     QVBoxLayout * _mainLayout;
 

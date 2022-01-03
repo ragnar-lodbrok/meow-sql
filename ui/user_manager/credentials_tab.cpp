@@ -1,11 +1,11 @@
 #include "credentials_tab.h"
-#include "models/forms/user_management_form.h"
+#include "ui/presenters/user_management_form.h"
 
 namespace meow {
 namespace ui {
 namespace user_manager {
 
-CredentialsTab::CredentialsTab(models::forms::UserManagementForm *form,
+CredentialsTab::CredentialsTab(presenters::UserManagementForm *form,
                                QWidget * parent)
     : QWidget(parent)
     , _form(form)

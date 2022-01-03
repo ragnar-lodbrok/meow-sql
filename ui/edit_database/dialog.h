@@ -4,20 +4,18 @@
 #include <QtWidgets>
 
 namespace meow {
+namespace ui {
 
-namespace models {
-namespace forms {
+namespace presenters {
     class EditDatabaseForm;
 }
-}
 
-namespace ui {
 namespace edit_database {
 
 class Dialog : public QDialog
 {
 public:
-    explicit Dialog(models::forms::EditDatabaseForm * form);
+    explicit Dialog(presenters::EditDatabaseForm * form);
 private:
     void createWidgets();
     void fillDataFromForm();
@@ -26,7 +24,7 @@ private:
     Q_SLOT void onAccept();
     bool beforeAlterDatabase();
 
-    models::forms::EditDatabaseForm * _form;
+    presenters::EditDatabaseForm * _form;
 
     QLabel * _nameLabel;
     QLineEdit * _nameEdit;

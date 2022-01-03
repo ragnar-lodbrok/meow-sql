@@ -1,12 +1,12 @@
 #include "limitations_tab.h"
 #include <limits>
-#include "models/forms/user_management_form.h"
+#include "ui/presenters/user_management_form.h"
 
 namespace meow {
 namespace ui {
 namespace user_manager {
 
-LimitationsTab::LimitationsTab(models::forms::UserManagementForm * form,
+LimitationsTab::LimitationsTab(presenters::UserManagementForm * form,
                                QWidget * parent)
     : QWidget(parent)
     , _form(form)

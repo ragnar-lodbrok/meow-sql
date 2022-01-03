@@ -14,14 +14,14 @@ TextEditorPopup::TextEditorPopup()
     createActions();
     createWidgets();
 
-    connect(&_form, &models::forms::TextEditorPopupForm::wordWrapChanged,
+    connect(&_form, &presenters::TextEditorPopupForm::wordWrapChanged,
         [=](bool wrap){
             _textEdit->setWordWrapMode(
                 wrap ? QTextOption::WrapAnywhere : QTextOption::NoWrap
             );
         });
 
-    connect(&_form, &models::forms::TextEditorPopupForm::lineBreaksChanged,
+    connect(&_form, &presenters::TextEditorPopupForm::lineBreaksChanged,
         [=](helpers::LineBreaks lineBreaks, bool detected){
             QAction * action = _lineBreaksActions.value(lineBreaks,
                                                         nullptr);

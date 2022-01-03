@@ -2,7 +2,7 @@
 #define UI_CENTRAL_RIGHT_TABLE_COLUMNS_H
 
 #include <QtWidgets>
-#include "models/db/table_columns_model.h"
+#include "ui/models/table_columns_model.h"
 
 namespace meow {
 namespace ui {
@@ -27,7 +27,7 @@ public:
 
     void validateControls();
 
-    const models::db::TableColumnsModel * model() const { return &_model; }
+    const models::TableColumnsModel * model() const { return &_model; }
 
 private:
 
@@ -40,7 +40,7 @@ private:
     TableColumnsTools * _tools;
     QTableView  * _columnsTable;
 
-    models::db::TableColumnsModel _model;
+    models::TableColumnsModel _model;
 };
 
 } // namespace central_right

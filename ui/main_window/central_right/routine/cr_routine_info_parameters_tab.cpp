@@ -1,8 +1,8 @@
 #include "cr_routine_info_parameters_tab.h"
 #include "cr_routine_parameters_tools.h"
 #include "app/app.h"
-#include "models/forms/routine_form.h"
-#include "models/delegates/combobox_delegate.h"
+#include "ui/presenters/routine_form.h"
+#include "ui/delegates/combobox_delegate.h"
 
 namespace meow {
 namespace ui {
@@ -11,7 +11,7 @@ namespace central_right {
 namespace routine_info {
 
 
-ParametersTab::ParametersTab(models::forms::RoutineForm *form,
+ParametersTab::ParametersTab(presenters::RoutineForm *form,
                              QWidget *parent)
     : QWidget(parent)
     , _form(form)
@@ -52,17 +52,17 @@ void ParametersTab::createWidgets()
             &ParametersTab::currentRowChanged
     );
 
-    models::delegates::ComboboxDelegate * contextDelegate
-        = new models::delegates::ComboboxDelegate(model);
+    delegates::ComboboxDelegate * contextDelegate
+        = new delegates::ComboboxDelegate(model);
     _paramsTable->setItemDelegateForColumn(
-        (int)models::db::RoutineParametersModel::Columns::Context,
+        (int)models::RoutineParametersModel::Columns::Context,
         contextDelegate);
 
-    models::delegates::ComboboxDelegate * dataTypeDelegate
-        = new models::delegates::ComboboxDelegate(model);
+    delegates::ComboboxDelegate * dataTypeDelegate
+        = new delegates::ComboboxDelegate(model);
     dataTypeDelegate->setComboboxEditable(true);
     _paramsTable->setItemDelegateForColumn(
-        (int)models::db::RoutineParametersModel::Columns::DataType,
+        (int)models::RoutineParametersModel::Columns::DataType,
         dataTypeDelegate);
 
     mainLayout->addWidget(_paramsTable, 1);
@@ -75,7 +75,7 @@ void ParametersTab::refreshData()
 
 void ParametersTab::validateControls()
 {
-    models::db::RoutineParametersModel * model = _form->parametersModel();
+    models::RoutineParametersModel * model = _form->parametersModel();
 
     using ParamAction = RoutineParametersTools::Action;
 
@@ -97,7 +97,7 @@ void ParametersTab::onAddAction()
 {
     // Listening: Rage Of Light - Fallen
 
-    models::db::RoutineParametersModel * model = _form->parametersModel();
+    models::RoutineParametersModel * model = _form->parametersModel();
 
     // insert
     QModelIndex curIndex = _paramsTable->selectionModel()->currentIndex();
@@ -107,7 +107,7 @@ void ParametersTab::onAddAction()
     // select
     QModelIndex newRowNameIndex = _paramsTable->model()->index(
         newRowIntIndex,
-        (int)meow::models::db::RoutineParametersModel::Columns::Name);
+        (int)models::RoutineParametersModel::Columns::Name);
     _paramsTable->selectionModel()
         ->setCurrentIndex(newRowNameIndex, QItemSelectionModel::Current);
 
@@ -125,7 +125,7 @@ void ParametersTab::onRemoveAction()
 {
     QModelIndex curIndex = _paramsTable->selectionModel()->currentIndex();
     if (curIndex.isValid()) {
-        models::db::RoutineParametersModel * model = _form->parametersModel();
+        models::RoutineParametersModel * model = _form->parametersModel();
         model->removeParamAt(curIndex.row());
         validateControls();
     }
@@ -133,7 +133,7 @@ void ParametersTab::onRemoveAction()
 
 void ParametersTab::onClearAction()
 {
-    models::db::RoutineParametersModel * model = _form->parametersModel();
+    models::RoutineParametersModel * model = _form->parametersModel();
     model->removeAllParams();
     validateControls();
 }
@@ -142,7 +142,7 @@ void ParametersTab::onMoveUpAction()
 {
     QModelIndex curIndex = _paramsTable->selectionModel()->currentIndex();
     if (curIndex.isValid()) {
-        models::db::RoutineParametersModel * model = _form->parametersModel();
+        models::RoutineParametersModel * model = _form->parametersModel();
         if (model->moveParamUp(curIndex.row())) {
             scrollToCurrent();
             validateControls();
@@ -154,7 +154,7 @@ void ParametersTab::onMoveDownAction()
 {
     QModelIndex curIndex = _paramsTable->selectionModel()->currentIndex();
     if (curIndex.isValid()) {
-        models::db::RoutineParametersModel * model = _form->parametersModel();
+        models::RoutineParametersModel * model = _form->parametersModel();
         if (model->moveParamDown(curIndex.row())) {
             scrollToCurrent();
             validateControls();

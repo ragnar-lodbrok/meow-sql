@@ -1,17 +1,17 @@
 #include "central_left_db_tree.h"
 #include <QtWidgets>
 #include <QSortFilterProxyModel>
-#include "models/db/entities_tree_model.h"
+#include "ui/models/entities_tree_model.h"
 #include "app/app.h"
 #include "helpers/logger.h"
 #include "db/entity/database_entity.h"
 #include "db/common.h"
 
 #include "ui/edit_database/dialog.h"
-#include "models/forms/edit_database_form.h"
+#include "ui/presenters/edit_database_form.h"
 
 #include "ui/export_database/export_dialog.h"
-#include "models/forms/export_database_form.h"
+#include "ui/presenters/export_database_form.h"
 
 namespace meow {
 namespace ui {
@@ -130,7 +130,7 @@ void DbTree::createActions()
 
         db::SessionEntity * session
             = treeModel->dbConnectionsManager()->activeSession();
-        models::forms::EditDatabaseForm form(session, database, false);
+        presenters::EditDatabaseForm form(session, database, false);
         meow::ui::edit_database::Dialog dialog(&form);
         dialog.exec();
 
@@ -207,7 +207,7 @@ void DbTree::createActions()
 
         db::SessionEntity * session
             = treeModel->dbConnectionsManager()->activeSession();
-        models::forms::EditDatabaseForm form(session, nullptr, true);
+        presenters::EditDatabaseForm form(session, nullptr, true);
         meow::ui::edit_database::Dialog dialog(&form);
         dialog.exec();
     });
@@ -269,7 +269,7 @@ void DbTree::createActions()
         db::SessionEntity * session
             = treeModel->dbConnectionsManager()->activeSession();
 
-        models::forms::ExportDatabaseForm form(session);
+        presenters::ExportDatabaseForm form(session);
 
         db::Entity * currentEntity = treeModel->currentEntity();
         if (currentEntity) {
@@ -327,16 +327,16 @@ bool DbTree::currentItemSupportsEditing() const
     return false;
 }
 
-meow::models::db::EntitiesTreeModel * DbTree::treeModel() const
+models::EntitiesTreeModel * DbTree::treeModel() const
 {
 #ifdef MEOW_SORT_FILTER_ENTITIES_TREE
     QSortFilterProxyModel * proxyModel
             = static_cast<QSortFilterProxyModel *>(model());
-    return static_cast<models::db::EntitiesTreeModel *>(
+    return static_cast<models::EntitiesTreeModel *>(
                 proxyModel->sourceModel());
 #endif
 
-    return static_cast<models::db::EntitiesTreeModel *>(model());
+    return static_cast<models::EntitiesTreeModel *>(model());
 }
 
 } // namespace meow

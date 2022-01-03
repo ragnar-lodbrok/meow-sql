@@ -151,51 +151,6 @@ set(SOURCE_FILES
     helpers/parsing.cpp
     helpers/random_password_generator.cpp
     helpers/text.cpp
-    models/db/base_data_table_model.cpp
-    models/db/connection_params_model.cpp
-    models/db/database_entities_table_model.cpp
-    models/db/databases_table_model.cpp
-    models/db/data_table_model.cpp
-    models/db/entities_tree_model.cpp
-    models/db/entities_tree_sort_filter_proxy_model.cpp
-    models/db/table_columns_model.cpp
-    models/db/routine_parameters_model.cpp
-    models/db/query_data_sort_filter_proxy_model.cpp
-    models/db/users_table_model.cpp
-    models/db/user_privileges_model.cpp
-    models/db/variables_table_model.cpp
-    models/db/session_objects_tree_model.cpp
-    models/delegates/checkbox_delegate.cpp
-    models/delegates/combobox_delegate.cpp
-    models/delegates/edit_query_data_delegate.cpp
-    models/delegates/line_edit_item_editor_wrapper.cpp
-    models/delegates/date_time_item_editor_wrapper.cpp
-    models/delegates/foreign_key_columns_delegate.cpp
-    models/delegates/foreign_key_foreign_columns_delegate.cpp
-    models/delegates/foreign_key_reference_option_delegate.cpp
-    models/delegates/foreign_key_reference_table_delegate.cpp
-    models/delegates/table_column_collation_delegate.cpp
-    models/delegates/table_column_default_delegate.cpp
-    models/delegates/table_column_type_delegate.cpp
-    models/delegates/table_index_delegate.cpp
-    models/forms/connection_parameters_form.cpp
-    models/forms/edit_database_form.cpp
-    models/forms/export_database_form.cpp
-    models/forms/routine_form.cpp
-    models/forms/select_db_object_form.cpp
-    models/forms/table_foreign_keys_model.cpp
-    models/forms/table_indexes_model.cpp
-    models/forms/table_indexes_model_item.cpp
-    models/forms/table_info_form.cpp
-    models/forms/trigger_form.cpp
-    models/forms/text_editor_popup_form.cpp
-    models/forms/view_form.cpp
-    models/forms/user_management_form.cpp
-    models/ui/central_right_host_widget_model.cpp
-    models/ui/central_right_widget_model.cpp
-    models/ui/table_info_widget_model.cpp
-    models/ui/routine_info_widget_model.cpp
-    models/ui/central_right_query_presenter.cpp
     settings/settings_core.cpp
     settings/settings_geometry.cpp
     settings/settings_icons.cpp
@@ -219,6 +174,19 @@ set(SOURCE_FILES
     ui/common/table_column_default_editor.cpp
     ui/common/table_view.cpp
     ui/common/text_editor_popup.cpp
+    ui/delegates/checkbox_delegate.cpp
+    ui/delegates/combobox_delegate.cpp
+    ui/delegates/edit_query_data_delegate.cpp
+    ui/delegates/line_edit_item_editor_wrapper.cpp
+    ui/delegates/date_time_item_editor_wrapper.cpp
+    ui/delegates/foreign_key_columns_delegate.cpp
+    ui/delegates/foreign_key_foreign_columns_delegate.cpp
+    ui/delegates/foreign_key_reference_option_delegate.cpp
+    ui/delegates/foreign_key_reference_table_delegate.cpp
+    ui/delegates/table_column_collation_delegate.cpp
+    ui/delegates/table_column_default_delegate.cpp
+    ui/delegates/table_column_type_delegate.cpp
+    ui/delegates/table_index_delegate.cpp
     ui/edit_database/dialog.cpp
     ui/export_database/bottom_widget.cpp
     ui/export_database/export_dialog.cpp
@@ -261,6 +229,38 @@ set(SOURCE_FILES
     ui/main_window/central_widget.cpp
     ui/main_window/main_window.cpp
     ui/main_window/main_window_status_bar.cpp
+    ui/models/base_data_table_model.cpp
+    ui/models/connection_params_model.cpp
+    ui/models/database_entities_table_model.cpp
+    ui/models/databases_table_model.cpp
+    ui/models/data_table_model.cpp
+    ui/models/entities_tree_model.cpp
+    ui/models/entities_tree_sort_filter_proxy_model.cpp
+    ui/models/query_data_sort_filter_proxy_model.cpp
+    ui/models/table_columns_model.cpp
+    ui/models/table_foreign_keys_model.cpp
+    ui/models/table_indexes_model.cpp
+    ui/models/table_indexes_model_item.cpp
+    ui/models/routine_parameters_model.cpp
+    ui/models/users_table_model.cpp
+    ui/models/user_privileges_model.cpp
+    ui/models/variables_table_model.cpp
+    ui/models/session_objects_tree_model.cpp
+    ui/presenters/central_right_host_widget_model.cpp
+    ui/presenters/central_right_widget_model.cpp
+    ui/presenters/table_info_widget_model.cpp
+    ui/presenters/routine_info_widget_model.cpp
+    ui/presenters/central_right_query_presenter.cpp
+    ui/presenters/connection_parameters_form.cpp
+    ui/presenters/edit_database_form.cpp
+    ui/presenters/export_database_form.cpp
+    ui/presenters/routine_form.cpp
+    ui/presenters/select_db_object_form.cpp
+    ui/presenters/table_info_form.cpp
+    ui/presenters/trigger_form.cpp
+    ui/presenters/text_editor_popup_form.cpp
+    ui/presenters/view_form.cpp
+    ui/presenters/user_management_form.cpp
     ui/session_manager/session_form.cpp
     ui/session_manager/settings_tab.cpp
     ui/session_manager/ssh_tunnel_tab.cpp

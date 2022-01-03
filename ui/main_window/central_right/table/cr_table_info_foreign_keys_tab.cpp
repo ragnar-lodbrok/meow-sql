@@ -1,11 +1,11 @@
 #include "cr_table_info_foreign_keys_tab.h"
 #include "cr_table_foreign_keys_tools.h"
-#include "models/forms/table_info_form.h"
-#include "models/forms/table_foreign_keys_model.h"
-#include "models/delegates/foreign_key_reference_option_delegate.h"
-#include "models/delegates/foreign_key_reference_table_delegate.h"
-#include "models/delegates/foreign_key_foreign_columns_delegate.h"
-#include "models/delegates/foreign_key_columns_delegate.h"
+#include "ui/presenters/table_info_form.h"
+#include "ui/models/table_foreign_keys_model.h"
+#include "ui/delegates/foreign_key_reference_option_delegate.h"
+#include "ui/delegates/foreign_key_reference_table_delegate.h"
+#include "ui/delegates/foreign_key_foreign_columns_delegate.h"
+#include "ui/delegates/foreign_key_columns_delegate.h"
 #include "app/app.h"
 
 namespace meow {
@@ -14,7 +14,7 @@ namespace main_window {
 namespace central_right {
 namespace table_info {
 
-ForeignKeysTab::ForeignKeysTab(models::forms::TableInfoForm * form,
+ForeignKeysTab::ForeignKeysTab(presenters::TableInfoForm * form,
                                QWidget *parent)
     : QWidget(parent),
       _tableForm(form)
@@ -24,7 +24,7 @@ ForeignKeysTab::ForeignKeysTab(models::forms::TableInfoForm * form,
     validateControls();
 
     connect(form,
-            &models::forms::TableInfoForm::tableEngineChanged,
+            &presenters::TableInfoForm::tableEngineChanged,
             [=] (const QString & engineName) {
                 Q_UNUSED(engineName);
                 validateControls();
@@ -70,31 +70,31 @@ void ForeignKeysTab::createWidgets()
 
     // delegates ---------------------------------------------------------------
 
-    models::delegates::ForeignKeyReferenceOptionDelegate * refOptionsDelegate
-        = new models::delegates::ForeignKeyReferenceOptionDelegate(model);
+    delegates::ForeignKeyReferenceOptionDelegate * refOptionsDelegate
+        = new delegates::ForeignKeyReferenceOptionDelegate(model);
     _fKeysTable->setItemDelegateForColumn(
-        (int)models::forms::TableForeignKeysModel::Columns::OnUpdate,
+        (int)models::TableForeignKeysModel::Columns::OnUpdate,
         refOptionsDelegate);
     _fKeysTable->setItemDelegateForColumn(
-        (int)models::forms::TableForeignKeysModel::Columns::OnDelete,
+        (int)models::TableForeignKeysModel::Columns::OnDelete,
         refOptionsDelegate);
 
-    models::delegates::ForeignKeyReferenceTableDelegate * refTableDelegate
-        = new models::delegates::ForeignKeyReferenceTableDelegate(model);
+    delegates::ForeignKeyReferenceTableDelegate * refTableDelegate
+        = new delegates::ForeignKeyReferenceTableDelegate(model);
     _fKeysTable->setItemDelegateForColumn(
-        (int)models::forms::TableForeignKeysModel::Columns::ReferenceTable,
+        (int)models::TableForeignKeysModel::Columns::ReferenceTable,
         refTableDelegate);
 
-    models::delegates::ForeignKeyForeignColumnsDelegate * frgnColumnsDelegate
-        = new models::delegates::ForeignKeyForeignColumnsDelegate(model);
+    delegates::ForeignKeyForeignColumnsDelegate * frgnColumnsDelegate
+        = new delegates::ForeignKeyForeignColumnsDelegate(model);
     _fKeysTable->setItemDelegateForColumn(
-        (int)models::forms::TableForeignKeysModel::Columns::ForeignColumns,
+        (int)models::TableForeignKeysModel::Columns::ForeignColumns,
         frgnColumnsDelegate);
 
-    models::delegates::ForeignKeyColumnsDelegate * columnsDelegate
-        = new models::delegates::ForeignKeyColumnsDelegate(model);
+    delegates::ForeignKeyColumnsDelegate * columnsDelegate
+        = new delegates::ForeignKeyColumnsDelegate(model);
     _fKeysTable->setItemDelegateForColumn(
-        (int)models::forms::TableForeignKeysModel::Columns::Columns,
+        (int)models::TableForeignKeysModel::Columns::Columns,
         columnsDelegate);
 
 }
@@ -106,7 +106,7 @@ void ForeignKeysTab::refreshData()
 
 void ForeignKeysTab::validateControls()
 {
-    models::forms::TableForeignKeysModel * model
+    models::TableForeignKeysModel * model
         = _tableForm->foreignKeysModel();
 
     using ColAction = TableForeignKeysTools::Action;
@@ -131,7 +131,7 @@ void ForeignKeysTab::actionAddKey(bool checked)
     // select
     QModelIndex newRowNameIndex = model->index(
         newRowIntIndex,
-        static_cast<int>(models::forms::TableForeignKeysModel::Columns::Name));
+        static_cast<int>(models::TableForeignKeysModel::Columns::Name));
     _fKeysTable->selectionModel()->setCurrentIndex(
         newRowNameIndex,
         QItemSelectionModel::ClearAndSelect);

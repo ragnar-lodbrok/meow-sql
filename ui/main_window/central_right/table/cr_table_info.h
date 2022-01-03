@@ -2,17 +2,13 @@
 #define UI_CENTRAL_RIGHT_TABLE_INFO_H
 
 #include <QtWidgets>
-#include "models/ui/table_info_widget_model.h"
+#include "ui/presenters/table_info_widget_model.h"
 
 namespace meow {
-
-namespace models {
-namespace forms {
+namespace ui {
+namespace presenters {
     class TableInfoForm;
 }
-}
-
-namespace ui {
 namespace main_window {
 namespace central_right {
 
@@ -28,7 +24,7 @@ class TableInfo : public QWidget
     Q_OBJECT
 
 public:
-    explicit TableInfo(models::forms::TableInfoForm * form,
+    explicit TableInfo(presenters::TableInfoForm * form,
                        QWidget *parent = nullptr);
 
     void refreshData();
@@ -45,8 +41,8 @@ public:
 private:
     void createTabs();
 
-    models::ui::TableInfoWidgetModel _model;
-    models::forms::TableInfoForm * _form;
+    presenters::TableInfoWidgetModel _model;
+    presenters::TableInfoForm * _form;
 
     QTabWidget  * _rootTabs;
     table_info::BasicTab * _basicTab;

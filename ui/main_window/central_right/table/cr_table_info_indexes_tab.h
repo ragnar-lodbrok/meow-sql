@@ -4,14 +4,10 @@
 #include <QtWidgets>
 
 namespace meow {
-
-namespace models {
-namespace forms {
+namespace ui {
+namespace presenters {
     class TableInfoForm;
 }
-}
-
-namespace ui {
 namespace main_window {
 namespace central_right {
 namespace table_info {
@@ -22,7 +18,7 @@ class IndexesTab : public QWidget
 {
     Q_OBJECT
 public:
-    IndexesTab(models::forms::TableInfoForm * form,
+    IndexesTab(presenters::TableInfoForm * form,
                QWidget *parent = nullptr);
 
     void refreshData();
@@ -45,7 +41,7 @@ private:
         const QItemSelection &selected,
         const QItemSelection &deselected);
 
-    models::forms::TableInfoForm * _tableForm;
+    presenters::TableInfoForm * _tableForm;
     TableIndexesTools * _tools;
     QTreeView * _indexesTree;
     QHBoxLayout * _mainLayout;

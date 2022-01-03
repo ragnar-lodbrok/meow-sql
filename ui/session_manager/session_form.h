@@ -7,7 +7,7 @@
 #include "settings_tab.h"
 #include "ssh_tunnel_tab.h"
 
-#include "models/forms/connection_parameters_form.h"
+#include "ui/presenters/connection_parameters_form.h"
 
 namespace meow {
 namespace ui {
@@ -19,7 +19,7 @@ class SessionForm : public QWidget
 public:
     explicit SessionForm(QWidget *parent = nullptr);
 
-    void setConnectionParamsForm(models::forms::ConnectionParametersForm * form);
+    void setConnectionParamsForm(presenters::ConnectionParametersForm * form);
 private:
 
     void createDetailsTabs();
@@ -32,7 +32,7 @@ private:
     SettingsTab * _settingsTab;
     SSHTunnelTab * _sshTunnelTab;
 
-    models::forms::ConnectionParametersForm * _connectionParamsForm;
+    presenters::ConnectionParametersForm * _connectionParamsForm;
 
     bool _startTabIsHidden;
     bool _settingsTabIsHidden;

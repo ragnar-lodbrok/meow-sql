@@ -5,7 +5,7 @@
 #include "central_left_widget.h"
 #include "central_right_widget.h"
 #include "central_bottom_widget.h"
-#include "models/db/entities_tree_model.h"
+#include "ui/models/entities_tree_model.h"
 
 namespace meow {
 namespace ui {
@@ -14,7 +14,7 @@ namespace main_window {
 class CentralWidget : public QWidget
 {
 public:
-    explicit CentralWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel,
+    explicit CentralWidget(models::EntitiesTreeModel * dbEntitiesTreeModel,
                            QWidget * parent = nullptr);
 
     ~CentralWidget();
@@ -43,7 +43,7 @@ private:
     CentralRightWidget * _mainRightWidget;
     CentralBottomWidget * _mainBottomWidget;
 
-    models::db::EntitiesTreeModel * _dbEntitiesTreeModel;
+    models::EntitiesTreeModel * _dbEntitiesTreeModel;
 };
 
 } // namespace meow

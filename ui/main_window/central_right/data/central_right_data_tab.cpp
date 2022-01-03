@@ -13,9 +13,9 @@ DataTab::DataTab(QWidget *parent) :
     BaseRootTab(BaseRootTab::Type::Data, parent),
     _model(),
     _defaultTableDelegate(
-            new models::delegates::EditQueryDataDelegate(&_model, &_model)),
+            new delegates::EditQueryDataDelegate(&_model, &_model)),
     _textColumnTableDelegate(
-            new models::delegates::FormatTextQueryDataDelegate(&_model, &_model)),
+            new delegates::FormatTextQueryDataDelegate(&_model, &_model)),
     _skipApplyModifications(false)
 {
     _mainLayout = new QVBoxLayout();
@@ -55,7 +55,7 @@ DataTab::DataTab(QWidget *parent) :
             this,
             &DataTab::onDataInsert);
 
-    connect(&_model, &meow::models::db::DataTableModel::editingStarted,
+    connect(&_model, &models::DataTableModel::editingStarted,
             this, &DataTab::validateControls);
 
     validateControls();
@@ -327,7 +327,7 @@ void DataTab::validateDataToolBarState()
 {
     bool canPost = _model.isEditing();
     if (canPost) {
-        auto delegate = static_cast<models::delegates::EditQueryDataDelegate *>(
+        auto delegate = static_cast<delegates::EditQueryDataDelegate *>(
             currentItemDelegate()
         );
         canPost = (delegate ? delegate->isEditing() : false)
@@ -348,7 +348,7 @@ void DataTab::validateDataDeleteActionState()
     // complexities I can't solve now
     bool canInsert = _model.isEditable();
     if (canInsert) {
-        auto delegate = static_cast<models::delegates::EditQueryDataDelegate *>(
+        auto delegate = static_cast<delegates::EditQueryDataDelegate *>(
             currentItemDelegate()
         );
         if (delegate && delegate->isEditing()) {
@@ -525,7 +525,7 @@ void DataTab::insertEmptyRow()
 
 void DataTab::commitTableEditor()
 {
-    auto delegate = static_cast<models::delegates::EditQueryDataDelegate *>(
+    auto delegate = static_cast<delegates::EditQueryDataDelegate *>(
         currentItemDelegate()
     );
     if (delegate) {
@@ -535,7 +535,7 @@ void DataTab::commitTableEditor()
 
 void DataTab::discardTableEditor()
 {
-    auto delegate = static_cast<models::delegates::EditQueryDataDelegate *>(
+    auto delegate = static_cast<delegates::EditQueryDataDelegate *>(
         currentItemDelegate()
     );
     if (delegate) {

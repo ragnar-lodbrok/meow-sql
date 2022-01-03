@@ -18,7 +18,7 @@ HostVariablesTab::HostVariablesTab(QWidget *parent)
 
     createVariablesTable();
 
-    connect(&_model, &models::db::VariablesTableModel::setDataFailed,
+    connect(&_model, &models::VariablesTableModel::setDataFailed,
             this, &HostVariablesTab::onEditError);
 }
 

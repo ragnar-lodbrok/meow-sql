@@ -14,7 +14,7 @@ TriggerTab::TriggerTab(QWidget * parent)
     createWidgets();
 
     connect(&_form,
-            &models::forms::TriggerForm::unsavedChanged,
+            &presenters::TriggerForm::unsavedChanged,
             [=](bool hasUnsavedChanges) {
                 Q_UNUSED(hasUnsavedChanges);
                 validateControls();

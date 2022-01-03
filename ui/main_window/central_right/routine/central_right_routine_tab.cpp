@@ -14,7 +14,7 @@ RoutineTab::RoutineTab(QWidget * parent)
     createWidgets();
 
     connect(&_form,
-            &models::forms::RoutineForm::unsavedChanged,
+            &presenters::RoutineForm::unsavedChanged,
             [=](bool hasUnsavedChanges) {
                 Q_UNUSED(hasUnsavedChanges);
                 validateControls();

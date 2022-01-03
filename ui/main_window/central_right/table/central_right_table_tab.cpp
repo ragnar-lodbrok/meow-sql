@@ -14,7 +14,7 @@ TableTab::TableTab(QWidget * parent)
     createWidgets();
 
     connect(&_form,
-            &models::forms::TableInfoForm::unsavedChanged,
+            &presenters::TableInfoForm::unsavedChanged,
             [=](bool hasUnsavedChanges) {
                 Q_UNUSED(hasUnsavedChanges);
                 validateControls();
@@ -81,7 +81,7 @@ void TableTab::createWidgets()
     _columns->setMinimumSize(QSize(300, 150));
 
     connect(_columns->model(),
-            &meow::models::db::TableColumnsModel::modified,
+            &models::TableColumnsModel::modified,
             [=]() {
                 _form.setHasUnsavedChanges(true);
             }

@@ -5,7 +5,7 @@
 #include <QSharedPointer>
 
 #include "ui/session_manager/session_form.h"
-#include "models/db/connection_params_model.h"
+#include "ui/models/connection_params_model.h"
 
 namespace meow {
 namespace ui {
@@ -74,7 +74,7 @@ private:
     void saveGeometryToSettings();
     void loadGeometryFromSettings();
 
-    QSharedPointer<meow::models::db::ConnectionParamsModel> _connectionParamsModel;
+    QSharedPointer<models::ConnectionParamsModel> _connectionParamsModel;
     //QSortFilterProxyModel _proxySortModel;// TODO
 
     bool _saveConfirmCanceled;

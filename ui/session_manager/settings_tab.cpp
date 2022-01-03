@@ -167,7 +167,7 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
     onLoginPromptUpdate();
 }
 
-void SettingsTab::setForm(models::forms::ConnectionParametersForm * form)
+void SettingsTab::setForm(presenters::ConnectionParametersForm * form)
 {
     _form = form;
     fillDataFromForm();

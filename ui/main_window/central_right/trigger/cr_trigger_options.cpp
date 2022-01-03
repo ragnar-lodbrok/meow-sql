@@ -1,12 +1,12 @@
 #include "cr_trigger_options.h"
-#include "models/forms/trigger_form.h"
+#include "ui/presenters/trigger_form.h"
 
 namespace meow {
 namespace ui {
 namespace main_window {
 namespace central_right {
 
-TriggerOptions::TriggerOptions(models::forms::TriggerForm * form,
+TriggerOptions::TriggerOptions(presenters::TriggerForm * form,
                                QWidget *parent)
     : QWidget(parent)
     , _form(form)

@@ -20,10 +20,10 @@ Window::Window(main_window::Window * mainWindow, db::SessionEntity * session)
     setMinimumSize(QSize(800, 400));
     setWindowTitle(tr("User manager"));
 
-    connect(&_form, &models::forms::UserManagementForm::selectedUserChanged,
+    connect(&_form, &presenters::UserManagementForm::selectedUserChanged,
             this, &Window::onSelectedUserChanged);
 
-    connect(&_form, &models::forms::UserManagementForm::unsavedChanged,
+    connect(&_form, &presenters::UserManagementForm::unsavedChanged,
             this, &Window::validateControls);
 
     onSelectedUserChanged();

@@ -67,7 +67,7 @@ void CentralRightWidget::setActiveDBEntity(const db::EntityPtr & entityPtr)
         return;
     }
 
-    using Tabs = models::ui::CentralRightWidgetTabs;
+    using Tabs = presenters::CentralRightWidgetTabs;
 
     if (_model.connectionChanged()) {
         db::SessionEntity * sessionEntity = static_cast<db::SessionEntity *>(
@@ -190,7 +190,7 @@ void CentralRightWidget::onBeforeEntityEditing()
     meow::db::Entity * entity = _model.currentEntity();
     if (!entity) return;
 
-    using Tabs = models::ui::CentralRightWidgetTabs;
+    using Tabs = presenters::CentralRightWidgetTabs;
 
     if (_model.hasEntityTab()) {
         if (entity->type() == db::Entity::Type::Table) {
@@ -217,7 +217,7 @@ void CentralRightWidget::onEntityEdited(db::Entity * entity)
          || entity->type() == db::Entity::Type::Trigger) {
 
             _rootTabs->setTabText(
-                (int)models::ui::CentralRightWidgetTabs::Entity,
+                (int)presenters::CentralRightWidgetTabs::Entity,
                 _model.titleForEntityTab());
 
             if (_model.hasDataTab()) {
@@ -242,19 +242,19 @@ bool CentralRightWidget::onHostTab() const
 {
     // TODO: move detection to _model
     return _rootTabs->currentIndex()
-            == static_cast<int>(models::ui::CentralRightWidgetTabs::Host);
+            == static_cast<int>(presenters::CentralRightWidgetTabs::Host);
 }
 
 bool CentralRightWidget::onDatabaseTab() const
 {
     return _rootTabs->currentIndex()
-            == static_cast<int>(models::ui::CentralRightWidgetTabs::Database);
+            == static_cast<int>(presenters::CentralRightWidgetTabs::Database);
 }
 
 bool CentralRightWidget::onEntityTab() const
 {
     return _rootTabs->currentIndex()
-            == static_cast<int>(models::ui::CentralRightWidgetTabs::Entity);
+            == static_cast<int>(presenters::CentralRightWidgetTabs::Entity);
 }
 
 bool CentralRightWidget::onDataTab() const
@@ -390,7 +390,7 @@ central_right::HostTab * CentralRightWidget::hostTab()
 {
     if (!_hostTab) {
         _hostTab = new central_right::HostTab();
-        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Host,
+        _rootTabs->insertTab((int)presenters::CentralRightWidgetTabs::Host,
                              _hostTab,
                              QIcon(":/icons/host.png"),
                              _model.titleForHostTab());
@@ -403,7 +403,7 @@ central_right::DatabaseTab * CentralRightWidget::databaseTab()
 {
     if (!_databaseTab) {
         _databaseTab = new central_right::DatabaseTab();
-        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Database,
+        _rootTabs->insertTab((int)presenters::CentralRightWidgetTabs::Database,
                              _databaseTab,
                              QIcon(":/icons/database.png"),
                              _model.titleForDatabaseTab());
@@ -416,7 +416,7 @@ central_right::TableTab * CentralRightWidget::tableTab()
 {
     if (!_tableTab) {
         _tableTab = new central_right::TableTab();
-        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Entity,
+        _rootTabs->insertTab((int)presenters::CentralRightWidgetTabs::Entity,
                              _tableTab,
                              QIcon(":/icons/table.png"),
                              _model.titleForTableTab());
@@ -429,7 +429,7 @@ central_right::ViewTab * CentralRightWidget::viewTab()
 {
     if (!_viewTab) {
         _viewTab = new central_right::ViewTab();
-        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Entity,
+        _rootTabs->insertTab((int)presenters::CentralRightWidgetTabs::Entity,
                              _viewTab,
                              QIcon(":/icons/view.png"),
                              _model.titleForViewTab());
@@ -441,7 +441,7 @@ central_right::RoutineTab * CentralRightWidget::routineTab()
 {
     if (!_routineTab) {
         _routineTab = new central_right::RoutineTab();
-        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Entity,
+        _rootTabs->insertTab((int)presenters::CentralRightWidgetTabs::Entity,
                              _routineTab,
                              _model.iconForRoutineTab(),
                              _model.titleForRoutineTab());
@@ -453,7 +453,7 @@ central_right::TriggerTab * CentralRightWidget::triggerTab()
 {
     if (!_triggerTab) {
         _triggerTab = new central_right::TriggerTab();
-        _rootTabs->insertTab((int)models::ui::CentralRightWidgetTabs::Entity,
+        _rootTabs->insertTab((int)presenters::CentralRightWidgetTabs::Entity,
                              _triggerTab,
                              QIcon(":/icons/trigger.png"),
                              _model.titleForTriggerTab());

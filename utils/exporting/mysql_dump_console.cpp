@@ -1,5 +1,5 @@
 #include "mysql_dump_console.h"
-#include "models/forms/export_database_form.h"
+#include "ui/presenters/export_database_form.h"
 #include "db/entity/session_entity.h"
 #include "db/connection.h"
 #include "helpers/logger.h"
@@ -11,7 +11,7 @@ namespace exporting {
 
 const quint16 MYSQL_DEFAULT_PORT = 3306;
 
-MySQLDumpConsole::MySQLDumpConsole(models::forms::ExportDatabaseForm * form)
+MySQLDumpConsole::MySQLDumpConsole(ui::presenters::ExportDatabaseForm * form)
     : QObject()
     , _form(form)
     , _passwordEntered(false)
@@ -219,7 +219,7 @@ QStringList MySQLDumpConsole::programArguments() const
         args << "--databases" << escapeString(_form->database());
     }
 
-    using Option = models::forms::MySQLDumpOption;
+    using Option = ui::presenters::MySQLDumpOption;
 
     if (_form->isOptionEnabled(Option::AddDropDatabase)) {
         args << "--add-drop-database";

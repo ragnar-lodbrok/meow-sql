@@ -1,12 +1,12 @@
 #include "dialog.h"
-#include "models/forms/edit_database_form.h"
+#include "ui/presenters/edit_database_form.h"
 #include "db/exception.h"
 
 namespace meow {
 namespace ui {
 namespace edit_database {
 
-Dialog::Dialog(models::forms::EditDatabaseForm * form)
+Dialog::Dialog(presenters::EditDatabaseForm * form)
     : QDialog(nullptr, Qt::WindowCloseButtonHint),
       _form(form)
 {

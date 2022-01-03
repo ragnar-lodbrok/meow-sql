@@ -6,13 +6,10 @@
 #include "limitations_tab.h"
 
 namespace meow {
-namespace models {
-
-namespace forms {
-    class UserManagementForm;
-} // namespace forms
-
 namespace ui {
+namespace presenters {
+
+class UserManagementForm;
 
 class UserOptionsWidgetModel
 {
@@ -36,26 +33,22 @@ public:
     }
 };
 
-} // namespace ui
-} // namespace models
-} // namespace meow
+} // namespace presenters
 
-namespace meow {
-namespace ui {
 namespace user_manager {
 
 class OptionsWidget : public QWidget
 {
 public:
-    explicit OptionsWidget(models::forms::UserManagementForm * form,
+    explicit OptionsWidget(presenters::UserManagementForm * form,
                            QWidget * parent = nullptr);
     void fillDataFromForm();
     void onAddUserClicked();
 private:
 
-    void createWidgets(models::forms::UserManagementForm * form);
+    void createWidgets(presenters::UserManagementForm * form);
 
-    models::ui::UserOptionsWidgetModel _model;
+    presenters::UserOptionsWidgetModel _model;
 
     QTabWidget  * _rootTabs;
     CredentialsTab * _credentialsTab;

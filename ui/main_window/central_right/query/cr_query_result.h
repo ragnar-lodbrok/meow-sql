@@ -4,16 +4,12 @@
 #include <QtWidgets>
 
 namespace meow {
-
-namespace models {
 namespace ui {
 
+namespace presenters {
 class CentralRightQueryPresenter;
-
-}
 }
 
-namespace ui {
 namespace main_window {
 namespace central_right {
 
@@ -22,7 +18,7 @@ class QueryResult : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QueryResult(models::ui::CentralRightQueryPresenter * presenter,
+    explicit QueryResult(presenters::CentralRightQueryPresenter * presenter,
                          QWidget *parent = 0);
     ~QueryResult();
 
@@ -35,7 +31,7 @@ private:
 
     void removeAllDataTabs();
 
-    models::ui::CentralRightQueryPresenter * _presenter;
+    presenters::CentralRightQueryPresenter * _presenter;
 
     QTabWidget  * _dataTabs;
 };

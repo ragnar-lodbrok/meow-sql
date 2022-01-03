@@ -5,7 +5,7 @@ namespace meow {
 namespace ui {
 namespace main_window {
 
-CentralWidget::CentralWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel,
+CentralWidget::CentralWidget(models::EntitiesTreeModel * dbEntitiesTreeModel,
                              QWidget * parent)
     :QWidget(parent),
      _dbEntitiesTreeModel(dbEntitiesTreeModel)

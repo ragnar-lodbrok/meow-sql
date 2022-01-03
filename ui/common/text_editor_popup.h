@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 #include "helpers/text.h"
-#include "models/forms/text_editor_popup_form.h"
+#include "ui/presenters/text_editor_popup_form.h"
 
 #include "ui/common/sql_editor.h"
 
@@ -34,7 +34,7 @@ private:
     Q_SLOT void onWordWrapToggled(bool checked);
     Q_SLOT void onTextChanged();
 
-    models::forms::TextEditorPopupForm _form;
+    presenters::TextEditorPopupForm _form;
 
     ui::common::TextEditor * _textEdit;
     QLabel * _textStat;

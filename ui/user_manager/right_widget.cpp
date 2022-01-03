@@ -5,13 +5,13 @@ namespace meow {
 namespace ui {
 namespace user_manager {
 
-RightWidget::RightWidget(models::forms::UserManagementForm * form,
+RightWidget::RightWidget(presenters::UserManagementForm * form,
                          Window * window) : QWidget(window)
 {
     createWidgets(form, window);
 }
 
-void RightWidget::createWidgets(models::forms::UserManagementForm * form,
+void RightWidget::createWidgets(presenters::UserManagementForm * form,
                                 Window * window)
 {
     QVBoxLayout * mainLayout = new QVBoxLayout();

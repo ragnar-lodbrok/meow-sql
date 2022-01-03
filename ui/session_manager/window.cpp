@@ -21,18 +21,18 @@ Window::Window(meow::ui::main_window::Window * mainWindow)
     createRightSubWidgets();
 
     connect(_connectionParamsModel.data(),
-            &meow::models::db::ConnectionParamsModel::selectedFormDataModified,
+            &models::ConnectionParamsModel::selectedFormDataModified,
             [=] {
                 validateControls();
             });
 
     connect(_connectionParamsModel.data(),
-            &meow::models::db::ConnectionParamsModel::settingEmptySessionName,
+            &models::ConnectionParamsModel::settingEmptySessionName,
             [=] {
                  showErrorMessage(tr("Session name can't be empty"));
             });
     connect(_connectionParamsModel.data(),
-            &meow::models::db::ConnectionParamsModel::settingTakenSessionName,
+            &models::ConnectionParamsModel::settingTakenSessionName,
             [=](const QString &newName) {
                 showErrorMessage(tr("Session \"%1\" already exists!").arg(newName));
                 // TODO: rm ! from the message above
@@ -84,7 +84,7 @@ void Window::createSessionsList()
 {
 
     _connectionParamsModel.reset(
-        new meow::models::db::ConnectionParamsModel(
+        new models::ConnectionParamsModel(
             meow::app()->dbConnectionParamsManager()
         )
     );
@@ -283,7 +283,7 @@ void Window::currentSessionDetailsChanged(
 void Window::sessionDoubleClicked(const QModelIndex &index)
 {
     // Allow session name to be editable
-    using SessionColumns = meow::models::db::ConnectionParamsModel::Columns;
+    using SessionColumns = models::ConnectionParamsModel::Columns;
     if (static_cast<SessionColumns>(index.column()) == SessionColumns::SessionName) {
         return;
     }
@@ -296,7 +296,7 @@ void Window::validateControls()
 {
     // TODO: session form controls
 
-    meow::models::forms::ConnectionParametersForm * curForm
+    presenters::ConnectionParametersForm * curForm
         = _connectionParamsModel->selectedForm();
     bool hasCurForm = curForm != nullptr;
     bool curModified = _connectionParamsModel->isSelectedConnectionParamModified();
@@ -320,7 +320,7 @@ void Window::createNewSession()
         return;
     }
 
-    meow::models::forms::ConnectionParametersForm * newForm
+    presenters::ConnectionParametersForm * newForm
             = _connectionParamsModel->createNewForm();
 
     selectSessionAt(newForm->index());
@@ -342,7 +342,7 @@ void Window::deleteCurrentSession()
 {
     // BUG: removing of just added row loses focus if off screen
 
-    meow::models::forms::ConnectionParametersForm * curForm
+    presenters::ConnectionParametersForm * curForm
             = _connectionParamsModel->selectedForm();
 
     if (!curForm) {
@@ -395,7 +395,7 @@ void Window::deleteCurrentSession()
 void Window::openCurrentSession()
 {
 
-    meow::models::forms::ConnectionParametersForm * curForm
+    presenters::ConnectionParametersForm * curForm
             = _connectionParamsModel->selectedForm();
 
     if (!curForm) {

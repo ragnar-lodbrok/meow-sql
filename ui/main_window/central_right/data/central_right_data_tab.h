@@ -3,8 +3,8 @@
 
 #include <QtWidgets>
 #include "ui/main_window/central_right/base_root_tab.h"
-#include "models/db/data_table_model.h"
-#include "models/delegates/edit_query_data_delegate.h"
+#include "ui/models/data_table_model.h"
+#include "ui/delegates/edit_query_data_delegate.h"
 #include "ui/main_window/central_right/global_data_filter_interface.h"
 
 namespace meow {
@@ -37,7 +37,7 @@ public:
     virtual int totalRowCount() const override;
     virtual int filterMatchedRowCount() const override;
 
-    const models::db::DataTableModel * model() const {
+    const models::DataTableModel * model() const {
         return &_model;
     }
 
@@ -105,10 +105,10 @@ private:
     // bottom:
     EditableDataTableView  * _dataTable;
 
-    models::db::DataTableModel _model;
+    models::DataTableModel _model;
 
-    models::delegates::EditQueryDataDelegate * _defaultTableDelegate;
-    models::delegates::FormatTextQueryDataDelegate * _textColumnTableDelegate;
+    delegates::EditQueryDataDelegate * _defaultTableDelegate;
+    delegates::FormatTextQueryDataDelegate * _textColumnTableDelegate;
 
     bool _skipApplyModifications;
 };

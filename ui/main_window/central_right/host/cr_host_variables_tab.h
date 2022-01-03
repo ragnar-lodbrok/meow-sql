@@ -2,7 +2,7 @@
 #define UI_CR_HOST_VARIABLES_TAB_H
 
 #include <QtWidgets>
-#include "models/db/variables_table_model.h"
+#include "ui/models/variables_table_model.h"
 
 namespace meow {
 namespace ui {
@@ -16,7 +16,7 @@ public:
     explicit HostVariablesTab(QWidget *parent = 0);
     void setSession(meow::db::SessionEntity * session);
 
-    models::db::VariablesTableModel * model() {
+    models::VariablesTableModel * model() {
         return &_model;
     }
 private:
@@ -26,7 +26,7 @@ private:
     Q_SLOT void onTableContextMenu(const QPoint &pos);
     Q_SLOT void onEditError(const QString & message);
 
-    models::db::VariablesTableModel _model;
+    models::VariablesTableModel _model;
 
     QVBoxLayout * _mainLayout;
     QTableView  * _variablesTable;

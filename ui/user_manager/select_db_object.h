@@ -2,8 +2,8 @@
 #define UI_USER_MANAGER_SELECT_DB_OBJECT_H
 
 #include <QtWidgets>
-#include "models/db/session_objects_tree_model.h"
-#include "models/forms/select_db_object_form.h"
+#include "ui/models/session_objects_tree_model.h"
+#include "ui/presenters/select_db_object_form.h"
 
 namespace meow {
 namespace ui {
@@ -14,7 +14,7 @@ class SelectDbObject : public QDialog
 public:
     SelectDbObject(meow::db::SessionEntity * session);
 
-    const models::forms::SelectDBObjectForm * form() const {
+    const presenters::SelectDBObjectForm * form() const {
         return &_form;
     }
 private:
@@ -37,8 +37,8 @@ private:
     QPushButton * _okButton;
     QPushButton * _cancelButton;
 
-    models::db::SessionObjectsTreeModel _treeModel;
-    models::forms::SelectDBObjectForm _form;
+    models::SessionObjectsTreeModel _treeModel;
+    presenters::SelectDBObjectForm _form;
 };
 
 } // namespace user_manager

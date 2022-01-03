@@ -1,12 +1,12 @@
 #include "cr_trigger_body.h"
-#include "models/forms/trigger_form.h"
+#include "ui/presenters/trigger_form.h"
 
 namespace meow {
 namespace ui {
 namespace main_window {
 namespace central_right {
 
-TriggerBody::TriggerBody(meow::models::forms::TriggerForm * form,
+TriggerBody::TriggerBody(presenters::TriggerForm * form,
                          QWidget *parent)
     : QWidget(parent)
     , _form(form)

@@ -2,7 +2,7 @@
 #define UI_USER_MANAGER_LIMITATIONS_TAB_H
 
 #include <QtWidgets>
-#include "models/forms/user_management_form.h"
+#include "ui/presenters/user_management_form.h"
 
 namespace meow {
 
@@ -18,7 +18,7 @@ namespace user_manager {
 class LimitationsTab : public QWidget
 {
 public:
-    LimitationsTab(models::forms::UserManagementForm * form,
+    LimitationsTab(presenters::UserManagementForm * form,
                    QWidget * parent = nullptr);
     void fillDataFromForm();
 private:
@@ -29,7 +29,7 @@ private:
     QMap<meow::db::User::LimitType, QLabel *> _limitLabels;
     QMap<meow::db::User::LimitType, QSpinBox *> _limitEditors;
 
-    models::forms::UserManagementForm * _form;
+    presenters::UserManagementForm * _form;
 };
 
 } // namespace user_manager

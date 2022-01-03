@@ -5,7 +5,7 @@
 #include "ui/main_window/central_right/base_root_tab.h"
 #include "cr_host_databases_tab.h"
 #include "cr_host_variables_tab.h"
-#include "models/ui/central_right_host_widget_model.h"
+#include "ui/presenters/central_right_host_widget_model.h"
 
 namespace meow {
 namespace ui {
@@ -43,7 +43,7 @@ private:
     HostDatabasesTab * _databasesTab;
     HostVariablesTab * _variablesTab;
 
-    models::ui::CentralRightHostWidgetModel _model;
+    presenters::CentralRightHostWidgetModel _model;
 
 };
 

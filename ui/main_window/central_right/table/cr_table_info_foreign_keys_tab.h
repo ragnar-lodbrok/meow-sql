@@ -4,14 +4,10 @@
 #include <QtWidgets>
 
 namespace meow {
-
-namespace models {
-namespace forms {
+namespace ui {
+namespace presenters {
     class TableInfoForm;
 }
-}
-
-namespace ui {
 namespace main_window {
 namespace central_right {
 namespace table_info {
@@ -22,7 +18,7 @@ class ForeignKeysTab : public QWidget
 {
     Q_OBJECT
 public:
-    ForeignKeysTab(models::forms::TableInfoForm * form,
+    ForeignKeysTab(presenters::TableInfoForm * form,
                    QWidget *parent = nullptr);
 
     void refreshData();
@@ -38,7 +34,7 @@ private:
     Q_SLOT void currentKeyChanged(const QModelIndex &current,
                                   const QModelIndex &previous);
 
-    models::forms::TableInfoForm * _tableForm;
+    presenters::TableInfoForm * _tableForm;
     TableForeignKeysTools * _tools;
     QTableView * _fKeysTable;
     QHBoxLayout * _mainLayout;

@@ -2,7 +2,7 @@
 #define UI_USER_MANAGER_LEFT_WIDGET_H
 
 #include <QtWidgets>
-#include "models/forms/user_management_form.h"
+#include "ui/presenters/user_management_form.h"
 
 namespace meow {
 namespace ui {
@@ -14,7 +14,7 @@ class LeftWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit LeftWidget(models::forms::UserManagementForm * form,
+    explicit LeftWidget(presenters::UserManagementForm * form,
                         Window * window = nullptr);
 
     void validateControls();
@@ -41,7 +41,7 @@ private:
     Q_SLOT void disconnectUserListSelectionChanged();
 
     QSortFilterProxyModel _proxyTableModel;
-    models::forms::UserManagementForm * _form;
+    presenters::UserManagementForm * _form;
 
     QLabel * _usersLabel;
     QPushButton * _addUserButton;

@@ -7,8 +7,8 @@
 
 namespace meow {
 
-namespace models {
-namespace forms {
+namespace ui {
+namespace presenters {
 
 class ExportDatabaseForm;
 
@@ -23,7 +23,7 @@ class MySQLDumpConsole : public QObject
     Q_OBJECT
 
 public:
-    explicit MySQLDumpConsole(models::forms::ExportDatabaseForm * form);
+    explicit MySQLDumpConsole(ui::presenters::ExportDatabaseForm * form);
 
     ~MySQLDumpConsole();
 
@@ -56,7 +56,7 @@ private:
 
     std::unique_ptr<QProcess> _process;
 
-    models::forms::ExportDatabaseForm * _form;
+    ui::presenters::ExportDatabaseForm * _form;
 
     bool _passwordEntered;
     bool _isCancelledbyUser;

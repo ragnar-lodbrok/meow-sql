@@ -5,19 +5,17 @@
 
 namespace meow {
 
-namespace models {
-namespace forms {
-    class UserManagementForm;
-} // namespace forms
-} // namespace models
-
 namespace ui {
+namespace presenters {
+    class UserManagementForm;
+} // namespace presenters
+
 namespace user_manager {
 
 class CredentialsTab : public QWidget
 {
 public:
-    explicit CredentialsTab(models::forms::UserManagementForm * form,
+    explicit CredentialsTab(presenters::UserManagementForm * form,
                             QWidget * parent = nullptr);
 
     void fillDataFromForm();
@@ -40,7 +38,7 @@ private:
     QLabel * _repeatPasswordLabel;
     QLineEdit * _repeatPasswordEdit;
 
-    models::forms::UserManagementForm * _form;
+    presenters::UserManagementForm * _form;
 };
 
 } // namespace user_manager

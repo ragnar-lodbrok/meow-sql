@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 #include "ui/main_window/central_right/base_root_tab.h"
-#include "models/forms/trigger_form.h"
+#include "ui/presenters/trigger_form.h"
 
 namespace meow {
 namespace ui {
@@ -32,7 +32,7 @@ private:
 
     Q_SLOT void validateControls();
 
-    models::forms::TriggerForm _form;
+    ui::presenters::TriggerForm _form;
 
     QSplitter * _mainSplitter;
 

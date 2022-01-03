@@ -4,14 +4,12 @@
 #include <QtWidgets>
 
 namespace meow {
+namespace ui {
 
-namespace models {
-namespace forms {
+namespace presenters {
     class TableInfoForm;
 }
-}
 
-namespace ui {
 namespace main_window {
 namespace central_right {
 namespace table_info {
@@ -20,7 +18,7 @@ class OptionsTab : public QWidget
 {
     Q_OBJECT
 public:
-    explicit OptionsTab(models::forms::TableInfoForm * form,
+    explicit OptionsTab(presenters::TableInfoForm * form,
                         QWidget *parent = nullptr);
     void refreshData();
 
@@ -29,7 +27,7 @@ private:
     void createWidgets();
     void fillDataFromForm();
 
-    models::forms::TableInfoForm * _tableForm;
+    presenters::TableInfoForm * _tableForm;
 
     QGridLayout * _mainGridLayout;
 

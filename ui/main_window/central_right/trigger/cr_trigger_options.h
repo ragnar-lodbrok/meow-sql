@@ -4,21 +4,17 @@
 #include <QtWidgets>
 
 namespace meow {
-
-namespace models {
-namespace forms {
+namespace ui {
+namespace presenters {
     class TriggerForm;
 }
-}
-
-namespace ui {
 namespace main_window {
 namespace central_right {
 
 class TriggerOptions : public QWidget
 {
 public:
-    TriggerOptions(models::forms::TriggerForm * form,
+    TriggerOptions(presenters::TriggerForm * form,
                    QWidget *parent = nullptr);
 
     void refreshData();
@@ -31,7 +27,7 @@ private:
     void createWidgets();
     void fillDataFromForm();
 
-    models::forms::TriggerForm * _form;
+    presenters::TriggerForm * _form;
 
     QLabel * _nameLabel;
     QLineEdit * _nameEdit;

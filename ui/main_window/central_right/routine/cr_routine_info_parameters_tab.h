@@ -4,14 +4,12 @@
 #include <QtWidgets>
 
 namespace meow {
+namespace ui {
 
-namespace models {
-namespace forms {
+namespace presenters {
     class RoutineForm;
 }
-}
 
-namespace ui {
 namespace main_window {
 namespace central_right {
 namespace routine_info {
@@ -21,7 +19,7 @@ class RoutineParametersTools;
 class ParametersTab : public QWidget
 {
 public:
-    ParametersTab(models::forms::RoutineForm * form,
+    ParametersTab(presenters::RoutineForm * form,
                   QWidget *parent = nullptr);
 
     void refreshData();
@@ -42,7 +40,7 @@ private:
 
     void scrollToCurrent();
 
-    models::forms::RoutineForm * _form;
+    presenters::RoutineForm * _form;
 
     RoutineParametersTools * _tools;
     QTableView * _paramsTable;

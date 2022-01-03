@@ -26,7 +26,7 @@ StartTab::StartTab(QWidget *parent) : QWidget(parent) {
     _mainLayout->addStretch(2);
 }
 
-void StartTab::setForm(models::forms::ConnectionParametersForm * form)
+void StartTab::setForm(presenters::ConnectionParametersForm * form)
 {
     _form = form;
     fillDataFromForm();

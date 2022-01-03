@@ -25,13 +25,13 @@ SelectDbObject::SelectDbObject(meow::db::SessionEntity * session)
     );
 
     connect(&_treeModel,
-            &models::db::SessionObjectsTreeModel::fetchObjectError,
+            &models::SessionObjectsTreeModel::fetchObjectError,
             this,
             &SelectDbObject::showErrorMessage
     );
 
     connect(&_form,
-            &models::forms::SelectDBObjectForm::databasenameChanged,
+            &presenters::SelectDBObjectForm::databasenameChanged,
             this,
             &SelectDbObject::databaseNameChanged
     );
@@ -97,7 +97,7 @@ void SelectDbObject::selectedObjectsChanged(
         index = items.at(0);
     }
 
-    models::db::SessionObjectsTreeModel::Object treeObject
+    models::SessionObjectsTreeModel::Object treeObject
             = _treeModel.objectAt(index);
 
     _form.setTreeSelection({

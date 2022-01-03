@@ -32,7 +32,7 @@ void DatabaseTab::createEntitiesTable()
     _entitiesTable->setModel(&_proxyEntitiesModel);
     _entitiesTable->setSortingEnabled(true);
     _entitiesTable->sortByColumn(
-        static_cast<int>(models::db::DatabaseEntitiesTableModel::Columns::Name),
+        static_cast<int>(models::DatabaseEntitiesTableModel::Columns::Name),
         Qt::AscendingOrder);
     // TODO: natural sorting for numbers
     // TODO: filter by Filter panel

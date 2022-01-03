@@ -3,29 +3,29 @@
 #include "cr_table_info_options_tab.h"
 #include "cr_table_info_indexes_tab.h"
 #include "cr_table_info_foreign_keys_tab.h"
-#include "models/forms/table_info_form.h"
-#include "models/forms/table_indexes_model.h"
-#include "models/forms/table_foreign_keys_model.h"
+#include "ui/presenters/table_info_form.h"
+#include "ui/models/table_indexes_model.h"
+#include "ui/models/table_foreign_keys_model.h"
 
 namespace meow {
 namespace ui {
 namespace main_window {
 namespace central_right {
 
-TableInfo::TableInfo(models::forms::TableInfoForm * form, QWidget *parent) :
+TableInfo::TableInfo(presenters::TableInfoForm * form, QWidget *parent) :
     QWidget(parent),
     _form(form)
 {
     createTabs();
 
     connect(_form->indexesModel(),
-            &meow::models::forms::TableIndexesModel::modified,
+            &models::TableIndexesModel::modified,
             this,
             &TableInfo::indicesModified
     );
 
     connect(_form->foreignKeysModel(),
-            &meow::models::forms::TableForeignKeysModel::modified,
+            &models::TableForeignKeysModel::modified,
             this,
             &TableInfo::foreignKeysModified
     );
@@ -42,7 +42,7 @@ void TableInfo::refreshData()
 void TableInfo::onBeforeEntityEditing()
 {
     _rootTabs->setCurrentIndex(
-        static_cast<int>(models::ui::TableInfoWidgetTabs::Basic));
+        static_cast<int>(presenters::TableInfoWidgetTabs::Basic));
     _basicTab->onBeforeEntityEditing();
 }
 
@@ -69,7 +69,7 @@ void TableInfo::createTabs()
     _indexesTab = new table_info::IndexesTab(_form, this);
     _fKeysTab = new table_info::ForeignKeysTab(_form, this);
 
-    using TableInfoTabs = models::ui::TableInfoWidgetTabs;
+    using TableInfoTabs = ui::presenters::TableInfoWidgetTabs;
 
     _rootTabs->addTab(_basicTab,
                       _model.tabIcon(TableInfoTabs::Basic),

@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 
-#include "models/forms/connection_parameters_form.h"
+#include "ui/presenters/connection_parameters_form.h"
 
 namespace meow {
 namespace ui {
@@ -14,7 +14,7 @@ class StartTab : public QWidget
     Q_OBJECT
 public:
     explicit StartTab(QWidget *parent = nullptr);
-    void setForm(models::forms::ConnectionParametersForm * form);
+    void setForm(presenters::ConnectionParametersForm * form);
 private:
 
     void fillDataFromForm();
@@ -23,7 +23,7 @@ private:
     QLabel * _helpLabel;
     QPushButton * _importSettingsButton;
 
-    models::forms::ConnectionParametersForm * _form;
+    presenters::ConnectionParametersForm * _form;
 };
 
 } // namespace session_manager

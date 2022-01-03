@@ -2,7 +2,7 @@
 #define UI_EXPORT_DATABASE_TOP_WIDGET_H
 
 #include <QtWidgets>
-#include "models/forms/export_database_form.h"
+#include "ui/presenters/export_database_form.h"
 
 namespace meow {
 namespace ui {
@@ -12,7 +12,7 @@ class TopWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TopWidget(models::forms::ExportDatabaseForm * form,
+    explicit TopWidget(presenters::ExportDatabaseForm * form,
                        QWidget * parent = nullptr);
 
     void fillDataFromForm();
@@ -30,7 +30,7 @@ private:
     Q_SLOT void onFormOptionsChanged();    
     Q_SLOT void onFilenameSelectionButtonClicked();
 
-    models::forms::ExportDatabaseForm * _form;
+    presenters::ExportDatabaseForm * _form;
 
     QGridLayout * _mainGridLayout;
 
@@ -61,7 +61,7 @@ private:
 
     QPlainTextEdit * _results;
 
-    QMap<QCheckBox *, models::forms::MySQLDumpOption> _checkboxOptions;
+    QMap<QCheckBox *, presenters::MySQLDumpOption> _checkboxOptions;
 };
 
 } // namespace export_database

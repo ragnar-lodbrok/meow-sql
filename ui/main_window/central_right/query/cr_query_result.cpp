@@ -1,13 +1,13 @@
 #include "cr_query_result.h"
 #include "cr_query_data_tab.h"
-#include "models/ui/central_right_query_presenter.h"
+#include "ui/presenters/central_right_query_presenter.h"
 
 namespace meow {
 namespace ui {
 namespace main_window {
 namespace central_right {
 
-QueryResult::QueryResult(models::ui::CentralRightQueryPresenter * presenter,
+QueryResult::QueryResult(presenters::CentralRightQueryPresenter * presenter,
                          QWidget *parent)
     : QWidget(parent),
       _presenter(presenter)

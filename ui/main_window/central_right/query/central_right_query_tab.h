@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 #include "ui/main_window/central_right/base_root_tab.h"
-#include "models/ui/central_right_query_presenter.h"
+#include "ui/presenters/central_right_query_presenter.h"
 
 namespace meow {
 namespace ui {
@@ -47,7 +47,7 @@ private:
     QueryPanel * _queryPanel;
     QueryResult * _queryResult;
     
-    models::ui::CentralRightQueryPresenter _presenter;
+    presenters::CentralRightQueryPresenter _presenter;
 };
 
 class AddQueryTab : public BaseRootTab

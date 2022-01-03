@@ -1,5 +1,5 @@
 #include "cr_table_info_options_tab.h"
-#include "models/forms/table_info_form.h"
+#include "ui/presenters/table_info_form.h"
 
 namespace meow {
 namespace ui {
@@ -7,7 +7,7 @@ namespace main_window {
 namespace central_right {
 namespace table_info {
 
-OptionsTab::OptionsTab(models::forms::TableInfoForm * form,
+OptionsTab::OptionsTab(presenters::TableInfoForm * form,
                        QWidget *parent)
     : QWidget(parent),
       _tableForm(form)

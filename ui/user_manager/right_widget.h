@@ -7,14 +7,10 @@
 
 namespace meow {
 
-namespace models {
-namespace forms {
-    class UserManagementForm;
-} // namespace forms
-} // namespace models
-
-
 namespace ui {
+namespace presenters {
+    class UserManagementForm;
+} // namespace presenters
 namespace user_manager {
 
 class Window;
@@ -22,7 +18,7 @@ class Window;
 class RightWidget : public QWidget
 {
 public:
-    explicit RightWidget(models::forms::UserManagementForm * form,
+    explicit RightWidget(presenters::UserManagementForm * form,
                          Window * window);
     void fillDataFromForm();
     void validateControls();
@@ -31,7 +27,7 @@ public:
 
 private:
 
-    void createWidgets(models::forms::UserManagementForm * form,
+    void createWidgets(presenters::UserManagementForm * form,
                        Window * window);
 
     OptionsWidget * _options;

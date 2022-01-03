@@ -9,7 +9,7 @@ namespace meow {
 namespace ui {
 namespace user_manager {
 
-LeftWidget::LeftWidget(models::forms::UserManagementForm * form,
+LeftWidget::LeftWidget(presenters::UserManagementForm * form,
                        Window * window)
     : QWidget(window)
     , _form(form)
@@ -40,7 +40,7 @@ void LeftWidget::createWidgets()
     mainLayout->addWidget(_userList);
     _userList->setSortingEnabled(true);
     _userList->sortByColumn(
-                (int)models::db::UsersTableModel::Columns::Username,
+                (int)models::UsersTableModel::Columns::Username,
                 Qt::AscendingOrder);
     _userList->setSelectionBehavior(
                 QAbstractItemView::SelectionBehavior::SelectRows);

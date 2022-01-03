@@ -5,21 +5,19 @@
 #include "ui/common/sql_editor.h"
 
 namespace meow {
+namespace ui {
 
-namespace models {
-namespace forms {
+namespace presenters {
     class RoutineForm;
 }
-}
 
-namespace ui {
 namespace main_window {
 namespace central_right {
 
 class RoutineBody : public QWidget
 {
 public:
-    RoutineBody(meow::models::forms::RoutineForm * form,
+    RoutineBody(presenters::RoutineForm * form,
                 QWidget * parent = nullptr);
 
     void refreshData();
@@ -35,7 +33,7 @@ private:
     QLabel * _bodyLabel;
     ui::common::SQLEditor * _bodyEdit;
 
-    meow::models::forms::RoutineForm * _form;
+    presenters::RoutineForm * _form;
 };
 
 } // namespace central_right

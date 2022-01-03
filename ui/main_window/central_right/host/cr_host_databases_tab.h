@@ -2,7 +2,7 @@
 #define UI_CR_HOST_DATABASES_TAB_H
 
 #include <QtWidgets>
-#include "models/db/databases_table_model.h"
+#include "ui/models/databases_table_model.h"
 
 namespace meow {
 namespace ui {
@@ -19,7 +19,7 @@ private:
 
     void createDatabasesTable();
 
-    models::db::DatabasesTableModel _model;
+    models::DatabasesTableModel _model;
 
     QVBoxLayout * _mainLayout;
     QTableView  * _databasesTable;

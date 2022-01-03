@@ -7,7 +7,7 @@ namespace meow {
 namespace ui {
 namespace main_window {
 
-CentralLeftWidget::CentralLeftWidget(models::db::EntitiesTreeModel * dbEntitiesTreeModel,
+CentralLeftWidget::CentralLeftWidget(models::EntitiesTreeModel * dbEntitiesTreeModel,
         QWidget * parent)
     : QWidget(parent)
     , _dbEntitiesTreeModel(dbEntitiesTreeModel)
@@ -15,7 +15,7 @@ CentralLeftWidget::CentralLeftWidget(models::db::EntitiesTreeModel * dbEntitiesT
     createMainLayout();
 
     connect(_dbEntitiesTreeModel,
-            &models::db::EntitiesTreeModel::loadDataError,
+            &models::EntitiesTreeModel::loadDataError,
             this,
             &CentralLeftWidget::showErrorMessage);
 }
@@ -80,7 +80,7 @@ void CentralLeftWidget::createMainLayout()
     _entitiesProxyModel.setSourceModel(_dbEntitiesTreeModel);
     _dbTree->setModel(&_entitiesProxyModel);
     _entitiesProxyModel.sort(
-        static_cast<int>(models::db::EntitiesTreeModel::Columns::Name),
+        static_cast<int>(models::EntitiesTreeModel::Columns::Name),
         Qt::AscendingOrder);
 #endif
 #ifndef MEOW_SORT_FILTER_ENTITIES_TREE

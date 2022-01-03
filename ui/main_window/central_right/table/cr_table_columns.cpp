@@ -2,11 +2,11 @@
 #include "central_right_table_tab.h"
 #include "cr_table_columns_tools.h"
 #include "app/app.h"
-#include "models/db/table_columns_model.h"
-#include "models/delegates/table_column_type_delegate.h"
-#include "models/delegates/table_column_default_delegate.h"
-#include "models/delegates/table_column_collation_delegate.h"
-#include "models/delegates/checkbox_delegate.h"
+#include "ui/models/table_columns_model.h"
+#include "ui/delegates/table_column_type_delegate.h"
+#include "ui/delegates/table_column_default_delegate.h"
+#include "ui/delegates/table_column_collation_delegate.h"
+#include "ui/delegates/checkbox_delegate.h"
 
 namespace meow {
 namespace ui {
@@ -36,7 +36,7 @@ void TableColumns::actionAddColumn(bool checked)
     // select
     QModelIndex newRowNameIndex = _columnsTable->model()->index(
         newRowIntIndex,
-        (int)meow::models::db::TableColumnsModel::Columns::Name);
+        (int)models::TableColumnsModel::Columns::Name);
     _columnsTable->selectionModel()
         ->setCurrentIndex(newRowNameIndex,
                           QItemSelectionModel::Clear);
@@ -134,34 +134,34 @@ void TableColumns::createWidgets()
             &TableColumns::currentRowChanged
     );
 
-    models::delegates::TableColumnTypeDelegate * typeDelegate
-        = new models::delegates::TableColumnTypeDelegate(&_model);
+    delegates::TableColumnTypeDelegate * typeDelegate
+        = new delegates::TableColumnTypeDelegate(&_model);
     _columnsTable->setItemDelegateForColumn(
-        (int)models::db::TableColumnsModel::Columns::DataType,
+        (int)models::TableColumnsModel::Columns::DataType,
         typeDelegate);
 
-    models::delegates::TableColumnDefaultDelegate * defaultDelegate
-        = new models::delegates::TableColumnDefaultDelegate(&_model);
+    delegates::TableColumnDefaultDelegate * defaultDelegate
+        = new delegates::TableColumnDefaultDelegate(&_model);
     _columnsTable->setItemDelegateForColumn(
-        (int)models::db::TableColumnsModel::Columns::Default,
+        (int)models::TableColumnsModel::Columns::Default,
         defaultDelegate);
 
-    models::delegates::TableColumnCollationDelegate * collationDelegate
-        = new models::delegates::TableColumnCollationDelegate(&_model);
+    delegates::TableColumnCollationDelegate * collationDelegate
+        = new delegates::TableColumnCollationDelegate(&_model);
     _columnsTable->setItemDelegateForColumn(
-        (int)models::db::TableColumnsModel::Columns::Collation,
+        (int)models::TableColumnsModel::Columns::Collation,
         collationDelegate);
 
-    models::delegates::CheckboxDelegate * checkboxDelegate
-        = new models::delegates::CheckboxDelegate(&_model);
+    delegates::CheckboxDelegate * checkboxDelegate
+        = new delegates::CheckboxDelegate(&_model);
     _columnsTable->setItemDelegateForColumn(
-        (int)models::db::TableColumnsModel::Columns::Unsigned,
+        (int)models::TableColumnsModel::Columns::Unsigned,
         checkboxDelegate);
     _columnsTable->setItemDelegateForColumn(
-        (int)models::db::TableColumnsModel::Columns::AllowNull,
+        (int)models::TableColumnsModel::Columns::AllowNull,
         checkboxDelegate);
     _columnsTable->setItemDelegateForColumn(
-        (int)models::db::TableColumnsModel::Columns::Zerofill,
+        (int)models::TableColumnsModel::Columns::Zerofill,
         checkboxDelegate);
 
 }

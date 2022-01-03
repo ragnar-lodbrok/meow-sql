@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 #include "ui/main_window/central_right/base_root_tab.h"
-#include "models/forms/table_info_form.h"
+#include "ui/presenters/table_info_form.h"
 
 namespace meow {
 namespace ui {
@@ -37,7 +37,7 @@ private:
     Q_SLOT void discardTableEditing();
     Q_SLOT void saveTableEditing();
 
-    models::forms::TableInfoForm _form; // put it somewere in db layer?
+    presenters::TableInfoForm _form; // put it somewere in db layer?
 
     QSplitter * _mainSplitter;
 

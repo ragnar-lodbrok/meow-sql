@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 
-#include "models/forms/connection_parameters_form.h"
+#include "ui/presenters/connection_parameters_form.h"
 
 namespace meow {
 namespace ui {
@@ -15,7 +15,7 @@ public:
 
     explicit SSHTunnelTab(QWidget *parent = nullptr);
 
-    void setForm(models::forms::ConnectionParametersForm * form);
+    void setForm(presenters::ConnectionParametersForm * form);
 
 private:
 
@@ -37,7 +37,7 @@ private:
     QLabel * _localPortLabel;
     QSpinBox * _localPortSpinBox;
 
-    models::forms::ConnectionParametersForm * _form;
+    presenters::ConnectionParametersForm * _form;
 
 };
 

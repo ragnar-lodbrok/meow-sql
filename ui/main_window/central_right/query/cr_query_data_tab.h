@@ -2,7 +2,7 @@
 #define UI_CENTRAL_RIGHT_QUERY_DATA_TAB_H
 
 #include <QtWidgets>
-#include "models/db/base_data_table_model.h"
+#include "ui/models/base_data_table_model.h"
 #include "ui/common/table_view.h"
 #include "db/query_data.h"
 
@@ -17,7 +17,7 @@ public:
     explicit QueryDataTab(db::QueryDataPtr queryData, QWidget *parent = 0);
     virtual ~QueryDataTab();
 private:
-    models::db::BaseDataTableModel _model;
+    models::BaseDataTableModel _model;
     TableView  * _dataTable;
 };
 

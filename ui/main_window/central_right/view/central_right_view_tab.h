@@ -4,7 +4,7 @@
 #include <QtWidgets>
 #include "ui/main_window/central_right/base_root_tab.h"
 #include "ui/common/sql_editor.h"
-#include "models/forms/view_form.h"
+#include "ui/presenters/view_form.h"
 
 namespace meow {
 namespace ui {
@@ -51,7 +51,7 @@ private:
     QPushButton * _discardButton;
     QPushButton * _saveButton;
 
-    models::forms::ViewForm _form;
+    presenters::ViewForm _form;
 };
 
 } // namespace central_right

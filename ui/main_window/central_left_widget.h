@@ -2,8 +2,8 @@
 #define UI_CENTRALLEFTWIDGET_H
 
 #include <QtWidgets>
-#include "models/db/entities_tree_model.h"
-#include "models/db/entities_tree_sort_filter_proxy_model.h"
+#include "ui/models/entities_tree_model.h"
+#include "ui/models/entities_tree_sort_filter_proxy_model.h"
 
 namespace meow {
 namespace ui {
@@ -16,7 +16,7 @@ class CentralLeftWidget : public QWidget
     Q_OBJECT
 public:
     explicit CentralLeftWidget(
-        models::db::EntitiesTreeModel * dbEntitiesTreeModel,
+        models::EntitiesTreeModel * dbEntitiesTreeModel,
         QWidget * parent = nullptr);
 
     void selectEntity(meow::db::Entity * entity);
@@ -36,8 +36,8 @@ private:
     QLineEdit * _databaseFilterEdit;
     QLineEdit * _tableFilterEdit;
     DbTree * _dbTree;
-    models::db::EntitiesTreeModel * _dbEntitiesTreeModel;
-    models::db::EntitiesTreeSortFilterProxyModel _entitiesProxyModel;
+    models::EntitiesTreeModel * _dbEntitiesTreeModel;
+    models::EntitiesTreeSortFilterProxyModel _entitiesProxyModel;
 };
 
 

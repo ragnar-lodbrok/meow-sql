@@ -12,7 +12,7 @@ ViewTab::ViewTab(QWidget * parent)
     createWidgets();
 
     connect(&_form,
-            &models::forms::ViewForm::unsavedChanged,
+            &presenters::ViewForm::unsavedChanged,
             [=](bool hasUnsavedChanges) {
                 Q_UNUSED(hasUnsavedChanges);
                 validateControls();
