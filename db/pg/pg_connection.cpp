@@ -3,7 +3,7 @@
 #include <QElapsedTimer>
 #include "helpers/logger.h"
 #include "pg_query_result.h"
-#include "pg_query.h"
+#include "db/query.h"
 #include "pg_query_data_editor.h"
 #include "db/data_type/pg_connection_data_types.h"
 #include "db/pg/pg_entities_fetcher.h"
@@ -123,11 +123,6 @@ bool PGConnection::ping(bool reconnect)
     return _active;
 }
 
-QueryPtr PGConnection::createQuery()
-{
-    return std::make_shared<PGQuery>(this);
-}
-
 QStringList PGConnection::fetchDatabases()
 {
     try {
@@ -208,8 +203,8 @@ QueryResults PGConnection::query(
     }
 
     elapsedTimer.start();
-    auto queryResult = std::make_shared<PGQueryResult>(
-                PQgetResult(_handle), _handle);
+    auto queryResult = std::make_shared<PGQueryResult>(this);
+    queryResult->init(PQgetResult(_handle), _handle);
     results.incExecDuration(
             std::chrono::milliseconds(elapsedTimer.elapsed()));
 
@@ -248,8 +243,8 @@ QueryResults PGConnection::query(
 
         // next query
         elapsedTimer.start();
-        queryResult = std::make_shared<PGQueryResult>(
-                        PQgetResult(_handle), _handle);
+        queryResult = std::make_shared<PGQueryResult>(this);
+        queryResult->init(PQgetResult(_handle), _handle);
         results.incExecDuration(
                 std::chrono::milliseconds(elapsedTimer.elapsed()));
     }

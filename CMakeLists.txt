@@ -58,7 +58,6 @@ set(HEADER_FILES
     db/data_type/connection_data_types.h
     db/data_type/data_type_category.h
     db/db_thread_initializer.h
-    db/native_query_result_interface.h
     db/collation_fetcher.h
     db/common.h
     db/query_column.h
@@ -76,20 +75,12 @@ set(HEADER_FILES
 if(WITH_MYSQL)
     list(APPEND HEADER_FILES
         db/data_type/mysql_data_type.h
-        db/mysql/mysql_query_result.h
     )
 endif()
 
 if(WITH_POSTGRESQL)
     list(APPEND HEADER_FILES
         db/data_type/pg_data_type.h
-        db/pg/pg_query_result.h
-    )
-endif()
-
-if(WITH_QTSQL)
-    list(APPEND HEADER_FILES
-        db/qtsql/qtsql_query_result.h
     )
 endif()
 
@@ -122,6 +113,7 @@ set(SOURCE_FILES
     db/entity/view_entity.cpp
     db/exception.cpp
     db/foreign_key.cpp
+    db/native_query_result.cpp
     db/query.cpp
     db/query_criteria.cpp
     db/query_data.cpp
@@ -287,7 +279,7 @@ if (WITH_MYSQL)
         db/mysql/mysql_database_editor.cpp
         db/mysql/mysql_entities_fetcher.cpp
         db/mysql/mysql_library_initializer.cpp
-        db/mysql/mysql_query.cpp
+        db/mysql/mysql_query_result.cpp
         db/mysql/mysql_query_data_editor.cpp
         db/mysql/mysql_collation_fetcher.cpp
         db/mysql/mysql_connection.cpp
@@ -314,9 +306,9 @@ if (WITH_POSTGRESQL)
         db/pg/pg_connection_query_killer.cpp
         db/pg/pg_entities_fetcher.cpp
         db/pg/pg_entity_create_code_generator.cpp
-        db/pg/pg_query.cpp
         db/pg/pg_query_data_editor.cpp
         db/pg/pg_query_data_fetcher.cpp
+        db/pg/pg_query_result.cpp
     )
 endif()
 
@@ -338,7 +330,7 @@ endif()
 
 if(WITH_QTSQL)
     list(APPEND SOURCE_FILES
-        db/qtsql/qtsql_query.cpp
+        db/qtsql/qtsql_query_result.cpp
     )
 endif()
 

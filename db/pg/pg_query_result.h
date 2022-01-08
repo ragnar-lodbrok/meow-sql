@@ -2,44 +2,73 @@
 #define DB_PG_QUERY_RESULT_H
 
 #include <libpq-fe.h>
-#include "db/native_query_result_interface.h"
+#include "db/native_query_result.h"
 #include "db/common.h"
 
 namespace meow {
 namespace db {
 
 // Wraps and owns PGresult ptr
-class PGQueryResult : public INativeQueryResultInterface
+class PGQueryResult : public NativeQueryResult
 {
 public:
-    PGQueryResult(PGresult * res, PGconn * connection) :
-        INativeQueryResultInterface(),
-        _res(res),
-        _connection(connection)
+    PGQueryResult(Connection * connection) :
+        NativeQueryResult(connection),
+        _res(nullptr),
+        _currentResult(nullptr),
+        _connectionHandle(nullptr),
+        _columnsParsed(false)
     {
 
     }
 
+    void init(PGresult * res, PGconn * connectionHandle);
+
     virtual ~PGQueryResult() override {
-        PQclear(_res);
+        freeNative();
     }
 
-    virtual db::ulonglong rowsCount() const override {
+    virtual db::ulonglong nativeRowsCount() const override {
         return static_cast<db::ulonglong>(PQntuples(_res));
     }
 
-    void clearAll() {
-        while (_res != nullptr) {
+    virtual bool hasData() const override;
+
+    virtual void seekRecNo(db::ulonglong value) override;
+
+    virtual QString curRowColumn(std::size_t index,
+                                 bool ignoreErrors = false) override;
+
+    virtual bool isNull(std::size_t index) override;
+
+    void clearAll();
+
+    PGresult * nativePtr() const { return _res; }
+protected:
+    virtual void prepareResultForEditing(NativeQueryResult * result) override;
+private:
+
+    void freeNative() {
+        if (_res) {
             PQclear(_res);
-            _res = PQgetResult(_connection);
+            _res = nullptr;
         }
     }
 
-    PGresult * nativePtr() const { return _res; }
+    void clearColumnData();
+    void addColumnData(PGresult * res);
+    std::vector<PGresult *> resultList() const;
+    QString rowDataToString(PGresult * result,
+                            int row,
+                            int col,
+                            int dataLen);
 
-private:
     PGresult * _res;
-    PGconn * _connection;
+    PGresult * _currentResult;
+    PGconn * _connectionHandle;
+    std::vector<unsigned int> _columnLengths;
+    bool _columnsParsed;
+    db::ulonglong _curRecNoLocal;
 };
 
 using PGQueryResultPtr = std::shared_ptr<PGQueryResult>;

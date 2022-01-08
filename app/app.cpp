@@ -5,11 +5,11 @@ static meow::App * g_app = nullptr;
 namespace meow {
 
 App::App()
-    : _dbConnectionParamsManager()
+    : _log() // before _dbConnectionsManager
+    , _dbConnectionParamsManager()
     , _dbConnectionsManager(db::ConnectionsManager::create())
     , _settingsCore()
     , _actions(this) // after settings
-    , _log()
 {
     g_app = this;
     _dbConnectionParamsManager.load();

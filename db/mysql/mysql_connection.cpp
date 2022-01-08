@@ -2,7 +2,7 @@
 
 #include "mysql_connection.h"
 #include "mysql_connection_query_killer.h"
-#include "mysql_query.h"
+#include "db/query.h"
 #include "mysql_entities_fetcher.h"
 #include "mysql_query_data_fetcher.h"
 #include "db/entity/table_entity.h"
@@ -62,13 +62,6 @@ MySQLConnection::~MySQLConnection()
     if (active()) {
         setActive(false);
     }
-}
-
-QueryPtr MySQLConnection::createQuery() // override
-{
-    MySQLQuery * query = new MySQLQuery(this);
-
-    return QueryPtr(query);
 }
 
 void MySQLConnection::setActive(bool active) // override
@@ -331,7 +324,8 @@ QueryResults MySQLConnection::query(const QString & SQL,
             // Statement returned a result set
             results.incRowsFound(mysql_num_rows(queryResult));
             if (storeResult) {
-                auto result = std::make_shared<MySQLQueryResult>(queryResult);
+                auto result = std::make_shared<MySQLQueryResult>(this);
+                result->init(queryResult);
                 results << result;
             } else {
                 mysql_free_result(queryResult);

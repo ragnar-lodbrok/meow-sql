@@ -106,7 +106,7 @@ public:
     QString defaultTableEngine();
 
     virtual QStringList fetchDatabases() = 0;
-    virtual QueryPtr createQuery() = 0;
+    virtual QueryPtr createQuery();
     virtual void setActive(bool active) = 0;
     virtual bool ping(bool reconnect) = 0;
     virtual QString getLastError() = 0;

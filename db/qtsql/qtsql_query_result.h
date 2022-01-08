@@ -3,59 +3,59 @@
 
 #include <QtSql>
 
-#include "db/native_query_result_interface.h"
+#include "db/native_query_result.h"
 #include "db/common.h"
 
 namespace meow {
 namespace db {
 
-class QtSQLQueryResult : public INativeQueryResultInterface
+class QtSQLQueryResult : public NativeQueryResult
 {
 public:
-    QtSQLQueryResult(QSqlQuery * query, QSqlDatabase * database) :
-        _query(query),
-        _database(database),
-        _rowsCount(static_cast<db::ulonglong>(-1))
+    QtSQLQueryResult(Connection * connection = nullptr)
+        : NativeQueryResult(connection)
+        , _query(nullptr)
+        , _database(nullptr)
+        , _rowsCountCache(static_cast<db::ulonglong>(-1))
+        , _columnsParsed(false)
+        , _currentQuery(nullptr)
     {
 
     }
+
+    void init(QSqlQuery * query, QSqlDatabase * database);
 
     virtual ~QtSQLQueryResult() override {
         delete _query;
     }
 
-    virtual db::ulonglong rowsCount() const override {
+    virtual db::ulonglong nativeRowsCount() const override;
 
-        if (_database->driver()->hasFeature(QSqlDriver::QuerySize)) { // fast
+    virtual bool hasData() const override;
 
-            return static_cast<db::ulonglong>(_query->size());
+    virtual void seekRecNo(db::ulonglong value) override;
 
-        } else { // slow
-            if (_rowsCount == static_cast<db::ulonglong>(-1)) {
-                _query->last();
-                int currentRow = _query->at();
-                if (currentRow < 0) { // on error this value is -2 in sqlite
-                    _rowsCount = 0;
-                } else {
-                    _rowsCount = static_cast<db::ulonglong>(currentRow + 1);
-                }
+    virtual QString curRowColumn(std::size_t index,
+                                 bool ignoreErrors = false) override;
 
-                // TODO: seek first?
-                //_query->first();
-            }
-            return _rowsCount;
-        }
-    }
+    virtual bool isNull(std::size_t index) override;
 
     QSqlQuery * query() const {
         return _query;
     }
-
+protected:
+    virtual void prepareResultForEditing(NativeQueryResult * result) override;
 private:
+
+    void clearColumnData();
+    void addColumnData(QSqlQuery * query);
+    std::vector<const QtSQLQueryResult *> resultList() const;
 
     QSqlQuery * _query;
     QSqlDatabase * _database;
-    mutable db::ulonglong _rowsCount;
+    mutable db::ulonglong _rowsCountCache;
+    bool _columnsParsed;
+    QSqlQuery * _currentQuery;
 };
 
 using QtSQLQueryResultPtr = std::shared_ptr<QtSQLQueryResult>;

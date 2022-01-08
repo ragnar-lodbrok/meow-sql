@@ -8,7 +8,7 @@
 
 #include "common.h"
 #include "query_column.h"
-#include "native_query_result_interface.h"
+#include "native_query_result.h"
 
 namespace meow {
 namespace db {
@@ -17,6 +17,9 @@ class Connection;
 class EditableGridData;
 class Entity;
 
+// Executes query and stories execution result.
+// Some queries can have multiple result states, but be default Query provides
+// data for first result.
 class Query
 {
 public:
@@ -29,56 +32,120 @@ public:
     const QString & SQL() const { return _SQL; }
     Connection * connection() const { return _connection; }
 
-    db::ulonglong recordCount() const;
-    bool isEof() const { return _eof; }
-
-    std::size_t columnCount() const { return _columns.size(); }
-
-    QString columnName(std::size_t index) const { return _columns[index].name; }
-
-    QStringList columnOrgNames() const {
-        QStringList names;
-        for (const QueryColumn & col : _columns) {
-            names << col.orgName;
-        }
-        return names;
+    inline db::ulonglong recordCount() const {
+        if (!_currentResult) return 0;
+        return _currentResult->recordCount();
+    }
+    inline bool isEof() const {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->isEof();
     }
 
-    QueryColumn & column(std::size_t index) { return _columns[index]; }
+    inline std::size_t columnCount() const {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->columnCount();
+    }
+
+    inline QString columnName(std::size_t index) const {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->columnName(index);
+    }
+
+    inline QStringList columnOrgNames() const {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->columnOrgNames();
+    }
+
+    inline QueryColumn & column(std::size_t index) {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->column(index);
+    }
 
     // H: procedure Execute(AddResult: Boolean=False; UseRawResult: Integer=-1); virtual; abstract;
-    virtual void execute(bool addResult = false) = 0;
+    void execute(bool appendData = false);
 
-    virtual bool hasResult() = 0;
-
-    virtual void seekRecNo(db::ulonglong value) = 0; // H: SetRecNo
-
-    virtual QString curRowColumn(std::size_t index, bool ignoreErrors = false) = 0;
-
-    QString curRowColumn(const QString & colName, bool ignoreErrors = false);
-
-    QStringList curRow();
-
-    QMap<QString, QString> curRowAsObject();
-
-    virtual bool isNull(std::size_t index) = 0; // TODO: add by name mthd
-
-    // true if was already prepared
-    virtual bool prepareEditing();
-    bool isEditing() const { return _editableData != nullptr; }
-    EditableGridData * editableData() const {
-        return _editableData;
+    inline bool hasResult() {
+        return _resultList.empty() == false;
     }
 
-    void seekFirst();
-    void seekNext();
+    size_t resultCount() const {
+        return _resultList.size();
+    }
 
-    std::size_t indexOfColumn(const QString & colName) const;
+    QueryResultPt resultAt(size_t index) {
+        return _resultList.at(index);
+    }
 
-    Entity * entity() const { return _entity; }
-    void setEntity(Entity * entity) { _entity = entity; }
+    inline void seekRecNo(db::ulonglong value) { // H: SetRecNo
+        Q_ASSERT(_currentResult != nullptr);
+        _currentResult->seekRecNo(value);
+    }
 
-    QStringList keyColumns() const;
+    inline QString curRowColumn(std::size_t index, bool ignoreErrors = false) {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->curRowColumn(index, ignoreErrors);
+    }
+
+    inline QString curRowColumn(const QString & colName, bool ignoreErrors = false) {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->curRowColumn(colName, ignoreErrors);
+    }
+    inline QStringList curRow() {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->curRow();
+    }
+    inline QMap<QString, QString> curRowAsObject() {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->curRowAsObject();
+    }
+
+    inline bool isNull(std::size_t index) {  // TODO: add by name mthd
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->isNull(index);
+    }
+
+    // true if was already prepared
+    inline bool prepareEditing() {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->prepareEditing();
+    }
+    inline bool isEditing() const {
+        if (!_currentResult) return false;
+        return _currentResult->isEditing();
+    }
+    inline EditableGridData * editableData() const {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->editableData();
+    }
+
+    inline void seekFirst() {
+        Q_ASSERT(_currentResult != nullptr);
+        _currentResult->seekFirst();
+    }
+    inline void seekNext() {
+        Q_ASSERT(_currentResult != nullptr);
+        _currentResult->seekNext();
+    }
+
+    inline std::size_t indexOfColumn(const QString & colName) const {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->indexOfColumn(colName);
+    }
+
+    inline Entity * entity() const {
+        return _entity;
+    }
+    void setEntity(Entity * entity) {
+        _entity = entity;
+        for (QueryResultPt & result : _resultList) {
+            result->setEntity(_entity);
+        }
+    }
+
+    inline QStringList keyColumns() const {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->keyColumns();
+    }
 
     inline db::ulonglong rowsFound() const {
         return _rowsFound;
@@ -102,23 +169,19 @@ public:
 
 protected:
 
-    db::ulonglong _recordCount;
-    db::ulonglong _curRecNo; // H: FRecNo
     db::ulonglong _rowsFound;
     db::ulonglong _rowsAffected;
     db::ulonglong _warningsCount;
     std::chrono::milliseconds _execDuration;
     std::chrono::milliseconds _networkDuration;
-    std::vector<QueryColumn> _columns;
-    QMap<QString, std::size_t> _columnIndexes; // Column name -> column index
-    bool _eof; // H: FEof
-    EditableGridData * _editableData; // TODO: move to QueryData?
-
 
 private:
     QString _SQL;
     Connection * _connection;
     Entity * _entity;
+
+    std::vector<QueryResultPt> _resultList;
+    QueryResultPt _currentResult;
 };
 
 } // namespace db

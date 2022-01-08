@@ -332,6 +332,11 @@ QString Connection::defaultTableEngine()
     return _tableEnginesFetcher->defaultEngine();
 }
 
+QueryPtr Connection::createQuery()
+{
+    return std::make_shared<Query>(this);
+}
+
 void Connection::emitDatabaseChanged(const QString& newName)
 {
     emit databaseChanged(newName);

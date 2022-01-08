@@ -2,13 +2,13 @@
 #define DB_QUERY_RESULTS_H
 
 #include <chrono>
-#include <QList>
-#include "native_query_result_interface.h"
+#include <vector>
+#include "native_query_result.h"
 
 namespace meow {
 namespace db {
 
-using QueryResultList = QList<QueryResultPt>;
+using QueryResultList = std::vector<QueryResultPt>;
 
 // List of query execution results with additional data
 class QueryResults
@@ -24,7 +24,7 @@ public:
     }
 
     inline bool isEmpty() const {
-        return _list.isEmpty();
+        return _list.empty();
     }
 
     inline void clear() {
@@ -93,7 +93,7 @@ public:
     }
 
     inline QueryResults & operator<< (const QueryResultPt &result) {
-        _list.append(result);
+        _list.push_back(result);
         return *this;
     }
 
@@ -106,11 +106,11 @@ public:
     }
 
     inline QueryResultPt& front() {
-        return _list.first();
+        return _list.front();
     }
 
     inline const QueryResultPt& front() const {
-        return _list.first();
+        return _list.front();
     }
 
 private:

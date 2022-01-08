@@ -1,85 +1,42 @@
-#include "mysql_query.h"
+#include "mysql_query_result.h"
 #include "db/editable_grid_data.h"
+#include "db/connection.h"
 #include "db/data_type/mysql_data_type.h"
 #include "db/data_type/mysql_connection_data_types.h"
 
 namespace meow {
 namespace db {
 
-MySQLQuery::MySQLQuery(Connection *connection)
-    :Query(connection),
-     _curRow(nullptr),
-     _columnsParsed(false)
+MySQLQueryResult::MySQLQueryResult(Connection * connection)
+    : NativeQueryResult(connection)
+    , _res(nullptr)
+    , _curRow(nullptr)
+    , _columnsParsed(false)
 {
 
 }
 
-MySQLQuery::~MySQLQuery()
+void MySQLQueryResult::init(MYSQL_RES * res)
 {
+    Q_ASSERT( res != nullptr);
+    Q_ASSERT(_res == nullptr);
 
+    _res = res;
+
+    _recordCount = nativeRowsCount();
+
+    clearColumnData();
+
+    addColumnData(_res);
+
+    if (isEditing()) {
+        prepareResultForEditing(this);
+    }
+
+    seekFirst();
 }
 
-void MySQLQuery::execute(bool addResult /*= false*/) // override
-{
-    // TODO addResult for isEditing() is broken
-
-    QueryResults results = connection()->query(this->SQL(), true);
-
-    _rowsFound = results.rowsFound();
-    _rowsAffected = results.rowsAffected();
-    _warningsCount = results.warningsCount();
-    _execDuration = results.execDuration();
-    _networkDuration = results.networkDuration();
-
-    MySQLQueryResultPtr lastResult = nullptr;
-    if (!results.isEmpty()) {
-        lastResult = std::static_pointer_cast<MySQLQueryResult>(
-                        results.front());
-    }
-
-    if (addResult && _resultList.size() == 0) {
-        addResult = false;
-    }
-
-    if (addResult == false) {
-        _resultList.clear();
-        _recordCount = 0;
-        // H: ...
-        if (isEditing()) {
-            _editableData->clear();
-        }
-    }
-
-    if (lastResult) {
-        _resultList.push_back(lastResult);
-        _recordCount += lastResult->rowsCount();
-    }
-
-    if (!addResult) {
-        clearColumnData();
-        if (_resultList.empty() == false) {
-            // FCurrentResults is normally done in SetRecNo,
-            // but never if result has no rows
-            // H: FCurrentResults := LastResult;
-
-            addColumnData(lastResult->nativePtr());
-
-            if (isEditing()) {
-                prepareResultForEditing(lastResult->nativePtr());
-                lastResult.reset(); // we just copied all data
-            }
-
-            seekFirst();
-        }
-    } else {
-        if (lastResult && isEditing()) {
-            prepareResultForEditing(lastResult->nativePtr());
-            lastResult.reset();
-        }
-    }
-}
-
-void MySQLQuery::clearColumnData()
+void MySQLQueryResult::clearColumnData()
 {
     _columns.clear();
     _columnLengths.clear();
@@ -87,7 +44,7 @@ void MySQLQuery::clearColumnData()
     _columnsParsed = false;
 }
 
-void MySQLQuery::addColumnData(MYSQL_RES * result)
+void MySQLQueryResult::addColumnData(MYSQL_RES * result)
 {
     if (_columnsParsed) return;
 
@@ -119,13 +76,12 @@ void MySQLQuery::addColumnData(MYSQL_RES * result)
     _columnsParsed = true;
 }
 
-
-bool MySQLQuery::hasResult()
+bool MySQLQueryResult::hasData() const
 {
-    return _resultList.empty() == false;
+    return _res != nullptr || NativeQueryResult::hasData();
 }
 
-void MySQLQuery::seekRecNo(db::ulonglong value)
+void MySQLQueryResult::seekRecNo(db::ulonglong value)
 {
     if (value == _curRecNo) {
         return;
@@ -138,12 +94,13 @@ void MySQLQuery::seekRecNo(db::ulonglong value)
     }
 
     if (isEditing() == false) {
+
+        std::vector<MYSQL_RES *> resultList = this->resultList();
+
         db::ulonglong numRows = 0;
-        for (auto result : _resultList) {
-            numRows += result->nativePtr()->row_count;
+        for (auto curResPtr : resultList) {
+            numRows += curResPtr->row_count;
             if (value < numRows) {
-                _currentResult = result; // TODO: why ?
-                MYSQL_RES * curResPtr = _currentResult->nativePtr();
                 // TODO: using unsigned with "-" is risky
                 db::ulonglong wantedLocalRecNo
                         = curResPtr->row_count - (numRows - value);
@@ -176,7 +133,7 @@ void MySQLQuery::seekRecNo(db::ulonglong value)
     _eof = false;
 }
 
-QString MySQLQuery::curRowColumn(std::size_t index, bool ignoreErrors)
+QString MySQLQueryResult::curRowColumn(std::size_t index, bool ignoreErrors)
 {
     if (index < columnCount()) {
 
@@ -196,7 +153,7 @@ QString MySQLQuery::curRowColumn(std::size_t index, bool ignoreErrors)
     return QString();
 }
 
-bool MySQLQuery::isNull(std::size_t index)
+bool MySQLQueryResult::isNull(std::size_t index)
 {
     throwOnInvalidColumnIndex(index);
 
@@ -207,32 +164,25 @@ bool MySQLQuery::isNull(std::size_t index)
     return _curRow[index] == nullptr;
 }
 
-bool MySQLQuery::prepareEditing()
+std::vector<MYSQL_RES *> MySQLQueryResult::resultList() const
 {
-    if (Query::prepareEditing()) {
-        return true;
+    // TODO: optimize/cache resultList?
+    std::vector<MYSQL_RES *> resultList;
+    resultList.reserve(_appendedResults.size() + 1);
+    if (_res) {
+        resultList.push_back(_res);
     }
 
-    for (auto result : _resultList) {
-        addColumnData(result->nativePtr());
-        prepareResultForEditing(result->nativePtr());
-        result.reset();
-    }
-
-    return false;
-}
-
-void MySQLQuery::throwOnInvalidColumnIndex(std::size_t index)
-{
-    if (index >= columnCount()) {
-        throw db::Exception(
-            QString("Column #%1 not available. Query returned %2 columns.")
-                    .arg(index).arg(columnCount())
+    for (const QueryResultPt & appendedResult : _appendedResults) {
+        resultList.push_back(
+            static_cast<MySQLQueryResult *>(appendedResult.get())
+                    ->nativePtr()
         );
     }
+    return resultList;
 }
 
-QString MySQLQuery::rowDataToString(MYSQL_ROW row,
+QString MySQLQueryResult::rowDataToString(MYSQL_ROW row,
                         std::size_t col,
                         unsigned long dataLen)
 {
@@ -250,7 +200,7 @@ QString MySQLQuery::rowDataToString(MYSQL_ROW row,
     return result;
 }
 
-void MySQLQuery::prepareResultForEditing(MYSQL_RES * result)
+void MySQLQueryResult::prepareResultForEditing(MYSQL_RES * result)
 {
     // it seems that copying all data is simplest way as we need to
     // insert/delete rows at top/in the middle of data as well
@@ -277,6 +227,16 @@ void MySQLQuery::prepareResultForEditing(MYSQL_RES * result)
         }
 
         _editableData->appendRow(rowData);
+    }
+}
+
+
+void MySQLQueryResult::prepareResultForEditing(NativeQueryResult * result)
+{
+    MySQLQueryResult * mysqlResult = static_cast<MySQLQueryResult *>(result);
+    if (mysqlResult->nativePtr()) {
+        prepareResultForEditing(mysqlResult->nativePtr());
+        mysqlResult->freeNative(); // we just copied all data
     }
 }
 

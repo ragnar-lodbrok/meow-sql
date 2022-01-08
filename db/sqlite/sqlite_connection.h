@@ -20,8 +20,6 @@ public:
 
     virtual bool ping(bool reconnect) override;
 
-    virtual QueryPtr createQuery() override;
-
     virtual QStringList fetchDatabases() override;
 
     virtual QString getLastError() override;

@@ -26,14 +26,15 @@ public:
     Log * log() { return &_log; }
 
 private:
+
+    Log _log;
+
     meow::db::ConnectionParamsManager _dbConnectionParamsManager;
     std::shared_ptr<meow::db::ConnectionsManager> _dbConnectionsManager;
 
     meow::settings::Core _settingsCore;
 
     Actions _actions;
-
-    Log _log;
 };
 
 App * app();

@@ -1,5 +1,5 @@
 #include "sqlite_connection.h"
-#include "db/qtsql/qtsql_query.h"
+#include "db/qtsql/qtsql_query_result.h"
 #include "helpers/logger.h"
 #include "sqlite_entities_fetcher.h"
 #include "db/data_type/sqlite_connection_datatypes.h"
@@ -81,11 +81,6 @@ bool SQLiteConnection::ping(bool reconnect)
     return true;
 }
 
-QueryPtr SQLiteConnection::createQuery()
-{
-    return std::make_shared<QtSQLQuery>(this);
-}
-
 QStringList SQLiteConnection::fetchDatabases()
 {
     return QStringList("main");
@@ -123,23 +118,25 @@ QueryResults SQLiteConnection::query(
 
         QSqlQuery * query = new QSqlQuery(_handle);
 
-        auto queryResult = std::make_shared<QtSQLQueryResult>(query, &_handle);
-
         elapsedTimer.start();
 
         if (query->exec(SQL) == false) {
             QString error = query->lastError().text();
             meowLogCC(Log::Category::Error, this) << "Query failed: " << error;
+            delete query;
             throw db::Exception(error);
         }
 
         results.incExecDuration(
                 std::chrono::milliseconds(elapsedTimer.elapsed()));
 
-        results.incRowsAffected(query->numRowsAffected());
-        results.incRowsFound(queryResult->rowsCount());
+        auto queryResult = std::make_shared<QtSQLQueryResult>(this);
+        queryResult->init(query, &_handle);
 
-        if (storeResult && queryResult->rowsCount() > 0) {
+        results.incRowsAffected(query->numRowsAffected());
+        results.incRowsFound(queryResult->recordCount());
+
+        if (storeResult && queryResult->recordCount() > 0) {
             results << queryResult;
         }
     }
