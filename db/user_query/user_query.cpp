@@ -172,16 +172,23 @@ void UserQuery::onQueryFinished(int queryIndex, int totalCount)
     MEOW_ASSERT_MAIN_THREAD
 
     db::QueryPtr query = _queriesTask->resultAt(queryIndex);
+    size_t prevResultsCount = _resultsData.size();
 
     if (query->hasResult()) {
-        QueryDataPtr queryData(new QueryData());
-        queryData->setQueryPtr(query);
-        _resultsData.append(queryData);
+        // some queries may return multiple results
+        for (size_t i = 0; i < query->resultCount(); ++i) {
+            QueryDataPtr queryData(new QueryData());
+            queryData->setQueryPtr(query);
+            queryData->setResultIndex(i);
+            _resultsData.append(queryData);
+        }
     }
 
     emit queryFinished(queryIndex, totalCount);
     if (query->hasResult()) {
-        emit newQueryDataResult(_resultsData.size() - 1);
+        for (size_t i = 0; i < query->resultCount(); ++i) {
+            emit newQueryDataResult(prevResultsCount + i);
+        }
     }
 }
 

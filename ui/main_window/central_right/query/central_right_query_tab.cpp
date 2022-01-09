@@ -143,10 +143,10 @@ void QueryTab::onExecQueryFinished(int queryIndex, int totalCount)
     //qDebug() << "Query finished: " << queryIndex+1 << "/" << totalCount;
 }
 
-void QueryTab::onExecQueryDataResult(int queryIndex)
+void QueryTab::onExecQueryDataResult(int queryResultIndex)
 {
     // Listening: Bolt Thrower - The Killchain
-    _queryResult->showQueryData(queryIndex);
+    _queryResult->showQueryData(queryResultIndex);
 }
 
 void QueryTab::onExecQueriesRunningChanged()

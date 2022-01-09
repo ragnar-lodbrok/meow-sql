@@ -25,7 +25,7 @@ public:
     void showAllQueriesData();
     void hideAllQueriesData();
 
-    void showQueryData(int queryIndex);
+    void showQueryData(int queryResultIndex);
 
 private:
 

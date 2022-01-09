@@ -7,132 +7,111 @@
 namespace meow {
 namespace db {
 
-QueryData::QueryData() : QObject(), _curRowNumber(-1)
+QueryData::QueryData() : QObject(), _curRowNumber(-1), _resultIndex(0)
 {
 
 }
 
 int QueryData::rowCount() const
 {
-    db::Query * query = _queryPtr.get();
-    if (query) {
-        return static_cast<int>(query->recordCount());
+    if (_queryPtr) {
+        return static_cast<int>(currentResult()->recordCount());
     }
     return 0;
 }
 
 int QueryData::columnCount() const
 {
-    db::Query * query = _queryPtr.get();
-    if (query) {
-        return static_cast<int>(query->columnCount());
+    if (_queryPtr) {
+        return static_cast<int>(currentResult()->columnCount());
     }
     return 0;
 }
 
 QString QueryData::columnName(int index) const
 {
-    db::Query * query = _queryPtr.get();
-    if (query) {
-        return query->columnName(static_cast<std::size_t>(index));
+    if (_queryPtr) {
+        return currentResult()->columnName(static_cast<std::size_t>(index));
     }
     return QString();
 }
 
 DataTypeCategoryIndex QueryData::columnDataTypeCategory(int index) const
 {
-    db::Query * query = _queryPtr.get();
-    if (query) {
-        return query->column(index).dataType->categoryIndex;
+    if (_queryPtr) {
+        return currentResult()->column(index).dataType->categoryIndex;
     }
     return DataTypeCategoryIndex::Other;
 }
 
 db::DataTypePtr QueryData::dataTypeForColumn(int column) const
 {
-    db::Query * query = _queryPtr.get();
-    if (query) {
-        return query->column(column).dataType;
+    if (_queryPtr) {
+        return currentResult()->column(column).dataType;
     }
     return {};
 }
 
 QString QueryData::displayDataAt(int row, int column) const
 {
-    db::Query * query = _queryPtr.get();
-    if (query) {
-        query->seekRecNo(row);
-        if (query->isNull(column)) {
-            return "(NULL)"; // TODO: const
-        } else {
+    currentResult()->seekRecNo(row);
+    if (currentResult()->isNull(column)) {
+        return "(NULL)"; // TODO: const
+    } else {
 
-            QString data = query->curRowColumn(column, true);
+        QString data = currentResult()->curRowColumn(column, true);
 
-            // TODO: more formatting, see AnyGridGetText
+        // TODO: more formatting, see AnyGridGetText
 
-            auto categoryIndex = columnDataTypeCategory(column);
+        auto categoryIndex = columnDataTypeCategory(column);
 
-            switch (categoryIndex) {
+        switch (categoryIndex) {
 
-            case DataTypeCategoryIndex::Spatial:
-            case DataTypeCategoryIndex::Binary:
-                return helpers::formatAsHex(data);
+        case DataTypeCategoryIndex::Spatial:
+        case DataTypeCategoryIndex::Binary:
+            return helpers::formatAsHex(data);
 
-            default:
-                break;
+        default:
+            break;
 
-            }
-
-
-            return data;
         }
+
+
+        return data;
     }
-    return QString();
 }
 
 QString QueryData::editDataAt(int row, int column) const
 {
-    db::Query * query = _queryPtr.get();
-    if (query) {
-        query->seekRecNo(row);
-        if (query->isNull(column)) {
-            return QString();
-        } else {
-            // TODO: format binary?
-            return query->curRowColumn(column, true);
-        }
+    currentResult()->seekRecNo(row);
+    if (currentResult()->isNull(column)) {
+        return QString();
+    } else {
+        // TODO: format binary?
+        return currentResult()->curRowColumn(column, true);
     }
-    return QString();
 }
 
 bool QueryData::isNullAt(int row, int column) const
 {
-    db::Query * query = _queryPtr.get();
-    if (query) {
-        query->seekRecNo(static_cast<std::size_t>(row));
-        return query->isNull(static_cast<std::size_t>(column));
-    }
-    return false;
+    currentResult()->seekRecNo(static_cast<std::size_t>(row));
+    return currentResult()->isNull(static_cast<std::size_t>(column));
 }
 
 bool QueryData::setData(int row, int col, const QVariant &value)
 {
     setCurrentRowNumber(row);
-    db::Query * query = _queryPtr.get();
-    if (query) {
-        prepareEditing();
-        Q_ASSERT(query->editableData());
-        query->editableData()->setData(row, col, value);
-    }
+    prepareEditing();
+    Q_ASSERT(currentResult()->editableData());
+    currentResult()->editableData()->setData(row, col, value);
 
     return false;
 }
 
 void QueryData::prepareEditing()
 {
-    db::Query * query = _queryPtr.get();
-    if (query) {
-        query->prepareEditing();
+    if (_queryPtr) {
+        currentResult()->prepareEditing();
         emit editingPrepared();
     }
 }
@@ -140,21 +119,21 @@ void QueryData::prepareEditing()
 bool QueryData::isModified() const
 {
     return _queryPtr
-            && _queryPtr->editableData()
-            && _queryPtr->editableData()->isModified();
+            && currentResult()->editableData()
+            && currentResult()->editableData()->isModified();
 }
 
 bool QueryData::isInserted() const
 {
     return _queryPtr
-            && _queryPtr->editableData()
-            && _queryPtr->editableData()->isInserted();
+            && currentResult()->editableData()
+            && currentResult()->editableData()->isInserted();
 }
 
 int QueryData::modifiedRowNumber() const
 {
     if (isModified()) {
-        return _queryPtr->editableData()->editableRow()->rowNumber;
+        return currentResult()->editableData()->editableRow()->rowNumber;
     }
     return -1;
 }
@@ -163,14 +142,14 @@ int QueryData::applyModifications()
 {
     if (!isModified()) return -1;
 
-    std::shared_ptr<QueryDataEditor> editor = query()->connection()
+    std::shared_ptr<QueryDataEditor> editor = currentResult()->connection()
                                                      ->queryDataEditor();
 
     if (editor->applyModificationsInDB(this)) {
         if (editor->loadModificationsResult()) {
             ensureFullRow(true); // load from db new values
         }
-        return _queryPtr->editableData()->applyModifications();
+        return currentResult()->editableData()->applyModifications();
     }
 
     return -1;
@@ -180,44 +159,37 @@ int QueryData::discardModifications()
 {
     if (!isModified()) return -1;
 
-    return _queryPtr->editableData()->discardModifications();
+    return currentResult()->editableData()->discardModifications();
 }
 
 bool QueryData::deleteRowInDB(int row)
 {
     // TODO: CheckEditable
 
-    db::Query * query = _queryPtr.get();
-    if (query) {
-        setCurrentRowNumber(row);
-        prepareEditing();
+    setCurrentRowNumber(row);
+    prepareEditing();
 
-        if (query->editableData()->isRowInserted(row) == false) {
+    if (currentResult()->editableData()->isRowInserted(row) == false) {
 
-            std::shared_ptr<QueryDataEditor> editor = query->connection()
-                                                       ->queryDataEditor();
+        std::shared_ptr<QueryDataEditor> editor = currentResult()->connection()
+                ->queryDataEditor();
 
-            editor->deleteCurrentRow(this);
-        }
-
-        query->editableData()->deleteRow(row);
-
-        return true;
+        editor->deleteCurrentRow(this);
     }
 
-    return false;
+    currentResult()->editableData()->deleteRow(row);
+
+    return true;
 }
 
 void QueryData::deleteRow(int row)
 {
-    db::Query * query = _queryPtr.get();
-    query->editableData()->deleteRow(row);
+    currentResult()->editableData()->deleteRow(row);
 }
 
 int QueryData::insertEmptyRow()
 {
-    db::Query * query = _queryPtr.get();
-    if (!query) {
+    if (!_queryPtr) {
         return -1;
     }
     prepareEditing();
@@ -226,8 +198,9 @@ int QueryData::insertEmptyRow()
 
         QString columnValue = QString(""); // empty, not NULL
 
-        if (query->entity() && query->entity()->type() == Entity::Type::Table) {
-            TableEntity * table = static_cast<TableEntity *>(query->entity());
+        if (currentResult()->entity()
+                && currentResult()->entity()->type() == Entity::Type::Table) {
+            TableEntity * table = static_cast<TableEntity *>(currentResult()->entity());
 
             const auto & columns = table->structure()->columns();
             ColumnDefaultType columnDefaultType = columns[c]->defaultType();
@@ -237,14 +210,15 @@ int QueryData::insertEmptyRow()
                 columnValue = QString(); // (NULL)
             } else if (columnDefaultType == ColumnDefaultType::Text
                     || columnDefaultType == ColumnDefaultType::TextUpdateTS) {
-                columnValue = query->connection()->unescapeString(
+                columnValue = currentResult()->connection()->unescapeString(
                     columns[c]->defaultText());
             }
         }
 
         newRowData << columnValue;
     }
-    return query->editableData()->insertRow(_curRowNumber + 1, newRowData);
+    return currentResult()->editableData()
+            ->insertRow(_curRowNumber + 1, newRowData);
 
 }
 
@@ -252,23 +226,23 @@ QString QueryData::whereForCurRow(bool beforeModifications) const
 {
     QStringList whereList;
 
-    QStringList keyColumns = query()->keyColumns();
+    QStringList keyColumns = currentResult()->keyColumns();
 
     bool useEditableData = false;
     std::size_t row = static_cast<std::size_t>(_curRowNumber);
 
-    EditableGridData * editableData = query()->editableData();
+    EditableGridData * editableData = currentResult()->editableData();
     if (editableData && editableData->editableRow()) {
         row = editableData->editableRow()->rowNumber;
         useEditableData = true;
     }
 
-    std::size_t columnCount = query()->columnCount();
+    std::size_t columnCount = currentResult()->columnCount();
 
     for (const QString & keyColumnName : keyColumns) {
         std::size_t i = static_cast<std::size_t>(-1);
         for (i = 0; i < columnCount; ++i) {
-            if (keyColumnName == query()->columnName(i)) {
+            if (keyColumnName == currentResult()->columnName(i)) {
                 break;
             }
         }
@@ -277,8 +251,8 @@ QString QueryData::whereForCurRow(bool beforeModifications) const
                 QString("Cannot compose WHERE clause - column missing: %1")
                     .arg(keyColumnName));
         }
-        QString whereName = query()->connection()->quoteIdentifier(
-            query()->columnName(i)
+        QString whereName = currentResult()->connection()->quoteIdentifier(
+            currentResult()->columnName(i)
         );
 
         QString value;
@@ -288,10 +262,8 @@ QString QueryData::whereForCurRow(bool beforeModifications) const
                         editableData->notModifiedDataAt(row, i)
                       : editableData->dataAt(row, i);
         } else {
-            db::Query * query = _queryPtr.get();
-            Q_ASSERT(query != nullptr);
-            query->seekRecNo(row);
-            value = query->curRowColumn(i);
+            currentResult()->seekRecNo(row);
+            value = currentResult()->curRowColumn(i);
         }
 
         QString whereVal;
@@ -299,7 +271,7 @@ QString QueryData::whereForCurRow(bool beforeModifications) const
         if (value.isNull()) {
             whereVal = " IS NULL";
         } else {
-            switch (query()->column(i).dataType->categoryIndex) {
+            switch (currentResult()->column(i).dataType->categoryIndex) {
             case DataTypeCategoryIndex::Integer:
             case DataTypeCategoryIndex::Float:
                 // TODO if bit
@@ -307,7 +279,7 @@ QString QueryData::whereForCurRow(bool beforeModifications) const
                 break;
             // TODO: other types
             default:
-                whereVal = query()->connection()->escapeString(value);
+                whereVal = currentResult()->connection()->escapeString(value);
                 break;
             }
 
@@ -326,27 +298,27 @@ void QueryData::ensureFullRow(bool refresh)
 
     prepareEditing();
 
-    EditableGridDataRow * row = _queryPtr->editableData()->editableRow();
+    EditableGridDataRow * row = currentResult()->editableData()->editableRow();
     Q_ASSERT(row != nullptr); // TODO create when not
 
     if (row->isInserted) {
         return; // TODO
     }
 
-    QStringList columnNames = query()->connection()->quoteIdentifiers(
-        query()->columnOrgNames()
+    QStringList columnNames = currentResult()->connection()->quoteIdentifiers(
+        currentResult()->columnOrgNames()
     );
 
-    Q_ASSERT(query()->entity());
+    Q_ASSERT(currentResult()->entity());
 
-    QString entityName = db::quotedFullName(query()->entity());
+    QString entityName = db::quotedFullName(currentResult()->entity());
     QString selectSQL = QString("SELECT %1 FROM %2 WHERE %3 %4")
             .arg(columnNames.join(", "))
             .arg(entityName)
             .arg(whereForCurRow())
-            .arg(query()->connection()->limitOnePostfix(true));
+            .arg(currentResult()->connection()->limitOnePostfix(true));
 
-    QStringList newRowData = query()->connection()->getRow(selectSQL);
+    QStringList newRowData = currentResult()->connection()->getRow(selectSQL);
     if (newRowData.size() != row->data.size()) {
         meowLogC(Log::Category::Error) << "Failed to load full row";
         //Q_ASSERT(false);

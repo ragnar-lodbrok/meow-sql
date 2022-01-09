@@ -50,12 +50,12 @@ void QueryResult::hideAllQueriesData()
     removeAllDataTabs();
 }
 
-void QueryResult::showQueryData(int queryIndex)
+void QueryResult::showQueryData(int queryResultIndex)
 {
-    db::QueryDataPtr queryData = _presenter->resultsDataAt(queryIndex);
+    db::QueryDataPtr queryData = _presenter->resultsDataAt(queryResultIndex);
     Q_ASSERT(queryData);
     QueryDataTab * dataTab = new QueryDataTab(queryData);
-    _dataTabs->addTab(dataTab, _presenter->resultTabCaption(queryIndex));
+    _dataTabs->addTab(dataTab, _presenter->resultTabCaption(queryResultIndex));
 }
 
 void QueryResult::removeAllDataTabs()

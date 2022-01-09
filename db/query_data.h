@@ -23,6 +23,18 @@ public:
                                               _curRowNumber = -1; }
     void clearData() { setQueryPtr(nullptr); }
 
+    size_t resultCount() const {
+        if (_queryPtr) {
+            return _queryPtr->resultCount();
+        }
+        return 0;
+    }
+    void setResultIndex(size_t resultIndex) { _resultIndex = resultIndex; }
+
+    inline QueryResultPt currentResult() const {
+        return _queryPtr->resultAt(_resultIndex);
+    }
+
     int rowCount() const;
     int columnCount() const;
     QString displayDataAt(int row, int column) const;
@@ -66,6 +78,7 @@ private:
 
     db::QueryPtr _queryPtr;
     int _curRowNumber;
+    size_t _resultIndex;
 };
 
 using QueryDataPtr = std::shared_ptr<QueryData>;
