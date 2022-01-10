@@ -100,6 +100,7 @@ SOURCES += main.cpp\
     db/entity/view_entity.cpp \
     db/exception.cpp \
     db/foreign_key.cpp \
+    db/native_query_result.cpp \
     db/query.cpp \
     db/query_criteria.cpp \
     db/query_data.cpp \
@@ -286,7 +287,7 @@ HEADERS  +=  app/actions.h \
     db/entity/view_entity.h \
     db/exception.h \
     db/foreign_key.h \
-    db/native_query_result_interface.h \
+    db/native_query_result.h \
     db/query_column.h \
     db/query_criteria.h \
     db/query_data_fetcher.h \
@@ -458,7 +459,7 @@ WITH_MYSQL {
     db/entity/mysql_entity_filter.cpp \
     db/mysql/mysql_database_editor.cpp \
     db/mysql/mysql_entities_fetcher.cpp \
-    db/mysql/mysql_query.cpp \
+    db/mysql/mysql_query_result.cpp \
     db/mysql/mysql_query_data_editor.cpp \
     db/mysql/mysql_collation_fetcher.cpp \
     db/mysql/mysql_connection.cpp \
@@ -478,7 +479,7 @@ WITH_POSTGRESQL {
     db/pg/pg_connection_query_killer.cpp \
     db/pg/pg_entities_fetcher.cpp \
     db/pg/pg_entity_create_code_generator.cpp \
-    db/pg/pg_query.cpp \
+    db/pg/pg_query_result.cpp \
     db/pg/pg_query_data_editor.cpp \
     db/pg/pg_query_data_fetcher.cpp
 }
@@ -495,7 +496,7 @@ WITH_SQLITE {
 }
 
 WITH_QTSQL {
-    SOURCES += db/qtsql/qtsql_query.cpp
+    SOURCES += db/qtsql/qtsql_query_result.cpp
 }
 
 WITH_MYSQL {
@@ -505,7 +506,7 @@ WITH_MYSQL {
     db/entity/mysql_entity_filter.h \
     db/mysql/mysql_database_editor.h \
     db/mysql/mysql_entities_fetcher.h \
-    db/mysql/mysql_query.h \
+    db/mysql/mysql_query_result.h \
     db/mysql/mysql_query_data_editor.h \
     db/mysql/mysql_collation_fetcher.h \
     db/mysql/mysql_connection.h \
@@ -527,7 +528,6 @@ WITH_POSTGRESQL {
     db/pg/pg_connection_query_killer.h \
     db/pg/pg_entities_fetcher.h \
     db/pg/pg_entity_create_code_generator.h \
-    db/pg/pg_query.h \
     db/pg/pg_query_data_editor.h \
     db/pg/pg_query_data_fetcher.h
 }
@@ -544,8 +544,7 @@ WITH_SQLITE {
 }
 
 WITH_QTSQL {
-    HEADERS += db/qtsql/qtsql_query.h \
-    db/qtsql/qtsql_query_result.h
+    HEADERS += db/qtsql/qtsql_query_result.h
 }
 
 WITH_MYSQL {
