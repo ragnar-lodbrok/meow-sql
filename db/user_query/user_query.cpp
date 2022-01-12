@@ -18,6 +18,8 @@ UserQuery::UserQuery(ConnectionsManager * connectionsManager)
     , _isRunning(false)
 {
 
+    connect(_connectionsManager, &ConnectionsManager::beforeConnectionClosed,
+            this, &UserQuery::onConnectionClose);
 }
 
 UserQuery::~UserQuery()
@@ -204,6 +206,14 @@ void UserQuery::abort()
 {
     if (_queriesTask) {
         _queriesTask->abort();
+    }
+}
+
+void UserQuery::onConnectionClose(SessionEntity * session)
+{
+    if (_lastRunningConnection == session->connection()) {
+        _lastRunningConnection = nullptr;
+        emit executionConnectionClosed();
     }
 }
 

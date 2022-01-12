@@ -89,11 +89,13 @@ public:
     Q_SIGNAL void queriesFinished();
     Q_SIGNAL void newQueryDataResult(int index);
     Q_SIGNAL void isRunningChanged(bool isRunning);
+    Q_SIGNAL void executionConnectionClosed();
 
 private:
 
     Q_SLOT void onQueriesFinished();
     Q_SLOT void onQueryFinished(int queryIndex, int totalCount);
+    Q_SLOT void onConnectionClose(SessionEntity * session);
 
     QString generateUniqueId() const;
 

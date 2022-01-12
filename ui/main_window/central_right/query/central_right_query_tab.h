@@ -38,6 +38,7 @@ private:
     Q_SLOT void onExecQueryFinished(int queryIndex, int totalCount);
     Q_SLOT void onExecQueryDataResult(int queryIndex);
     Q_SLOT void onExecQueriesRunningChanged();
+    Q_SLOT void onExecutionConnectionClosed();
 
     void beforeRunQueries();
 

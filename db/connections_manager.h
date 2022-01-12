@@ -45,7 +45,7 @@ public:
     bool isNoOpenedConnections() const { return _connections.isEmpty(); }
 
     Q_SIGNAL void connectionOpened(SessionEntity * newSession);
-    Q_SIGNAL void beforeConnectionClosed(SessionEntity * newSession);
+    Q_SIGNAL void beforeConnectionClosed(SessionEntity * session);
     Q_SIGNAL void activeEntityChanged(const EntityPtr &newEntity,
                                       bool select = false);
     Q_SIGNAL void creatingNewEntity(const EntityPtr & entity);

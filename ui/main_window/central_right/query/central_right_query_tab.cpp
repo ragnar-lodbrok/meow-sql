@@ -25,6 +25,9 @@ QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) :
 
     connect(_presenter.query(), &db::UserQuery::isRunningChanged,
             this, &QueryTab::onExecQueriesRunningChanged);
+
+    connect(_presenter.query(), &db::UserQuery::executionConnectionClosed,
+            this, &QueryTab::onExecutionConnectionClosed);
 }
 
 QueryTab::~QueryTab()
@@ -157,6 +160,11 @@ void QueryTab::onExecQueriesRunningChanged()
         this->unsetCursor();
     }
     validateControls();
+}
+
+void QueryTab::onExecutionConnectionClosed()
+{
+    _queryResult->hideAllQueriesData();
 }
 
 void QueryTab::beforeRunQueries()
