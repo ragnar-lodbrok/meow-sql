@@ -56,6 +56,9 @@ public:
     bool deleteRowInDB(int row);
 
     int insertEmptyRow();
+    int duplicateCurrentRowWithoutKeys();
+    int duplicateCurrentRowWithKeys();
+    int insertNewRow(bool duplicateCurrent = false, bool withKeys = false);
 
     QAbstractItemModel * createSortFilterModel();
 

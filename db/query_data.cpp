@@ -222,6 +222,68 @@ int QueryData::insertEmptyRow()
 
 }
 
+int QueryData::duplicateCurrentRowWithoutKeys()
+{
+    if (!_queryPtr) {
+        return -1;
+    }
+    if (_curRowNumber == -1) {
+        return -1;
+    }
+
+    // Copy current row data, insert empty row and edit inserted raw data.
+    // Need this trick to mark cells edited by user.
+
+    GridDataRow sourceRowData = currentResult()->curRow();
+
+    int newRowIndex = insertEmptyRow();
+
+    QList<std::size_t> pkColumnIndices
+            = currentResult()->primaryColumnIndices();
+
+    std::size_t columnCount = static_cast<std::size_t>(sourceRowData.size());
+    for (std::size_t col = 0; col < columnCount; ++col) {
+
+        // TODO: exclude copying virtual columns
+
+        QVariant value = sourceRowData.at(col);
+
+        if (pkColumnIndices.contains(col)) {
+            value = QString(); // (NULL)
+        }
+
+        currentResult()->editableData()->setData(newRowIndex, col, value);
+    }
+    return newRowIndex;
+}
+
+int QueryData::duplicateCurrentRowWithKeys()
+{
+    if (!_queryPtr) {
+        return -1;
+    }
+    if (_curRowNumber == -1) {
+        return -1;
+    }
+    // Copy current row data, insert empty row and edit inserted raw data.
+    // Need this trick to mark cells edited by user.
+
+    GridDataRow sourceRowData = currentResult()->curRow();
+
+    int newRowIndex = insertEmptyRow();
+
+    std::size_t columnCount = static_cast<std::size_t>(sourceRowData.size());
+    for (std::size_t col = 0; col < columnCount; ++col) {
+
+        // TODO: exclude copying virtual columns
+
+        QVariant value = sourceRowData.at(col);
+
+        currentResult()->editableData()->setData(newRowIndex, col, value);
+    }
+    return newRowIndex;
+}
+
 QString QueryData::whereForCurRow(bool beforeModifications) const
 {
     QStringList whereList;

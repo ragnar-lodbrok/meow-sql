@@ -66,16 +66,16 @@ void Actions::createActions(App * app)
 
     // -------------------------------------------------------------------------
     // ------------------------------ data -------------------------------------
-    _dataInsert = new QAction(QIcon(":/icons/add.png"),
+    _dataInsertRow = new QAction(QIcon(":/icons/add.png"),
                               tr("&Insert row"), this);
 
-    _dataInsert->setStatusTip(tr("Insert row into table"));
+    _dataInsertRow->setStatusTip(tr("Insert row into table"));
 
     // -------------------------------------------------------------------------
-    _dataDelete = new QAction(QIcon(":/icons/delete.png"),
+    _dataDeleteRows = new QAction(QIcon(":/icons/delete.png"),
                               tr("&Delete selected row(s)"), this);
 
-    _dataDelete->setStatusTip(tr("Delete selected row(s)"));
+    _dataDeleteRows->setStatusTip(tr("Delete selected row(s)"));
 
     // -------------------------------------------------------------------------
     _dataPostChanges = new QAction(QIcon(":/icons/tick.png"),
@@ -98,6 +98,19 @@ void Actions::createActions(App * app)
     //_dataRefresh->setShortcuts(QKeySequence::Refresh);
 
     // -------------------------------------------------------------------------
+    _dataDuplicateRowWithoutKeys = new QAction(
+                QIcon(":/icons/add.png"),
+                tr("Duplicate row without keys"), this);
+    // TODO: Ctrl+Insert shortcut
+
+    // -------------------------------------------------------------------------
+    _dataDuplicateRowWithKeys = new QAction(
+                QIcon(":/icons/add.png"),
+                tr("Duplicate row with keys"), this);
+
+    // -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
+
     _logClear = new QAction(tr("Clear"), this);
     _logClear->setStatusTip(tr("Clear query log"));
 

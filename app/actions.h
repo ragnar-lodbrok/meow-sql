@@ -19,12 +19,18 @@ public:
     QAction * showGlobalFilterPanel() const { return _showGlobalFilterPanel; }
 
     // TODO: group actions
-    QAction * dataInsert() const { return _dataInsert; }
-    QAction * dataDelete() const { return _dataDelete; }
+    QAction * dataInsertRow() const { return _dataInsertRow; }
+    QAction * dataDeleteRows() const { return _dataDeleteRows; }
     QAction * dataPostChanges() const { return _dataPostChanges; }
     QAction * dataCancelChanges() const { return _dataCancelChanges; }
     QAction * dataSetNULL() const { return _dataSetNULL; }
     QAction * dataRefresh() const { return _dataRefresh; }
+    QAction * dataDuplicateRowWithoutKeys() const {
+        return _dataDuplicateRowWithoutKeys;
+    }
+    QAction * dataDuplicateRowWithKeys() const {
+        return _dataDuplicateRowWithKeys;
+    }
 
     QAction * logClear() const { return _logClear; }
 
@@ -40,12 +46,14 @@ private:
     QAction * _globalRefresh;
     QAction * _showGlobalFilterPanel;
 
-    QAction * _dataInsert;
-    QAction * _dataDelete;
+    QAction * _dataInsertRow;
+    QAction * _dataDeleteRows;
     QAction * _dataPostChanges;
     QAction * _dataCancelChanges;
     QAction * _dataSetNULL;
     QAction * _dataRefresh;
+    QAction * _dataDuplicateRowWithoutKeys;
+    QAction * _dataDuplicateRowWithKeys;
 
     QAction * _logClear;
 

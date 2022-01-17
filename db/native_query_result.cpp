@@ -164,6 +164,34 @@ QStringList NativeQueryResult::keyColumns() const
     return cols;
 }
 
+QList<std::size_t> NativeQueryResult::primaryColumnIndices() const
+{
+    // Listening: Infected Rain = Fighter
+    QList<std::size_t> pkIndices;
+
+    if (entity()->type() == Entity::Type::Table) {
+        TableEntity * table = static_cast<TableEntity *>(entity());
+
+        // Primary Keys -----------------------------------------------------
+        QList<TableIndex *> & indicies = table->structure()->indicies();
+        for (const auto & index : indicies) {
+
+            if (!index->isPrimaryKey()) continue;
+
+            for (const QString & pkColumnName : index->columnNames()) {
+                if (_columnIndexes.contains(pkColumnName)) {
+                    size_t pkColumnIndex = _columnIndexes.value(pkColumnName);
+                    if (!pkIndices.contains(pkColumnIndex)) {
+                        pkIndices.push_back(pkColumnIndex);
+                    }
+                }
+            }
+        }
+    }
+
+    return pkIndices;
+}
+
 void NativeQueryResult::throwOnInvalidColumnIndex(std::size_t index)
 {
     if (index >= columnCount()) {

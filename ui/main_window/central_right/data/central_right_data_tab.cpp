@@ -45,15 +45,25 @@ DataTab::DataTab(QWidget *parent) :
             this,
             &DataTab::onDataCancelChanges);
 
-    connect(meow::app()->actions()->dataDelete(),
+    connect(meow::app()->actions()->dataDeleteRows(),
             &QAction::triggered,
             this,
-            &DataTab::onDataDelete);
+            &DataTab::onDataDeleteRows);
 
-    connect(meow::app()->actions()->dataInsert(),
+    connect(meow::app()->actions()->dataInsertRow(),
             &QAction::triggered,
             this,
-            &DataTab::onDataInsert);
+            &DataTab::onDataInsertRow);
+
+    connect(meow::app()->actions()->dataDuplicateRowWithoutKeys(),
+            &QAction::triggered,
+            this,
+            &DataTab::onDataDuplicateRowWithoutKeys);
+
+    connect(meow::app()->actions()->dataDuplicateRowWithKeys(),
+            &QAction::triggered,
+            this,
+            &DataTab::onDataDuplicateRowWithKeys);
 
     connect(&_model, &models::DataTableModel::editingStarted,
             this, &DataTab::validateControls);
@@ -88,8 +98,8 @@ void DataTab::createDataToolBar()
 #endif
     _topLayout->addWidget(_dataToolBar, 0, Qt::AlignLeft);
 
-    _dataToolBar->addAction( meow::app()->actions()->dataInsert() );
-    _dataToolBar->addAction( meow::app()->actions()->dataDelete() );
+    _dataToolBar->addAction( meow::app()->actions()->dataInsertRow() );
+    _dataToolBar->addAction( meow::app()->actions()->dataDeleteRows() );
     _dataToolBar->addAction( meow::app()->actions()->dataPostChanges() );
     _dataToolBar->addAction( meow::app()->actions()->dataCancelChanges() );
     _dataToolBar->addAction( meow::app()->actions()->dataRefresh() );
@@ -211,16 +221,24 @@ void DataTab::onDataCancelChanges(bool checked)
     discardModifications();
 }
 
-void DataTab::onDataDelete(bool checked)
+void DataTab::onDataDeleteRows()
 {
-    Q_UNUSED(checked);
     deleteSelectedRows();
 }
 
-void DataTab::onDataInsert(bool checked)
+void DataTab::onDataInsertRow()
 {
-    Q_UNUSED(checked);
     insertEmptyRow();
+}
+
+void DataTab::onDataDuplicateRowWithoutKeys()
+{
+    duplicateCurrentRowWithoutKeys();
+}
+
+void DataTab::onDataDuplicateRowWithKeys()
+{
+    duplicateCurrentRowWithKeys();
 }
 
 void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
@@ -359,9 +377,12 @@ void DataTab::validateDataDeleteActionState()
         }
     }
 
-    meow::app()->actions()->dataInsert()->setEnabled(canInsert);
+    meow::app()->actions()->dataInsertRow()->setEnabled(canInsert);
+    meow::app()->actions()->dataDuplicateRowWithoutKeys()->setEnabled(
+            canInsert);
+    meow::app()->actions()->dataDuplicateRowWithKeys()->setEnabled(canInsert);
 
-    meow::app()->actions()->dataDelete()->setEnabled(
+    meow::app()->actions()->dataDeleteRows()->setEnabled(
         _dataTable->selectionModel()->hasSelection() && _model.isEditable());
 }
 
@@ -509,8 +530,33 @@ void DataTab::deleteSelectedRows()
 
 void DataTab::insertEmptyRow()
 {
+    insertNewRow(false);
+}
 
-    int newRowIntIndex = _model.insertEmptyRow();
+void DataTab::duplicateCurrentRowWithoutKeys()
+{
+    insertNewRow(true, false);
+}
+
+void DataTab::duplicateCurrentRowWithKeys()
+{
+    insertNewRow(true, true);
+}
+
+void DataTab::insertNewRow(bool duplicateCurrent, bool withKeys)
+{
+    int newRowIntIndex = -1;
+    if (duplicateCurrent) {
+        if (withKeys) {
+            newRowIntIndex = _model.duplicateCurrentRowWithKeys();
+        } else {
+            newRowIntIndex = _model.duplicateCurrentRowWithoutKeys();
+        }
+    } else {
+        Q_ASSERT(withKeys != true); // Not implemented
+        newRowIntIndex = _model.insertEmptyRow();
+    }
+
     if (newRowIntIndex == -1) return;
 
     // select

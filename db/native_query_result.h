@@ -90,6 +90,7 @@ public:
     }
 
     QStringList keyColumns() const;
+    QList<std::size_t> primaryColumnIndices() const;
 
     void appendResultData(const QueryResultPt & result);
 

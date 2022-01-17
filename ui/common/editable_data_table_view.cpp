@@ -1,7 +1,5 @@
 #include "editable_data_table_view.h"
-#include "app/app.h"
-#include "db/connection.h"
-#include "helpers/formatting.h"
+#include "ui/presenters/editable_data_context_menu_presenter.h"
 
 #include <QtWidgets>
 
@@ -11,57 +9,50 @@ namespace ui {
 void EditableDataTableView::contextMenuEvent(QContextMenuEvent * event)
 {
 
+    presenters::EditableDataContextMenuPresenter presenter;
+
     QMenu menu(this);
 
-    QMenu * insertValueSubMenu = menu.addMenu( // owns result
-        QIcon(":/icons/calendar_view_day.png"),
-        tr("Insert value"));
+    if (presenter.supportsInsertValue()) {
 
-    // TODO check for supportsEditingTablesData()
-    insertValueSubMenu->addAction( meow::app()->actions()->dataSetNULL() );
+        QMenu * insertValueSubMenu = menu.addMenu( // owns result
+            QIcon(":/icons/calendar_view_day.png"),
+            tr("Insert value"));
 
-    meow::db::Connection * currentConnection
-            = meow::app()->dbConnectionsManager()->activeConnection();
+        insertValueSubMenu->addAction(presenter.setNullAction());
 
-    QDateTime currentTimestamp = currentConnection->currentServerTimestamp();
-    if (currentTimestamp.isValid()) {
+        std::vector<QAction *> dateTimeActions = presenter.setDateTimeActions();
 
-        uint64_t unixTimestamp = currentTimestamp.toMSecsSinceEpoch() / 1000;
+        if (!dateTimeActions.empty()) {
+            insertValueSubMenu->addSeparator();
+        }
 
-        insertValueSubMenu->addSeparator();
+        for (QAction * dateTimeAction : dateTimeActions) {
+            dateTimeAction->setParent(insertValueSubMenu);
 
-        QList<QPair<QString, QString> > datetimeValueLabels = {
-            {helpers::formatDateTime(currentTimestamp), tr("Date and time: %1")},
-            {helpers::formatDate(currentTimestamp), tr("Date: %1")},
-            {helpers::formatTime(currentTimestamp), tr("Time: %1")},
-            {helpers::formatYear(currentTimestamp), tr("Year: %1")},
-            {QString::number(unixTimestamp), tr("UNIX Timestamp: %1")}
-        };
+            insertValueSubMenu->addAction(dateTimeAction);
 
-        for (const auto & valueAndLabel : datetimeValueLabels) {
-
-            QAction * timestampAction
-                    = new QAction(
-                        QIcon(":/icons/calendar_view_day.png"),
-                        valueAndLabel.second.arg(valueAndLabel.first),
-                         &menu);
-            timestampAction->setData(valueAndLabel.first);
-
-            connect(timestampAction,
+            connect(dateTimeAction,
                     &QAction::triggered,
                     [=](){
                         QModelIndex curIndex = selectionModel()->currentIndex();
-                        model()->setData(curIndex, timestampAction->data());
+                        model()->setData(curIndex, dateTimeAction->data());
                     }
             );
 
-            insertValueSubMenu->addAction(timestampAction);
+            insertValueSubMenu->addAction(dateTimeAction);
         }
     }
 
     menu.addSeparator();
 
-    menu.addAction(meow::app()->actions()->dataRefresh());
+    for (QAction * editRowAction : presenter.editRowActions()) {
+        menu.addAction(editRowAction);
+    }
+
+    menu.addSeparator();
+
+    menu.addAction(presenter.refreshDataAction());
 
     menu.exec(event->globalPos());
 }

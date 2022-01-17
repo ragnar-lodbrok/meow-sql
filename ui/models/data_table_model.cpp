@@ -295,8 +295,33 @@ bool DataTableModel::deleteRowInDB(int row)
 
 int DataTableModel::insertEmptyRow()
 {
+    return insertNewRow();
+}
+
+int DataTableModel::duplicateCurrentRowWithoutKeys()
+{
+    return insertNewRow(true, false);
+}
+
+int DataTableModel::duplicateCurrentRowWithKeys()
+{
+    return insertNewRow(true, true);
+}
+
+int DataTableModel::insertNewRow(bool duplicateCurrent, bool withKeys)
+{
     int oldRowCount = rowCount();
-    int newRowIndex = queryData()->insertEmptyRow();
+    int newRowIndex = -1;
+    if (duplicateCurrent) {
+        if (withKeys) {
+            newRowIndex = queryData()->duplicateCurrentRowWithKeys();
+        } else {
+            newRowIndex = queryData()->duplicateCurrentRowWithoutKeys();
+        }
+    } else {
+        Q_ASSERT(withKeys != true); // Not implemented
+        newRowIndex = queryData()->insertEmptyRow();
+    }
     if (newRowIndex != -1) {
         beginInsertRows(QModelIndex(), newRowIndex, newRowIndex);
         setRowCount(oldRowCount+1);

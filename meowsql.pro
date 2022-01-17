@@ -228,6 +228,7 @@ SOURCES += main.cpp\
     ui/presenters/central_right_query_presenter.cpp \
     ui/presenters/connection_parameters_form.cpp \
     ui/presenters/edit_database_form.cpp \
+    ui/presenters/editable_data_context_menu_presenter.cpp \
     ui/presenters/export_database_form.cpp \
     ui/presenters/routine_form.cpp \
     ui/presenters/select_db_object_form.cpp \
@@ -425,6 +426,7 @@ HEADERS  +=  app/actions.h \
     ui/presenters/central_right_query_presenter.h \
     ui/presenters/connection_parameters_form.h \
     ui/presenters/edit_database_form.h \
+    ui/presenters/editable_data_context_menu_presenter.h \
     ui/presenters/export_database_form.h \
     ui/presenters/routine_form.h \
     ui/presenters/select_db_object_form.h \

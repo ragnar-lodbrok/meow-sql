@@ -56,6 +56,8 @@ public:
     bool deleteRowInDB(int row);
     void deleteRow(int row);
     int insertEmptyRow();
+    int duplicateCurrentRowWithoutKeys();
+    int duplicateCurrentRowWithKeys();
     bool isRowInsertedButNotSaved(int rowNumber) {
         db::Query * query = _queryPtr.get();
         if (!query || !query->isEditing()) {

@@ -69,8 +69,10 @@ private:
 
     Q_SLOT void onDataPostChanges(bool checked);
     Q_SLOT void onDataCancelChanges(bool checked);
-    Q_SLOT void onDataDelete(bool checked);
-    Q_SLOT void onDataInsert(bool checked);
+    Q_SLOT void onDataDeleteRows();
+    Q_SLOT void onDataInsertRow();
+    Q_SLOT void onDataDuplicateRowWithoutKeys();
+    Q_SLOT void onDataDuplicateRowWithKeys();
 
     Q_SIGNAL void changeRowSelection(const QModelIndex &index);
     Q_SLOT void onChangeRowSelectionRequest(const QModelIndex &index);
@@ -79,6 +81,9 @@ private:
     void discardModifications();
     void deleteSelectedRows();
     void insertEmptyRow();
+    void duplicateCurrentRowWithoutKeys();
+    void duplicateCurrentRowWithKeys();
+    void insertNewRow(bool duplicateCurrent = false, bool withKeys = false);
 
     void commitTableEditor();
     void discardTableEditor();

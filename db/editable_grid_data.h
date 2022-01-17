@@ -36,15 +36,15 @@ public:
     void reserve(int alloc);
     void reserveForAppend(int append);
 
-    Q_ALWAYS_INLINE void appendRow(const GridDataRow & row) {
+    inline void appendRow(const GridDataRow & row) {
         _rows.append(row);
     }
 
-    Q_ALWAYS_INLINE int rowsCount() const {
+    inline int rowsCount() const {
         return _rows.size();
     }
 
-    Q_ALWAYS_INLINE const QString & dataAt(int row, int col) const {
+    inline const QString & dataAt(int row, int col) const {
 
         if (_editableRow && _editableRow->rowNumber == row) {
             return _editableRow->data.at(col);
@@ -68,11 +68,11 @@ public:
         return true;
     }
 
-    Q_ALWAYS_INLINE bool isModified() const {
+    inline bool isModified() const {
         return _editableRow != nullptr;
     }
 
-    Q_ALWAYS_INLINE bool isInserted() const {
+    inline bool isInserted() const {
         return _editableRow != nullptr && _editableRow->isInserted;
     }
 
