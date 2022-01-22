@@ -1,5 +1,3 @@
-#include <QObject> // tr()
-
 #include "mysql_connection.h"
 #include "mysql_connection_query_killer.h"
 #include "db/query.h"
@@ -23,6 +21,8 @@
 #include "threads/helpers.h"
 
 #include <QDebug>
+#include <QElapsedTimer>
+#include <QObject> // tr()
 
 // https://dev.mysql.com/doc/refman/5.7/en/c-api.html
 // https://dev.mysql.com/doc/refman/5.7/en/c-api-building-clients.html

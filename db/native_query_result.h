@@ -2,6 +2,7 @@
 #define DB_NATIVE_QUERY_RESULT_INTERFACE_H
 
 #include <memory>
+#include <vector>
 #include <QMap>
 #include <QStringList>
 #include "query_column.h"

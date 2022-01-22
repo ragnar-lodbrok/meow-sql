@@ -41,18 +41,22 @@ std::vector<QAction *> EditableDataContextMenuPresenter::setDateTimeActions() co
 
         uint64_t unixTimestamp = currentTimestamp.toMSecsSinceEpoch() / 1000;
 
-        QList<QPair<QString, QString> > datetimeValueLabels = {
-            {helpers::formatDateTime(currentTimestamp),
-                QObject::tr("Date and time: %1")},
-            {helpers::formatDate(currentTimestamp),
-                QObject::tr("Date: %1")},
-            {helpers::formatTime(currentTimestamp),
-                QObject::tr("Time: %1")},
-            {helpers::formatYear(currentTimestamp),
-                QObject::tr("Year: %1")},
-            {QString::number(unixTimestamp),
-                QObject::tr("UNIX Timestamp: %1")}
-        };
+        QList<QPair<QString, QString> > datetimeValueLabels;
+
+        datetimeValueLabels.push_back({helpers::formatDateTime(currentTimestamp),
+                                       QObject::tr("Date and time: %1")});
+
+        datetimeValueLabels.push_back({helpers::formatDate(currentTimestamp),
+                                       QObject::tr("Date: %1")});
+
+        datetimeValueLabels.push_back({helpers::formatTime(currentTimestamp),
+                                       QObject::tr("Time: %1")});
+
+        datetimeValueLabels.push_back({helpers::formatYear(currentTimestamp),
+                                       QObject::tr("Year: %1")});
+
+        datetimeValueLabels.push_back({QString::number(unixTimestamp),
+                                       QObject::tr("UNIX Timestamp: %1")});
 
         dateTimeActions.reserve(datetimeValueLabels.size());
 
@@ -61,7 +65,8 @@ std::vector<QAction *> EditableDataContextMenuPresenter::setDateTimeActions() co
             QAction * timestampAction
                     = new QAction(
                         QIcon(":/icons/calendar_view_day.png"),
-                        valueAndLabel.second.arg(valueAndLabel.first));
+                        valueAndLabel.second.arg(valueAndLabel.first),
+                        nullptr);
             timestampAction->setData(valueAndLabel.first);
 
             dateTimeActions.push_back(timestampAction);

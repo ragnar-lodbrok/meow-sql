@@ -1,6 +1,7 @@
 #ifndef DB_USER_QUERY_BATCH_EXECUTOR_H
 #define DB_USER_QUERY_BATCH_EXECUTOR_H
 
+#include <atomic>
 #include <QStringList>
 #include <QList>
 #include <QObject>

@@ -5,6 +5,7 @@
 //   Central Right Widget
 //      Query Tab
 
+#include <memory>
 #include <QString>
 #include <QIcon>
 

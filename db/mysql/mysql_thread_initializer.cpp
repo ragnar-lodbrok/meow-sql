@@ -15,7 +15,7 @@ MySQLThreadInitializer::MySQLThreadInitializer(bool deinitOnDestroy)
 void MySQLThreadInitializer::init()
 {
     if (!_initialized) {
-        _initialized = mysql_thread_init();
+        _initialized = (mysql_thread_init() != 0);
     }
 }
 
