@@ -2,7 +2,27 @@
 
 ## Task pool (by priority)
 
-Query: cancel, progress
+SSH Tunnel via putty.exe
+
+Table data edit: foreign key drop down
+
+Table data edit: date/time/year editor
+
+Table data edit: enum editor
+
+Table data edit: set editor
+
+Table: clear option
+
+Query tab: explain
+
+Data Grid: sorting
+
+Data Grid: export grid rows
+
+Data Grid: insert value options
+
+Data Grid: columns/filters
 
 Host Tab: Variables for MySQL (edit)
 
@@ -13,14 +33,6 @@ HiDPI monitors support (+icons)
 ARM (raspberry builds)
 
 Table columns: keys icons
-
-Table data edit: foreign key drop down
-
-Table data edit: date/time/year editor
-
-Table data edit: enum editor
-
-Table data edit: set editor
 
 Drop: procedure, trigger, etc
 
@@ -41,18 +53,6 @@ Host Tab: status tab for MySQL
 MySQL: compressed client-server protocol option
 
 Connection: use SSL option
-
-Table: clear option
-
-Query tab: explain
-
-Data Grid: sorting
-
-Data Grid: export grid rows
-
-Data Grid: insert value options
-
-Data Grid: columns/filters
 
 Multithreading
 
@@ -79,6 +79,14 @@ Table tools: bulk table editor
 Table tools: find text
 
 Data Grid: insert files into text/blob fields
+
+Query: progress
+
+## 0.4.13
+
+Query: cancel, multiple results, stats
+
+Table data: duplicate row
 
 ## 0.4.12
 
