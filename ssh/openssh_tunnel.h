@@ -17,6 +17,7 @@ public:
 
     virtual bool connect(const db::ConnectionParameters & params) override;
     virtual void disconnect() override;
+    virtual SSHTunnelParameters params() const override;
 
 private:
 
@@ -31,6 +32,9 @@ private:
     void processOutput(const QString & output);
 
     QStringList programArguments() const;
+
+    bool findOpenPort();
+    bool isPortOpen(unsigned short port);
 
     std::unique_ptr<QProcess> _process;
 

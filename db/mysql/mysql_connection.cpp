@@ -83,7 +83,7 @@ void MySQLConnection::setActive(bool active) // override
 
             connectionParams()->setHostName("127.0.0.1");
             connectionParams()->setPort(
-                        connectionParams()->sshTunnel().localPort());
+                        _sshTunnel->params().localPort());
         }
 
         _handle = mysql_init(nullptr); // TODO: valgrind says it leaks?

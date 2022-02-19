@@ -9,6 +9,7 @@
 #include <QDir>
 #include <Windows.h>
 #include <namedpipeapi.h>
+#include <unistd.h>
 
 // Known hosts location for plink:
 // HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\SshHostKeys
@@ -136,6 +137,12 @@ public:
             _processCreated = false;
         }
     }
+
+    OpenSSHTunnel::params() const
+    {
+        return _params.sshTunnel();
+    }
+
 private:
 
     bool findOpenPort()
@@ -181,6 +188,8 @@ private:
         if (res == SOCKET_ERROR) {
             //qDebug() << "Port:" << port << "error:" << WSAGetLastError();
         }
+
+        ::close(sock);
 
         return res == 0;
     }
@@ -573,6 +582,11 @@ bool PLinkSSHTunnel::connect(const db::ConnectionParameters & params)
 void PLinkSSHTunnel::disconnect()
 {
     _impl->disconnect();
+}
+
+SSHTunnelParameters PLinkSSHTunnel::params() const
+{
+    return _impl->params();
 }
 
 } // namespace ssh

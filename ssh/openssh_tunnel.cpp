@@ -4,6 +4,10 @@
 #include <QApplication>
 #include <QThread>
 #include <QDebug>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
 
 static const quint16 DEFAULT_SSH_PORT = 22;
 
@@ -29,6 +33,10 @@ bool OpenSSHTunnel::connect(const db::ConnectionParameters & params)
     _lastOutputString = QString();
 
     _params = params;
+
+    if (!findOpenPort()) {
+        return false;
+    }
 
     _process.reset(new QProcess());
 
@@ -74,6 +82,7 @@ bool OpenSSHTunnel::connect(const db::ConnectionParameters & params)
 #else
     QString cmdToRun = "ssh";
 #endif
+
     _process->start(cmdToRun, programArguments());
 
     _process->waitForStarted();
@@ -97,6 +106,11 @@ void OpenSSHTunnel::disconnect()
         _process->waitForFinished();
         _process.reset();
     }
+}
+
+SSHTunnelParameters OpenSSHTunnel::params() const
+{
+    return _params.sshTunnel();
 }
 
 QString OpenSSHTunnel::errorString() const
@@ -184,6 +198,51 @@ QStringList OpenSSHTunnel::programArguments() const
                             .arg(_params.sshTunnel().host());
 
     return args;
+}
+
+bool OpenSSHTunnel::findOpenPort()
+{
+    int portChecks = 0;
+
+    while (!isPortOpen(_params.sshTunnel().localPort())) {
+
+        qDebug() << "SSH: port" << _params.sshTunnel().localPort() << "is busy";
+
+        ++portChecks;
+        if (portChecks >= 20) {
+            failWithError(
+             QObject::tr("Could not execute ssh: Port %1 already in use.")
+                        .arg(_params.sshTunnel().localPort()));
+            return false;
+        }
+
+        _params.sshTunnel().setLocalPort(
+                    _params.sshTunnel().localPort() + 1);
+    }
+
+    return true;
+}
+
+bool OpenSSHTunnel::isPortOpen(unsigned short port)
+{
+    sockaddr_in sockAddr;
+
+    sockAddr.sin_family = AF_INET;
+    sockAddr.sin_port = htons(port);
+    sockAddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+
+    if (sock < 0) {
+        qDebug() << "Invalid socket";
+        return false;
+    }
+
+    int res = ::bind(sock,
+                     (struct sockaddr *)&sockAddr,
+                     sizeof(sockaddr_in));
+    ::close(sock);
+
+    return res == 0;
 }
 
 } // namespace ssh

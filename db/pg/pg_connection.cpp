@@ -51,7 +51,7 @@ void PGConnection::setActive(bool active)
 
             connectionParams()->setHostName("127.0.0.1");
             connectionParams()->setPort(
-                        connectionParams()->sshTunnel().localPort());
+                        _sshTunnel->params().localPort());
         }
 
         QString connInfoStr = connectionInfo();
