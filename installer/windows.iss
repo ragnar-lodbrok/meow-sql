@@ -93,6 +93,9 @@ Source: "{#SourceDir}\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; mysqldump
 Source: "{#SourceDir}\mysqldump.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\mysqldump_license"; DestDir: "{app}"; Flags: ignoreversion
+; plink (from putty)
+Source: "{#SourceDir}\plink.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\plink_license"; DestDir: "{app}"; Flags: ignoreversion
 ;
 Source: "{#SourceDir}\gpl.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\license.txt"; DestDir: "{app}"; Flags: ignoreversion
