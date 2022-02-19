@@ -16,6 +16,7 @@ public:
 
     virtual bool connect(const db::ConnectionParameters & params) = 0;
     virtual void disconnect() = 0;
+    virtual bool supportsPassword() const { return false; }
 
 };
 

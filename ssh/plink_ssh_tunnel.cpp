@@ -205,11 +205,22 @@ private:
 
         QString appName = "plink.exe";
         QString commandLine = programArguments().join(' ');
+#ifdef UNICODE
+        LPCWSTR appNameStr = reinterpret_cast<LPCWSTR>(appName.utf16());
+        std::vector<WCHAR> commandLineBuffer;
+        commandLineBuffer.resize(commandLine.size()+1);
+        commandLine.toWCharArray(commandLineBuffer.data());
+        commandLineBuffer[commandLine.size()+1] = 0;
+        LPWSTR commandLineArgStr = commandLineBuffer.data();
+#else
+        LPCSTR appNameStr = appName.toUtf8();
         QByteArray commandLineArr = commandLine.toUtf8();
+        LPSTR commandLineArgStr = commandLineArr.data();
+#endif
 
         if (!CreateProcess(
-             appName.toUtf8(),
-             commandLineArr.data(),
+             appNameStr,
+             commandLineArgStr,
              NULL,
              NULL,
              TRUE,

@@ -48,7 +48,7 @@ void SSHTunnelTab::createWidgets()
 
     // Username ----------------------------------------------------------------
 
-    _usernameLabel = new QLabel(tr("Username:"));
+    _usernameLabel = new QLabel(tr("SSH username:"));
     _mainGridLayout->addWidget(_usernameLabel, row, 0);
 
     _usernameEdit = new QLineEdit();
@@ -64,22 +64,27 @@ void SSHTunnelTab::createWidgets()
 
     // Password ----------------------------------------------------------------
 
-    // TODO: hide it for OpenSSH
+    if (_form->supportsSSHPassword()) {
 
-    /*_passwordLabel = new QLabel(tr("Password:"));
-    _mainGridLayout->addWidget(_passwordLabel, row, 0);
+        _passwordLabel = new QLabel(tr("SSH password:"));
+        _mainGridLayout->addWidget(_passwordLabel, row, 0);
 
-    _passwordEdit = new QLineEdit();
-    _passwordLabel->setBuddy(_passwordEdit);
-    _passwordEdit->setEchoMode(QLineEdit::Password);
-    _mainGridLayout->addWidget(_passwordEdit, row, 1, 1, 2);
-    connect(_passwordEdit, &QLineEdit::textEdited,
-            [=](const QString &newPassword) {
-                if (_form) {
-                    _form->setSSHPassword(newPassword);
-                }
+        _passwordEdit = new QLineEdit();
+        _passwordLabel->setBuddy(_passwordEdit);
+        _passwordEdit->setEchoMode(QLineEdit::Password);
+        _passwordEdit->setPlaceholderText(tr("Keep empty for key based auth"));
+        _mainGridLayout->addWidget(_passwordEdit, row, 1, 1, 2);
+        connect(_passwordEdit, &QLineEdit::textEdited,
+                [=](const QString &newPassword) {
+                    if (_form) {
+                        _form->setSSHPassword(newPassword);
+                    }
             });
-    row++;*/
+        row++;
+    } else {
+        _passwordLabel = nullptr;
+        _passwordEdit = nullptr;
+    }
 
     // Local port --------------------------------------------------------------
 
@@ -129,7 +134,9 @@ void SSHTunnelTab::fillDataFromForm()
     _sshHostEdit->setText(_form->sshHost());
     _sshPortSpinBox->setValue(_form->sshPort());
     _usernameEdit->setText(_form->sshUser());
-    //_passwordEdit->setText(_form->sshPassword());
+    if (_passwordEdit) {
+        _passwordEdit->setText(_form->sshPassword());
+    }
     _localPortSpinBox->setValue(_form->sshLocalPort());
 
 }

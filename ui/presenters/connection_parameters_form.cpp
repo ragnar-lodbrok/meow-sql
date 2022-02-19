@@ -1,6 +1,7 @@
 #include "helpers/logger.h"
 #include "connection_parameters_form.h"
 #include "db/connection.h"
+#include "ssh/ssh_tunnel_factory.h"
 
 namespace meow {
 namespace ui {
@@ -12,6 +13,13 @@ ConnectionParametersForm::ConnectionParametersForm(
     , _connectionParams(connectionParams)
 {
 
+}
+
+bool ConnectionParametersForm::supportsSSHPassword() const
+{
+    ssh::SSHTunnelFactory sshFactory;
+    std::unique_ptr<ssh::ISSHTunnel> ssh = sshFactory.createTunnel();
+    return ssh->supportsPassword();
 }
 
 bool ConnectionParametersForm::isEqualTo(const meow::db::ConnectionParameters & connectionParams)

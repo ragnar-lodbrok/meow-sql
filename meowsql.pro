@@ -58,6 +58,7 @@ unix:LIBS += -ldl # dynamic link
 macx:LIBS -= -lrt
 
 win32:LIBS += -lUser32 #SetProcessDPIAware()
+win32:LIBS += -lws2_32 # WSAStartup() - sockets
 
 # MySQL
 WITH_MYSQL {
@@ -137,6 +138,7 @@ SOURCES += main.cpp\
     settings/data_editors.cpp \
     settings/queries_storage.cpp \
     ssh/openssh_tunnel.cpp \
+    ssh/ssh_tunnel_factory.cpp \
     ssh/ssh_tunnel_parameters.cpp \
     threads/db_thread.cpp \
     threads/queries_task.cpp \
@@ -330,6 +332,7 @@ HEADERS  +=  app/actions.h \
     settings/data_editors.h \
     settings/queries_storage.h \
     ssh/openssh_tunnel.h \
+    ssh/ssh_tunnel_factory.h \
     ssh/ssh_tunnel_parameters.h \
     threads/helpers.h \
     threads/mutex.h \
@@ -455,6 +458,9 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_log_widget.h \
     utils/exporting/mysql_dump_console.h \
     ui/export_database/export_dialog.h
+
+win32:SOURCES += ssh/plink_ssh_tunnel.cpp
+win32:HEADERS += ssh/plink_ssh_tunnel.h
 
 WITH_MYSQL {
     SOURCES += db/data_type/mysql_connection_data_types.cpp \

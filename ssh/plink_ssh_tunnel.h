@@ -19,6 +19,7 @@ public:
 
     virtual bool connect(const db::ConnectionParameters & params) override;
     virtual void disconnect() override;
+    virtual bool supportsPassword() const override { return true; }
 
 private:
 

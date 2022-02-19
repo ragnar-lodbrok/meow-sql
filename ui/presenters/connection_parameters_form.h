@@ -46,6 +46,7 @@ public:
     bool supportsMultipleDatabases() const {
         return _connectionParams.supportsMultipleDatabases();
     }
+    bool supportsSSHPassword() const;
 
     bool isSSHTunnel() const {
         return _connectionParams.isSSHTunnel();
