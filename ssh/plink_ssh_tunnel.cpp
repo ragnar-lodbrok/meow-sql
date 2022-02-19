@@ -142,16 +142,17 @@ private:
     {
         int portChecks = 0;
 
-        while (!isPortOpen(_params.sshTunnel().port())) {
+        while (!isPortOpen(_params.sshTunnel().localPort())) {
             ++portChecks;
             if (portChecks >= 20) {
                 failWithError(
                  QObject::tr("Could not execute PLink: Port %1 already in use.")
-                            .arg(_params.sshTunnel().port()));
+                            .arg(_params.sshTunnel().localPort()));
                 return false;
             }
 
-            _params.sshTunnel().setPort(_params.sshTunnel().port() + 1);
+            _params.sshTunnel().setLocalPort(
+                        _params.sshTunnel().localPort() + 1);
         }
 
         return true;
