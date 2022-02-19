@@ -150,6 +150,7 @@ set(SOURCE_FILES
     settings/data_editors.cpp
     settings/queries_storage.cpp
     ssh/openssh_tunnel.cpp
+    ssh/ssh_tunnel_factory.cpp
     ssh/ssh_tunnel_parameters.cpp
     threads/db_thread.cpp
     threads/queries_task.cpp
@@ -341,6 +342,12 @@ if(WITH_LIBSSH)
     )
 endif()
 
+if(WIN32)
+    list(APPEND SOURCE_FILES
+        ssh/plink_ssh_tunnel.cpp
+    )
+endif()
+
 qt5_add_resources(RESOURCE_FILES icons.qrc)
 
 if (WIN32)
@@ -367,7 +374,10 @@ if(WITH_QTSQL)
 endif()
 
 if (WIN32)
-    target_link_libraries(meowsql User32) #SetProcessDPIAware()
+    target_link_libraries(meowsql
+        User32 #SetProcessDPIAware()
+        ws2_32 # WSAStartup() - sockets
+    )
 endif()
 
 # MySQL ---------------------------------------------

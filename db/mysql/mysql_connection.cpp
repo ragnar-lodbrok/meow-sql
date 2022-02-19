@@ -16,7 +16,7 @@
 #include "mysql_query_data_editor.h"
 #include "mysql_user_manager.h"
 #include "mysql_user_editor.h"
-#include "ssh/openssh_tunnel.h"
+#include "ssh/ssh_tunnel_factory.h"
 #include "db/entity/view_entity.h"
 #include "threads/helpers.h"
 
@@ -76,10 +76,10 @@ void MySQLConnection::setActive(bool active) // override
 
         if (connectionParams()->isSSHTunnel()) {
 
-            _sshTunnel.reset(new ssh::OpenSSHTunnel()); // TODO: factory
+            ssh::SSHTunnelFactory sshFactory;
+            _sshTunnel = sshFactory.createTunnel();
 
-            //_sshTunnel.reset(new ssh::LibSSHTunnel()); // TODO
-            _sshTunnel->connect(*connectionParams()); // throws on error
+            _sshTunnel->connect(*connectionParams()); // throws an error
 
             connectionParams()->setHostName("127.0.0.1");
             connectionParams()->setPort(

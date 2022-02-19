@@ -11,7 +11,7 @@
 #include "db/entity/table_entity.h"
 #include "db/entity/database_entity.h"
 #include "pg_entity_create_code_generator.h"
-#include "ssh/openssh_tunnel.h"
+#include "ssh/ssh_tunnel_factory.h"
 
 namespace meow {
 namespace db {
@@ -45,8 +45,9 @@ void PGConnection::setActive(bool active)
 
         if (connectionParams()->isSSHTunnel()) {
 
-            _sshTunnel.reset(new ssh::OpenSSHTunnel());
-            _sshTunnel->connect(*connectionParams()); // throws on error
+            ssh::SSHTunnelFactory sshFactory;
+            _sshTunnel = sshFactory.createTunnel();
+            _sshTunnel->connect(*connectionParams()); // throws an error
 
             connectionParams()->setHostName("127.0.0.1");
             connectionParams()->setPort(
