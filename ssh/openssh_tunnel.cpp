@@ -77,13 +77,7 @@ bool OpenSSHTunnel::connect(const db::ConnectionParameters & params)
         }
     );
 
-#ifdef Q_OS_WIN
-    QString cmdToRun = "cmd";
-#else
-    QString cmdToRun = "ssh";
-#endif
-
-    _process->start(cmdToRun, programArguments());
+    _process->start(programName(), programArguments());
 
     _process->waitForStarted();
 
@@ -106,6 +100,14 @@ void OpenSSHTunnel::disconnect()
         _process->waitForFinished();
         _process.reset();
     }
+}
+
+bool OpenSSHTunnel::supportsPassword() const
+{
+#ifdef Q_OS_UNIX
+    return true; // via sshpass
+#endif
+    return false; // no support on win yet
 }
 
 SSHTunnelParameters OpenSSHTunnel::params() const
@@ -173,9 +175,25 @@ void OpenSSHTunnel::processOutput(const QString & output)
     }
 }
 
+QString OpenSSHTunnel::programName() const
+{
+#ifdef Q_OS_WIN
+    retun "cmd";
+#else
+    if (supportsPassword() && !_params.sshTunnel().password().isEmpty()) {
+        return "sshpass";
+    } else {
+        return "ssh";
+    }
+#endif
+}
+
 QStringList OpenSSHTunnel::programArguments() const
 {
+    // sshpass -p !4u2tryhack ssh username@host.example.com
     // ssh -N -L 3308:127.0.0.1:3306 -p 22 root@192.168.1.10
+
+    // TODO ssh -o StrictHostKeyChecking=no or confirmation?
 
     QStringList args;
 
@@ -183,6 +201,20 @@ QStringList OpenSSHTunnel::programArguments() const
     args << "/c";
     args << "ssh";
 #endif
+
+    // TODO: add passphrase support?
+
+    if (supportsPassword() && !_params.sshTunnel().password().isEmpty()) {
+        // TODO: passing password to cmd is unsafe but I don't care since
+        // most "normal" users will use keys <or single-user machines =) >.
+        args << "-p"; // param of sshpass!
+        args << _params.sshTunnel().password();
+        args << "ssh";
+        args << "-o";
+        args << "PreferredAuthentications=password";
+        args << "-o";
+        args << "PubkeyAuthentication=no"; // TODO: rm?
+    }
 
     args << "-v"; // to detect successfull connection
     args << "-N"; // no exec, just ports forwarding

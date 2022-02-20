@@ -17,6 +17,7 @@ public:
 
     virtual bool connect(const db::ConnectionParameters & params) override;
     virtual void disconnect() override;
+    virtual bool supportsPassword() const override;
     virtual SSHTunnelParameters params() const override;
 
 private:
@@ -31,6 +32,7 @@ private:
 
     void processOutput(const QString & output);
 
+    QString programName() const;
     QStringList programArguments() const;
 
     bool findOpenPort();
