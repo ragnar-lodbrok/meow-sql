@@ -257,6 +257,13 @@ QString SQLiteConnection::applyQueryLimit(
     return res;
 }
 
+QString SQLiteConnection::applyLeft(
+        const QString & string,
+        int length) const
+{
+    return QString("SUBSTR(%1, 1, %2)").arg(string, length);
+}
+
 QueryDataFetcher * SQLiteConnection::createQueryDataFetcher()
 {
     return new QueryDataFetcher(this);

@@ -3,6 +3,7 @@
 #include "query_data_editor.h"
 #include "entity/table_entity.h"
 #include "helpers/logger.h"
+#include "app/app.h"
 
 namespace meow {
 namespace db {
@@ -52,6 +53,14 @@ db::DataTypePtr QueryData::dataTypeForColumn(int column) const
     return {};
 }
 
+bool QueryData::columnHasForeignKey(int column) const
+{
+    if (_queryPtr) {
+        return !currentResult()->foreignKeysForColumn(column).isEmpty();
+    }
+    return false;
+}
+
 QString QueryData::displayDataAt(int row, int column) const
 {
     currentResult()->seekRecNo(row);
@@ -81,9 +90,19 @@ QString QueryData::displayDataAt(int row, int column) const
     }
 }
 
-QString QueryData::editDataAt(int row, int column) const
+QVariant QueryData::editDataAt(int row, int column) const
 {
     currentResult()->seekRecNo(row);
+
+    if (meow::app()->settings()->dataEditors()
+            ->enableDropDownForForeignKeyEditors()) {
+        QList<ForeignKey *> fKeys
+                = currentResult()->foreignKeysForColumn(column);
+        if (!fKeys.isEmpty()) {
+            return editDataForForeignKey(fKeys.first(), columnName(column));
+        }
+    }
+
     if (currentResult()->isNull(column)) {
         return QString();
     } else {
@@ -401,6 +420,99 @@ bool QueryData::hasFullData() const
 
     // TODO
     return true;
+}
+
+QVariant QueryData::editDataForForeignKey(ForeignKey * fKey,
+                                          const QString & columnName) const
+{
+    QString textColumn;
+    TableEntity * referenceTable = fKey->referenceTable();
+
+    int columnIndex = fKey->columnNames().indexOf(columnName);
+
+    if (columnIndex == -1) return QString();
+
+    QString referenceKeyColumn = fKey->referenceColumns().at(columnIndex);
+
+    for (TableColumn * column : referenceTable->structure()->columns()) {
+        if (column->dataType()->categoryIndex
+                == db::DataTypeCategoryIndex::Text
+                && column->name() != referenceKeyColumn) {
+            textColumn = column->name();
+            break;
+        }
+    }
+
+    QString SQL;
+
+    referenceKeyColumn = currentResult()
+            ->connection()->quoteIdentifier(referenceKeyColumn);
+
+    if (textColumn.isEmpty()) {
+        SQL = referenceKeyColumn + " FROM "
+            + currentResult()->connection()->quoteIdentifier(
+                referenceTable->name(), true, '.')
+            + " GROUP BY " + referenceKeyColumn
+            + " ORDER BY " + referenceKeyColumn;
+    } else {
+        QString quotedTextColumn
+                = currentResult()->connection()->quoteIdentifier(textColumn);
+        SQL = referenceKeyColumn + ", "
+            + currentResult()->connection()->applyLeft(
+                quotedTextColumn,
+                meow::db::DATA_MAX_LOAD_TEXT_LEN)
+            + " FROM "
+            + currentResult()->connection()->quoteIdentifier(
+                        referenceTable->name(), true, '.')
+            + " GROUP BY " + referenceKeyColumn + ", " + quotedTextColumn
+            + " ORDER BY " + quotedTextColumn;
+
+    }
+
+    SQL = currentResult()->connection()->applyQueryLimit("SELECT", SQL,
+                                       meow::db::FOREIGN_MAX_ROWS);
+
+    try {
+        QueryPtr results = currentResult()->connection()->getResults(SQL);
+
+        Query * queryPtr = results.get();
+
+        if (textColumn.isEmpty()) {
+
+            QStringList result;
+
+            while (queryPtr->isEof() == false) {
+                result.append(queryPtr->curRowColumn(0, true));
+                queryPtr->seekNext();
+            }
+
+            return result;
+        } else {
+            // id => name
+            IdValueList result;
+            // Can't use QMap or QHash bc need to keep sort by name
+
+            while (queryPtr->isEof() == false) {
+                QString id = queryPtr->curRowColumn(0, true);
+                QString name = queryPtr->curRowColumn(1, true);
+                result.push_back({
+                    id,              // key
+                    id + ": " + name // value
+                });
+                queryPtr->seekNext();
+            }
+
+            QVariant variant;
+            variant.setValue(result);
+
+            return variant;
+        }
+
+    } catch (meow::db::Exception & ex) {
+        Q_UNUSED(ex);
+    }
+
+    return QString();
 }
 
 } // namespace db

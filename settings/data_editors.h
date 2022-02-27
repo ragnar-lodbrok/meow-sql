@@ -11,6 +11,7 @@ public:
     bool enableInplaceDatetimeEditor() const { return true; }
     bool prefillDatetimeEditorWithCurrent() const { return true; }
     bool enablePopupForDatetimeEditor() const { return false; }
+    bool enableDropDownForForeignKeyEditors() const { return true; }
 };
 
 } // namespace meow

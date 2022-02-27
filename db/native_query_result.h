@@ -15,6 +15,7 @@ class EditableGridData;
 class Entity;
 class Connection;
 class NativeQueryResult;
+class ForeignKey;
 
 using QueryResultPt = std::shared_ptr<NativeQueryResult>;
 
@@ -92,6 +93,8 @@ public:
 
     QStringList keyColumns() const;
     QList<std::size_t> primaryColumnIndices() const;
+
+    QList<ForeignKey *> foreignKeysForColumn(std::size_t index);
 
     void appendResultData(const QueryResultPt & result);
 

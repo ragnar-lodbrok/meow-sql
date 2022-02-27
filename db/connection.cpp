@@ -551,6 +551,13 @@ QString Connection::limitOnePostfix(bool select) const
     return ""; // some dbs dont have it
 }
 
+QString Connection::applyLeft(
+        const QString & string,
+        int length) const
+{
+    return QString("LEFT(%1, %2)").arg(string, QString::number(length));
+}
+
 QDateTime Connection::currentServerTimestamp()
 {
     try {

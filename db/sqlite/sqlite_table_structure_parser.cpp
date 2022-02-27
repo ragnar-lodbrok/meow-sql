@@ -36,7 +36,7 @@ void fillForeignKeyFromData(
         ForeignKey * fKey,
         meow::utils::sql_parser::SQLiteForeignData * fData)
 {
-    fKey->setReferenceTable(
+    fKey->setReferenceTableName(
                 QString::fromStdString(fData->foreignTableName));
 
     QStringList referenceColumns;

@@ -2,6 +2,7 @@
 #include "table_column.h"
 #include "table_structure.h"
 #include "entity/table_entity.h"
+#include "entity/entity_filter.h"
 #include <QMap>
 #include <QDebug>
 
@@ -77,6 +78,21 @@ QString referenceOptionToStr(ForeignKey::ReferenceOption opt)
     default:
         return "NO ACTION";
     }
+}
+
+TableEntity * ForeignKey::referenceTable() const
+{
+    std::unique_ptr<db::EntityFilter> filter
+        = _table->connection()->entityFilter();
+
+    TableEntity * referenceTable = filter->tableByName(
+        meow::db::databaseName(_table), referenceTableName());
+
+    if (referenceTable) {
+        referenceTable->connection()->parseTableStructure(referenceTable);
+    }
+
+    return referenceTable;
 }
 
 QStringList ForeignKey::columnNames() const

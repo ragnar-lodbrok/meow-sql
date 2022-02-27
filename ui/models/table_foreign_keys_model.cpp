@@ -241,16 +241,11 @@ QStringList TableForeignKeysModel::referenceColumns(int row) const
 {
     meow::db::ForeignKey * key = _table->structure()->foreignKeys().at(row);
 
-    std::unique_ptr<db::EntityFilter> filter
-        = _table->connection()->entityFilter();
-
-    db::TableEntity * table = filter->tableByName(
-        meow::db::databaseName(_table), key->referenceTable());
-    if (!table) {
+    db::TableEntity * referenceTable = key->referenceTable();
+    if (!referenceTable) {
         return {};
     }
-    table->connection()->parseTableStructure(table);
-    return db::tableColumnNames(table->structure());
+    return db::tableColumnNames(referenceTable->structure());
 }
 
 void TableForeignKeysModel::removeAllForeignKeyColumnsByName(
@@ -285,7 +280,7 @@ bool TableForeignKeysModel::editData(const QModelIndex &index,
     }
 
     case Columns::ReferenceTable: {
-        key->setReferenceTable(value.toString());
+        key->setReferenceTableName(value.toString());
         if (!key->isCustomName()) {
             key->setName(genName(key));
         }
@@ -342,7 +337,7 @@ QString TableForeignKeysModel::textDataAt(int row, int col) const
         return fKey->columnNames().join(',');
 
     case Columns::ReferenceTable:
-        return fKey->referenceTable();
+        return fKey->referenceTableName();
 
     case Columns::ForeignColumns:
         return fKey->referenceColumns().join(',');
@@ -390,7 +385,7 @@ void TableForeignKeysModel::insertData()
 
 QString TableForeignKeysModel::genName(db::ForeignKey * key) const
 {
-    QString name = "fk_" + _table->name() + "_" + key->referenceTable();
+    QString name = "fk_" + _table->name() + "_" + key->referenceTableName();
 
     QList<db::ForeignKey *> & keys = _table->structure()->foreignKeys();
 
@@ -405,7 +400,7 @@ QString TableForeignKeysModel::genName(db::ForeignKey * key) const
 
     int i = 0;
     while (nameIsUsed(name)) {
-        name = "fk_" + _table->name() + "_" + key->referenceTable();
+        name = "fk_" + _table->name() + "_" + key->referenceTableName();
         name += "_" + QString::number(++i);
     }
 

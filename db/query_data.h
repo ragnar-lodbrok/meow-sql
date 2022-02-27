@@ -2,6 +2,8 @@
 #define DB_QUERY_DATA_H
 
 #include <QObject>
+#include <QList>
+#include <QPair>
 #include "db/connection.h"
 #include "db/data_type/data_type_category.h"
 #include "query.h"
@@ -9,6 +11,9 @@
 
 namespace meow {
 namespace db {
+
+// id => value
+using IdValueList = QList<QPair<QString, QString>>;
 
 // Provides a nicer API for Query resuls with ability to edit query data results
 class QueryData : public QObject
@@ -38,11 +43,12 @@ public:
     int rowCount() const;
     int columnCount() const;
     QString displayDataAt(int row, int column) const;
-    QString editDataAt(int row, int column) const;
+    QVariant editDataAt(int row, int column) const;
     bool isNullAt(int row, int column) const;
     QString columnName(int index) const;
     db::DataTypeCategoryIndex columnDataTypeCategory(int index) const;
     db::DataTypePtr dataTypeForColumn(int column) const;
+    bool columnHasForeignKey(int column) const;
 
     void prepareEditing();
     bool setData(int row, int col, const QVariant &value);
@@ -78,6 +84,9 @@ private:
 
     bool hasFullData() const;
 
+    QVariant editDataForForeignKey(ForeignKey * fKey,
+                                   const QString & columnName) const;
+
     db::QueryPtr _queryPtr;
     int _curRowNumber;
     size_t _resultIndex;
@@ -87,5 +96,7 @@ using QueryDataPtr = std::shared_ptr<QueryData>;
 
 } // namespace db
 } // namespace meow
+
+Q_DECLARE_METATYPE(meow::db::IdValueList);
 
 #endif // DB_QUERY_DATA_H

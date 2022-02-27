@@ -3,6 +3,7 @@
 
 #include "line_edit_item_editor_wrapper.h"
 #include "date_time_item_editor_wrapper.h"
+#include "combobox_item_editor_wrapper.h"
 
 #include <QDebug>
 
@@ -83,6 +84,14 @@ QWidget * EditQueryDataDelegate::createEditor(
                         const_cast<EditQueryDataDelegate *>(this)
                     ));
     }
+
+    case EditorType::comboboxEdit: {
+        _editorWrapper.reset(
+                    new ComboboxItemEditorWrapper(
+                        const_cast<EditQueryDataDelegate *>(this)
+                    ));
+    }
+
     break;
 
     default:

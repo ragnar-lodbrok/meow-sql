@@ -113,6 +113,8 @@ public:
 
     ForeignKey * foreignKeyById(unsigned id) const;
 
+    QList<ForeignKey *> foreignKeysForColumn(const QString & name);
+
     Q_SIGNAL void beforeColumnRemoved(const QString & name);
 
     // added, removed

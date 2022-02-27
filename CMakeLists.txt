@@ -169,6 +169,7 @@ set(SOURCE_FILES
     ui/common/text_editor_popup.cpp
     ui/delegates/checkbox_delegate.cpp
     ui/delegates/combobox_delegate.cpp
+    ui/delegates/combobox_item_editor_wrapper.cpp
     ui/delegates/edit_query_data_delegate.cpp
     ui/delegates/line_edit_item_editor_wrapper.cpp
     ui/delegates/date_time_item_editor_wrapper.cpp

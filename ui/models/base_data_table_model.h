@@ -31,10 +31,13 @@ public:
         return _queryData->columnDataTypeCategory(column);
     }
 
-    meow::db::DataTypePtr dataTypeForColumn(int column) const {
-        return _queryData->dataTypeForColumn(column);
+    bool columnHasForeignKey(int column) const {
+        return _queryData->columnHasForeignKey(column);
     }
 
+    meow::db::DataTypePtr dataTypeForColumn(int column) const {
+        return _queryData->dataTypeForColumn(column);
+    }  
     meow::db::Connection * connection() const {
         if (_queryData->query()) {
             return _queryData->query()->connection();

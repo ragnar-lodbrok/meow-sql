@@ -75,6 +75,12 @@ bool DataTableModel::setData(const QModelIndex &index,
 delegates::EditorType DataTableModel::editorType(
         const QModelIndex &index) const
 {
+    if (meow::app()->settings()->dataEditors()
+            ->enableDropDownForForeignKeyEditors()
+            && columnHasForeignKey(index.column())) {
+        return delegates::EditorType::comboboxEdit;
+    }
+
     if (typeCategoryForColumn(index.column())
             == meow::db::DataTypeCategoryIndex::Text) {
         return delegates::EditorType::lineEdit;

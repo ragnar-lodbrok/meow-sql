@@ -12,10 +12,11 @@ enum class EditorType
 {
     defaultEditor,
     lineEdit,
-    dateTimeEdit
+    dateTimeEdit,
+    comboboxEdit
 };
 
-// Provides info for configuring delagate editor
+// Provides info for configuring delegate editor
 class IItemDelegateConfig
 {
 public:

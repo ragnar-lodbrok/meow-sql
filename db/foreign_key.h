@@ -35,10 +35,12 @@ public:
     void setName(const QString & name) { _name = name; }
 
     // TODO: use TableEntity instead ?
-    QString referenceTable() const { return _referenceTable; }
-    void setReferenceTable(const QString & refTable) {
+    QString referenceTableName() const { return _referenceTable; }
+    void setReferenceTableName(const QString & refTable) {
         _referenceTable = refTable;
     }
+
+    TableEntity * referenceTable() const;
 
     QStringList columnNames() const;
     void setColumns(const QStringList & columnNames);

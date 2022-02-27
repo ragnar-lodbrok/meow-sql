@@ -127,6 +127,9 @@ public:
             const QString & queryBody,
             db::ulonglong limit,
             db::ulonglong offset = 0) = 0;
+    virtual QString applyLeft(
+            const QString & string,
+            int length) const;
 
     virtual QueryDataFetcher * createQueryDataFetcher() = 0; // TODO return as unique_ptr
     virtual QString getCreateCode(const Entity * entity) = 0;

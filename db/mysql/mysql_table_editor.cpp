@@ -370,7 +370,7 @@ QString MySQLTableEditor::sqlCode(const ForeignKey * fKey) const
         fKey->referenceColumns()
     );
     SQL += QString("REFERENCES %1 ( %2 ) ").arg(
-        _connection->quoteIdentifier(fKey->referenceTable()),
+        _connection->quoteIdentifier(fKey->referenceTableName()),
         foreignColumns.join(", ")
     );
 

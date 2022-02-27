@@ -192,6 +192,19 @@ QList<std::size_t> NativeQueryResult::primaryColumnIndices() const
     return pkIndices;
 }
 
+QList<ForeignKey *> NativeQueryResult::foreignKeysForColumn(std::size_t index)
+{
+    if (!entity()) return {};
+
+    if (entity()->type() == Entity::Type::Table) {
+        TableEntity * table = static_cast<TableEntity *>(entity());
+
+        return table->structure()->foreignKeysForColumn(columnName(index));
+    }
+
+    return {};
+}
+
 void NativeQueryResult::throwOnInvalidColumnIndex(std::size_t index)
 {
     if (index >= columnCount()) {

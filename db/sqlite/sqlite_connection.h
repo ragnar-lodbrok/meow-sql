@@ -48,6 +48,10 @@ public:
             db::ulonglong limit,
             db::ulonglong offset = 0) override;
 
+    virtual QString applyLeft(
+            const QString & string,
+            int length) const override;
+
     virtual QueryDataFetcher * createQueryDataFetcher() override;
 
     virtual CollationFetcher * createCollationFetcher() override;

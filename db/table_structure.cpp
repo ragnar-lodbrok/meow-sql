@@ -361,6 +361,17 @@ ForeignKey * TableStructure::foreignKeyById(unsigned id) const
     return nullptr;
 }
 
+QList<ForeignKey *> TableStructure::foreignKeysForColumn(const QString & name)
+{
+    QList<ForeignKey *> keys;
+    for (const auto & fKey : _foreignKeys) {
+        if (fKey->columnNames().contains(name)) {
+            keys << fKey;
+        }
+    }
+    return keys;
+}
+
 QStringList tableColumnNames(TableStructure * structure) {
     QStringList names;
     const QList<TableColumn *> & columns = structure->columns();

@@ -264,7 +264,7 @@ void TableStructureParser::parseForeignKeys(
 
         ForeignKey * fKey = new ForeignKey(table);
         fKey->setName(keyName);
-        fKey->setReferenceTable(refTable);
+        fKey->setReferenceTableName(refTable);
         QStringList columnNames = explodeQuotedList(columnsStr);
         fKey->setColumns(columnNames);
         fKey->referenceColumns() = explodeQuotedList(fColumnsStr);
