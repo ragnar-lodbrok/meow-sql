@@ -84,6 +84,7 @@ QWidget * EditQueryDataDelegate::createEditor(
                         const_cast<EditQueryDataDelegate *>(this)
                     ));
     }
+    break;
 
     case EditorType::comboboxEdit: {
         _editorWrapper.reset(
