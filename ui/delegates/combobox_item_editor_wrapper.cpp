@@ -46,6 +46,7 @@ void ComboboxItemEditorWrapper::setEditorData(QWidget *editor,
                 index.model()->data(index, Qt::DisplayRole).toString();
 
         comboBox->setCurrentIndex(comboBox->findData(value));
+        comboBox->setMinimumWidth(180);
 
     } else if (editData.canConvert<QStringList>()) {
         QStringList values = editData.toStringList();
