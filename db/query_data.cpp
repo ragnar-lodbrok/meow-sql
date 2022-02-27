@@ -94,12 +94,35 @@ QVariant QueryData::editDataAt(int row, int column) const
 {
     currentResult()->seekRecNo(row);
 
-    if (meow::app()->settings()->dataEditors()
-            ->enableDropDownForForeignKeyEditors()) {
-        QList<ForeignKey *> fKeys
-                = currentResult()->foreignKeysForColumn(column);
-        if (!fKeys.isEmpty()) {
-            return editDataForForeignKey(fKeys.first(), columnName(column));
+    if (currentResult()->entity()) {
+
+        // Foreign Key
+        if (meow::app()->settings()->dataEditors()
+                ->enableDropDownForForeignKeyEditors()) {
+            QList<ForeignKey *> fKeys
+                    = currentResult()->foreignKeysForColumn(column);
+            if (!fKeys.isEmpty()) {
+                return editDataForForeignKey(fKeys.first(), columnName(column));
+            }
+        }
+
+        auto categoryIndex = columnDataTypeCategory(column);
+
+        switch (categoryIndex) {
+
+        case DataTypeCategoryIndex::Other: {
+            meow::db::DataTypePtr type = dataTypeForColumn(column);
+            // Enum
+            if (currentResult()->connection()->dataTypes()->isEnumType(type)
+                   && meow::app()->settings()->dataEditors()
+                        ->enableInplaceEnumEditor()) {
+                return currentResult()->columnValuesList(column);
+            }
+        } break;
+
+        default:
+            break;
+
         }
     }
 
@@ -107,6 +130,7 @@ QVariant QueryData::editDataAt(int row, int column) const
         return QString();
     } else {
         // TODO: format binary?
+
         return currentResult()->curRowColumn(column, true);
     }
 }

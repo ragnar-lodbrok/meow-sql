@@ -205,6 +205,28 @@ QList<ForeignKey *> NativeQueryResult::foreignKeysForColumn(std::size_t index)
     return {};
 }
 
+QStringList NativeQueryResult::columnValuesList(std::size_t index) const
+{
+    if (!entity()) return {};
+
+    if (entity()->type() == Entity::Type::Table) {
+        TableEntity * table = static_cast<TableEntity *>(entity());
+
+        QString lenSet = table->structure()->columns()[index]->lengthSet();
+
+        QStringList splittedList = lenSet.split(',');
+        QStringList result;
+        for (QString str : splittedList) {
+            int left = str.startsWith('\'') ? 1 : 0;
+            int len = str.length() - (str.endsWith('\'') ? 1 : 0) - left;
+            result << str.mid(left, len);
+        }
+        return result;
+    }
+
+    return {};
+}
+
 void NativeQueryResult::throwOnInvalidColumnIndex(std::size_t index)
 {
     if (index >= columnCount()) {

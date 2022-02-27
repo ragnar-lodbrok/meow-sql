@@ -95,6 +95,7 @@ public:
     QList<std::size_t> primaryColumnIndices() const;
 
     QList<ForeignKey *> foreignKeysForColumn(std::size_t index);
+    QStringList columnValuesList(std::size_t index) const;
 
     void appendResultData(const QueryResultPt & result);
 

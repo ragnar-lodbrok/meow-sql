@@ -81,11 +81,12 @@ delegates::EditorType DataTableModel::editorType(
         return delegates::EditorType::comboboxEdit;
     }
 
-    if (typeCategoryForColumn(index.column())
-            == meow::db::DataTypeCategoryIndex::Text) {
+    meow::db::DataTypeCategoryIndex typeCategory
+            = typeCategoryForColumn(index.column());
+
+    if (typeCategory == meow::db::DataTypeCategoryIndex::Text) {
         return delegates::EditorType::lineEdit;
-    } else if (typeCategoryForColumn(index.column())
-               == meow::db::DataTypeCategoryIndex::Temporal) {
+    } else if (typeCategory == meow::db::DataTypeCategoryIndex::Temporal) {
 
         if (meow::app()->settings()->dataEditors()
                 ->enableInplaceDatetimeEditor()) {
@@ -101,6 +102,15 @@ delegates::EditorType DataTableModel::editorType(
             } else if (connection()->dataTypes()->isYearType(type)) {
                 return delegates::EditorType::yearEdit;
             }
+        }
+    } else if (typeCategory == meow::db::DataTypeCategoryIndex::Other) {
+
+        meow::db::DataTypePtr type = dataTypeForColumn(index.column());
+
+        if (connection()->dataTypes()->isEnumType(type)
+                && meow::app()->settings()->dataEditors()
+                    ->enableInplaceEnumEditor()) {
+            return delegates::EditorType::comboboxEdit;
         }
     }
 
