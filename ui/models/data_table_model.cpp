@@ -90,15 +90,17 @@ delegates::EditorType DataTableModel::editorType(
         if (meow::app()->settings()->dataEditors()
                 ->enableInplaceDatetimeEditor()) {
 
-            bool isDateTime= connection()->dataTypes()->isDateTimeType(
-                        dataTypeForColumn(index.column()));
+            meow::db::DataTypePtr type = dataTypeForColumn(index.column());
 
-            if (isDateTime) {
+            if (connection()->dataTypes()->isDateTimeType(type)) {
                 return delegates::EditorType::dateTimeEdit;
+            } else if (connection()->dataTypes()->isDateType(type)) {
+                return delegates::EditorType::dateEdit;
+            } else if (connection()->dataTypes()->isTimeType(type)) {
+                return delegates::EditorType::timeEdit;
+            } else if (connection()->dataTypes()->isYearType(type)) {
+                return delegates::EditorType::yearEdit;
             }
-
-            // TODO: date, time, year editors ...
-
         }
     }
 

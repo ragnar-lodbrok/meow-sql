@@ -19,5 +19,20 @@ QDateTime parseDateTime(const QString & dateTime)
     return QDateTime::fromString(dt, "yyyy-MM-dd HH:mm:ss");
 }
 
+QDate parseDate(const QString & dateTime)
+{
+    return QDate::fromString(dateTime, "yyyy-MM-dd");
+}
+
+QTime parseTime(const QString & dateTime)
+{
+    return QTime::fromString(dateTime, "HH:mm:ss");
+}
+
+QDate parseYear(const QString & dateTime)
+{
+    return QDate::fromString(dateTime, "yyyy");
+}
+
 } // namespace helpers
 } // namespace meow

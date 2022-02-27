@@ -81,7 +81,35 @@ QWidget * EditQueryDataDelegate::createEditor(
     case EditorType::dateTimeEdit: {
         _editorWrapper.reset(
                     new DateTimeItemEditorWrapper(
-                        const_cast<EditQueryDataDelegate *>(this)
+                        const_cast<EditQueryDataDelegate *>(this),
+                        DateTimeItemEditorWrapper::Format::DateTime
+                    ));
+    }
+    break;
+
+    case EditorType::dateEdit: {
+        _editorWrapper.reset(
+                    new DateTimeItemEditorWrapper(
+                        const_cast<EditQueryDataDelegate *>(this),
+                        DateTimeItemEditorWrapper::Format::Date
+                    ));
+    }
+    break;
+
+    case EditorType::timeEdit: {
+        _editorWrapper.reset(
+                    new DateTimeItemEditorWrapper(
+                        const_cast<EditQueryDataDelegate *>(this),
+                        DateTimeItemEditorWrapper::Format::Time
+                    ));
+    }
+    break;
+
+    case EditorType::yearEdit: {
+        _editorWrapper.reset(
+                    new DateTimeItemEditorWrapper(
+                        const_cast<EditQueryDataDelegate *>(this),
+                        DateTimeItemEditorWrapper::Format::Year
                     ));
     }
     break;
@@ -92,7 +120,6 @@ QWidget * EditQueryDataDelegate::createEditor(
                         const_cast<EditQueryDataDelegate *>(this)
                     ));
     }
-
     break;
 
     default:

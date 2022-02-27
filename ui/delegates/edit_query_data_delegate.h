@@ -13,6 +13,9 @@ enum class EditorType
     defaultEditor,
     lineEdit,
     dateTimeEdit,
+    timeEdit,
+    dateEdit,
+    yearEdit,
     comboboxEdit
 };
 

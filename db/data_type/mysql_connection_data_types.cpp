@@ -300,6 +300,21 @@ bool MySQLConnectionDataTypes::isDateTimeType(const DataTypePtr & type) const
             || type->index == DataTypeIndex::Timestamp;
 }
 
+bool MySQLConnectionDataTypes::isDateType(const DataTypePtr & type) const
+{
+    return type->index == DataTypeIndex::Date;
+}
+
+bool MySQLConnectionDataTypes::isTimeType(const DataTypePtr & type) const
+{
+    return type->index == DataTypeIndex::Time;
+}
+
+bool MySQLConnectionDataTypes::isYearType(const DataTypePtr & type) const
+{
+    return type->index == DataTypeIndex::Year;
+}
+
 DataTypePtr MySQLConnectionDataTypes::dataTypeOfField(MYSQL_FIELD * field)
 {
     // http://dev.mysql.com/doc/refman/5.7/en/c-api-data-structures.html

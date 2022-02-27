@@ -35,6 +35,21 @@ public:
         return false;
     }
 
+    virtual bool isDateType(const DataTypePtr & type) const {
+        Q_UNUSED(type);
+        return false;
+    }
+
+    virtual bool isTimeType(const DataTypePtr & type) const {
+        Q_UNUSED(type);
+        return false;
+    }
+
+    virtual bool isYearType(const DataTypePtr & type) const {
+        Q_UNUSED(type);
+        return false;
+    }
+
     DataTypePtr createUnknownType() const { // rm, just use default cted
         DataTypePtr ptr(
             new DataType(

@@ -10,8 +10,20 @@ namespace delegates {
 class DateTimeItemEditorWrapper : public ItemEditorWrapper
 {
 public:
-    DateTimeItemEditorWrapper(EditQueryDataDelegate * delegate)
-        : ItemEditorWrapper(delegate) {
+
+    enum class Format
+    {
+        DateTime,
+        Date,
+        Time,
+        Year
+    };
+
+    DateTimeItemEditorWrapper(EditQueryDataDelegate * delegate,
+                              Format format = Format::DateTime)
+        : ItemEditorWrapper(delegate)
+        , _format(format)
+    {
 
     }
 
@@ -25,6 +37,8 @@ public:
     virtual void setModelData(QWidget *editor,
                       QAbstractItemModel *model,
                       const QModelIndex &index) const override;
+private:
+    Format _format;
 };
 
 } // namespace delegates
