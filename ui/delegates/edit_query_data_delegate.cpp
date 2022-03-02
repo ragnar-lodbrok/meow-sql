@@ -4,6 +4,7 @@
 #include "line_edit_item_editor_wrapper.h"
 #include "date_time_item_editor_wrapper.h"
 #include "combobox_item_editor_wrapper.h"
+#include "checkbox_list_item_editor_wrapper.h"
 
 #include <QDebug>
 
@@ -122,6 +123,14 @@ QWidget * EditQueryDataDelegate::createEditor(
     }
     break;
 
+    case EditorType::checkboxListEdit: {
+        _editorWrapper.reset(
+                    new CheckboxListItemEditorWrapper(
+                        const_cast<EditQueryDataDelegate *>(this)
+                    ));
+    }
+    break;
+
     default:
         Q_ASSERT(false);
         return QStyledItemDelegate::createEditor(parent, option, index);
@@ -159,6 +168,16 @@ void EditQueryDataDelegate::setModelData(QWidget *editor,
         _editorWrapper->setModelData(editor, model, index);
     } else {
         QStyledItemDelegate::setModelData(editor, model, index);
+    }
+}
+
+void EditQueryDataDelegate::updateEditorGeometry(QWidget *editor,
+                          const QStyleOptionViewItem &option,
+                          const QModelIndex &index) const
+{
+    QStyledItemDelegate::updateEditorGeometry(editor, option, index);
+    if (_editorWrapper) {
+        _editorWrapper->updateEditorGeometry(editor, option, index);
     }
 }
 

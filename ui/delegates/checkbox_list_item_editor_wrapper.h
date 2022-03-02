@@ -1,5 +1,5 @@
-#ifndef UI_DELEGATES_COMBOBOX_ITEM_EDITOR_WRAPPER_H
-#define UI_DELEGATES_COMBOBOX_ITEM_EDITOR_WRAPPER_H
+#ifndef UI_DELEGATES_CHECKBOX_LIST_ITEM_EDITOR_WRAPPER_H
+#define UI_DELEGATES_CHECKBOX_LIST_ITEM_EDITOR_WRAPPER_H
 
 #include "edit_query_data_delegate.h"
 
@@ -7,10 +7,10 @@ namespace meow {
 namespace ui {
 namespace delegates {
 
-class ComboboxItemEditorWrapper : public ItemEditorWrapper
+class CheckboxListItemEditorWrapper : public ItemEditorWrapper
 {
 public:
-    ComboboxItemEditorWrapper(EditQueryDataDelegate * delegate)
+    CheckboxListItemEditorWrapper(EditQueryDataDelegate * delegate)
         : ItemEditorWrapper(delegate) {
 
     }
@@ -25,6 +25,10 @@ public:
     virtual void setModelData(QWidget *editor,
                       QAbstractItemModel *model,
                       const QModelIndex &index) const override;
+
+    virtual void updateEditorGeometry(QWidget *editor,
+                              const QStyleOptionViewItem &option,
+                              const QModelIndex &index) const override;
 };
 
 } // namespace delegates
@@ -32,4 +36,4 @@ public:
 } // namespace meow
 
 
-#endif // UI_DELEGATES_COMBOBOX_ITEM_EDITOR_WRAPPER_H
+#endif // UI_DELEGATES_CHECKBOX_LIST_ITEM_EDITOR_WRAPPER_H

@@ -13,6 +13,7 @@ public:
     bool enablePopupForDatetimeEditor() const { return false; }
     bool enableDropDownForForeignKeyEditors() const { return true; }
     bool enableInplaceEnumEditor() const { return true; }
+    bool enableInplaceSetEditor() const { return true; }
 };
 
 } // namespace meow

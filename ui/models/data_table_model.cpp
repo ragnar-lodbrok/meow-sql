@@ -111,6 +111,12 @@ delegates::EditorType DataTableModel::editorType(
                 && meow::app()->settings()->dataEditors()
                     ->enableInplaceEnumEditor()) {
             return delegates::EditorType::comboboxEdit;
+
+        } else if (connection()->dataTypes()->isSetType(type)
+                   && meow::app()->settings()->dataEditors()
+                       ->enableInplaceSetEditor()) {
+            return delegates::EditorType::checkboxListEdit;
+
         }
     }
 

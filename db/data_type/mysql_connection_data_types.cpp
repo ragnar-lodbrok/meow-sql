@@ -320,6 +320,11 @@ bool MySQLConnectionDataTypes::isEnumType(const DataTypePtr & type) const
     return type->index == DataTypeIndex::Enum;
 }
 
+bool MySQLConnectionDataTypes::isSetType(const DataTypePtr & type) const
+{
+    return type->index == DataTypeIndex::Set;
+}
+
 DataTypePtr MySQLConnectionDataTypes::dataTypeOfField(MYSQL_FIELD * field)
 {
     // http://dev.mysql.com/doc/refman/5.7/en/c-api-data-structures.html

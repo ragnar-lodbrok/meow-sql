@@ -117,6 +117,13 @@ QVariant QueryData::editDataAt(int row, int column) const
                    && meow::app()->settings()->dataEditors()
                         ->enableInplaceEnumEditor()) {
                 return currentResult()->columnValuesList(column);
+
+            // Set
+            } else if (currentResult()->connection()->dataTypes()->isSetType(type)
+                    && meow::app()->settings()->dataEditors()
+                        ->enableInplaceSetEditor()) {
+                return currentResult()->columnValuesList(column);
+
             }
         } break;
 

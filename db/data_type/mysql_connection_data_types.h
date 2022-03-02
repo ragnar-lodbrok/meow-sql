@@ -26,6 +26,7 @@ public:
     virtual bool isTimeType(const DataTypePtr & type) const override;
     virtual bool isYearType(const DataTypePtr & type) const override;
     virtual bool isEnumType(const DataTypePtr & type) const override;
+    virtual bool isSetType(const DataTypePtr & type) const override;
 
     DataTypePtr dataTypeOfField(MYSQL_FIELD * field);
 

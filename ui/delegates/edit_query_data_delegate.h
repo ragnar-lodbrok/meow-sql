@@ -16,7 +16,8 @@ enum class EditorType
     timeEdit,
     dateEdit,
     yearEdit,
-    comboboxEdit
+    comboboxEdit,
+    checkboxListEdit
 };
 
 // Provides info for configuring delegate editor
@@ -57,6 +58,15 @@ public:
                       QAbstractItemModel *model,
                       const QModelIndex &index) const;
 
+    virtual void updateEditorGeometry(QWidget *editor,
+                              const QStyleOptionViewItem &option,
+                              const QModelIndex &index) const {
+        Q_UNUSED(editor);
+        Q_UNUSED(option);
+        Q_UNUSED(index);
+        // Do nothing
+    }
+
 protected:
     EditQueryDataDelegate * _delegate;
     mutable QWidget * _editor;
@@ -82,6 +92,10 @@ public:
     void setModelData(QWidget *editor,
                       QAbstractItemModel *model,
                       const QModelIndex &index) const override;
+
+    void updateEditorGeometry(QWidget *editor,
+                              const QStyleOptionViewItem &option,
+                              const QModelIndex &index) const override;
 
     bool isEditing() const { return _editorWrapper != nullptr; }
 
