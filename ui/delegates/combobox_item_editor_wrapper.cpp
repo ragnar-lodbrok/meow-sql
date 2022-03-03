@@ -34,6 +34,8 @@ void ComboboxItemEditorWrapper::setEditorData(QWidget *editor,
 
     if (editData.canConvert<IdValueList>()) {
 
+        QString value = index.model()->data(index, Qt::DisplayRole).toString();
+
         const IdValueList editDataList = qvariant_cast<IdValueList>(editData);
 
         auto it = editDataList.constBegin();
@@ -42,8 +44,6 @@ void ComboboxItemEditorWrapper::setEditorData(QWidget *editor,
                                QVariant(it->first));
              ++it;
         }
-        QString value =
-                index.model()->data(index, Qt::DisplayRole).toString();
 
         comboBox->setCurrentIndex(comboBox->findData(value));
         comboBox->setMinimumWidth(180);
@@ -91,6 +91,14 @@ void ComboboxItemEditorWrapper::setModelData(QWidget *editor,
             model->setData(index, data, Qt::EditRole);
             return;
         }
+    }
+
+
+    QString value = index.model()->data(index, Qt::DisplayRole).toString();
+
+    // special case if value was NULL and we not changed it => keep NULL
+    if (currentText.isEmpty() && value == "(NULL)") {
+        currentText = QString(); // = NULL
     }
 
     // no other options => use current text
