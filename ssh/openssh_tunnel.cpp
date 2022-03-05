@@ -5,9 +5,14 @@
 #include <QThread>
 #include <QDebug>
 #include <sys/types.h>
+
+#ifdef Q_OS_UNIX
+
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+
+#endif
 
 static const quint16 DEFAULT_SSH_PORT = 22;
 
@@ -178,7 +183,7 @@ void OpenSSHTunnel::processOutput(const QString & output)
 QString OpenSSHTunnel::programName() const
 {
 #ifdef Q_OS_WIN
-    retun "cmd";
+    return "cmd";
 #else
     if (supportsPassword() && !_params.sshTunnel().password().isEmpty()) {
         return "sshpass";
@@ -257,6 +262,7 @@ bool OpenSSHTunnel::findOpenPort()
 
 bool OpenSSHTunnel::isPortOpen(unsigned short port)
 {
+#ifdef Q_OS_UNIX
     sockaddr_in sockAddr;
 
     sockAddr.sin_family = AF_INET;
@@ -275,6 +281,10 @@ bool OpenSSHTunnel::isPortOpen(unsigned short port)
     ::close(sock);
 
     return res == 0;
+#endif
+#ifdef Q_OS_WIN
+    return true; // TODO: impl
+#endif
 }
 
 } // namespace ssh

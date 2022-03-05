@@ -15,6 +15,8 @@ QWidget * CheckboxListItemEditorWrapper::createEditor(QWidget *parent,
 
     auto widget = new ui::CheckboxListPopup(parent);
 
+    setEditorData(widget, index); // to calc correct geometry
+
     _editor = widget;
 
     return _editor;
