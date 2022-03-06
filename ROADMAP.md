@@ -2,16 +2,6 @@
 
 ## Task pool (by priority)
 
-SSH Tunnel via putty.exe
-
-Table data edit: foreign key drop down
-
-Table data edit: date/time/year editor
-
-Table data edit: enum editor
-
-Table data edit: set editor
-
 Table: clear option
 
 Query tab: explain
@@ -81,6 +71,18 @@ Table tools: find text
 Data Grid: insert files into text/blob fields
 
 Query: progress
+
+## 0.4.14
+
+SSH Tunnel via putty.exe
+
+Table data edit: foreign key drop down
+
+Table data edit: date/time/year editor
+
+Table data edit: enum editor
+
+Table data edit: set editor
 
 ## 0.4.13
 
