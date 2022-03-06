@@ -155,6 +155,7 @@ SOURCES += main.cpp\
     ui/common/table_view.cpp \
     ui/common/text_editor_popup.cpp \
     ui/delegates/checkbox_delegate.cpp \
+    ui/delegates/checkbox_list_item_editor_wrapper.cpp \
     ui/delegates/combobox_delegate.cpp \
     ui/delegates/combobox_item_editor_wrapper.cpp \
     ui/delegates/edit_query_data_delegate.cpp \
@@ -353,6 +354,7 @@ HEADERS  +=  app/actions.h \
     ui/common/table_view.h \
     ui/common/text_editor_popup.h \
     ui/delegates/checkbox_delegate.h \
+    ui/delegates/checkbox_list_item_editor_wrapper.h \
     ui/delegates/combobox_delegate.h \
     ui/delegates/combobox_item_editor_wrapper.h \
     ui/delegates/edit_query_data_delegate.h \

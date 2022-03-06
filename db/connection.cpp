@@ -348,7 +348,7 @@ void Connection::stopThread()
     _thread.reset();
 }
 
-void Connection::keepAliveTimout()
+void Connection::keepAliveTimeout()
 {
     if (_active) {
         ping(false);
