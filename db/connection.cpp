@@ -36,7 +36,7 @@ Connection::Connection(const ConnectionParameters & params)
 {
     _keepAliveTimer.setInterval(params.keepAliveTimeoutSeconds() * 1000);
     connect(&_keepAliveTimer, &QTimer::timeout,
-            this, &Connection::keepAliveTimout);
+            this, &Connection::keepAliveTimeout);
 }
 
 Connection::~Connection()
