@@ -34,7 +34,9 @@ Connection::Connection(const ConnectionParameters & params)
     , _isUnicode(false)
     , _useAllDatabases(true)
 {
-
+    _keepAliveTimer.setInterval(params.keepAliveTimeoutSeconds() * 1000);
+    connect(&_keepAliveTimer, &QTimer::timeout,
+            this, &Connection::keepAliveTimout);
 }
 
 Connection::~Connection()
@@ -50,8 +52,7 @@ void Connection::doBeforeConnect()
 
 void Connection::doAfterConnect()
 {
-    // TODO
-    // H:
+    _keepAliveTimer.start();
 }
 
 QStringList Connection::allDatabases(bool refresh /*= false */)
@@ -345,6 +346,13 @@ void Connection::emitDatabaseChanged(const QString& newName)
 void Connection::stopThread()
 {
     _thread.reset();
+}
+
+void Connection::keepAliveTimout()
+{
+    if (_active) {
+        ping(false);
+    }
 }
 
 void Connection::parseTableStructure(TableEntity * table, bool refresh)

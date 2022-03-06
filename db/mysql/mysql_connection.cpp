@@ -252,8 +252,6 @@ bool MySQLConnection::ping(bool reconnect) // override
         }
     }
 
-    // TODO: H: Restart keep-alive timer
-
     return _active;
 }
 

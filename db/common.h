@@ -15,6 +15,7 @@ const int DATA_ROWS_PER_STEP = 1000;
 const int DATA_MAX_ROWS = 100 * 1000;
 const int DATA_MAX_LOAD_TEXT_LEN = 256;
 const int FOREIGN_MAX_ROWS = 10000;
+const int DEFAULT_KEEP_ALIVE_TIMEOUT = 20; // seconds
 
 } // namespace db
 } // namespace meow

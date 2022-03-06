@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QFileInfo>
 #include "ssh/ssh_tunnel_parameters.h"
+#include "common.h"
 
 namespace meow {
 namespace db {
@@ -146,6 +147,10 @@ public:
 
     const ssh::SSHTunnelParameters & sshTunnel() const {
         return _sshTunnel;
+    }
+
+    int keepAliveTimeoutSeconds() const {
+        return meow::db::DEFAULT_KEEP_ALIVE_TIMEOUT;
     }
 
 private:

@@ -6,6 +6,7 @@
 #include <QString>
 #include <QStringList>
 #include <QMap>
+#include <QTimer>
 #include "common.h"
 #include "query_results.h"
 #include "connection_parameters.h"
@@ -179,7 +180,7 @@ public:
 
 protected:
     threads::Mutex _mutex;
-    bool _active;
+    std::atomic<bool> _active;
     QString _serverVersionString;
     int _serverVersionInt;
 
@@ -188,6 +189,7 @@ protected:
     QString _database;
     QLatin1Char _identifierQuote;
     int64_t _connectionIdOnServer;
+    QTimer _keepAliveTimer;
 
     void emitDatabaseChanged(const QString& newName);
     void stopThread();
@@ -209,6 +211,9 @@ protected:
     virtual IUserEditor * createUserEditor() { return nullptr; }
 
 private:
+
+    Q_SLOT void keepAliveTimeout();
+
     //int _connectionStarted;
     //int _serverUptime;
     ConnectionParameters _connectionParams;
