@@ -2,6 +2,7 @@
 #define DB_CONNECTION_H
 
 #include <memory>
+#include <atomic>
 #include <QObject>
 #include <QString>
 #include <QStringList>
