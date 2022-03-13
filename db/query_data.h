@@ -49,6 +49,9 @@ public:
     db::DataTypeCategoryIndex columnDataTypeCategory(int index) const;
     db::DataTypePtr dataTypeForColumn(int column) const;
     bool columnHasForeignKey(int column) const;
+    bool columnIsPrimaryKeyPart(std::size_t index) const;
+    bool columnIsUniqueKeyPart(std::size_t index) const;
+    bool columnIsIndexKeyPart(std::size_t index) const;
 
     void prepareEditing();
     bool setData(int row, int col, const QVariant &value);

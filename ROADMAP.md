@@ -20,8 +20,6 @@ SSH Tunnel via libSSH
 
 HiDPI monitors support (+icons)
 
-ARM (raspberry builds)
-
 Table columns: keys icons
 
 Drop: procedure, trigger, etc
@@ -83,6 +81,8 @@ Table data edit: date/time/year editor
 Table data edit: enum editor
 
 Table data edit: set editor
+
+ARM (raspberry builds)
 
 ## 0.4.13
 

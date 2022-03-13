@@ -32,6 +32,11 @@ public:
 
     virtual bool isNull(std::size_t index) override;
 
+    virtual bool columnIsPrimaryKeyPart(std::size_t index) const override;
+    virtual bool columnIsUniqueKeyPart(std::size_t index) const override;
+    virtual bool columnIsIndexKeyPart(std::size_t index) const override;
+
+
     MYSQL_RES * nativePtr() const { return _res; }
 
 protected:

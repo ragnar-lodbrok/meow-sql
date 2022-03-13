@@ -15,7 +15,7 @@ QueryData::QueryData() : QObject(), _curRowNumber(-1), _resultIndex(0)
 
 int QueryData::rowCount() const
 {
-    if (_queryPtr) {
+    if (_queryPtr && _queryPtr->resultCount() > 0) {
         return static_cast<int>(currentResult()->recordCount());
     }
     return 0;
@@ -23,7 +23,7 @@ int QueryData::rowCount() const
 
 int QueryData::columnCount() const
 {
-    if (_queryPtr) {
+    if (_queryPtr && _queryPtr->resultCount() > 0) {
         return static_cast<int>(currentResult()->columnCount());
     }
     return 0;
@@ -57,6 +57,30 @@ bool QueryData::columnHasForeignKey(int column) const
 {
     if (_queryPtr) {
         return !currentResult()->foreignKeysForColumn(column).isEmpty();
+    }
+    return false;
+}
+
+bool QueryData::columnIsPrimaryKeyPart(std::size_t index) const
+{
+    if (_queryPtr) {
+        return currentResult()->columnIsPrimaryKeyPart(index);
+    }
+    return false;
+}
+
+bool QueryData::columnIsUniqueKeyPart(std::size_t index) const
+{
+    if (_queryPtr) {
+        return currentResult()->columnIsUniqueKeyPart(index);
+    }
+    return false;
+}
+
+bool QueryData::columnIsIndexKeyPart(std::size_t index) const
+{
+    if (_queryPtr) {
+        return currentResult()->columnIsIndexKeyPart(index);
     }
     return false;
 }
@@ -160,7 +184,7 @@ bool QueryData::setData(int row, int col, const QVariant &value)
 
 void QueryData::prepareEditing()
 {
-    if (_queryPtr) {
+    if (_queryPtr && _queryPtr->resultCount()) {
         currentResult()->prepareEditing();
         emit editingPrepared();
     }
@@ -168,14 +192,14 @@ void QueryData::prepareEditing()
 
 bool QueryData::isModified() const
 {
-    return _queryPtr
+    return _queryPtr && _queryPtr->resultCount()
             && currentResult()->editableData()
             && currentResult()->editableData()->isModified();
 }
 
 bool QueryData::isInserted() const
 {
-    return _queryPtr
+    return _queryPtr && _queryPtr->resultCount()
             && currentResult()->editableData()
             && currentResult()->editableData()->isInserted();
 }

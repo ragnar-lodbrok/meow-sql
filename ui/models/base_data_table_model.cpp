@@ -57,13 +57,29 @@ QVariant BaseDataTableModel::headerData(int section,
                                     Qt::Orientation orientation,
                                     int role) const
 {
-    if (role != Qt::DisplayRole) {
-        return QVariant();
+    switch (role) {
+
+    case Qt::DisplayRole:
+        if (orientation == Qt::Horizontal) {
+            return _queryData->columnName(section);
+        }
+        break;
+
+    case Qt::DecorationRole:
+        // TODO: cache icons?
+        if (_queryData->columnIsPrimaryKeyPart(section)) {
+            return QIcon(":/icons/key_primary.png");
+        } else if (_queryData->columnIsUniqueKeyPart(section)) {
+            return QIcon(":/icons/key_unique.png");
+        } else if (_queryData->columnIsIndexKeyPart(section)) {
+            return QIcon(":/icons/key_index.png");
+        }
+        break;
+
+    default:
+        break;
     }
 
-    if (orientation == Qt::Horizontal) {
-        return _queryData->columnName(section);
-    }
 
     return QVariant();
 }

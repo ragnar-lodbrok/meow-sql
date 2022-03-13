@@ -250,5 +250,44 @@ void NativeQueryResult::appendResultData(const QueryResultPt &result)
     }
 }
 
+bool NativeQueryResult::columnIsPrimaryKeyPart(std::size_t index) const
+{
+    if (!entity()) return false;
+
+    if (entity()->type() == Entity::Type::Table) {
+        TableEntity * table = static_cast<TableEntity *>(entity());
+
+        return table->structure()->isColumnPrimaryKey(index);
+    }
+
+    return false;
+}
+
+bool NativeQueryResult::columnIsUniqueKeyPart(std::size_t index) const
+{
+    if (!entity()) return false;
+
+    if (entity()->type() == Entity::Type::Table) {
+        TableEntity * table = static_cast<TableEntity *>(entity());
+
+        return table->structure()->isColumnUniqueKey(index);
+    }
+
+    return false;
+}
+
+bool NativeQueryResult::columnIsIndexKeyPart(std::size_t index) const
+{
+    if (!entity()) return false;
+
+    if (entity()->type() == Entity::Type::Table) {
+        TableEntity * table = static_cast<TableEntity *>(entity());
+
+        return table->structure()->isColumnIndexKey(index);
+    }
+
+    return false;
+}
+
 } // namespace db
 } // namespace meow

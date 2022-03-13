@@ -53,6 +53,10 @@ public:
 
     QueryColumn & column(std::size_t index) { return _columns[index]; }
 
+    const QueryColumn & column(std::size_t index) const {
+        return _columns[index];
+    }
+
     virtual void seekRecNo(db::ulonglong value) = 0; // H: SetRecNo
 
     virtual QString curRowColumn(std::size_t index,
@@ -98,6 +102,10 @@ public:
     QStringList columnValuesList(std::size_t index) const;
 
     void appendResultData(const QueryResultPt & result);
+
+    virtual bool columnIsPrimaryKeyPart(std::size_t index) const;
+    virtual bool columnIsUniqueKeyPart(std::size_t index) const;
+    virtual bool columnIsIndexKeyPart(std::size_t index) const;
 
 protected:
 

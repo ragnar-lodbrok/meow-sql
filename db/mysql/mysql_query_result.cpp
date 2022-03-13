@@ -164,6 +164,24 @@ bool MySQLQueryResult::isNull(std::size_t index)
     return _curRow[index] == nullptr;
 }
 
+bool MySQLQueryResult::columnIsPrimaryKeyPart(std::size_t index) const
+{
+    // faster than in base class and works for any query
+    return (column(index).flags & PRI_KEY_FLAG) > 0;
+}
+
+bool MySQLQueryResult::columnIsUniqueKeyPart(std::size_t index) const
+{
+    // Listening: Fn .380 Acp #19074 - 1914
+    return (column(index).flags & UNIQUE_KEY_FLAG) > 0;
+    // TODO: sometimes the flag is not set, probably bug in mysqlclient?
+}
+
+bool MySQLQueryResult::columnIsIndexKeyPart(std::size_t index) const
+{
+    return (column(index).flags & MULTIPLE_KEY_FLAG) > 0;
+}
+
 std::vector<MYSQL_RES *> MySQLQueryResult::resultList() const
 {
     // TODO: optimize/cache resultList?

@@ -58,6 +58,21 @@ public:
         return hasIndexForColumn(columnName, TableIndexClass::PrimaryKey);
     }
 
+    bool isColumnPrimaryKey(int columnIndex) {
+        return hasIndexForColumn(_columns[columnIndex]->name(),
+                                 TableIndexClass::PrimaryKey);
+    }
+
+    bool isColumnUniqueKey(int columnIndex) {
+        return hasIndexForColumn(_columns[columnIndex]->name(),
+                                 TableIndexClass::Unique);
+    }
+
+    bool isColumnIndexKey(int columnIndex) {
+        return hasIndexForColumn(_columns[columnIndex]->name(),
+                                 TableIndexClass::Key);
+    }
+
     TableStructure * deepCopy(TableEntity * parentTable) const;
 
     int insertEmptyDefaultColumn(int afterIndex = -1);
