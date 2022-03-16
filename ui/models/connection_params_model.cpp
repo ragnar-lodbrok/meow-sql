@@ -1,4 +1,5 @@
 #include "connection_params_model.h"
+#include "app/app.h"
 
 namespace meow {
 namespace ui {
@@ -111,6 +112,14 @@ QVariant ConnectionParamsModel::data(const QModelIndex &index, int role) const
             return params.sessionName();
         default:
             break;
+        }
+    } else if (role == Qt::DecorationRole) {
+        if (static_cast<Columns>(index.column()) == Columns::SessionName) {
+            const meow::db::ConnectionParameters & params
+                    = _connectionParamsManager->at(index.row());
+
+            auto icons = meow::app()->settings()->icons();
+            return icons->connection(params.serverType());
         }
     }
 
