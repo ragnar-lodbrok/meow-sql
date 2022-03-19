@@ -13,6 +13,45 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
+class TableColumnsVerticalHeaderView : public QHeaderView
+{
+public:
+
+explicit TableColumnsVerticalHeaderView(Qt::Orientation orientation,
+                                        QWidget *parent = nullptr)
+
+        : QHeaderView(orientation, parent)
+{
+
+}
+
+
+virtual void paintSection(QPainter *painter,
+                          const QRect &rect,
+                          int logicalIndex) const override
+{
+
+   QHeaderView::paintSection(painter, rect, logicalIndex);
+
+
+   // Trick paint icon over parent's painting
+   QPainter newPainter(painter->device());
+   newPainter.translate(rect.topLeft());
+
+   auto tableColumnsModel
+            = static_cast<meow::ui::models::TableColumnsModel *>(model());
+
+   QPixmap icon
+           = tableColumnsModel->headerRowIcon(logicalIndex).value<QPixmap>();
+
+   if (!icon.isNull()) {
+       int y = (rect.height() - icon.size().height()) / 2;
+       newPainter.drawPixmap(0, y, icon);
+   }
+}
+
+};
+
 TableColumns::TableColumns(TableTab * parent) : QWidget(parent)
 {
     createWidgets();
@@ -114,6 +153,8 @@ void TableColumns::createWidgets()
 
     _columnsTable = new QTableView(this);
     _columnsTable->horizontalHeader()->setHighlightSections(false);
+    _columnsTable->setVerticalHeader(
+                new TableColumnsVerticalHeaderView(Qt::Vertical, _columnsTable));
     _columnsTable->verticalHeader()->setHighlightSections(false);
     auto geometrySettings = meow::app()->settings()->geometrySettings();
     _columnsTable->verticalHeader()->setDefaultSectionSize(

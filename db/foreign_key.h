@@ -45,6 +45,7 @@ public:
     QStringList columnNames() const;
     void setColumns(const QStringList & columnNames);
     QList<TableColumn *> & columns() { return _columns; }
+    bool hasColumn(const QString & name) const;
 
     QStringList & referenceColumns() { return _referenceColumns; }
     QStringList referenceColumns() const { return _referenceColumns; }

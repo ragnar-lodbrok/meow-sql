@@ -78,6 +78,8 @@ public:
     const QStringList collationList() const;
     const QStringList dataTypeNames() const;
 
+    QVariant headerRowIcon(int row) const;
+
     Q_SIGNAL void modified();
 
 private:
@@ -90,6 +92,7 @@ private:
     QVariant checkStateAt(int row, int col) const;
     QVariant fontAt(int row, int col) const;
     QVariant foregroundAt(int row, int col) const;
+    QString columnName(int col) const;
 
     bool isBoolColumn(int col) const;
     bool isEditingAllowed(int row, int col) const;

@@ -116,6 +116,15 @@ void ForeignKey::setColumns(const QStringList & columnNames)
     }
 }
 
+bool ForeignKey::hasColumn(const QString & name) const {
+    for (const auto & column : _columns) {
+        if (column->name() == name) {
+            return true;
+        }
+    }
+    return false;
+}
+
 ForeignKey * ForeignKey::deepCopy(TableStructure * structure)
 {
     ForeignKey * copy = new ForeignKey(*this);

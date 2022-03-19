@@ -78,6 +78,9 @@ public:
     bool isUniqueKey() const {
         return _class == TableIndexClass::Unique;
     }
+    bool isIndexKey() const {
+        return _class == TableIndexClass::Key;
+    }
     void setClassType(TableIndexClass cls) { _class = cls; }
     void setClassType(const QString & clsStr) {
         _class = strToTableIndexClass(clsStr);

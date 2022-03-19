@@ -1,9 +1,12 @@
 #include "table_columns_model.h"
 #include "db/entity/table_entity.h"
 #include <QFont>
+#include <QPainter>
 #include "app/app.h"
 #include "db/connection.h"
 #include "db/data_type/data_type.h"
+#include "db/table_index.h"
+#include <QDebug>
 
 namespace meow {
 namespace ui {
@@ -83,51 +86,35 @@ QVariant TableColumnsModel::headerData(int section,
                                     Qt::Orientation orientation,
                                     int role) const
 {
-    if (role != Qt::DisplayRole) {
-        return QVariant();
-    }
-
     if (orientation == Qt::Horizontal) {
-        switch (static_cast<Columns>(section)) {
-
-        case Columns::Name:
-            return QString(tr("Name"));
-
-        case Columns::DataType:
-            return QString(tr("Datatype"));
-
-        case Columns::Length:
-            return QString(tr("Length/Set"));
-
-        case Columns::Unsigned:
-            return QString(tr("Unsigned"));
-
-        case Columns::AllowNull:
-            return QString(tr("Allow NULL"));
-
-        case Columns::Zerofill:
-            return QString(tr("Zerofill"));
-
-        case Columns::Default:
-            return QString(tr("Default"));
-
-        case Columns::Comment:
-            return QString(tr("Comment"));
-
-        case Columns::Collation:
-            return QString(tr("Collation"));
-
-        case Columns::Expression:
-            return QString(tr("Expression"));
-
-        case Columns::Virtuality:
-            return QString(tr("Virtuality"));
-
-        default:
-            break;
+        if (role == Qt::DisplayRole) {
+            return columnName(section);
         }
-    } else {
-        return QString::number(section + 1);
+    } else { // vertical
+        if (role == Qt::DisplayRole) {
+            return QString::number(section + 1);
+        } else if (role == Qt::SizeHintRole) {
+            QPixmap icon = headerRowIcon(section).value<QPixmap>();
+            QString text
+                = headerData(section, orientation, Qt::DisplayRole).toString();
+            QFont font
+                = headerData(section, orientation, Qt::FontRole).toString();
+
+            QFontMetrics fontMetrics(font);
+
+            const int margin = 15;
+            const int maxWidth = 200;
+
+            int fontWidth = fontMetrics.boundingRect(text).width();
+            int width = fontWidth + margin + icon.width();
+
+            width = std::min(width, maxWidth);
+
+            return QSize(width, -1);
+
+        } else if (role == Qt::TextAlignmentRole) {
+            return Qt::AlignRight;
+        }
     }
 
     return QVariant();
@@ -413,6 +400,113 @@ QVariant TableColumnsModel::foregroundAt(int row, int col) const
     }
 
     return QVariant();
+}
+
+QString TableColumnsModel::columnName(int col) const
+{
+    switch (static_cast<Columns>(col)) {
+
+    case Columns::Name:
+        return QString(tr("Name"));
+
+    case Columns::DataType:
+        return QString(tr("Datatype"));
+
+    case Columns::Length:
+        return QString(tr("Length/Set"));
+
+    case Columns::Unsigned:
+        return QString(tr("Unsigned"));
+
+    case Columns::AllowNull:
+        return QString(tr("Allow NULL"));
+
+    case Columns::Zerofill:
+        return QString(tr("Zerofill"));
+
+    case Columns::Default:
+        return QString(tr("Default"));
+
+    case Columns::Comment:
+        return QString(tr("Comment"));
+
+    case Columns::Collation:
+        return QString(tr("Collation"));
+
+    case Columns::Expression:
+        return QString(tr("Expression"));
+
+    case Columns::Virtuality:
+        return QString(tr("Virtuality"));
+
+    default:
+        break;
+    }
+
+    return QString();
+}
+
+QVariant TableColumnsModel::headerRowIcon(int row) const
+{
+
+    // TODO: cache result icon?
+
+    meow::db::TableColumn * tableColumn
+            = _table->structure()->columns().at(row);
+
+    const QList<meow::db::TableIndex *> & indices
+            = _table->structure()->indicies();
+
+    std::vector<QIcon> icons;
+
+    for (meow::db::TableIndex * index : indices) {
+        if (index->hasColumn(tableColumn->name())) {
+            if (index->isPrimaryKey()) {
+                icons.push_back(QIcon(":/icons/key_primary.png"));
+            } else if (index->isUniqueKey()) {
+                icons.push_back(QIcon(":/icons/key_unique.png"));
+            } else if (index->isIndexKey()) {
+                icons.push_back(QIcon(":/icons/key_index.png"));
+            }
+        }
+    }
+
+    const QList<meow::db::ForeignKey *> & foreignKeys
+            = _table->structure()->foreignKeys();
+
+    for (meow::db::ForeignKey * foreignKey : foreignKeys) {
+        if (foreignKey->hasColumn(tableColumn->name())) {
+            icons.push_back(QIcon(":/icons/table_relationship.png"));
+        }
+    }
+
+    if (icons.empty()) {
+        return QVariant();
+    }
+
+    int width = 0;
+    int height = 0;
+
+    for (const QIcon & icon : icons) {
+        QSize iconSize = icon.actualSize(QSize(16, 16));
+        height = std::max(height, iconSize.height());
+        width += iconSize.width();
+    }
+
+    QPixmap iconsPixmap(QSize(width, height));
+    iconsPixmap.fill(Qt::transparent);
+
+    QPainter painter(&iconsPixmap);
+
+    width = 0;
+
+    for (const QIcon & icon : icons) {
+        QPixmap iconPixmap = icon.pixmap(QSize(16, 16));
+        painter.drawPixmap(width, 0, iconPixmap);
+        width += iconPixmap.width();
+    }
+
+    return iconsPixmap;
 }
 
 inline bool TableColumnsModel::isBoolColumn(int col) const
