@@ -103,7 +103,7 @@ void PGConnection::setActive(bool active)
 
 bool PGConnection::ping(bool reconnect)
 {
-    meowLogDebugC(this) << "Ping";
+    //meowLogDebugC(this) << "Ping";
 
     if (_active) {
         bool isBroken = (_handle == nullptr);

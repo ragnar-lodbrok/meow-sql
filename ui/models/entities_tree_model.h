@@ -44,6 +44,7 @@ public:
     meow::db::SessionEntity * currentSession() const;
 
     bool canDropCurrentItem() const;
+    bool canEmptyCurrentItem() const;
 
     bool canCreateDatabaseOnCurrentItem() const;
     bool canCreateEntityOnCurrentItem(meow::db::Entity::Type type) const;
@@ -57,6 +58,8 @@ public:
 
     void dropCurrentItem();
     void dropEntity(meow::db::Entity * entity);
+
+    void emptyCurrentItem();
 
     meow::db::ConnectionsManager * dbConnectionsManager() const {
         return _dbConnectionsManager;

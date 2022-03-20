@@ -186,6 +186,14 @@ bool ConnectionsManager::dropEntity(Entity * entity)
     return false;
 }
 
+bool ConnectionsManager::emptyEntity(Entity * entity)
+{
+    if (_activeSession) {
+        return _activeSession->emptyEntityInDB(entity);
+    }
+    return false;
+}
+
 QString ConnectionsManager::activeEntityPath() const
 {
     QStringList path;

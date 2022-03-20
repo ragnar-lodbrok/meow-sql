@@ -145,6 +145,8 @@ public:
     }
     virtual ConnectionQueryKillerPtr createQueryKiller() const;
 
+    virtual bool emptyEntityInDB(Entity * entity);
+
     void parseTableStructure(TableEntity * table, bool refresh = false);
     void parseViewStructure(ViewEntity * view, bool refresh = false);
     void parseRoutineStructure(RoutineEntity * routine, bool refresh = false);

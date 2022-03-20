@@ -52,6 +52,8 @@ public:
                       const QString & newName,
                       const QString & newCollation = QString());
 
+    bool emptyEntityInDB(Entity * entity);
+
     bool removeEntity(Entity * entity);
 
     int indexOf(DataBaseEntity * session) const;

@@ -240,7 +240,7 @@ bool MySQLConnection::ping(bool reconnect) // override
         return _active;
     }
 
-    meowLogDebugC(this) << "Ping";
+    //meowLogDebugC(this) << "Ping";
 
     threads::MutexUnlocker unlocker(mutex()); // protects _handle
 

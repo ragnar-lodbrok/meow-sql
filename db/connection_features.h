@@ -50,6 +50,11 @@ public:
         return false;
     }
 
+    virtual bool supportsClearing(Entity::Type type) const {
+        Q_UNUSED(type);
+        return false;
+    }
+
     virtual bool supportsCreation(Entity::Type type) const {
         Q_UNUSED(type);
         return false;
@@ -137,12 +142,22 @@ public:
 
     virtual bool supportsDrop(Entity::Type type) const override {
         switch (type) {
-            case meow::db::Entity::Type::Table: // only impl-ed
+            case meow::db::Entity::Type::Table:
             case meow::db::Entity::Type::Database:
             case meow::db::Entity::Type::View:
             case meow::db::Entity::Type::Procedure:
             case meow::db::Entity::Type::Function:
             case meow::db::Entity::Type::Trigger:
+            return true;
+        default:
+            return false;
+        };
+    }
+
+    virtual bool supportsClearing(Entity::Type type) const override {
+        switch (type) {
+            case meow::db::Entity::Type::Table:
+            case meow::db::Entity::Type::View: // TODO: does it work?
             return true;
         default:
             return false;
@@ -232,6 +247,16 @@ public:
         return false;
     }
 
+    virtual bool supportsClearing(Entity::Type type) const override {
+        switch (type) {
+            case meow::db::Entity::Type::Table:
+            case meow::db::Entity::Type::View: // TODO: does it work?
+            return true;
+        default:
+            return false;
+        };
+    }
+
     virtual bool supportsViewingViews() const override {
         return true;
     }
@@ -260,6 +285,16 @@ public:
     virtual bool supportsForeignKeys(const TableEntity * table) const override {
         Q_UNUSED(table);
         return true;
+    }
+
+    virtual bool supportsClearing(Entity::Type type) const override {
+        switch (type) {
+            case meow::db::Entity::Type::Table:
+            case meow::db::Entity::Type::View: // TODO: does it work?
+            return true;
+        default:
+            return false;
+        };
     }
 };
 

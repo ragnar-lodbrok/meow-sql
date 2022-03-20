@@ -33,6 +33,7 @@ private:
 
     QAction * _editAction;
     QAction * _dropAction;
+    QAction * _emptyTableAction;
 
     QAction * _createTableAction;
     QAction * _createDatabaseAction;

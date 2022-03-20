@@ -171,11 +171,16 @@ bool SessionEntity::editDatabase(DataBaseEntity * database,
     return changed;
 }
 
+bool SessionEntity::emptyEntityInDB(Entity * entity)
+{
+    return _connection->emptyEntityInDB(entity);
+}
+
 db::ulonglong SessionEntity::dataSize() const // override
 {
     db::ulonglong sum = 0;
 
-    foreach (const DataBaseEntityPtr & entity, _databases) {
+    for (const DataBaseEntityPtr & entity : _databases) {
         sum += entity->dataSize();
     }
 

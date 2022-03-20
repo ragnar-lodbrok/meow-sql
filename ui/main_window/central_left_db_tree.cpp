@@ -39,6 +39,12 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
     _dropAction->setEnabled(treeModel->canDropCurrentItem());
     menu.addAction(_dropAction);
 
+    // empty
+
+    if (treeModel->canEmptyCurrentItem()) {
+        menu.addAction(_emptyTableAction);
+    }
+
     // create
 
     QMenu * createSubMenu = menu.addMenu( // owns result
@@ -185,6 +191,51 @@ void DbTree::createActions()
 
         try {
             treeModel->dropCurrentItem();
+        } catch(meow::db::Exception & ex) {
+            QMessageBox msgBox;
+            msgBox.setText(ex.message());
+            msgBox.setStandardButtons(QMessageBox::Ok);
+            msgBox.setDefaultButton(QMessageBox::Ok);
+            msgBox.setIcon(msgIcon);
+            msgBox.exec();
+        }
+
+    });
+
+    // empty table =============================================================
+
+    _emptyTableAction = new QAction(QIcon(":/icons/delete.png"),
+                              tr("Truncate table(s) ..."), this);
+    _emptyTableAction->setStatusTip(
+        tr("Delete all rows in selected table(s)"));
+
+    connect(_emptyTableAction, &QAction::triggered,  [=](bool checked){
+        Q_UNUSED(checked);
+        auto treeModel = this->treeModel();
+
+        db::Entity * currentEntity = treeModel->currentEntity();
+        if (!currentEntity) return;
+
+        QString confirmMsg;
+        QMessageBox::Icon msgIcon = QMessageBox::Question;
+
+        confirmMsg = QObject::tr("Truncate %1 table(s) and/or view(s)?")
+                            .arg(1);
+        confirmMsg += "\n\n" + currentEntity->name();
+
+
+        QMessageBox msgBox;
+        msgBox.setText(confirmMsg);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+        msgBox.setDefaultButton(QMessageBox::Yes);
+        msgBox.setIcon(QMessageBox::Question);
+        int ret = msgBox.exec();
+        if (ret != QMessageBox::Yes) {
+            return;
+        }
+
+        try {
+            treeModel->emptyCurrentItem();
         } catch(meow::db::Exception & ex) {
             QMessageBox msgBox;
             msgBox.setText(ex.message());

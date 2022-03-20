@@ -325,6 +325,16 @@ bool EntitiesTreeModel::canDropCurrentItem() const
     return curEntity->connection()->features()->supportsDrop(curEntity->type());
 }
 
+bool EntitiesTreeModel::canEmptyCurrentItem() const
+{
+    meow::db::Entity * curEntity = _dbConnectionsManager->activeEntity();
+    if (!curEntity) {
+        return false;
+    }
+    return curEntity->connection()->features()->supportsClearing(
+                curEntity->type());
+}
+
 bool EntitiesTreeModel::canCreateDatabaseOnCurrentItem() const
 {
     meow::db::Entity * curEntity = _dbConnectionsManager->activeEntity();
@@ -406,6 +416,14 @@ void EntitiesTreeModel::dropEntity(meow::db::Entity * entity)
         parentItem->removeChild(item);
         endRemoveRows();
     }
+}
+
+void EntitiesTreeModel::emptyCurrentItem()
+{
+    meow::db::Entity * curEntity = currentEntity();
+    if (!curEntity) return;
+
+    _dbConnectionsManager->emptyEntity(curEntity);
 }
 
 bool EntitiesTreeModel::filterAcceptsRow(int row,

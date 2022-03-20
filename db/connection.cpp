@@ -584,6 +584,17 @@ ConnectionQueryKillerPtr Connection::createQueryKiller() const
                 const_cast<Connection *>(this));
 }
 
+bool Connection::emptyEntityInDB(Entity * entity)
+{
+    if (entity->type() == Entity::Type::Table
+            || entity->type() == Entity::Type::View) {
+        query("TRUNCATE " + quotedName(entity));
+        return true;
+    }
+    return false;
+}
+
+
 ConnectionDataTypes * Connection::dataTypes()
 {
     if (_dataTypes == nullptr) {

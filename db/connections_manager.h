@@ -62,6 +62,8 @@ public:
     bool dropActiveEntity();
     bool dropEntity(Entity * entity);
 
+    bool emptyEntity(Entity * entity);
+
     QString activeEntityPath() const;
 
     const UserQueriesManager * userQueriesManager() const {
