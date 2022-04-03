@@ -11,7 +11,7 @@
 #include "central_right/view/central_right_view_tab.h"
 #include "central_right/routine/central_right_routine_tab.h"
 #include "central_right/trigger/central_right_trigger_tab.h"
-#include "central_right/filter_widget.h"
+#include "central_right/global_filter_widget.h"
 
 namespace meow {
 namespace ui {
@@ -92,7 +92,7 @@ private:
     central_right::RoutineTab * _routineTab;
     central_right::TriggerTab * _triggerTab;
     central_right::DataTab * _dataTab;
-    central_right::FilterWidget * _filterWidget;
+    central_right::GlobalFilterWidget * _filterWidget;
     QVector<central_right::QueryTab *> _queryTabs;
     central_right::AddQueryTab * _addQueryTab;
 };

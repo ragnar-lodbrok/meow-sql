@@ -35,6 +35,8 @@ public:
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 
+    void setHeightByRowCount(int rowCount);
+
 protected:
     void resizeEvent(QResizeEvent * event) override;
 

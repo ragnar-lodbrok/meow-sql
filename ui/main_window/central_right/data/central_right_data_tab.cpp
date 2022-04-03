@@ -23,6 +23,11 @@ DataTab::DataTab(QWidget *parent) :
     setLayout(_mainLayout);
 
     createTopPanel();
+
+    _dataFilter = new DataFilterWidget();
+    _dataFilter->hide();
+    _mainLayout->addWidget(_dataFilter, 0);
+
     createDataTable();
 
     connect(meow::app()->actions()->dataSetNULL(),
@@ -77,55 +82,57 @@ void DataTab::createTopPanel()
     _topLayout->setContentsMargins(0, 0, 0, 0);
     _mainLayout->addLayout(_topLayout);
 
-    createDataToolBar();
+    createDataActionsToolBar();
 
     _dataLabel = new QLabel(tr("Data"));
     _dataLabel->setWordWrap(true);
     _topLayout->addWidget(_dataLabel, 0, Qt::AlignVCenter | Qt::AlignLeft);
     _topLayout->addStretch(1);
 
-    createShowToolBar();
+    createDataButtonsToolBar();
 }
 
-void DataTab::createDataToolBar()
+void DataTab::createDataActionsToolBar()
 {
-    _dataToolBar = new QToolBar();
-    _dataToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    _dataToolBar->setIconSize(QSize(16, 16));
+    _dataActionsToolBar = new QToolBar();
+    _dataActionsToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    _dataActionsToolBar->setIconSize(QSize(16, 16));
     // see https://stackoverflow.com/questions/21363350/remove-gradient-from-qtoolbar-in-os-x
 #ifdef Q_OS_MAC
-    _dataToolBar->setStyle(QStyleFactory::create("windows"));
+    _dataActionsToolBar->setStyle(QStyleFactory::create("windows"));
 #endif
-    _topLayout->addWidget(_dataToolBar, 0, Qt::AlignLeft);
+    _topLayout->addWidget(_dataActionsToolBar, 0, Qt::AlignLeft);
 
-    _dataToolBar->addAction( meow::app()->actions()->dataInsertRow() );
-    _dataToolBar->addAction( meow::app()->actions()->dataDeleteRows() );
-    _dataToolBar->addAction( meow::app()->actions()->dataPostChanges() );
-    _dataToolBar->addAction( meow::app()->actions()->dataCancelChanges() );
-    _dataToolBar->addAction( meow::app()->actions()->dataRefresh() );
+    _dataActionsToolBar->addAction( meow::app()->actions()->dataInsertRow() );
+    _dataActionsToolBar->addAction( meow::app()->actions()->dataDeleteRows() );
+    _dataActionsToolBar->addAction( meow::app()->actions()->dataPostChanges() );
+    _dataActionsToolBar->addAction( meow::app()->actions()->dataCancelChanges() );
+    _dataActionsToolBar->addAction( meow::app()->actions()->dataRefresh() );
 }
 
-void DataTab::createShowToolBar()
+void DataTab::createDataButtonsToolBar()
 {
-    _showToolBar = new QToolBar();
-    _showToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    _showToolBar->setIconSize(QSize(16, 16));
+    _dataButtonsToolBar = new QToolBar();
+    _dataButtonsToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    _dataButtonsToolBar->setIconSize(QSize(16, 16));
     // see https://stackoverflow.com/questions/21363350/remove-gradient-from-qtoolbar-in-os-x
-    #ifdef Q_OS_MAC
-        _showToolBar->setStyle(QStyleFactory::create("windows"));
-    #endif
-    _topLayout->addWidget(_showToolBar, 0, Qt::AlignRight);
+#ifdef Q_OS_MAC
+    _showToolBar->setStyle(QStyleFactory::create("windows"));
+#endif
+    _topLayout->addWidget(_dataButtonsToolBar, 0, Qt::AlignRight);
 
 
+    // Next rows
     _nextRowsAction = new QAction(QIcon(":/icons/next.png"), tr("Next"), this);
     _nextRowsAction->setToolTip(
         QString(tr("Show next %1 rows ...")).arg(meow::db::DATA_ROWS_PER_STEP)
     ); // TODO: hot keys
     connect(_nextRowsAction, &QAction::triggered,
-            this, &DataTab::actionNextRows);
-    _showToolBar->addAction(_nextRowsAction);
+            this, &DataTab::onActionNextRows);
+    _dataButtonsToolBar->addAction(_nextRowsAction);
 
 
+    // All rows
     _showAllRowsAction = new QAction(QIcon(":/icons/show_all.png"),
                                      tr("Show all"),
                                      this);
@@ -133,8 +140,20 @@ void DataTab::createShowToolBar()
         tr("Show all rows")
     ); // TODO: hot keys
     connect(_showAllRowsAction, &QAction::triggered,
-            this, &DataTab::actionAllRows);
-    _showToolBar->addAction(_showAllRowsAction);
+            this, &DataTab::onActionAllRows);
+    _dataButtonsToolBar->addAction(_showAllRowsAction);
+
+    // Separator
+    _dataButtonsToolBar->addSeparator();
+
+    // Filter
+    _showFilterPanelAction = new QAction(QIcon(":/icons/dropdown_normal"),
+                                         tr("Filter"),
+                                         this);
+    _showFilterPanelAction->setCheckable(true);
+    connect(_showFilterPanelAction, &QAction::triggered,
+            this, &DataTab::onActionShowFilter);
+    _dataButtonsToolBar->addAction(_showFilterPanelAction);
 }
 
 void DataTab::createDataTable()
@@ -154,7 +173,7 @@ void DataTab::createDataTable()
         QAbstractItemView::SelectionBehavior::SelectRows);
 
     _dataTable->setModel(_model.createSortFilterModel());
-    _mainLayout->addWidget(_dataTable);
+    _mainLayout->addWidget(_dataTable, 1);
     _dataTable->setSortingEnabled(false); // TODO
 
     connectRowChanged();
@@ -181,11 +200,10 @@ void DataTab::createDataTable()
             Qt::QueuedConnection);
 }
 
-void DataTab::actionAllRows(bool checked)
+void DataTab::onActionAllRows()
 {
 
     try {
-        Q_UNUSED(checked);
         _model.setNoRowsCountLimit();
         _model.loadData(true);
         refreshDataLabelText();
@@ -195,10 +213,9 @@ void DataTab::actionAllRows(bool checked)
     }
 }
 
-void DataTab::actionNextRows(bool checked)
+void DataTab::onActionNextRows()
 {
     try {
-        Q_UNUSED(checked);
         _model.incRowsCountForOneStep();
         _model.loadData(true);
         // TODO: select addition
@@ -207,6 +224,12 @@ void DataTab::actionNextRows(bool checked)
     } catch(meow::db::Exception & ex) {
         errorDialog(ex.message());
     }
+}
+
+void DataTab::onActionShowFilter(bool checked)
+{
+    // Listening: Moonspell - Alma Matter
+    _dataFilter->setHidden(!checked);
 }
 
 void DataTab::onDataPostChanges(bool checked)
@@ -249,6 +272,7 @@ void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
     if (loadData) {
         onLoadData();
     }
+    _dataFilter->setDBEntity(tableOrViewEntity);
 }
 
 void DataTab::refresh()

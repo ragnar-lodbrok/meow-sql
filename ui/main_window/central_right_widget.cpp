@@ -307,10 +307,10 @@ void CentralRightWidget::createWidgets()
     _rootTabs->setDocumentMode(true);
 #endif
 
-    _filterWidget = new central_right::FilterWidget();
+    _filterWidget = new central_right::GlobalFilterWidget();
     _filterWidget->setVisible(showGlobalFilterPanel());
     layout->addWidget(_filterWidget);
-    connect(_filterWidget, &central_right::FilterWidget::onFilterPatterChanged,
+    connect(_filterWidget, &central_right::GlobalFilterWidget::onFilterPatternChanged,
             this, &CentralRightWidget::onGlobalDataFilterPatternChanged);
 
     _rootTabs->tabBar()->setSelectionBehaviorOnRemove(QTabBar::SelectLeftTab);

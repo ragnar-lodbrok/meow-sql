@@ -1,5 +1,5 @@
-#ifndef UI_CENTRAL_RIGHT_FILTER_WIDGET_H
-#define UI_CENTRAL_RIGHT_FILTER_WIDGET_H
+#ifndef UI_CENTRAL_RIGHT_GLOBAL_FILTER_WIDGET_H
+#define UI_CENTRAL_RIGHT_GLOBAL_FILTER_WIDGET_H
 
 #include <QtWidgets>
 
@@ -8,12 +8,12 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-class FilterWidget : public QWidget
+class GlobalFilterWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit FilterWidget(QWidget *parent = nullptr);
-    Q_SIGNAL void onFilterPatterChanged(const QString & pattern,
+    explicit GlobalFilterWidget(QWidget *parent = nullptr);
+    Q_SIGNAL void onFilterPatternChanged(const QString & pattern,
                                         bool regexp = false);
 
     void reset();
@@ -41,4 +41,4 @@ private:
 } // namespace ui
 } // namespace meow
 
-#endif // UI_CENTRAL_RIGHT_FILTER_WIDGET_H
+#endif // UI_CENTRAL_RIGHT_GLOBAL_FILTER_WIDGET_H

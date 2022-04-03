@@ -192,6 +192,7 @@ set(SOURCE_FILES
     ui/main_window/central_log_widget.cpp
     ui/main_window/central_right/database/central_right_database_tab.cpp
     ui/main_window/central_right/data/central_right_data_tab.cpp
+    ui/main_window/central_right/data/cr_data_filter_widget.cpp
     ui/main_window/central_right/host/central_right_host_tab.cpp
     ui/main_window/central_right/host/cr_host_databases_tab.cpp
     ui/main_window/central_right/host/cr_host_variables_tab.cpp
@@ -219,7 +220,7 @@ set(SOURCE_FILES
     ui/main_window/central_right/trigger/cr_trigger_body.cpp
     ui/main_window/central_right/trigger/cr_trigger_options.cpp
     ui/main_window/central_right/view/central_right_view_tab.cpp
-    ui/main_window/central_right/filter_widget.cpp
+    ui/main_window/central_right/global_filter_widget.cpp
     ui/main_window/central_right_widget.cpp
     ui/main_window/central_widget.cpp
     ui/main_window/main_window.cpp
@@ -243,6 +244,7 @@ set(SOURCE_FILES
     ui/models/session_objects_tree_model.cpp
     ui/presenters/central_right_host_widget_model.cpp
     ui/presenters/central_right_widget_model.cpp
+    ui/presenters/central_right_data_filter_form.cpp
     ui/presenters/table_info_widget_model.cpp
     ui/presenters/routine_info_widget_model.cpp
     ui/presenters/central_right_query_presenter.cpp

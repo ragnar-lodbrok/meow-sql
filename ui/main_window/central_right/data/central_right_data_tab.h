@@ -6,6 +6,7 @@
 #include "ui/models/data_table_model.h"
 #include "ui/delegates/edit_query_data_delegate.h"
 #include "ui/main_window/central_right/global_data_filter_interface.h"
+#include "ui/main_window/central_right/data/cr_data_filter_widget.h"
 
 namespace meow {
 namespace ui {
@@ -45,13 +46,14 @@ private:
 
     void onLoadData();
 
-    Q_SLOT void actionAllRows(bool checked);
-    Q_SLOT void actionNextRows(bool checked);
+    Q_SLOT void onActionAllRows();
+    Q_SLOT void onActionNextRows();
+    Q_SLOT void onActionShowFilter(bool checked);
 
     void createDataTable();
     void createTopPanel();
-    void createShowToolBar();
-    void createDataToolBar();
+    void createDataButtonsToolBar();
+    void createDataActionsToolBar();
 
     void refreshDataLabelText();
 
@@ -103,10 +105,12 @@ private:
     // top panel:
     QHBoxLayout * _topLayout;
     QLabel * _dataLabel;
-    QToolBar * _showToolBar;
-    QToolBar * _dataToolBar;
+    QToolBar * _dataButtonsToolBar;
+    QToolBar * _dataActionsToolBar;
     QAction * _nextRowsAction;
     QAction * _showAllRowsAction;
+    QAction * _showFilterPanelAction;
+    DataFilterWidget * _dataFilter;
     // bottom:
     EditableDataTableView  * _dataTable;
 

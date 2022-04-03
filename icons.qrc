@@ -94,7 +94,7 @@
         <file alias="arrow_down.png">resources/icons/arrow_down.png</file>
         <file>resources/icons/arrows_righttoleft.png</file>
         <file alias="next.png">resources/icons/arrows_lefttoright.png</file>
-        <file>resources/icons/dropdown_normal.png</file>
+        <file alias="dropdown_normal.png">resources/icons/dropdown_normal.png</file>
         <file alias="dropdown_highlight.png">resources/icons/dropdown_highlight.png</file>
         <file>resources/icons/delimiter.png</file>
         <file>resources/icons/execute_selection.png</file>

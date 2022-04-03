@@ -1,16 +1,16 @@
-#include "filter_widget.h"
+#include "global_filter_widget.h"
 
 namespace meow {
 namespace ui {
 namespace main_window {
 namespace central_right {
 
-FilterWidget::FilterWidget(QWidget *parent) : QWidget(parent)
+GlobalFilterWidget::GlobalFilterWidget(QWidget *parent) : QWidget(parent)
 {
     createWidgets();
 }
 
-void FilterWidget::createWidgets()
+void GlobalFilterWidget::createWidgets()
 {
     QGridLayout * mainLayout = new QGridLayout();
 
@@ -44,13 +44,13 @@ void FilterWidget::createWidgets()
     setLayout(mainLayout);
 
     connect(_filterEdit, &QLineEdit::textChanged,
-            this, &FilterWidget::onFilterEditTextChanged);
+            this, &GlobalFilterWidget::onFilterEditTextChanged);
 
     connect(_useRegexpCheckbox, &QCheckBox::stateChanged,
-            this, &FilterWidget::onUseRegexpCheckboxChanged);
+            this, &GlobalFilterWidget::onUseRegexpCheckboxChanged);
 }
 
-void FilterWidget::reset()
+void GlobalFilterWidget::reset()
 {
     _filterEdit->blockSignals(true);
     _useRegexpCheckbox->blockSignals(true);
@@ -64,16 +64,16 @@ void FilterWidget::reset()
     setRowCount(0, 0);
 
     // emit filter changed always when reset called
-    emit onFilterPatterChanged(QString(), _useRegexpCheckbox->isChecked());
+    emit onFilterPatternChanged(QString(), _useRegexpCheckbox->isChecked());
 }
 
-void FilterWidget::setFilterPattern(const QString & pattern, bool regexp)
+void GlobalFilterWidget::setFilterPattern(const QString & pattern, bool regexp)
 {
     _filterEdit->setText(pattern);
     _useRegexpCheckbox->setChecked(regexp);
 }
 
-void FilterWidget::setRowCount(int total, int matched)
+void GlobalFilterWidget::setRowCount(int total, int matched)
 {
     if (matched < total) {
         _filteredStatsLabel->setText(
@@ -92,20 +92,20 @@ void FilterWidget::setRowCount(int total, int matched)
     }
 }
 
-void FilterWidget::setFocus()
+void GlobalFilterWidget::setFocus()
 {
     _filterEdit->setCursorPosition(_filterEdit->text().length());
     _filterEdit->setFocus();
 }
 
-void FilterWidget::onFilterEditTextChanged(const QString & text)
+void GlobalFilterWidget::onFilterEditTextChanged(const QString & text)
 {
-    emit onFilterPatterChanged(text, _useRegexpCheckbox->isChecked());
+    emit onFilterPatternChanged(text, _useRegexpCheckbox->isChecked());
 }
 
-void FilterWidget::onUseRegexpCheckboxChanged(int state)
+void GlobalFilterWidget::onUseRegexpCheckboxChanged(int state)
 {
-    emit onFilterPatterChanged(_filterEdit->text(),
+    emit onFilterPatternChanged(_filterEdit->text(),
                                state == Qt::Checked);
 }
 

@@ -52,6 +52,19 @@ int TextEditor::lineNumberAreaWidth()
     return space;
 }
 
+void TextEditor::setHeightByRowCount(int rowCount)
+{
+    QFontMetrics fontMetrics(this->document()->defaultFont());
+    QMargins margins = this->contentsMargins();
+
+    int height = fontMetrics.lineSpacing() * rowCount;
+    height += (this->frameWidth() + this->document()->documentMargin()) * 2;
+    height += margins.top();
+    height += margins.bottom();
+
+    setFixedHeight(height);
+}
+
 void TextEditor::updateLineNumberAreaWidth(int /* newBlockCount */)
 {
     setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
