@@ -2,6 +2,7 @@
 #include "connection.h"
 #include "entity/view_entity.h"
 #include "helpers/logger.h"
+#include "db/query.h"
 #include <QDebug>
 
 namespace meow {
@@ -74,6 +75,87 @@ void ViewStructureParser::run(ViewEntity * view)
     }
 
     structure->setSelectStatement(match.captured(9));
+
+    getColumns(view);
+}
+
+void ViewStructureParser::getColumns(ViewEntity * view)
+{
+    Connection * connection = view->connection();
+
+    QStringList infoSchemaObjects = connection->informationSchemaObjects();
+
+    // Find "columns" table in information_schema in right case
+    QString columnsObjectName;
+    for (const QString & object : infoSchemaObjects) {
+        if (object.compare("columns", Qt::CaseInsensitive) == 0) {
+            columnsObjectName = object;
+            break;
+        }
+    }
+    if (columnsObjectName.isEmpty()) {
+        return;
+    }
+
+    QString schemaClause = tableSchemaColumnName() + '='
+            + connection->escapeString(meow::db::databaseName(view));
+
+    QString columnsQuery = "SELECT * FROM "
+        + connection->quoteIdentifier(
+                connection->informationSchemaDatabaseName())
+        + '.' + connection->quoteIdentifier(columnsObjectName)
+        + " WHERE " + schemaClause + " AND TABLE_NAME="
+        + connection->escapeString(view->name())
+        + " ORDER BY ORDINAL_POSITION";
+
+    QueryPtr queryResults = connection->getResults(columnsQuery);
+
+    ITableStructureParser * tableParser = connection->tableStructureParser();
+
+    while (!queryResults->isEof()) {
+
+        TableColumn * column = new TableColumn;
+
+        column->setName(queryResults->curRowColumn("COLUMN_NAME"));
+
+        const QString typeColumn
+                = queryResults->columnExists("COLUMN_TYPE")
+                ? "COLUMN_TYPE" : "DATA_TYPE";
+
+        QString typeValue = queryResults->curRowColumn(typeColumn);
+
+        column->setDataType(tableParser->extractDataTypeByName(
+            typeValue
+        ));
+
+        column->setLengthSet(tableParser->extractLengthSet(typeValue));
+
+        // TODO: other columns properties I don't need now
+
+        view->structure()->appendColumn(column);
+
+        queryResults->seekNext();
+    }
+}
+
+QString ViewStructureParser::tableSchemaColumnName() const
+{
+    // TODO: as virtual method for each server type
+    switch (_connection->connectionParams()->serverType()) {
+
+    case ServerType::MySQL:
+        return "TABLE_SCHEMA";
+
+    case ServerType::PostgreSQL:
+        return "table_schema";
+
+    case ServerType::SQLite:
+        return "TABLE_SCHEMA";
+
+    default:
+        return "TABLE_SCHEMA";
+
+    }
 }
 
 } // namespace db

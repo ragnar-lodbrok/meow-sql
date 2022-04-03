@@ -2,6 +2,7 @@
 #define DB_VIEW_STRUCTURE_H
 
 #include <QString>
+#include "table_column.h"
 
 namespace meow {
 namespace db {
@@ -27,7 +28,12 @@ public:
         definer = QString();
         sqlSecurity = QString();
         checkOption = QString();
+        clearColumns();
     }
+
+    const QList<TableColumn *> & columns() const { return _columns; }
+    void clearColumns() { qDeleteAll(_columns); _columns.clear(); }
+    void appendColumn(TableColumn * column) { _columns.append(column); }
 
     ViewStructure * deepCopy(ViewEntity * parentView) const;
 
@@ -44,6 +50,8 @@ public: // I'm lazy
     QString definer;
     QString sqlSecurity;
     QString checkOption;
+
+    QList<TableColumn *> _columns;
 };
 
 } // namespace db

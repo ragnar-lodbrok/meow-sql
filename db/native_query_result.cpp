@@ -99,6 +99,16 @@ std::size_t NativeQueryResult::indexOfColumn(const QString & colName) const
     }
 }
 
+bool NativeQueryResult::columnExists(const QString & colName) const
+{
+    if (_columnIndexes.contains(colName)) {
+        return true;
+    } else if (_columnIndexes.contains(colName.toLower())) {
+        return true;
+    }
+    return false;
+}
+
 bool NativeQueryResult::prepareEditing()
 {
     if (_editableData) {

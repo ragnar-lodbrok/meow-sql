@@ -87,6 +87,8 @@ public:
 
     std::size_t indexOfColumn(const QString & colName) const;
 
+    bool columnExists(const QString & colName) const;
+
     Entity * entity() const { return _entity; }
     void setEntity(Entity * entity) {
         _entity = entity;

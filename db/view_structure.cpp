@@ -19,11 +19,17 @@ ViewStructure * ViewStructure::deepCopy(ViewEntity * parentView) const
     structure->sqlSecurity = this->sqlSecurity;
     structure->checkOption = this->checkOption;
 
+    for (auto & column : _columns) {
+        TableColumn * columnCopy = new TableColumn(*column);
+        structure->_columns.push_back(columnCopy);
+    }
+
     return structure;
 }
 
 bool ViewStructure::operator==(const ViewStructure & other)
 {
+    // TODO: compare columns?
     return _selectStatement == other._selectStatement
          && algorithm == other.algorithm
          && definer == other.definer

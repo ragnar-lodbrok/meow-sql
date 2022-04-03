@@ -146,7 +146,12 @@ public:
     virtual ConnectionQueryKillerPtr createQueryKiller() const;
 
     virtual bool emptyEntityInDB(Entity * entity);
+    virtual QStringList informationSchemaObjects();
+    virtual QString informationSchemaDatabaseName() const {
+        return "information_schema";
+    }
 
+    ITableStructureParser * tableStructureParser();
     void parseTableStructure(TableEntity * table, bool refresh = false);
     void parseViewStructure(ViewEntity * view, bool refresh = false);
     void parseRoutineStructure(RoutineEntity * routine, bool refresh = false);
@@ -227,6 +232,7 @@ private:
     QStringList _databases;
     bool _useAllDatabases;
     std::pair<bool, QStringList> _allDatabasesCached; // <cached?, data>
+    std::pair<bool, QStringList> _informationSchemaObjectsCached; // <cached?, data>
     std::unique_ptr<ITableStructureParser> _tableStructureParser;
     std::unique_ptr<ViewStructureParser> _viewStructureParser;
     std::unique_ptr<RoutineStructureParser> _routineStructureParser;

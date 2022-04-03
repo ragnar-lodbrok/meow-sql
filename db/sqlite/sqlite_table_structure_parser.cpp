@@ -96,7 +96,7 @@ void SQLiteTableStructureParser::run(TableEntity * table)
     using ColConstr = meow::utils::sql_parser::SQLiteColumnConstraintPtr;
     using ConstType = meow::utils::sql_parser::SQLiteColumnConstraint::Type;
     using DefaultColConstr
-    = meow::utils::sql_parser::SQLiteDefaultColumnConstraint;
+        = meow::utils::sql_parser::SQLiteDefaultColumnConstraint;
     using LiteralType = meow::utils::sql_parser::SQLiteLiteralValueType;
     using FKeyColConstr
         = meow::utils::sql_parser::SQLiteForeignKeyColumnConstraint;
@@ -295,6 +295,26 @@ void SQLiteTableStructureParser::run(TableEntity * table)
 
         }
     }
+}
+
+DataTypePtr SQLiteTableStructureParser::extractDataTypeByName(
+        QString & columnString)
+{
+
+    Q_UNUSED(columnString);
+
+    // TODO
+
+    return std::make_shared<DataType>();
+}
+
+QString SQLiteTableStructureParser::extractLengthSet(QString & columnString)
+{
+    Q_UNUSED(columnString);
+
+    // TODO
+
+    return QString();
 }
 
 

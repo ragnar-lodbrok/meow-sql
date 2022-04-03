@@ -132,6 +132,11 @@ public:
         return _currentResult->indexOfColumn(colName);
     }
 
+    inline bool columnExists(const QString & colName) const {
+        Q_ASSERT(_currentResult != nullptr);
+        return _currentResult->columnExists(colName);
+    }
+
     inline Entity * entity() const {
         return _entity;
     }

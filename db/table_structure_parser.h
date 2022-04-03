@@ -18,6 +18,8 @@ public:
     explicit ITableStructureParser(Connection * connection);
     virtual ~ITableStructureParser();
     virtual void run(TableEntity * table) = 0;
+    virtual DataTypePtr extractDataTypeByName(QString & columnString) = 0;
+    virtual QString extractLengthSet(QString & columnString) = 0;
 protected:
     Connection * _connection;
 };
@@ -35,16 +37,17 @@ public:
     explicit TableStructureParser(Connection * connection);
     virtual ~TableStructureParser() override;
     virtual void run(TableEntity * table) override;
+    virtual DataTypePtr extractDataTypeByName(QString & columnString) override;
+    virtual QString extractLengthSet(QString & columnString) override;
+
 private:
-    void parseColumns(const QString & createSQL, TableEntity * table) const;
+    void parseColumns(const QString & createSQL, TableEntity * table);
     void parseKeysIndicies(const QString & createSQL, TableEntity * table) const;
     void parseForeignKeys(const QString & createSQL, TableEntity * table) const;
     void parseTableOptions(TableEntity * table);
 
     QString extractId(QString & str, bool remove = true) const;
-    DataTypePtr extractDataTypeByName(QString & columnString) const;
     void prepareTypes();
-    QString extractLengthSet(QString & columnString) const;
     bool isStartsFromString(QString & columnString, const QString & needle) const;
     void init(TableEntity * table);
     QString extractCharset(QString & columnString) const;

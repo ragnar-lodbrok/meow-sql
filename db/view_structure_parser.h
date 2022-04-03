@@ -16,6 +16,10 @@ public:
     explicit ViewStructureParser(Connection * connection);
     void run(ViewEntity * view);
 private:
+
+    void getColumns(ViewEntity * view);
+    QString tableSchemaColumnName() const;
+
     Connection * _connection;
     QRegularExpression _regexp;
 };

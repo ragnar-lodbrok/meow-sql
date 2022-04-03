@@ -355,16 +355,36 @@ void Connection::keepAliveTimeout()
     }
 }
 
+QStringList Connection::informationSchemaObjects()
+{
+    if (_informationSchemaObjectsCached.first == false) {
+        if (allDatabases().contains(informationSchemaDatabaseName())) {
+            QList<EntityPtr> entities = getDbEntities(
+                        informationSchemaDatabaseName());
+            for (const EntityPtr & entity : entities) {
+                _informationSchemaObjectsCached.second << entity->name();
+            }
+        }
+        _informationSchemaObjectsCached.first = true;
+    }
+    return _informationSchemaObjectsCached.second;
+}
+
+ITableStructureParser * Connection::tableStructureParser()
+{
+    if (_tableStructureParser == nullptr) {
+        _tableStructureParser.reset(createTableStructureParser());
+    }
+    return _tableStructureParser.get();
+}
+
 void Connection::parseTableStructure(TableEntity * table, bool refresh)
 {
     if (table->isNew()) return;
     if (!refresh && table->hasStructure()) {
         return;
     }
-    if (_tableStructureParser == nullptr) {
-        _tableStructureParser.reset(createTableStructureParser());
-    }
-    _tableStructureParser->run(table);
+    tableStructureParser()->run(table);
 }
 
 void Connection::parseViewStructure(ViewEntity * view, bool refresh)

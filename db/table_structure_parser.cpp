@@ -127,7 +127,7 @@ void TableStructureParser::init(TableEntity * table)
 }
 
 void TableStructureParser::parseColumns(const QString & createSQL,
-                                        TableEntity * table) const
+                                        TableEntity * table)
 {
 
     TableStructure * structure = table->structure();
@@ -352,8 +352,10 @@ QString TableStructureParser::extractId(QString & str, bool remove) const
 }
 
 DataTypePtr TableStructureParser::extractDataTypeByName(
-        QString & columnString) const
+        QString & columnString)
 {
+    prepareTypes();
+
 
     int startPos = 0;
     int len = columnString.length();
@@ -388,7 +390,7 @@ void TableStructureParser::prepareTypes()
     );
 }
 
-QString TableStructureParser::extractLengthSet(QString & columnString) const
+QString TableStructureParser::extractLengthSet(QString & columnString)
 {
 
     QString res;

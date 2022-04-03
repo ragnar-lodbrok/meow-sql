@@ -11,6 +11,8 @@ class SQLiteTableStructureParser : public ITableStructureParser
 public:
     explicit SQLiteTableStructureParser(Connection * connection);
     virtual void run(TableEntity * table) override;
+    virtual DataTypePtr extractDataTypeByName(QString & columnString) override;
+    virtual QString extractLengthSet(QString & columnString) override;
 };
 
 } // namespace db
