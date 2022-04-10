@@ -153,11 +153,6 @@ QString SQLiteConnection::escapeString(const QString & str,
 {
     QString res = str;
 
-    if (processJokerChars) {
-        Q_ASSERT(false);
-        throw std::runtime_error("not implemented");
-    }
-
     // A string constant is formed by enclosing the string in single quotes
     // ('). A single quote within the string can be encoded by putting
     // two single quotes in a row - as in Pascal. C-style escapes using
@@ -165,6 +160,12 @@ QString SQLiteConnection::escapeString(const QString & str,
     // SQL.
 
     res.replace(QLatin1Char('\''), QLatin1String("''")); // (') -> ('')
+
+    if (processJokerChars) {
+        // TODO: this doesn't work, needs ESCAPE
+        //res.replace(QLatin1Char('%'), QLatin1String("%%"));
+        //res.replace(QLatin1Char('_'), QLatin1String("__"));
+    }
 
     if (doQuote) {
         QLatin1Char singleQuote('\'');
@@ -268,9 +269,21 @@ QString SQLiteConnection::applyLikeFilter(
             const QList<db::TableColumn *> & columns,
             const QString & value)
 {
-    Q_UNUSED(columns);
-    Q_UNUSED(value);
-    return QString(); // TODO
+    QStringList conditions;
+
+    for (db::TableColumn * column : columns) {
+        QString columnName = quoteIdentifier(column->name());
+
+        QString condition = columnName
+                + " LIKE '%"
+                + escapeString(value, true, false)
+                + "%'";
+
+        conditions.push_back(condition);
+    }
+
+    // TODO: escaping % and _ doesn't work
+    return conditions.join(" OR "); // TODO + " ESCAPE '%'";
 }
 
 QueryDataFetcher * SQLiteConnection::createQueryDataFetcher()
