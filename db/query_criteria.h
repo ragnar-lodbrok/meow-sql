@@ -14,6 +14,7 @@ public:
 
     QStringList select;
     QString quotedDbAndTableName;
+    QString where;
     db::ulonglong limit;
     db::ulonglong offset;
 };

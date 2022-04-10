@@ -264,6 +264,15 @@ QString SQLiteConnection::applyLeft(
     return QString("SUBSTR(%1, 1, %2)").arg(string, length);
 }
 
+QString SQLiteConnection::applyLikeFilter(
+            const QList<db::TableColumn *> & columns,
+            const QString & value)
+{
+    Q_UNUSED(columns);
+    Q_UNUSED(value);
+    return QString(); // TODO
+}
+
 QueryDataFetcher * SQLiteConnection::createQueryDataFetcher()
 {
     return new QueryDataFetcher(this);

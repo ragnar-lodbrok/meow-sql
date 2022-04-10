@@ -49,6 +49,10 @@ void QueryDataFetcher::run(
     QString select = selectList
             + " FROM " + queryCriteria->quotedDbAndTableName;
 
+    if (!queryCriteria->where.isEmpty()) {
+        select += " WHERE " + queryCriteria->where;
+    }
+
     select = _connection->applyQueryLimit("SELECT", select,
                                           queryCriteria->limit,
                                           queryCriteria->offset);

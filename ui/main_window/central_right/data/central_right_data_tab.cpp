@@ -24,7 +24,7 @@ DataTab::DataTab(QWidget *parent) :
 
     createTopPanel();
 
-    _dataFilter = new DataFilterWidget();
+    _dataFilter = new DataFilterWidget(&_model);
     _dataFilter->hide();
     _mainLayout->addWidget(_dataFilter, 0);
 
@@ -73,6 +73,9 @@ DataTab::DataTab(QWidget *parent) :
     connect(&_model, &models::DataTableModel::editingStarted,
             this, &DataTab::validateControls);
 
+    connect(&_model, &models::DataTableModel::dataRefreshed,
+            this, &DataTab::onDataRefreshed);
+
     validateControls();
 }
 
@@ -86,7 +89,7 @@ void DataTab::createTopPanel()
 
     _dataLabel = new QLabel(tr("Data"));
     _dataLabel->setWordWrap(true);
-    _topLayout->addWidget(_dataLabel, 0, Qt::AlignVCenter | Qt::AlignLeft);
+    _topLayout->addWidget(_dataLabel, 10, Qt::AlignVCenter | Qt::AlignLeft);
     _topLayout->addStretch(1);
 
     createDataButtonsToolBar();
@@ -264,10 +267,22 @@ void DataTab::onDataDuplicateRowWithKeys()
     duplicateCurrentRowWithKeys();
 }
 
+void DataTab::onDataRefreshed()
+{
+    // TODO: just call onLoadData() ?
+    if (meow::app()->settings()->textSettings()->autoResizeTableColumns()) {
+        _dataTable->resizeColumnsToContents();
+    }
+
+    refreshDataLabelText();
+    validateControls();
+}
+
 void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
 {
     applyModifications(); // close pending to avoid crash
     _model.incRowsCountForOneStep(true);
+    _model.resetWhereFilter();
     _model.setEntity(tableOrViewEntity, loadData);
     if (loadData) {
         onLoadData();

@@ -353,6 +353,15 @@ QString PGConnection::applyQueryLimit(
     return res;
 }
 
+QString PGConnection::applyLikeFilter(
+            const QList<db::TableColumn *> & columns,
+            const QString & value)
+{
+    Q_UNUSED(columns);
+    Q_UNUSED(value);
+    return QString(); // TODO
+}
+
 QueryDataFetcher * PGConnection::createQueryDataFetcher()
 {
     return new PGQueryDataFetcher(this);

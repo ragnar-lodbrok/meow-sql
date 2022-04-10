@@ -75,6 +75,7 @@ private:
     Q_SLOT void onDataInsertRow();
     Q_SLOT void onDataDuplicateRowWithoutKeys();
     Q_SLOT void onDataDuplicateRowWithKeys();
+    Q_SLOT void onDataRefreshed();
 
     Q_SIGNAL void changeRowSelection(const QModelIndex &index);
     Q_SLOT void onChangeRowSelectionRequest(const QModelIndex &index);

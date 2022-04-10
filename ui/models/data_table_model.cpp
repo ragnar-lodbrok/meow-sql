@@ -7,6 +7,7 @@
 #include <QDebug>
 #include "helpers/formatting.h"
 #include "db/entity/table_entity.h"
+#include "db/entity/view_entity.h"
 #include <QColor>
 #include "app/app.h"
 
@@ -184,6 +185,7 @@ void DataTableModel::loadData(bool force)
 
     meow::db::QueryCriteria queryCritera;
     queryCritera.quotedDbAndTableName = meow::db::quotedFullName(_dbEntity);
+    queryCritera.where = _whereFilter;
     queryCritera.limit = _wantedRowsCount - offset;
     queryCritera.offset = offset;
 
@@ -398,10 +400,27 @@ int DataTableModel::filterMatchedRowCount() const
     }
 }
 
+QList<db::TableColumn *> DataTableModel::selectedTableColumns()
+{
+    if (_dbEntity == nullptr) {
+        return {};
+    }
+    if (_dbEntity->type() == meow::db::Entity::Type::Table) {
+        db::TableEntity * table = static_cast<db::TableEntity *>(_dbEntity);
+        return table->structure()->columns();
+    }
+    if (_dbEntity->type() == meow::db::Entity::Type::View) {
+        db::ViewEntity * view = static_cast<db::ViewEntity *>(_dbEntity);
+        return view->structure()->columns();
+    }
+    return {};
+}
+
 void DataTableModel::refresh()
 {
     removeData();
     loadData(true);
+    emit dataRefreshed();
 }
 
 void DataTableModel::invalidateData()
@@ -426,25 +445,36 @@ QString DataTableModel::rowCountStats() const
         meow::db::TableEntity * table =
             static_cast<meow::db::TableEntity *>(_dbEntity);
 
-        meow::db::ulonglong rowsCount = 0;
-        if (_entityChangedProcessed && !isLimited()) {
-            rowsCount = rowCount();
+        meow::db::ulonglong rowsTotal = 0;
+        if (_entityChangedProcessed && !isLimited() && !isFiltered()) {
+            rowsTotal = rowCount();
         } else {
-            rowsCount = table->rowsCount(true);// TODO: rm extra query
+            rowsTotal = table->rowsCount(true);// TODO: rm extra query
         }
 
-        result += ": " + meow::helpers::formatNumber(rowsCount) + " ";
-        result += QObject::tr("rows total");
+        result += ": ";
 
         if (table->engineStr() == "InnoDB") {
-            result += " (" + QObject::tr("approximately") + ")";
-        }        
+            result += "~"; // H: approximately
+        }
+
+        result += meow::helpers::formatNumber(rowsTotal) + " ";
+
+        result += QObject::tr("rows total");
+
         if (isLimited()) {
             result += ", " + QObject::tr("limited to");
             result += " " + meow::helpers::formatNumber(rowCount());
+        } else if (isFiltered()) {
+            if (rowsTotal == (meow::db::ulonglong)rowCount()) {
+                result += ", " + QObject::tr("all rows match to filter");
+            } else {
+                result += ", " + meow::helpers::formatNumber(rowCount())
+                    + " " + QObject::tr("rows match to filter");
+            }
         }
 
-        // TODO: where
+        // Listening: Alyans - Na Zare
     }
 
     return result;
@@ -471,9 +501,30 @@ bool DataTableModel::isLimited() const
     return _wantedRowsCount <= (meow::db::ulonglong)rowCount();
 }
 
+bool DataTableModel::isFiltered() const
+{
+    return !_whereFilter.isEmpty();
+}
+
 bool DataTableModel::allDataLoaded() const
 {
     return !isLimited() || (_wantedRowsCount == meow::db::DATA_MAX_ROWS);
+}
+
+void DataTableModel::applyWhereFilter(const QString & whereFilter)
+{
+    incRowsCountForOneStep(true); // reset limit/offset
+
+    bool changed = _whereFilter != whereFilter;
+    _whereFilter = whereFilter;
+    if (changed) {
+        refresh();
+    }
+}
+
+void DataTableModel::resetWhereFilter()
+{
+    _whereFilter.clear();
 }
 
 } // namespace models

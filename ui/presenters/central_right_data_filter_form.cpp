@@ -1,12 +1,15 @@
 #include "central_right_data_filter_form.h"
 #include "db/entity/table_entity.h"
+#include "ui/models/data_table_model.h"
 
 namespace meow {
 namespace ui {
 namespace presenters {
 
-CentralRightDataFilterForm::CentralRightDataFilterForm()
-    : _entity(nullptr)
+CentralRightDataFilterForm::CentralRightDataFilterForm(
+        models::DataTableModel * dataTabelModel)
+    : _dataTabelModel(dataTabelModel)
+    , _entity(nullptr)
 {
 
 }
@@ -29,17 +32,36 @@ QStringList CentralRightDataFilterForm::recentFilters() const
 
 void CentralRightDataFilterForm::setFilterEditText(const QString & text)
 {
-    _sqlFilterText = SQLByFilterText(text);
+    setSQLFilterText(SQLByFilterText(text));
 }
 
-QString CentralRightDataFilterForm::SQLFiltertext() const
+QString CentralRightDataFilterForm::SQLFilterText() const
 {
     return _sqlFilterText;
 }
 
+void CentralRightDataFilterForm::setSQLFilterText(const QString & text)
+{
+    if (_sqlFilterText == text) return;
+    _sqlFilterText = text;
+    emit SQLFilterTextChanged(_sqlFilterText);
+}
+
+void CentralRightDataFilterForm::applyWhereFilter(const QString & whereFilter)
+{
+    _dataTabelModel->applyWhereFilter(whereFilter);
+}
+
 QString CentralRightDataFilterForm::SQLByFilterText(const QString & text)
 {
-    return QString();
+    if (text.isEmpty()) return QString();
+
+    db::Entity * entity = _dataTabelModel->entity();
+    if (!entity) return QString();
+
+    QList<db::TableColumn *> columns = _dataTabelModel->selectedTableColumns();
+
+    return entity->connection()->applyLikeFilter(columns, text);
 }
 
 } // namespace presenters

@@ -467,6 +467,36 @@ QString MySQLConnection::applyQueryLimit(
     return res;
 }
 
+QString MySQLConnection::applyLikeFilter(
+            const QList<db::TableColumn *> & columns,
+            const QString & value)
+{
+
+    QStringList conditions;
+
+    for (db::TableColumn * column : columns) {
+        QString columnName = quoteIdentifier(column->name());
+
+        db::DataTypeIndex dataType = column->dataType()->index;
+        if (dataType == db::DataTypeIndex::Unknown
+            || dataType == db::DataTypeIndex::Date
+            || dataType == db::DataTypeIndex::DateTime
+            || dataType == db::DataTypeIndex::Time
+            || dataType == db::DataTypeIndex::Timestamp) {
+            columnName = "CAST(" + columnName + " AS CHAR)";
+        }
+
+        QString condition = columnName
+                + " LIKE '%"
+                + escapeString(value, true, false)
+                + "%'";
+
+        conditions.push_back(condition);
+    }
+
+    return conditions.join(" OR "); // TODO: ESCAPE
+}
+
 QueryDataFetcher * MySQLConnection::createQueryDataFetcher() // override
 {
     return new MySQLQueryDataFetcher(this);

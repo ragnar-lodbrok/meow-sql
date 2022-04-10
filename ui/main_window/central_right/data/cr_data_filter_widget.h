@@ -14,7 +14,8 @@ class DataFilterWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit DataFilterWidget(QWidget *parent = nullptr);
+    explicit DataFilterWidget(models::DataTableModel * dataTableModel,
+                              QWidget *parent = nullptr);
 
     void setDBEntity(db::Entity * tableOrViewEntity);
 
@@ -22,6 +23,9 @@ private:
     void createWidgets();
 
     Q_SLOT void onFilterEditChanged(const QString &text);
+    Q_SLOT void onSQLFilterTextChanged(const QString &text);
+    Q_SLOT void onApplyFilterButtonClicked();
+    Q_SLOT void onClearFilterButtonClicked();
 
     QLabel * _labelRecentFilters;
     QComboBox * _comboboxRecentFilters;

@@ -5,14 +5,23 @@ namespace ui {
 namespace main_window {
 namespace central_right {
 
-DataFilterWidget::DataFilterWidget(QWidget *parent) : QWidget(parent)
+DataFilterWidget::DataFilterWidget(models::DataTableModel * dataTableModel,
+                                   QWidget * parent)
+    : QWidget(parent)
+    , _form(dataTableModel)
 {
     // Listening: Zeal & Ardor - Götterdämmerung
     createWidgets();
+
+    connect(&_form,
+            &ui::presenters::CentralRightDataFilterForm::SQLFilterTextChanged,
+            this, &DataFilterWidget::onSQLFilterTextChanged);
 }
 
 void DataFilterWidget::setDBEntity(db::Entity * tableOrViewEntity)
 {
+    _editFilterSearch->clear();
+    _sqlEditor->clear();
     _form.setDBEntity(tableOrViewEntity);
 }
 
@@ -51,7 +60,11 @@ void DataFilterWidget::createWidgets()
 
     QHBoxLayout * buttonsLayout = new QHBoxLayout();
     _applyFilterButton = new QPushButton(tr("Apply filter"));
+    connect(_applyFilterButton, &QAbstractButton::clicked,
+            this, &DataFilterWidget::onApplyFilterButtonClicked);
     _clearFilterButton = new QPushButton(tr("Clear"));
+    connect(_clearFilterButton, &QAbstractButton::clicked,
+            this, &DataFilterWidget::onClearFilterButtonClicked);
     buttonsLayout->addWidget(_applyFilterButton);
     buttonsLayout->addWidget(_clearFilterButton);
     rightLayout->addLayout(buttonsLayout);
@@ -65,6 +78,23 @@ void DataFilterWidget::createWidgets()
 void DataFilterWidget::onFilterEditChanged(const QString &text)
 {
     _form.setFilterEditText(text);
+}
+
+void DataFilterWidget::onSQLFilterTextChanged(const QString &text)
+{
+    _sqlEditor->setPlainText(text);
+}
+
+void DataFilterWidget::onApplyFilterButtonClicked()
+{
+    _form.applyWhereFilter(_sqlEditor->toPlainText());
+}
+
+void DataFilterWidget::onClearFilterButtonClicked()
+{
+    _editFilterSearch->clear();
+    _sqlEditor->clear();
+    onApplyFilterButtonClicked();
 }
 
 } // namespace central_right

@@ -13,6 +13,11 @@
 //       Table Model
 
 namespace meow {
+
+namespace db {
+class TableColumn;
+}
+
 namespace ui {
 namespace models {
 
@@ -32,6 +37,8 @@ public:
             const QModelIndex &index) const override;
 
     void setEntity(meow::db::Entity * tableOrViewEntity, bool loadData = true);
+    meow::db::Entity * entity() const { return _dbEntity; }
+
     void removeData();
     void loadData(bool force = false);
     void refresh();
@@ -40,7 +47,11 @@ public:
     void setNoRowsCountLimit();
     void incRowsCountForOneStep(bool reset = false);
     bool isLimited() const;
+    bool isFiltered() const;
     bool allDataLoaded() const;
+
+    void applyWhereFilter(const QString & whereFilter);
+    void resetWhereFilter();
 
     QString rowCountStats() const;
 
@@ -68,7 +79,10 @@ public:
 
     int filterMatchedRowCount() const;
 
+    QList<db::TableColumn *> selectedTableColumns();
+
     Q_SIGNAL void editingStarted();
+    Q_SIGNAL void dataRefreshed();
 
     QModelIndex mapToSource(const QModelIndex &proxyIndex) const {
         if (_sortFilterModel) {
@@ -123,6 +137,7 @@ private:
     bool _entityChangedProcessed;
     meow::db::Entity * _dbEntity;
     meow::db::ulonglong _wantedRowsCount;
+    QString _whereFilter;
 };
 
 

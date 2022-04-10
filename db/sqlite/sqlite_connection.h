@@ -52,6 +52,10 @@ public:
             const QString & string,
             int length) const override;
 
+    virtual QString applyLikeFilter(
+            const QList<db::TableColumn *> & columns,
+            const QString & value) override;
+
     virtual QueryDataFetcher * createQueryDataFetcher() override;
 
     virtual CollationFetcher * createCollationFetcher() override;

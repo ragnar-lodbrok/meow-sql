@@ -50,6 +50,10 @@ public:
             db::ulonglong limit,
             db::ulonglong offset = 0) override;
 
+    virtual QString applyLikeFilter(
+            const QList<db::TableColumn *> & columns,
+            const QString & value) override;
+
     virtual QueryDataFetcher * createQueryDataFetcher() override;
 
     virtual CollationFetcher * createCollationFetcher() override;

@@ -132,6 +132,9 @@ public:
     virtual QString applyLeft(
             const QString & string,
             int length) const;
+    virtual QString applyLikeFilter(
+            const QList<db::TableColumn *> & columns,
+            const QString & value) = 0;
 
     virtual QueryDataFetcher * createQueryDataFetcher() = 0; // TODO return as unique_ptr
     virtual QString getCreateCode(const Entity * entity) = 0;
