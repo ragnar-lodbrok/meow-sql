@@ -1,6 +1,5 @@
 #include "pg_connection.h"
 #include "pg_connection_query_killer.h"
-#include <QElapsedTimer>
 #include "helpers/logger.h"
 #include "pg_query_result.h"
 #include "db/query.h"
@@ -12,6 +11,9 @@
 #include "db/entity/database_entity.h"
 #include "pg_entity_create_code_generator.h"
 #include "ssh/ssh_tunnel_factory.h"
+
+#include <QElapsedTimer>
+#include <QDebug>
 
 namespace meow {
 namespace db {
@@ -262,13 +264,16 @@ QString PGConnection::escapeString(const QString & str,
 {
     QString res = str;
 
-    if (processJokerChars) {
-        Q_ASSERT(false);
-        throw std::runtime_error("not implemented");
-    }
-
     res.replace(QLatin1String("\\"), QLatin1String("\\\\")); // keep order
     res.replace(QLatin1Char('\''), QLatin1String("\\'"));
+
+    if (processJokerChars) {
+        // https://www.postgresql.org/docs/current/functions-matching.html \
+        // #FUNCTIONS-LIKE
+        // TODO: standard_conforming_strings ?
+        res.replace(QLatin1Char('%'), QLatin1String("\\%"));
+        res.replace(QLatin1Char('_'), QLatin1String("\\_"));
+    }
 
     if (doQuote) {
         /* see https://www.postgresql.org/docs/9.6/ \
@@ -306,7 +311,8 @@ void PGConnection::setDatabase(const QString & database)
     // TODO: clear database
 
     // TODO
-    // Always keep public schema in search path, so one can use procedures from it without prefixing
+    // Always keep public schema in search path, so one can use procedures from
+    // it without prefixing
     // See http://www.heidisql.com/forum.php?t=18581#p18905
     //if Value <> 'public' then
     //  s := s + ', ' + EscapeString('public');
@@ -357,9 +363,67 @@ QString PGConnection::applyLikeFilter(
             const QList<db::TableColumn *> & columns,
             const QString & value)
 {
-    Q_UNUSED(columns);
-    Q_UNUSED(value);
-    return QString(); // TODO
+    const bool caseInsensitive = true; // TODO: as param
+
+    QString valueStr = value;
+
+    if (caseInsensitive) {
+        valueStr = value.toLower();
+    }
+
+    QString likeWithValue = " LIKE '%"
+            + escapeString(valueStr, true, false)
+            + "%'"; // do once, same for all columns
+
+    auto dataTypes = static_cast<PGConnectionDataTypes *>(this->dataTypes());
+
+    QStringList conditions;
+
+    for (db::TableColumn * column : columns) {
+
+        QString columnName = quoteIdentifier(column->name());
+
+        db::DataTypeIndex dataType = column->dataType()->index;
+        db::DataTypeCategoryIndex dataTypeCategory
+                = column->dataType()->categoryIndex;
+
+        if (dataType == db::DataTypeIndex::Unknown) {
+            columnName = columnName + "::text";
+        }
+
+        if (caseInsensitive
+                && dataTypeCategory == db::DataTypeCategoryIndex::Text) {
+            columnName = "lower(" + columnName + ")";
+        }
+
+        QString valueMustMatch = dataTypes->valueMustMatch(
+                    column->dataType()->name);
+
+        QString condition;
+
+        if (valueMustMatch.isEmpty()) {
+            condition = columnName + likeWithValue;
+        } else {
+            // TODO: do we need this stuff al all? Why don't use = for all types
+            // that don't support LIKE?
+
+            // See http://www.heidisql.com/forum.php?t=20953
+
+            QRegularExpression regexp(valueMustMatch);
+
+            QRegularExpressionMatch match = regexp.match(valueStr);
+
+            if (match.hasMatch()) {
+                condition = columnName + " = " + escapeString(valueStr);
+            } else {
+                continue; // TODO: why?
+            }
+        }
+
+        conditions.push_back(condition);
+    }
+
+    return conditions.join(" OR ");
 }
 
 QueryDataFetcher * PGConnection::createQueryDataFetcher()

@@ -26,6 +26,7 @@ const QList<DataTypePtr> & PGConnectionDataTypes::list()
 
         fillListManually();
         fillMapFromList();
+        fillValueMustMatch();
 
         try {
             auto list = selectListFromDB();
@@ -65,6 +66,45 @@ void PGConnectionDataTypes::fillMapFromList() // speed up search
     for (const DataTypePtr & dataTypeIt : _list) {
         _map.insert(dataTypeIt->nativeType, dataTypeIt);
     }
+}
+
+void PGConnectionDataTypes::fillValueMustMatch()
+{
+    QString smallintRegexp = "^\\d{1,5}$"; // TODO: allow negative values?
+    QString integerRegexp = "^\\d{1,10}$"; // TODO: allow negative values?
+    QString bigintRegexp = "^\\d{1,19}$"; // TODO: allow negative values?
+    QString boolRegexp = "^(true|false)$";
+    QString uuidRegexp = "^\\{?[a-f0-9]{8}-?[a-f0-9]{4}-?[a-f0-9]{4}"
+                         "-?[a-f0-9]{4}-?[a-f0-9]{12}\\}?$";
+    QString floatRegexp = "^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$";
+
+    _valueMustMatch = {
+
+        {"smallint" , smallintRegexp},
+        {"int2" , smallintRegexp},
+        {"smallserial", smallintRegexp},
+
+        {"integer", integerRegexp},
+        {"int4", integerRegexp},
+        {"int", integerRegexp},
+        {"oid", integerRegexp},
+        {"xid", integerRegexp},
+        {"serial", integerRegexp},
+
+        {"bigint", bigintRegexp},
+        {"int8", bigintRegexp},
+        {"bigserial", bigintRegexp},
+
+        {"boolean", boolRegexp},
+        {"bool", boolRegexp},
+
+        {"uuid", uuidRegexp},
+
+        {"decimal", floatRegexp},
+        {"numeric", floatRegexp},
+        {"real", floatRegexp},
+        {"double precision", floatRegexp},
+    };
 }
 
 void PGConnectionDataTypes::fillListManually()
@@ -420,6 +460,11 @@ bool PGConnectionDataTypes::isIntegerBasicType(Oid type) const
     default:
         return false;
     }
+}
+
+QString PGConnectionDataTypes::valueMustMatch(const QString & typeName)
+{
+    return _valueMustMatch.value(typeName);
 }
 
 } // namespace db

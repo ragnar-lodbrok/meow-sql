@@ -42,12 +42,15 @@ public:
 
     DataTypePtr dataTypeFromNative(const Oid nativeDatatype);
 
+    QString valueMustMatch(const QString & typeName);
+
 private:
 
     void fillListManually();
     QList<DataTypePtr> selectListFromDB() const;
 
     void fillMapFromList();
+    void fillValueMustMatch();
 
     DataTypeCategoryIndex category(const char category, Oid type) const;
 
@@ -56,6 +59,8 @@ private:
     bool _init;
     QList<DataTypePtr> _list; // to be sorted
     QMap<Oid, DataTypePtr> _map; // for search
+
+    QMap<QString, QString> _valueMustMatch; // type name => regexp
 };
 
 } // namespace db

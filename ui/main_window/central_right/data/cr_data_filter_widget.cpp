@@ -1,4 +1,5 @@
 #include "cr_data_filter_widget.h"
+#include "db/exception.h"
 
 namespace meow {
 namespace ui {
@@ -87,7 +88,16 @@ void DataFilterWidget::onSQLFilterTextChanged(const QString &text)
 
 void DataFilterWidget::onApplyFilterButtonClicked()
 {
-    _form.applyWhereFilter(_sqlEditor->toPlainText());
+    try {
+        _form.applyWhereFilter(_sqlEditor->toPlainText());
+    } catch(meow::db::Exception & ex) {
+        QMessageBox msgBox;
+        msgBox.setText(ex.message());
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.setDefaultButton(QMessageBox::Ok);
+        msgBox.setIcon(QMessageBox::Critical);
+        msgBox.exec();
+    }
 }
 
 void DataFilterWidget::onClearFilterButtonClicked()

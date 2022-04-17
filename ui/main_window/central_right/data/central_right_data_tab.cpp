@@ -292,6 +292,7 @@ void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
 
 void DataTab::refresh()
 {
+    // TODO: catch db exception?
     applyModifications(); // close pending to avoid crash
     _model.refresh();
     onLoadData();
