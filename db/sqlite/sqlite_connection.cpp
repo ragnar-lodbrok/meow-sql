@@ -269,15 +269,16 @@ QString SQLiteConnection::applyLikeFilter(
             const QList<db::TableColumn *> & columns,
             const QString & value)
 {
+    QString likeWithValue = " LIKE '%"
+            + escapeString(value, true, false)
+            + "%'"; // do once, same for all columns
+
     QStringList conditions;
 
     for (db::TableColumn * column : columns) {
         QString columnName = quoteIdentifier(column->name());
 
-        QString condition = columnName
-                + " LIKE '%"
-                + escapeString(value, true, false)
-                + "%'";
+        QString condition = columnName + likeWithValue;
 
         conditions.push_back(condition);
     }

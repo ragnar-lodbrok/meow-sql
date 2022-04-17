@@ -472,6 +472,10 @@ QString MySQLConnection::applyLikeFilter(
             const QString & value)
 {
 
+    QString likeWithValue = " LIKE '%"
+            + escapeString(value, true, false)
+            + "%'"; // do once, same for all columns
+
     QStringList conditions;
 
     for (db::TableColumn * column : columns) {
@@ -486,10 +490,7 @@ QString MySQLConnection::applyLikeFilter(
             columnName = "CAST(" + columnName + " AS CHAR)";
         }
 
-        QString condition = columnName
-                + " LIKE '%"
-                + escapeString(value, true, false)
-                + "%'";
+        QString condition = columnName + likeWithValue;
 
         conditions.push_back(condition);
     }
