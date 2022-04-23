@@ -48,7 +48,11 @@ void DataFilterWidget::createWidgets()
     recentLayout->addWidget(_labelRecentFilters);
     _comboboxRecentFilters = new QComboBox();
     connect(_comboboxRecentFilters,
+#if QT_VERSION >= QT_VERSION_CHECK(5, 7, 0)
             QOverload<int>::of(&QComboBox::activated),
+#else
+            static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
+#endif
             this,
             &DataFilterWidget::onComboboxRecentFiltersActivated);
     recentLayout->addWidget(_comboboxRecentFilters, 1);

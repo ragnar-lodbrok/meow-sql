@@ -1,4 +1,5 @@
 #include "table_filters_storage.h"
+#include <cstdint>
 #include <QSettings>
 #include <QCoreApplication>
 #include <QDebug>
