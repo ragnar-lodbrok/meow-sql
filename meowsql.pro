@@ -137,6 +137,7 @@ SOURCES += main.cpp\
     settings/settings_text.cpp \
     settings/data_editors.cpp \
     settings/queries_storage.cpp \
+    settings/table_filters_storage.cpp \
     ssh/openssh_tunnel.cpp \
     ssh/ssh_tunnel_factory.cpp \
     ssh/ssh_tunnel_parameters.cpp \
@@ -176,7 +177,8 @@ SOURCES += main.cpp\
     ui/main_window/central_left_widget.cpp \
     ui/main_window/central_right/database/central_right_database_tab.cpp \
     ui/main_window/central_right/data/central_right_data_tab.cpp \
-    ui/main_window/central_right/filter_widget.cpp \
+    ui/main_window/central_right/data/cr_data_filter_widget.cpp \
+    ui/main_window/central_right/global_filter_widget.cpp \
     ui/main_window/central_right/host/central_right_host_tab.cpp \
     ui/main_window/central_right/host/cr_host_databases_tab.cpp \
     ui/main_window/central_right/host/cr_host_variables_tab.cpp \
@@ -229,6 +231,7 @@ SOURCES += main.cpp\
     ui/presenters/central_right_widget_model.cpp \
     ui/presenters/table_info_widget_model.cpp \
     ui/presenters/routine_info_widget_model.cpp \
+    ui/presenters/central_right_data_filter_form.cpp \
     ui/presenters/central_right_query_presenter.cpp \
     ui/presenters/connection_parameters_form.cpp \
     ui/presenters/edit_database_form.cpp \
@@ -333,6 +336,7 @@ HEADERS  +=  app/actions.h \
     settings/settings_text.h \
     settings/data_editors.h \
     settings/queries_storage.h \
+    settings/table_filters_storage.h \
     ssh/openssh_tunnel.h \
     ssh/ssh_tunnel_factory.h \
     ssh/ssh_tunnel_parameters.h \
@@ -376,7 +380,8 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_right/base_root_tab.h \
     ui/main_window/central_right/database/central_right_database_tab.h \
     ui/main_window/central_right/data/central_right_data_tab.h \
-    ui/main_window/central_right/filter_widget.h \
+    ui/main_window/central_right/data/cr_data_filter_widget.h \
+    ui/main_window/central_right/global_filter_widget.h \
     ui/main_window/central_right/global_data_filter_interface.h \
     ui/main_window/central_right/host/central_right_host_tab.h \
     ui/main_window/central_right/host/cr_host_databases_tab.h \
@@ -428,6 +433,7 @@ HEADERS  +=  app/actions.h \
     ui/models/session_objects_tree_model.h \
     ui/presenters/central_right_host_widget_model.h \
     ui/presenters/central_right_widget_model.h \
+    ui/presenters/central_right_data_filter_form.h \
     ui/presenters/table_info_widget_model.h \
     ui/presenters/routine_info_widget_model.h \
     ui/presenters/central_right_query_presenter.h \
