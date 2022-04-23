@@ -2,8 +2,6 @@
 
 ## Task pool (by priority)
 
-Table: clear option
-
 Query tab: explain
 
 Data Grid: sorting
@@ -12,15 +10,13 @@ Data Grid: export grid rows
 
 Data Grid: insert value options
 
-Data Grid: columns/filters
+Data Grid: columns
 
 Host Tab: Variables for MySQL (edit)
 
 SSH Tunnel via libSSH
 
 HiDPI monitors support (+icons)
-
-Table columns: keys icons
 
 Drop: procedure, trigger, etc
 
@@ -69,6 +65,14 @@ Table tools: find text
 Data Grid: insert files into text/blob fields
 
 Query: progress
+
+## 0.4.15
+
+Table: clear option
+
+Data Grid: filters
+
+Table columns: keys icons
 
 ## 0.4.14
 
