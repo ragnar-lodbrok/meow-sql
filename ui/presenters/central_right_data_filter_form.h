@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QString>
+#include "settings/table_filters_storage.h"
 
 namespace meow {
 namespace db {
@@ -37,7 +38,8 @@ public:
 
     void applyWhereFilter(const QString & whereFilter);
 
-    Q_SIGNAL void SQLFilterTextChanged(const QString & text);
+    Q_SIGNAL void SQLFilterTextGenerated(const QString & text);
+    Q_SIGNAL void recentFiltersChanged();
 
 private:
 
@@ -46,6 +48,10 @@ private:
     models::DataTableModel * _dataTabelModel;
     db::Entity * _entity;
     QString _sqlFilterText;
+
+    QStringList _recentFilters;
+
+    settings::TableFiltersStorage _recentFiltersStorage;
 
 };
 

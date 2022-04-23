@@ -149,6 +149,7 @@ set(SOURCE_FILES
     settings/settings_text.cpp
     settings/data_editors.cpp
     settings/queries_storage.cpp
+    settings/table_filters_storage.cpp
     ssh/openssh_tunnel.cpp
     ssh/ssh_tunnel_factory.cpp
     ssh/ssh_tunnel_parameters.cpp

@@ -21,11 +21,16 @@ public:
 
 private:
     void createWidgets();
+    void validateControls();
+    void fillRecentFilters();
 
     Q_SLOT void onFilterEditChanged(const QString &text);
-    Q_SLOT void onSQLFilterTextChanged(const QString &text);
+    Q_SLOT void onSQLFilterTextGenerated(const QString &text);
+    Q_SLOT void onSQLFilterTextChanged();
     Q_SLOT void onApplyFilterButtonClicked();
     Q_SLOT void onClearFilterButtonClicked();
+    Q_SLOT void onRecentFiltersChanged();
+    Q_SLOT void onComboboxRecentFiltersActivated(int index);
 
     QLabel * _labelRecentFilters;
     QComboBox * _comboboxRecentFilters;
@@ -35,6 +40,7 @@ private:
     QLineEdit * _editFilterSearch;
     QPushButton * _applyFilterButton;
     QPushButton * _clearFilterButton;
+    QWidget * _recentFiltersWidget;
 
     ui::presenters::CentralRightDataFilterForm _form;
 };

@@ -13,10 +13,15 @@ DataFilterWidget::DataFilterWidget(models::DataTableModel * dataTableModel,
 {
     // Listening: Zeal & Ardor - Götterdämmerung
     createWidgets();
+    validateControls();
 
     connect(&_form,
-            &ui::presenters::CentralRightDataFilterForm::SQLFilterTextChanged,
-            this, &DataFilterWidget::onSQLFilterTextChanged);
+            &ui::presenters::CentralRightDataFilterForm::SQLFilterTextGenerated,
+            this, &DataFilterWidget::onSQLFilterTextGenerated);
+
+    connect(&_form,
+            &ui::presenters::CentralRightDataFilterForm::recentFiltersChanged,
+            this, &DataFilterWidget::onRecentFiltersChanged);
 }
 
 void DataFilterWidget::setDBEntity(db::Entity * tableOrViewEntity)
@@ -24,6 +29,8 @@ void DataFilterWidget::setDBEntity(db::Entity * tableOrViewEntity)
     _editFilterSearch->clear();
     _sqlEditor->clear();
     _form.setDBEntity(tableOrViewEntity);
+    fillRecentFilters(); // TODO: lazy load
+    validateControls();
 }
 
 void DataFilterWidget::createWidgets()
@@ -35,16 +42,24 @@ void DataFilterWidget::createWidgets()
     QVBoxLayout * leftLayout = new QVBoxLayout();
     leftLayout->setAlignment(Qt::AlignTop);
 
+    _recentFiltersWidget = new QWidget();
     QHBoxLayout * recentLayout = new QHBoxLayout();
     _labelRecentFilters = new QLabel(tr("Recent filters:"));
     recentLayout->addWidget(_labelRecentFilters);
     _comboboxRecentFilters = new QComboBox();
+    connect(_comboboxRecentFilters,
+            QOverload<int>::of(&QComboBox::activated),
+            this,
+            &DataFilterWidget::onComboboxRecentFiltersActivated);
     recentLayout->addWidget(_comboboxRecentFilters, 1);
-    leftLayout->addLayout(recentLayout);
+    _recentFiltersWidget->setLayout(recentLayout);
+    leftLayout->addWidget(_recentFiltersWidget);
 
     _sqlEditor = new ui::common::SQLEditor();
     _sqlEditor->setWordWrapMode(QTextOption::WordWrap);
     _sqlEditor->setHeightByRowCount(3);
+    connect(_sqlEditor, &QPlainTextEdit::textChanged,
+            this, &DataFilterWidget::onSQLFilterTextChanged);
     leftLayout->addWidget(_sqlEditor);
 
 
@@ -76,14 +91,34 @@ void DataFilterWidget::createWidgets()
     setLayout(mainLayout);
 }
 
+void DataFilterWidget::validateControls()
+{
+    _recentFiltersWidget->setVisible(_form.hasRecentFilters());
+    _clearFilterButton->setEnabled(!_sqlEditor->toPlainText().isEmpty());
+}
+
+void DataFilterWidget::fillRecentFilters()
+{
+    _comboboxRecentFilters->clear();
+    _comboboxRecentFilters->insertItems(0, _form.recentFilters());
+    _comboboxRecentFilters->setCurrentIndex(
+        _comboboxRecentFilters->count() - 1); // select latest
+}
+
 void DataFilterWidget::onFilterEditChanged(const QString &text)
 {
     _form.setFilterEditText(text);
 }
 
-void DataFilterWidget::onSQLFilterTextChanged(const QString &text)
+void DataFilterWidget::onSQLFilterTextGenerated(const QString &text)
 {
     _sqlEditor->setPlainText(text);
+    _clearFilterButton->setEnabled(!text.isEmpty());
+}
+
+void DataFilterWidget::onSQLFilterTextChanged()
+{
+    _clearFilterButton->setEnabled(!_sqlEditor->toPlainText().isEmpty());
 }
 
 void DataFilterWidget::onApplyFilterButtonClicked()
@@ -105,6 +140,20 @@ void DataFilterWidget::onClearFilterButtonClicked()
     _editFilterSearch->clear();
     _sqlEditor->clear();
     onApplyFilterButtonClicked();
+}
+
+void DataFilterWidget::onRecentFiltersChanged()
+{
+    fillRecentFilters();
+    validateControls();
+}
+
+void DataFilterWidget::onComboboxRecentFiltersActivated(int index)
+{
+    QString recentText = _comboboxRecentFilters->itemText(index);
+    if (!recentText.isEmpty()) {
+        _sqlEditor->setPlainText(recentText);
+    }
 }
 
 } // namespace central_right
