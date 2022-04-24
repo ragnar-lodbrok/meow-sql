@@ -7,4 +7,4 @@ assignees: ''
 
 ---
 
-- [x] I [bought a coffee](https://ko-fi.com/ragnarlodbrok ) for Ragnar Lodbrok (**remove this line, haha**)
+
