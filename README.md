@@ -56,7 +56,20 @@ Linux:
 7. PostgreSQL client library libpq, for deb-based apt-get install libpq-dev postgresql-server-dev-all
 8. As an option use Qt Creator - just open ./meow-sql.pro or ./CMakeLists.txt
 
-Windows:
+Windows (Actual):
+
+1. Download and install Qt 5 (5.6-5.15) via online-installer https://www1.qt.io/download-open-source/#section-2
+2. You would need a cpp compiler of course, I've got MS Visual Studio 2017 (Community)
+3. You should have CMake (already shipped with VS)
+4. Install Conan from conan.io
+5. Clone the repo and install conan packages (use your compiler/arch/etc):
+
+        $ mkdir conan && cd conan
+        $ conan install .. --settings arch=x86 --settings arch_build=x86 --settings build_type=Release --build=missing
+6. Open ./CMakeLists.txt in VS or Qt Creator (QMake is not supported on Win!)
+7. After build run windeployqt (or copy all libs from installed app)
+
+Windows (Obsolete):
 
 1. Download and install Qt via online-installer https://www1.qt.io/download-open-source/#section-2
 Version that worked for me is Qt 5.6.2 win32-msvc2013

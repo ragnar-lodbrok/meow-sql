@@ -33,6 +33,11 @@ option(WITH_POSTGRESQL "PostgreSQL support" ON)
 option(WITH_SQLITE "SQLite support" ON)
 option(WITH_QTSQL "Qt SQL Module" ON)
 option(WITH_LIBSSH "Use libssh" OFF) # not finished
+option(USE_CONAN_IO "Use conan.io package manager" OFF)
+
+if(WIN32)
+    set(USE_CONAN_IO ON)
+endif()
 
 if(WITH_POSTGRESQL)
     add_definitions(-DWITH_POSTGRESQL)
@@ -385,6 +390,12 @@ if (WIN32)
     )
 endif()
 
+if (USE_CONAN_IO)
+	# assume you run conan from ./conan folder
+	list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/conan)
+endif()
+
+
 # MySQL ---------------------------------------------
 
 if (WITH_MYSQL)
@@ -392,11 +403,20 @@ if (WITH_MYSQL)
     set(MEOW_MYSQL_CLIENT_LIB mysqlclient) #linux
 
     if (WIN32)
-        # find mysql manually
-        list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
-        find_package(MySQL REQUIRED)
-        include_directories(${MYSQL_INCLUDE_DIR})
-        set(MEOW_MYSQL_CLIENT_LIB ${MYSQL_LIBRARY})
+		if (USE_CONAN_IO)
+			find_package(mysql-connector-c REQUIRED)
+			include_directories(${mysql-connector-c_INCLUDE_DIR})
+			message("mysql-connector-c_INCLUDE_DIR = ${mysql-connector-c_INCLUDE_DIR}")
+			set(MEOW_MYSQL_CLIENT_LIB ${mysql-connector-c_LIBRARY_LIST})
+			target_link_directories(meowsql PUBLIC ${mysql-connector-c_LIB_DIRS})
+			message("mysql-connector-c_LIB_DIRS = ${mysql-connector-c_LIB_DIRS}")
+		else()
+			# find mysql manually
+			list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+			find_package(MySQL REQUIRED)
+			include_directories(${MYSQL_INCLUDE_DIR})
+			set(MEOW_MYSQL_CLIENT_LIB ${MYSQL_LIBRARY})
+		endif()
     endif()
 
 endif() # if (WITH_MYSQL)
@@ -404,19 +424,21 @@ endif() # if (WITH_MYSQL)
 # PG --------------------------------------------------
 # ubuntu: apt-get install libpq-dev postgresql-server-dev-all
 # win: https://www.enterprisedb.com/downloads/postgres-postgresql-downloads (10.7 32bit)
+# win2: conan install .. --settings arch=x86 --settings arch_build=x86 --settings build_type=Release --build=missing
 
 if(WITH_POSTGRESQL)
 
 if (WIN32)
-    # find postgres in third_party
-    set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include/postgresql")
+	if (${USE_CONAN_IO} EQUAL OFF)
+		# find postgres in third_party
+		set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include/postgresql")
 
-    #  PostgreSQL_INCLUDE_DIR  - the path to where the PostgreSQL include files are.
-    set (PostgreSQL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include/postgresql")
+		#  PostgreSQL_INCLUDE_DIR  - the path to where the PostgreSQL include files are.
+		set (PostgreSQL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/include/postgresql")
 
-    #  PostgreSQL_LIBRARY_DIR  - The path to where the PostgreSQL library files are.
-    set (PostgreSQL_LIBRARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/lib")
-
+		#  PostgreSQL_LIBRARY_DIR  - The path to where the PostgreSQL library files are.
+		set (PostgreSQL_LIBRARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third_party/libpq/windows/lib")
+	endif()
 endif()
 
 

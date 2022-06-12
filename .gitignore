@@ -26,7 +26,7 @@ qrc_*.cpp
 ui_*.h
 Makefile*
 *build-*
-
+conan/
 # QtCreator
 
 *.autosave

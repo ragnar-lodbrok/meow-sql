@@ -1,0 +1,20 @@
+# install conan
+#$ mkdir conan && cd conan
+#$ conan install .. --settings arch=x86 --settings arch_build=x86 --settings build_type=Release --build=missing
+
+
+[requires]
+libpq/10.20
+#libmysqlclient/8.0.17
+mysql-connector-c/6.1.11
+
+[generators]
+cmake_find_package
+
+[options]
+libpq:shared=True
+mysql-connector-c:shared=True
+
+[imports]
+bin, *.dll -> ./shared_libs # Copies all dll files from packages bin folder to my "dll" folder
+lib, *.so* -> ./shared_libs # Copies all so files from packages lib folder to my "bin" folder

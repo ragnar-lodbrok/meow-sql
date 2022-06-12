@@ -5,7 +5,12 @@
 // https://doc.qt.io/qt-5/sql-types.html#qsqlite-sqlite-version-3-data-types
 
 #include "connection_data_types.h"
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+#include <mysql.h>
+#else
 #include <mysql/mysql.h>
+#endif
 
 namespace meow {
 namespace db {

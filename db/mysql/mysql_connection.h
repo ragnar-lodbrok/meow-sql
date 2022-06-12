@@ -2,7 +2,13 @@
 #define DB_MYSQLCONNECTION_H
 
 #include <vector>
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+#include <mysql.h>
+#else
 #include <mysql/mysql.h>
+#endif
+
 #include "db/connection.h"
 
 namespace meow {

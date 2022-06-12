@@ -2,7 +2,12 @@
 #define DB_MYSQL_DATA_TYPE_H
 
 #include "data_type.h"
+
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+#include <mysql.h>
+#else
 #include <mysql/mysql.h>
+#endif
 
 namespace meow {
 namespace db {

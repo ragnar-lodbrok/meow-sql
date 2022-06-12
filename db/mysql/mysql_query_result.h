@@ -1,7 +1,12 @@
 #ifndef DB_MYSQL_QUERY_RESULT_H
 #define DB_MYSQL_QUERY_RESULT_H
 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+#include <mysql.h>
+#else
 #include <mysql/mysql.h>
+#endif
+
 #include "db/native_query_result.h"
 
 namespace meow {
