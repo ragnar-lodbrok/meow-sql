@@ -80,6 +80,8 @@ private:
     Q_SIGNAL void changeRowSelection(const QModelIndex &index);
     Q_SLOT void onChangeRowSelectionRequest(const QModelIndex &index);
 
+    Q_SLOT void onDataTableHeaderClicked(int index);
+
     bool applyModifications(int rowToApply = -1);
     void discardModifications();
     void deleteSelectedRows();

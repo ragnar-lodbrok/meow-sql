@@ -166,18 +166,21 @@ void DataTab::createDataTable()
      auto geometrySettings = meow::app()->settings()->geometrySettings();
     _dataTable->verticalHeader()->setDefaultSectionSize(
         geometrySettings->tableViewDefaultRowHeight());
+
     _dataTable->horizontalHeader()->setHighlightSections(false);
     _dataTable->horizontalHeader()->setResizeContentsPrecision(
         meow::app()->settings()
             ->textSettings()->tableAutoResizeRowsLookupCount()
     );
+    connect(_dataTable->horizontalHeader(), &QHeaderView::sectionClicked,
+            this, &DataTab::onDataTableHeaderClicked);
 
     _dataTable->setSelectionBehavior(
         QAbstractItemView::SelectionBehavior::SelectRows);
 
     _dataTable->setModel(_model.createSortFilterModel());
     _mainLayout->addWidget(_dataTable, 1);
-    _dataTable->setSortingEnabled(false); // TODO
+    _dataTable->setSortingEnabled(false);
 
     connectRowChanged();
 
@@ -464,6 +467,11 @@ void DataTab::onChangeRowSelectionRequest(const QModelIndex &index)
         ->select(index, QItemSelectionModel::ClearAndSelect);
 
     connectRowChanged();
+}
+
+void DataTab::onDataTableHeaderClicked(int index)
+{
+    _model.changeColumnSort(index);
 }
 
 void DataTab::currentChanged(const QModelIndex &current,

@@ -35,6 +35,8 @@ public:
                  int role = Qt::EditRole) override;
     virtual delegates::EditorType editorType(
             const QModelIndex &index) const override;
+    virtual QVariant headerData(int section, Qt::Orientation orientation,
+                        int role = Qt::DisplayRole) const override;
 
     void setEntity(meow::db::Entity * tableOrViewEntity, bool loadData = true);
     meow::db::Entity * entity() const { return _dbEntity; }
@@ -83,6 +85,11 @@ public:
 
     Q_SIGNAL void editingStarted();
     Q_SIGNAL void dataRefreshed();
+
+    void changeColumnSort(int columnIndex);
+    bool isColumnSorted(int columnIndex) const;
+    Qt::SortOrder columnSortOrder(int columnIndex) const;
+    void resetAllColumnsSort();
 
     QModelIndex mapToSource(const QModelIndex &proxyIndex) const {
         if (_sortFilterModel) {
@@ -138,6 +145,7 @@ private:
     meow::db::Entity * _dbEntity;
     meow::db::ulonglong _wantedRowsCount;
     QString _whereFilter;
+    QMap<int, Qt::SortOrder> _columnsSort;
 };
 
 

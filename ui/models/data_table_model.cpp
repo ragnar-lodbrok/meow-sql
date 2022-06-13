@@ -124,6 +124,28 @@ delegates::EditorType DataTableModel::editorType(
     return delegates::EditorType::defaultEditor;
 }
 
+QVariant DataTableModel::headerData(int section,
+                                    Qt::Orientation orientation,
+                                    int role) const
+{
+    switch (role) {
+
+    case Qt::DecorationRole:
+        if (isColumnSorted(section)) {
+            return (columnSortOrder(section) == Qt::AscendingOrder)
+                    ? QIcon(":/icons/sort_ascending.png")
+                    : QIcon(":/icons/sort_descending.png");
+        }
+        break;
+
+    default:
+        break;
+    }
+
+
+    return BaseDataTableModel::headerData(section, orientation, role);
+}
+
 void DataTableModel::setEntity(meow::db::Entity * tableOrViewEntity,
                                bool loadData)
 {
@@ -414,6 +436,34 @@ QList<db::TableColumn *> DataTableModel::selectedTableColumns()
         return view->structure()->columns();
     }
     return {};
+}
+
+void DataTableModel::changeColumnSort(int columnIndex)
+{
+    if (_columnsSort.contains(columnIndex)) {
+        if (_columnsSort[columnIndex] == Qt::AscendingOrder) {
+            _columnsSort[columnIndex] = Qt::DescendingOrder;
+        } else {
+            _columnsSort.remove(columnIndex);
+        }
+    } else {
+        _columnsSort[columnIndex] = Qt::AscendingOrder;
+    }
+}
+
+bool DataTableModel::isColumnSorted(int columnIndex) const
+{
+    return _columnsSort.contains(columnIndex);
+}
+
+Qt::SortOrder DataTableModel::columnSortOrder(int columnIndex) const
+{
+    return _columnsSort.value(columnIndex, Qt::AscendingOrder);
+}
+
+void DataTableModel::resetAllColumnsSort()
+{
+    _columnsSort.clear();
 }
 
 void DataTableModel::refresh()
