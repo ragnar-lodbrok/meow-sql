@@ -90,6 +90,7 @@ public:
     bool isColumnSorted(int columnIndex) const;
     Qt::SortOrder columnSortOrder(int columnIndex) const;
     void resetAllColumnsSort();
+    void applyColumnSort();
 
     QModelIndex mapToSource(const QModelIndex &proxyIndex) const {
         if (_sortFilterModel) {
@@ -145,7 +146,14 @@ private:
     meow::db::Entity * _dbEntity;
     meow::db::ulonglong _wantedRowsCount;
     QString _whereFilter;
-    QMap<int, Qt::SortOrder> _columnsSort;
+
+    struct SortColumn
+    {
+        int columnIndex = -1;
+        Qt::SortOrder sortOrder = Qt::AscendingOrder;
+    };
+
+    std::vector<SortColumn> _columnsSort;
 };
 
 

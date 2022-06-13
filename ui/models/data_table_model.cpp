@@ -221,6 +221,34 @@ void DataTableModel::loadData(bool force)
         }
     }
 
+    if (!_columnsSort.empty()) {
+
+        QStringList columnNames;
+
+        if (_dbEntity->type() == meow::db::Entity::Type::Table) {
+            auto table = static_cast<meow::db::TableEntity *>(_dbEntity);
+            columnNames = table->structure()->columnNames();
+        } else if (_dbEntity->type() == meow::db::Entity::Type::View) {
+            auto view = static_cast<meow::db::ViewEntity *>(_dbEntity);
+            columnNames = view->structure()->columnNames();
+        }
+
+        for (const SortColumn & sort : _columnsSort) {
+
+            int columnIndex = sort.columnIndex;
+            bool isAscending = (sort.sortOrder == Qt::AscendingOrder);
+
+            if (columnIndex < columnNames.size()) {
+
+                db::QueryCriteria::SortColumn sort;
+                sort.columnName = columnNames[columnIndex];
+                sort.isAsc = isAscending;
+
+                queryCritera.sortColumns.push_back(sort);
+            }
+        }
+    }
+
     if (queryData()->query() == nullptr) {
         queryData()->setQueryPtr( // TODO: what a shitty code?
             _dbEntity->connection()->createQuery()
@@ -440,30 +468,61 @@ QList<db::TableColumn *> DataTableModel::selectedTableColumns()
 
 void DataTableModel::changeColumnSort(int columnIndex)
 {
-    if (_columnsSort.contains(columnIndex)) {
-        if (_columnsSort[columnIndex] == Qt::AscendingOrder) {
-            _columnsSort[columnIndex] = Qt::DescendingOrder;
-        } else {
-            _columnsSort.remove(columnIndex);
+    bool found = false;
+    auto it = _columnsSort.begin();
+    while (it != _columnsSort.end()) {
+        if ((*it).columnIndex == columnIndex) {
+            if ((*it).sortOrder == Qt::AscendingOrder) {
+                (*it).sortOrder = Qt::DescendingOrder;
+            } else {
+                _columnsSort.erase(it);
+            }
+            found = true;
+            break;
         }
-    } else {
-        _columnsSort[columnIndex] = Qt::AscendingOrder;
+        ++it;
     }
+
+    if (!found) {
+        SortColumn sortColumn;
+        sortColumn.columnIndex = columnIndex;
+        sortColumn.sortOrder = Qt::AscendingOrder;
+        _columnsSort.push_back(sortColumn); // order is important
+    }
+
+    // TODO: save sorted columns?
 }
 
 bool DataTableModel::isColumnSorted(int columnIndex) const
 {
-    return _columnsSort.contains(columnIndex);
+    for (const SortColumn & sort : _columnsSort) {
+        if (sort.columnIndex == columnIndex) {
+            return true;
+        }
+    }
+    return false;
 }
 
 Qt::SortOrder DataTableModel::columnSortOrder(int columnIndex) const
 {
-    return _columnsSort.value(columnIndex, Qt::AscendingOrder);
+    for (const SortColumn & sort : _columnsSort) {
+        if (sort.columnIndex == columnIndex) {
+            return sort.sortOrder;
+        }
+    }
+    return Qt::AscendingOrder;
 }
 
 void DataTableModel::resetAllColumnsSort()
 {
     _columnsSort.clear();
+    // TODO: save sorted columns?
+}
+
+void DataTableModel::applyColumnSort()
+{
+    incRowsCountForOneStep(true); // reset limit/offset
+    refresh();
 }
 
 void DataTableModel::refresh()

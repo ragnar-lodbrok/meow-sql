@@ -35,6 +35,14 @@ public:
     void clearColumns() { qDeleteAll(_columns); _columns.clear(); }
     void appendColumn(TableColumn * column) { _columns.append(column); }
 
+    QStringList columnNames() const {
+        QStringList names;
+        for (const TableColumn * column : _columns) {
+            names << column->name();
+        }
+        return names;
+    }
+
     ViewStructure * deepCopy(ViewEntity * parentView) const;
 
     bool operator==(const ViewStructure & other);

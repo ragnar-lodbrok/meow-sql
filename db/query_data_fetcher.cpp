@@ -53,6 +53,24 @@ void QueryDataFetcher::run(
         select += " WHERE " + queryCriteria->where;
     }
 
+    if (!queryCriteria->sortColumns.isEmpty()) {
+
+        QStringList sortStatements;
+
+        for (const auto & sortColumn : queryCriteria->sortColumns) {
+            QString order = sortColumn.isAsc ? " ASC" : " DESC";
+
+            QString sortStatement
+                    = _connection->quoteIdentifier(sortColumn.columnName)
+                    + order;
+
+            sortStatements.push_back(sortStatement);
+        }
+
+
+        select += " ORDER BY " + sortStatements.join(", ");
+    }
+
     select = _connection->applyQueryLimit("SELECT", select,
                                           queryCriteria->limit,
                                           queryCriteria->offset);

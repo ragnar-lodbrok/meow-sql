@@ -286,6 +286,7 @@ void DataTab::setDBEntity(db::Entity * tableOrViewEntity, bool loadData)
     applyModifications(); // close pending to avoid crash
     _model.incRowsCountForOneStep(true);
     _model.resetWhereFilter();
+    _model.resetAllColumnsSort();
     _model.setEntity(tableOrViewEntity, loadData);
     if (loadData) {
         onLoadData();
@@ -472,6 +473,13 @@ void DataTab::onChangeRowSelectionRequest(const QModelIndex &index)
 void DataTab::onDataTableHeaderClicked(int index)
 {
     _model.changeColumnSort(index);
+
+    try {
+        _model.applyColumnSort();
+    } catch(meow::db::Exception & ex) {
+        errorDialog(ex.message());
+    }
+
 }
 
 void DataTab::currentChanged(const QModelIndex &current,
