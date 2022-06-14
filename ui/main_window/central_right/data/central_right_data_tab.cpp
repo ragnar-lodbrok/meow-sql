@@ -70,6 +70,11 @@ DataTab::DataTab(QWidget *parent) :
             this,
             &DataTab::onDataDuplicateRowWithKeys);
 
+    connect(meow::app()->actions()->dataResetSort(),
+            &QAction::triggered,
+            this,
+            &DataTab::onDataResetSortAction);
+
     connect(&_model, &models::DataTableModel::editingStarted,
             this, &DataTab::validateControls);
 
@@ -503,7 +508,22 @@ void DataTab::onDataSetNULLAction(bool checked)
 void DataTab::onDataRefreshAction(bool checked)
 {
     Q_UNUSED(checked);
-    refresh();
+    try {
+        refresh();
+    } catch(meow::db::Exception & ex) {
+        errorDialog(ex.message());
+    }
+}
+
+void DataTab::onDataResetSortAction()
+{
+    try {
+        _model.incRowsCountForOneStep(true);
+        _model.resetAllColumnsSort();
+        refresh();
+    } catch(meow::db::Exception & ex) {
+        errorDialog(ex.message());
+    }
 }
 
 bool DataTab::applyModifications(int rowToApply)

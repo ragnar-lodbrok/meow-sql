@@ -68,6 +68,7 @@ private:
 
     Q_SLOT void onDataSetNULLAction(bool checked);
     Q_SLOT void onDataRefreshAction(bool checked);
+    Q_SLOT void onDataResetSortAction();
 
     Q_SLOT void onDataPostChanges(bool checked);
     Q_SLOT void onDataCancelChanges(bool checked);

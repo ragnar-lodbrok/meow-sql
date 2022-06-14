@@ -90,6 +90,11 @@ std::vector<QAction *> EditableDataContextMenuPresenter::editRowActions() const
     return actions;
 }
 
+QAction * EditableDataContextMenuPresenter::resetDataSortAction() const
+{
+    return meow::app()->actions()->dataResetSort();
+}
+
 } // namespace presenters
 } // namespace ui
 } // namespace meow

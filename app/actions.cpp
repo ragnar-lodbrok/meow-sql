@@ -109,6 +109,13 @@ void Actions::createActions(App * app)
                 tr("Duplicate row with keys"), this);
 
     // -------------------------------------------------------------------------
+    _dataResetSort = new QAction(
+                QIcon(":/icons/sort_reset.png"),
+                tr("Reset sorting"), this);
+    //_dataResetSort->setShortcut(
+    //            QKeySequence(Qt::ALT + Qt::Key_S)); // TODO
+
+    // -------------------------------------------------------------------------
     // -------------------------------------------------------------------------
 
     _logClear = new QAction(tr("Clear"), this);

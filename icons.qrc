@@ -89,6 +89,7 @@
         <file alias="star.png">resources/icons/star.png</file>
         <file alias="sort_descending.png">resources/icons/sort_descending.png</file>
         <file alias="sort_ascending.png">resources/icons/sort_ascending.png</file>
+        <file alias="sort_reset.png">resources/icons/sort_reset.png</file>
         <file alias="arrow_up.png">resources/icons/arrow_up.png</file>
         <file>resources/icons/arrow_right.png</file>
         <file alias="arrow_down.png">resources/icons/arrow_down.png</file>

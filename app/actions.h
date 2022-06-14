@@ -31,6 +31,9 @@ public:
     QAction * dataDuplicateRowWithKeys() const {
         return _dataDuplicateRowWithKeys;
     }
+    QAction * dataResetSort() const {
+        return _dataResetSort;
+    }
 
     QAction * logClear() const { return _logClear; }
 
@@ -54,6 +57,7 @@ private:
     QAction * _dataRefresh;
     QAction * _dataDuplicateRowWithoutKeys;
     QAction * _dataDuplicateRowWithKeys;
+    QAction * _dataResetSort;
 
     QAction * _logClear;
 
