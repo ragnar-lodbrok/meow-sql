@@ -1,5 +1,6 @@
 #include "mysql_user_editor.h"
 #include "db/connection.h"
+#include "db/mysql/mysql_connection.h"
 #include <QDebug>
 
 namespace meow {
@@ -183,9 +184,13 @@ bool MySQLUserEditor::editPassword(User * user, User * newData)
     // -> 'jeffrey'@'localhost' = PASSWORD('mypass'); // < 5.7
     // SET PASSWORD FOR 'jeffrey'@'localhost' = 'auth_string'; // >= 5.7
 
-    bool isMariaDB = false; // TODO
-    bool useRawAuthString = (!isMariaDB
-                             && _connection->serverVersionInt() >= 50706);
+    bool isMariaDB = static_cast<MySQLConnection *>(_connection)->isMariaDB();
+    bool useRawAuthString = false;
+    if (isMariaDB) {
+        useRawAuthString = false; // TODO: ?
+    } else {
+        useRawAuthString = _connection->serverVersionInt() >= 50706;
+    }
 
     QString escapedPassword = _connection->escapeString(newData->password());
 
@@ -386,9 +391,14 @@ void MySQLUserEditor::createUser(User * user)
     QString createUserSQL = QString("CREATE USER ") + userHostSQL(user);
 
     if (!user->password().isEmpty()) {
-        bool isMariaDB = false;
-        bool useRawAuthString = (!isMariaDB
-                                 && _connection->serverVersionInt() >= 50706);
+        bool isMariaDB
+                = static_cast<MySQLConnection *>(_connection)->isMariaDB();
+        bool useRawAuthString = false;
+        if (isMariaDB) {
+            useRawAuthString = true; // TODO: check since what version
+        } else {
+            useRawAuthString = _connection->serverVersionInt() >= 50706;
+        }
 
         QString escapedPassword = _connection->escapeString(user->password());
 

@@ -51,6 +51,7 @@ MySQLConnection::MySQLConnection(const ConnectionParameters & params)
    : Connection(params)
    , _handle(nullptr)
    , _sshTunnel(nullptr)
+   , _forkType(MySQLForkType::Original)
 {
     _identifierQuote = QLatin1Char('`');
 }
@@ -172,6 +173,7 @@ void MySQLConnection::setActive(bool active) // override
         _serverVersionString = QString(mysql_get_server_info(_handle));
         _serverVersionInt = static_cast<int>(
             mysql_get_server_version(_handle));
+        _forkType = forkTypeFromVersion(_serverVersionString);
 
         // H: set database
 
@@ -684,6 +686,18 @@ QString MySQLConnection::getViewCreateCode(const ViewEntity * view)
 
     return createCode;
 
+}
+
+MySQLForkType MySQLConnection::forkTypeFromVersion(
+        const QString & versionString) const
+{
+    QString version = versionString.toLower();
+
+    if (version.contains("-mariadb")) return MySQLForkType::MariaDB;
+
+    if (version.contains("percona server")) return MySQLForkType::Percona;
+
+    return MySQLForkType::Original;
 }
 
 } // namespace db

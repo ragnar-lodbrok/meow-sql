@@ -17,6 +17,13 @@ namespace ssh { class ISSHTunnel; }
 
 namespace db {
 
+enum class MySQLForkType
+{
+    Original = 0,
+    MariaDB,
+    Percona
+};
+
 class MySQLConnection : public Connection
 {
 public:
@@ -78,6 +85,10 @@ public:
 
     virtual ConnectionQueryKillerPtr createQueryKiller() const override;
 
+    MySQLForkType forkType() const { return _forkType; }
+    bool isMariaDB() const { return _forkType == MySQLForkType::MariaDB; }
+
+
 protected:
     virtual DataBaseEntitiesFetcher * createDbEntitiesFetcher() override;
 
@@ -96,8 +107,11 @@ private:
 
     QString getViewCreateCode(const ViewEntity * view);
 
+    MySQLForkType forkTypeFromVersion(const QString & versionString) const;
+
     MYSQL * _handle;
     std::unique_ptr<ssh::ISSHTunnel> _sshTunnel;
+    MySQLForkType _forkType;
 };
 
 } // namespace db
