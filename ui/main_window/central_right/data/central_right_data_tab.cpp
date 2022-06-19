@@ -94,6 +94,8 @@ void DataTab::createTopPanel()
 
     _dataLabel = new QLabel(tr("Data"));
     _dataLabel->setWordWrap(true);
+    _dataLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+    _dataLabel->setMinimumSize(250, 30);
     _topLayout->addWidget(_dataLabel, 10, Qt::AlignVCenter | Qt::AlignLeft);
     _topLayout->addStretch(1);
 
