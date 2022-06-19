@@ -75,28 +75,28 @@ const QList<UserPtr> & MySQLUserManager::userList(bool refresh) const
     QString passwordExpr;
 
     if (hasPassword && !hasAuthString) {
-        passwordExpr = "password";
+        passwordExpr = "Password";
     } else if (!hasPassword && hasAuthString) {
         passwordExpr = "authentication_string";
     } else if (hasPassword && hasAuthString) {
-        passwordExpr = "IF(LENGTH(password)>0, password, authentication_string)";
+        passwordExpr = "IF(LENGTH(Password)>0, Password, authentication_string)";
     } else {
         throw db::Exception(QObject::tr("No password hash column available"));
     }
 
-    QString usersSQL = "SELECT " + _connection->quoteIdentifier("user") + ", "
-            + _connection->quoteIdentifier("host") + ", "
+    QString usersSQL = "SELECT " + _connection->quoteIdentifier("User") + ", "
+            + _connection->quoteIdentifier("Host") + ", "
             + passwordExpr + " AS "
-            + _connection->quoteIdentifier("password") + " "
+            + _connection->quoteIdentifier("Password") + " "
             + " FROM " + _connection->quoteIdentifier("mysql") + "."
             + _connection->quoteIdentifier("user");
 
 
     QueryPtr query = _connection->getResults(usersSQL);
 
-    std::size_t indexOfUser = query->indexOfColumn("user");
-    std::size_t indexOfHost = query->indexOfColumn("host");
-    std::size_t indexOfPassword = query->indexOfColumn("password");
+    std::size_t indexOfUser = query->indexOfColumn("User");
+    std::size_t indexOfHost = query->indexOfColumn("Host");
+    std::size_t indexOfPassword = query->indexOfColumn("Password");
 
     while (query->isEof() == false) {
 
