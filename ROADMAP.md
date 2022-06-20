@@ -2,15 +2,13 @@
 
 ## Task pool (by priority)
 
-Query tab: explain
-
-Data Grid: sorting
-
 Data Grid: export grid rows
 
 Data Grid: insert value options
 
 Data Grid: columns
+
+Query tab: explain
 
 Host Tab: Variables for MySQL (edit)
 
@@ -65,6 +63,18 @@ Table tools: find text
 Data Grid: insert files into text/blob fields
 
 Query: progress
+
+Data Grid: advanced sorting/query result sorting
+
+## 0.4.16
+
+Table Data Grid: basic sorting
+
+User manager: fixes for MariaDB
+
+Windows: migrate to MSVC 2017 and Qt 5.15.3
+
+Windows now requires conan for building
 
 ## 0.4.15
 
