@@ -2,13 +2,13 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "MeowSQL"
-#define MyAppVersion "0.4.15"
+#define MyAppVersion "0.4.16"
 #define MyAppPublisher "Ragnar Lodbrok"
 #define MyAppURL "https://github.com/ragnar-lodbrok/meow-sql"
 #define MyAppExeName "meowsql.exe"
 
 ; TODO: this is shit!!!
-#define SourceDir "D:\work\projects\build-meow_sql-Desktop_Qt_5_6_2_MSVC2013_32bit-Release"
+#define SourceDir "c:\data\projects\build_meow_sql"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -26,7 +26,7 @@ DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
 LicenseFile={#SourceDir}\gpl.txt
 OutputBaseFilename=Setup-MeowSql-{#MyAppVersion}
-SetupIconFile=D:\work\projects\meow_sql\meowsqlico.ico
+SetupIconFile={#SourceDir}\meowsqlico.ico
 Compression=lzma
 SolidCompression=yes
 
@@ -45,7 +45,7 @@ Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "german"; MessagesFile: "compiler:Languages\German.isl"
 ;Name: "greek"; MessagesFile: "compiler:Languages\Greek.isl"
 Name: "hebrew"; MessagesFile: "compiler:Languages\Hebrew.isl"
-Name: "icelandic"; MessagesFile: "compiler:Languages\Icelandic.isl"
+;Name: "icelandic"; MessagesFile: "compiler:Languages\Icelandic.isl"
 ;Name: "hungarian"; MessagesFile: "compiler:Languages\Hungarian.isl"
 Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
 Name: "japanese"; MessagesFile: "compiler:Languages\Japanese.isl"
@@ -57,7 +57,7 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 ;Name: "scottishgaelic"; MessagesFile: "compiler:Languages\ScottishGaelic.isl"
 ;Name: "serbiancyrillic"; MessagesFile: "compiler:Languages\SerbianCyrillic.isl"
 ;Name: "serbianlatin"; MessagesFile: "compiler:Languages\SerbianLatin.isl"
-Name: "slovak"; MessagesFile: "compiler:Languages\Slovak.isl"
+;Name: "slovak"; MessagesFile: "compiler:Languages\Slovak.isl"
 Name: "slovenian"; MessagesFile: "compiler:Languages\Slovenian.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
@@ -81,15 +81,35 @@ Source: "{#SourceDir}\sqldrivers\*"; DestDir: "{app}\sqldrivers"; Flags: ignorev
 Source: "{#SourceDir}\libGLESV2.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\libEGL.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\D3Dcompiler_47.dll"; DestDir: "{app}"; Flags: ignoreversion
-; VC 2013 runtime
-Source: "{#SourceDir}\msvcp120.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourceDir}\msvcr120.dll"; DestDir: "{app}"; Flags: ignoreversion
+; VC 2017 runtime
+Source: "{#SourceDir}\msvcp140.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\msvcp140_1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\concrt140.dll"; DestDir: "{app}"; Flags: ignoreversion
+; Runtime - really need?
+Source: "{#SourceDir}\api-ms-win-core-file-l1-2-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-core-file-l2-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-core-localization-l1-2-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-core-processthreads-l1-1-1.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-core-synch-l1-2-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-core-timezone-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-conio-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-convert-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-environment-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-filesystem-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-heap-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-locale-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-math-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-runtime-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-stdio-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-string-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-time-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourceDir}\api-ms-win-crt-utility-l1-1-0.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; PostgreSQL
 Source: "{#SourceDir}\libpq.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourceDir}\libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourceDir}\libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourceDir}\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "{#SourceDir}\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "{#SourceDir}\libiconv-2.dll"; DestDir: "{app}"; Flags: ignoreversion; TODO: uncomment?
+;Source: "{#SourceDir}\libintl-8.dll"; DestDir: "{app}"; Flags: ignoreversion; TODO: uncomment?
+;Source: "{#SourceDir}\libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion; TODO: uncomment?
+;Source: "{#SourceDir}\ssleay32.dll"; DestDir: "{app}"; Flags: ignoreversion; TODO: uncomment?
 ; mysqldump
 Source: "{#SourceDir}\mysqldump.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\mysqldump_license"; DestDir: "{app}"; Flags: ignoreversion
@@ -102,6 +122,7 @@ Source: "{#SourceDir}\license.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#SourceDir}\platforms\*"; DestDir: "{app}\platforms"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#SourceDir}\iconengines\*"; DestDir: "{app}\iconengines"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#SourceDir}\imageformats\*"; DestDir: "{app}\imageformats"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#SourceDir}\styles\*"; DestDir: "{app}\styles"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
