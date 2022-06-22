@@ -26,10 +26,14 @@ QueryDataTab::QueryDataTab(db::QueryDataPtr queryData, QWidget *parent)
     _dataTable->horizontalHeader()->setResizeContentsPrecision(
         meow::app()->settings()->textSettings()->tableAutoResizeRowsLookupCount()
     );
+    connect(_dataTable->horizontalHeader(), &QHeaderView::sectionClicked,
+            this, &QueryDataTab::onDataTableHeaderClicked);
+    _dataTable->setSelectionBehavior(
+        QAbstractItemView::SelectionBehavior::SelectRows);
 
-    _dataTable->setModel(&_model);
+    _dataTable->setModel(_model.createSortFilterModel());
     mainLayout->addWidget(_dataTable);
-    _dataTable->setSortingEnabled(false); // TODO
+    _dataTable->setSortingEnabled(false);
 
     if (meow::app()->settings()->textSettings()->autoResizeTableColumns()) {
         _dataTable->resizeColumnsToContents();
@@ -38,6 +42,37 @@ QueryDataTab::QueryDataTab(db::QueryDataPtr queryData, QWidget *parent)
 
 QueryDataTab::~QueryDataTab()
 {
+
+}
+
+void QueryDataTab::onDataTableHeaderClicked(int column)
+{
+    QHeaderView * header = _dataTable->horizontalHeader();
+
+    QSortFilterProxyModel * model
+            = static_cast<QSortFilterProxyModel *>(_dataTable->model());
+    int curentSortColumn = model->sortColumn();
+
+    if (curentSortColumn == static_cast<int>(-1)
+            || (curentSortColumn != column)) {
+
+        header->setSortIndicator(column, Qt::AscendingOrder);
+        header->setSortIndicatorShown(true);
+        model->sort(column, Qt::AscendingOrder);
+
+    } else {
+
+        Qt::SortOrder currentSortOrder = model->sortOrder();
+
+        if (currentSortOrder == Qt::AscendingOrder) {
+            header->setSortIndicator(column, Qt::DescendingOrder);
+            header->setSortIndicatorShown(true);
+            model->sort(column, Qt::DescendingOrder);
+        } else {
+            header->setSortIndicatorShown(false);
+            model->sort(-1); // no sort
+        }
+    }
 
 }
 

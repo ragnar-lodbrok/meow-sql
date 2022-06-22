@@ -17,6 +17,9 @@ public:
     explicit QueryDataTab(db::QueryDataPtr queryData, QWidget *parent = 0);
     virtual ~QueryDataTab();
 private:
+
+    Q_SLOT void onDataTableHeaderClicked(int index);
+
     models::BaseDataTableModel _model;
     TableView  * _dataTable;
 };
