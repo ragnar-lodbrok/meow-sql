@@ -10,6 +10,7 @@ namespace presenters {
 
 CentralRightQueryPresenter::CentralRightQueryPresenter(db::UserQuery * query)
     : _query(query)
+    , _filterPatternIsRegexp(false)
 {
     Q_ASSERT(_query != nullptr);
 }

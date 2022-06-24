@@ -27,13 +27,25 @@ public:
 
     void showQueryData(int queryResultIndex);
 
+    void setFilterPattern(const QString & filter,
+                                  bool regexp = false);
+    QString filterPattern() const;
+    bool filterPatternIsRegexp() const;
+
+    int totalRowCount() const;
+    int filterMatchedRowCount() const;
+
+    Q_SIGNAL void queryDataTabChanged(int index);
+
 private:
 
     void removeAllDataTabs();
 
+    Q_SLOT void onQueryDataTabChanged(int index);
+
     presenters::CentralRightQueryPresenter * _presenter;
 
-    QTabWidget  * _dataTabs;
+    QTabWidget * _dataTabs;
 };
 
 } // namespace central_right

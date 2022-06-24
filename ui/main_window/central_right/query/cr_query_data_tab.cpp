@@ -45,6 +45,21 @@ QueryDataTab::~QueryDataTab()
 
 }
 
+void QueryDataTab::setFilterPattern(const QString & pattern, bool regexp)
+{
+    _model.setFilterPattern(pattern, regexp);
+}
+
+int QueryDataTab::filterMatchedRowCount() const
+{
+    return _model.filterMatchedRowCount();
+}
+
+int QueryDataTab::totalRowCount() const
+{
+    return _model.rowCount();
+}
+
 void QueryDataTab::onDataTableHeaderClicked(int column)
 {
     QHeaderView * header = _dataTable->horizontalHeader();
