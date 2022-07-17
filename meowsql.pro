@@ -173,6 +173,11 @@ SOURCES += main.cpp\
     ui/edit_database/dialog.cpp \
     ui/export_database/bottom_widget.cpp \
     ui/export_database/top_widget.cpp \
+    ui/export_query/options_widget.cpp \
+    ui/export_query/output_format_widget.cpp \
+    ui/export_query/output_target_widget.cpp \
+    ui/export_query/export_query_data_dialog.cpp \
+    ui/export_query/row_selection_widget.cpp \
     ui/main_window/central_left_db_tree.cpp \
     ui/main_window/central_left_widget.cpp \
     ui/main_window/central_right/database/central_right_database_tab.cpp \
@@ -375,6 +380,11 @@ HEADERS  +=  app/actions.h \
     ui/edit_database/dialog.h \
     ui/export_database/bottom_widget.h \
     ui/export_database/top_widget.h \
+    ui/export_query/options_widget.h \
+    ui/export_query/output_format_widget.h \
+    ui/export_query/output_target_widget.h \
+    ui/export_query/export_query_data_dialog.h \
+    ui/export_query/row_selection_widget.h \
     ui/main_window/central_left_db_tree.h \
     ui/main_window/central_left_widget.h \
     ui/main_window/central_right/base_root_tab.h \

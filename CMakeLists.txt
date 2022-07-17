@@ -189,6 +189,11 @@ set(SOURCE_FILES
     ui/delegates/table_column_type_delegate.cpp
     ui/delegates/table_index_delegate.cpp
     ui/edit_database/dialog.cpp
+    ui/export_query/row_selection_widget.cpp
+    ui/export_query/export_query_data_dialog.cpp
+    ui/export_query/output_target_widget.cpp
+    ui/export_query/output_format_widget.cpp
+    ui/export_query/options_widget.cpp
     ui/export_database/bottom_widget.cpp
     ui/export_database/export_dialog.cpp
     ui/export_database/top_widget.cpp

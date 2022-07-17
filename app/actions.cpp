@@ -98,6 +98,13 @@ void Actions::createActions(App * app)
     //_dataRefresh->setShortcuts(QKeySequence::Refresh);
 
     // -------------------------------------------------------------------------
+
+    _dataExport = new QAction(QIcon(":/icons/table_save"),
+                             tr("Export grid rows"), this);
+    _dataExport->setStatusTip(tr("Export rows to file or copy to clipboard,"
+                                 " in various formats"));
+
+    // -------------------------------------------------------------------------
     _dataDuplicateRowWithoutKeys = new QAction(
                 QIcon(":/icons/add.png"),
                 tr("Duplicate row without keys"), this);

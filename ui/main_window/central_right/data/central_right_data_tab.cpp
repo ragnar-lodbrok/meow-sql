@@ -2,6 +2,7 @@
 #include "db/common.h"
 #include "app/app.h"
 #include "ui/common/editable_data_table_view.h"
+#include "ui/export_query/export_query_data_dialog.h"
 
 namespace meow {
 namespace ui {
@@ -74,6 +75,11 @@ DataTab::DataTab(QWidget *parent) :
             &QAction::triggered,
             this,
             &DataTab::onDataResetSortAction);
+
+    connect(meow::app()->actions()->dataExport(),
+            &QAction::triggered,
+            this,
+            &DataTab::onDataExportAction);
 
     connect(&_model, &models::DataTableModel::editingStarted,
             this, &DataTab::validateControls);
@@ -526,6 +532,12 @@ void DataTab::onDataResetSortAction()
     } catch(meow::db::Exception & ex) {
         errorDialog(ex.message());
     }
+}
+
+void DataTab::onDataExportAction()
+{
+    meow::ui::export_query::Dialog dialog;
+    dialog.exec();
 }
 
 bool DataTab::applyModifications(int rowToApply)
