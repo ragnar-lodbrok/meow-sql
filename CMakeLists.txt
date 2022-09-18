@@ -263,6 +263,7 @@ set(SOURCE_FILES
     ui/presenters/edit_database_form.cpp
     ui/presenters/editable_data_context_menu_presenter.cpp
     ui/presenters/export_database_form.cpp
+    ui/presenters/export_query_presenter.cpp
     ui/presenters/routine_form.cpp
     ui/presenters/select_db_object_form.cpp
     ui/presenters/table_info_form.cpp
@@ -283,6 +284,7 @@ set(SOURCE_FILES
     ui/user_manager/credentials_tab.cpp
     ui/user_manager/limitations_tab.cpp
     ui/user_manager/select_db_object.cpp
+    utils/exporting/query_data.cpp
     utils/exporting/mysql_dump_console.cpp
 )
 

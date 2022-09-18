@@ -23,7 +23,7 @@ void Dialog::createWidgets()
     QVBoxLayout * mainLayout = new QVBoxLayout();
     this->setLayout(mainLayout);
 
-    _outputTargetWidget = new OutputTargetWidget;
+    _outputTargetWidget = new OutputTargetWidget(&_presenter);
     mainLayout->addWidget(_outputTargetWidget, 0, Qt::AlignTop);
 
     QHBoxLayout * horizLayout = new QHBoxLayout();

@@ -2,6 +2,7 @@
 #define UI_EXPORT_QUERY_EXPORT_QUERY_DATA_DIALOG_H
 
 #include <QtWidgets>
+#include "ui/presenters/export_query_presenter.h"
 
 namespace meow {
 namespace ui {
@@ -20,6 +21,8 @@ private:
     void createWidgets();
 
     Q_SLOT void onAccept();
+
+    ui::presenters::ExportQueryPresenter _presenter;
 
     OutputTargetWidget * _outputTargetWidget;
     OutputFormatWidget * _outputFormatWidget;

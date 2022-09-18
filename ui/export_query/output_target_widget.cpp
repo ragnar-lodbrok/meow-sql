@@ -1,15 +1,20 @@
 #include "output_target_widget.h"
+#include "ui/presenters/export_query_presenter.h"
 
 namespace meow {
 namespace ui {
 namespace export_query {
 
-OutputTargetWidget::OutputTargetWidget(QWidget *parent)
+OutputTargetWidget::OutputTargetWidget(
+        presenters::ExportQueryPresenter * presenter, QWidget *parent)
     : QWidget(parent)
+    , _presenter(presenter)
 {
     setMinimumSize(100, 120);
 
     createWidgets();
+    fillDataFromPresenter();
+    validateControls();
 }
 
 void OutputTargetWidget::createWidgets()
@@ -26,6 +31,11 @@ void OutputTargetWidget::createWidgets()
 
     _clipboardRadioButton = new QRadioButton(tr("Copy to clipboard"));
     _fileRadioButton = new QRadioButton(tr("File"));
+
+    connect(_clipboardRadioButton, &QAbstractButton::toggled,
+            this, &OutputTargetWidget::onModeRadioButtonToggled);
+    connect(_fileRadioButton, &QAbstractButton::toggled,
+            this, &OutputTargetWidget::onModeRadioButtonToggled);
 
     mainGroupLayout->addWidget(_clipboardRadioButton, 0, Qt::AlignTop);
 
@@ -55,6 +65,9 @@ void OutputTargetWidget::createWidgets()
     gridLayout->addWidget(_encodingLabel, 1, 0);
 
     _encodingCombobox = new QComboBox();
+    // TODO: add search?
+    connect(_encodingCombobox, &QComboBox::currentTextChanged,
+            this, &OutputTargetWidget::onEncodingComboboxTextChanged);
     gridLayout->addWidget(_encodingCombobox, 1, 1);
 
     gridLayout->setColumnStretch(0, 1);
@@ -64,6 +77,47 @@ void OutputTargetWidget::createWidgets()
     mainGroupLayout->addLayout(gridLayout, 0);
 
     _groupBox->setLayout(mainGroupLayout);
+}
+
+void OutputTargetWidget::fillDataFromPresenter()
+{
+    if (_presenter->isModeClipboard()) {
+        _clipboardRadioButton->blockSignals(true);
+        _clipboardRadioButton->setChecked(true);
+        _clipboardRadioButton->blockSignals(false);
+    } else {
+        _fileRadioButton->blockSignals(true);
+        _fileRadioButton->setChecked(true);
+        _fileRadioButton->blockSignals(false);
+    }
+
+    _encodingCombobox->blockSignals(true);
+    _encodingCombobox->clear();
+    _encodingCombobox->addItems(_presenter->supportedFileEncodings());
+    _encodingCombobox->setCurrentText(_presenter->fileEncoding());
+    _encodingCombobox->blockSignals(false);
+}
+
+void OutputTargetWidget::validateControls()
+{
+
+}
+
+void OutputTargetWidget::onModeRadioButtonToggled(bool checked)
+{
+    if (checked) {
+        if (sender() == _clipboardRadioButton) {
+            _presenter->setModeClipboard();
+        } else {
+            _presenter->setModeFile();
+        }
+        validateControls();
+    }
+}
+
+void OutputTargetWidget::onEncodingComboboxTextChanged(const QString & text)
+{
+    _presenter->setFileEncoding(text);
 }
 
 } // namespace export_query
