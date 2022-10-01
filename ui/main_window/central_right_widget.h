@@ -12,6 +12,7 @@
 #include "central_right/routine/central_right_routine_tab.h"
 #include "central_right/trigger/central_right_trigger_tab.h"
 #include "central_right/global_filter_widget.h"
+//#include "central_right/global_data_filter_interface.h"
 
 namespace meow {
 namespace ui {
@@ -50,6 +51,7 @@ private:
     Q_SLOT void rootTabClicked(int index);
     Q_SLOT void onDataTabDataChanged();
     Q_SLOT void onCloseTabButtonClicked();
+    Q_SLOT void onQueryResultTabChanged();
 
     central_right::HostTab * hostTab();
     central_right::DatabaseTab * databaseTab();
@@ -81,6 +83,8 @@ private:
     void backupQueryTabs();
 
     bool showGlobalFilterPanel() const;
+    central_right::IGlobalDataFilter * currentGlobalFilteredTab();
+    void updateFilterWidgetState();
 
     presenters::CentralRightWidgetModel _model;
 

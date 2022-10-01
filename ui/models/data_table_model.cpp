@@ -19,8 +19,6 @@ DataTableModel::DataTableModel(QObject *parent)
     : BaseDataTableModel(
           meow::db::QueryDataPtr(new meow::db::QueryData()),
           parent),
-      _sortFilterModel(nullptr),
-      _filterPatternIsRegexp(false),
       _entityChangedProcessed(false),
       _dbEntity(nullptr),
       _wantedRowsCount(meow::db::DATA_MAX_ROWS)
@@ -404,50 +402,6 @@ int DataTableModel::insertNewRow(bool duplicateCurrent, bool withKeys)
         endInsertRows();
     }
     return newRowIndex;
-}
-
-QAbstractItemModel * DataTableModel::createSortFilterModel()
-{
-    if (_sortFilterModel == nullptr) {
-        _sortFilterModel = new QueryDataSortFilterProxyModel(queryData(), this);
-        _sortFilterModel->setSourceModel(this);
-        _sortFilterModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-        _sortFilterModel->setFilterKeyColumn(-1); // all columns
-
-        setFilterPattern(_filterPattern, _filterPatternIsRegexp);
-    }
-    return _sortFilterModel;
-}
-
-void DataTableModel::setFilterPattern(const QString & pattern, bool regexp)
-{
-    if (_filterPattern == pattern && _filterPatternIsRegexp == regexp) return;
-
-    _filterPattern = pattern;
-    _filterPatternIsRegexp = regexp;
-    if (_sortFilterModel) {
-        if (_filterPatternIsRegexp) {
-            _sortFilterModel->setFilterRegExp(QRegExp(pattern,
-                                                      Qt::CaseInsensitive,
-                                                      QRegExp::RegExp));
-        } else {
-            _sortFilterModel->setFilterWildcard(pattern);
-        }
-    }
-}
-
-QString DataTableModel::filterPattern() const
-{
-    return _filterPattern;
-}
-
-int DataTableModel::filterMatchedRowCount() const
-{
-    if (_sortFilterModel) {
-        return _sortFilterModel->rowCount();
-    } else {
-        return rowCount(); // all matched if no filter
-    }
 }
 
 QList<db::TableColumn *> DataTableModel::selectedTableColumns()

@@ -95,6 +95,11 @@ QAction * EditableDataContextMenuPresenter::resetDataSortAction() const
     return meow::app()->actions()->dataResetSort();
 }
 
+QAction * EditableDataContextMenuPresenter::exportDataAction() const
+{
+    return meow::app()->actions()->dataExport();
+}
+
 } // namespace presenters
 } // namespace ui
 } // namespace meow

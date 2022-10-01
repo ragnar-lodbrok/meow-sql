@@ -3,6 +3,7 @@
 
 #include <QAbstractTableModel>
 #include "db/query_data.h"
+#include "query_data_sort_filter_proxy_model.h"
 
 namespace meow {
 namespace ui {
@@ -54,11 +55,63 @@ public:
     void setRowCount(int newRowCount); // set to -1 to take from queryData()
     void setColumnCount(int newColumnCount);
 
+    QAbstractItemModel * createSortFilterModel();
+
+    void setFilterPattern(const QString & pattern, bool regexp);
+    QString filterPattern() const;
+    bool filterPatternIsRegexp() const { return _filterPatternIsRegexp; }
+
+    int filterMatchedRowCount() const;
+
+    QModelIndex mapToSource(const QModelIndex &proxyIndex) const {
+        if (_sortFilterModel) {
+            return _sortFilterModel->mapToSource(proxyIndex);
+        } else {
+            return proxyIndex;
+        }
+    }
+
+    QModelIndexList mapToSource(const QModelIndexList &proxyIndexList) const {
+        if (_sortFilterModel) {
+            QModelIndexList result = proxyIndexList;
+            for (auto & index : result) {
+                index = _sortFilterModel->mapToSource(index);
+            }
+            return result;
+        } else {
+            return proxyIndexList;
+        }
+    }
+
+    QModelIndex mapFromSource(const QModelIndex &sourceIndex) const {
+        if (_sortFilterModel) {
+            return _sortFilterModel->mapFromSource(sourceIndex);
+        } else {
+            return sourceIndex;
+        }
+    }
+
+    QModelIndexList mapFromSource(const QModelIndexList &sourceIndexList) const {
+        if (_sortFilterModel) {
+            QModelIndexList result = sourceIndexList;
+            for (auto & index : result) {
+                index = _sortFilterModel->mapFromSource(index);
+            }
+            return result;
+        } else {
+            return sourceIndexList;
+        }
+    }
 
 private:
     meow::db::QueryDataPtr _queryData;
     int _rowCount;
     int _colCount;
+
+    QueryDataSortFilterProxyModel * _sortFilterModel;
+    QString _filterPattern;
+    bool _filterPatternIsRegexp;
+
 };
 
 

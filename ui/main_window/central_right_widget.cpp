@@ -53,14 +53,16 @@ CentralRightWidget::~CentralRightWidget()
 
 void CentralRightWidget::setActiveDBEntity(const db::EntityPtr & entityPtr)
 {
-    _filterWidget->reset();
-
     db::Entity * entity = entityPtr.get(); // temp to compile
 
     bool wasOnDataTab = entity ? onDataTab() : false;
     bool wasOnQueryTab = entity ? onQueryTab() : false;
 
     _model.setCurrentEntity(entityPtr);
+
+    if (wasOnDataTab) {
+        _filterWidget->reset();
+    }
 
     if (entity == nullptr) {
         removeAllRootTabs();
@@ -230,11 +232,13 @@ void CentralRightWidget::onEntityEdited(db::Entity * entity)
 void CentralRightWidget::onGlobalDataFilterPatternChanged(
         const QString & pattern, bool regexp)
 {
-    if (_model.hasDataTab() && onDataTab()) {
-        dataTab()->setFilterPattern(pattern, regexp);
+    central_right::IGlobalDataFilter * filteredTab = currentGlobalFilteredTab();
+
+    if (filteredTab) {
+        filteredTab->setFilterPattern(pattern, regexp);
         _filterWidget->setRowCount(
-                    dataTab()->totalRowCount(),
-                    dataTab()->filterMatchedRowCount());
+                    filteredTab->totalRowCount(),
+                    filteredTab->filterMatchedRowCount());
     }
 }
 
@@ -328,22 +332,6 @@ void CentralRightWidget::rootTabChanged(int index)
     try {
         if (onDataTab()) {
             dataTab()->loadData();
-
-            bool showFilter = meow::app()->settings()
-                    ->geometrySettings()->showFilterPanel();
-            if (showFilter) {
-                _filterWidget->setFilterPattern(
-                            dataTab()->filterPattern(),
-                            dataTab()->filterPatternIsRegexp());
-            } else {
-                _filterWidget->reset();
-            }
-            _filterWidget->setRowCount(
-                        dataTab()->totalRowCount(),
-                        dataTab()->filterMatchedRowCount());
-
-        } else {
-            _filterWidget->reset();
         }
     } catch(meow::db::Exception & ex) {
         QMessageBox msgBox;
@@ -353,6 +341,8 @@ void CentralRightWidget::rootTabChanged(int index)
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
     }
+
+    updateFilterWidgetState();
 }
 
 void CentralRightWidget::rootTabClicked(int index)
@@ -384,6 +374,11 @@ void CentralRightWidget::onCloseTabButtonClicked()
             break;
         }
     }
+}
+
+void CentralRightWidget::onQueryResultTabChanged()
+{
+    updateFilterWidgetState();
 }
 
 central_right::HostTab * CentralRightWidget::hostTab()
@@ -511,6 +506,10 @@ void CentralRightWidget::createQueryTabs()
                              queryTab,
                              QIcon(":/icons/execute.png"),
                              _model.titleForQueryTab(index));
+
+        connect(queryTab, &central_right::QueryTab::queryResultTabChanged,
+                this, &CentralRightWidget::onQueryResultTabChanged);
+
         if (index != 0) {
             QPushButton * closeButton = new QPushButton(
                     QIcon(":/icons/cross_small.png"), QString());
@@ -712,7 +711,41 @@ bool CentralRightWidget::showGlobalFilterPanel() const
     if (_model.hasDataTab() && onDataTab()) {
         return meow::app()->settings()->geometrySettings()->showFilterPanel();
     }
+    if (_model.hasQueryTab() && onQueryTab()) {
+        return meow::app()->settings()->geometrySettings()->showFilterPanel();
+    }
     return false;
+}
+
+central_right::IGlobalDataFilter *
+CentralRightWidget::currentGlobalFilteredTab()
+{
+    return dynamic_cast<central_right::IGlobalDataFilter *>(
+                _rootTabs->currentWidget());
+}
+
+void CentralRightWidget::updateFilterWidgetState()
+{
+    central_right::IGlobalDataFilter * filteredTab = currentGlobalFilteredTab();
+
+    if (filteredTab) {
+
+        bool showFilter = meow::app()->settings()
+                ->geometrySettings()->showFilterPanel();
+        if (showFilter) {
+            _filterWidget->setFilterPattern(
+                        filteredTab->filterPattern(),
+                        filteredTab->filterPatternIsRegexp());
+        } else {
+            _filterWidget->reset();
+        }
+        _filterWidget->setRowCount(
+                    filteredTab->totalRowCount(),
+                    filteredTab->filterMatchedRowCount());
+
+    } else {
+        _filterWidget->reset();
+    }
 }
 
 } // namespace meow

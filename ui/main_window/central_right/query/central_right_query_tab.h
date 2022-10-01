@@ -3,6 +3,7 @@
 
 #include <QtWidgets>
 #include "ui/main_window/central_right/base_root_tab.h"
+#include "ui/main_window/central_right/global_data_filter_interface.h"
 #include "ui/presenters/central_right_query_presenter.h"
 
 namespace meow {
@@ -13,7 +14,7 @@ namespace central_right {
 class QueryPanel;
 class QueryResult;
 
-class QueryTab : public BaseRootTab
+class QueryTab : public BaseRootTab, public IGlobalDataFilter
 {
     Q_OBJECT
 public:
@@ -22,6 +23,16 @@ public:
 
     QString currentQueryText() const;
     void setCurrentQueryText(const QString & text);
+
+    virtual void setFilterPattern(const QString & filter,
+                                  bool regexp = false) override;
+    virtual QString filterPattern() const override;
+    virtual bool filterPatternIsRegexp() const override;
+
+    virtual int totalRowCount() const override;
+    virtual int filterMatchedRowCount() const override;
+
+    Q_SIGNAL void queryResultTabChanged(int index);
 
 private:
 

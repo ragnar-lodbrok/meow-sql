@@ -28,6 +28,9 @@ QueryTab::QueryTab(db::UserQuery * query, QWidget *parent) :
 
     connect(_presenter.query(), &db::UserQuery::executionConnectionClosed,
             this, &QueryTab::onExecutionConnectionClosed);
+
+    connect(_queryResult, &QueryResult::queryDataTabChanged,
+            this, &QueryTab::queryResultTabChanged);
 }
 
 QueryTab::~QueryTab()
@@ -180,6 +183,31 @@ QString QueryTab::currentQueryText() const
 void QueryTab::setCurrentQueryText(const QString & text)
 {
     _queryPanel->setQueryText(text);
+}
+
+void QueryTab::setFilterPattern(const QString & filter, bool regexp)
+{
+    _queryResult->setFilterPattern(filter, regexp);
+}
+
+QString QueryTab::filterPattern() const
+{
+    return _queryResult->filterPattern();
+}
+
+bool QueryTab::filterPatternIsRegexp() const
+{
+    return _queryResult->filterPatternIsRegexp();
+}
+
+int QueryTab::totalRowCount() const
+{
+    return _queryResult->totalRowCount();
+}
+
+int QueryTab::filterMatchedRowCount() const
+{
+    return _queryResult->filterMatchedRowCount();
 }
 
 // -----------------------------------------------------------------------------

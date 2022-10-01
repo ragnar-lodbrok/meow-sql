@@ -24,6 +24,8 @@ public:
     std::vector<QAction *> editRowActions() const;
 
     QAction * resetDataSortAction() const;
+
+    QAction * exportDataAction() const;
 };
 
 } // namespace presenters
