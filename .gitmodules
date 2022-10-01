@@ -1,0 +1,3 @@
+[submodule "ssh/libasio"]
+	path = sockets/libasio
+	url = git@github.com:chriskohlhoff/asio.git

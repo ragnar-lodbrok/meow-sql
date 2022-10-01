@@ -10,8 +10,10 @@ namespace ssh {
 class SSHTunnelFactory
 {
 public:
-    std::unique_ptr<ISSHTunnel> createTunnel();
+    std::shared_ptr<ISSHTunnel> createTunnel();
 
+private:
+    void failWithError(const QString& error);
 };
 
 } // namespace ssh

@@ -72,19 +72,27 @@ void MySQLConnection::setActive(bool active) // override
 
     threads::MutexLocker locker(mutex()); // protects _handle
 
-    if (active && _handle == nullptr) {
+    if (active) {
+        _active = true;
+        if (_handle != nullptr)
+        {
+            return;
+        }
+
         doBeforeConnect();
 
-        if (connectionParams()->isSSHTunnel()) {
+        auto params = connectionParams();
+        if (params->isSSHTunnel()) {
 
             ssh::SSHTunnelFactory sshFactory;
             _sshTunnel = sshFactory.createTunnel();
 
-            _sshTunnel->connect(*connectionParams()); // throws an error
+            _sshTunnel->connect(*params); // throws an error
 
-            connectionParams()->setHostName("127.0.0.1");
-            connectionParams()->setPort(
-                        _sshTunnel->params().localPort());
+            // If we just blindly overwrite the hostname, we
+            // fail on reconnection to the tunnel.
+            params->setOverrideHostName("127.0.0.1");
+            params->setOverridePort(_sshTunnel->params().localPort());
         }
 
         _handle = mysql_init(nullptr); // TODO: valgrind says it leaks?
@@ -101,16 +109,16 @@ void MySQLConnection::setActive(bool active) // override
         // TODO: H: flags SSL, COMPRESS
         // TODO: H: MYSQL_PLUGIN_DIR
 
-        QByteArray hostBytes = connectionParams()->hostName().toLatin1();
-        QByteArray userBytes = connectionParams()->userName().toLatin1();
-        QByteArray pswdBytes = connectionParams()->password().toLatin1();
+        QByteArray hostBytes = params->overriddenHostName().toLatin1();
+        QByteArray userBytes = params->userName().toLatin1();
+        QByteArray pswdBytes = params->password().toLatin1();
 
         const char * host = hostBytes.constData();
         const char * user = userBytes.constData();
         const char * pswd = pswdBytes.constData();
-        unsigned int port = connectionParams()->port();
+        unsigned int port = params->overriddenPort();
 
-        meowLogDebugC(this) << "Connecting: " << *connectionParams();
+        meowLogDebugC(this) << "Connecting: " << *params;
 
         MYSQL * connectedHandle = mysql_real_connect(
             _handle,
@@ -247,8 +255,8 @@ bool MySQLConnection::ping(bool reconnect) // override
     threads::MutexUnlocker unlocker(mutex()); // protects _handle
 
     if (_handle == nullptr || mysql_ping(_handle) != 0) {
-        setActive(false); // TODO: why?
-                        // H: Be sure to release some stuff before reconnecting
+        setActive(false); // Because the connection might think it's still open, but we've just established that it's not
+        // H: Be sure to release some stuff before reconnecting
         if (reconnect) {
             setActive(true);
         }

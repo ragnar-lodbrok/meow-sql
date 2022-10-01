@@ -51,8 +51,8 @@ void PGConnection::setActive(bool active)
             _sshTunnel = sshFactory.createTunnel();
             _sshTunnel->connect(*connectionParams()); // throws an error
 
-            connectionParams()->setHostName("127.0.0.1");
-            connectionParams()->setPort(
+            connectionParams()->setOverrideHostName("127.0.0.1");
+            connectionParams()->setOverridePort(
                         _sshTunnel->params().localPort());
         }
 
@@ -516,7 +516,7 @@ QString PGConnection::connectionInfo() const
         dbName = QString("postgres");
     }
 
-    QString port = QString::number(connectionParams()->port());
+    QString port = QString::number(connectionParams()->overriddenPort());
 
     QString connInfoStr = QString(
         "host=%1 "
@@ -525,7 +525,7 @@ QString PGConnection::connectionInfo() const
         "password=%4 "
         "dbname=%5 "
         "application_name=%6")
-     .arg(escapeConnectionParam(connectionParams()->hostName()))
+     .arg(escapeConnectionParam(connectionParams()->overriddenHostName()))
      .arg(escapeConnectionParam(port))
      .arg(escapeConnectionParam(connectionParams()->userName()))
      .arg(escapeConnectionParam(connectionParams()->password()))

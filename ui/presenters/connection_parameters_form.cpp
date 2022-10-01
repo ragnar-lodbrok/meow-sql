@@ -18,7 +18,7 @@ ConnectionParametersForm::ConnectionParametersForm(
 bool ConnectionParametersForm::supportsSSHPassword() const
 {
     ssh::SSHTunnelFactory sshFactory;
-    std::unique_ptr<ssh::ISSHTunnel> ssh = sshFactory.createTunnel();
+    std::shared_ptr<ssh::ISSHTunnel> ssh = sshFactory.createTunnel();
     return ssh->supportsPassword();
 }
 

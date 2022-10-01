@@ -110,7 +110,7 @@ private:
     MySQLForkType forkTypeFromVersion(const QString & versionString) const;
 
     MYSQL * _handle;
-    std::unique_ptr<ssh::ISSHTunnel> _sshTunnel;
+    std::shared_ptr<ssh::ISSHTunnel> _sshTunnel;
     MySQLForkType _forkType;
 };
 

@@ -93,7 +93,7 @@ private:
     inline QString qu(const char * identifier) const;
 
     PGconn * _handle;
-    std::unique_ptr<ssh::ISSHTunnel> _sshTunnel;
+    std::shared_ptr<ssh::ISSHTunnel> _sshTunnel;
 };
 
 } // namespace db

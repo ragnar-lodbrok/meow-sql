@@ -17,7 +17,7 @@ set(CMAKE_AUTOMOC ON)
 #set(CMAKE_AUTORCC ON) # TODO
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 11) # TODO 14 for Qt >= 5.5
+set(CMAKE_CXX_STANDARD 17)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
@@ -347,8 +347,23 @@ if(WITH_QTSQL)
 endif()
 
 if(WITH_LIBSSH)
+    list(APPEND HEADER_FILES
+            sockets/connection.h
+            sockets/socket.h
+            sockets/IConnectionReceiver.h
+            sockets/ISocketReceiver.h
+            ssh/libssh.h
+            ssh/libssh_channel.h
+            ssh/libssh_tunnel.h
+            ssh/libssh_connection.h
+    )
     list(APPEND SOURCE_FILES
-        ssh/libssh_tunnel.cpp
+            sockets/connection.cpp
+            sockets/socket.cpp
+            ssh/libssh.cpp
+            ssh/libssh_channel.cpp
+            ssh/libssh_tunnel.cpp
+            ssh/libssh_connection.cpp
     )
 endif()
 
@@ -376,6 +391,8 @@ add_executable(meowsql
     ${HEADER_FILES}
     ${SOURCE_FILES}
     ${RESOURCE_FILES})
+
+target_include_directories(meowsql PRIVATE ${CMAKE_CURRENT_LIST_DIR}/sockets/libasio/asio/include)
 
 target_link_libraries(meowsql Qt5::Widgets)
 
@@ -462,7 +479,7 @@ if(WITH_LIBSSH)
     message ("LIBSSH_LIBRARIES = ${LIBSSH_LIBRARIES}")
 
     target_link_libraries(meowsql pthread ssh)
-
+    target_compile_definitions(meowsql PRIVATE HAS_LIBSSH=1)
 endif()
 
 if(WITH_MYSQL)
