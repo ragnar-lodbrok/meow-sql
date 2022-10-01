@@ -242,6 +242,7 @@ SOURCES += main.cpp\
     ui/presenters/edit_database_form.cpp \
     ui/presenters/editable_data_context_menu_presenter.cpp \
     ui/presenters/export_database_form.cpp \
+    ui/presenters/export_query_presenter.cpp \
     ui/presenters/routine_form.cpp \
     ui/presenters/select_db_object_form.cpp \
     ui/presenters/table_info_form.cpp \
@@ -268,6 +269,7 @@ SOURCES += main.cpp\
     ui/main_window/central_bottom_widget.cpp \
     ui/main_window/central_log_widget.cpp \
     utils/exporting/mysql_dump_console.cpp \
+    utils/exporting/query_data.cpp \
     ui/export_database/export_dialog.cpp
 
 
@@ -451,6 +453,7 @@ HEADERS  +=  app/actions.h \
     ui/presenters/edit_database_form.h \
     ui/presenters/editable_data_context_menu_presenter.h \
     ui/presenters/export_database_form.h \
+    ui/presenters/export_query_presenter.h \
     ui/presenters/routine_form.h \
     ui/presenters/select_db_object_form.h \
     ui/presenters/table_info_form.h \
@@ -477,6 +480,7 @@ HEADERS  +=  app/actions.h \
     ui/main_window/central_bottom_widget.h \
     ui/main_window/central_log_widget.h \
     utils/exporting/mysql_dump_console.h \
+    utils/exporting/query_data.р \
     ui/export_database/export_dialog.h
 
 win32:SOURCES += ssh/plink_ssh_tunnel.cpp
