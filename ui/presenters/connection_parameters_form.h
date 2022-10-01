@@ -49,6 +49,10 @@ public:
     }
     bool supportsSSHPassword() const;
 
+    bool supportsCompressionOption() const {
+        return _connectionParams.supportsCompressionOption();
+    }
+
     bool isSSHTunnel() const {
         return _connectionParams.isSSHTunnel();
     }

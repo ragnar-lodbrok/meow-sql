@@ -104,6 +104,15 @@ public:
         return true;
     }
 
+    bool supportsCompressionOption() const {
+#ifdef WITH_MYSQL
+        if (_serverType == ServerType::MySQL) {
+            return true;
+        }
+#endif
+        return false;
+    }
+
     bool isSSHTunnel() const {
 #ifdef WITH_MYSQL
         if (_networkType == NetworkType::MySQL_SSH_Tunnel) {
