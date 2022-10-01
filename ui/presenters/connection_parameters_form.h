@@ -31,6 +31,7 @@ public:
     QString password() const { return _connectionParams.password(); }
     QString databases() const { return _connectionParams.databases(); }
     bool isLoginPrompt() const { return _connectionParams.isLoginPrompt(); }
+    bool isCompressed() const { return _connectionParams.isCompressed(); }
     quint16 port() const { return _connectionParams.port(); }
     int index() const;
     const meow::db::ConnectionParameters & connectionParams() const {
@@ -71,6 +72,7 @@ public:
     void setPassword(const QString &password);
     void setDatabases(const QString &databases);
     void setLoginPrompt(bool loginPrompt);
+    void setCompressed(bool compressed);
     void setPort(quint16 port);
 
     void setSSHHost(const QString & host);

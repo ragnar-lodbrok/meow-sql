@@ -95,6 +95,14 @@ void ConnectionParametersForm::setLoginPrompt(bool loginPrompt)
     }
 }
 
+void ConnectionParametersForm::setCompressed(bool compressed)
+{
+    if (_connectionParams.isCompressed() != compressed) {
+        _connectionParams.setCompressed(compressed);
+        emit changed();
+    }
+}
+
 void ConnectionParametersForm::setPort(quint16 port)
 {
     if (_connectionParams.port() != port) {

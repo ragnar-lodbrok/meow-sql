@@ -98,7 +98,7 @@ void MySQLConnection::setActive(bool active) // override
                 | CLIENT_PROTOCOL_41
                 | CLIENT_MULTI_STATEMENTS;
 
-        // TODO: H: flags SSL, COMPRESS
+        // TODO: H: flags SSL
         // TODO: H: MYSQL_PLUGIN_DIR
 
         QByteArray hostBytes = connectionParams()->hostName().toLatin1();
@@ -111,6 +111,11 @@ void MySQLConnection::setActive(bool active) // override
         unsigned int port = connectionParams()->port();
 
         meowLogDebugC(this) << "Connecting: " << *connectionParams();
+
+        if (connectionParams()->isCompressed()) {
+            mysql_options(_handle, MYSQL_OPT_COMPRESS, nullptr);
+            mysql_options(_handle, MYSQL_OPT_COMPRESSION_ALGORITHMS, "zlib,zstd");
+        }
 
         MYSQL * connectedHandle = mysql_real_connect(
             _handle,

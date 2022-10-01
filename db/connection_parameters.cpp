@@ -27,6 +27,7 @@ meow::db::ConnectionParameters::ConnectionParameters(
     _password(""),
     _databases(""),
     _loginPrompt(false),
+    _isCompressed(false),
     _port(0),
     _manager(manager),
     _id(0)
@@ -77,7 +78,8 @@ bool meow::db::ConnectionParameters::operator==(
         && _databases == other._databases
         && _loginPrompt == other._loginPrompt
         && _port == other._port
-        && _sshTunnel == other._sshTunnel;
+        && _sshTunnel == other._sshTunnel
+        && _isCompressed == other._isCompressed;
 }
 
 meow::db::ConnectionParameters::operator QString() const

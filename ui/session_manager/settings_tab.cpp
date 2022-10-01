@@ -22,7 +22,9 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
             [=](int index) {
                 if (_form) {
                     QVector<db::NetworkType> networkTypes = meow::db::networkTypes();
+                    auto networkType = networkTypes[index];
                     _form->setNetworkType(networkTypes[index]);
+                    _compressionCheckBox->setHidden(networkType != db::NetworkType::MySQL_SSH_Tunnel && networkType != db::NetworkType::MySQL_TCPIP);
                 }
             });
     row++;
@@ -158,6 +160,18 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
             });
     row++;
 
+    // Compression -------------------------------------------------------------
+    _compressionCheckBox = new QCheckBox(tr("Enable connection compression"));
+    connect(_compressionCheckBox, &QCheckBox::stateChanged,
+            [=](int newState) {
+                if (_form) {
+                    _form->setCompressed(newState == Qt::Checked);
+                }
+            });
+    _mainGridLayout->addWidget(_compressionCheckBox, row, 0);
+
+    row++;
+
 
     _mainGridLayout->setColumnMinimumWidth(0, 150);
     _mainGridLayout->setColumnStretch(1, 2);
@@ -186,6 +200,7 @@ void SettingsTab::fillDataFromForm()
     _hostEdit->setText(_form->hostName());
     _filenameEdit->setText(_form->fileName());
     //_loginPromptCheckBox->setChecked(_form->isLoginPrompt());
+    _compressionCheckBox->setChecked(_form->isCompressed());
     _userEdit->setText(_form->userName());
     _passwordEdit->setText(_form->password());
     _databasesEdit->setText(_form->databases());
