@@ -32,7 +32,7 @@ option(WITH_MYSQL "MySQL support" ON)
 option(WITH_POSTGRESQL "PostgreSQL support" ON)
 option(WITH_SQLITE "SQLite support" ON)
 option(WITH_QTSQL "Qt SQL Module" ON)
-option(WITH_LIBSSH "Use libssh" OFF) # not finished
+option(WITH_LIBSSH "Use libssh" ON) # not finished
 option(USE_CONAN_IO "Use conan.io package manager" OFF)
 
 if(WIN32)
@@ -479,7 +479,6 @@ if(WITH_LIBSSH)
     message ("LIBSSH_LIBRARIES = ${LIBSSH_LIBRARIES}")
 
     target_link_libraries(meowsql pthread ssh)
-    target_compile_definitions(meowsql PRIVATE HAS_LIBSSH=1)
 endif()
 
 if(WITH_MYSQL)

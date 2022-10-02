@@ -8,7 +8,6 @@
 #include "common.h"
 
 #include <memory>
-#include <optional>
 
 namespace meow {
 namespace db {
@@ -54,9 +53,8 @@ public:
     QString sessionName() const { return _sessionName; }
     QString hostName() const { return _hostName; }
     QString overriddenHostName() const {
-        if (_overrideHostName.has_value())
-        {
-            return *_overrideHostName;
+        if (!_overrideHostName.isNull()) {
+            return _overrideHostName;
         }
         return _hostName;
     }
@@ -69,9 +67,8 @@ public:
     bool isLoginPrompt() const { return _loginPrompt; }
     quint16 port() const { return _port; }
     quint16 overriddenPort() const {
-        if (_overridePort.has_value())
-        {
-            return *_overridePort;
+        if (_overridePort != 0) {
+            return _overridePort;
         }
         return _port;
     }
@@ -176,14 +173,14 @@ private:
     ServerType _serverType;
     QString _sessionName;
     QString _hostName;
-    std::optional<QString> _overrideHostName;
+    QString _overrideHostName;
     QString _fileName;
     QString _userName;
     QString _password;
     QString _databases;
     bool _loginPrompt;
     quint16 _port;
-    std::optional<quint16> _overridePort;
+    quint16 _overridePort = 0;
     ConnectionParamsManager * _manager;
     unsigned _id;
     ssh::SSHTunnelParameters _sshTunnel;

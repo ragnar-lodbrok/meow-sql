@@ -1,5 +1,5 @@
 #include "ssh_tunnel_factory.h"
-#ifdef HAS_LIBSSH
+#ifdef WITH_LIBSSH
 #include "libssh_tunnel.h"
 #endif
 #ifndef Q_OS_WIN
@@ -15,7 +15,7 @@ namespace ssh {
 
 std::shared_ptr<ISSHTunnel> SSHTunnelFactory::createTunnel()
 {
-#ifdef HAS_LIBSSH
+#ifdef WITH_LIBSSH
     try {
         return std::make_shared<libssh_tunnel>();
     }
