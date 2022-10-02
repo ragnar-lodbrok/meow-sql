@@ -1,7 +1,8 @@
-#pragma once
+#ifndef SSH_LIBSSH_TUNNEL_H
+#define SSH_LIBSSH_TUNNEL_H
 
 #include "sockets/socket.h"
-#include "sockets/ISocketReceiver.h"
+#include "sockets/socket_receiver_interface.h"
 
 #include "libssh.h"
 #include "libssh_channel.h"
@@ -14,28 +15,35 @@
 #include <unordered_map>
 
 namespace meow {
-class connection;
+
+class Connection;
+
 namespace ssh {
-class libssh_connection;
-class libssh_tunnel : public ISSHTunnel, public ISocketReceiver, public std::enable_shared_from_this<libssh_tunnel>
+
+class LibSSHConnection;
+
+class LibSSHTunnel : public ISSHTunnel
+                   , public ISocketReceiver
+                   , public std::enable_shared_from_this<LibSSHTunnel>
 {
 public:
-    libssh_tunnel();
+    LibSSHTunnel();
 
-    ~libssh_tunnel() override;
+    virtual ~LibSSHTunnel() override;
 
     // <ISSHTunnel>
-    bool connect(const db::ConnectionParameters& params) override;
+    virtual bool connect(const db::ConnectionParameters& params) override;
 
-    void disconnect() override;
+    virtual void disconnect() override;
 
-    bool supportsPassword() const override;
+    virtual bool supportsPassword() const override;
 
-    SSHTunnelParameters params() const override;
+    virtual SSHTunnelParameters params() const override;
     // </ISSHTunnel>
     // <ISocketReceiver>
-    std::shared_ptr<IConnectionReceiver> onNewConnection(const std::shared_ptr<connection>& connection) override;
-    void onConnectionClosed(size_t connectionID) override;
+    virtual std::shared_ptr<IConnectionReceiver> onNewConnection(
+            const std::shared_ptr<Connection>& connection) override;
+    virtual void onConnectionClosed(size_t connectionID) override;
     // </ISocketReceiver>
 
 private:
@@ -54,14 +62,19 @@ private:
     db::ConnectionParameters _params;
     bool _threadStarted = false;
 
-    std::shared_ptr<libssh> _session;
-    std::unique_ptr<socket> _socket;
+    std::shared_ptr<LibSSH> _session;
+    std::unique_ptr<Socket> _socket;
     std::thread _thread;
     std::atomic<bool> _stopThread = false;
     bool _threadRunning = false;
     std::condition_variable _threadWait;
     std::mutex _threadMutex;
-    std::unordered_map<size_t, std::pair<std::shared_ptr<connection>, std::shared_ptr<libssh_connection>>> _connections;
+    using ConnectionPair = std::pair<std::shared_ptr<Connection>,
+                                     std::shared_ptr<LibSSHConnection>>;
+    std::unordered_map<size_t, ConnectionPair> _connections;
 };
-}
-}
+
+} // namespace ssh
+} // namespace meow
+
+#endif

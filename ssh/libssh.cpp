@@ -5,7 +5,8 @@
 
 namespace meow {
 namespace ssh {
-libssh::libssh()
+
+LibSSH::LibSSH()
     : _session(ssh_new())
 {
     if (_session == nullptr) {
@@ -13,54 +14,55 @@ libssh::libssh()
     }
 }
 
-libssh::~libssh()
+LibSSH::~LibSSH()
 {
     ssh_free(_session);
 }
 
-int libssh::setOption(enum ssh_options_e type, const void* value)
+int LibSSH::setOption(enum ssh_options_e type, const void* value)
 {
     return ssh_options_set(_session, type, value);
 }
 
-int libssh::connect()
+int LibSSH::connect()
 {
     return ssh_connect(_session);
 }
 
-void libssh::disconnect()
+void LibSSH::disconnect()
 {
     ssh_disconnect(_session);
 }
 
-const char* libssh::getError()
+const char* LibSSH::getError()
 {
     return ssh_get_error(_session);
 }
 
-enum ssh_known_hosts_e libssh::isKnownServer()
+enum ssh_known_hosts_e LibSSH::isKnownServer()
 {
     return ssh_session_is_known_server(_session);
 }
 
-int libssh::userAuthPassword(const char* password)
+int LibSSH::userAuthPassword(const char* password)
 {
     return ssh_userauth_password(_session, nullptr, password);
 }
 
-int libssh::userAuthPublicKeyAuto(const char* passphrase)
+int LibSSH::userAuthPublicKeyAuto(const char* passphrase)
 {
     return ssh_userauth_publickey_auto(_session, nullptr, passphrase);
 }
 
-std::unique_ptr<libssh_channel> libssh::newChannel()
+std::unique_ptr<LibSSHChannel> LibSSH::newChannel()
 {
-    return std::make_unique<libssh_channel>(&_session);
+    return std::make_unique<LibSSHChannel>(&_session);
 }
 
-socket_t libssh::getFD()
+socket_t LibSSH::getFD()
 {
     return ssh_get_fd(_session);
 }
-}
-}
+
+} // namespace ssh
+} // namespace meow

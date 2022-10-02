@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SSH_LIBSSH_H
+#define SSH_LIBSSH_H
 
 #include <libssh/libssh.h>
 
@@ -6,14 +7,16 @@
 
 namespace meow {
 namespace ssh {
-class libssh_channel;
 
-class libssh
+class LibSSHChannel;
+
+// TODO: rename to SSHSession?
+class LibSSH
 {
 public:
-    libssh();
+    LibSSH();
 
-    ~libssh();
+    ~LibSSH();
 
     int setOption(enum ssh_options_e type, const void* value);
 
@@ -29,12 +32,15 @@ public:
 
     int userAuthPublicKeyAuto(const char* passphrase);
 
-    std::unique_ptr<libssh_channel> newChannel();
+    std::unique_ptr<LibSSHChannel> newChannel();
 
     socket_t getFD();
 
 private:
     ssh_session _session;
 };
-}
-}
+
+} // namespace ssh
+} // namespace meow
+
+#endif

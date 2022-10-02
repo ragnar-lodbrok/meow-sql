@@ -4,11 +4,14 @@
 #include <utility>
 
 namespace meow::ssh {
-libssh_connection::libssh_connection(db::ConnectionParameters params,
-                                     std::shared_ptr<libssh> session,
-                                     std::unique_ptr<libssh_channel> channel,
-                                     std::shared_ptr<connection> connection,
-                                     const std::shared_ptr<ISocketReceiver>& receiver)
+
+LibSSHConnection::LibSSHConnection(
+        db::ConnectionParameters params,
+        std::shared_ptr<LibSSH> session,
+        std::unique_ptr<LibSSHChannel> channel,
+        std::shared_ptr<Connection> connection,
+        const std::shared_ptr<ISocketReceiver>& receiver)
+
     : _params(std::move(params))
     , _session(std::move(session))
     , _channel(std::move(channel))
@@ -18,12 +21,24 @@ libssh_connection::libssh_connection(db::ConnectionParameters params,
 
 }
 
-void libssh_connection::onError(std::error_code code)
+LibSSHConnection::~LibSSHConnection()
+{
+    qDebug() << "[STOP!] DESTRUCTING";
+    _stopThread = true;
+    if (_thread.joinable()) {
+        _thread.join();
+    }
+
+    _channel.reset();
+    _session.reset();
+}
+
+void LibSSHConnection::onError(std::error_code code)
 {
     qDebug() << "Socket error: " << QString::fromStdString(code.message());
 }
 
-void libssh_connection::onClose()
+void LibSSHConnection::onClose()
 {
     if (auto receiver = _receiver.lock())
     {
@@ -31,26 +46,26 @@ void libssh_connection::onClose()
     }
 }
 
-void libssh_connection::onData(const std::vector<char>& data, size_t dataLength)
+void LibSSHConnection::onData(const std::vector<char>& data, size_t dataLength)
 {
     // Data from TCP socket to send to ssh
     _channel->write(data.data(), dataLength);
 }
 
-void libssh_connection::startTunnel()
+void LibSSHConnection::startTunnel()
 {
     std::unique_lock<std::mutex> lk(_threadMutex);
     if (_threadRunning)
     {
         throw std::runtime_error("Thread already running");
     }
-    _thread = std::thread(&libssh_connection::threadFunc, this);
+    _thread = std::thread(&LibSSHConnection::threadFunc, this);
     _threadWait.wait(lk, [&]{
         return _threadRunning;
     });
 }
 
-void libssh_connection::threadFunc()
+void LibSSHConnection::threadFunc()
 {
     {
         std::unique_lock<std::mutex> lk(_threadMutex);
@@ -105,7 +120,7 @@ void libssh_connection::threadFunc()
     }
 }
 
-int libssh_connection::openForward(const std::unique_ptr<libssh_channel>& channel)
+int LibSSHConnection::openForward(const std::unique_ptr<LibSSHChannel> &channel)
 {
     QByteArray remoteHostBytes = _params.hostName().toLatin1();
     const char* remoteHost = remoteHostBytes.constData();
@@ -128,26 +143,13 @@ int libssh_connection::openForward(const std::unique_ptr<libssh_channel>& channe
     return rc;
 }
 
-void libssh_connection::close()
+void LibSSHConnection::close()
 {
     qDebug() << "[STOP!] CLOSE";
     _stopThread = true;
-    if (_thread.joinable())
-    {
+    if (_thread.joinable()) {
         _thread.join();
     }
 }
 
-libssh_connection::~libssh_connection()
-{
-    qDebug() << "[STOP!] DESTRUCTING";
-    _stopThread = true;
-    if (_thread.joinable())
-    {
-        _thread.join();
-    }
-
-    _channel.reset();
-    _session.reset();
-}
-}
+} // namespace meow::ssh

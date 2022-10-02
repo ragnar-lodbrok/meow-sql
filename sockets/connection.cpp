@@ -1,37 +1,40 @@
 #include "connection.h"
 
-#include "IConnectionReceiver.h"
+#include "connection_receiver_interface.h"
 
 namespace meow {
-size_t connection::connectionIDs = 0;
 
-connection::connection(asio::io_context& ioContext)
+size_t Connection::connectionIDs = 0;
+
+Connection::Connection(asio::io_context& ioContext)
     : _ioContext(ioContext)
     , _socket(ioContext)
-    , _data(std::vector<char>(connection::MAX_LENGTH))
-    , _connectionID(connection::connectionIDs++)
+    , _data(std::vector<char>(Connection::MAX_LENGTH))
+    , _connectionID(Connection::connectionIDs++)
 {
 
 }
 
-tcp::socket& connection::socket()
+tcp::socket& Connection::socket()
 {
     return _socket;
 }
 
-void connection::accept(const std::shared_ptr<IConnectionReceiver>& receiver)
+void Connection::accept(const std::shared_ptr<IConnectionReceiver>& receiver)
 {
     std::unique_lock<std::recursive_mutex> lk(_mutex);
     _receiver = receiver;
     if (!_closed) {
-        _socket.async_read_some(asio::buffer(_data.data(), connection::MAX_LENGTH),
-                                std::bind(&connection::readCallback, shared_from_this(),
-                                          std::placeholders::_1,
-                                          std::placeholders::_2));
+        _socket.async_read_some(
+                    asio::buffer(_data.data(), Connection::MAX_LENGTH),
+                    std::bind(&Connection::readCallback, shared_from_this(),
+                            std::placeholders::_1,
+                            std::placeholders::_2));
     }
 }
 
-void connection::readCallback(const asio::error_code& error, size_t bytes_transferred)
+void Connection::readCallback(
+        const asio::error_code& error, size_t bytes_transferred)
 {
     std::unique_lock<std::recursive_mutex> lk(_mutex);
     if (error) {
@@ -47,19 +50,20 @@ void connection::readCallback(const asio::error_code& error, size_t bytes_transf
     }
 
     if (!_closed) {
-        _socket.async_read_some(asio::buffer(_data.data(), connection::MAX_LENGTH),
-                                std::bind(&connection::readCallback, shared_from_this(),
-                                          std::placeholders::_1,
-                                          std::placeholders::_2));
+        _socket.async_read_some(
+                asio::buffer(_data.data(), Connection::MAX_LENGTH),
+                std::bind(&Connection::readCallback, shared_from_this(),
+                        std::placeholders::_1,
+                        std::placeholders::_2));
     }
 }
 
-void connection::write(const std::vector<char>& data)
+void Connection::write(const std::vector<char>& data)
 {
     write(data, data.size());
 }
 
-void connection::write(const std::vector<char>& data, size_t len)
+void Connection::write(const std::vector<char>& data, size_t len)
 {
     std::unique_lock<std::recursive_mutex> lk(_mutex);
     bool writeInProgress = !_writeQueue.empty();
@@ -68,12 +72,13 @@ void connection::write(const std::vector<char>& data, size_t len)
         asio::async_write(_socket,
                           asio::buffer(_writeQueue.front().first.data(),
                                        _writeQueue.front().second),
-                          std::bind(&connection::writeCallback, shared_from_this(),
+                          std::bind(&Connection::writeCallback,
+                                    shared_from_this(),
                                     std::placeholders::_1));
     }
 }
 
-void connection::writeCallback(const asio::error_code& error)
+void Connection::writeCallback(const asio::error_code& error)
 {
     std::unique_lock<std::recursive_mutex> lk(_mutex);
     if (error) {
@@ -89,12 +94,13 @@ void connection::writeCallback(const asio::error_code& error)
         asio::async_write(_socket,
                           asio::buffer(_writeQueue.front().first.data(),
                                        _writeQueue.front().second),
-                          std::bind(&connection::writeCallback, shared_from_this(),
+                          std::bind(&Connection::writeCallback,
+                                    shared_from_this(),
                                     std::placeholders::_1));
     }
 }
 
-void connection::close()
+void Connection::close()
 {
     std::unique_lock<std::recursive_mutex> lk(_mutex);
     if (_closed) {
@@ -102,10 +108,10 @@ void connection::close()
     }
     _closed = true;
     asio::post(_ioContext,
-               std::bind(&connection::closeCallback, shared_from_this()));
+               std::bind(&Connection::closeCallback, shared_from_this()));
 }
 
-void connection::closeCallback()
+void Connection::closeCallback()
 {
     std::unique_lock<std::recursive_mutex> lk(_mutex);
     _socket.close();
@@ -114,8 +120,9 @@ void connection::closeCallback()
     }
 }
 
-size_t connection::connectionID() const
+size_t Connection::connectionID() const
 {
     return _connectionID;
 }
+
 }

@@ -350,8 +350,8 @@ if(WITH_LIBSSH)
     list(APPEND HEADER_FILES
             sockets/connection.h
             sockets/socket.h
-            sockets/IConnectionReceiver.h
-            sockets/ISocketReceiver.h
+            sockets/connection_receiver_interface.h
+            sockets/socket_receiver_interface.h
             ssh/libssh.h
             ssh/libssh_channel.h
             ssh/libssh_tunnel.h

@@ -1,18 +1,21 @@
-#pragma once
+#ifndef SSH_LIBSSH_CHANNEL_H
+#define SSH_LIBSSH_CHANNEL_H
 
 #include <libssh/libssh.h>
 
 namespace meow::ssh {
-class libssh_channel
+
+class LibSSHChannel
 {
 public:
-    explicit libssh_channel(const ssh_session* session);
+    explicit LibSSHChannel(const ssh_session* session);
 
-    ~libssh_channel();
+    ~LibSSHChannel();
 
     void setBlocking(int blocking);
 
-    int openForward(const char* remotehost, int remoteport, const char* sourcehost, int localport);
+    int openForward(const char* remotehost, int remoteport,
+                    const char* sourcehost, int localport);
 
     int write(const void* data, uint32_t len);
 
@@ -28,4 +31,7 @@ public:
 private:
     ssh_channel _channel;
 };
-}
+
+} // namespace meow::ssh
+
+#endif

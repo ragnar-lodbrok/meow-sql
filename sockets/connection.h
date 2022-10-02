@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SSH_SOCKETS_CONNECTION_H
+#define SSH_SOCKETS_CONNECTION_H
 
 #include <asio.hpp>
 
@@ -9,12 +10,13 @@
 using asio::ip::tcp;
 
 namespace meow {
+
 class IConnectionReceiver;
 
-class connection : public std::enable_shared_from_this<connection>
+class Connection : public std::enable_shared_from_this<Connection>
 {
 public:
-    explicit connection(asio::io_context& io_context);
+    explicit Connection(asio::io_context& io_context);
 
     tcp::socket& socket();
 
@@ -48,4 +50,7 @@ private:
     std::deque<std::pair<std::vector<char>, size_t>> _writeQueue;
     size_t _connectionID;
 };
-}
+
+} // namespace meow
+
+#endif

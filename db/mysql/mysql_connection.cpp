@@ -74,14 +74,13 @@ void MySQLConnection::setActive(bool active) // override
 
     if (active) {
         _active = true;
-        if (_handle != nullptr)
-        {
+        if (_handle != nullptr) {
             return;
         }
 
         doBeforeConnect();
 
-        auto params = connectionParams();
+        ConnectionParameters * params = connectionParams();
         if (params->isSSHTunnel()) {
 
             ssh::SSHTunnelFactory sshFactory;

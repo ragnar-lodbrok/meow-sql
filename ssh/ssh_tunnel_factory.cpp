@@ -17,16 +17,16 @@ std::shared_ptr<ISSHTunnel> SSHTunnelFactory::createTunnel()
 {
 #ifdef WITH_LIBSSH
     try {
-        return std::make_shared<libssh_tunnel>();
+        return std::make_shared<LibSSHTunnel>();
     }
     catch (const std::runtime_error& e) {
         failWithError(e.what());
     }
 #endif
 #ifdef Q_OS_WIN
-    return std::make_unique<PLinkSSHTunnel>();
+    return std::make_shared<PLinkSSHTunnel>();
 #else
-    return std::make_unique<OpenSSHTunnel>();
+    return std::make_shared<OpenSSHTunnel>();
 #endif
 }
 

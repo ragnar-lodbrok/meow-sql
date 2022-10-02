@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SSH_SOCKETS_SOCKET_H
+#define SSH_SOCKETS_SOCKET_H
 
 #include <asio.hpp>
 
@@ -7,25 +8,27 @@
 using asio::ip::tcp;
 
 namespace meow {
+
 class ISocketReceiver;
 
-class connection;
+class Connection;
 
-class socket
+class Socket
 {
 public:
-    explicit socket(const std::shared_ptr<ISocketReceiver>& receiver);
+    explicit Socket(const std::shared_ptr<ISocketReceiver>& receiver);
 
     void listen(const std::string& hostname, uint16_t port);
 
-    [[nodiscard]] uint16_t getPort() const;
+    uint16_t port() const { return _port; }
 
     void pollForMs(uint32_t ms);
 
 private:
     void startAccept();
 
-    void handleAccept(const std::shared_ptr<connection>& connection, const asio::error_code& error);
+    void handleAccept(const std::shared_ptr<Connection>& connection,
+                      const asio::error_code& error);
 
     asio::io_context _ioContext;
     tcp::socket _socket;
@@ -33,4 +36,7 @@ private:
     std::weak_ptr<ISocketReceiver> _receiver;
     uint16_t _port = 0;
 };
-}
+
+} // namespace meow
+
+#endif
