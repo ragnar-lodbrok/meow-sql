@@ -348,18 +348,18 @@ endif()
 
 if(WITH_LIBSSH)
     list(APPEND HEADER_FILES
-            sockets/connection.h
-            sockets/socket.h
-            sockets/connection_receiver_interface.h
-            sockets/socket_receiver_interface.h
+            ssh/sockets/connection.h
+            ssh/sockets/socket.h
+            ssh/sockets/connection_receiver_interface.h
+            ssh/sockets/socket_receiver_interface.h
             ssh/libssh.h
             ssh/libssh_channel.h
             ssh/libssh_tunnel.h
             ssh/libssh_connection.h
     )
     list(APPEND SOURCE_FILES
-            sockets/connection.cpp
-            sockets/socket.cpp
+            ssh/sockets/connection.cpp
+            ssh/sockets/socket.cpp
             ssh/libssh.cpp
             ssh/libssh_channel.cpp
             ssh/libssh_tunnel.cpp
@@ -392,7 +392,8 @@ add_executable(meowsql
     ${SOURCE_FILES}
     ${RESOURCE_FILES})
 
-target_include_directories(meowsql PRIVATE ${CMAKE_CURRENT_LIST_DIR}/sockets/libasio/asio/include)
+target_include_directories(meowsql PRIVATE
+    ${CMAKE_CURRENT_LIST_DIR}/third_party/libasio/asio/include)
 
 target_link_libraries(meowsql Qt5::Widgets)
 

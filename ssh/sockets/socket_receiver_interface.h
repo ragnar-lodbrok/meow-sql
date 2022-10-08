@@ -4,6 +4,8 @@
 #include <memory>
 
 namespace meow {
+namespace ssh {
+namespace sockets {
 
 class Connection;
 
@@ -18,6 +20,8 @@ public:
     virtual void onConnectionClosed(size_t connectionID) = 0;
 };
 
+} // namespace sockets
+} // namespace ssh
 } // namespace meow
 
 #endif

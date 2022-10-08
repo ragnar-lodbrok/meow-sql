@@ -16,14 +16,16 @@
 
 namespace meow {
 
-class Connection;
+namespace sockets {
+    class Connection;
+}
 
 namespace ssh {
 
 class LibSSHConnection;
 
 class LibSSHTunnel : public ISSHTunnel
-                   , public ISocketReceiver
+                   , public sockets::ISocketReceiver
                    , public std::enable_shared_from_this<LibSSHTunnel>
 {
 public:
@@ -41,8 +43,8 @@ public:
     virtual SSHTunnelParameters params() const override;
     // </ISSHTunnel>
     // <ISocketReceiver>
-    virtual std::shared_ptr<IConnectionReceiver> onNewConnection(
-            const std::shared_ptr<Connection>& connection) override;
+    virtual std::shared_ptr<sockets::IConnectionReceiver> onNewConnection(
+            const std::shared_ptr<sockets::Connection>& connection) override;
     virtual void onConnectionClosed(size_t connectionID) override;
     // </ISocketReceiver>
 
@@ -63,13 +65,13 @@ private:
     bool _threadStarted = false;
 
     std::shared_ptr<LibSSH> _session;
-    std::unique_ptr<Socket> _socket;
+    std::unique_ptr<sockets::Socket> _socket;
     std::thread _thread;
     std::atomic<bool> _stopThread = false;
     bool _threadRunning = false;
     std::condition_variable _threadWait;
     std::mutex _threadMutex;
-    using ConnectionPair = std::pair<std::shared_ptr<Connection>,
+    using ConnectionPair = std::pair<std::shared_ptr<sockets::Connection>,
                                      std::shared_ptr<LibSSHConnection>>;
     std::unordered_map<size_t, ConnectionPair> _connections;
 };

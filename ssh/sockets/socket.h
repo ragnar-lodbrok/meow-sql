@@ -8,6 +8,8 @@
 using asio::ip::tcp;
 
 namespace meow {
+namespace ssh {
+namespace sockets {
 
 class ISocketReceiver;
 
@@ -37,6 +39,8 @@ private:
     uint16_t _port = 0;
 };
 
+} // namespace sockets
+} // namespace ssh
 } // namespace meow
 
 #endif

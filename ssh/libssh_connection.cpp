@@ -1,5 +1,5 @@
 #include "libssh_connection.h"
-#include <sockets/connection.h>
+#include "sockets/connection.h"
 #include <QDebug>
 #include <utility>
 
@@ -9,8 +9,8 @@ LibSSHConnection::LibSSHConnection(
         db::ConnectionParameters params,
         std::shared_ptr<LibSSH> session,
         std::unique_ptr<LibSSHChannel> channel,
-        std::shared_ptr<Connection> connection,
-        const std::shared_ptr<ISocketReceiver>& receiver)
+        std::shared_ptr<sockets::Connection> connection,
+        const std::shared_ptr<sockets::ISocketReceiver>& receiver)
 
     : _params(std::move(params))
     , _session(std::move(session))
@@ -40,8 +40,7 @@ void LibSSHConnection::onError(std::error_code code)
 
 void LibSSHConnection::onClose()
 {
-    if (auto receiver = _receiver.lock())
-    {
+    if (auto receiver = _receiver.lock()) {
         receiver->onConnectionClosed(_connection->connectionID());
     }
 }

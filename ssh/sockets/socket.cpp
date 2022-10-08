@@ -8,6 +8,9 @@
 using asio::ip::tcp;
 
 namespace meow {
+namespace ssh {
+namespace sockets {
+
 Socket::Socket(const std::shared_ptr<ISocketReceiver>& receiver)
     : _socket(_ioContext), _receiver(receiver)
 {
@@ -59,4 +62,7 @@ void Socket::pollForMs(uint32_t ms)
 {
     _ioContext.run_for(std::chrono::milliseconds(ms));
 }
-}
+
+} // namespace sockets
+} // namespace ssh
+} // namespace meow

@@ -10,6 +10,8 @@
 using asio::ip::tcp;
 
 namespace meow {
+namespace ssh {
+namespace sockets {
 
 class IConnectionReceiver;
 
@@ -51,6 +53,8 @@ private:
     size_t _connectionID;
 };
 
+} // namespace sockets
+} // namespace ssh
 } // namespace meow
 
 #endif

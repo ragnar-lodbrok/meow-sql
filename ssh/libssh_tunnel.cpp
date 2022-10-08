@@ -22,7 +22,7 @@ LibSSHTunnel::LibSSHTunnel()
 
 LibSSHTunnel::~LibSSHTunnel()
 {
-    for(const auto& connection: _connections) {
+    for (const auto& connection : _connections) {
         connection.second.first->close();
     }
     _session.reset();
@@ -73,7 +73,7 @@ bool LibSSHTunnel::connect(const meow::db::ConnectionParameters& params)
     }
 
 
-    _socket = std::make_unique<meow::Socket>(shared_from_this());
+    _socket = std::make_unique<sockets::Socket>(shared_from_this());
     _socket->listen("127.0.0.1", 0);
     _params.sshTunnel().setLocalPort(_socket->port());
 
@@ -141,14 +141,14 @@ bool LibSSHTunnel::authWithPublicKey()
 
 void LibSSHTunnel::disconnect()
 {
-    for(const auto& connection : _connections) {
+    for (const auto& connection : _connections) {
         connection.second.first->close();
     }
     _connections.clear();
 }
 
-std::shared_ptr<IConnectionReceiver> LibSSHTunnel::onNewConnection(
-        const std::shared_ptr<Connection>& connection)
+std::shared_ptr<sockets::IConnectionReceiver> LibSSHTunnel::onNewConnection(
+        const std::shared_ptr<sockets::Connection>& connection)
 {
     std::unique_ptr<LibSSHChannel> channel;
     try {

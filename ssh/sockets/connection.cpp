@@ -3,6 +3,8 @@
 #include "connection_receiver_interface.h"
 
 namespace meow {
+namespace ssh {
+namespace sockets {
 
 size_t Connection::connectionIDs = 0;
 
@@ -125,4 +127,6 @@ size_t Connection::connectionID() const
     return _connectionID;
 }
 
-}
+} // namespace sockets
+} // namespace ssh
+} // namespace meow

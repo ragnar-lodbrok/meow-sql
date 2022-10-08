@@ -6,7 +6,7 @@
 #include "sockets/socket_receiver_interface.h"
 #include "sockets/connection_receiver_interface.h"
 #include "db/connection_parameters.h"
-#include <sockets/connection.h>
+#include "sockets/connection.h"
 
 #include <memory>
 #include <condition_variable>
@@ -15,15 +15,15 @@
 
 namespace meow::ssh {
 
-class LibSSHConnection : public IConnectionReceiver
+class LibSSHConnection : public sockets::IConnectionReceiver
 {
 public:
     LibSSHConnection(
         db::ConnectionParameters params,
         std::shared_ptr<LibSSH> session,
         std::unique_ptr<LibSSHChannel> channel,
-        std::shared_ptr<Connection> connection,
-        const std::shared_ptr<ISocketReceiver>& receiver
+        std::shared_ptr<sockets::Connection> connection,
+        const std::shared_ptr<sockets::ISocketReceiver>& receiver
     );
 
     virtual ~LibSSHConnection() override;
@@ -48,8 +48,8 @@ private:
     db::ConnectionParameters _params;
     std::unique_ptr<LibSSHChannel> _channel;
     std::shared_ptr<LibSSH> _session;
-    std::shared_ptr<Connection> _connection;
-    std::weak_ptr<ISocketReceiver> _receiver;
+    std::shared_ptr<sockets::Connection> _connection;
+    std::weak_ptr<sockets::ISocketReceiver> _receiver;
 
     std::thread _thread;
     std::atomic<bool> _stopThread = false;
