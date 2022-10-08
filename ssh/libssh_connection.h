@@ -13,7 +13,8 @@
 #include <thread>
 #include <mutex>
 
-namespace meow::ssh {
+namespace meow {
+namespace ssh {
 
 class LibSSHConnection : public sockets::IConnectionReceiver
 {
@@ -52,12 +53,13 @@ private:
     std::weak_ptr<sockets::ISocketReceiver> _receiver;
 
     std::thread _thread;
-    std::atomic<bool> _stopThread = false;
+    std::atomic<bool> _stopThread;
     bool _threadRunning = false;
     std::condition_variable _threadWait;
     std::mutex _threadMutex;
 };
 
-} // namespace meow::ssh
+} // namespace ssh
+} // namespace meow
 
 #endif

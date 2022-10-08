@@ -67,7 +67,7 @@ private:
     std::shared_ptr<LibSSH> _session;
     std::unique_ptr<sockets::Socket> _socket;
     std::thread _thread;
-    std::atomic<bool> _stopThread = false;
+    std::atomic<bool> _stopThread;
     bool _threadRunning = false;
     std::condition_variable _threadWait;
     std::mutex _threadMutex;

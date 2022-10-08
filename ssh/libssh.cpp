@@ -56,7 +56,7 @@ int LibSSH::userAuthPublicKeyAuto(const char* passphrase)
 
 std::unique_ptr<LibSSHChannel> LibSSH::newChannel()
 {
-    return std::make_unique<LibSSHChannel>(&_session);
+    return std::unique_ptr<LibSSHChannel>(new LibSSHChannel(&_session));
 }
 
 socket_t LibSSH::getFD()

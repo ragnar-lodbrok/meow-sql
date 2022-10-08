@@ -16,6 +16,7 @@ namespace meow::ssh
 
 LibSSHTunnel::LibSSHTunnel()
     : _session(std::make_shared<LibSSH>())
+    , _stopThread(false)
 {
 
 }
@@ -73,7 +74,7 @@ bool LibSSHTunnel::connect(const meow::db::ConnectionParameters& params)
     }
 
 
-    _socket = std::make_unique<sockets::Socket>(shared_from_this());
+    _socket.reset(new sockets::Socket(shared_from_this()));
     _socket->listen("127.0.0.1", 0);
     _params.sshTunnel().setLocalPort(_socket->port());
 

@@ -3,7 +3,8 @@
 #include <QDebug>
 #include <utility>
 
-namespace meow::ssh {
+namespace meow {
+namespace ssh {
 
 LibSSHConnection::LibSSHConnection(
         db::ConnectionParameters params,
@@ -17,6 +18,7 @@ LibSSHConnection::LibSSHConnection(
     , _channel(std::move(channel))
     , _connection(std::move(connection))
     , _receiver(receiver)
+    , _stopThread(false)
 {
 
 }
@@ -151,4 +153,5 @@ void LibSSHConnection::close()
     }
 }
 
-} // namespace meow::ssh
+} // namespace ssh
+} // namespace meow

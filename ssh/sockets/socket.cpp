@@ -12,7 +12,10 @@ namespace ssh {
 namespace sockets {
 
 Socket::Socket(const std::shared_ptr<ISocketReceiver>& receiver)
-    : _socket(_ioContext), _receiver(receiver)
+    : _socket(_ioContext)
+    , _receiver(receiver)
+    , _acceptor(nullptr)
+    , _port(0)
 {
 
 }
@@ -26,7 +29,7 @@ void Socket::listen(const std::string& ipAddress, const uint16_t port)
     }
     tcp::endpoint endPoint(ip, port);
 
-    _acceptor = tcp::acceptor(_ioContext, endPoint);
+    _acceptor.reset(new tcp::acceptor(_ioContext, endPoint));
     startAccept();
     auto le = _acceptor->local_endpoint();
     _port = le.port();
@@ -34,11 +37,11 @@ void Socket::listen(const std::string& ipAddress, const uint16_t port)
 
 void Socket::startAccept()
 {
-    if (!_acceptor.has_value()) {
+    if (!_acceptor) {
         throw std::runtime_error("Not listening");
     }
     auto conn = std::make_shared<Connection>(_ioContext);
-    (*_acceptor).async_accept(conn->socket(),
+    _acceptor->async_accept(conn->socket(),
                               std::bind(&Socket::handleAccept,
                                         this, conn, std::placeholders::_1));
 }

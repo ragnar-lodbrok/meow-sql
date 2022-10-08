@@ -3,8 +3,6 @@
 
 #include <asio.hpp>
 
-#include <optional>
-
 using asio::ip::tcp;
 
 namespace meow {
@@ -34,9 +32,9 @@ private:
 
     asio::io_context _ioContext;
     tcp::socket _socket;
-    std::optional<tcp::acceptor> _acceptor;
+    std::unique_ptr<tcp::acceptor> _acceptor;
     std::weak_ptr<ISocketReceiver> _receiver;
-    uint16_t _port = 0;
+    uint16_t _port;
 };
 
 } // namespace sockets
