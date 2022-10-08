@@ -1,6 +1,7 @@
 #include "connection.h"
-
 #include "connection_receiver_interface.h"
+
+#include <functional>
 
 namespace meow {
 namespace ssh {

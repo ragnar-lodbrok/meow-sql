@@ -4,6 +4,7 @@
 #include "socket_receiver_interface.h"
 
 #include <stdexcept>
+#include <functional>
 
 using asio::ip::tcp;
 
@@ -13,8 +14,8 @@ namespace sockets {
 
 Socket::Socket(const std::shared_ptr<ISocketReceiver>& receiver)
     : _socket(_ioContext)
-    , _receiver(receiver)
     , _acceptor(nullptr)
+    , _receiver(receiver)
     , _port(0)
 {
 

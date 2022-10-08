@@ -15,6 +15,7 @@ CONFIG += WITH_MYSQL
 CONFIG += WITH_POSTGRESQL
 CONFIG += WITH_SQLITE
 CONFIG += WITH_QTSQL
+#CONFIG += WITH_LIBSSH
 
 #CONFIG += WITH_LIBMYSQL_SOURCES #tried to experiment with WASM
 
@@ -39,6 +40,10 @@ WITH_SQLITE {
 
 WITH_QTSQL {
     DEFINES += WITH_QTSQL
+}
+
+WITH_LIBSSH {
+    DEFINES += WITH_LIBSSH
 }
 
 # below doesn't work on win with old Qt
@@ -577,7 +582,27 @@ WITH_POSTGRESQL {
     macx:INCLUDEPATH += /usr/local/include
 }
 
-WITH_LIBMYSQL_SOURCES {
+WITH_LIBSSH {
+    LIBS += -lssh
+
+    HEADERS += ssh/sockets/connection.h \
+    ssh/sockets/socket.h \
+    ssh/sockets/connection_receiver_interface.h \
+    ssh/sockets/socket_receiver_interface.h \
+    ssh/libssh.h \
+    ssh/libssh_channel.h \
+    ssh/libssh_tunnel.h \
+    ssh/libssh_connection.h
+
+    SOURCES += ssh/sockets/connection.cpp \
+    ssh/sockets/socket.cpp \
+    ssh/libssh.cpp \
+    ssh/libssh_channel.cpp \
+    ssh/libssh_tunnel.cpp \
+    ssh/libssh_connection.cpp
+}
+
+WITH_LIBMYSQL_SOURCES { # TODO: rm
 
     DEFINES += HAVE_OPENSSL
     DEFINES += PTHREAD_ADAPTIVE_MUTEX_INITIALIZER_NP
