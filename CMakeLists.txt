@@ -32,7 +32,7 @@ option(WITH_MYSQL "MySQL support" ON)
 option(WITH_POSTGRESQL "PostgreSQL support" ON)
 option(WITH_SQLITE "SQLite support" ON)
 option(WITH_QTSQL "Qt SQL Module" ON)
-option(WITH_LIBSSH "Use libssh" ON) # not finished
+option(WITH_LIBSSH "Use libssh" OFF) # not finished
 option(USE_CONAN_IO "Use conan.io package manager" OFF)
 
 if(WIN32)

@@ -81,6 +81,10 @@ void MySQLConnection::setActive(bool active) // override
         doBeforeConnect();
 
         ConnectionParameters * params = connectionParams();
+
+        QString hostName = params->hostName();
+        quint16 port = params->port();
+
         if (params->isSSHTunnel()) {
 
             ssh::SSHTunnelFactory sshFactory;
@@ -90,8 +94,8 @@ void MySQLConnection::setActive(bool active) // override
 
             // If we just blindly overwrite the hostname, we
             // fail on reconnection to the tunnel.
-            params->setOverrideHostName("127.0.0.1");
-            params->setOverridePort(_sshTunnel->params().localPort());
+            hostName = "127.0.0.1";
+            port = _sshTunnel->params().localPort();
         }
 
         _handle = mysql_init(nullptr); // TODO: valgrind says it leaks?
@@ -108,14 +112,13 @@ void MySQLConnection::setActive(bool active) // override
         // TODO: H: flags SSL, COMPRESS
         // TODO: H: MYSQL_PLUGIN_DIR
 
-        QByteArray hostBytes = params->overriddenHostName().toLatin1();
+        QByteArray hostBytes = hostName.toLatin1();
         QByteArray userBytes = params->userName().toLatin1();
         QByteArray pswdBytes = params->password().toLatin1();
 
         const char * host = hostBytes.constData();
         const char * user = userBytes.constData();
         const char * pswd = pswdBytes.constData();
-        unsigned int port = params->overriddenPort();
 
         meowLogDebugC(this) << "Connecting: " << *params;
 

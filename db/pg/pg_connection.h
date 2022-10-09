@@ -94,6 +94,9 @@ private:
 
     PGconn * _handle;
     std::shared_ptr<ssh::ISSHTunnel> _sshTunnel;
+
+    QString _currentHostName;
+    quint16 _currentPort;
 };
 
 } // namespace db

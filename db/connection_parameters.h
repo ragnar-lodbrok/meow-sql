@@ -52,12 +52,6 @@ public:
     ServerType serverType() const { return _serverType; }
     QString sessionName() const { return _sessionName; }
     QString hostName() const { return _hostName; }
-    QString overriddenHostName() const {
-        if (!_overrideHostName.isNull()) {
-            return _overrideHostName;
-        }
-        return _hostName;
-    }
     QString fileName() const { return _fileName; }
     QString userName() const { return _userName; }
     QString password() const { return _password; }
@@ -66,12 +60,6 @@ public:
     QStringList databaseList() const;
     bool isLoginPrompt() const { return _loginPrompt; }
     quint16 port() const { return _port; }
-    quint16 overriddenPort() const {
-        if (_overridePort != 0) {
-            return _overridePort;
-        }
-        return _port;
-    }
     bool fullTableStatus() const { return true; }
     unsigned id() const { return _id; }
 
@@ -80,7 +68,6 @@ public:
     void setServerType(ServerType serverType) { _serverType = serverType; }
     void setSessionName(const QString &session) { _sessionName = session; }
     void setHostName(const QString &hostName) { _hostName = hostName; }
-    void setOverrideHostName(const QString &hostName) { _overrideHostName = hostName; }
     void setFileName(const QString &fileName) { _fileName = fileName; }
     void setUserName(const QString &userName) { _userName = userName; }
     void setPassword(const QString &password) { _password = password; }
@@ -88,7 +75,6 @@ public:
     void addDatabase(const QString & name, bool ignoreIfAll = false);
     void setLoginPrompt(bool loginPrompt) { _loginPrompt = loginPrompt; }
     void setPort(quint16 port) { _port = port; }
-    void setOverridePort(quint16 port) { _overridePort = port; }
     void setManager(ConnectionParamsManager &manager);
     void setId(unsigned id) { _id = id; }
 
@@ -173,14 +159,12 @@ private:
     ServerType _serverType;
     QString _sessionName;
     QString _hostName;
-    QString _overrideHostName;
     QString _fileName;
     QString _userName;
     QString _password;
     QString _databases;
     bool _loginPrompt;
     quint16 _port;
-    quint16 _overridePort = 0;
     ConnectionParamsManager * _manager;
     unsigned _id;
     ssh::SSHTunnelParameters _sshTunnel;

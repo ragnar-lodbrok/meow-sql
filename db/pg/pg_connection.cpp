@@ -24,6 +24,7 @@ PGConnection::PGConnection(const ConnectionParameters & params)
     : Connection(params)
     , _handle(nullptr)
     , _sshTunnel(nullptr)
+    , _currentPort(0)
 {
 
     _identifierQuote = QLatin1Char('"');
@@ -45,15 +46,21 @@ void PGConnection::setActive(bool active)
     if (active) {
         doBeforeConnect();
 
-        if (connectionParams()->isSSHTunnel()) {
+        ConnectionParameters * params = connectionParams();
+
+        _currentHostName = params->hostName();
+        _currentPort = params->port();
+
+        if (params->isSSHTunnel()) {
 
             ssh::SSHTunnelFactory sshFactory;
             _sshTunnel = sshFactory.createTunnel();
             _sshTunnel->connect(*connectionParams()); // throws an error
 
-            connectionParams()->setOverrideHostName("127.0.0.1");
-            connectionParams()->setOverridePort(
-                        _sshTunnel->params().localPort());
+            // If we just blindly overwrite the hostname, we
+            // fail on reconnection to the tunnel.
+            _currentHostName = "127.0.0.1";
+            _currentPort = _sshTunnel->params().localPort();
         }
 
         QString connInfoStr = connectionInfo();
@@ -516,7 +523,7 @@ QString PGConnection::connectionInfo() const
         dbName = QString("postgres");
     }
 
-    QString port = QString::number(connectionParams()->overriddenPort());
+    QString port = QString::number(_currentPort);
 
     QString connInfoStr = QString(
         "host=%1 "
@@ -525,7 +532,7 @@ QString PGConnection::connectionInfo() const
         "password=%4 "
         "dbname=%5 "
         "application_name=%6")
-     .arg(escapeConnectionParam(connectionParams()->overriddenHostName()))
+     .arg(escapeConnectionParam(_currentHostName))
      .arg(escapeConnectionParam(port))
      .arg(escapeConnectionParam(connectionParams()->userName()))
      .arg(escapeConnectionParam(connectionParams()->password()))
