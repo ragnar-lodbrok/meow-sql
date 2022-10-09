@@ -16,7 +16,16 @@ class QueryDataTab : public QWidget
 public:
     explicit QueryDataTab(db::QueryDataPtr queryData, QWidget *parent = 0);
     virtual ~QueryDataTab();
+
+    void setFilterPattern(const QString & pattern, bool regexp);
+
+    int filterMatchedRowCount() const;
+    int totalRowCount() const;
+
 private:
+
+    Q_SLOT void onDataTableHeaderClicked(int index);
+
     models::BaseDataTableModel _model;
     TableView  * _dataTable;
 };

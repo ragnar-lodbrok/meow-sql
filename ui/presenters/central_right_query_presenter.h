@@ -62,9 +62,20 @@ public:
         return _lastCancelError;
     }
 
+    void setFilterPattern(const QString & pattern, bool regexp) {
+        _filterPattern = pattern;
+        _filterPatternIsRegexp = regexp;
+    }
+
+    QString filterPattern() const { return _filterPattern; }
+    bool filterPatternIsRegexp() const { return _filterPatternIsRegexp; }
+
 private:
     meow::db::UserQuery * _query;
     QString _lastCancelError;
+
+    QString _filterPattern;
+    bool _filterPatternIsRegexp;
 };
 
 } // namespace presenters

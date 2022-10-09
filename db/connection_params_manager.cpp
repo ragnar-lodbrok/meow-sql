@@ -106,6 +106,8 @@ void meow::db::ConnectionParamsManager::load()
                             settings.value("databases", loadedParams.databases()).toString());
                 loadedParams.setLoginPrompt(
                             settings.value("isLoginPrompt", loadedParams.isLoginPrompt()).toBool());
+                loadedParams.setCompressed(
+                            settings.value("isCompressed", loadedParams.isCompressed()).toBool());
                 loadedParams.setPort(
                             settings.value("port", loadedParams.port()).toInt());
 
@@ -149,6 +151,7 @@ void meow::db::ConnectionParamsManager::saveParams(const ConnectionParameters & 
                 settings.setValue("password", params.password()); // TODO: encrypt
                 settings.setValue("databases", params.databases());
                 settings.setValue("isLoginPrompt", params.isLoginPrompt());
+                settings.setValue("isCompressed", params.isCompressed());
                 settings.setValue("port", params.port());
 
                 settings.beginGroup("ssh");

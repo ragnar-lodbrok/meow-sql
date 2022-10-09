@@ -34,6 +34,7 @@ public:
     QAction * dataResetSort() const {
         return _dataResetSort;
     }
+    QAction * dataExport() const { return _dataExport; }
 
     QAction * logClear() const { return _logClear; }
 
@@ -58,6 +59,7 @@ private:
     QAction * _dataDuplicateRowWithoutKeys;
     QAction * _dataDuplicateRowWithKeys;
     QAction * _dataResetSort;
+    QAction * _dataExport;
 
     QAction * _logClear;
 

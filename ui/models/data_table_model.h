@@ -2,7 +2,6 @@
 #define DATA_TABLE_MODEL_H
 
 #include <QObject>
-#include "query_data_sort_filter_proxy_model.h"
 #include "base_data_table_model.h"
 #include "db/common.h"
 #include "ui/delegates/edit_query_data_delegate.h"
@@ -73,14 +72,6 @@ public:
     int duplicateCurrentRowWithKeys();
     int insertNewRow(bool duplicateCurrent = false, bool withKeys = false);
 
-    QAbstractItemModel * createSortFilterModel();
-
-    void setFilterPattern(const QString & pattern, bool regexp);
-    QString filterPattern() const;
-    bool filterPatternIsRegexp() const { return _filterPatternIsRegexp; }
-
-    int filterMatchedRowCount() const;
-
     QList<db::TableColumn *> selectedTableColumns();
 
     Q_SIGNAL void editingStarted();
@@ -92,55 +83,11 @@ public:
     void resetAllColumnsSort();
     void applyColumnSort();
 
-    QModelIndex mapToSource(const QModelIndex &proxyIndex) const {
-        if (_sortFilterModel) {
-            return _sortFilterModel->mapToSource(proxyIndex);
-        } else {
-            return proxyIndex;
-        }
-    }
-
-    QModelIndexList mapToSource(const QModelIndexList &proxyIndexList) const {
-        if (_sortFilterModel) {
-            QModelIndexList result = proxyIndexList;
-            for (auto & index : result) {
-                index = _sortFilterModel->mapToSource(index);
-            }
-            return result;
-        } else {
-            return proxyIndexList;
-        }
-    }
-
-    QModelIndex mapFromSource(const QModelIndex &sourceIndex) const {
-        if (_sortFilterModel) {
-            return _sortFilterModel->mapFromSource(sourceIndex);
-        } else {
-            return sourceIndex;
-        }
-    }
-
-    QModelIndexList mapFromSource(const QModelIndexList &sourceIndexList) const {
-        if (_sortFilterModel) {
-            QModelIndexList result = sourceIndexList;
-            for (auto & index : result) {
-                index = _sortFilterModel->mapFromSource(index);
-            }
-            return result;
-        } else {
-            return sourceIndexList;
-        }
-    }
-
     QModelIndex createIndexForRow(int row) {
         return createIndex(row, 0);
     }
 
 private:
-
-    QueryDataSortFilterProxyModel * _sortFilterModel;
-    QString _filterPattern;
-    bool _filterPatternIsRegexp;
 
     bool _entityChangedProcessed;
     meow::db::Entity * _dbEntity;

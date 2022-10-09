@@ -59,6 +59,7 @@ public:
     QString databases() const { return _databases; }   
     QStringList databaseList() const;
     bool isLoginPrompt() const { return _loginPrompt; }
+    bool isCompressed() const { return _isCompressed; }
     quint16 port() const { return _port; }
     bool fullTableStatus() const { return true; }
     unsigned id() const { return _id; }
@@ -74,6 +75,7 @@ public:
     void setDatabases(const QString &databases) { _databases = databases; }
     void addDatabase(const QString & name, bool ignoreIfAll = false);
     void setLoginPrompt(bool loginPrompt) { _loginPrompt = loginPrompt; }
+    void setCompressed(bool compressed) { _isCompressed = compressed; }
     void setPort(quint16 port) { _port = port; }
     void setManager(ConnectionParamsManager &manager);
     void setId(unsigned id) { _id = id; }
@@ -101,6 +103,15 @@ public:
         }
 #endif
         return true;
+    }
+
+    bool supportsCompressionOption() const {
+#ifdef WITH_MYSQL
+        if (_serverType == ServerType::MySQL) {
+            return true;
+        }
+#endif
+        return false;
     }
 
     bool isSSHTunnel() const {
@@ -164,6 +175,7 @@ private:
     QString _password;
     QString _databases;
     bool _loginPrompt;
+    bool _isCompressed;
     quint16 _port;
     ConnectionParamsManager * _manager;
     unsigned _id;

@@ -21,8 +21,11 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
             static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             [=](int index) {
                 if (_form) {
-                    QVector<db::NetworkType> networkTypes = meow::db::networkTypes();
+                    QVector<db::NetworkType> networkTypes
+                            = meow::db::networkTypes();
                     _form->setNetworkType(networkTypes[index]);
+                    _compressionCheckBox->setEnabled(
+                        _form->supportsCompressionOption());
                 }
             });
     row++;
@@ -136,6 +139,20 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
             });
     row++;
 
+    // Compression -------------------------------------------------------------
+    _compressionCheckBox
+            = new QCheckBox(tr("Compressed client/server protocol"));
+    connect(_compressionCheckBox, &QCheckBox::stateChanged,
+            [=](int newState) {
+                if (_form) {
+                    _form->setCompressed(newState == Qt::Checked);
+                }
+            });
+    _mainGridLayout->addWidget(_compressionCheckBox, row, 1);
+
+    row++;
+
+
     // Databases ---------------------------------------------------------------
     _databasesLabel = new QLabel(tr("Databases:"));
     _mainGridLayout->addWidget(_databasesLabel, row, 0);
@@ -157,7 +174,6 @@ SettingsTab::SettingsTab(QWidget * parent) : QWidget(parent)
                 }
             });
     row++;
-
 
     _mainGridLayout->setColumnMinimumWidth(0, 150);
     _mainGridLayout->setColumnStretch(1, 2);
@@ -186,6 +202,7 @@ void SettingsTab::fillDataFromForm()
     _hostEdit->setText(_form->hostName());
     _filenameEdit->setText(_form->fileName());
     //_loginPromptCheckBox->setChecked(_form->isLoginPrompt());
+    _compressionCheckBox->setChecked(_form->isCompressed());
     _userEdit->setText(_form->userName());
     _passwordEdit->setText(_form->password());
     _databasesEdit->setText(_form->databases());

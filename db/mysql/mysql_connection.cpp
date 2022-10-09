@@ -109,7 +109,7 @@ void MySQLConnection::setActive(bool active) // override
                 | CLIENT_PROTOCOL_41
                 | CLIENT_MULTI_STATEMENTS;
 
-        // TODO: H: flags SSL, COMPRESS
+        // TODO: H: flags SSL
         // TODO: H: MYSQL_PLUGIN_DIR
 
         QByteArray hostBytes = hostName.toLatin1();
@@ -121,6 +121,11 @@ void MySQLConnection::setActive(bool active) // override
         const char * pswd = pswdBytes.constData();
 
         meowLogDebugC(this) << "Connecting: " << *params;
+
+        if (connectionParams()->isCompressed()) {
+            mysql_options(_handle, MYSQL_OPT_COMPRESS, nullptr);
+            mysql_options(_handle, MYSQL_OPT_COMPRESSION_ALGORITHMS, "zlib,zstd");
+        }
 
         MYSQL * connectedHandle = mysql_real_connect(
             _handle,

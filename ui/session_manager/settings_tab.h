@@ -37,6 +37,8 @@ private:
 
     QCheckBox * _loginPromptCheckBox;
 
+    QCheckBox * _compressionCheckBox;
+
     QLabel * _userLabel;
     QLineEdit * _userEdit;
 

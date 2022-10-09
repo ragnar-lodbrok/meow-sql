@@ -11,7 +11,9 @@ BaseDataTableModel::BaseDataTableModel(meow::db::QueryDataPtr queryData,
     : QAbstractTableModel(parent),
       _queryData(queryData),
       _rowCount(0),
-      _colCount(0)
+      _colCount(0),
+      _sortFilterModel(nullptr),
+      _filterPatternIsRegexp(false)
 {
 
 }
@@ -124,6 +126,50 @@ QVariant BaseDataTableModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
+}
+
+QAbstractItemModel * BaseDataTableModel::createSortFilterModel()
+{
+    if (_sortFilterModel == nullptr) {
+        _sortFilterModel = new QueryDataSortFilterProxyModel(queryData(), this);
+        _sortFilterModel->setSourceModel(this);
+        _sortFilterModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+        _sortFilterModel->setFilterKeyColumn(-1); // all columns
+
+        setFilterPattern(_filterPattern, _filterPatternIsRegexp);
+    }
+    return _sortFilterModel;
+}
+
+void BaseDataTableModel::setFilterPattern(const QString & pattern, bool regexp)
+{
+    if (_filterPattern == pattern && _filterPatternIsRegexp == regexp) return;
+
+    _filterPattern = pattern;
+    _filterPatternIsRegexp = regexp;
+    if (_sortFilterModel) {
+        if (_filterPatternIsRegexp) {
+            _sortFilterModel->setFilterRegExp(QRegExp(pattern,
+                                                      Qt::CaseInsensitive,
+                                                      QRegExp::RegExp));
+        } else {
+            _sortFilterModel->setFilterWildcard(pattern);
+        }
+    }
+}
+
+QString BaseDataTableModel::filterPattern() const
+{
+    return _filterPattern;
+}
+
+int BaseDataTableModel::filterMatchedRowCount() const
+{
+    if (_sortFilterModel) {
+        return _sortFilterModel->rowCount();
+    } else {
+        return rowCount(); // all matched if no filter
+    }
 }
 
 } // namespace models

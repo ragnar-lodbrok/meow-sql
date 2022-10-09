@@ -53,6 +53,7 @@ void EditableDataTableView::contextMenuEvent(QContextMenuEvent * event)
     menu.addSeparator();
 
     menu.addAction(presenter.resetDataSortAction());
+    menu.addAction(presenter.exportDataAction());
     menu.addAction(presenter.refreshDataAction());
 
     menu.exec(event->globalPos());

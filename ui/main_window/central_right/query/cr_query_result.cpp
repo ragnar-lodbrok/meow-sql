@@ -19,6 +19,10 @@ QueryResult::QueryResult(presenters::CentralRightQueryPresenter * presenter,
     this->setLayout(layout);
 
     _dataTabs = new QTabWidget();
+    connect(_dataTabs,
+            &QTabWidget::currentChanged,
+            this,
+            &QueryResult::onQueryDataTabChanged);
     layout->addWidget(_dataTabs);
 
     _dataTabs->setSizePolicy(
@@ -66,6 +70,64 @@ void QueryResult::removeAllDataTabs()
         delete dataTabWidget;
     }
     _dataTabs->clear();
+}
+
+void QueryResult::setFilterPattern(const QString & filter, bool regexp)
+{
+    _presenter->setFilterPattern(filter, regexp);
+
+    QWidget * tabWidget = _dataTabs->currentWidget();
+    if (tabWidget) {
+        QueryDataTab * dataTabWidget = static_cast<QueryDataTab *>(tabWidget);
+
+        dataTabWidget->setFilterPattern(
+            filterPattern(),
+            filterPatternIsRegexp());
+    }
+}
+
+QString QueryResult::filterPattern() const
+{
+    return _presenter->filterPattern();
+}
+
+bool QueryResult::filterPatternIsRegexp() const
+{
+    return _presenter->filterPatternIsRegexp();
+}
+
+int QueryResult::totalRowCount() const
+{
+    QWidget * tabWidget = _dataTabs->currentWidget();
+    if (tabWidget) {
+        QueryDataTab * dataTabWidget = static_cast<QueryDataTab *>(tabWidget);
+        return dataTabWidget->totalRowCount();
+    }
+    return 0;
+}
+
+int QueryResult::filterMatchedRowCount() const
+{
+    QWidget * tabWidget = _dataTabs->currentWidget();
+    if (tabWidget) {
+        QueryDataTab * dataTabWidget = static_cast<QueryDataTab *>(tabWidget);
+        return dataTabWidget->filterMatchedRowCount();
+    }
+    return 0;
+}
+
+void QueryResult::onQueryDataTabChanged(int index)
+{
+    QWidget * tabWidget = (index >= 0) ? _dataTabs->widget(index) : nullptr;
+    if (tabWidget) {
+        QueryDataTab * dataTabWidget = static_cast<QueryDataTab *>(tabWidget);
+
+        dataTabWidget->setFilterPattern(
+            filterPattern(),
+            filterPatternIsRegexp());
+    }
+
+    emit queryDataTabChanged(index); // emit at the bottom!
 }
 
 } // namespace central_right

@@ -138,7 +138,7 @@
         <file>resources/icons/toggle_log.png</file>
         <file alias="tick.png">resources/icons/tick.png</file>
         <file>resources/icons/text_replace.png</file>
-        <file>resources/icons/table_save.png</file>
+        <file alias="table_save.png">resources/icons/table_save.png</file>
         <file>resources/icons/table_multiple.png</file>
         <file>resources/icons/table_key.png</file>
         <file>resources/icons/table_edit.png</file>
