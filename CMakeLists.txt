@@ -474,6 +474,11 @@ endif() # if(WITH_POSTGRESQL)
 # PG end ----------------------------------------------
 
 if(WITH_LIBSSH)
+
+	
+	# Win: vcpkg install libssh
+	
+
     # https://www.libssh.org/2019/11/07/libssh-0-9-2/
     find_package(libssh REQUIRED)
     message ("LIBSSH_INCLUDE_DIR = ${LIBSSH_INCLUDE_DIR}")

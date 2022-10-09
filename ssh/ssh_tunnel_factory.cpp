@@ -5,6 +5,7 @@
 #ifndef Q_OS_WIN
 #include "openssh_tunnel.h"
 #endif
+#include "plink_ssh_tunnel.h"
 #include "helpers/logger.h"
 #include "db/exception.h"
 
@@ -22,12 +23,16 @@ std::shared_ptr<ISSHTunnel> SSHTunnelFactory::createTunnel()
     catch (const std::runtime_error& e) {
         failWithError(e.what());
     }
-#endif
-#ifdef Q_OS_WIN
-    return std::make_shared<PLinkSSHTunnel>();
 #else
-    return std::make_shared<OpenSSHTunnel>();
+
+	#ifdef Q_OS_WIN
+		return std::make_shared<PLinkSSHTunnel>();
+	#else
+		return std::make_shared<OpenSSHTunnel>();
+	#endif
+
 #endif
+
 }
 
 void SSHTunnelFactory::failWithError(const QString& error)
