@@ -1,34 +1,35 @@
 #include "export_query_presenter.h"
-#include "utils/exporting/query_data.h"
+#include "utils/exporting/query_data_exporter.h"
 
 namespace meow {
 namespace ui {
 namespace presenters {
 
 ExportQueryPresenter::ExportQueryPresenter()
-    : _exporter(new utils::exporting::QueryData())
+    : _exporter(new utils::exporting::QueryDataExporter())
 {
 
 }
 
 void ExportQueryPresenter::setModeClipboard()
 {
-    _exporter->setMode(utils::exporting::QueryData::Mode::Clipboard);
+    _exporter->setMode(utils::exporting::QueryDataExporter::Mode::Clipboard);
 }
 
 bool ExportQueryPresenter::isModeClipboard() const
 {
-    return _exporter->mode() == utils::exporting::QueryData::Mode::Clipboard;
+    return _exporter->mode()
+            == utils::exporting::QueryDataExporter::Mode::Clipboard;
 }
 
 void ExportQueryPresenter::setModeFile()
 {
-    _exporter->setMode(utils::exporting::QueryData::Mode::File);
+    _exporter->setMode(utils::exporting::QueryDataExporter::Mode::File);
 }
 
 bool ExportQueryPresenter::isModeFile() const
 {
-    return _exporter->mode() == utils::exporting::QueryData::Mode::File;
+    return _exporter->mode() == utils::exporting::QueryDataExporter::Mode::File;
 }
 
 QString ExportQueryPresenter::fileEncoding() const
@@ -46,6 +47,11 @@ QStringList ExportQueryPresenter::supportedFileEncodings() const
 void ExportQueryPresenter::setFileEncoding(const QString & encoding)
 {
     _exporter->setFileEncoding(encoding);
+}
+
+QStringList ExportQueryPresenter::formatNames() const
+{
+    return _exporter->formatNames();
 }
 
 } // namespace presenter

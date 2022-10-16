@@ -75,6 +75,20 @@ set(HEADER_FILES
     ui/common/mysql_syntax.h
     ui/main_window/central_right/global_data_filter_interface.h
     ui/main_window/central_right/base_root_tab.h
+    utils/exporting/query_data_export_formats/format_delimited_text.h
+    utils/exporting/query_data_export_formats/format_excel_csv.h
+    utils/exporting/query_data_export_formats/format_factory.h
+    utils/exporting/query_data_export_formats/format_html_table.h
+    utils/exporting/query_data_export_formats/format_interface.h
+    utils/exporting/query_data_export_formats/format_json.h
+    utils/exporting/query_data_export_formats/format_latex.h
+    utils/exporting/query_data_export_formats/format_markdown.h
+    utils/exporting/query_data_export_formats/format_php_array.h
+    utils/exporting/query_data_export_formats/format_sql_deletes_replaces.h
+    utils/exporting/query_data_export_formats/format_sql_inserts.h
+    utils/exporting/query_data_export_formats/format_sql_replaces.h
+    utils/exporting/query_data_export_formats/format_wiki.h
+    utils/exporting/query_data_export_formats/format_xml.h
 )
 
 if(WITH_MYSQL)
@@ -284,7 +298,8 @@ set(SOURCE_FILES
     ui/user_manager/credentials_tab.cpp
     ui/user_manager/limitations_tab.cpp
     ui/user_manager/select_db_object.cpp
-    utils/exporting/query_data.cpp
+    utils/exporting/query_data_exporter.cpp
+    utils/exporting/query_data_export_formats/format_factory.cpp
     utils/exporting/mysql_dump_console.cpp
 )
 

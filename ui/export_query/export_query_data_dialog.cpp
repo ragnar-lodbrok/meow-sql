@@ -28,7 +28,7 @@ void Dialog::createWidgets()
 
     QHBoxLayout * horizLayout = new QHBoxLayout();
 
-    _outputFormatWidget = new OutputFormatWidget;
+    _outputFormatWidget = new OutputFormatWidget(&_presenter);;
     horizLayout->addWidget(_outputFormatWidget, 0);
 
     _rowSelectionWidget = new RowSelectionWidget;

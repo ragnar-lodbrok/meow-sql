@@ -1,4 +1,6 @@
-#include "query_data.h"
+#include "query_data_exporter.h"
+#include "query_data_export_formats/format_factory.h"
+
 #include <QTextCodec>
 
 
@@ -6,13 +8,17 @@ namespace meow {
 namespace utils {
 namespace exporting {
 
-QueryData::QueryData()
+QueryDataExporter::QueryDataExporter()
 {
     _encoding = defaultFileEncoding();
+
+    QueryDataExportFormatFactory formatFactory;
+    _formats = formatFactory.createFormats();
 }
 
-QStringList QueryData::supportedFileEncodings() const
+QStringList QueryDataExporter::supportedFileEncodings() const
 {
+    // TODO: cache?
     QList<QByteArray> codecs = QTextCodec::availableCodecs();
 
     QStringList codecNames;
@@ -27,6 +33,16 @@ QStringList QueryData::supportedFileEncodings() const
     return codecNames;
 }
 
+QStringList QueryDataExporter::formatNames() const
+{
+    QStringList names;
+
+    for (const QueryDataExportFormatPtr & format : _formats) {
+        names << format->name();
+    }
+
+    return names;
+}
 
 } // namespace exporting
 } // namespace utils

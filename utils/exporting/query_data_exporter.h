@@ -1,16 +1,17 @@
-#ifndef MEOW_UTILS_EXPORTING_QUERY_DATA_H
-#define MEOW_UTILS_EXPORTING_QUERY_DATA_H
+#ifndef MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORTER_H
+#define MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORTER_H
 
 #include <QStringList>
+#include "query_data_export_formats/format_interface.h"
 
 namespace meow {
 namespace utils {
 namespace exporting {
 
-class QueryData
+class QueryDataExporter
 {
 public:
-    QueryData();
+    QueryDataExporter();
 
     enum class Mode {
         Clipboard,
@@ -36,13 +37,17 @@ public:
         _encoding = encoding;
     }
 
+    QStringList formatNames() const;
+
 private:
     Mode _mode = Mode::Clipboard;
     QString _encoding;
+
+    std::vector<QueryDataExportFormatPtr> _formats;
 };
 
 } // namespace exporting
 } // namespace utils
 } // namespace meow
 
-#endif // MEOW_UTILS_EXPORTING_QUERY_DATA_H
+#endif // MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORTER_H

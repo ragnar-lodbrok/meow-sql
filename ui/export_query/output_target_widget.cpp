@@ -100,7 +100,11 @@ void OutputTargetWidget::fillDataFromPresenter()
 
 void OutputTargetWidget::validateControls()
 {
+    _filenameEdit->setEnabled(_presenter->isModeFile());
+    _filenameSelectionButton->setEnabled(_presenter->isModeFile());
 
+    _encodingLabel->setEnabled(_presenter->isModeFile());
+    _encodingCombobox->setEnabled(_presenter->isModeFile());
 }
 
 void OutputTargetWidget::onModeRadioButtonToggled(bool checked)

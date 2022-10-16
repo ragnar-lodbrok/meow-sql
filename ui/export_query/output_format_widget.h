@@ -5,15 +5,24 @@
 
 namespace meow {
 namespace ui {
+
+namespace presenters {
+class ExportQueryPresenter;
+}
+
 namespace export_query {
 
 class OutputFormatWidget : public QWidget
 {
 public:
-    explicit OutputFormatWidget(QWidget *parent = nullptr);
+    explicit OutputFormatWidget(presenters::ExportQueryPresenter * presenter,
+                                QWidget *parent = nullptr);
 private:
 
     void createWidgets();
+    void fillDataFromPresenter();
+
+    presenters::ExportQueryPresenter * _presenter;
 
     QGroupBox * _groupBox;
     QComboBox * _formatCombobox;
