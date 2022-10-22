@@ -537,6 +537,7 @@ void DataTab::onDataResetSortAction()
 void DataTab::onDataExportAction()
 {
     meow::ui::export_query::Dialog dialog;
+    dialog.setData(&_model, _dataTable->selectionModel());
     dialog.exec();
 }
 

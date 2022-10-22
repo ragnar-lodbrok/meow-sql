@@ -117,7 +117,7 @@ private:
     QAction * _showFilterPanelAction;
     DataFilterWidget * _dataFilter;
     // bottom:
-    EditableDataTableView  * _dataTable;
+    EditableDataTableView * _dataTable;
 
     models::DataTableModel _model;
 

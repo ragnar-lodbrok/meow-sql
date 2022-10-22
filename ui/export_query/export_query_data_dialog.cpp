@@ -18,6 +18,14 @@ Dialog::Dialog()
     resize(700, 500);
 }
 
+void Dialog::setData(
+        models::BaseDataTableModel * model,
+        QItemSelectionModel * selection)
+{
+    _presenter.setData(model, selection);
+    _rowSelectionWidget->fillDataFromPresenter();
+}
+
 void Dialog::createWidgets()
 {
     QVBoxLayout * mainLayout = new QVBoxLayout();
@@ -28,10 +36,10 @@ void Dialog::createWidgets()
 
     QHBoxLayout * horizLayout = new QHBoxLayout();
 
-    _outputFormatWidget = new OutputFormatWidget(&_presenter);;
+    _outputFormatWidget = new OutputFormatWidget(&_presenter);
     horizLayout->addWidget(_outputFormatWidget, 0);
 
-    _rowSelectionWidget = new RowSelectionWidget;
+    _rowSelectionWidget = new RowSelectionWidget(&_presenter);
     horizLayout->addWidget(_rowSelectionWidget, 0);
 
     mainLayout->addLayout(horizLayout, 0);

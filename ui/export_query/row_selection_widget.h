@@ -5,15 +5,26 @@
 
 namespace meow {
 namespace ui {
+
+namespace presenters {
+class ExportQueryPresenter;
+}
+
 namespace export_query {
 
 class RowSelectionWidget : public QWidget
 {
 public:
-    explicit RowSelectionWidget(QWidget *parent = nullptr);
+    explicit RowSelectionWidget(presenters::ExportQueryPresenter * presenter,
+                                QWidget *parent = nullptr);
+    void fillDataFromPresenter();
 private:
 
     void createWidgets();
+
+    Q_SLOT void onSelectionRadioButtonToggled(bool checked);
+
+    presenters::ExportQueryPresenter * _presenter;
 
     QGroupBox * _groupBox;
     QRadioButton * _selectionRadioButton;

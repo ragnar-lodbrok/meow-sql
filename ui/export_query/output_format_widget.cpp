@@ -31,6 +31,11 @@ void OutputFormatWidget::createWidgets()
 
     _formatCombobox = new QComboBox;
     _formatCombobox->setMaxVisibleItems(20);
+    connect(_formatCombobox,
+            QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this,
+            &OutputFormatWidget::onFormatComboboxIndexChanged);
+
 
     mainGroupLayout->addWidget(_formatCombobox, 0, Qt::AlignTop);
 
@@ -41,9 +46,21 @@ void OutputFormatWidget::fillDataFromPresenter()
 {
     _formatCombobox->blockSignals(true);
     _formatCombobox->clear();
-    _formatCombobox->addItems(_presenter->formatNames());
-    //_formatCombobox->setCurrentText(_presenter->formatName());
+    QMap<QString, QString> formats = _presenter->formatNames();
+    auto i = formats.constBegin();
+    while (i != formats.constEnd()) {
+        _formatCombobox->addItem(i.value(), i.key());
+        ++i;
+    }
+
+    _formatCombobox->setCurrentIndex(_formatCombobox->findData(
+                                         _presenter->formatId()));
     _formatCombobox->blockSignals(false);
+}
+
+void OutputFormatWidget::onFormatComboboxIndexChanged(int index)
+{
+    _presenter->setFormatId(_formatCombobox->itemData(index).toString());
 }
 
 } // namespace export_query

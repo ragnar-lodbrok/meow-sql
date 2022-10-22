@@ -11,6 +11,13 @@ ExportQueryPresenter::ExportQueryPresenter()
 
 }
 
+void ExportQueryPresenter::setData(
+    models::BaseDataTableModel * model,
+    QItemSelectionModel * selection)
+{
+    _exporter->setData(model, selection);
+}
+
 void ExportQueryPresenter::setModeClipboard()
 {
     _exporter->setMode(utils::exporting::QueryDataExporter::Mode::Clipboard);
@@ -32,6 +39,29 @@ bool ExportQueryPresenter::isModeFile() const
     return _exporter->mode() == utils::exporting::QueryDataExporter::Mode::File;
 }
 
+void ExportQueryPresenter::setOnlySelectedRows(bool selectedOnly) const
+{
+    if (selectedOnly) {
+        _exporter->setRowSelection(
+            utils::exporting::QueryDataExporter::RowSelection::Selection);
+    } else {
+        _exporter->setRowSelection(
+            utils::exporting::QueryDataExporter::RowSelection::Complete);
+    }
+}
+
+bool ExportQueryPresenter::isSelectedRows() const
+{
+    return _exporter->rowSelection()
+            == utils::exporting::QueryDataExporter::RowSelection::Selection;
+}
+
+bool ExportQueryPresenter::isAllRows() const
+{
+    return _exporter->rowSelection()
+            == utils::exporting::QueryDataExporter::RowSelection::Complete;
+}
+
 QString ExportQueryPresenter::fileEncoding() const
 {
     return _exporter->fileEncoding();
@@ -49,10 +79,32 @@ void ExportQueryPresenter::setFileEncoding(const QString & encoding)
     _exporter->setFileEncoding(encoding);
 }
 
-QStringList ExportQueryPresenter::formatNames() const
+QString ExportQueryPresenter::formatId() const
+{
+    return _exporter->formatId();
+}
+
+void ExportQueryPresenter::setFormatId(const QString & format)
+{
+    _exporter->setFormatId(format);
+}
+
+QMap<QString, QString> ExportQueryPresenter::formatNames() const
 {
     return _exporter->formatNames();
 }
+
+QString ExportQueryPresenter::selectedRowsStats() const
+{
+    // TODO: calc byte size?
+    return QString("(%1 rows)").arg(_exporter->selectedRowsCount());
+}
+
+QString ExportQueryPresenter::allRowsStats() const
+{
+    return QString("(%1 rows)").arg(_exporter->allRowsCount());
+}
+
 
 } // namespace presenter
 } // namespace ui

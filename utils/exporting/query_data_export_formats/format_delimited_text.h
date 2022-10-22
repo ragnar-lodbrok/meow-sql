@@ -1,9 +1,6 @@
 #ifndef MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_DELIMITED_TEXT_CSV_H
 #define MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_DELIMITED_TEXT_CSV_H
 
-#include <QString>
-#include <memory>
-
 #include "format_interface.h"
 
 namespace meow {
@@ -13,8 +10,13 @@ namespace exporting {
 class QueryDataExportFormatDelimitedText : public IQueryDataExportFormat
 {
 public:
+
+    virtual QString id() const override {
+        return "delimited_text";
+    }
+
     virtual QString name() const override {
-        return "Delimited text";
+        return QObject::tr("Delimited text");
     }
 };
 

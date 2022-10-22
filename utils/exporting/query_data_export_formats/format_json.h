@@ -1,9 +1,6 @@
 #ifndef MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_JSON_H
 #define MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_JSON_H
 
-#include <QString>
-#include <memory>
-
 #include "format_interface.h"
 
 namespace meow {
@@ -13,8 +10,13 @@ namespace exporting {
 class QueryDataExportFormatJSON : public IQueryDataExportFormat
 {
 public:
+
+    virtual QString id() const override {
+        return "json";
+    }
+
     virtual QString name() const override {
-        return "JSON";
+        return QObject::tr("JSON");
     }
 };
 

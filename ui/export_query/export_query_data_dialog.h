@@ -6,6 +6,11 @@
 
 namespace meow {
 namespace ui {
+
+namespace models {
+class BaseDataTableModel;
+}
+
 namespace export_query {
 
 class OutputTargetWidget;
@@ -17,6 +22,8 @@ class Dialog : public QDialog
 {
 public:
     Dialog();
+    void setData(models::BaseDataTableModel * model,
+                 QItemSelectionModel * selection);
 private:
     void createWidgets();
 

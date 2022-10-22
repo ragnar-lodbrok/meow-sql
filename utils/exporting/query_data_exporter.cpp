@@ -1,5 +1,6 @@
 #include "query_data_exporter.h"
 #include "query_data_export_formats/format_factory.h"
+#include "ui/models/base_data_table_model.h"
 
 #include <QTextCodec>
 
@@ -9,11 +10,23 @@ namespace utils {
 namespace exporting {
 
 QueryDataExporter::QueryDataExporter()
+    : _encoding(defaultFileEncoding())
 {
-    _encoding = defaultFileEncoding();
 
     QueryDataExportFormatFactory formatFactory;
-    _formats = formatFactory.createFormats();
+    std::vector<QueryDataExportFormatPtr> formats
+            = formatFactory.createFormats();
+    for (const QueryDataExportFormatPtr & format : formats) {
+        _formats.insert(format->id(), format);
+    }
+}
+
+void QueryDataExporter::setData(
+        ui::models::BaseDataTableModel * model,
+        QItemSelectionModel * selection)
+{
+    _model = model;
+    _selection = selection;
 }
 
 QStringList QueryDataExporter::supportedFileEncodings() const
@@ -33,15 +46,44 @@ QStringList QueryDataExporter::supportedFileEncodings() const
     return codecNames;
 }
 
-QStringList QueryDataExporter::formatNames() const
+QMap<QString, QString> QueryDataExporter::formatNames() const
 {
-    QStringList names;
+    QMap<QString, QString> names;
 
-    for (const QueryDataExportFormatPtr & format : _formats) {
-        names << format->name();
+    auto i = _formats.constBegin();
+    while (i != _formats.constEnd()) {
+        names.insert(i.key(), i.value()->name());
+        ++i;
     }
 
     return names;
+}
+
+void QueryDataExporter::setFormatId(const QString & format)
+{
+    if (_formats.contains(format)) {
+        _formatId = format;
+    } else {
+        Q_ASSERT(false);
+    }
+}
+
+int QueryDataExporter::allRowsCount() const
+{
+    if (_model) {
+        return _model->rowCount();
+    } else {
+        return 0;
+    }
+}
+
+int QueryDataExporter::selectedRowsCount() const
+{
+    if (_selection) {
+        return _selection->selectedRows().count();
+    } else {
+        return 0;
+    }
 }
 
 } // namespace exporting

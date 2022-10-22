@@ -1,9 +1,6 @@
 #ifndef MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_MARKDOWN_H
 #define MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_MARKDOWN_H
 
-#include <QString>
-#include <memory>
-
 #include "format_interface.h"
 
 namespace meow {
@@ -13,8 +10,13 @@ namespace exporting {
 class QueryDataExportFormatMarkdown : public IQueryDataExportFormat
 {
 public:
+
+    virtual QString id() const override {
+        return "markdown";
+    }
+
     virtual QString name() const override {
-        return "Markdown Here";
+        return QObject::tr("Markdown Here");
     }
 };
 

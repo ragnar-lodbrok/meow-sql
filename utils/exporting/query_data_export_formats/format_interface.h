@@ -2,6 +2,7 @@
 #define MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_INTERFACE_H
 
 #include <QString>
+#include <QObject>
 #include <memory>
 
 namespace meow {
@@ -13,6 +14,7 @@ class IQueryDataExportFormat
 public:
     virtual ~IQueryDataExportFormat() {}
 
+    virtual QString id() const = 0;
     virtual QString name() const = 0;
 };
 

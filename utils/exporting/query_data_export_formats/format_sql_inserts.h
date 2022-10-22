@@ -1,9 +1,6 @@
 #ifndef MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_SQL_INSERTS_H
 #define MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_SQL_INSERTS_H
 
-#include <QString>
-#include <memory>
-
 #include "format_interface.h"
 
 namespace meow {
@@ -13,8 +10,13 @@ namespace exporting {
 class QueryDataExportFormatSQLInserts : public IQueryDataExportFormat
 {
 public:
+
+    virtual QString id() const override {
+        return "sql_inserts";
+    }
+
     virtual QString name() const override {
-        return "SQL INSERTs";
+        return QObject::tr("SQL INSERTs");
     }
 };
 

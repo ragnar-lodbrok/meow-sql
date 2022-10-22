@@ -76,7 +76,7 @@ set(HEADER_FILES
     ui/main_window/central_right/global_data_filter_interface.h
     ui/main_window/central_right/base_root_tab.h
     utils/exporting/query_data_export_formats/format_delimited_text.h
-    utils/exporting/query_data_export_formats/format_excel_csv.h
+    utils/exporting/query_data_export_formats/format_csv.h
     utils/exporting/query_data_export_formats/format_factory.h
     utils/exporting/query_data_export_formats/format_html_table.h
     utils/exporting/query_data_export_formats/format_interface.h

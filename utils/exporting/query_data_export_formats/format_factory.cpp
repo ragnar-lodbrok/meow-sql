@@ -1,6 +1,6 @@
 #include "format_factory.h"
 
-#include "format_excel_csv.h"
+#include "format_csv.h"
 #include "format_delimited_text.h"
 #include "format_html_table.h"
 #include "format_xml.h"
@@ -22,7 +22,7 @@ QueryDataExportFormatFactory::createFormats() const
 {
     std::vector<QueryDataExportFormatPtr> formats;
 
-    formats.push_back(std::make_shared<QueryDataExportFormatExcelCSV>());
+    formats.push_back(std::make_shared<QueryDataExportFormatCSV>());
     formats.push_back(std::make_shared<QueryDataExportFormatDelimitedText>());
     formats.push_back(std::make_shared<QueryDataExportFormatHTMLTable>());
     formats.push_back(std::make_shared<QueryDataExportFormatXML>());

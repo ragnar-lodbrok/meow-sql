@@ -22,6 +22,8 @@ private:
     void createWidgets();
     void fillDataFromPresenter();
 
+    Q_SLOT void onFormatComboboxIndexChanged(int index);
+
     presenters::ExportQueryPresenter * _presenter;
 
     QGroupBox * _groupBox;
