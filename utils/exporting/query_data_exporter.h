@@ -4,7 +4,7 @@
 #include <QStringList>
 #include <QMap>
 #include <QItemSelectionModel>
-#include "query_data_export_formats/format_interface.h"
+#include "query_data_export_formats/format.h"
 
 namespace meow {
 
@@ -17,8 +17,9 @@ class BaseDataTableModel;
 namespace utils {
 namespace exporting {
 
-class QueryDataExporter
+class QueryDataExporter : public QObject
 {
+    Q_OBJECT
 public:
     QueryDataExporter();
 
@@ -68,9 +69,16 @@ public:
     QString formatId() const {
         return _formatId;
     }
+    QueryDataExportFormatPtr format() const {
+        return _formats.value(_formatId);
+    }
 
     int allRowsCount() const;
     int selectedRowsCount() const;
+
+    void run();
+
+    Q_SIGNAL void formatChanged();
 
 private:
 

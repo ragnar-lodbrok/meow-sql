@@ -5,15 +5,28 @@
 
 namespace meow {
 namespace ui {
+
+namespace presenters {
+class ExportQueryPresenter;
+}
+
 namespace export_query {
 
 class OptionsWidget : public QWidget
 {
 public:
-    explicit OptionsWidget(QWidget *parent = nullptr);
+    explicit OptionsWidget(presenters::ExportQueryPresenter * presenter,
+                           QWidget * parent = nullptr);
+
+    void fillDataFromPresenter();
 private:
 
     void createWidgets();
+
+    Q_SLOT void onLineEditTextChanged();
+    Q_SLOT void onCheckboxStateChanged();
+
+    presenters::ExportQueryPresenter * _presenter;
 
     QGroupBox * _groupBox;
 

@@ -1,7 +1,8 @@
 #ifndef MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_CSV_H
 #define MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_CSV_H
 
-#include "format_interface.h"
+#include "format.h"
+#include "ui/models/base_data_table_model.h"
 
 namespace meow {
 namespace utils {
@@ -17,6 +18,66 @@ public:
 
     virtual QString name() const override {
         return QObject::tr("CSV");
+    }
+
+    virtual QString row(int indexRow) const override {
+
+        Q_ASSERT(_model);
+
+        QStringList colsData;
+
+        for (int col = 0; col < _model->columnCount(); ++col) {
+            QString colData;
+            if (_model->isNullAt(indexRow, col)) {
+                colData = nullValue();
+            } else {
+                colData = data(indexRow, col);
+                if (isNumericDataType(col)) {
+                    // TODO: format number
+                }
+                // TODO: still use " if encloser is empty and
+                // data contains field separator?
+                colData = encloser()
+                        + escapeEncloser(colData)
+                        + encloser();
+            }
+            colsData.push_back(colData);
+        }
+
+        return colsData.join(fieldSeparator()) + lineTerminator();
+    }
+
+    virtual OptionsValueMap defaultOptionsValue() const override {
+        return {
+            {OptionsValue::FieldSeparator, QString(",")},
+            {OptionsValue::Encloser,       QString('"')},
+            {OptionsValue::LineTerminator, QString("\r\n")},
+            {OptionsValue::NullValue,      QString()}
+        };
+    }
+
+    virtual OptionsValueSet editableOptionsValue() const override {
+        return {
+            OptionsValue::FieldSeparator,
+            OptionsValue::Encloser,
+            OptionsValue::LineTerminator,
+            OptionsValue::NullValue
+        };
+    }
+
+    virtual OptionsBoolSet defaultOptionsBool() const override {
+        return {
+            OptionsBool::IncludeColumnNames,
+            OptionsBool::IncludeAutoIncrementColumn
+        };
+    }
+
+    virtual OptionsBoolSet editableOptionsBool() const override {
+        return {
+            OptionsBool::IncludeColumnNames,
+            OptionsBool::IncludeAutoIncrementColumn,
+            OptionsBool::RemoveLineBreaksFromContents
+        };
     }
 };
 

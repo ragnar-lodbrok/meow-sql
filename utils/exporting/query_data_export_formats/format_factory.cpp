@@ -1,7 +1,6 @@
 #include "format_factory.h"
 
 #include "format_csv.h"
-#include "format_delimited_text.h"
 #include "format_html_table.h"
 #include "format_xml.h"
 #include "format_sql_inserts.h"
@@ -23,7 +22,6 @@ QueryDataExportFormatFactory::createFormats() const
     std::vector<QueryDataExportFormatPtr> formats;
 
     formats.push_back(std::make_shared<QueryDataExportFormatCSV>());
-    formats.push_back(std::make_shared<QueryDataExportFormatDelimitedText>());
     formats.push_back(std::make_shared<QueryDataExportFormatHTMLTable>());
     formats.push_back(std::make_shared<QueryDataExportFormatXML>());
     formats.push_back(std::make_shared<QueryDataExportFormatSQLInserts>());
@@ -34,6 +32,10 @@ QueryDataExportFormatFactory::createFormats() const
     formats.push_back(std::make_shared<QueryDataExportFormatPHPArray>());
     formats.push_back(std::make_shared<QueryDataExportFormatMarkdown>());
     formats.push_back(std::make_shared<QueryDataExportFormatJSON>());
+
+    for (auto & format : formats) {
+        format->init();
+    }
 
     return formats;
 }

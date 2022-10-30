@@ -2,7 +2,7 @@
 #define MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_FACTORY_H
 
 #include <vector>
-#include "format_interface.h"
+#include "format.h"
 
 namespace meow {
 namespace utils {

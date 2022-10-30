@@ -83,10 +83,6 @@ public:
     void resetAllColumnsSort();
     void applyColumnSort();
 
-    QModelIndex createIndexForRow(int row) {
-        return createIndex(row, 0);
-    }
-
 private:
 
     bool _entityChangedProcessed;

@@ -46,6 +46,8 @@ public:
         return nullptr;
     }
 
+    bool isNullAt(int row, int column) const;
+
     // We need to handle row/col count from outside bc Qt models require
     // to make something like that:
     //   beginInsertRows();
@@ -101,6 +103,14 @@ public:
         } else {
             return sourceIndexList;
         }
+    }
+
+    QModelIndex createIndexForRow(int row) const {
+        return createIndex(row, 0);
+    }
+
+    QModelIndex createIndexForRowCol(int row, int col) const {
+        return createIndex(row, col);
     }
 
 private:

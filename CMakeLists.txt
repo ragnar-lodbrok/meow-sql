@@ -75,11 +75,11 @@ set(HEADER_FILES
     ui/common/mysql_syntax.h
     ui/main_window/central_right/global_data_filter_interface.h
     ui/main_window/central_right/base_root_tab.h
+    utils/exporting/query_data_export_formats/format.h
     utils/exporting/query_data_export_formats/format_delimited_text.h
     utils/exporting/query_data_export_formats/format_csv.h
     utils/exporting/query_data_export_formats/format_factory.h
     utils/exporting/query_data_export_formats/format_html_table.h
-    utils/exporting/query_data_export_formats/format_interface.h
     utils/exporting/query_data_export_formats/format_json.h
     utils/exporting/query_data_export_formats/format_latex.h
     utils/exporting/query_data_export_formats/format_markdown.h
@@ -301,6 +301,7 @@ set(SOURCE_FILES
     utils/exporting/query_data_exporter.cpp
     utils/exporting/query_data_export_formats/format_factory.cpp
     utils/exporting/mysql_dump_console.cpp
+    utils/exporting/query_data_export_formats/format.cpp
 )
 
 if (WITH_MYSQL)

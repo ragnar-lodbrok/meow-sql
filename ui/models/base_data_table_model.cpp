@@ -18,6 +18,11 @@ BaseDataTableModel::BaseDataTableModel(meow::db::QueryDataPtr queryData,
 
 }
 
+bool BaseDataTableModel::isNullAt(int row, int column) const
+{
+    return _queryData->isNullAt(row, column);
+}
+
 void BaseDataTableModel::setRowCount(int newRowCount)
 {
     _rowCount = newRowCount;

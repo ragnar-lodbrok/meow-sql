@@ -28,6 +28,7 @@ private:
     void createWidgets();
 
     Q_SLOT void onAccept();
+    Q_SLOT void onFormatChanged();
 
     ui::presenters::ExportQueryPresenter _presenter;
 

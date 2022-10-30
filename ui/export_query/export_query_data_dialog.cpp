@@ -16,6 +16,9 @@ Dialog::Dialog()
     createWidgets();
 
     resize(700, 500);
+
+    connect(&_presenter, &ui::presenters::ExportQueryPresenter::formatChanged,
+            this, &Dialog::onFormatChanged);
 }
 
 void Dialog::setData(
@@ -44,7 +47,7 @@ void Dialog::createWidgets()
 
     mainLayout->addLayout(horizLayout, 0);
 
-    _optionsWidget = new OptionsWidget;
+    _optionsWidget = new OptionsWidget(&_presenter);
     mainLayout->addWidget(_optionsWidget, 0, Qt::AlignTop);
 
     mainLayout->addStretch(1);
@@ -63,7 +66,12 @@ void Dialog::createWidgets()
 
 void Dialog::onAccept()
 {
+    _presenter.run();
+}
 
+void Dialog::onFormatChanged()
+{
+    _optionsWidget->fillDataFromPresenter();
 }
 
 } // namespace export_query

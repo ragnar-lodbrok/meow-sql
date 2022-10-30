@@ -15,8 +15,9 @@ class BaseDataTableModel;
 
 namespace presenters {
 
-class ExportQueryPresenter
+class ExportQueryPresenter : public QObject
 {
+    Q_OBJECT
 public:
     ExportQueryPresenter();
 
@@ -44,8 +45,45 @@ public:
     QString selectedRowsStats() const;
     QString allRowsStats() const;
 
+    QString optionFieldSeparator() const;
+    QString optionEncloser() const;
+    QString optionLineTerminator() const;
+    QString optionNullValue() const;
+
+    bool isOptionEditableFieldSeparator() const;
+    bool isOptionEditableEncloser() const;
+    bool isOptionEditableLineTerminator() const;
+    bool isOptionEditableNullValue() const;
+
+    void setOptionFieldSeparator(const QString & value);
+    void setOptionEncloser(const QString & value);
+    void setOptionLineTerminator(const QString & value);
+    void setOptionNullValue(const QString & value);
+
+    bool optionBoolIncludeColumnNames() const;
+    bool optionBoolIncludeAutoIncrementColumn() const;
+    bool optionBoolIncludeSQLQuery() const;
+    bool optionBoolRemoveLineBreaksFromContents() const;
+
+    bool isOptionEditableIncludeColumnNames() const;
+    bool isOptionEditableIncludeAutoIncrementColumn() const;
+    bool isOptionEditableIncludeSQLQuery() const;
+    bool isOptionEditableRemoveLineBreaksFromContents() const;
+
+    void setOptionIncludeColumnNames(bool value);
+    void setOptionIncludeAutoIncrementColumn(bool value);
+    void setOptionIncludeSQLQuery(bool value);
+    void setOptionRemoveLineBreaksFromContents(bool value);
+
+    void run();
+
+    Q_SIGNAL void formatChanged();
 
 private:
+
+    QString escapeOptionValue(const QString & str) const;
+    QString unescapeOptionValue(const QString & str) const;
+
     std::unique_ptr<utils::exporting::QueryDataExporter> _exporter;
 };
 

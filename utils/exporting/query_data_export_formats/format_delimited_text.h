@@ -1,12 +1,13 @@
 #ifndef MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_DELIMITED_TEXT_CSV_H
 #define MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_DELIMITED_TEXT_CSV_H
 
-#include "format_interface.h"
+#include "format.h"
 
 namespace meow {
 namespace utils {
 namespace exporting {
 
+// TODO: rm
 class QueryDataExportFormatDelimitedText : public IQueryDataExportFormat
 {
 public:
