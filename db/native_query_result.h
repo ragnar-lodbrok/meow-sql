@@ -108,6 +108,7 @@ public:
     virtual bool columnIsPrimaryKeyPart(std::size_t index) const;
     virtual bool columnIsUniqueKeyPart(std::size_t index) const;
     virtual bool columnIsIndexKeyPart(std::size_t index) const;
+    virtual bool columnIsAutoIncrement(std::size_t index) const;
 
 protected:
 

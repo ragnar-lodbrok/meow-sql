@@ -8,7 +8,7 @@ namespace meow {
 namespace utils {
 namespace exporting {
 
-class QueryDataExportFormatCSV : public IQueryDataExportFormat
+class QueryDataExportFormatCSV : public QueryDataExportFormat
 {
 public:
 
@@ -20,26 +20,54 @@ public:
         return QObject::tr("CSV");
     }
 
+    virtual QString header() const override {
+
+        if (!isIncludeColumnNames()) {
+            return QString();
+        }
+
+        QStringList colsData;
+
+        int col = -1;
+        while ((col = nextVisibleColumn(col)) != -1) {
+            QString colData = headerName(col);
+            colData = encloser()
+                    + escapeEncloser(colData)
+                    + encloser();
+            colsData.push_back(colData);
+        }
+
+        return colsData.join(fieldSeparator()) + lineTerminator();
+    }
+
     virtual QString row(int indexRow) const override {
 
         Q_ASSERT(_model);
 
         QStringList colsData;
 
-        for (int col = 0; col < _model->columnCount(); ++col) {
+        int col = -1;
+        while ((col = nextVisibleColumn(col)) != -1) {
             QString colData;
             if (_model->isNullAt(indexRow, col)) {
                 colData = nullValue();
             } else {
                 colData = data(indexRow, col);
-                if (isNumericDataType(col)) {
-                    // TODO: format number
+
+                if (isRemoveLineBreaksFromContents()) {
+                    colData = removeLineBreaks(colData);
                 }
-                // TODO: still use " if encloser is empty and
-                // data contains field separator?
-                colData = encloser()
-                        + escapeEncloser(colData)
-                        + encloser();
+
+                QString encloser = this->encloser();
+                if (encloser.isEmpty() && colData.contains(fieldSeparator())) {
+                    // if e.g. fieldSeparator is [,] we need to force ["] when
+                    // data contains [,]
+                    encloser = "\"";
+                }
+
+                colData = encloser
+                        + escapeEncloser(colData, encloser)
+                        + encloser;
             }
             colsData.push_back(colData);
         }

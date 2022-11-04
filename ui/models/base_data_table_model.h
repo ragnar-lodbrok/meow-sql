@@ -36,6 +36,10 @@ public:
         return _queryData->columnHasForeignKey(column);
     }
 
+    bool columnIsAutoIncrement(int column) const {
+        return _queryData->columnIsAutoIncrement(column);
+    }
+
     meow::db::DataTypePtr dataTypeForColumn(int column) const {
         return _queryData->dataTypeForColumn(column);
     }  

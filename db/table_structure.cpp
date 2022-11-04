@@ -43,6 +43,11 @@ bool TableStructure::hasIndexForColumn(
     return false;
 }
 
+bool TableStructure::columnIsAutoIncrement(int columnIndex) const
+{
+    return _columns[columnIndex]->defaultType() == ColumnDefaultType::AutoInc;
+}
+
 TableStructure * TableStructure::deepCopy(TableEntity * parentTable) const
 {
     TableStructure * structure = new TableStructure(parentTable);

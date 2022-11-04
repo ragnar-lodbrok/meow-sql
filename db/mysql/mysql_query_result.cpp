@@ -182,6 +182,11 @@ bool MySQLQueryResult::columnIsIndexKeyPart(std::size_t index) const
     return (column(index).flags & MULTIPLE_KEY_FLAG) > 0;
 }
 
+bool MySQLQueryResult::columnIsAutoIncrement(std::size_t index) const
+{
+    return (column(index).flags & AUTO_INCREMENT_FLAG) > 0;
+}
+
 std::vector<MYSQL_RES *> MySQLQueryResult::resultList() const
 {
     // TODO: optimize/cache resultList?

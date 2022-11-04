@@ -73,6 +73,8 @@ public:
                                  TableIndexClass::Key);
     }
 
+    bool columnIsAutoIncrement(int columnIndex) const;
+
     TableStructure * deepCopy(TableEntity * parentTable) const;
 
     int insertEmptyDefaultColumn(int afterIndex = -1);

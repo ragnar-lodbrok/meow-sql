@@ -1,5 +1,5 @@
-#ifndef MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_INTERFACE_H
-#define MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_INTERFACE_H
+#ifndef MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_H
+#define MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_H
 
 #include <QString>
 #include <QObject>
@@ -19,7 +19,7 @@ class BaseDataTableModel;
 namespace utils {
 namespace exporting {
 
-class IQueryDataExportFormat
+class QueryDataExportFormat
 {
 public:
 
@@ -49,7 +49,7 @@ public:
         _optionsBool = defaultOptionsBool();
     }
 
-    virtual ~IQueryDataExportFormat() {}
+    virtual ~QueryDataExportFormat() {}
 
     virtual QString id() const = 0;
     virtual QString name() const = 0;
@@ -116,25 +116,41 @@ public:
         return _optionsBool.contains(option);
     }
 
+protected:
+
+    QString headerName(int col) const;
     QString data(int row, int col) const;
     bool isNull(int row, int col) const;
     bool isNumericDataType(int col) const;
-    QString escapeEncloser(const QString & data) const;
+    QString escapeEncloser(const QString & data,
+                           const QString & encloser = QString()) const;
+    QString removeLineBreaks(const QString & data) const;
 
-protected:
+    bool isIncludeColumnNames() const {
+        return optionBool(OptionsBool::IncludeColumnNames);
+    }
+    bool isIncludeAutoIncrementColumn() const {
+        return optionBool(OptionsBool::IncludeAutoIncrementColumn);
+    }
+    bool isRemoveLineBreaksFromContents() const {
+        return optionBool(OptionsBool::RemoveLineBreaksFromContents);
+    }
+
+    int nextVisibleColumn(int curIndex) const;
+
     ui::models::BaseDataTableModel * _model = nullptr;
     OptionsValueMap _optionsValue;
     OptionsBoolSet _optionsBool;
 };
 
-using QueryDataExportFormatPtr = std::shared_ptr<IQueryDataExportFormat>;
+using QueryDataExportFormatPtr = std::shared_ptr<QueryDataExportFormat>;
 
-inline uint qHash(const IQueryDataExportFormat::OptionsValue& value)
+inline uint qHash(const QueryDataExportFormat::OptionsValue& value)
 {
     return static_cast<uint>(value);
 }
 
-inline uint qHash(const IQueryDataExportFormat::OptionsBool& value)
+inline uint qHash(const QueryDataExportFormat::OptionsBool& value)
 {
     return static_cast<uint>(value);
 }
@@ -143,4 +159,4 @@ inline uint qHash(const IQueryDataExportFormat::OptionsBool& value)
 } // namespace utils
 } // namespace meow
 
-#endif // MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_INTERFACE_H
+#endif // MEOW_UTILS_EXPORTING_QUERY_DATA_EXPORT_FORMAT_H

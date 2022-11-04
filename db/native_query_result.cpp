@@ -299,5 +299,20 @@ bool NativeQueryResult::columnIsIndexKeyPart(std::size_t index) const
     return false;
 }
 
+bool NativeQueryResult::columnIsAutoIncrement(std::size_t index) const
+{
+    if (!entity()) return false;
+
+    if (entity()->type() == Entity::Type::Table) {
+        TableEntity * table = static_cast<TableEntity *>(entity());
+
+        return table->structure()->columnIsAutoIncrement(index);
+    }
+
+    // TODO: not for table only
+
+    return false;
+}
+
 } // namespace db
 } // namespace meow

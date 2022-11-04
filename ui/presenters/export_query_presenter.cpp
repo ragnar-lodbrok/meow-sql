@@ -3,8 +3,8 @@
 
 namespace meow {
 
-using OptionsValue = utils::exporting::IQueryDataExportFormat::OptionsValue;
-using OptionsBool = utils::exporting::IQueryDataExportFormat::OptionsBool;
+using OptionsValue = utils::exporting::QueryDataExportFormat::OptionsValue;
+using OptionsBool = utils::exporting::QueryDataExportFormat::OptionsBool;
 
 namespace ui {
 namespace presenters {

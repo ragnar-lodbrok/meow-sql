@@ -49,6 +49,7 @@ public:
     db::DataTypeCategoryIndex columnDataTypeCategory(int index) const;
     db::DataTypePtr dataTypeForColumn(int column) const;
     bool columnHasForeignKey(int column) const;
+    bool columnIsAutoIncrement(int column) const;
     bool columnIsPrimaryKeyPart(std::size_t index) const;
     bool columnIsUniqueKeyPart(std::size_t index) const;
     bool columnIsIndexKeyPart(std::size_t index) const;

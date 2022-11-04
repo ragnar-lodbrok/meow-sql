@@ -61,6 +61,14 @@ bool QueryData::columnHasForeignKey(int column) const
     return false;
 }
 
+bool QueryData::columnIsAutoIncrement(int column) const
+{
+    if (_queryPtr) {
+        return currentResult()->columnIsAutoIncrement(column);
+    }
+    return false;
+}
+
 bool QueryData::columnIsPrimaryKeyPart(std::size_t index) const
 {
     if (_queryPtr) {

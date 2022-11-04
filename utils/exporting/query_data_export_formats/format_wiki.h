@@ -7,7 +7,7 @@ namespace meow {
 namespace utils {
 namespace exporting {
 
-class QueryDataExportFormatWiki : public IQueryDataExportFormat
+class QueryDataExportFormatWiki : public QueryDataExportFormat
 {
 public:
 
