@@ -114,6 +114,27 @@ QString ExportQueryPresenter::allRowsStats() const
     return QObject::tr("(%1 rows)").arg(_exporter->allRowsCount());
 }
 
+QVector<QPair<QString, QString>> ExportQueryPresenter::optionValues() const
+{
+
+    QVector<QPair<QString, QString>> values = {
+        {"\\t",     tr("Tab") + " [\\t]"},
+        {",",       tr("Comma") + " [,]"},
+        {";",       tr("Semicolon") + " [;]"},
+        {"sep1",    tr("-")},
+        {"'",       tr("Single quote") + " [']"},
+        {"\"",      tr("Double quote") + " [\"]"},
+        {"sep2",    tr("-")},
+        {"\\r\\n",  tr("Windows linebreaks") + " [\\r\\n]"},
+        {"\\n",     tr("Unix linebreaks") + " [\\n]"},
+        {"\\r",     tr("Old macOS linebreaks") + " [\\r]"},
+        {"sep3",    tr("-")},
+        {QString(), tr("Empty string")},
+    };
+
+    return values;
+}
+
 QString ExportQueryPresenter::optionFieldSeparator() const
 {
     return escapeOptionValue(_exporter->format()->fieldSeparator());

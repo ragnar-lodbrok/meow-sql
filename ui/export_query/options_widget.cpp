@@ -117,16 +117,16 @@ void OptionsWidget::createWidgets()
     _nullValueLabel = new QLabel(tr("NULL value:"));
     mainGroupLayout->addWidget(_nullValueLabel, 3, 1);
 
-    _separatorEdit = new QLineEdit;
+    _separatorEdit = createLineEditWithAction();
     mainGroupLayout->addWidget(_separatorEdit, 0, 2);
 
-    _encloserEdit = new QLineEdit;
+    _encloserEdit = createLineEditWithAction();
     mainGroupLayout->addWidget(_encloserEdit, 1, 2);
 
-    _terminatorEdit = new QLineEdit;
+    _terminatorEdit = createLineEditWithAction();
     mainGroupLayout->addWidget(_terminatorEdit, 2, 2);
 
-    _nullValueEdit = new QLineEdit;
+    _nullValueEdit = createLineEditWithAction();
     mainGroupLayout->addWidget(_nullValueEdit, 3, 2);
 
     connect(_separatorEdit, &QLineEdit::textChanged,
@@ -144,6 +144,19 @@ void OptionsWidget::createWidgets()
     mainGroupLayout->setAlignment(Qt::AlignTop);
 
     _groupBox->setLayout(mainGroupLayout);
+}
+
+QLineEdit * OptionsWidget::createLineEditWithAction()
+{
+    QLineEdit * edit = new QLineEdit;
+
+    QAction * action = edit->addAction(
+                QIcon(":/icons/dropdown_highlight.png"),
+                QLineEdit::TrailingPosition);
+    connect(action, &QAction::triggered,
+            this, &OptionsWidget::onLineEditAction);
+
+    return edit;
 }
 
 void OptionsWidget::onLineEditTextChanged()
@@ -177,6 +190,42 @@ void OptionsWidget::onCheckboxStateChanged()
         _presenter->setOptionRemoveLineBreaksFromContents(
                     _removeLinebreaksCheckbox->isChecked());
     }
+}
+
+void OptionsWidget::onLineEditAction()
+{
+    QLineEdit * lineEdit = static_cast<QLineEdit *>(sender()->parent());
+
+    QVector<QPair<QString, QString>> options = _presenter->optionValues();
+
+    QMenu * menu = new QMenu;
+
+    for (const QPair<QString, QString> & pair : options) {
+        QString name = pair.second;
+        QString value = pair.first;
+
+        if (name == "-") {
+            menu->addSeparator();
+        } else {
+            QAction * action = new QAction(name, menu);
+            action->setData(value);
+            menu->addAction(action);
+        }
+    }
+
+    int menuXPos = lineEdit->width() - menu->sizeHint().width();
+    int menuYPos = lineEdit->height() - 1;
+
+
+    QAction * executedAction
+            = menu->exec(lineEdit->mapToGlobal(
+                                 QPoint(menuXPos, menuYPos)));
+
+    if (executedAction) {
+        lineEdit->setText(executedAction->data().toString());
+    }
+
+    delete menu;
 }
 
 } // namespace export_query

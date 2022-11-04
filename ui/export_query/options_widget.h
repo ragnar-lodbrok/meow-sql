@@ -22,9 +22,11 @@ public:
 private:
 
     void createWidgets();
+    QLineEdit * createLineEditWithAction();
 
     Q_SLOT void onLineEditTextChanged();
     Q_SLOT void onCheckboxStateChanged();
+    Q_SLOT void onLineEditAction();
 
     presenters::ExportQueryPresenter * _presenter;
 

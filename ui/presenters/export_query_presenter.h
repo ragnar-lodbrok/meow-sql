@@ -45,6 +45,8 @@ public:
     QString selectedRowsStats() const;
     QString allRowsStats() const;
 
+    QVector<QPair<QString, QString>> optionValues() const;
+
     QString optionFieldSeparator() const;
     QString optionEncloser() const;
     QString optionLineTerminator() const;
