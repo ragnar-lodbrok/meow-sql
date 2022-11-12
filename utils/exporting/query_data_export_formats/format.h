@@ -53,6 +53,7 @@ public:
 
     virtual QString id() const = 0;
     virtual QString name() const = 0;
+    virtual QString fileExtension() const = 0;
 
     virtual QString header() const {
         return QString();

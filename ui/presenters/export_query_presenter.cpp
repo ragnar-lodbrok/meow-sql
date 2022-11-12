@@ -1,5 +1,9 @@
 #include "export_query_presenter.h"
 #include "utils/exporting/query_data_exporter.h"
+#include "db/exception.h"
+#include <QDebug>
+#include <QFileInfo>
+#include <QMessageBox>
 
 namespace meow {
 
@@ -8,6 +12,13 @@ using OptionsBool = utils::exporting::QueryDataExportFormat::OptionsBool;
 
 namespace ui {
 namespace presenters {
+
+QString nameFilter(const utils::exporting::QueryDataExportFormatPtr & format)
+{
+    return QString("%1 (*.%2)")
+            .arg(format->name(),
+                 format->fileExtension());
+}
 
 ExportQueryPresenter::ExportQueryPresenter()
     : QObject()
@@ -18,6 +29,16 @@ ExportQueryPresenter::ExportQueryPresenter()
             &utils::exporting::QueryDataExporter::formatChanged,
             this,
             &ExportQueryPresenter::formatChanged);
+
+    connect(_exporter.get(),
+            &utils::exporting::QueryDataExporter::filenameChanged,
+            this,
+            &ExportQueryPresenter::filenameChanged);
+
+    connect(_exporter.get(),
+            &utils::exporting::QueryDataExporter::modeChanged,
+            this,
+            &ExportQueryPresenter::modeChanged);
 }
 
 void ExportQueryPresenter::setData(
@@ -46,6 +67,69 @@ void ExportQueryPresenter::setModeFile()
 bool ExportQueryPresenter::isModeFile() const
 {
     return _exporter->mode() == utils::exporting::QueryDataExporter::Mode::File;
+}
+
+QString ExportQueryPresenter::filename() const
+{
+    return _exporter->filename();
+}
+
+void ExportQueryPresenter::setFilename(
+        const QString & filename,
+        const QString & filenameFilter)
+{
+
+    QFileInfo fileInfo(filename);
+    if (!fileInfo.suffix().isEmpty() || filenameFilter.isEmpty()) {
+        _exporter->setFilename(filename);
+        return;
+    }
+
+    // If filename has no .ext add it by corresponding filter
+
+    QString ext;
+
+    const QMap<QString, utils::exporting::QueryDataExportFormatPtr> & formats
+            = _exporter->formats();
+
+    auto i = formats.constBegin();
+    while (i != formats.constEnd()) {
+
+        QString name = i.value()->name();
+        QString filter = nameFilter(i.value());
+
+        if (filter == filenameFilter) {
+            ext = i.value()->fileExtension();
+            break;
+        }
+
+        ++i;
+    }
+
+    if (!ext.isEmpty() && !filename.isEmpty()) {
+        ext = '.' + ext;
+    }
+
+    _exporter->setFilename(filename + ext);
+}
+
+QStringList ExportQueryPresenter::filenameFilters() const
+{
+    QStringList filters;
+
+    const QMap<QString, utils::exporting::QueryDataExportFormatPtr> & formats
+            = _exporter->formats();
+
+    auto i = formats.constBegin();
+    while (i != formats.constEnd()) {
+        QString filter = nameFilter(i.value());
+        filters << filter;
+        ++i;
+    }
+
+    filters << tr("All files (*)");
+
+    return filters;
 }
 
 void ExportQueryPresenter::setOnlySelectedRows(bool selectedOnly) const
@@ -301,9 +385,40 @@ QString ExportQueryPresenter::unescapeOptionValue(const QString & str) const
     return res;
 }
 
-void ExportQueryPresenter::run()
+bool ExportQueryPresenter::canRun() const
 {
-    _exporter->run();
+    if (isModeFile()) {
+        return !filename().isEmpty();
+    }
+
+    return true;
+}
+
+QString ExportQueryPresenter::run()
+{
+    if (isModeFile()) {
+        QFile file(filename());
+        if (file.exists()) {
+            QMessageBox msgBox;
+            msgBox.setText(
+                tr("File exists. Overwrite file %1?").arg(filename()));
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+            msgBox.setDefaultButton(QMessageBox::Yes);
+            msgBox.setIcon(QMessageBox::Question);
+            int ret = msgBox.exec();
+            if (ret != QMessageBox::Yes) {
+                return QString();
+            }
+        }
+    }
+
+    try {
+        _exporter->run();
+    } catch(meow::db::Exception & ex) {
+        return ex.message();
+    }
+
+    return QString();
 }
 
 } // namespace presenter

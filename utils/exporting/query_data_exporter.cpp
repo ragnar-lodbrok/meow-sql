@@ -4,6 +4,8 @@
 
 #include <QTextCodec>
 #include <algorithm> // std::sort
+#include <QGuiApplication>
+#include <QClipboard>
 
 namespace meow {
 namespace utils {
@@ -155,19 +157,13 @@ void QueryDataExporter::run()
 
     format->setData(_model);
 
-    QString fileName = "~\test.txt"; // TODO
-
-    // TODO: overwrite file confirm
-    // TODO: cursor hourglass
-
     QString tableName;
 
     auto tableData = dynamic_cast<ui::models::DataTableModel *>(_model);
     if (tableData != nullptr) {
         tableName = tableData->entity()->name();
     } else {
-        // TODO: use "SQL" or actual SQL query?
-        tableName = QObject::tr("Unknown Table");
+        tableName = "SQL";
     }
 
     std::unique_ptr<QFile> file;
@@ -175,10 +171,10 @@ void QueryDataExporter::run()
     QString clipboardString;
 
     if (_mode == Mode::File) {
-        file.reset(new QFile(fileName));
-        QFile data("output.txt");
-        if (!data.open(QFile::WriteOnly | QFile::Truncate)) {
-            // TODO: show error?
+        file.reset(new QFile(_filename));
+        if (!file->open(QFile::WriteOnly | QFile::Truncate)) {
+            throw db::Exception(
+                        QString("Unable to open file `%1`").arg(_filename));
             return;
         }
 
@@ -202,10 +198,17 @@ void QueryDataExporter::run()
     while (rowsIterator.hasNextRow()) {
         int rowIndex = rowsIterator.getNextRow();
         *stream.get() << format->row(rowIndex);
+        if (rowIndex % 10 == 0) {
+            QCoreApplication::processEvents();
+        }
     }
 
+    stream->flush();
+
     if (_mode == Mode::Clipboard) {
-        stream->flush();
+
+        QClipboard * clipboard = QGuiApplication::clipboard();
+        clipboard->setText(clipboardString);
 
         qDebug() << "export\n\n" << clipboardString;
     }

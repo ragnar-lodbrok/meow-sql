@@ -18,6 +18,10 @@ public:
     virtual QString name() const override {
         return QObject::tr("JSON");
     }
+
+    virtual QString fileExtension() const override {
+        return "json";
+    }
 };
 
 

@@ -26,9 +26,14 @@ public:
                  QItemSelectionModel * selection);
 private:
     void createWidgets();
+    void showErrorMessage(const QString & message);
 
     Q_SLOT void onAccept();
     Q_SLOT void onFormatChanged();
+    Q_SLOT void onFilenameChanged();
+    Q_SLOT void onModeChanged();
+
+    void validate();
 
     ui::presenters::ExportQueryPresenter _presenter;
 

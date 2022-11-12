@@ -20,6 +20,10 @@ public:
         return QObject::tr("CSV");
     }
 
+    virtual QString fileExtension() const override {
+        return "csv";
+    }
+
     virtual QString header() const override {
 
         if (!isIncludeColumnNames()) {

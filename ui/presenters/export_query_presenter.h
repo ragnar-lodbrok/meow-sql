@@ -30,6 +30,11 @@ public:
     void setModeFile();
     bool isModeFile() const;
 
+    QStringList filenameFilters() const;
+    QString filename() const;
+    void setFilename(const QString & filename,
+                     const QString & filenameFilter = QString());
+
     void setOnlySelectedRows(bool selectedOnly) const;
     bool isSelectedRows() const;
     bool isAllRows() const;
@@ -77,9 +82,13 @@ public:
     void setOptionIncludeSQLQuery(bool value);
     void setOptionRemoveLineBreaksFromContents(bool value);
 
-    void run();
+    bool canRun() const;
+
+    QString run();
 
     Q_SIGNAL void formatChanged();
+    Q_SIGNAL void filenameChanged();
+    Q_SIGNAL void modeChanged();
 
 private:
 

@@ -18,6 +18,10 @@ public:
     virtual QString name() const override {
         return QObject::tr("PHP Array");
     }
+
+    virtual QString fileExtension() const override {
+        return "php";
+    }
 };
 
 

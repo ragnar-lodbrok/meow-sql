@@ -15,6 +15,11 @@ OutputTargetWidget::OutputTargetWidget(
     createWidgets();
     fillDataFromPresenter();
     validateControls();
+
+    connect(_presenter,
+            &ui::presenters::ExportQueryPresenter::filenameChanged,
+            this,
+            &OutputTargetWidget::onPresenterFilenameChanged);
 }
 
 void OutputTargetWidget::createWidgets()
@@ -46,14 +51,18 @@ void OutputTargetWidget::createWidgets()
     QHBoxLayout * filenameLayout = new QHBoxLayout();
 
     _filenameEdit = new QLineEdit;
+    connect(_filenameEdit, &QLineEdit::textChanged,
+            this,
+            &OutputTargetWidget::onLineEditFilenameChanged);
+
     _filenameSelectionButton = new QPushButton(
                 QIcon(":/icons/folder_explore.png"),
                 tr(""));
-    /*connect(_filenameSelectionButton,
+    connect(_filenameSelectionButton,
             &QAbstractButton::clicked,
             this,
             &OutputTargetWidget::onFilenameSelectionButtonClicked
-    );*/
+    );
     _filenameSelectionButton->setMinimumWidth(30);
 
     filenameLayout->addWidget(_filenameEdit, 20);
@@ -122,6 +131,34 @@ void OutputTargetWidget::onModeRadioButtonToggled(bool checked)
 void OutputTargetWidget::onEncodingComboboxTextChanged(const QString & text)
 {
     _presenter->setFileEncoding(text);
+}
+
+void OutputTargetWidget::onFilenameSelectionButtonClicked()
+{
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.selectFile(_presenter->filename());
+    dialog.setNameFilters(_presenter->filenameFilters());
+
+    if (dialog.exec()) {
+        QStringList fileNames = dialog.selectedFiles();
+        if (fileNames.isEmpty() == false) {
+            _presenter->setFilename(fileNames.first(),
+                                    dialog.selectedNameFilter());
+        }
+    }
+}
+
+void OutputTargetWidget::onPresenterFilenameChanged()
+{
+    if (_presenter->filename() != _filenameEdit->text()) {
+        _filenameEdit->setText(_presenter->filename());
+    }
+}
+
+void OutputTargetWidget::onLineEditFilenameChanged()
+{
+    _presenter->setFilename(_filenameEdit->text());
 }
 
 } // namespace export_query

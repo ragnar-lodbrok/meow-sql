@@ -37,7 +37,9 @@ public:
                  QItemSelectionModel * selection);
 
     void setMode(Mode mode) {
+        if (_mode == mode) return;
         _mode = mode;
+        emit modeChanged();
     }
     Mode mode() const {
         return _mode;
@@ -61,6 +63,15 @@ public:
         _encoding = encoding;
     }
 
+    QString filename() const {
+        return _filename;
+    }
+    void setFilename(const QString & filename) {
+        if (_filename == filename) return;
+        _filename = filename;
+        emit filenameChanged();
+    }
+
     QMap<QString, QString> formatNames() const;
     const QMap<QString, QueryDataExportFormatPtr> & formats() const {
         return _formats;
@@ -78,7 +89,9 @@ public:
 
     void run();
 
+    Q_SIGNAL void modeChanged();
     Q_SIGNAL void formatChanged();
+    Q_SIGNAL void filenameChanged();
 
 private:
 
@@ -87,6 +100,7 @@ private:
 
     Mode _mode = Mode::Clipboard;
     RowSelection _rowSelection = RowSelection::Complete;
+    QString _filename;
     QString _encoding;
     QString _formatId = "csv";
 

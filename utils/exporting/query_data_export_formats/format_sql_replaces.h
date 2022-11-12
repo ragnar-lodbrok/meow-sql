@@ -18,6 +18,10 @@ public:
     virtual QString name() const override {
         return QObject::tr("SQL REPLACEs");
     }
+
+    virtual QString fileExtension() const override {
+        return "sql";
+    }
 };
 
 

@@ -18,6 +18,10 @@ public:
     virtual QString name() const override {
         return QObject::tr("Markdown Here");
     }
+
+    virtual QString fileExtension() const override {
+        return "md";
+    }
 };
 
 

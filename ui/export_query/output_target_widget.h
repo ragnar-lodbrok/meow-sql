@@ -26,6 +26,9 @@ private:
 
     Q_SLOT void onModeRadioButtonToggled(bool checked);
     Q_SLOT void onEncodingComboboxTextChanged(const QString & text);
+    Q_SLOT void onFilenameSelectionButtonClicked();
+    Q_SLOT void onPresenterFilenameChanged();
+    Q_SLOT void onLineEditFilenameChanged();
 
     presenters::ExportQueryPresenter * _presenter;
 

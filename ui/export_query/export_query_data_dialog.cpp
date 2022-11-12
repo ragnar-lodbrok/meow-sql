@@ -14,11 +14,18 @@ Dialog::Dialog()
     setWindowTitle(tr("Export grid rows"));
 
     createWidgets();
+    validate();
 
     resize(700, 500);
 
     connect(&_presenter, &ui::presenters::ExportQueryPresenter::formatChanged,
             this, &Dialog::onFormatChanged);
+
+    connect(&_presenter, &ui::presenters::ExportQueryPresenter::filenameChanged,
+            this, &Dialog::onFilenameChanged);
+
+    connect(&_presenter, &ui::presenters::ExportQueryPresenter::modeChanged,
+            this, &Dialog::onModeChanged);
 }
 
 void Dialog::setData(
@@ -66,12 +73,46 @@ void Dialog::createWidgets()
 
 void Dialog::onAccept()
 {
-    _presenter.run();
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    QString error = _presenter.run();
+    QApplication::restoreOverrideCursor();
+
+    if (!error.isEmpty()) {
+        showErrorMessage(error);
+        return;
+    }
+
+    this->accept();
 }
 
 void Dialog::onFormatChanged()
 {
     _optionsWidget->fillDataFromPresenter();
+}
+
+void Dialog::onFilenameChanged()
+{
+    validate();
+}
+
+void Dialog::onModeChanged()
+{
+    validate();
+}
+
+void Dialog::validate()
+{
+    _okButton->setEnabled(_presenter.canRun());
+}
+
+void Dialog::showErrorMessage(const QString & message)
+{
+    QMessageBox msgBox;
+    msgBox.setText(message);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setDefaultButton(QMessageBox::Ok);
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.exec();
 }
 
 } // namespace export_query

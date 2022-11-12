@@ -18,6 +18,10 @@ public:
     virtual QString name() const override {
         return QObject::tr("XML");
     }
+
+    virtual QString fileExtension() const override {
+        return "xml";
+    }
 };
 
 
