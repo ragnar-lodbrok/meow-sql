@@ -53,6 +53,8 @@ private:
     Q_SLOT void onCloseTabButtonClicked();
     Q_SLOT void onQueryResultTabChanged();
 
+    Q_SLOT void onDataExportAction();
+
     central_right::HostTab * hostTab();
     central_right::DatabaseTab * databaseTab();
     central_right::TableTab * tableTab();

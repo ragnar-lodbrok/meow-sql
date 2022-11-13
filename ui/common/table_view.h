@@ -8,6 +8,8 @@ namespace ui {
 
 class TableView : public QTableView
 {
+public:
+    explicit TableView(QWidget * parent = nullptr);
 protected:
     virtual int sizeHintForColumn(int column) const override;
 };

@@ -1,5 +1,6 @@
 #include "cr_query_data_tab.h"
 #include "app/app.h"
+#include "ui/export_query/export_query_data_dialog.h"
 
 namespace meow {
 namespace ui {
@@ -17,7 +18,7 @@ QueryDataTab::QueryDataTab(db::QueryDataPtr queryData, QWidget *parent)
     mainLayout->setContentsMargins(2, 2, 2, 2);
     setLayout(mainLayout);
 
-    _dataTable = new TableView();
+    _dataTable = new EditableQueryDataTableView(&_model);
     _dataTable->verticalHeader()->hide();
     _dataTable->horizontalHeader()->setHighlightSections(false);
     auto geometrySettings = meow::app()->settings()->geometrySettings();
@@ -58,6 +59,13 @@ int QueryDataTab::filterMatchedRowCount() const
 int QueryDataTab::totalRowCount() const
 {
     return _model.rowCount();
+}
+
+void QueryDataTab::onDataExportAction()
+{
+    meow::ui::export_query::Dialog dialog;
+    dialog.setData(&_model, _dataTable->selectionModel());
+    dialog.exec();
 }
 
 void QueryDataTab::onDataTableHeaderClicked(int column)

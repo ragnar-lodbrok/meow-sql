@@ -22,6 +22,43 @@ public:
     virtual QString fileExtension() const override {
         return "html";
     }
+
+    virtual QString header() const override {
+
+        QString h;
+        const QString LE = "\r\n";
+
+        h += "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"";
+        h += LE;
+
+        h += "  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">'";
+        h += LE + LE;
+
+        h += "<html>" + LE;
+        h += "  <head>" + LE;
+        h += "    <title>" + escHTML(sourceName()) + "</title>";
+        //h += "    <meta name=\"GENERATOR\" content=\""
+        //         + "\">";
+
+        return h;
+    }
+
+    virtual OptionsBoolSet defaultOptionsBool() const override {
+        return {
+            OptionsBool::IncludeColumnNames,
+            OptionsBool::IncludeAutoIncrementColumn,
+            OptionsBool::IncludeSQLQuery
+        };
+    }
+
+    virtual OptionsBoolSet editableOptionsBool() const override {
+        return {
+            OptionsBool::IncludeColumnNames,
+            OptionsBool::IncludeAutoIncrementColumn,
+            OptionsBool::IncludeSQLQuery,
+            OptionsBool::RemoveLineBreaksFromContents
+        };
+    }
 };
 
 

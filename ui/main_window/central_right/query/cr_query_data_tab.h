@@ -3,7 +3,7 @@
 
 #include <QtWidgets>
 #include "ui/models/base_data_table_model.h"
-#include "ui/common/table_view.h"
+#include "ui/common/editable_query_data_table_view.h"
 #include "db/query_data.h"
 
 namespace meow {
@@ -22,12 +22,14 @@ public:
     int filterMatchedRowCount() const;
     int totalRowCount() const;
 
+    void onDataExportAction();
+
 private:
 
     Q_SLOT void onDataTableHeaderClicked(int index);
 
     models::BaseDataTableModel _model;
-    TableView  * _dataTable;
+    EditableQueryDataTableView  * _dataTable;
 };
 
 } // namespace central_right

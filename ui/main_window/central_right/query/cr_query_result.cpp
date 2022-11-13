@@ -130,6 +130,15 @@ void QueryResult::onQueryDataTabChanged(int index)
     emit queryDataTabChanged(index); // emit at the bottom!
 }
 
+void QueryResult::onDataExportAction()
+{
+    QWidget * tabWidget = _dataTabs->currentWidget();
+    if (tabWidget) {
+        QueryDataTab * dataTabWidget = static_cast<QueryDataTab *>(tabWidget);
+        dataTabWidget->onDataExportAction();
+    }
+}
+
 } // namespace central_right
 } // namespace main_window
 } // namespace ui

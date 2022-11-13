@@ -11,7 +11,7 @@
 namespace meow {
 namespace ui {
 
-class EditableDataTableView;
+class EditableQueryDataTableView;
 
 namespace main_window {
 namespace central_right {
@@ -42,6 +42,8 @@ public:
         return &_model;
     }
 
+    void onDataExportAction();
+
 private:
 
     void onLoadData();
@@ -69,7 +71,6 @@ private:
     Q_SLOT void onDataSetNULLAction(bool checked);
     Q_SLOT void onDataRefreshAction(bool checked);
     Q_SLOT void onDataResetSortAction();
-    Q_SLOT void onDataExportAction();
 
     Q_SLOT void onDataPostChanges(bool checked);
     Q_SLOT void onDataCancelChanges(bool checked);
@@ -117,7 +118,7 @@ private:
     QAction * _showFilterPanelAction;
     DataFilterWidget * _dataFilter;
     // bottom:
-    EditableDataTableView * _dataTable;
+    EditableQueryDataTableView * _dataTable;
 
     models::DataTableModel _model;
 

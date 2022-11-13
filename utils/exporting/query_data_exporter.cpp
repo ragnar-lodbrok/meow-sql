@@ -166,6 +166,8 @@ void QueryDataExporter::run()
         tableName = "SQL";
     }
 
+    format->setSourceName(tableName);
+
     std::unique_ptr<QFile> file;
     std::unique_ptr<QTextStream> stream;
     QString clipboardString;

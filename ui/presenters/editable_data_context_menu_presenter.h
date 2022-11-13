@@ -6,12 +6,17 @@
 
 namespace meow {
 namespace ui {
+
+namespace models {
+class BaseDataTableModel;
+}
+
 namespace presenters {
 
 class EditableDataContextMenuPresenter
 {
 public:
-    EditableDataContextMenuPresenter() { }
+    EditableDataContextMenuPresenter(models::BaseDataTableModel * model);
 
     bool supportsInsertValue() const;
 
@@ -26,6 +31,12 @@ public:
     QAction * resetDataSortAction() const;
 
     QAction * exportDataAction() const;
+private:
+
+    bool isTableModel() const;
+    bool isQueryModel() const;
+
+    models::BaseDataTableModel * _model;
 };
 
 } // namespace presenters

@@ -20,6 +20,7 @@ class TableColumn;
 namespace ui {
 namespace models {
 
+// Intent: model for Table or View
 class DataTableModel : public BaseDataTableModel,
                        public delegates::IItemDelegateConfig
 {

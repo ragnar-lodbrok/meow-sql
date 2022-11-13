@@ -178,7 +178,7 @@ set(SOURCE_FILES
     ui/common/checkbox_list_popup.cpp
     ui/common/data_type_combo_box.cpp
     ui/common/geometry_helpers.cpp
-    ui/common/editable_data_table_view.cpp
+    ui/common/editable_query_data_table_view.cpp
     ui/common/sql_editor.cpp
     ui/common/sql_log_editor.cpp
     ui/common/sql_syntax_highlighter.cpp

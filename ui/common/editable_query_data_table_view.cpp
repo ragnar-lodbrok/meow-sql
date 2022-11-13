@@ -1,4 +1,4 @@
-#include "editable_data_table_view.h"
+#include "editable_query_data_table_view.h"
 #include "ui/presenters/editable_data_context_menu_presenter.h"
 
 #include <QtWidgets>
@@ -6,10 +6,19 @@
 namespace meow {
 namespace ui {
 
-void EditableDataTableView::contextMenuEvent(QContextMenuEvent * event)
+EditableQueryDataTableView::EditableQueryDataTableView(
+        models::BaseDataTableModel * model,
+        QWidget * parent)
+    : TableView(parent)
+    , _model(model)
+{
+    Q_ASSERT(_model != nullptr);
+}
+
+void EditableQueryDataTableView::contextMenuEvent(QContextMenuEvent * event)
 {
 
-    presenters::EditableDataContextMenuPresenter presenter;
+    presenters::EditableDataContextMenuPresenter presenter(_model);
 
     QMenu menu(this);
 
@@ -42,19 +51,31 @@ void EditableDataTableView::contextMenuEvent(QContextMenuEvent * event)
 
             insertValueSubMenu->addAction(dateTimeAction);
         }
+
+        menu.addSeparator();
     }
 
-    menu.addSeparator();
+    std::vector<QAction *> editRowActions = presenter.editRowActions();
+    if (!editRowActions.empty()) {
 
-    for (QAction * editRowAction : presenter.editRowActions()) {
-        menu.addAction(editRowAction);
+        for (QAction * editRowAction : editRowActions) {
+            menu.addAction(editRowAction);
+        }
+
+        menu.addSeparator();
     }
 
-    menu.addSeparator();
+    if (presenter.resetDataSortAction()) {
+        menu.addAction(presenter.resetDataSortAction());
+    }
 
-    menu.addAction(presenter.resetDataSortAction());
-    menu.addAction(presenter.exportDataAction());
-    menu.addAction(presenter.refreshDataAction());
+    if (presenter.exportDataAction()) {
+        menu.addAction(presenter.exportDataAction());
+    }
+
+    if (presenter.refreshDataAction()) {
+        menu.addAction(presenter.refreshDataAction());
+    }
 
     menu.exec(event->globalPos());
 }

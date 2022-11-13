@@ -117,6 +117,13 @@ public:
         return _optionsBool.contains(option);
     }
 
+    void setSourceName(const QString name) {
+        _sourceName = name;
+    }
+    QString sourceName() const {
+        return _sourceName;
+    }
+
 protected:
 
     QString headerName(int col) const;
@@ -126,6 +133,9 @@ protected:
     QString escapeEncloser(const QString & data,
                            const QString & encloser = QString()) const;
     QString removeLineBreaks(const QString & data) const;
+    QString escHTML(const QString & str) const {
+        return str.toHtmlEscaped();
+    }
 
     bool isIncludeColumnNames() const {
         return optionBool(OptionsBool::IncludeColumnNames);
@@ -142,6 +152,7 @@ protected:
     ui::models::BaseDataTableModel * _model = nullptr;
     OptionsValueMap _optionsValue;
     OptionsBoolSet _optionsBool;
+    QString _sourceName;
 };
 
 using QueryDataExportFormatPtr = std::shared_ptr<QueryDataExportFormat>;

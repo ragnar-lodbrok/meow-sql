@@ -10,6 +10,7 @@ namespace ui {
 namespace models {
 
 // Intent: base model to wrap QueryData (table/query data)
+// TODO: rename to QueryDataTableModel?
 class BaseDataTableModel : public QAbstractTableModel
 {
 public:

@@ -44,6 +44,11 @@ CentralRightWidget::CentralRightWidget(QWidget *parent)
                 }
             }
     );
+
+    connect(meow::app()->actions()->dataExport(),
+            &QAction::triggered,
+            this,
+            &CentralRightWidget::onDataExportAction);
 }
 
 CentralRightWidget::~CentralRightWidget()
@@ -379,6 +384,23 @@ void CentralRightWidget::onCloseTabButtonClicked()
 void CentralRightWidget::onQueryResultTabChanged()
 {
     updateFilterWidgetState();
+}
+
+void CentralRightWidget::onDataExportAction()
+{
+    auto dataTab = dynamic_cast<central_right::DataTab *>(
+                _rootTabs->currentWidget());
+    if (dataTab) {
+        dataTab->onDataExportAction();
+        return;
+    }
+
+    auto queryTab = dynamic_cast<central_right::QueryTab *>(
+                _rootTabs->currentWidget());
+    if (queryTab) {
+        queryTab->onDataExportAction();
+        return;
+    }
 }
 
 central_right::HostTab * CentralRightWidget::hostTab()

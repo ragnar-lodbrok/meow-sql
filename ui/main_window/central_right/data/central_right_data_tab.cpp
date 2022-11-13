@@ -1,7 +1,7 @@
 #include "central_right_data_tab.h"
 #include "db/common.h"
 #include "app/app.h"
-#include "ui/common/editable_data_table_view.h"
+#include "ui/common/editable_query_data_table_view.h"
 #include "ui/export_query/export_query_data_dialog.h"
 
 namespace meow {
@@ -31,6 +31,7 @@ DataTab::DataTab(QWidget *parent) :
 
     createDataTable();
 
+    // TODO: move connection to actions to tabs root (CentralRightWidget)
     connect(meow::app()->actions()->dataSetNULL(),
             &QAction::triggered,
             this,
@@ -75,11 +76,6 @@ DataTab::DataTab(QWidget *parent) :
             &QAction::triggered,
             this,
             &DataTab::onDataResetSortAction);
-
-    connect(meow::app()->actions()->dataExport(),
-            &QAction::triggered,
-            this,
-            &DataTab::onDataExportAction);
 
     connect(&_model, &models::DataTableModel::editingStarted,
             this, &DataTab::validateControls);
@@ -174,7 +170,7 @@ void DataTab::createDataButtonsToolBar()
 
 void DataTab::createDataTable()
 {
-    _dataTable = new EditableDataTableView();
+    _dataTable = new EditableQueryDataTableView(&_model);
     _dataTable->verticalHeader()->hide();
      auto geometrySettings = meow::app()->settings()->geometrySettings();
     _dataTable->verticalHeader()->setDefaultSectionSize(

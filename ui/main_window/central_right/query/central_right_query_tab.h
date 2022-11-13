@@ -34,6 +34,8 @@ public:
 
     Q_SIGNAL void queryResultTabChanged(int index);
 
+    void onDataExportAction();
+
 private:
 
     void saveGeometryToSettings();

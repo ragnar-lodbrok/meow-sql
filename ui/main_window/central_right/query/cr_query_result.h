@@ -37,6 +37,8 @@ public:
 
     Q_SIGNAL void queryDataTabChanged(int index);
 
+    void onDataExportAction();
+
 private:
 
     void removeAllDataTabs();

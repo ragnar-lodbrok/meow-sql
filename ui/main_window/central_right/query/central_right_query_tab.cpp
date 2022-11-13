@@ -210,6 +210,11 @@ int QueryTab::filterMatchedRowCount() const
     return _queryResult->filterMatchedRowCount();
 }
 
+void QueryTab::onDataExportAction()
+{
+    _queryResult->onDataExportAction();
+}
+
 // -----------------------------------------------------------------------------
 
 AddQueryTab::AddQueryTab(QWidget * parent) :

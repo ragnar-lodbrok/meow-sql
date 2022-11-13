@@ -3,14 +3,24 @@
 #include <QObject>
 #include "app/app.h"
 #include "db/connection.h"
+#include "ui/models/data_table_model.h"
 #include "helpers/formatting.h"
 
 namespace meow {
 namespace ui {
 namespace presenters {
 
+EditableDataContextMenuPresenter::EditableDataContextMenuPresenter(
+        models::BaseDataTableModel * model)
+    : _model(model)
+{
+
+}
+
 bool EditableDataContextMenuPresenter::supportsInsertValue() const
 {
+    if (isQueryModel()) return false; // not yet supported
+
     meow::db::Connection * currentConnection
             = meow::app()->dbConnectionsManager()->activeConnection();
 
@@ -26,10 +36,12 @@ QAction * EditableDataContextMenuPresenter::setNullAction() const
 
 QAction * EditableDataContextMenuPresenter::refreshDataAction() const
 {
+    if (isQueryModel()) return nullptr; // not yet supported
     return meow::app()->actions()->dataRefresh();
 }
 
-std::vector<QAction *> EditableDataContextMenuPresenter::setDateTimeActions() const
+std::vector<QAction *>
+EditableDataContextMenuPresenter::setDateTimeActions() const
 {
     std::vector<QAction *> dateTimeActions;
 
@@ -78,6 +90,8 @@ std::vector<QAction *> EditableDataContextMenuPresenter::setDateTimeActions() co
 
 std::vector<QAction *> EditableDataContextMenuPresenter::editRowActions() const
 {
+    if (isQueryModel()) return {}; // not yet supported
+
     std::vector<QAction *> actions = {
         meow::app()->actions()->dataInsertRow(),
         meow::app()->actions()->dataDuplicateRowWithoutKeys(),
@@ -92,12 +106,23 @@ std::vector<QAction *> EditableDataContextMenuPresenter::editRowActions() const
 
 QAction * EditableDataContextMenuPresenter::resetDataSortAction() const
 {
+    if (isQueryModel()) return nullptr; // not yet supported
     return meow::app()->actions()->dataResetSort();
 }
 
 QAction * EditableDataContextMenuPresenter::exportDataAction() const
 {
     return meow::app()->actions()->dataExport();
+}
+
+bool EditableDataContextMenuPresenter::isTableModel() const
+{
+    return dynamic_cast<ui::models::DataTableModel *>(_model) != nullptr;
+}
+
+bool EditableDataContextMenuPresenter::isQueryModel() const
+{
+    return !isTableModel();
 }
 
 } // namespace presenters
