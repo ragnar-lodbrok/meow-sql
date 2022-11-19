@@ -30,9 +30,10 @@ Dialog::Dialog()
 
 void Dialog::setData(
         models::BaseDataTableModel * model,
-        QItemSelectionModel * selection)
+        QItemSelectionModel * selection,
+        QTableView * tableView)
 {
-    _presenter.setData(model, selection);
+    _presenter.setData(model, selection, tableView);
     _rowSelectionWidget->fillDataFromPresenter();
 }
 

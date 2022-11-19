@@ -59,6 +59,10 @@ public:
         return QString();
     }
 
+    virtual QString footer() const {
+        return QString();
+    }
+
     virtual QString row(int index) const { // TODO = 0
         Q_UNUSED(index);
         return QString();
@@ -124,6 +128,43 @@ public:
         return _sourceName;
     }
 
+    void setEncoding(const QString & encoding) {
+        _encoding = encoding;
+    }
+    QString encoding() const {
+        return _encoding;
+    }
+
+    void setSQLQuery(const QString & sql) {
+        _sqlQuery = sql;
+    }
+    QString sqlQuery() const {
+        return _sqlQuery;
+    }
+
+    void setRowsCount(size_t rows) {
+        _rowsCount = rows;
+    }
+    size_t rowsCount() const {
+        return _rowsCount;
+    }
+
+    void setColumnWidth(int columnIndex, int width) {
+        if (columnIndex < 0) return;
+        if (_columnWidths.size() < (columnIndex + 1)) {
+            _columnWidths.resize(columnIndex + 1);
+        }
+        _columnWidths[columnIndex] = width;
+    }
+
+    int columnWidth(int columnIndex) const {
+        if (columnIndex < 0) return 0;
+        if (_columnWidths.size() < (columnIndex + 1)) {
+            return 0;
+        }
+        return _columnWidths[columnIndex];
+    }
+
 protected:
 
     QString headerName(int col) const;
@@ -136,12 +177,16 @@ protected:
     QString escHTML(const QString & str) const {
         return str.toHtmlEscaped();
     }
+    QString appNameWithVersion() const;
 
     bool isIncludeColumnNames() const {
         return optionBool(OptionsBool::IncludeColumnNames);
     }
     bool isIncludeAutoIncrementColumn() const {
         return optionBool(OptionsBool::IncludeAutoIncrementColumn);
+    }
+    bool isIncludeSQLQuery() const {
+        return optionBool(OptionsBool::IncludeSQLQuery);
     }
     bool isRemoveLineBreaksFromContents() const {
         return optionBool(OptionsBool::RemoveLineBreaksFromContents);
@@ -153,6 +198,10 @@ protected:
     OptionsValueMap _optionsValue;
     OptionsBoolSet _optionsBool;
     QString _sourceName;
+    QString _encoding;
+    QString _sqlQuery;
+    size_t _rowsCount = 0;
+    std::vector<int> _columnWidths;
 };
 
 using QueryDataExportFormatPtr = std::shared_ptr<QueryDataExportFormat>;

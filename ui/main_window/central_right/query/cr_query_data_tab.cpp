@@ -64,7 +64,7 @@ int QueryDataTab::totalRowCount() const
 void QueryDataTab::onDataExportAction()
 {
     meow::ui::export_query::Dialog dialog;
-    dialog.setData(&_model, _dataTable->selectionModel());
+    dialog.setData(&_model, _dataTable->selectionModel(), _dataTable);
     dialog.exec();
 }
 

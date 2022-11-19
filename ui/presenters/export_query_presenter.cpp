@@ -43,9 +43,10 @@ ExportQueryPresenter::ExportQueryPresenter()
 
 void ExportQueryPresenter::setData(
     models::BaseDataTableModel * model,
-    QItemSelectionModel * selection)
+    QItemSelectionModel * selection,
+    QTableView * tableView)
 {
-    _exporter->setData(model, selection);
+    _exporter->setData(model, selection, tableView);
 }
 
 void ExportQueryPresenter::setModeClipboard()

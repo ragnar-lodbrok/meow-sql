@@ -23,7 +23,8 @@ class Dialog : public QDialog
 public:
     Dialog();
     void setData(models::BaseDataTableModel * model,
-                 QItemSelectionModel * selection);
+                 QItemSelectionModel * selection,
+                 QTableView * tableView = nullptr);
 private:
     void createWidgets();
     void showErrorMessage(const QString & message);

@@ -6,10 +6,7 @@ cmake_minimum_required(VERSION 3.1)
 
 #set(QT_MINIMUM_VERSION 5.0.0) # TODO
 
-project(meowsql)
-set(PROJECT_VERSION_MAJOR 0)
-set(PROJECT_VERSION_MINOR 4)
-set(PROJECT_VERSION_PATCH 16)
+project(meowsql VERSION 0.4.16)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
@@ -435,6 +432,11 @@ if (USE_CONAN_IO)
 	list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/conan)
 endif()
 
+# Config from CMake
+configure_file(meowsql_config.h.in meowsql_config.h)
+target_include_directories(meowsql PUBLIC
+                           "${PROJECT_BINARY_DIR}")
+add_definitions(-DGENERATED_BY_CMAKE)
 
 # MySQL ---------------------------------------------
 

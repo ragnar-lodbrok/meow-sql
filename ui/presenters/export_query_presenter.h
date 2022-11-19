@@ -4,6 +4,7 @@
 #include <memory>
 #include <QStringList>
 #include <QItemSelectionModel>
+#include <QTableView>
 #include "utils/exporting/query_data_exporter.h"
 
 namespace meow {
@@ -22,7 +23,8 @@ public:
     ExportQueryPresenter();
 
     void setData(models::BaseDataTableModel * model,
-                 QItemSelectionModel * selection);
+                 QItemSelectionModel * selection,
+                 QTableView * tableView = nullptr);
 
     void setModeClipboard();
     bool isModeClipboard() const;

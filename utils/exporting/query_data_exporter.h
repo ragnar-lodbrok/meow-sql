@@ -4,6 +4,7 @@
 #include <QStringList>
 #include <QMap>
 #include <QItemSelectionModel>
+#include <QTableView>
 #include "query_data_export_formats/format.h"
 
 namespace meow {
@@ -34,7 +35,8 @@ public:
     };
 
     void setData(ui::models::BaseDataTableModel * model,
-                 QItemSelectionModel * selection);
+                 QItemSelectionModel * selection,
+                 QTableView * tableView = nullptr);
 
     void setMode(Mode mode) {
         if (_mode == mode) return;
@@ -97,6 +99,7 @@ private:
 
     ui::models::BaseDataTableModel * _model = nullptr;
     QItemSelectionModel * _selection = nullptr;
+    QTableView * _tableView = nullptr;
 
     Mode _mode = Mode::Clipboard;
     RowSelection _rowSelection = RowSelection::Complete;

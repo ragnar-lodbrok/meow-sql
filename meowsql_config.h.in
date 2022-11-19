@@ -1,0 +1,3 @@
+#define meowsql_VERSION_MAJOR @meowsql_VERSION_MAJOR@
+#define meowsql_VERSION_MINOR @meowsql_VERSION_MINOR@
+#define meowsql_VERSION_PATCH @meowsql_VERSION_PATCH@

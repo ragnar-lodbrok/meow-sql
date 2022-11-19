@@ -81,10 +81,12 @@ QueryDataExporter::QueryDataExporter()
 
 void QueryDataExporter::setData(
         ui::models::BaseDataTableModel * model,
-        QItemSelectionModel * selection)
+        QItemSelectionModel * selection,
+        QTableView * tableView)
 {
     _model = model;
     _selection = selection;
+    _tableView = tableView;
 }
 
 QStringList QueryDataExporter::supportedFileEncodings() const
@@ -167,6 +169,16 @@ void QueryDataExporter::run()
     }
 
     format->setSourceName(tableName);
+    format->setEncoding(_encoding);
+    format->setSQLQuery(_model->queryData()->query()->SQL());
+    format->setRowsCount((rowSelection() == RowSelection::Complete)
+                         ? allRowsCount() : selectedRowsCount());
+
+    if (_tableView) {
+        for (int col = 0; col < _model->columnCount(); ++col) {
+            format->setColumnWidth(col, _tableView->columnWidth(col));
+        }
+    }
 
     std::unique_ptr<QFile> file;
     std::unique_ptr<QTextStream> stream;
@@ -187,9 +199,7 @@ void QueryDataExporter::run()
         stream.reset(new QTextStream(&clipboardString));
     }
 
-    QString header = format->header();
-
-    *stream.get() << header;
+    *stream.get() << format->header();
 
     QueryDataRowsIterator rowsIterator;
     rowsIterator.setData(_model);
@@ -205,6 +215,8 @@ void QueryDataExporter::run()
         }
     }
 
+    *stream.get() << format->footer();
+
     stream->flush();
 
     if (_mode == Mode::Clipboard) {
@@ -212,7 +224,7 @@ void QueryDataExporter::run()
         QClipboard * clipboard = QGuiApplication::clipboard();
         clipboard->setText(clipboardString);
 
-        qDebug() << "export\n\n" << clipboardString;
+        //qDebug().noquote() << "export\n\n" << clipboardString;
     }
 
 }

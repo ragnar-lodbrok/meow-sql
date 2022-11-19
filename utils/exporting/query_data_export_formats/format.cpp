@@ -1,5 +1,6 @@
 #include "format.h"
 #include "ui/models/base_data_table_model.h"
+#include <QCoreApplication>
 
 namespace meow {
 namespace utils {
@@ -52,6 +53,11 @@ QString QueryDataExportFormat::removeLineBreaks(const QString & data) const
     res.replace(QChar('\r'), QChar(' '));
     res.replace(QChar('\n'), QChar(' '));
     return res;
+}
+
+QString QueryDataExportFormat::appNameWithVersion() const
+{
+    return qApp->applicationName() + ' ' + qApp->applicationVersion();
 }
 
 int QueryDataExportFormat::nextVisibleColumn(int curIndex) const {
