@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.1)
 
 #set(QT_MINIMUM_VERSION 5.0.0) # TODO
 
-project(meowsql VERSION 0.4.16)
+project(meowsql VERSION 0.4.17)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 

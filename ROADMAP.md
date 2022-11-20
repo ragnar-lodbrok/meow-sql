@@ -2,8 +2,6 @@
 
 ## Task pool (by priority)
 
-Data Grid: export grid rows
-
 Data Grid: insert value options
 
 Data Grid: columns
@@ -31,8 +29,6 @@ Query: 3rd party syntax highlighter
 Query: autocomplete
 
 Host Tab: status tab for MySQL
-
-MySQL: compressed client-server protocol option
 
 Connection: use SSL option
 
@@ -65,6 +61,14 @@ Data Grid: insert files into text/blob fields
 Query: progress
 
 Data Grid: advanced sorting/query result sorting
+
+## 0.4.17
+
+Data Grid: export grid rows (CSV, HTML only)
+
+MySQL: compressed client-server protocol option
+
+SSH Tunnel via libSSH (incomplete UI, OFF by default)
 
 ## 0.4.16
 
