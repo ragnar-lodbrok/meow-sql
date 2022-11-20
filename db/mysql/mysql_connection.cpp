@@ -124,7 +124,9 @@ void MySQLConnection::setActive(bool active) // override
 
         if (connectionParams()->isCompressed()) {
             mysql_options(_handle, MYSQL_OPT_COMPRESS, nullptr);
+#if LIBMYSQL_VERSION_ID > 80000 // available since mysql 8.0
             mysql_options(_handle, MYSQL_OPT_COMPRESSION_ALGORITHMS, "zlib,zstd");
+#endif
         }
 
         MYSQL * connectedHandle = mysql_real_connect(
