@@ -23,15 +23,16 @@ QueryDataExportFormatFactory::createFormats() const
 
     formats.push_back(std::make_shared<QueryDataExportFormatCSV>());
     formats.push_back(std::make_shared<QueryDataExportFormatHTMLTable>());
-    formats.push_back(std::make_shared<QueryDataExportFormatXML>());
-    formats.push_back(std::make_shared<QueryDataExportFormatSQLInserts>());
-    formats.push_back(std::make_shared<QueryDataExportFormatSQLReplaces>());
-    formats.push_back(std::make_shared<QueryDataExportFormatSQLDeletesReplaces>());
-    formats.push_back(std::make_shared<QueryDataExportFormatLatex>());
-    formats.push_back(std::make_shared<QueryDataExportFormatWiki>());
-    formats.push_back(std::make_shared<QueryDataExportFormatPHPArray>());
-    formats.push_back(std::make_shared<QueryDataExportFormatMarkdown>());
-    formats.push_back(std::make_shared<QueryDataExportFormatJSON>());
+    // TODO: complete below formats
+    //formats.push_back(std::make_shared<QueryDataExportFormatXML>());
+    //formats.push_back(std::make_shared<QueryDataExportFormatSQLInserts>());
+    //formats.push_back(std::make_shared<QueryDataExportFormatSQLReplaces>());
+    //formats.push_back(std::make_shared<QueryDataExportFormatSQLDeletesReplaces>());
+    //formats.push_back(std::make_shared<QueryDataExportFormatLatex>());
+    //formats.push_back(std::make_shared<QueryDataExportFormatWiki>());
+    //formats.push_back(std::make_shared<QueryDataExportFormatPHPArray>());
+    //formats.push_back(std::make_shared<QueryDataExportFormatMarkdown>());
+    //formats.push_back(std::make_shared<QueryDataExportFormatJSON>());
 
     for (auto & format : formats) {
         format->init();
