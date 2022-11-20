@@ -270,11 +270,13 @@ SOURCES += main.cpp\
     ui/session_manager/window.cpp \
     db/editable_grid_data.cpp \
     db/query_data_editor.cpp \
-    ui/common/editable_data_table_view.cpp \
+    ui/common/editable_query_data_table_view.cpp \
     ui/main_window/central_bottom_widget.cpp \
     ui/main_window/central_log_widget.cpp \
     utils/exporting/mysql_dump_console.cpp \
-    utils/exporting/query_data.cpp \
+    utils/exporting/query_data_exporter.cpp \
+    utils/exporting/query_data_export_formats/format.cpp \
+    utils/exporting/query_data_export_formats/format_factory.cpp \
     ui/export_database/export_dialog.cpp
 
 
@@ -481,11 +483,24 @@ HEADERS  +=  app/actions.h \
     ui/session_manager/window.h \
     db/editable_grid_data.h \
     db/query_data_editor.h \
-    ui/common/editable_data_table_view.h \
+    ui/common/editable_query_data_table_view.h \
     ui/main_window/central_bottom_widget.h \
     ui/main_window/central_log_widget.h \
     utils/exporting/mysql_dump_console.h \
-    utils/exporting/query_data.р \
+    utils/exporting/query_data_exporter.h \
+    utils/exporting/query_data_export_formats/format.h \
+    utils/exporting/query_data_export_formats/format_csv.h \
+    utils/exporting/query_data_export_formats/format_factory.h \
+    utils/exporting/query_data_export_formats/format_html_table.h \
+    utils/exporting/query_data_export_formats/format_json.h \
+    utils/exporting/query_data_export_formats/format_latex.h \
+    utils/exporting/query_data_export_formats/format_markdown.h \
+    utils/exporting/query_data_export_formats/format_php_array.h \
+    utils/exporting/query_data_export_formats/format_sql_deletes_replaces.h \
+    utils/exporting/query_data_export_formats/format_sql_inserts.h \
+    utils/exporting/query_data_export_formats/format_sql_replaces.h \
+    utils/exporting/query_data_export_formats/format_wiki.h \
+    utils/exporting/query_data_export_formats/format_xml.h \
     ui/export_database/export_dialog.h
 
 win32:SOURCES += ssh/plink_ssh_tunnel.cpp
