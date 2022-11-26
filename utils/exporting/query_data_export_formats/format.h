@@ -177,11 +177,6 @@ protected:
     QString escHTML(const QString & str) const {
         return str.toHtmlEscaped();
     }
-    QString sqlQuoteId(const QString & str) const;
-    QString sqlEscapeStr(const QString & str) const;
-    QString sqlTableName() const;
-    QString sqlColumnName(int col) const;
-    QString sqlData(int row, int col) const;
     QString appNameWithVersion() const;
 
     bool isIncludeColumnNames() const {

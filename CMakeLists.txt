@@ -80,6 +80,7 @@ set(HEADER_FILES
     utils/exporting/query_data_export_formats/format_latex.h
     utils/exporting/query_data_export_formats/format_markdown.h
     utils/exporting/query_data_export_formats/format_php_array.h
+    utils/exporting/query_data_export_formats/format_sql.h
     utils/exporting/query_data_export_formats/format_sql_deletes_replaces.h
     utils/exporting/query_data_export_formats/format_sql_inserts.h
     utils/exporting/query_data_export_formats/format_sql_replaces.h

@@ -77,6 +77,10 @@ public:
     }
 
     QString whereForCurRow(bool beforeModifications = false) const;
+    QString whereForRow(int row) {
+        setCurrentRowNumber(row);
+        return whereForCurRow();
+    }
     void ensureFullRow(bool refresh = false);
 
     void setCurrentRowNumber(int row);
