@@ -29,7 +29,6 @@ enum class ServerType { // TODO: move to separate file ?
     MySQL,
     PostgreSQL,
     SQLite
-    // TODO maria etc
 };
 
 QString networkTypeName(const NetworkType & networkType, bool longFormat = true);

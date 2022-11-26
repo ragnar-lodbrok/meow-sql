@@ -1,5 +1,6 @@
 #include "format.h"
 #include "ui/models/base_data_table_model.h"
+#include "ui/models/data_table_model.h"
 #include <QCoreApplication>
 
 namespace meow {
@@ -53,6 +54,56 @@ QString QueryDataExportFormat::removeLineBreaks(const QString & data) const
     res.replace(QChar('\r'), QChar(' '));
     res.replace(QChar('\n'), QChar(' '));
     return res;
+}
+
+QString QueryDataExportFormat::sqlQuoteId(
+        const QString & str) const
+{
+    Q_ASSERT(_model);
+    return _model->connection()->quoteIdentifier(str);
+}
+
+QString QueryDataExportFormat::sqlEscapeStr(const QString & str) const
+{
+    return _model->connection()->escapeString(str);
+}
+
+QString QueryDataExportFormat::sqlTableName() const
+{
+    Q_ASSERT(_model);
+    auto tableData = dynamic_cast<ui::models::DataTableModel *>(_model);
+    if (tableData != nullptr) {
+        return tableData->entity()->name();
+    } else {
+        return "UnknownTable";
+    }
+}
+
+QString QueryDataExportFormat::sqlColumnName(int col) const
+{
+    Q_ASSERT(_model);
+    return _model->queryData()->columnName(col);
+}
+
+QString QueryDataExportFormat::sqlData(int row, int col) const
+{
+    Q_ASSERT(_model);
+    if (isNull(row, col)) {
+        return "NULL";
+    }
+
+    QString data = sqlEscapeStr(this->data(row, col));
+
+    // TODO: move db-specific formatting to specific NativeQueryResult subclass?
+    if (_model->connection()->connectionParams()->serverType()
+            == db::ServerType::MySQL) {
+        if (_model->queryData()->dataTypeForColumn(col)->index
+                == meow::db::DataTypeIndex::Bit) {
+            return "b" + data;
+        }
+    }
+
+    return data;
 }
 
 QString QueryDataExportFormat::appNameWithVersion() const

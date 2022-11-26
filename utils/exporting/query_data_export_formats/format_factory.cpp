@@ -25,7 +25,7 @@ QueryDataExportFormatFactory::createFormats() const
     formats.push_back(std::make_shared<QueryDataExportFormatHTMLTable>());
     // TODO: complete below formats
     //formats.push_back(std::make_shared<QueryDataExportFormatXML>());
-    //formats.push_back(std::make_shared<QueryDataExportFormatSQLInserts>());
+    formats.push_back(std::make_shared<QueryDataExportFormatSQLInserts>());
     //formats.push_back(std::make_shared<QueryDataExportFormatSQLReplaces>());
     //formats.push_back(std::make_shared<QueryDataExportFormatSQLDeletesReplaces>());
     //formats.push_back(std::make_shared<QueryDataExportFormatLatex>());
