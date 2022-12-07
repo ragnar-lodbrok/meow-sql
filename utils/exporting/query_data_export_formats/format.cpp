@@ -78,6 +78,10 @@ int QueryDataExportFormat::nextVisibleColumn(int curIndex) const {
     return curIndex;
 }
 
+int QueryDataExportFormat::totalColumnsCount() const {
+    return _model->columnCount();
+}
+
 } // namespace exporting
 } // namespace utils
 } // namespace meow

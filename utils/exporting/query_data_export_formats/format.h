@@ -165,6 +165,8 @@ public:
         return _columnWidths[columnIndex];
     }
 
+    int totalColumnsCount() const;
+
 protected:
 
     QString headerName(int col) const;
