@@ -6,6 +6,7 @@
 #include <QModelIndex>
 #include <QMap>
 #include <QSet>
+#include <QFile>
 #include <memory>
 
 namespace meow {
@@ -167,6 +168,14 @@ public:
 
     int totalColumnsCount() const;
 
+    void setOutputFile(QFile * file) {
+        _outputFile = file;
+    }
+
+    QFile * outputfile() const {
+        return _outputFile;
+    }
+
 protected:
 
     QString headerName(int col) const;
@@ -204,6 +213,7 @@ protected:
     QString _sqlQuery;
     size_t _rowsCount = 0;
     std::vector<int> _columnWidths;
+    QFile * _outputFile = nullptr;
 };
 
 using QueryDataExportFormatPtr = std::shared_ptr<QueryDataExportFormat>;

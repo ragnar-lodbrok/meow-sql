@@ -195,6 +195,7 @@ void QueryDataExporter::run()
         stream.reset(new QTextStream(file.get()));
         QByteArray codec = _encoding.toUtf8();
         stream->setCodec(codec.data());
+        format->setOutputFile(file.get());
     } else {
         stream.reset(new QTextStream(&clipboardString));
     }
