@@ -29,7 +29,7 @@ QueryDataExportFormatFactory::createFormats() const
     formats.push_back(std::make_shared<QueryDataExportFormatSQLDeletesReplaces>());
     // TODO: complete below formats
     //formats.push_back(std::make_shared<QueryDataExportFormatLatex>());
-    //formats.push_back(std::make_shared<QueryDataExportFormatWiki>());
+    formats.push_back(std::make_shared<QueryDataExportFormatWiki>());
     formats.push_back(std::make_shared<QueryDataExportFormatPHPArray>());
     formats.push_back(std::make_shared<QueryDataExportFormatMarkdown>());
     formats.push_back(std::make_shared<QueryDataExportFormatJSON>());
