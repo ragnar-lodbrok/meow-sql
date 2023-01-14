@@ -33,6 +33,7 @@ public:
     bool isModeFile() const;
 
     QStringList filenameFilters() const;
+
     QString filename() const;
     void setFilename(const QString & filename,
                      const QString & filenameFilter = QString());

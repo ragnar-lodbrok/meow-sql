@@ -53,7 +53,8 @@ void OutputTargetWidget::createWidgets()
     _filenameEdit = new QLineEdit;
     connect(_filenameEdit, &QLineEdit::textChanged,
             this,
-            &OutputTargetWidget::onLineEditFilenameChanged);
+            &OutputTargetWidget::onLineEditFilenameChanged,
+            Qt::QueuedConnection);
 
     _filenameSelectionButton = new QPushButton(
                 QIcon(":/icons/folder_explore.png"),

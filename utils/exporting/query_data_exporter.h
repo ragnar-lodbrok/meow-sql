@@ -97,6 +97,8 @@ public:
 
 private:
 
+    void updateFilenameExtByFormat();
+
     ui::models::BaseDataTableModel * _model = nullptr;
     QItemSelectionModel * _selection = nullptr;
     QTableView * _tableView = nullptr;

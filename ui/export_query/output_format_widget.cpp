@@ -15,6 +15,9 @@ OutputFormatWidget::OutputFormatWidget(
 
     createWidgets();
     fillDataFromPresenter();
+
+    connect(_presenter, &ui::presenters::ExportQueryPresenter::formatChanged,
+            this, &OutputFormatWidget::onPresenterFormatChanged);
 }
 
 void OutputFormatWidget::createWidgets()
@@ -61,6 +64,12 @@ void OutputFormatWidget::fillDataFromPresenter()
 void OutputFormatWidget::onFormatComboboxIndexChanged(int index)
 {
     _presenter->setFormatId(_formatCombobox->itemData(index).toString());
+}
+
+void OutputFormatWidget::onPresenterFormatChanged()
+{
+    _formatCombobox->setCurrentIndex(_formatCombobox->findData(
+                                         _presenter->formatId()));
 }
 
 } // namespace export_query

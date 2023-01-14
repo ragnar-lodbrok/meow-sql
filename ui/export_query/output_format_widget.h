@@ -23,6 +23,7 @@ private:
     void fillDataFromPresenter();
 
     Q_SLOT void onFormatComboboxIndexChanged(int index);
+    Q_SLOT void onPresenterFormatChanged();
 
     presenters::ExportQueryPresenter * _presenter;
 

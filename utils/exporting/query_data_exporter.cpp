@@ -125,6 +125,7 @@ void QueryDataExporter::setFormatId(const QString & format)
         if (_formatId != format) {
             _formatId = format;
             emit formatChanged();
+            updateFilenameExtByFormat();
         }
     } else {
         Q_ASSERT(false);
@@ -228,6 +229,32 @@ void QueryDataExporter::run()
         //qDebug().noquote() << "export\n\n" << clipboardString;
     }
 
+}
+
+void QueryDataExporter::updateFilenameExtByFormat()
+{
+    if (mode() != Mode::File) return;
+
+    QueryDataExportFormatPtr format = _formats.value(_formatId);
+    if (!format) return;
+
+    if (_filename.isEmpty()) return;
+
+    int i = _filename.size()-1;
+
+    for (; i>0; --i) {
+        if (_filename[i] == '.') {
+            break;
+        }
+    }
+    if (i == 0) return;
+
+    QString filenameNoExt = _filename.left(i);
+    QString newExt = format->fileExtension();
+
+    QString newFilename = filenameNoExt + '.' + newExt;
+
+    setFilename(newFilename);
 }
 
 } // namespace exporting

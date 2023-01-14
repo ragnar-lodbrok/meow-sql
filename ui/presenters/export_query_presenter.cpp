@@ -20,6 +20,11 @@ QString nameFilter(const utils::exporting::QueryDataExportFormatPtr & format)
                  format->fileExtension());
 }
 
+QString allFilesFilter()
+{
+    return QObject::tr("All files (*)");
+}
+
 ExportQueryPresenter::ExportQueryPresenter()
     : QObject()
     , _exporter(new utils::exporting::QueryDataExporter())
@@ -80,15 +85,18 @@ void ExportQueryPresenter::setFilename(
         const QString & filenameFilter)
 {
 
-    QFileInfo fileInfo(filename);
-    if (!fileInfo.suffix().isEmpty() || filenameFilter.isEmpty()) {
-        _exporter->setFilename(filename);
+    if (_exporter->filename() == filename && filenameFilter.isEmpty()) {
         return;
     }
 
+    QFileInfo fileInfo(filename);
+    QString inputExt = fileInfo.suffix();
+
     // If filename has no .ext add it by corresponding filter
 
-    QString ext;
+    bool isAllFilesFilter = (allFilesFilter() == filenameFilter);
+    QString filterFormatExt;
+    QString filterFormatId;
 
     const QMap<QString, utils::exporting::QueryDataExportFormatPtr> & formats
             = _exporter->formats();
@@ -96,39 +104,74 @@ void ExportQueryPresenter::setFilename(
     auto i = formats.constBegin();
     while (i != formats.constEnd()) {
 
-        QString name = i.value()->name();
-        QString filter = nameFilter(i.value());
+        utils::exporting::QueryDataExportFormatPtr format = i.value();
 
-        if (filter == filenameFilter) {
-            ext = i.value()->fileExtension();
-            break;
+        if (isAllFilesFilter) {
+            if (format->fileExtension() == inputExt) {
+                filterFormatId = format->id();
+                break;
+            }
+        } else {
+            QString filter = nameFilter(format);
+
+            if (filter == filenameFilter) {
+                filterFormatExt = format->fileExtension();
+                filterFormatId = format->id();
+                break;
+            }
         }
 
         ++i;
     }
 
-    if (!ext.isEmpty() && !filename.isEmpty()) {
-        ext = '.' + ext;
+    QString newFilename = filename;
+
+    if (inputExt != filterFormatExt) {
+        if (!filterFormatExt.isEmpty() && !filename.isEmpty()) {
+            int lenToExt = newFilename.size() - inputExt.size();
+            newFilename = newFilename.left(lenToExt);
+            if (!newFilename.endsWith('.')) {
+                newFilename += '.';
+            }
+            newFilename += filterFormatExt;
+        }
     }
 
-    _exporter->setFilename(filename + ext);
+    _exporter->setFilename(newFilename);
+
+    // Change format if we changed filter
+    if (!filterFormatId.isEmpty()) {
+        _exporter->setFormatId(filterFormatId);
+    }
 }
 
 QStringList ExportQueryPresenter::filenameFilters() const
 {
+    utils::exporting::QueryDataExportFormatPtr curFormat = _exporter->format();
+
     QStringList filters;
+
+    filters << nameFilter(curFormat); // put current format first
 
     const QMap<QString, utils::exporting::QueryDataExportFormatPtr> & formats
             = _exporter->formats();
 
     auto i = formats.constBegin();
     while (i != formats.constEnd()) {
-        QString filter = nameFilter(i.value());
-        filters << filter;
+
+        utils::exporting::QueryDataExportFormatPtr formatIt = i.value();
         ++i;
+
+        if (curFormat == formatIt) {
+            continue;
+        }
+
+        QString filter = nameFilter(formatIt);
+        filters << filter;
+
     }
 
-    filters << tr("All files (*)");
+    filters << allFilesFilter();
 
     return filters;
 }
