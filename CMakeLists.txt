@@ -66,6 +66,7 @@ set(HEADER_FILES
     db/query_results.h
     db/user_manager.h
     db/user_editor_interface.h
+    settings/query_data_export_storage.h
     ssh/ssh_tunnel_interface.h
     threads/helpers.h
     threads/mutex.h
@@ -165,6 +166,7 @@ set(SOURCE_FILES
     settings/settings_text.cpp
     settings/data_editors.cpp
     settings/queries_storage.cpp
+    settings/query_data_export_storage.cpp
     settings/table_filters_storage.cpp
     ssh/openssh_tunnel.cpp
     ssh/ssh_tunnel_factory.cpp

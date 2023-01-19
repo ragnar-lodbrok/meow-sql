@@ -176,6 +176,24 @@ public:
         return _outputFile;
     }
 
+    static std::vector<OptionsValue> enumOptionsValue() {
+        return {
+            OptionsValue::FieldSeparator,
+            OptionsValue::Encloser,
+            OptionsValue::LineTerminator,
+            OptionsValue::NullValue
+        };
+    }
+
+    static std::vector<OptionsBool> enumOptionsBool() {
+        return {
+            OptionsBool::IncludeColumnNames,
+            OptionsBool::IncludeAutoIncrementColumn,
+            OptionsBool::IncludeSQLQuery,
+            OptionsBool::RemoveLineBreaksFromContents
+        };
+    }
+
 protected:
 
     QString headerName(int col) const;

@@ -1,6 +1,7 @@
 #include "export_query_presenter.h"
 #include "utils/exporting/query_data_exporter.h"
 #include "db/exception.h"
+#include "settings/query_data_export_storage.h"
 #include <QDebug>
 #include <QFileInfo>
 #include <QMessageBox>
@@ -44,6 +45,9 @@ ExportQueryPresenter::ExportQueryPresenter()
             &utils::exporting::QueryDataExporter::modeChanged,
             this,
             &ExportQueryPresenter::modeChanged);
+
+    settings::QueryDataExportStorage storage;
+    storage.loadTo(_exporter.get());
 }
 
 void ExportQueryPresenter::setData(
@@ -454,6 +458,11 @@ QString ExportQueryPresenter::run()
                 return QString();
             }
         }
+    }
+
+    {
+        settings::QueryDataExportStorage storage;
+        storage.saveFrom(_exporter.get());
     }
 
     try {

@@ -95,6 +95,9 @@ public:
     Q_SIGNAL void formatChanged();
     Q_SIGNAL void filenameChanged();
 
+    static const Mode defaultMode = Mode::Clipboard;
+    static const RowSelection defaultRowSelection = RowSelection::Selection;
+
 private:
 
     void updateFilenameExtByFormat();
@@ -103,8 +106,8 @@ private:
     QItemSelectionModel * _selection = nullptr;
     QTableView * _tableView = nullptr;
 
-    Mode _mode = Mode::Clipboard;
-    RowSelection _rowSelection = RowSelection::Complete;
+    Mode _mode = defaultMode;
+    RowSelection _rowSelection = defaultRowSelection;
     QString _filename;
     QString _encoding;
     QString _formatId = "csv";

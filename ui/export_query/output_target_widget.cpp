@@ -106,6 +106,10 @@ void OutputTargetWidget::fillDataFromPresenter()
     _encodingCombobox->addItems(_presenter->supportedFileEncodings());
     _encodingCombobox->setCurrentText(_presenter->fileEncoding());
     _encodingCombobox->blockSignals(false);
+
+    _filenameEdit->blockSignals(true);
+    _filenameEdit->setText(_presenter->filename());
+    _filenameEdit->blockSignals(false);
 }
 
 void OutputTargetWidget::validateControls()

@@ -142,6 +142,7 @@ SOURCES += main.cpp\
     settings/settings_text.cpp \
     settings/data_editors.cpp \
     settings/queries_storage.cpp \
+    settings/query_data_export_storage.cpp \
     settings/table_filters_storage.cpp \
     ssh/openssh_tunnel.cpp \
     ssh/ssh_tunnel_factory.cpp \
@@ -350,6 +351,7 @@ HEADERS  +=  app/actions.h \
     settings/settings_text.h \
     settings/data_editors.h \
     settings/queries_storage.h \
+    settings/query_data_export_storage.h \
     settings/table_filters_storage.h \
     ssh/openssh_tunnel.h \
     ssh/ssh_tunnel_factory.h \
