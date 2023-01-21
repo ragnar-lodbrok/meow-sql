@@ -57,22 +57,216 @@ if(WITH_LIBSSH)
 endif()
 
 set(HEADER_FILES
-    db/data_type/connection_data_types.h
-    db/data_type/data_type_category.h
-    db/db_thread_initializer.h
+    app/actions.h
+    app/app.h
+    app/log.h
     db/collation_fetcher.h
     db/common.h
+    db/connection.h
+    db/connection_parameters.h
+    db/connection_features.h
+    db/connection_params_manager.h
+    db/connections_manager.h
+    db/connection_query_killer.h
+    db/database_editor.h
+    db/data_type/connection_data_types.h
+    db/data_type/data_type_category.h
+    db/data_type/data_type.h
+    db/entity/database_entity.h
+    db/entity/entities_fetcher.h
+    db/entity/entity_filter.h
+    db/entity/entity.h
+    db/entity/entity_holder.h
+    db/entity/entity_factory.h
+    db/entity/routine_entity.h
+    db/entity/session_entity.h
+    db/entity/table_entity_comparator.h
+    db/entity/table_entity.h
+    db/entity/trigger_entity.h
+    db/entity/view_entity.h
+    db/exception.h
+    db/editable_grid_data.h
+    db/query_data_editor.h
+    db/foreign_key.h
+    db/native_query_result.h
     db/query_column.h
+    db/query_criteria.h
+    db/query_data_fetcher.h
+    db/routine_editor.h
+    db/routine_structure_parser.h
+    db/routine_structure.h
+    db/session_variables.h
+    db/query_data.h
     db/query_results.h
+    db/query.h
+    db/table_column.h
+    db/table_editor.h
+    db/table_engines_fetcher.h
+    db/table_index.h
+    db/table_structure.h
+    db/table_structure_parser.h
+    db/db_thread_initializer.h
+    db/trigger_editor.h
+    db/trigger_structure_parser.h
+    db/trigger_structure.h
+    db/view_editor.h
+    db/view_structure.h
+    db/view_structure_parser.h
     db/user_manager.h
     db/user_editor_interface.h
+    db/user_query/batch_executor.h
+    db/user_query/sentences_parser.h
+    db/user_query/user_query.h
+    db/user_queries_manager.h
+    helpers/formatting.h
+    helpers/logger.h
+    helpers/parsing.h
+    helpers/random_password_generator.h
+    helpers/text.h
+    settings/settings_core.h
+    settings/settings_geometry.h
+    settings/settings_icons.h
+    settings/settings_text.h
+    settings/data_editors.h
+    settings/queries_storage.h
     settings/query_data_export_storage.h
-    ssh/ssh_tunnel_interface.h
+    settings/table_filters_storage.h
+    ssh/openssh_tunnel.h
+    ssh/ssh_tunnel_factory.h
+    ssh/ssh_tunnel_parameters.h
     threads/helpers.h
     threads/mutex.h
+    threads/db_thread.h
+    threads/queries_task.h
+    threads/thread_init_task.h
+    threads/thread_task.h
+    ui/common/checkbox_list_popup.h
+    ui/common/data_type_combo_box.h
+    ui/common/editable_query_data_table_view.h
+    ui/common/geometry_helpers.h
     ui/common/mysql_syntax.h
-    ui/main_window/central_right/global_data_filter_interface.h
+    ui/common/sql_editor.h
+    ui/common/sql_log_editor.h
+    ui/common/sql_syntax_highlighter.h
+    ui/common/table_column_default_editor.h
+    ui/common/table_cell_line_edit.h
+    ui/common/table_view.h
+    ui/common/text_editor_popup.h
+    ui/delegates/checkbox_delegate.h
+    ui/delegates/checkbox_list_item_editor_wrapper.h
+    ui/delegates/combobox_delegate.h
+    ui/delegates/combobox_item_editor_wrapper.h
+    ui/delegates/edit_query_data_delegate.h
+    ui/delegates/line_edit_item_editor_wrapper.h
+    ui/delegates/date_time_item_editor_wrapper.h
+    ui/delegates/foreign_key_columns_delegate.h
+    ui/delegates/foreign_key_foreign_columns_delegate.h
+    ui/delegates/foreign_key_reference_option_delegate.h
+    ui/delegates/foreign_key_reference_table_delegate.h
+    ui/delegates/table_column_collation_delegate.h
+    ui/delegates/table_column_default_delegate.h
+    ui/delegates/table_column_type_delegate.h
+    ui/delegates/table_index_delegate.h
+    ui/edit_database/dialog.h
+    ui/export_database/bottom_widget.h
+    ui/export_database/top_widget.h
+    ui/export_database/export_dialog.h
+    ui/export_query/options_widget.h
+    ui/export_query/output_format_widget.h
+    ui/export_query/output_target_widget.h
+    ui/export_query/export_query_data_dialog.h
+    ui/export_query/row_selection_widget.h
+    ui/main_window/central_left_db_tree.h
+    ui/main_window/central_left_widget.h
+    ui/main_window/central_bottom_widget.h
+    ui/main_window/central_log_widget.h
     ui/main_window/central_right/base_root_tab.h
+    ui/main_window/central_right/database/central_right_database_tab.h
+    ui/main_window/central_right/data/central_right_data_tab.h
+    ui/main_window/central_right/data/cr_data_filter_widget.h
+    ui/main_window/central_right/global_filter_widget.h
+    ui/main_window/central_right/global_data_filter_interface.h
+    ui/main_window/central_right/host/central_right_host_tab.h
+    ui/main_window/central_right/host/cr_host_databases_tab.h
+    ui/main_window/central_right/host/cr_host_variables_tab.h
+    ui/main_window/central_right/query/central_right_query_tab.h
+    ui/main_window/central_right/query/cr_query_data_tab.h
+    ui/main_window/central_right/query/cr_query_panel.h
+    ui/main_window/central_right/query/cr_query_result.h
+    ui/main_window/central_right/table/central_right_table_tab.h
+    ui/main_window/central_right/table/cr_table_columns.h
+    ui/main_window/central_right/table/cr_table_columns_tools.h
+    ui/main_window/central_right/table/cr_table_foreign_keys_tools.h
+    ui/main_window/central_right/table/cr_table_indexes_tools.h
+    ui/main_window/central_right/table/cr_table_info_basic_tab.h
+    ui/main_window/central_right/table/cr_table_info_foreign_keys_tab.h
+    ui/main_window/central_right/table/cr_table_info.h
+    ui/main_window/central_right/table/cr_table_info_indexes_tab.h
+    ui/main_window/central_right/table/cr_table_info_options_tab.h
+    ui/main_window/central_right/trigger/central_right_trigger_tab.h
+    ui/main_window/central_right/trigger/cr_trigger_body.h
+    ui/main_window/central_right/trigger/cr_trigger_options.h
+    ui/main_window/central_right/view/central_right_view_tab.h
+    ui/main_window/central_right/routine/central_right_routine_tab.h
+    ui/main_window/central_right/routine/cr_routine_body.h
+    ui/main_window/central_right/routine/cr_routine_info.h
+    ui/main_window/central_right/routine/cr_routine_info_options_tab.h
+    ui/main_window/central_right/routine/cr_routine_info_parameters_tab.h
+    ui/main_window/central_right/routine/cr_routine_parameters_tools.h
+    ui/main_window/central_right_widget.h
+    ui/main_window/central_widget.h
+    ui/main_window/main_window.h
+    ui/main_window/main_window_status_bar.h
+    ui/models/base_data_table_model.h
+    ui/models/connection_params_model.h
+    ui/models/database_entities_table_model.h
+    ui/models/databases_table_model.h
+    ui/models/data_table_model.h
+    ui/models/entities_tree_model.h
+    ui/models/entities_tree_sort_filter_proxy_model.h
+    ui/models/query_data_sort_filter_proxy_model.h
+    ui/models/table_columns_model.h
+    ui/models/table_foreign_keys_model.h
+    ui/models/table_indexes_model.h
+    ui/models/table_indexes_model_item.h
+    ui/models/routine_parameters_model.h
+    ui/models/users_table_model.h
+    ui/models/user_privileges_model.h
+    ui/models/variables_table_model.h
+    ui/models/session_objects_tree_model.h
+    ui/presenters/central_right_host_widget_model.h
+    ui/presenters/central_right_widget_model.h
+    ui/presenters/central_right_data_filter_form.h
+    ui/presenters/table_info_widget_model.h
+    ui/presenters/routine_info_widget_model.h
+    ui/presenters/central_right_query_presenter.h
+    ui/presenters/connection_parameters_form.h
+    ui/presenters/edit_database_form.h
+    ui/presenters/editable_data_context_menu_presenter.h
+    ui/presenters/export_database_form.h
+    ui/presenters/export_query_presenter.h
+    ui/presenters/routine_form.h
+    ui/presenters/select_db_object_form.h
+    ui/presenters/table_info_form.h
+    ui/presenters/trigger_form.h
+    ui/presenters/text_editor_popup_form.h
+    ui/presenters/view_form.h
+    ui/presenters/user_management_form.h
+    ui/user_manager/user_manager_window.h
+    ui/user_manager/left_widget.h
+    ui/user_manager/right_widget.h
+    ui/user_manager/options_widget.h
+    ui/user_manager/privileges_widget.h
+    ui/user_manager/credentials_tab.h
+    ui/user_manager/limitations_tab.h
+    ui/user_manager/select_db_object.h
+    ui/session_manager/session_form.h
+    ui/session_manager/settings_tab.h
+    ui/session_manager/ssh_tunnel_tab.h
+    ui/session_manager/start_tab.h
+    ui/session_manager/window.h
+    utils/exporting/mysql_dump_console.h
+    utils/exporting/query_data_exporter.h
     utils/exporting/query_data_export_formats/format.h
     utils/exporting/query_data_export_formats/format_csv.h
     utils/exporting/query_data_export_formats/format_factory.h
@@ -87,6 +281,7 @@ set(HEADER_FILES
     utils/exporting/query_data_export_formats/format_sql_replaces.h
     utils/exporting/query_data_export_formats/format_wiki.h
     utils/exporting/query_data_export_formats/format_xml.h
+
 )
 
 if(WITH_MYSQL)
@@ -326,9 +521,30 @@ if (WITH_MYSQL)
         db/mysql/mysql_user_editor.cpp
 
         db/mysql/mysql_thread_initializer.cpp
-
-
     )
+
+    list(APPEND HEADER_FILES
+
+        db/data_type/mysql_data_type.h
+        db/mysql/mysql_query_result.h
+        db/data_type/mysql_connection_data_types.h
+        db/entity/mysql_entity_filter.h
+        db/mysql/mysql_database_editor.h
+        db/mysql/mysql_entities_fetcher.h
+        db/mysql/mysql_query_result.h
+        db/mysql/mysql_query_data_editor.h
+        db/mysql/mysql_collation_fetcher.h
+        db/mysql/mysql_connection.h
+        db/mysql/mysql_connection_query_killer.h
+        db/mysql/mysql_query_data_fetcher.h
+        db/mysql/mysql_table_editor.h
+        db/mysql/mysql_table_engines_fetcher.h
+        db/mysql/mysql_user_manager.h
+        db/mysql/mysql_user_editor.h
+        db/mysql/mysql_library_initializer.h
+        db/mysql/mysql_thread_initializer.h
+    )
+
 endif()
 
 if (WITH_POSTGRESQL)
@@ -344,6 +560,19 @@ if (WITH_POSTGRESQL)
         db/pg/pg_query_data_fetcher.cpp
         db/pg/pg_query_result.cpp
     )
+
+    list(APPEND HEADER_FILES
+        db/data_type/pg_connection_data_types.h
+        db/data_type/pg_data_type.h
+        db/pg/pg_query_result.h
+        db/pg/pg_connection.h
+        db/pg/pg_connection_query_killer.h
+        db/pg/pg_entities_fetcher.h
+        db/pg/pg_entity_create_code_generator.h
+        db/pg/pg_query_data_editor.h
+        db/pg/pg_query_data_fetcher.h
+    )
+
 endif()
 
 if (WITH_SQLITE)
@@ -360,11 +589,26 @@ if (WITH_SQLITE)
         utils/sql_parser/sqlite/sqlite_flex_lexer.cpp
         utils/sql_parser/sqlite/sqlite_types.cpp
     )
+
+    list(APPEND HEADER_FILES
+        db/data_type/sqlite_connection_datatypes.cpp
+        db/sqlite/sqlite_connection.h
+        db/sqlite/sqlite_entities_fetcher.h
+        db/sqlite/sqlite_table_structure_parser.h
+        utils/sql_parser/sqlite/sqlite_parser.h
+        utils/sql_parser/sqlite/sqlite_bison_parser.hpp
+        utils/sql_parser/sqlite/sqlite_flex_lexer.h
+        utils/sql_parser/sqlite/sqlite_types.h
+    )
+
 endif()
 
 if(WITH_QTSQL)
     list(APPEND SOURCE_FILES
         db/qtsql/qtsql_query_result.cpp
+    )
+    list(APPEND HEADER_FILES
+        db/qtsql/qtsql_query_result.h
     )
 endif()
 

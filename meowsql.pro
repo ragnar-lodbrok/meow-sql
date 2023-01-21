@@ -595,7 +595,7 @@ WITH_SQLITE {
     utils/sql_parser/sqlite/sqlite_parser.h \
     utils/sql_parser/sqlite/sqlite_bison_parser.hpp \
     utils/sql_parser/sqlite/sqlite_flex_lexer.h \
-    utils/sql_parser/sqlite/sqlite_types.h \
+    utils/sql_parser/sqlite/sqlite_types.h
 }
 
 WITH_QTSQL {
