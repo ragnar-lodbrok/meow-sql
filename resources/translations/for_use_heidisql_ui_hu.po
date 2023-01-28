@@ -1,0 +1,6881 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Translators:
+# Evin, 2019
+# Imre Veress, 2019-2021,2023
+# Miklos Vaczi <langtengerfi@gmail.com>, 2016
+# bpeterm <bpm@freemail.hu>, 2015
+# Peter Nagy <dra5@freemail.hu>, 2020
+# sith <hernadisandor@outlook.com>, 2012
+# Tamas Verten, 2021
+msgid ""
+msgstr ""
+"Project-Id-Version: HeidiSQL\n"
+"POT-Creation-Date: 2012-11-05 21:40\n"
+"PO-Revision-Date: 2012-11-09 10:37+0000\n"
+"Last-Translator: Imre Veress, 2019-2021,2023\n"
+"Language-Team: Hungarian (http://www.transifex.com/heidisql/heidisql/language/hu/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2.2\n"
+
+#. AboutBox..Caption
+#: about.dfm:5
+msgid "About"
+msgstr "Névjegy"
+
+#. AboutBox..btnClose..Caption
+#. frmSQLhelp..ButtonClose..Caption
+#. frmSyncDB..btnClose..Caption
+#. frmTableTools..btnCloseOrCancel..Caption
+#. UserManagerForm..btnCancel..Caption
+#: about.dfm:316 sqlhelp.dfm:42 syncdb.dfm:141 tabletools.dfm:39
+#: usermanager.dfm:62
+msgid "Close"
+msgstr "Bezár"
+
+#. Donate button in various dialogs
+msgid ""
+"Send an arbitrary amount as donation to the author - per PayPal (also "
+"supports credit cards)"
+msgstr "Küldj akármekkora összeget a szerző részére - PayPal (támogatja a hitelkártyát is)"
+
+#. About dialog
+msgid "I have donated per following email address:"
+msgstr "Adományoztam a következő email címről:"
+
+#. About dialog
+msgid "Email address"
+msgstr "E-mail cím"
+
+#. About dialog
+msgid "Thanks for donating!"
+msgstr "Köszönöm a támogatást!"
+
+#. About dialog
+msgid "Not a valid donor email address"
+msgstr "Érvénytelen a támogató email címe"
+
+#. About dialog
+msgid "Could not check donation state."
+msgstr "Nem ellenőrizhető az adomány státusza"
+
+#. frmBinEditor..Caption
+#: bineditor.dfm:4
+msgid "Binary editor"
+msgstr "Bináris szerkesztő"
+
+#. frmBinEditor..tlbStandard..btnWrap..Hint
+#. frmBinEditor..tlbStandard..btnWrap..Caption
+#. MainForm..ActionList1..actQueryWordWrap..Caption
+#. MainForm..ActionList1..actQueryWordWrap..Hint
+#. frmTextEditor..tlbStandard..btnWrap..Hint
+#. frmTextEditor..tlbStandard..btnWrap..Caption
+#: bineditor.dfm:66 bineditor.dfm:67 main.dfm:2317 main.dfm:2318
+#: texteditor.dfm:66 texteditor.dfm:67
+msgid "Wrap long lines"
+msgstr "Hosszú sorok tördelése"
+
+msgid "Code folding"
+msgstr "Kód-összezárás"
+
+msgid "Enable code folding"
+msgstr "Kód-összezárás engedélyezése"
+
+msgid "Enable code folding in SQL editors"
+msgstr "Kód-összezárás engedélyezése SQL szerkesztőben"
+
+msgid "Insert region start marker"
+msgstr "Kódszakasz kezdő jelzője"
+
+msgid "Insert region end marker"
+msgstr "Kódszakasz záró jelzője"
+
+msgid "Fold selection"
+msgstr "Kódszakasz összezárása"
+
+#. frmBinEditor..tlbStandard..btnLoadBinary..Hint
+#. frmBinEditor..tlbStandard..btnLoadBinary..Caption
+#: bineditor.dfm:74 bineditor.dfm:75
+msgid "Load binary file"
+msgstr "Bináris fájl betöltése"
+
+#. frmBinEditor..tlbStandard..btnCancel..Hint
+#. frmBinEditor..tlbStandard..btnCancel..Caption
+#. frmClickFilter..btnCancel..Caption
+#. ColumnSelectionForm..pnlBevel..btnCancel..Caption
+#. connform..btnCancel..Caption
+#. CopyTableForm..btnCancel..Caption
+#. CreateDatabaseForm..btnCancel..Caption
+#. DataSortingForm..pnlBevel..btnCancel..Caption
+#. frmEditVariable..btnCancel..Caption
+#. frmExportGrid..btnCancel..Caption
+#. frmInsertFiles..btnCancel..Caption
+#. loaddataform..btnCancel..Caption
+#. optionsform..btnCancel..Caption
+#. printlistForm..btnCancel..Caption
+#. frmSearchReplace..btnCancel..Caption
+#. frmSelectDBObject..btnCancel..Caption
+#. frmTextEditor..tlbStandard..btnCancel..Hint
+#. frmTextEditor..tlbStandard..btnCancel..Caption
+#. frmUpdateCheck..btnCancel..Caption
+#: bineditor.dfm:82 bineditor.dfm:83 clickfilter.dfm:26
+#: column_selection.dfm:35 connections.dfm:72 copytable.dfm:64
+#: createdatabase.dfm:95 data_sorting.dfm:52 editvar.dfm:44 exportgrid.dfm:44
+#: insertfiles.dfm:47 loaddata.dfm:46 options.dfm:932 printlist.dfm:58
+#: searchreplace.dfm:48 selectdbobject.dfm:96 texteditor.dfm:90
+#: texteditor.dfm:91 updatecheck.dfm:41
+msgid "Cancel"
+msgstr "Mégse"
+
+#. frmBinEditor..tlbStandard..btnApply..Hint
+#. frmBinEditor..tlbStandard..btnApply..Caption
+#. frmTextEditor..tlbStandard..btnApply..Hint
+#. frmTextEditor..tlbStandard..btnApply..Caption
+#: bineditor.dfm:90 bineditor.dfm:91 texteditor.dfm:98 texteditor.dfm:99
+msgid "Apply changes"
+msgstr "Módosítások alkalmazása"
+
+#. frmClickFilter..btnOK..Caption
+#. ColumnSelectionForm..pnlBevel..btnOK..Caption
+#. CopyTableForm..btnOK..Caption
+#. CreateDatabaseForm..btnOK..Caption
+#. DataSortingForm..pnlBevel..btnOK..Caption
+#. frmEditVariable..btnOK..Caption
+#. frmExportGrid..btnOK..Caption
+#. optionsform..btnOK..Caption
+#. frmSearchReplace..btnOK..Caption
+#. frmSelectDBObject..btnOK..Caption
+#: clickfilter.dfm:35 column_selection.dfm:45 copytable.dfm:82
+#: createdatabase.dfm:83 data_sorting.dfm:38 editvar.dfm:31 exportgrid.dfm:31
+#: options.dfm:942 searchreplace.dfm:183 selectdbobject.dfm:83
+msgid "OK"
+msgstr "OK"
+
+#. frmClickFilter..groupValue..radioString..Caption
+#. frmEditVariable..gbValue..lblString..Caption
+#: clickfilter.dfm:73 editvar.dfm:89
+msgid "String:"
+msgstr "Karakterlánc:"
+
+#. frmClickFilter..groupValue..radioExpression..Caption
+#: clickfilter.dfm:81
+msgid "Expression:"
+msgstr "Kifejezés:"
+
+#. frmClickFilter..groupConcatType..Caption
+#: clickfilter.dfm:91
+msgid "Append to current filter"
+msgstr "Hozzáfűzés az aktuális szűrőhöz"
+
+#. frmClickFilter..groupConcatType....Items.Strings
+#: clickfilter.dfm:96
+msgid "Reset"
+msgstr "Alaphelyzetbe állítás"
+
+#. ColumnSelectionForm..pnlBevel..chkSelectAll..Caption
+#: column_selection.dfm:55
+msgid "Select / Deselect all"
+msgstr "Az összes kijelölése / kijelölés visszavonása"
+
+#. ColumnSelectionForm..pnlBevel..chkSort..Caption
+#: column_selection.dfm:74
+msgid "Sort alphabetically"
+msgstr "Rendezés betűrendben"
+
+#. ColumnSelectionForm
+msgid "Select columns"
+msgstr "Oszlopok kijelölése"
+
+#. connform..Caption
+#. MainForm..ActionList1..actSessionManager..Caption
+#: connections.dfm:5 main.dfm:1871
+msgid "Session manager"
+msgstr "Munkamenet menedzser"
+
+msgid "Session"
+msgstr "Munkamenet"
+
+msgid "Custom color:"
+msgstr "Egyedi szín:"
+
+#. connform..btnSave..Caption
+#. connform..popupSessions..menuSave..Caption
+#. frmEventEditor..btnSave..Caption
+#. MainForm..ActionList1..actSaveSQL..Caption
+#. frmRoutineEditor..btnSave..Caption
+#. frmTableEditor..btnSave..Caption
+#. frmTriggerEditor..btnSave..Caption
+#. UserManagerForm..btnSave..Caption
+#. frmView..btnSave..Caption
+#: connections.dfm:49 connections.dfm:736 event_editor.dfm:77 main.dfm:2453
+#: routine_editor.dfm:35 table_editor.dfm:28 trigger_editor.dfm:104
+#: usermanager.dfm:74 view.dfm:120
+msgid "Save"
+msgstr "Mentés"
+
+#. connform..btnOpen..Caption
+#: connections.dfm:59
+msgid "Open"
+msgstr "Megnyitás"
+
+#. connform..ListSessions......WideText
+#: connections.dfm:123
+msgid "Session name"
+msgstr "Munkamenet neve"
+
+#. connform..ListSessions......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..Caption
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#. UserManagerForm..pnlLeft..listUsers......WideText
+#: connections.dfm:128 main.dfm:601 main.dfm:874 usermanager.dfm:136
+#: tabletools.pas:1197
+msgid "Host"
+msgstr "Hoszt"
+
+#. connform..ListSessions......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#: connections.dfm:133 main.dfm:869
+msgid "User"
+msgstr "Felhasználó"
+
+#. connform..ListSessions......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: connections.dfm:138 main.dfm:1136 tabletools.pas:1200
+msgid "Version"
+msgstr "Verzió"
+
+#. connform..ListSessions......WideText
+#: connections.dfm:143
+msgid "Last connect"
+msgstr "Utolsó kapcsolat"
+
+#. connform..ListSessions......WideText
+#: connections.dfm:150
+msgid "Counter"
+msgstr "Számláló"
+
+#. connform..btnNew..Caption
+#: connections.dfm:159
+msgid "New"
+msgstr "Új"
+
+#. connform..btnDelete..Caption
+#. connform..popupSessions..menuDelete..Caption
+#. UserManagerForm..pnlLeft..ToolBar1..btnDeleteUser..Caption
+#: connections.dfm:171 connections.dfm:748 usermanager.dfm:169
+msgid "Delete"
+msgstr "Törlés"
+
+#. connform..PageControlDetails..tabStart..Caption
+#: connections.dfm:190
+msgid "Start"
+msgstr "Indítás"
+
+#. connform..PageControlDetails..tabStart..btnImportSettings..Caption
+#. MainForm..ActionList1..actImportSettings..Caption
+#: connections.dfm:212 main.dfm:2174
+msgid "Import settings file ..."
+msgstr "Beállítások importálása..."
+
+#. connform..PageControlDetails..tabSettings..Caption
+#. frmEventEditor..PageControlMain..tabSettings..Caption
+#: connections.dfm:219 event_editor.dfm:94
+msgid "Settings"
+msgstr "Beállítások"
+
+#. connform..PageControlDetails..tabSettings..lblStartupScript..Caption
+#: connections.dfm:229
+msgid "Startup script:"
+msgstr "Indító script:"
+
+#. connform..PageControlDetails..tabSettings..lblPort..Caption
+#: connections.dfm:237
+msgid "Port:"
+msgstr "Port:"
+
+#. connform..PageControlDetails..tabSettings..lblPassword..Caption
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHPassword..Caption
+#: connections.dfm:245 connections.dfm:440
+msgid "Password:"
+msgstr "Jelszó:"
+
+#. connform..PageControlDetails..tabSettings..lblHost..Caption
+#: connections.dfm:253 connections.pas:986
+msgid "Hostname / IP:"
+msgstr "Hosztnév / IP:"
+
+msgid "Database filename(s)"
+msgstr "Adatbázis fájlnév(ek)"
+
+#. connform..PageControlDetails..tabSettings..lblUsername..Caption
+#: connections.dfm:261
+msgid "User:"
+msgstr "Felhasználó:"
+
+#. connform..PageControlDetails..tabSettings..lblNetworkType..Caption
+#: connections.dfm:269
+msgid "Network type:"
+msgstr "Hálózat típusa:"
+
+msgid "Network type"
+msgstr "Hálózat típusa"
+
+msgid "Questions"
+msgstr "Kérdések"
+
+msgid "Opens"
+msgstr "Megnyílik"
+
+msgid "Flush tables"
+msgstr "Táblák kiírása"
+
+#. connform..PageControlDetails..tabSettings..lblDatabase..Caption
+#: connections.dfm:276
+msgid "Databases:"
+msgstr "Adatbázisok:"
+
+#. connform..PageControlDetails..tabSettings..chkCompressed..Caption
+#: connections.dfm:298
+msgid "Compressed client/server protocol"
+msgstr "Tömörített kliens/szerver protokol"
+
+#. connform..PageControlDetails..tabSettings..comboNetType..Text
+#. connform..PageControlDetails..tabSettings..comboNetType....Items.Strings
+#: connections.dfm:359 connections.dfm:362
+msgid "TCP/IP"
+msgstr "TCP/IP"
+
+#. connform..PageControlDetails..tabSettings..comboNetType....Items.Strings
+#: connections.dfm:363
+msgid "Named pipe"
+msgstr "Nevesített csatorna"
+
+#. connform..PageControlDetails..tabSettings..comboNetType....Items.Strings
+#. connform..PageControlDetails..tabSSHtunnel..Caption
+#: connections.dfm:364 connections.dfm:414
+msgid "SSH tunnel"
+msgstr "SSH átjáró"
+
+#. connform..PageControlDetails..tabSettings..comboDatabases..TextHint
+#: connections.dfm:374
+msgid "Separated by semicolon"
+msgstr "Pontosvesszővel elválasztva"
+
+msgid "Single database name"
+msgstr "Egyetlen adatbázisnév"
+
+#. connform..PageControlDetails..tabSettings..chkLoginPrompt..Caption
+#: connections.dfm:384
+msgid "Prompt for credentials"
+msgstr "Hitelesítő adatok bekérése"
+
+#. connform..PageControlDetails..tabSettings..chkWindowsAuth..Caption
+#: connections.dfm:394
+msgid "Use Windows authentication"
+msgstr "Windows hitelesítés használata"
+
+#. connform..PageControlDetails..tabSettings..chkCleartextPluginEnabled..Caption
+#: connections.dfm:737
+msgid "Enable cleartext authentication"
+msgstr "\"Tiszta szöveges\" hitelesítés engedélyezése"
+
+#. connform..PageControlDetails..tabSettings..chkLocalTimeZone....Hint
+#: connections.dfm:406
+msgid ""
+"Use your client time zone in date/time SQL functions, e.g. NOW(), for MySQL "
+"4.1.3+"
+msgstr "Használja a kliensed időzóna beállításait a dátum/idő SQL függvényeknél pl.: NOW(), MySQL 4.1.3 fölött"
+
+#. connform..PageControlDetails..tabSettings..chkLocalTimeZone..Caption
+#: connections.dfm:408
+msgid "Use own client time zone"
+msgstr "Saját kliens időzóna használata"
+
+#. Session > Advanced
+msgid "Get full table status"
+msgstr "Teljes tábla státusz lekérdezése"
+
+#. Session > Advanced
+msgid "Disable to speed up internal queries on databases with many tables"
+msgstr "Letiltja a sok táblával rendelkező adatbázisok belső lekérdezéseinek gyorsítását"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHLocalPort..Caption
+#: connections.dfm:424
+msgid "Local port:"
+msgstr "Helyi port:"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHUser..Caption
+#: connections.dfm:432
+msgid "Username:"
+msgstr "Felhasználónév:"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHPlinkExe..Caption
+#: connections.dfm:448
+msgid "SSH executable:"
+msgstr "SSH futtató:"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHhost..Caption
+#: connections.dfm:455
+msgid "SSH host + port:"
+msgstr "SSH hoszt + port:"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHkeyfile..Caption
+#: connections.dfm:463
+msgid "Private key file:"
+msgstr "Privát kulcs fájl:"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblDownloadPlink..Caption
+#: connections.dfm:473
+msgid "Download plink.exe"
+msgstr "plink.exe letöltése"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblPlinkTimeout..Caption
+#: connections.dfm:487
+msgid "SSH timeout:"
+msgstr "SSH időkorlát:"
+
+#. connform..PageControlDetails..tabSSHtunnel..editSSHUser..TextHint
+#: connections.dfm:508
+msgid "Your secure shell username"
+msgstr "Biztonsági shell felhasználónév"
+
+#. connform..PageControlDetails..tabSSHtunnel..editSSHPassword..TextHint
+#: connections.dfm:520
+msgid "Your secure shell password"
+msgstr "Biztonsági shell jelszó"
+
+#. connform..PageControlDetails..tabSSHtunnel..editSSHPrivateKey..TextHint
+#: connections.dfm:571
+msgid "Private key / identify file"
+msgstr "Privát kulcs / azonosító fájl:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..Caption
+#: usermanager.dfm:468
+msgid "SSL options"
+msgstr "SSL opciók"
+
+#. connform..PageControlDetails..tabSSLOptions..lblSSLPrivateKey..Caption
+#: connections.dfm:606
+msgid "SSL private key:"
+msgstr "SSL privát kulcs:"
+
+#. connform..PageControlDetails..tabSSLOptions..lblSSLCACertificate..Caption
+#: connections.dfm:614
+msgid "SSL CA certificate:"
+msgstr "SSL CA tanúsítvány:"
+
+#. connform..PageControlDetails..tabSSLOptions..lblSSLCertificate..Caption
+#: connections.dfm:622
+msgid "SSL certificate:"
+msgstr "SSL tanúsítvány:"
+
+#. Session manager
+msgid "SSL cipher:"
+msgstr "SSL rejtjel:"
+
+msgid "Path to key file"
+msgstr "Kulcs fájl helye:"
+
+msgid "Path to certificate authority file"
+msgstr "Jogosultsági tanúsítvány fájl helye:"
+
+msgid "Path to certificate file"
+msgstr "Tanusítvány fájl helye:"
+
+msgid "List of permissible ciphers to use for SSL encryption"
+msgstr "Az SSL titkosításhoz megengedett rejtjelek listája"
+
+#. connform..PageControlDetails..tabSSLOptions..chkWantSSL..Caption
+#: connections.dfm:673
+msgid "Use SSL"
+msgstr "SSL használata"
+
+#. connform..PageControlDetails..tabStatistics..Caption
+#: connections.dfm:679
+msgid "Statistics"
+msgstr "Statisztikák"
+
+#. connform..PageControlDetails..tabStatistics..lblLastConnectLeft..Caption
+#: connections.dfm:689
+msgid "Last connect:"
+msgstr "Utolsó kapcsolat:"
+
+#. connform..PageControlDetails..tabStatistics..lblCounterLeft..Caption
+#: connections.dfm:696
+msgid "Counter:"
+msgstr "Számláló:"
+
+#. connform..PageControlDetails..tabStatistics..lblCreatedLeft..Caption
+#: connections.dfm:703
+msgid "Created:"
+msgstr "Létrehozva:"
+
+msgid "Rename"
+msgstr "Átnevezés"
+
+#. MainForm..ActionList1..actSaveSQLAs..Caption
+msgid "Save as ..."
+msgstr "Mentés mint..."
+
+msgid "Duplicate / save as ..."
+msgstr "Másolat / Mentés másként ..."
+
+#. connform..popupSessions..menuNewSession2..Caption
+#: connections.dfm:754
+msgid "New session"
+msgstr "Új munkamenet"
+
+#. connform..popupSessions..menuNewFolder2..Caption
+#: connections.dfm:759
+msgid "New folder"
+msgstr "Új mappa"
+
+#. connform..popupNew..menuNewFolder..Caption
+#: connections.dfm:786
+msgid "Folder"
+msgstr "Mappa"
+
+#. CopyTableForm..Caption
+#: copytable.dfm:4
+msgid "Copy Table..."
+msgstr "Tábla másolása..."
+
+#. CopyTableForm..lblNewTablename..Caption
+#: copytable.dfm:32
+msgid "Copy \"%s\" to new db.table:"
+msgstr "\"%s\" másolása új adatbázis táblába:"
+
+#. CopyTableForm..lblItems..Caption
+#: copytable.dfm:39
+msgid "Elements to create in new table:"
+msgstr "Az új táblában létrehozandó elemek:"
+
+#. CopyTableForm..lblWhere..Caption
+#: copytable.dfm:47
+msgid "WHERE clause for data copying:"
+msgstr "WHERE záradék ad adatmásoláshoz:"
+
+#. CopyTableForm..btnRecentFilters..Caption
+#. MainForm..popupFilter..menuRecentFilters..Caption
+#: copytable.dfm:145 main.dfm:9256
+msgid "Recent filters"
+msgstr "Legutóbbi szűrők"
+
+#. Copy table dialog
+msgid "Please select the required index for the %s flag."
+msgstr "Válaszd ki a kötelező indexet a %s flag-hez. "
+
+#. CreateDatabaseForm..Caption
+#: createdatabase.dfm:5 createdatabase.pas:92
+msgid "Create database ..."
+msgstr "Adatbázis létrehozása..."
+
+#. CreateDatabaseForm..lblDBName..Caption
+#. frmRoutineEditor..PageControlMain..tabOptions..lblName..Caption
+#: createdatabase.dfm:29 routine_editor.dfm:126
+msgid "&Name:"
+msgstr "&Név:"
+
+#. CreateDatabaseForm..lblCollation..Caption
+#: createdatabase.dfm:45
+msgid "C&ollation:"
+msgstr "Illesztés:"
+
+#. CreateDatabaseForm..editDBName..TextHint
+#: createdatabase.dfm:63
+msgid "Enter database name"
+msgstr "Adatbázis név magadása"
+
+#. Create database dialog
+msgid "Servers default: %s"
+msgstr "Alapértelmezett szerver:%s"
+
+#. DataSortingForm..pnlBevel..btnAddCol..Caption
+#: data_sorting.dfm:63
+msgid "Add Col"
+msgstr "Oszlop hozzáadása"
+
+#. DataSortingForm..pnlBevel..btnReset..Caption
+#. MainForm..ActionList1..actDataResetSorting..Caption
+#: data_sorting.dfm:73 main.dfm:2462
+msgid "Reset sorting"
+msgstr "Rendezés alaphelyzetbe állítása"
+
+#. frmEditVariable..Caption
+#: editvar.dfm:4
+msgid "Edit server variable"
+msgstr "Szerver változók szerkesztése"
+
+#. frmEditVariable..grpScope..Caption
+#: editvar.dfm:54
+msgid "Scope"
+msgstr "Hatókör"
+
+#. frmEditVariable..grpScope..radioScopeSession..Caption
+#: editvar.dfm:61
+msgid "This session"
+msgstr "Ez a kapcsolat"
+
+#. frmEditVariable..grpScope..radioScopeGlobal..Caption
+#. frmSearchReplace..grpScope....Items.Strings
+#: editvar.dfm:69 searchreplace.dfm:173
+msgid "Global"
+msgstr "Globális"
+
+#. frmEditVariable..gbValue..Caption
+#: editvar.dfm:79
+msgid "name of variable"
+msgstr "változó neve"
+
+#. frmEditVariable..gbValue..lblNumber..Caption
+#: editvar.dfm:96
+msgid "Number:"
+msgstr "Szám:"
+
+#. frmEditVariable..gbValue..lblEnum..Caption
+#: editvar.dfm:103
+msgid "Enumeration:"
+msgstr "Felsorolás:"
+
+#. editvar.dfm
+msgid "Boolean:"
+msgstr "Logikai:"
+
+#. frmEditVariable..gbValue..radioBooleanOn..Caption
+#: editvar.dfm:117
+msgid "On"
+msgstr "Be"
+
+#. frmEditVariable..gbValue..radioBooleanOff..Caption
+#: editvar.dfm:125
+msgid "Off"
+msgstr "Ki"
+
+#. frmEditVariable..btnHelp..Caption
+#. frmEventEditor..btnHelp..Caption
+#. frmRoutineEditor..btnHelp..Caption
+#. frmTableEditor..btnHelp..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabMaintenance..btnHelp..Caption
+#. frmTriggerEditor..btnHelp..Caption
+#. frmView..btnHelp..Caption
+#: editvar.dfm:172 event_editor.dfm:57 routine_editor.dfm:57
+#: table_editor.dfm:49 tabletools.dfm:245 trigger_editor.dfm:84 view.dfm:146
+msgid "Help"
+msgstr "Súgó"
+
+#. General help action
+msgid "General help"
+msgstr "Általános súgó"
+
+#. General help action
+msgid "General online help document"
+msgstr "Online súgó dokumentáció:"
+
+#. frmEventEditor..lblBody..Caption
+#: event_editor.dfm:17
+msgid "Execution body:"
+msgstr "A végrehajtás törzse:"
+
+#. frmEventEditor..btnDiscard..Caption
+#. frmRoutineEditor..btnDiscard..Caption
+#. frmTableEditor..btnDiscard..Caption
+#. frmTriggerEditor..btnDiscard..Caption
+#. UserManagerForm..btnDiscard..Caption
+#. frmView..btnDiscard..Caption
+#: event_editor.dfm:67 routine_editor.dfm:46 table_editor.dfm:39
+#: trigger_editor.dfm:94 usermanager.dfm:562 view.dfm:110
+msgid "Discard"
+msgstr "Elvetés"
+
+#. frmEventEditor..PageControlMain..tabSettings..lblName..Caption
+#. frmTableEditor..PageControlMain..tabBasic..lblName..Caption
+#. frmTriggerEditor..lblName..Caption
+#. frmView..lblName..Caption
+#: event_editor.dfm:104 table_editor.dfm:193 trigger_editor.dfm:15 view.dfm:15
+msgid "Name:"
+msgstr "Név:"
+
+#. frmEventEditor..PageControlMain..tabSettings..lblComment..Caption
+#. frmTableEditor..PageControlMain..tabBasic..lblComment..Caption
+#: event_editor.dfm:112 table_editor.dfm:200
+msgid "Comment:"
+msgstr "Megjegyzés:"
+
+#. frmEventEditor..PageControlMain..tabSettings..editName..TextHint
+#: event_editor.dfm:122
+msgid "Enter event name ..."
+msgstr "Add meg az esemény nevét:"
+
+#. frmEventEditor..PageControlMain..tabSettings..chkDropAfterExpiration..Caption
+#: event_editor.dfm:131
+msgid "Drop event after expiration"
+msgstr "Dobja el az eseményt a lejárata után"
+
+#. frmEventEditor..PageControlMain..tabSettings..grpState..Caption
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#: event_editor.dfm:150 main.dfm:892
+msgid "State"
+msgstr "Állam"
+
+#. frmEventEditor..PageControlMain..tabScheduling..Caption
+#: event_editor.dfm:157
+msgid "Timing"
+msgstr "Időzítés"
+
+#. frmEventEditor..PageControlMain..tabScheduling..radioOnce..Caption
+#: event_editor.dfm:168
+msgid "Once, at:"
+msgstr "Egyszer:"
+
+#. frmEventEditor..PageControlMain..tabScheduling..radioEvery..Caption
+#: event_editor.dfm:179
+msgid "Every"
+msgstr "Minden"
+
+#. frmEventEditor..PageControlMain..tabScheduling..chkStarts..Caption
+#: event_editor.dfm:238
+msgid "Starts at:"
+msgstr "Kezdés:"
+
+#. frmEventEditor..PageControlMain..tabScheduling..chkEnds..Caption
+#: event_editor.dfm:247
+msgid "Ends at:"
+msgstr "Befejezés:"
+
+#. frmEventEditor..PageControlMain..tabCREATEcode..Caption
+#. frmRoutineEditor..PageControlMain..tabCreateCode..Caption
+#. frmTableEditor..PageControlMain..tabCREATEcode..Caption
+#: event_editor.dfm:295 routine_editor.dfm:371 table_editor.dfm:617
+msgid "CREATE code"
+msgstr "CREATE kód"
+
+#. frmEventEditor..PageControlMain..tabALTERcode..Caption
+#. frmTableEditor..PageControlMain..tabALTERCode..Caption
+#: event_editor.dfm:331 table_editor.dfm:650
+msgid "ALTER code"
+msgstr "ALTER kód"
+
+#. Table editor
+msgid "Partitions"
+msgstr "Partíció"
+
+#. frmExportGrid..Caption
+#: exportgrid.dfm:5
+msgid "Export grid rows"
+msgstr "Táblázat sorainak exportja"
+
+#. Grid context menu
+msgid "Copy as"
+msgstr "Másolás"
+
+#. frmExportGrid..grpFormat..Caption
+#: exportgrid.dfm:54
+msgid "Output format"
+msgstr "Kimeneti formátum"
+
+#. frmExportGrid..grpFormat....Items.Strings
+#: exportgrid.dfm:57
+msgid "Excel compatible"
+msgstr "Excel kompatibilis"
+
+#. frmExportGrid..grpFormat....Items.Strings
+#: exportgrid.dfm:58
+msgid "Delimited text"
+msgstr "Tagolt szöveg"
+
+#. frmExportGrid..grpFormat....Items.Strings
+#: exportgrid.dfm:59
+msgid "HTML table"
+msgstr "HTML táblázat"
+
+#. frmExportGrid..grpFormat....Items.Strings
+#: exportgrid.dfm:64
+msgid "Wiki markup"
+msgstr "Wiki jelőlés"
+
+#. frmExportGrid..grpSelection..Caption
+#: exportgrid.dfm:75
+msgid "Row selection"
+msgstr "Sor kijelölés"
+
+#. frmExportGrid..grpSelection....Items.Strings
+#: exportgrid.dfm:78
+msgid "Selected rows"
+msgstr "Kijelölt sorok"
+
+#. frmExportGrid..grpSelection....Items.Strings
+#: exportgrid.dfm:79
+msgid "All loaded rows"
+msgstr "Minden betöltött sor"
+
+#. frmExportGrid..grpOutput..Caption
+#: exportgrid.dfm:88
+msgid "Output target"
+msgstr "Kimenet célja"
+
+#. frmExportGrid..grpOutput..lblEncoding..Caption
+#. loaddataform..grpFilename..lblEncoding..Caption
+#: exportgrid.dfm:98 loaddata.dfm:77
+msgid "Encoding:"
+msgstr "Kódolás:"
+
+#. frmExportGrid..grpOutput..radioOutputCopyToClipboard..Caption
+#: exportgrid.dfm:106
+msgid "Copy to clipboard"
+msgstr "Másolás vágólapra"
+
+#. frmExportGrid..grpOutput..radioOutputFile..Caption
+#. MainForm..ActionList1..actSessionManager..Category
+#. MainForm..ActionList1..actNewWindow..Category
+#. MainForm..ActionList1..actExitApplication..Category
+#. MainForm..ActionList1..actSelectTreeBackground..Category
+#. MainForm..ActionList1..actNewQueryTab..Category
+#. MainForm..ActionList1..actCloseQueryTab..Category
+#. MainForm..ActionList1..actDisconnect..Category
+#: exportgrid.dfm:118 main.dfm:1870 main.dfm:1877 main.dfm:1885 main.dfm:2367
+#: main.dfm:2407 main.dfm:2415 main.dfm:2532
+msgid "File"
+msgstr "Fájl"
+
+#. frmExportGrid..grpOutput..editFilename..TextHint
+#: exportgrid.dfm:135
+msgid "Doubleclick to select file"
+msgstr "Dupla-klikk a fájl kiválasztásához"
+
+#. frmExportGrid..grpOptions..Caption
+#. loaddataform..grpOptions..Caption
+#. frmRoutineEditor..PageControlMain..tabOptions..Caption
+#. frmSyncDB..grpOptions..Caption
+#. frmTableEditor..PageControlMain..tabOptions..Caption
+#: exportgrid.dfm:156 loaddata.dfm:195 routine_editor.dfm:116 syncdb.dfm:178
+#: table_editor.dfm:227
+msgid "Options"
+msgstr "Opciók"
+
+#. frmExportGrid..grpOptions..lblSeparator..Caption
+#: exportgrid.dfm:166
+msgid "Field separator:"
+msgstr "Mező elválasztó:"
+
+#. frmExportGrid..grpOptions..lblEncloser..Caption
+#: exportgrid.dfm:173
+msgid "Encloser:"
+msgstr "Lezárás:"
+
+#. frmExportGrid..grpOptions..lblTerminator..Caption
+#: exportgrid.dfm:180
+msgid "Line terminator:"
+msgstr "Sorvégjel:"
+
+msgid "NULL value:"
+msgstr "NULL érték:"
+
+#. frmExportGrid..grpOptions..chkIncludeColumnNames..Caption
+#: exportgrid.dfm:188
+msgid "Include column names"
+msgstr "Csatolja az oszlopnevet"
+
+#. frmExportGrid..grpOptions..chkIncludeAutoIncrement..Caption
+#: exportgrid.dfm:243
+msgid "Include auto increment column"
+msgstr "Csatolja az auto increment oszlopot"
+
+#. frmExportGrid..grpOptions..chkIncludeQuery..Caption
+#: exportgrid.dfm:252
+msgid "Include SQL query"
+msgstr "SQL lekérdezés befoglalása"
+
+msgid "Remove linebreaks from contents"
+msgstr "Töréspontok eltávolítása a kommentekből"
+
+#. frmExportGrid..popupCSVchar..menuCSVcomma..Caption
+#: exportgrid.dfm:266
+msgid "Comma"
+msgstr "Vessző"
+
+#. frmExportGrid..popupCSVchar..menuCSVsemicolon..Caption
+#: exportgrid.dfm:270
+msgid "Semicolon"
+msgstr "Pontosvessző"
+
+#. frmExportGrid..popupCSVchar..menuCSVsinglequote..Caption
+#: exportgrid.dfm:277
+msgid "Single quote"
+msgstr "Szimpla idézőjel"
+
+#. frmExportGrid..popupCSVchar..menuCSVdoublequote..Caption
+#: exportgrid.dfm:281
+msgid "Double quote"
+msgstr "Dupla idézőjel"
+
+#. frmExportGrid..popupCSVchar..menuCSVwinlinebreak..Caption
+#: exportgrid.dfm:288
+msgid "Windows linebreak"
+msgstr "Windows sorvég"
+
+#. frmExportGrid..popupCSVchar..menuCSVunixlinebreak..Caption
+#: exportgrid.dfm:293
+msgid "UNIX linebreak"
+msgstr "UNIX sorvég"
+
+#. frmExportGrid..popupCSVchar..menuCSVmaclinebreak..Caption
+#: exportgrid.dfm:297
+msgid "Mac OS linebreak"
+msgstr "Mac OS sorvég"
+
+#. frmExportGrid..popupCSVchar..menuCSVnul..Caption
+#: exportgrid.dfm:304
+msgid "NUL character"
+msgstr "NUL karakter"
+
+#. grid export
+msgid "Clipboard settings changed."
+msgstr "Vágólap beállításai mentve."
+
+#. grid export
+msgid "Save clipboard settings"
+msgstr "Vágólap beállítások mentve"
+
+#. frmInsertFiles..Caption
+#: insertfiles.dfm:5
+msgid "Insert files..."
+msgstr "Fájlok beszúrása..."
+
+#. frmInsertFiles..btnInsert..Caption
+#: insertfiles.dfm:33
+msgid "Import files"
+msgstr "Fájlok importálása"
+
+#. frmInsertFiles..grpSelectObject..Caption
+#: insertfiles.dfm:57
+msgid "Target table and columns"
+msgstr "Cél tábla és oszlopok"
+
+#. frmInsertFiles..grpSelectObject..lblTable..Caption
+#: insertfiles.dfm:67
+msgid "Database, table:"
+msgstr "Adatbázis, tábla:"
+
+#. frmInsertFiles..grpSelectObject..lblFilecontents....Caption
+#: insertfiles.dfm:76
+msgid ""
+"Column values (Hint: Assign \"%filecontent%\" value to a BLOB or TEXT "
+"column)"
+msgstr "Oszlop értékek (Tipp: Használd a \"%filecontent%\" értéket a BLOB, vagy TEXT oszlopban)"
+
+#. frmInsertFiles..grpSelectObject..ListColumns......WideText
+#. frmRoutineEditor..PageControlMain..tabParameters..listParameters......WideText
+#. frmTableEditor..listColumns......WideText
+#: insertfiles.dfm:135 routine_editor.dfm:304 table_editor.dfm:112
+msgid "Datatype"
+msgstr "Adattípus"
+
+#. frmInsertFiles..grpSelectObject..ListColumns......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabVariables..ListVariables......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabStatus..ListStatus......WideText
+#: insertfiles.dfm:141 main.dfm:744 main.dfm:795
+msgid "Value"
+msgstr "Érték"
+
+#. frmInsertFiles..GroupBox2..Caption
+#: insertfiles.dfm:151
+msgid "Files to import"
+msgstr "Importálandó fájlok"
+
+#. frmInsertFiles..GroupBox2..lblDropHint....Caption
+#: insertfiles.dfm:165
+msgid "Hint: You can drop files from your Windows Explorer onto the list."
+msgstr "Tipp: A fájlokat a Windows Intézőből a listába dobhatja "
+
+#. frmInsertFiles..GroupBox2..ListFiles......WideText
+#: insertfiles.dfm:214
+msgid "Filename"
+msgstr "Fájlnév"
+
+#. frmInsertFiles..GroupBox2..ListFiles......WideText
+#: insertfiles.dfm:220
+msgid "Binary"
+msgstr "Bináris"
+
+#. frmInsertFiles..GroupBox2..ListFiles......WideText
+#. MainForm..panelTop..pnlLeft..DBtree......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabDatabases..ListDatabases......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#. frmSelectDBObject..TreeDBO......WideText
+#. frmTableTools..pnlTop..TreeObjects......WideText
+#: insertfiles.dfm:226 main.dfm:453 main.dfm:655 main.dfm:1111
+#: selectdbobject.dfm:74 tabletools.dfm:105
+msgid "Size"
+msgstr "Méret"
+
+#. frmInsertFiles..GroupBox2..ToolBar1..btnAddFiles..Caption
+#. frmRoutineEditor..PageControlMain..tabParameters..tlbParameters..btnAddParam..Caption
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnAddIndex..Caption
+#. frmTableEditor..PageControlMain..tabForeignKeys..tlbForeignKeys..btnAddForeignKey..Caption
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnAddColumn..Caption
+#. UserManagerForm..pnlLeft..ToolBar1..btnAddUser..Caption
+#: insertfiles.dfm:244 routine_editor.dfm:329 table_editor.dfm:456
+#: table_editor.dfm:517 table_editor.dfm:718 usermanager.dfm:155
+msgid "Add"
+msgstr "Hozzáadás"
+
+#. frmInsertFiles..GroupBox2..ToolBar1..btnRemoveFiles..Caption
+#. frmRoutineEditor..PageControlMain..tabParameters..tlbParameters..btnRemoveParam..Caption
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnRemoveIndex..Caption
+#. frmTableEditor..PageControlMain..tabForeignKeys..tlbForeignKeys..btnRemoveForeignKey..Caption
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnRemoveColumn..Caption
+#. frmTableEditor..popupIndexes..menuRemoveIndex..Caption
+#: insertfiles.dfm:251 routine_editor.dfm:337 table_editor.dfm:465
+#: table_editor.dfm:525 table_editor.dfm:726 table_editor.dfm:765
+msgid "Remove"
+msgstr "Eltávolítás"
+
+#. frmInsertFiles..GroupBox2..ToolBar1..btnClearFiles..Caption
+#. MainForm..ActionList1..actClearQueryEditor..Caption
+#. MainForm..ActionList1..actClearFilterEditor..Caption
+#. MainForm..popupSqlLog..Clear2..Caption
+#. frmRoutineEditor..PageControlMain..tabParameters..tlbParameters..btnClearParams..Caption
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnClearIndexes..Caption
+#. frmTableEditor..PageControlMain..tabForeignKeys..tlbForeignKeys..btnClearForeignKeys..Caption
+#. frmTableEditor..popupIndexes..menuClearIndexes..Caption
+#: insertfiles.dfm:259 main.dfm:2290 main.dfm:2299 main.dfm:9005
+#: routine_editor.dfm:346 table_editor.dfm:474 table_editor.dfm:534
+#: table_editor.dfm:771
+msgid "Clear"
+msgstr "Törlés"
+
+#. frmInsertFiles..OpenDialog....Filter
+#: insertfiles.dfm:269
+msgid ""
+"All files (*.*)|*.*|Common images (*.jpg, *.gif, *.bmp, "
+"*.png)|*.jpg;*.gif;*.bmp;*.png"
+msgstr "Minden fájl (*.*)|*.*|Képek (*.jpg, *.gif, *.bmp, *.png)|*.jpg;*.gif;*.bmp;*.png"
+
+#. loaddataform..Caption
+#: loaddata.dfm:4
+msgid "Import text file"
+msgstr "Szöveg fájl importálása"
+
+#. loaddataform..btnImport..Caption
+#: loaddata.dfm:32
+msgid "Import!"
+msgstr "Importálás!"
+
+#. loaddataform..grpFilename..Caption
+#: loaddata.dfm:56
+msgid "Input file"
+msgstr "Bemeneti fájl"
+
+#. loaddataform..grpFilename..lblFilename..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..lblExportOutputTarget..Caption
+#: loaddata.dfm:68 tabletools.dfm:350
+msgid "Filename:"
+msgstr "Fájlnév:"
+
+#. loaddataform..grpChars..Caption
+#: loaddata.dfm:112
+msgid "Control characters"
+msgstr "Vezérlő karakterek"
+
+#. loaddataform..grpChars..lblFieldTerminater..Caption
+#: loaddata.dfm:122
+msgid "Fields terminated by"
+msgstr "Mező elválasztó"
+
+#. loaddataform..grpChars..lblFieldEncloser..Caption
+#: loaddata.dfm:129
+msgid "Fields enclosed by"
+msgstr "Mező határoló"
+
+#. loaddataform..grpChars..lblFieldEscaper..Caption
+#: loaddata.dfm:136
+msgid "Fields escaped by"
+msgstr "Mező ecape sztring"
+
+#. loaddataform..grpChars..lblLineTerminator..Caption
+#: loaddata.dfm:143
+msgid "Lines terminated by"
+msgstr "Sor elválasztás"
+
+#. loaddataform..grpChars..chkFieldsEnclosedOptionally..Caption
+#: loaddata.dfm:175
+msgid "optionally"
+msgstr "opcionális"
+
+#. loaddataform..grpOptions..lblIgnoreLinesCount..Caption
+#: loaddata.dfm:205
+msgid "lines"
+msgstr "sorok"
+
+#. loaddataform..grpOptions..lblIgnoreLines..Caption
+#: loaddata.dfm:212
+msgid "Ignore first"
+msgstr "Hagyja ki az első "
+
+#. loaddataform..grpOptions..chkLowPriority..Caption
+#: loaddata.dfm:238
+msgid "Low priority, avoid high server load"
+msgstr "Alacsony prioritás, a nagy szerverterhelés elkerülése"
+
+#. loaddataform..grpOptions..chkLocalNumbers....Caption
+#: loaddata.dfm:252
+msgid "Input file contains local formatted numbers, e.g. 1.234,56 in Germany"
+msgstr "A bemenő fájl helyi számformátumot tartalmaz, pl.: Németország 1.234,56"
+
+#. loaddataform..grpOptions..chkTruncateTable..Caption
+#: loaddata.dfm:262
+msgid "Truncate destination table before import"
+msgstr "Csonkolja, mielőtt a táblába importálja"
+
+#. loaddataform..grpDuplicates..Caption
+#: loaddata.dfm:272
+msgid "Handling of duplicate rows"
+msgstr "Kezelje le a duplikált sorokat"
+
+#. loaddataform..grpDuplicates....Items.Strings
+#: loaddata.dfm:275
+msgid "INSERT (may throw errors)"
+msgstr "INSERT (hibákat okozhat)"
+
+#. loaddataform..grpDuplicates....Items.Strings
+#: loaddata.dfm:276
+msgid "INSERT IGNORE (duplicates)"
+msgstr "INSERT IGNORE (duplikáció)"
+
+#. loaddataform..grpDuplicates....Items.Strings
+#: loaddata.dfm:277
+msgid "REPLACE (duplicates)"
+msgstr "REPLACE (duplikáció)"
+
+#. loaddataform..grpParseMethod..Caption
+#: loaddata.dfm:286
+msgid "Method"
+msgstr "Módszer"
+
+#. loaddataform..grpParseMethod....Items.Strings
+#: loaddata.dfm:289
+msgid "Server parses file contents (LOAD DATA)"
+msgstr "A szerver feldolgozza a fájl tartalmát (LOAD DATA)"
+
+#. loaddataform..grpParseMethod....Items.Strings
+#: loaddata.dfm:290
+msgid "Client parses file contents"
+msgstr "A kliens elemzi a fájl tartalmát"
+
+#. loaddataform..grpDestination..Caption
+#: loaddata.dfm:301
+msgid "Destination"
+msgstr "Cél"
+
+#. loaddataform..grpDestination..lblDatabase..Caption
+#. frmSyncDB..grpTarget..lblTargetDatabase..Caption
+#: loaddata.dfm:311 syncdb.dfm:95
+msgid "Database:"
+msgstr "Adatbázis:"
+
+#. loaddataform..grpDestination..lblTable..Caption
+#. frmSyncDB..grpTarget..lblTargetTable..Caption
+#: loaddata.dfm:318 syncdb.dfm:102
+msgid "Table:"
+msgstr "Tábla:"
+
+#. loaddataform..grpDestination..lblColumns..Caption
+#. frmTableEditor..pnlColumnsTop..Caption
+#. frmTableEditor..pnlColumnsTop..tlbColumns..Caption
+#: loaddata.dfm:325 table_editor.dfm:695 table_editor.dfm:709
+msgid "Columns:"
+msgstr "Oszlopok:"
+
+#. CSV import
+msgid "Cannot truncate table"
+msgstr "A táblát nem lehet csonkítani"
+
+#. frmLogin..Caption
+#. frmLogin..btnOK..Caption
+#: loginform.dfm:5 loginform.dfm:29
+msgid "Login"
+msgstr "Bejelentkezés"
+
+#. frmLogin..pnlBackground..lblUsername..Caption
+#: loginform.dfm:63
+msgid "&Username:"
+msgstr "&Felhasználónév:"
+
+#. frmLogin..pnlBackground..lblPassword..Caption
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..lblPassword..Caption
+#: loginform.dfm:72 usermanager.dfm:280
+msgid "&Password:"
+msgstr "&Jelszó:"
+
+#. MainForm..Font.Name
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..pnlProcessViewBox..pnlProcessView..lblExplainProcess..Font.Name
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..pnlProcessViewBox..pnlProcessView..lblExplainProcessAnalyzer..Font.Name
+#. MainForm..ParameterCompletionProposal..TitleFont.Name
+#. frmTableEditor..listColumns......WideText
+#: main.dfm:10 main.dfm:930 main.dfm:947 main.dfm:9356 table_editor.dfm:143
+msgid "Default"
+msgstr "Alapértelmezett"
+
+#. MainForm..ControlBar1..ToolBarData..Caption
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..Caption
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..pnlDataTop..lblDataTop..Caption
+#. MainForm..ActionList1..actDataPreview..Category
+#. MainForm..ActionList1..actDataFirst..Category
+#. MainForm..ActionList1..actDataLast..Category
+#. MainForm..ActionList1..actDataInsert..Category
+#. MainForm..ActionList1..actDataDuplicateRow..Category
+#. MainForm..ActionList1..actDataDelete..Category
+#. MainForm..ActionList1..actDataPostChanges..Category
+#. MainForm..ActionList1..actDataCancelChanges..Category
+#. MainForm..ActionList1..actClearFilterEditor..Category
+#. MainForm..ActionList1..actApplyFilter..Category
+#. MainForm..ActionList1..actRemoveFilter..Category
+#. MainForm..ActionList1..actDataResetSorting..Category
+#. MainForm..ActionList1..actBlobAsText..Category
+#. MainForm..ActionList1..actDataShowNext..Category
+#. MainForm..ActionList1..actDataShowAll..Category
+#. MainForm..ActionList1..actDataSetNull..Category
+#. MainForm..ActionList1..actDataSaveBlobToFile..Category
+#. MainForm..ActionList1..actGridEditFunction..Category
+#. frmSyncDB..grpOptions..radioOptionsData..Caption
+#: main.dfm:223 main.dfm:1214 main.dfm:1247 main.dfm:2015 main.dfm:2060
+#: main.dfm:2068 main.dfm:2076 main.dfm:2085 main.dfm:2093 main.dfm:2102
+#: main.dfm:2111 main.dfm:2298 main.dfm:2354 main.dfm:2361 main.dfm:2461
+#: main.dfm:2478 main.dfm:2486 main.dfm:2494 main.dfm:2516 main.dfm:2525
+#: main.dfm:2582 options.dfm:599 syncdb.dfm:195
+msgid "Data"
+msgstr "Adat"
+
+#. Short and longer hint, separated by pipe
+#: main.dfm:384
+msgid ""
+"Database filter|A list of databases, separated by semicolon. Can contain "
+"regular expressions, e.g. \"mydb;test.*;project\\d+\"."
+msgstr "Adatbázis szűrő|Adatbázisok listája pontosvesszővel elválasztva reguláris kifejezést tartalmazhat pl: \"mydb;test.*;project\\d+\"."
+
+#. MainForm..panelTop..pnlLeft..comboDBFilter..TextHint
+#: main.dfm:393
+msgid "Database filter"
+msgstr "Adatbázis szűrő"
+
+#. Table filter box
+msgid "Table filter"
+msgstr "Tábla szűrő"
+
+#. Table filter box hint, short and longer hint, separated by pipe
+msgid "Table filter|Can contain regular expressions, e.g. \"phpbb_\\d\""
+msgstr "Tábla szűrő|Tartalmazhat regionális kifejezéseket, pl \"phpbb_\\d\""
+
+#. Tree favorites button
+msgid "Show only favorite tree items"
+msgstr "Csak a kedvenc fa elemek megjelenítése"
+
+msgid "Show only favorites"
+msgstr "Kedvencek megjelenítése"
+
+#. MainForm..panelTop..pnlLeft..DBtree......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#. frmRoutineEditor..PageControlMain..tabParameters..listParameters......WideText
+#. frmSelectDBObject..TreeDBO......WideText
+#. frmSyncDB..treeSource......WideText
+#. frmTableEditor..listColumns......WideText
+#. frmTableEditor..PageControlMain..tabIndexes..treeIndexes......WideText
+#: main.dfm:446 main.dfm:1101 routine_editor.dfm:298 selectdbobject.dfm:69
+#: syncdb.dfm:69 table_editor.dfm:106 table_editor.dfm:425
+msgid "Name"
+msgstr "Név"
+
+#. MainForm..panelTop..pnlLeft..pnlPreview..lblPreviewTitle..Caption
+#: main.dfm:491
+msgid "Preview ..."
+msgstr "Előnézet..."
+
+#. MainForm..panelTop..pnlLeft..pnlPreview..ToolBarPreview..btnPreviewClose..Hint
+#: main.dfm:522
+msgid "Close preview"
+msgstr "Előnézet bezárása"
+
+#. MainForm..panelTop..pnlRight..pnlFilterVT..lblFilterVT..Caption
+#: main.dfm:552
+msgid "Filter:"
+msgstr "Szűrő:"
+
+#. MainForm..panelTop..pnlRight..pnlFilterVT..btnCloseFilterPanel..Hint
+#: main.dfm:566
+msgid "Hides the filter panel"
+msgstr "Szűrőpanel elrejtése"
+
+#. MainForm..panelTop..pnlRight..pnlFilterVT..editFilterVT..RightButton.Hint
+#: main.dfm:576
+msgid "Clear filter"
+msgstr "Szűrő törlése"
+
+#. Host > Databases tab
+#. Session manager > Settings tabs
+msgid "Databases"
+msgstr "Adatbázisok"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabDatabases..ListDatabases......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..Caption
+#. MainForm..ActionList1..actCopyTable..Category
+#. MainForm..ActionList1..actDropObjects..Category
+#. MainForm..ActionList1..actCreateView..Category
+#. MainForm..ActionList1..actCreateTable..Category
+#. MainForm..ActionList1..actEmptyTables..Category
+#. MainForm..ActionList1..actCreateDatabase..Category
+#. MainForm..ActionList1..actCreateDatabase..Caption
+#. MainForm..ActionList1..actCreateRoutine..Category
+#. MainForm..ActionList1..actCreateTrigger..Category
+#. MainForm..ActionList1..actRunRoutines..Category
+#. MainForm..ActionList1..actCreateEvent..Category
+#: main.dfm:650 main.dfm:1055 main.dfm:1968 main.dfm:2044 main.dfm:2052
+#: main.dfm:2120 main.dfm:2128 main.dfm:2137 main.dfm:2138 main.dfm:2400
+#: main.dfm:2445 main.dfm:2502 main.dfm:2508
+msgid "Database"
+msgstr "Adatbázis"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabDatabases..ListDatabases......WideText
+#: main.dfm:659
+msgid "Items"
+msgstr "Adatok"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabDatabases..ListDatabases......WideText
+#: main.dfm:663
+msgid "Last modification"
+msgstr "Utolsó módosítás"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabDatabases..ListDatabases......WideText
+#: main.dfm:692
+msgid "Default collation"
+msgstr "Alapértelmezett illesztés"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabVariables..Caption
+#: main.dfm:697
+msgid "Variables"
+msgstr "Változók"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabVariables..ListVariables......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabStatus..ListStatus......WideText
+#: main.dfm:739 main.dfm:789
+msgid "Variable"
+msgstr "Változó"
+
+#. MainForm..ActionList1..actFlushHosts..Caption
+msgid "Hosts"
+msgstr "Hostok"
+
+#. MainForm..ActionList1..actFlushLogs..Caption
+msgid "Logs"
+msgstr "Logok"
+
+#. MainForm..ActionList1..actFlushPrivileges..Caption
+msgid "Privileges"
+msgstr "Privilégiumok"
+
+#. MainForm..ActionList1..actFlushTableswithreadlock..Caption
+msgid "Tables with read lock"
+msgstr "Táblák olvasási zárral"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabStatus..Caption
+#. MainForm..ActionList1..actFlushStatus..Caption
+#: main.dfm:749 main.dfm:2216
+msgid "Status"
+msgstr "Státusz"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabStatus..ListStatus......WideText
+#: main.dfm:801
+msgid "Avg per hour"
+msgstr "Óránkénti átlag"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabStatus..ListStatus......WideText
+#: main.dfm:807
+msgid "Avg per second"
+msgstr "Másodpercenkénti átlag"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..Caption
+#: main.dfm:812
+msgid "Processes"
+msgstr "Processzek"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#: main.dfm:879
+msgid "DB"
+msgstr "DB"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#: main.dfm:884
+msgid "Command"
+msgstr "Parancs"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#. Data grid > Insert value
+#: main.dfm:888
+msgid "Time"
+msgstr "Idő"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#: main.dfm:897
+msgid "Info"
+msgstr "Információ"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..pnlProcessViewBox..pnlProcessView..Caption
+#: main.dfm:916
+msgid "Process SQL:"
+msgstr "SQL eljárás:"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..pnlProcessViewBox..pnlProcessView..lblExplainProcess..Hint
+#: main.dfm:924
+msgid "Analyze this query"
+msgstr "Lekérdezés analízis"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..pnlProcessViewBox..pnlProcessView..lblExplainProcessAnalyzer..Hint
+#: main.dfm:941
+msgid "Analyze this query on MariaDB.org"
+msgstr "Lekérdezés analízis a MariaDB.org-on"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..Caption
+#: main.dfm:984
+msgid "Command-Statistics"
+msgstr "Utasítás statisztika"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..ListCommandStats......WideText
+#: main.dfm:1025
+msgid "Command-type"
+msgstr "Utasítás típus"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..ListCommandStats......WideText
+#: main.dfm:1031
+msgid "Total count"
+msgstr "Teljes találat"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..ListCommandStats......WideText
+#: main.dfm:1037
+msgid "Average per hour"
+msgstr "Óránkénti átlag"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..ListCommandStats......WideText
+#: main.dfm:1043
+msgid "Average per second"
+msgstr "Másodpercenkénti átlag"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..ListCommandStats......WideText
+#: main.dfm:1048
+msgid "Percentage"
+msgstr "Százalékos arány"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1106
+msgid "Rows"
+msgstr "Sorok"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1116 tabletools.pas:1201
+msgid "Created"
+msgstr "Létrehozva"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1121
+msgid "Updated"
+msgstr "Módosítva"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1126
+msgid "Engine"
+msgstr "Motor"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#. frmTableEditor..listColumns......WideText
+#: main.dfm:1131 table_editor.dfm:149
+msgid "Comment"
+msgstr "Megjegyzés"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1142
+msgid "Row format"
+msgstr "Sor formátum"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1149
+msgid "Avg row length"
+msgstr "Átlag sor hossz"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1156
+msgid "Max data length"
+msgstr "Max adat hossz"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1163
+msgid "Index length"
+msgstr "Index hossza"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1170
+msgid "Data free"
+msgstr "Üres adatok"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1177
+msgid "Auto increment"
+msgstr "Automatikus növelés"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1183
+msgid "Check time"
+msgstr "Ellenőrzés ideje"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#. frmTableEditor..listColumns......WideText
+#: main.dfm:1189 table_editor.dfm:155
+msgid "Collation"
+msgstr "Illesztés"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1195
+msgid "Checksum"
+msgstr "Ellenőrző összeg"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1201
+msgid "Create options"
+msgstr "Letrehozó beállítások"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1205
+msgid "Type"
+msgstr "Típus"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..lblSorryNoData..Caption
+#: main.dfm:1223
+msgid "No data available for this item."
+msgstr "Nincs adat a kiválasztásban."
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..pnlDataTop..tlbDataButtons..tbtnDataSorting..Caption
+#: main.dfm:1289
+msgid "Sorting"
+msgstr "Rendezés"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..pnlDataTop..tlbDataButtons..tbtnDataFilter..Caption
+#. frmSQLhelp..pnlMain..pnlLeft..editFilter..TextHint
+#: main.dfm:1307 sqlhelp.dfm:93
+msgid "Filter"
+msgstr "Szűrő"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..pnlFilter..lblTableFilter..Caption
+#: main.dfm:1331
+msgid "Create multi column filter:"
+msgstr "Többoszlopos szűrő létrehozása:"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..pnlFilter..lblRecentFilters..Caption
+#: main.dfm:1338
+msgid "Recent filters:"
+msgstr "Legutóbbi szűrők:"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabQuery..Caption
+#: main.dfm:1461
+msgid "Query"
+msgstr "Lekérdezés"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabQuery..pnlQueryMemo..treeQueryHelpers......WideText
+#: main.dfm:1584
+msgid "Attributes"
+msgstr "Attribútumok"
+
+#. MainForm..MainMenu1..File1..Caption
+#: main.dfm:1679
+msgid "&File"
+msgstr "&Fájl"
+
+#. MainForm..MainMenu1..File1..Hint
+#: main.dfm:1680
+msgid "File related commands"
+msgstr "Fájlhoz kapcsolódó parancsok"
+
+#. MainForm..MainMenu1..File1..menuConnectTo..Caption
+#: main.dfm:1686
+msgid "Connect to"
+msgstr "Kapcsolódás"
+
+#. MainForm..MainMenu1..Edit1..Caption
+#: main.dfm:1718
+msgid "&Edit"
+msgstr "&Szerkesztés"
+
+#. MainForm..MainMenu1..Edit1..Hint
+#: main.dfm:1719
+msgid "Edit commands"
+msgstr "Parancs szerkesztésbe"
+
+#. MainForm..MainMenu1..Search1..Caption
+#. frmSQLhelp..pnlMain..pnlLeft..editFilter..LeftButton.Hint
+#: main.dfm:1747 sqlhelp.dfm:88
+msgid "Search"
+msgstr "Keresés"
+
+#. MainForm..MainMenu1..Extra1..Caption
+#: main.dfm:1762
+msgid "&Tools"
+msgstr "&Eszközök"
+
+#. MainForm..MainMenu1..Help1..Caption
+#: main.dfm:1837
+msgid "&Help"
+msgstr "&Súgó"
+
+#. MainForm..MainMenu1..Help1..Hint
+#: main.dfm:1838
+msgid "Help topics"
+msgstr "Súgó téma"
+
+#. MainForm..ActionList1..actSessionManager..Hint
+#: main.dfm:1872
+msgid "Display session manager"
+msgstr "Munkamenet-kezelő megjelenítése"
+
+#. MainForm..ActionList1..actNewWindow..Caption
+#: main.dfm:1878
+msgid "New &window"
+msgstr "Új &ablak"
+
+#. MainForm..ActionList1..actNewWindow..Hint
+#: main.dfm:1879
+msgid "New window..."
+msgstr "Új ablak..."
+
+#. MainForm..ActionList1..actExitApplication..Caption
+#: main.dfm:1886
+msgid "E&xit"
+msgstr "K&ilépés"
+
+#. Short and longer hint, separated by pipe
+msgid "Exit|Exit application"
+msgstr "Bezárás|Alkalmazás bezárása"
+
+#. MainForm..ActionList1..actCopy..Category
+#. MainForm..ActionList1..actPaste..Category
+#. MainForm..ActionList1..actCut..Category
+#. MainForm..ActionList1..actUndo..Category
+#. MainForm..ActionList1..actAboutBox..Category
+#. MainForm..ActionList1..actPrintList..Category
+#. MainForm..ActionList1..actRefresh..Category
+#. MainForm..ActionList1..actWebDownloadpage..Category
+#. MainForm..ActionList1..actWebForum..Category
+#. MainForm..ActionList1..actWebChangelog..Category
+#. MainForm..ActionList1..actReadme..Category
+#. MainForm..ActionList1..actSelectAll..Category
+#. MainForm..ActionList1..actSelectInverse..Category
+#. MainForm..ActionList1..actFilterPanel..Category
+#. MainForm..ActionList1..actCancelOperation..Category
+#. MainForm..ActionList1..actLogHorizontalScrollbar..Category
+#. MainForm..ActionList1..actGroupObjects..Category
+#: main.dfm:1892 main.dfm:1900 main.dfm:1915 main.dfm:1923 main.dfm:1930
+#: main.dfm:1960 main.dfm:2152 main.dfm:2227 main.dfm:2234 main.dfm:2241
+#: main.dfm:2248 main.dfm:2392 main.dfm:2423 main.dfm:2430 main.dfm:2554
+#: main.dfm:2590 main.dfm:2596
+msgid "Various"
+msgstr "Különböző"
+
+#. MainForm..ActionList1..actCopy..Caption
+#: main.dfm:1893
+msgid "&Copy"
+msgstr "&Másolás"
+
+#. Short and longer hint, separated by pipe
+msgid "Copy|Copy to Clipboard"
+msgstr "Másolás|Másolás vágólapra"
+
+#. MainForm..ActionList1..actPaste..Caption
+#: main.dfm:1901
+msgid "&Paste"
+msgstr "&Beillesztés"
+
+#. Short and longer hint, separated by pipe
+msgid "Paste|Paste from Clipboard"
+msgstr "Beillesztés|Beillesztés vágólapról"
+
+#. MainForm..ActionList1..actUserManager..Category
+#. MainForm..ActionList1..actMaintenance..Category
+#. MainForm..ActionList1..actFindTextOnServer..Category
+#. MainForm..ActionList1..actSQLhelp..Category
+#. MainForm..ActionList1..actPreferences..Category
+#. MainForm..ActionList1..actFlushHosts..Category
+#. MainForm..ActionList1..actFlushLogs..Category
+#. MainForm..ActionList1..actFlushPrivileges..Category
+#. MainForm..ActionList1..actFlushTables..Category
+#. MainForm..ActionList1..actFlushTableswithreadlock..Category
+#. MainForm..ActionList1..actFlushStatus..Category
+#. MainForm..ActionList1..actUpdateCheck..Category
+#. MainForm..ActionList1..actPreviousTab..Category
+#. MainForm..ActionList1..actNextTab..Category
+#. MainForm..ActionList1..actBulkTableEdit..Category
+#. MainForm..ActionList1..actLaunchCommandline..Category
+#: main.dfm:1908 main.dfm:1937 main.dfm:1944 main.dfm:2144 main.dfm:2179
+#: main.dfm:2185 main.dfm:2191 main.dfm:2197 main.dfm:2203 main.dfm:2209
+#: main.dfm:2215 main.dfm:2221 main.dfm:2374 main.dfm:2383 main.dfm:2439
+#: main.dfm:2576
+msgid "Tools"
+msgstr "Eszközök"
+
+#. MainForm..ActionList1..actUserManager..Caption
+#: main.dfm:1909
+msgid "User manager"
+msgstr "Felhasználó kezelő"
+
+#. MainForm..ActionList1..actUserManager..Hint
+#: main.dfm:1910
+msgid "Manage user authentication and privileges"
+msgstr "Felhasználói hitelesítések és jogosultságok kezelése"
+
+#. MainForm..ActionList1..actCut..Caption
+#: main.dfm:1916
+msgid "Cu&t"
+msgstr "Ki&vágás"
+
+#. Short and longer hint, separated by pipe
+msgid "Cut|Cuts the selection and puts it on the Clipboard"
+msgstr "Kivágás|Vágja ki a kijelölést és helyezze a vágólapra"
+
+#. MainForm..ActionList1..actUndo..Caption
+#: main.dfm:1924
+msgid "&Undo"
+msgstr "&Visszavonás"
+
+#. Short and longer hint, separated by pipe
+msgid "Undo|Revert last modification"
+msgstr "Visszavonás|Utolsó módosítás visszaállítása"
+
+#. MainForm..ActionList1..actAboutBox..Caption
+#: main.dfm:1931
+msgid "About..."
+msgstr "Névjegy..."
+
+#. MainForm..ActionList1..actAboutBox..Hint
+#: main.dfm:1932
+msgid "About this application"
+msgstr "Alkalmazás névjegye"
+
+#. MainForm..ActionList1..actMaintenance..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabMaintenance..Caption
+#: main.dfm:1938 tabletools.dfm:152
+msgid "Maintenance"
+msgstr "Karbantartás"
+
+#. MainForm..ActionList1..actMaintenance..Hint
+#: main.dfm:1939
+msgid "Optimize, repair and analyse tables"
+msgstr "Optimalizálás, javítás és tábla analizálás"
+
+#. MainForm..ActionList1..actFindTextOnServer..Caption
+#: main.dfm:1945
+msgid "Find text on server"
+msgstr "Szöveg keresése a szerveren"
+
+#. MainForm..ActionList1..actFindTextOnServer..Hint
+#: main.dfm:1946
+msgid "Searches selected tables for text occurences"
+msgstr "Szöveg előfordulása a kijelölt táblákban"
+
+#. MainForm..ActionList1..actExportData..Category
+#. MainForm..ActionList1..actInsertFiles..Category
+#. MainForm..ActionList1..actExportTables..Category
+#. MainForm..ActionList1..actImportCSV..Category
+#. MainForm..ActionList1..actExportSettings..Category
+#. MainForm..ActionList1..actImportSettings..Category
+#. MainForm..ActionList1..actSynchronizeDatabase..Category
+#: main.dfm:1952 main.dfm:2023 main.dfm:2029 main.dfm:2160 main.dfm:2167
+#: main.dfm:2173 main.dfm:2570
+msgid "Export/Import"
+msgstr "Exportálás/Importálás"
+
+#. MainForm..ActionList1..actExportData..Hint
+#: main.dfm:1955
+msgid "Export rows to file or copy to clipboard, in various formats"
+msgstr "Exportáljon sorokat fájlba vagy a vágólapra különböző formátumban"
+
+#. MainForm..ActionList1..actPrintList..Caption
+#: main.dfm:1961
+msgid "Print..."
+msgstr "Nyomtatás..."
+
+#. MainForm..ActionList1..actPrintList..Hint
+#: main.dfm:1962
+msgid "Print List or Data"
+msgstr "Lista vagy adat nyomtatása"
+
+#. MainForm..ActionList1..actCopyTable..Caption
+#: main.dfm:1969
+msgid "Table copy"
+msgstr "Tábla másolása"
+
+#. MainForm..ActionList1..actCopyTable..Hint
+#: main.dfm:1971
+msgid "Create a base table copy of this table or view"
+msgstr "Hozzon létre egy másolatot a táblából, vagy a nézetből"
+
+#. MainForm..ActionList1..actExecuteQuery..Category
+#. MainForm..ActionList1..actExecuteSelection..Category
+#. MainForm..ActionList1..actExecuteCurrentQuery..Category
+#. MainForm..ActionList1..actExplainCurrentQuery..Category
+#. MainForm..ActionList1..actExplainAnalyzeCurrentQuery..Category
+#. MainForm..ActionList1..actLoadSQL..Category
+#. MainForm..ActionList1..actSaveSQLAs..Category
+#. MainForm..ActionList1..actSaveSQLselection..Category
+#. MainForm..ActionList1..actSaveSQLSnippet..Category
+#. MainForm..ActionList1..actSaveSQLSelectionSnippet..Category
+#. MainForm..ActionList1..actClearQueryEditor..Category
+#. MainForm..ActionList1..actQueryStopOnErrors..Category
+#. MainForm..ActionList1..actQueryWordWrap..Category
+#. MainForm..ActionList1..actQueryFind..Category
+#. MainForm..ActionList1..actQueryReplace..Category
+#. MainForm..ActionList1..actQueryFindAgain..Category
+#. MainForm..ActionList1..actSetDelimiter..Category
+#. MainForm..ActionList1..actSaveSQL..Category
+#. MainForm..ActionList1..actReformatSQL..Category
+#. MainForm..ActionList1..actBatchInOneGo..Category
+#. MainForm..ActionList1..actSingleQueries..Category
+#. MainForm..ActionList1..actToggleComment..Category
+#. optionsform..pagecontrolMain..tabSQL..Caption
+#: main.dfm:1976 main.dfm:1985 main.dfm:1994 main.dfm:2003 main.dfm:2009
+#: main.dfm:2036 main.dfm:2255 main.dfm:2264 main.dfm:2273 main.dfm:2281
+#: main.dfm:2289 main.dfm:2306 main.dfm:2315 main.dfm:2323 main.dfm:2331
+#: main.dfm:2339 main.dfm:2346 main.dfm:2452 main.dfm:2468 main.dfm:2538
+#: main.dfm:2546 main.dfm:2563 options.dfm:343
+msgid "SQL"
+msgstr "SQL"
+
+#. MainForm..ActionList1..actExecuteQuery..Caption
+#: main.dfm:1977
+msgid "Run"
+msgstr "Futtatás"
+
+#. MainForm..ActionList1..actExecuteQuery..Hint
+#: main.dfm:1979
+msgid "Execute SQL...|Execute SQL-query/queries..."
+msgstr "SQL futtatása....|Futtatja sz SQL kérést/kéréseket"
+
+#. MainForm..ActionList1..actExecuteSelection..Caption
+#: main.dfm:1986
+msgid "Run Selection"
+msgstr "Kijelölés futtatása"
+
+#. MainForm..ActionList1..actExecuteSelection..Hint
+#: main.dfm:1988
+msgid "Execute selected SQL...|Execute selected SQL-query/queries..."
+msgstr "Kiválasztott SQL futtatása...|Futtassa a kiválasztott SQL kérést/kéréseket"
+
+#. MainForm..ActionList1..actExecuteCurrentQuery..Caption
+#: main.dfm:1995
+msgid "Run current query"
+msgstr "Aktuális kérés futtatása"
+
+#. Short and longer hint, separated by pipe
+msgid "Run current query|Run currently focused SQL query"
+msgstr "Aktuális kérés futtatása|Futtassa az aktuális kérést"
+
+#. MainForm..ActionList1..actExplainCurrentQuery..Caption
+#: main.dfm:2004
+msgid "Explain current query"
+msgstr "Elemezze az aktuális kérést"
+
+#. MainForm..ActionList1..actExplainCurrentQuery..Hint
+#: main.dfm:2005
+msgid "Run EXPLAIN <current query> and show results"
+msgstr "Futtassa az EXPLAIN parancsot a <current query>  és mutassa az eredményt"
+
+#. MainForm..ActionList1..actExplainAnalyzeCurrentQuery..Caption
+#: main.dfm:2010
+msgid "Explain analyzer for current query"
+msgstr "Magyarázza az aktuális lekérdezés analizálását"
+
+#. MainForm..ActionList1..actExplainAnalyzeCurrentQuery..Hint
+#: main.dfm:2011
+msgid "Run EXPLAIN <current query> and send results to MariaDB.org"
+msgstr "Futtassa az EXPLAIN parancsot a <current query> és küldje az eredményt a MariaDB.org-ra"
+
+#. MainForm..ActionList1..actDataPreview..Caption
+#: main.dfm:2016
+msgid "Image preview"
+msgstr "Kép előnézet"
+
+#. MainForm..ActionList1..actDataPreview..Hint
+#: main.dfm:2017
+msgid "Preview image contents from BLOB cells"
+msgstr "Mutassa a kép tartalmat a BLOB mezőben"
+
+#. MainForm..ActionList1..actInsertFiles..Caption
+#: main.dfm:2024
+msgid "Insert files into TEXT/BLOB fields..."
+msgstr "Fájl beszúrása a TEXT/BLOB mezőkbe..."
+
+#. MainForm..ActionList1..actExportTables..Caption
+#: main.dfm:2030
+msgid "Export database as SQL"
+msgstr "Adatbázis exportálása SQL-ként"
+
+#. MainForm..ActionList1..actExportTables..Hint
+#: main.dfm:2031
+msgid "Dump database objects to an SQL file"
+msgstr "Adatbázis objektumok mentése egy SQL fájlba"
+
+#. MainForm..ActionList1..actLoadSQL..Caption
+#. MainForm..ActionList1..actLoadSQL..Hint
+#: main.dfm:2037 main.dfm:2038
+msgid "Load SQL file..."
+msgstr "SQL fájl betöltése..."
+
+msgid "Run SQL file..."
+msgstr "SQL fájl futtatása..."
+
+msgid "Run SQL file(s) directly, without loading into the editor"
+msgstr "SQL fájl(ok) közvetlen futtatása a szerkesztőbe betöltés nélkül"
+
+#. MainForm..ActionList1..actDropObjects..Caption
+#: main.dfm:2045
+msgid "Drop ..."
+msgstr "Eldobás"
+
+#. MainForm..ActionList1..actDropObjects..Hint
+#: main.dfm:2047
+msgid "Deletes tables, views, procedures and functions"
+msgstr "Törli a táblázatokat, nézeteket, eljárásokat és függvényeket"
+
+#. MainForm..ActionList1..actCreateView..Hint
+#: main.dfm:2055
+msgid "Create view ..."
+msgstr "Nézet létrehozása ..."
+
+#. MainForm..ActionList1..actDataFirst..Caption
+#: main.dfm:2061
+msgid "&First"
+msgstr "Első (&F)"
+
+#. MainForm..ActionList1..actDataFirst..Hint
+#: main.dfm:2063
+msgid "First"
+msgstr "Első"
+
+#. MainForm..ActionList1..actDataLast..Caption
+#: main.dfm:2069
+msgid "&Last"
+msgstr "Uto&lsó"
+
+#. MainForm..ActionList1..actDataLast..Hint
+#: main.dfm:2071
+msgid "Last"
+msgstr "Utolsó"
+
+#. MainForm..ActionList1..actDataInsert..Caption
+#: main.dfm:2077
+msgid "&Insert row"
+msgstr "Sor beszúrása"
+
+#. MainForm..ActionList1..actDataInsert..Hint
+#: main.dfm:2079
+msgid "Insert row into table"
+msgstr "Sor beszúrása az aktuális táblába"
+
+#. Result grid context menu
+msgid "Duplicate row without keys"
+msgstr "Kulcs nélküli ismétlődő sorok"
+
+#. "keys" are actually "primary and unique keys", which is too long for a
+#. context menu
+msgid "Duplicate row with keys"
+msgstr "Ismétlődő sor kulccsal"
+
+#. MainForm..ActionList1..actDataDelete..Caption
+#: main.dfm:2094
+msgid "&Delete selected row(s)"
+msgstr "Törli a kiválasztott sor(oka)t"
+
+#. MainForm..ActionList1..actDataDelete..Hint
+#: main.dfm:2096
+msgid "Delete selected row(s)"
+msgstr "Kijelölt sor(ok) törlése"
+
+#. MainForm..ActionList1..actDataPostChanges..Caption
+#: main.dfm:2103
+msgid "P&ost"
+msgstr "Közzétesz"
+
+#. MainForm..ActionList1..actDataPostChanges..Hint
+#: main.dfm:2105
+msgid "Post"
+msgstr "Közzétesz"
+
+#. MainForm..ActionList1..actDataCancelChanges..Caption
+#. MainForm..ActionList1..actDataCancelChanges..Hint
+#: main.dfm:2112 main.dfm:2114
+msgid "Cancel editing"
+msgstr "Szerkesztés visszavonása"
+
+#. MainForm..ActionList1..actCreateTable..Hint
+#: main.dfm:2123
+msgid "Create new table in selected database"
+msgstr "Új tábla létrehozása a kijelölt adatbázisban"
+
+#. MainForm..ActionList1..actEmptyTables..Caption
+#: main.dfm:2129
+msgid "Empty table(s) ..."
+msgstr "Tábla kiürítése"
+
+#. MainForm..ActionList1..actEmptyTables..Hint
+#: main.dfm:2131
+msgid "Delete all rows in selected table(s)"
+msgstr "Az összes sor törlése a kijelölt táblában(táblákban)"
+
+#. MainForm..ActionList1..actCreateDatabase..Hint
+#: main.dfm:2139
+msgid "Create a new, blank database"
+msgstr "Új, üres adatbázis létrehozása"
+
+#. MainForm..ActionList1..actSQLhelp..Caption
+#: main.dfm:2145
+msgid "SQL help"
+msgstr "SQL súgó"
+
+#. MainForm..ActionList1..actSQLhelp..Hint
+#: main.dfm:2146
+msgid "SQL help browser"
+msgstr "SQL súgó böngésző"
+
+#. MainForm..ActionList1..actRefresh..Caption
+#. MainForm..ActionList1..actRefresh..Hint
+#: main.dfm:2153 main.dfm:2154
+msgid "Refresh"
+msgstr "Frissítés"
+
+#. Full table status refresh
+msgid "Full status refresh"
+msgstr "Teljes állapotfrissítés"
+
+msgid "Get full statistics refresh on table data. Slow on InnoDB tables!"
+msgstr "Teljes statisztikák frissítése a táblázat adataiból. Lassú az InnoDB táblákon!"
+
+#. MainForm..ActionList1..actImportCSV..Caption
+#: main.dfm:2161
+msgid "Import CSV file..."
+msgstr "CSV fájl importálása..."
+
+#. MainForm..ActionList1..actImportCSV..Hint
+#: main.dfm:2162
+msgid "Import a CSV or tab delimited file"
+msgstr "CSV vagy tabulátorral elválasztott fájl importja"
+
+#. MainForm..ActionList1..actExportSettings..Caption
+#: main.dfm:2168
+msgid "Export settings file ..."
+msgstr "Beállítások exportálása"
+
+#. MainForm..ActionList1..actPreferences..Caption
+#. optionsform..Caption
+#: main.dfm:2180 options.dfm:5
+msgid "Preferences"
+msgstr "Beállítások"
+
+#. MainForm..ActionList1..actUpdateCheck..Caption
+#. frmUpdateCheck..Caption
+#: main.dfm:2222 updatecheck.dfm:5
+msgid "Check for updates ..."
+msgstr "Frissítések ellenőrzése..."
+
+#. MainForm..ActionList1..actWebDownloadpage..Caption
+#: main.dfm:2228
+msgid "Download page"
+msgstr "Letöltési oldal"
+
+#. MainForm..ActionList1..actWebForum..Caption
+#: main.dfm:2235
+msgid "Support forum"
+msgstr "Támogatói fórum"
+
+#. MainForm..ActionList1..actWebChangelog..Caption
+#: main.dfm:2242
+msgid "Changelog"
+msgstr "Változásnapló"
+
+#. MainForm..ActionList1..actReadme..Caption
+#: main.dfm:2249
+msgid "Readme"
+msgstr "Olvass el"
+
+#. MainForm..ActionList1..actReadme..Hint
+#: main.dfm:2250
+msgid "Open readme file"
+msgstr "Olvass el fájl megnyitása"
+
+#. MainForm..ActionList1..actSaveSQLAs..Hint
+#: main.dfm:2258
+msgid "Save SQL to a textfile"
+msgstr "SQL mentése szövegfájlba"
+
+#. MainForm..ActionList1..actSaveSQLselection..Caption
+#: main.dfm:2265
+msgid "Save selection to file ..."
+msgstr "Kijelölés mentése fájlba ..."
+
+#. MainForm..ActionList1..actSaveSQLselection..Hint
+#: main.dfm:2267
+msgid "Save selected text to a file"
+msgstr "Kiválasztott szöveg mentése fájlba"
+
+#. MainForm..ActionList1..actSaveSQLSnippet..Caption
+#. MainForm..ActionList1..actSaveSQLSnippet..Hint
+#: main.dfm:2274 main.dfm:2276
+msgid "Save as snippet ..."
+msgstr "Töredék mentése ..."
+
+#. MainForm..ActionList1..actSaveSQLSelectionSnippet..Caption
+#: main.dfm:2282
+msgid "Save selection as snippet ..."
+msgstr "Mentse a kijelölést töredékként ..."
+
+#. MainForm..ActionList1..actSaveSQLSelectionSnippet..Hint
+#: main.dfm:2284
+msgid "Save selected text as snippet ..."
+msgstr "Mentse a kiválasztott szöveget töredékként ..."
+
+#. MainForm..ActionList1..actClearQueryEditor..Hint
+#: main.dfm:2292
+msgid "Clear query editor"
+msgstr "Lekérdezés szerkesztő törlése"
+
+#. MainForm..ActionList1..actClearFilterEditor..Hint
+#: main.dfm:2300
+msgid "Clear filter editor"
+msgstr "Szűrő szerkesztő törlése"
+
+#. MainForm..ActionList1..actQueryStopOnErrors..Caption
+#. MainForm..ActionList1..actQueryStopOnErrors..Hint
+#: main.dfm:2308 main.dfm:2310
+msgid "Stop on errors in batch mode"
+msgstr "Bach módban minden hibánál megáll"
+
+#. MainForm..ActionList1..actQueryFind..Caption
+#. MainForm..ActionList1..actQueryFind..Hint
+#: main.dfm:2324 main.dfm:2325
+msgid "Find text ..."
+msgstr "Szöveg keresése..."
+
+#. MainForm..ActionList1..actQueryReplace..Caption
+#. MainForm..ActionList1..actQueryReplace..Hint
+#: main.dfm:2332 main.dfm:2333
+msgid "Replace text ..."
+msgstr "Szöveg cseréje ..."
+
+#. MainForm..ActionList1..actQueryFindAgain..Caption
+#: main.dfm:2340
+msgid "Find or replace again"
+msgstr "Keres, vagy cserél ismét"
+
+#. MainForm..ActionList1..actSetDelimiter..Caption
+#. MainForm..ActionList1..actSetDelimiter..Hint
+#: main.dfm:2347 main.dfm:2349
+msgid "Set delimiter used in SQL execution"
+msgstr "Az SQL lekérdezésben használt elválasztó beállítása "
+
+#. MainForm..ActionList1..actApplyFilter..Caption
+#: main.dfm:2355
+msgid "Apply filter"
+msgstr "Alkalmaz"
+
+#. MainForm..ActionList1..actRemoveFilter..Caption
+#: main.dfm:2362
+msgid "Remove filter"
+msgstr "Szűrő törlése"
+
+#. MainForm..ActionList1..actPreviousTab..Caption
+#: main.dfm:2376
+msgid "&Previous tab"
+msgstr "Előző lap"
+
+#. Short and longer hint, separated by pipe
+msgid "Previous tab|Go back to the previous tab"
+msgstr "Előző lap|Az előző lapra lép"
+
+#. MainForm..ActionList1..actNextTab..Caption
+#: main.dfm:2385
+msgid "&Next tab"
+msgstr "Következő lap"
+
+#. Short and longer hint, separated by pipe
+msgid "Next tab|Go to the next tab"
+msgstr "Következő lap|Következő lapra lép"
+
+#. Main menu: Tools
+msgid "Previous result tab"
+msgstr "Előző eredmény lap"
+
+#. Main menu: Tools
+msgid "Next result tab"
+msgstr "Következő eredmény lap"
+
+#. MainForm..ActionList1..actSelectAll..Caption
+#: main.dfm:2393
+msgid "Select all"
+msgstr "Összes kijelölése"
+
+#. Short and longer hint, separated by pipe
+msgid "Select all|Select all items or text"
+msgstr "Mindent kijelöl|Minden elem, vagy szöveg kijelölése"
+
+msgid "Stored procedure"
+msgstr "Tárolt eljárás"
+
+msgid "Create stored procedure"
+msgstr "Tárolt eljárás létrehozása"
+
+msgid "Stored function"
+msgstr "Tárolt függvény"
+
+msgid "Create stored function"
+msgstr "Tárolt függvény létrehozása"
+
+#. MainForm..ActionList1..actNewQueryTab..Caption
+#: main.dfm:2408
+msgid "New query tab"
+msgstr "Új lekérdezés lap"
+
+#. MainForm..ActionList1..actNewQueryTab..Hint
+#: main.dfm:2409
+msgid "Open a blank query tab"
+msgstr "Üres lekérdezés lap megnyitása"
+
+#. MainForm..ActionList1..actCloseQueryTab..Caption
+#. MainForm..popupMainTabs..menuCloseTab..Caption
+#: main.dfm:2416 main.dfm:9289
+msgid "Close query tab"
+msgstr "Lekérdezés lap bezárása"
+
+#. MainForm..ActionList1..actSelectInverse..Caption
+#: main.dfm:2424
+msgid "Invert selection"
+msgstr "Kijelölés megfordítása"
+
+#. MainForm..ActionList1..actFilterPanel..Caption
+#: main.dfm:2432
+msgid "Filter panel"
+msgstr "Szűrő panel"
+
+#. MainForm..ActionList1..actFilterPanel..Hint
+#: main.dfm:2433
+msgid "Activates the filter panel"
+msgstr "Szűrő panel aktiválása"
+
+#. MainForm..ActionList1..actBulkTableEdit..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..Caption
+#: main.dfm:2440 tabletools.dfm:431
+msgid "Bulk table editor"
+msgstr "Csoportos táblaszerkesztő"
+
+#. MainForm..ActionList1..actCreateTrigger..Hint
+#: main.dfm:2447
+msgid "Create a trigger"
+msgstr "Trigger létrehozása"
+
+#. Error when reading trigger definition from SHOW CREATE TRIGGER
+msgid "Result from previous query does not contain expected pattern: %s"
+msgstr "A lekérdezés eredménye nem tartalmazza a mintát: %s"
+
+#. MainForm..ActionList1..actSaveSQL..Hint
+#: main.dfm:2455
+msgid "Save SQL to file"
+msgstr "SQL fájl mentése"
+
+#. MainForm..ActionList1..actReformatSQL..Caption
+#: main.dfm:2469
+msgid "Reformat SQL"
+msgstr "SQL formázás"
+
+#. MainForm..ActionList1..actReformatSQL....Hint
+#: main.dfm:2472
+msgid ""
+"Automatically reformat disordered SQL in active editor to make it more "
+"readable"
+msgstr "Automatikusan formázza az SQL-t az aktív szerkesztőben, hogy jobban olvasható legyen"
+
+#. MainForm..ActionList1..actBlobAsText..Caption
+#. MainForm..ActionList1..actBlobAsText..Hint
+#: main.dfm:2480 main.dfm:2481
+msgid "View binary data as text (instead of HEX)"
+msgstr "Bináris adatok megjelenítése szövegként (a HEX helyett)"
+
+#. MainForm..ActionList1..actDataShowNext..Caption
+#: main.dfm:2487
+msgid "Next"
+msgstr "Következő"
+
+#. MainForm..ActionList1..actDataShowNext..Hint
+#: main.dfm:2488
+msgid "Next X rows"
+msgstr "Következő X sor"
+
+#. MainForm..ActionList1..actDataShowAll..Caption
+#: main.dfm:2495
+msgid "Show all"
+msgstr "Mindent mutat"
+
+#. MainForm..ActionList1..actDataShowAll..Hint
+#: main.dfm:2496
+msgid "Show all rows"
+msgstr "Minden sor mutat"
+
+#. MainForm..ActionList1..actRunRoutines..Caption
+#: main.dfm:2503
+msgid "Run routine(s) ..."
+msgstr "Eljárás(ok) futtatása"
+
+#. MainForm..ActionList1..actCreateEvent..Hint
+#: main.dfm:2511
+msgid "Create new event in selected database"
+msgstr "Új esemény létrehozása a kiválasztott adatbázisban"
+
+#. MainForm..ActionList1..actDataSetNull..Hint
+#: main.dfm:2519
+msgid "Set focused cell to NULL"
+msgstr "Állítsa a cella értékét NULL-ra"
+
+#. MainForm..ActionList1..actDataSaveBlobToFile..Caption
+#: main.dfm:2526
+msgid "Save BLOB to file ..."
+msgstr "BLOB mentése fájlba ..."
+
+#. MainForm..ActionList1..actDataSaveBlobToFile..Hint
+#: main.dfm:2527
+msgid "Save contents to local file ..."
+msgstr "Tartalom mentése fájlba ..."
+
+#. MainForm..ActionList1..actDisconnect..Caption
+#: main.dfm:2533
+msgid "Disconnect"
+msgstr "Kapcsolat bontása"
+
+#. Disconnect hint
+msgid "Close selected database connection"
+msgstr "Bezárja a kiválasztott adatbázis kapcsolatot"
+
+#. MainForm..ActionList1..actBatchInOneGo..Caption
+#: main.dfm:2540
+msgid "Send batch in one go"
+msgstr "Tétel küldése egy alkalommal"
+
+#. MainForm..ActionList1..actBatchInOneGo..Hint
+#: main.dfm:2542
+msgid "Send up to max_allowed_packet batch at once"
+msgstr "Küldje el a max_allowed_packet -et egyszer"
+
+#. MainForm..ActionList1..actSingleQueries..Caption
+#: main.dfm:2548
+msgid "Send queries one by one"
+msgstr "Küldje a lekérdezéseket egy az egyben"
+
+#. MainForm..ActionList1..actCancelOperation..Caption
+#. MainForm..ActionList1..actCancelOperation..Hint
+#: main.dfm:2555 main.dfm:2557
+msgid "Cancel running operation"
+msgstr "Törli a futó műveletet"
+
+#. MainForm..ActionList1..actToggleComment..Caption
+#: main.dfm:2564
+msgid "Un/comment"
+msgstr "Megjegyzés ki/be"
+
+#. MainForm..ActionList1..actToggleComment..Hint
+#: main.dfm:2565
+msgid "Makes selected SQL a comment or removes comment chars"
+msgstr "A kiválasztott szakaszt megjegyzéssé teszi vagy kiveszi a megyjegyzésből"
+
+#. MainForm..ActionList1..actSynchronizeDatabase..Caption
+#: main.dfm:2571
+msgid "Synchronize database"
+msgstr "Adatbázis szinkronizálása"
+
+#. MainForm..ActionList1..actLaunchCommandline..Caption
+#: main.dfm:2577
+msgid "Launch command line"
+msgstr "Indítsa el a parancssort"
+
+#. MainForm..ActionList1..actGridEditFunction..Caption
+#: main.dfm:2583
+msgid "SQL function"
+msgstr "SQL függvény"
+
+#. MainForm..ActionList1..actGridEditFunction..Hint
+#: main.dfm:2584
+msgid "Insert SQL function call in this grid cell, e.g. NOW()"
+msgstr "SQL függvény beszúrása és meghívása a cellában, pl: NOW()"
+
+#. MainForm..ActionList1..actLogHorizontalScrollbar..Caption
+#: main.dfm:2592
+msgid "Horizontal scrollbar"
+msgstr "Vízszintes gördítősáv"
+
+#. MainForm..ActionList1..actGroupObjects..Caption
+#: main.dfm:2598
+msgid "Group objects by type"
+msgstr "Objektumok típus szerint csoportosítva"
+
+#. MainForm..popupDB..menuEditObject..Caption
+#: main.dfm:8573
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#. MainForm..popupDB..menuEditObject..Hint
+#: main.dfm:8574
+msgid "Edit selected object"
+msgstr "Kiválasztott objektum szerkesztése"
+
+#. MainForm..popupDB..menuCreateObject..Caption
+#: main.dfm:8589
+msgid "Create new"
+msgstr "Új létrehozása"
+
+#. MainForm..popupDB..menuTreeExpandAll..Caption
+#: main.dfm:8632
+msgid "Expand all"
+msgstr "Összes kibontása"
+
+#. MainForm..popupDB..menuTreeCollapseAll..Caption
+#: main.dfm:8637
+msgid "Collapse all"
+msgstr "Összes bezárása"
+
+#. MainForm..popupDB..menuShowSizeColumn..Caption
+#: main.dfm:8646
+msgid "Display size of objects"
+msgstr "Objektum méretének kijelzése"
+
+#. MainForm..popupHost..menuFetchDBitems..Caption
+#: main.dfm:8674
+msgid "Fetch database items"
+msgstr "Az összes adatbázis tétel betöltése"
+
+#. MainForm..popupHost..Kill1..Caption
+#: main.dfm:8679
+msgid "Kill Process(es)..."
+msgstr "Eljárás(ok) leállítása"
+
+#. MainForm..popupHost..menuEditVariable..Caption
+#: main.dfm:8686
+msgid "Edit ..."
+msgstr "Szerkesztés..."
+
+#. MainForm..popupHost..menuExplainProcess..Caption
+#: main.dfm:8692
+msgid "EXPLAIN query"
+msgstr "Lekérdezés elemzése \"EXPLAIN'"
+
+#. MainForm..popupHost..menuExplainProcess..Hint
+#: main.dfm:8694
+msgid "Analyze selected process SQL"
+msgstr "A kiválasztott SQL eljárás elemzése"
+
+#. MainForm..popupHost..menuExplainAnalyzer..Caption
+#: main.dfm:8699
+msgid "EXPLAIN analyzer on MariaDB.org"
+msgstr "EXPLAIN analízis a MariaDB.org-on"
+
+#. MainForm..popupHost..menuExplainAnalyzer..Hint
+#: main.dfm:8701
+msgid "Pass EXPLAIN output to MariaDB's analyzer webpage"
+msgstr "Az EXPLIAN kimenetét elküldi a MariaDB.org analizáló weboldalára"
+
+#: tabletools.pas:1061 main.pas:2855 connections.pas:1047
+msgid "SQL files"
+msgstr "SQL fájlok"
+
+#: tabletools.pas:1061 main.pas:2855 main.pas:2653 bineditor.pas:146
+#: connections.pas:1047 connections.pas:1049 exportgrid.pas:274
+msgid "All files"
+msgstr "Minden fájl"
+
+#. SQL export dialog
+msgid "ZIP files"
+msgstr "ZIP fájlok"
+
+#. SQL export dialog
+msgid "Compressing"
+msgstr "Tömörítés"
+
+#. MainForm..popupDataGrid..DataInsertValue..Caption
+#: main.dfm:8757
+msgid "Insert value"
+msgstr "Érték beszúrása"
+
+#. Data grid context menu
+msgid "This is a UNIX timestamp column"
+msgstr "Ez egy UNIX időbélyeg oszlop"
+
+#. MainForm..popupDataGrid..DataInsertValue..DataDateTime..Hint
+#: main.dfm:8773
+msgid "Insert datetime-value"
+msgstr "Dátumidő érték beszúrása"
+
+#. MainForm..popupDataGrid..DataInsertValue..DataDate..Hint
+#: main.dfm:8779
+msgid "Insert date-value"
+msgstr "Dátum érték beszúrása"
+
+#. MainForm..popupDataGrid..DataInsertValue..DataTime..Hint
+#: main.dfm:8785
+msgid "Insert time-value"
+msgstr "Idő érték beszúrása"
+
+#. MainForm..popupDataGrid..DataInsertValue..DataYear..Hint
+#: main.dfm:8791
+msgid "Insert year-value"
+msgstr "Év érték beszúrása"
+
+#. MainForm..popupDataGrid..DataInsertValue..DataUNIXtimestamp..Hint
+#: main.dfm:8797
+msgid "Insert UNIX timestamp"
+msgstr "UNIX időbélyeg beszúrása"
+
+#. MainForm..popupDataGrid..menuQuickFilter..Caption
+#: main.dfm:8841
+msgid "Quick Filter"
+msgstr "Gyors szűrő"
+
+#. MainForm..popupDataGrid..menuQuickFilter..QFvalues..Caption
+#: main.dfm:8883
+msgid "More values ..."
+msgstr "Egyéb értékek ..."
+
+#. Quick filters - more values
+msgid "Table too large (>%s), avoiding long running SELECT query"
+msgstr "Túl nagy tábla (> %1 ), elkerülhető a SELECT lekérdezés hosszan tartó futása"
+
+msgid "Quick filter: Column = Focused"
+msgstr "Gyors szűrő: Oszlop = Fókuszált"
+
+msgid "Quick filter: Column != Focused"
+msgstr "Gyors szűrő: Oszlop != Fókuszált"
+
+msgid "Quick filter: Column > Focused"
+msgstr "Gyors szűrő: Oszlop > Fókuszált"
+
+msgid "Quick filter: Column < Focused"
+msgstr "Gyors szűrő: Oszlop < Fókuszált"
+
+msgid "Quick filter: Column LIKE Focused%"
+msgstr "Gyors szűrő: Oszlop LIKE Fókuszált%"
+
+msgid "Quick filter: Column LIKE %Focused"
+msgstr ""
+
+msgid "Quick filter: Column LIKE %Focused%"
+msgstr ""
+
+msgid "Quick filter: Column = Prompt"
+msgstr ""
+
+msgid "Quick filter: Column != Prompt"
+msgstr ""
+
+msgid "Quick filter: Column > Prompt"
+msgstr ""
+
+msgid "Quick filter: Column < Prompt"
+msgstr ""
+
+msgid "Quick filter: Column LIKE %Prompt%"
+msgstr ""
+
+msgid "Quick filter: Column IS NULL"
+msgstr ""
+
+msgid "Quick filter: Column IS NOT NULL"
+msgstr ""
+
+msgid "Quick filter: Column = Clipboard"
+msgstr ""
+
+msgid "Quick filter: Column != Clipboard"
+msgstr ""
+
+msgid "Quick filter: Column > Clipboard"
+msgstr ""
+
+msgid "Quick filter: Column < Clipboard"
+msgstr ""
+
+msgid "Quick filter: Column LIKE %Clipboard%"
+msgstr ""
+
+msgid "Quick filter: Column IN (Clipboard)"
+msgstr ""
+
+#. MainForm..popupSqlLog..Copylinetonewquerytab1..Caption
+#: main.dfm:9000
+msgid "Copy line to new query tab"
+msgstr "Sor másolása egy új lekérdezési lapra"
+
+#. Action: Save SynMemo to textfile
+msgid "Save as textfile..."
+msgstr "Mentés szövegfájlba..."
+
+#. Action: Save SynMemo to textfile
+msgid "Save contents to a textfile"
+msgstr "Tartalom mentése szövegfájlba"
+
+#. MainForm..popupSqlLog..menuLogToFile..Caption
+#: main.dfm:9022
+msgid "Log to file"
+msgstr "Log kiírása fájlba"
+
+#. MainForm..popupSqlLog..menuOpenLogFolder..Caption
+#: main.dfm:9026
+msgid "Open log folder ..."
+msgstr "Log mappa megnyitása ..."
+
+#. MainForm..popupQuery..menuQueryExplain..Caption
+#: main.dfm:9105
+msgid "Explain"
+msgstr "Magyarázat"
+
+#. MainForm..popupQuery..menuQueryInsertFunction..Caption
+#. MainForm..popupFilter..menuFilterInsertFunction..Caption
+#: main.dfm:9175 main.dfm:9261
+msgid "Insert function"
+msgstr "Függvény beszúrása"
+
+#. MainForm..popupQueryHelpers..menuInsertSnippetAtCursor..Caption
+#: main.dfm:9184
+msgid "Insert at cursor"
+msgstr "Kurzor beszúrása"
+
+#. MainForm..popupQueryHelpers..menuLoadSnippet..Caption
+#: main.dfm:9191
+msgid "Load"
+msgstr "Betöltés"
+
+#. MainForm..popupQueryHelpers..menuDeleteSnippet..Caption
+#: main.dfm:9197
+msgid "Delete ..."
+msgstr "Törlés ..."
+
+#. MainForm..popupQueryHelpers..menuExplore..Caption
+#: main.dfm:9204
+msgid "Explore folder"
+msgstr "Mappa felderítése"
+
+#. MainForm..popupQueryHelpers..menuClearQueryHistory..Caption
+#: main.dfm:9213
+msgid "Clear query history ..."
+msgstr "Lekérdezés történet törlése ..."
+
+#. MainForm..popupQueryHelpers..menuQueryHelpersGenerateInsert..Caption
+#: main.dfm:9218
+msgid "Generate %s ..."
+msgstr "%s generálás ..."
+
+#. MainForm..popupRefresh..menuAutoRefresh..Caption
+#: main.dfm:9270 main.pas:5308
+msgid "Auto refresh"
+msgstr "Automatikus frissítés"
+
+#. MainForm..popupRefresh..menuAutoRefreshSetInterval..Caption
+#: main.dfm:9275
+msgid "Set interval ..."
+msgstr "Időköz beállítása ..."
+
+#. optionsform..pagecontrolMain..tabMisc..Caption
+#: options.dfm:35
+msgid "General"
+msgstr "Általános"
+
+#. Preferences
+msgid "Custom snippets directory:"
+msgstr "Egyéni töredék mappa:"
+
+#. optionsform..pagecontrolMain..tabMisc..lblMySQLBinaries..Caption
+#: options.dfm:48
+msgid "MySQL command line programs:"
+msgstr "MySQL parancssori program:"
+
+#. Language selector
+#: preferences dialog
+msgid "Application language: *"
+msgstr "Alkalmazás nyelve: *"
+
+#. Default in language selector
+#: preferences dialog
+msgid "Auto detect (%s)"
+msgstr "Automatikus felismerés (%s) "
+
+#. optionsform..pagecontrolMain..tabMisc..chkAutoReconnect..Caption
+#: options.dfm:57
+msgid "Automatically reconnect to previously opened sessions on startup"
+msgstr "Automatikusan csatlakozik a korábban megnyitott munkamenethez az indításkor"
+
+#. optionsform..pagecontrolMain..tabMisc..chkRestoreLastDB..Caption
+#: options.dfm:67
+msgid "Restore last used database on startup"
+msgstr "Utolsó használt adatbázis visszaállítása inditásnál"
+
+#. optionsform..pagecontrolMain..tabMisc..chkUpdatecheck....Caption
+#: options.dfm:81
+msgid "Check for updates each [day]:"
+msgstr "Frissítés ellenőrzése minden [nap]"
+
+msgid "0 = on each application start"
+msgstr "0 = ellenőrzés minden indításnál"
+
+#. optionsform..pagecontrolMain..tabMisc..chkUpdateCheckBuilds..Caption
+#: options.dfm:116
+msgid "Also check for updated nightly builds"
+msgstr "Ellenőrzi a nem nyilvános kiadásokat"
+
+#. optionsform..pagecontrolMain..tabMisc..chkDoStatistics....Caption
+#: options.dfm:130
+msgid "Send usage statistics"
+msgstr "Használati statisztikák küldése"
+
+msgid ""
+"This option, if enabled, will cause HeidiSQL to ping heidisql.com at most "
+"once every month.  This is used to count the used HeidiSQL and server "
+"versions."
+msgstr "Ez az opció, ha engedélyezve van, a HeidiSQL-t havonta egyszer elküldi a heidisql.com-ra. Ez a használt HeidiSQL és szerver verziók statisztikájára szolgál."
+
+msgid "Use Ctrl+Mousewheel for zooming"
+msgstr "Használja a CTRL + egérgörgő a zoomolásra"
+
+#. optionsform..pagecontrolMain..tabMisc..chkAllowMultiInstances..Caption
+#: options.dfm:141
+msgid "Allow multiple application instances"
+msgstr "Több alkalmazáspéldány engedélyezése"
+
+#. optionsform..pagecontrolMain..tabMisc..chkColorBars..Caption
+#: options.dfm:151
+msgid "Display bars in various list columns"
+msgstr "Megjeleníti a különböző oszlopokban lévő sávokat"
+
+#. optionsform..pagecontrolMain..tabLogging..Caption
+#: options.dfm:184
+msgid "Logging"
+msgstr "Naplózás"
+
+#. optionsform..pagecontrolMain..tabLogging..Label4..Caption
+#: options.dfm:198
+msgid "Log last"
+msgstr "Napló méret:"
+
+#. optionsform..pagecontrolMain..tabLogging..lblLogLinesHint..Caption
+#: options.dfm:205
+msgid "lines in SQL log"
+msgstr "sor max. a naplóban"
+
+#. optionsform..pagecontrolMain..tabLogging..lblLogSnipHint..Caption
+#: options.dfm:212
+msgid "characters  (0 = no snipping)"
+msgstr "karakter után (0 = nincs darabolás)"
+
+#. optionsform..pagecontrolMain..tabLogging..lblLogSnip..Caption
+#: options.dfm:219
+msgid "Snip SQL log lines to"
+msgstr "Darabolja az SQL napló sort"
+
+#. optionsform..pagecontrolMain..tabLogging..lblLogLevel..Caption
+#: options.dfm:226
+msgid "Log events:"
+msgstr "Naplózott események:"
+
+#. optionsform..pagecontrolMain..tabLogging..chkLogToFile..Caption
+#: options.dfm:276
+msgid "Write SQL log to file"
+msgstr "SQL naplózás fájlba"
+
+#. A category for messages or queries, used for the log panel
+msgid "Errors"
+msgstr "Hibák"
+
+#. A category for messages or queries, used for the log panel
+msgid "User-generated SQL queries"
+msgstr "Felhasználó által írt SQL lekérdezés"
+
+#. A category for messages or queries, used for the log panel
+msgid "Internal SQL queries"
+msgstr "Belső SQL lekérdezés"
+
+#. A category for messages or queries, used for the log panel
+msgid "Import/script queries"
+msgstr "Import/script kérés"
+
+#. A category for messages or queries, used for the log panel
+msgid "Information messages"
+msgstr "Információs üzenetek"
+
+#. A category for messages or queries, used for the log panel
+msgid "Debug messages"
+msgstr "Hibakeresési üzenetek"
+
+#. Preferences
+msgid "Enable query history"
+msgstr "Lekérdezés történetet"
+
+msgid "days to keep queries before removing them"
+msgstr "napig megtartja, mielőtt eltávolítja"
+
+msgid "Add timestamp to all log messages"
+msgstr ""
+
+#. optionsform..pagecontrolMain..tabSQL..lblFont..Caption
+#: options.dfm:357
+msgid "Editor font:"
+msgstr "Szerkesztő betűtípusa:"
+
+#. optionsform..pagecontrolMain..tabSQL..Label1..Caption
+#: options.dfm:372
+msgid "Tab width:"
+msgstr "TAB hossza:"
+
+#. optionsform..pagecontrolMain..tabSQL..lblMaxQueryResults..Caption
+#: options.dfm:379
+msgid "Maximum result sets:"
+msgstr "Maximális eredmény lap:"
+
+msgid "Auto completion proposal:"
+msgstr ""
+
+msgid "Enable"
+msgstr "Engedélyezve"
+
+msgid "Auto uppercase reserved words and functions"
+msgstr "Automatikus nagybetű a kulcs szavaknál és függvényeknél"
+
+#. optionsform..pagecontrolMain..tabSQL..chkTabsToSpaces..Caption
+#: options.dfm:427
+msgid "Tabs to spaces"
+msgstr "Tabulátort szóközre"
+
+#. optionsform..pagecontrolMain..tabSQL..chkAskFileSave..Caption
+#: options.dfm:455
+msgid "Prompt to save modified files on tab close"
+msgstr "Kérdés a módosítások mentésére, mielőtt bezárja a lapot"
+
+msgid "Close tab on doubleclick and middleclick"
+msgstr ""
+
+msgid "Show query warnings dialog"
+msgstr "Lekérdezés figyelmeztetés párbeszédablak megjelenítése "
+
+#. optionsform..pagecontrolMain..tabHighlighter..Caption
+#: options.dfm:483
+msgid "Highlighter"
+msgstr "Színkiemelés"
+
+#. optionsform..pagecontrolMain..tabHighlighter..lblSQLColElement..Caption
+#: options.dfm:497
+msgid "Element:"
+msgstr "Elemek:"
+
+#. optionsform..pagecontrolMain..tabHighlighter..lblSQLColForeground..Caption
+#: options.dfm:505
+msgid "Foreground:"
+msgstr "Előtér:"
+
+#. optionsform..pagecontrolMain..tabHighlighter..lblSQLColBackground..Caption
+#: options.dfm:513
+msgid "Background:"
+msgstr "Háttér:"
+
+#. optionsform..pagecontrolMain..tabHighlighter..chkSQLBold..Caption
+#: options.dfm:520
+msgid "Bold"
+msgstr "Félkövér"
+
+#. optionsform..pagecontrolMain..tabHighlighter..chkSQLItalic..Caption
+#: options.dfm:530
+msgid "Italic"
+msgstr "Dőlt"
+
+msgid "Size:"
+msgstr "Méret:"
+
+msgid "Colors preset:"
+msgstr "Szín beállítás:"
+
+#. optionsform..pagecontrolMain..tabData..lblMaxColWidth..Caption
+#: options.dfm:613
+msgid "Maximum column width:"
+msgstr "Maximális oszlop szélesség:"
+
+#. optionsform..pagecontrolMain..tabData..lblDataFont..Caption
+#: options.dfm:628
+msgid "Font:"
+msgstr "Betűtípus:"
+
+#. optionsform..pagecontrolMain..tabData..lblMaxTotalRows..Caption
+#: options.dfm:636
+msgid "Rows per page and maximum:"
+msgstr "Sorok laponként és maximum:"
+
+#. optionsform..pagecontrolMain..tabData..lblGridRowsLinecount..Caption
+#: options.dfm:643
+msgid "Lines of text in grid rows:"
+msgstr "Szöveg sor a rács sorban:"
+
+#. optionsform..pagecontrolMain..tabData..lblGridTextColors..Caption
+#: options.dfm:650
+msgid "Grid text colors:"
+msgstr "Rács szöveg színe:"
+
+#. optionsform..pagecontrolMain..tabData..lblNullBackground..Caption
+#: options.dfm:657
+msgid "NULL background:"
+msgstr "NULL háttér szine:"
+
+msgid "Use \"None\" to disable"
+msgstr "Használd a \"None\"-t a letiltáshoz"
+
+#. Preferences
+msgid "Grid formatting"
+msgstr "Rács formázása"
+
+#. Preferences
+msgid "Data editors"
+msgstr "Adat szerkesztő"
+
+#. Preferences > Grid formatting
+msgid "Alternating row background:"
+msgstr "Váltakozó sor háttér:"
+
+msgid "Max decimal zeros for floats:"
+msgstr ""
+
+msgid "Set to -1 to keep all zeros"
+msgstr ""
+
+#. Preferences > Grid formatting
+msgid "Local number format"
+msgstr "Helyi számformátum"
+
+#. optionsform..pagecontrolMain..tabData..chkEditorBinary..Caption
+#: options.dfm:789
+msgid "Enable popup BLOB/HEX editor"
+msgstr "Engedélyezi a felbukkanó BLOB/HEX szerkesztőt"
+
+#. optionsform..pagecontrolMain..tabData..chkEditorDatetime..Caption
+#: options.dfm:799
+msgid "Enable inplace date/time editor"
+msgstr "Engedélyezi a helyi dátum/idő szerkesztőt"
+
+#. optionsform..pagecontrolMain..tabData..chkEditorEnum..Caption
+#: options.dfm:809
+msgid "Enable ENUM pulldown editor"
+msgstr "Engedélyezi a legördülő ENUM szerkesztőt"
+
+#. optionsform..pagecontrolMain..tabData..chkEditorSet..Caption
+#: options.dfm:819
+msgid "Enable SET checkbox editor"
+msgstr "Engedélyezi a SET jelölőnégyzet szerkesztőt"
+
+#. optionsform..pagecontrolMain..tabData..chkPrefillDateTime..Caption
+#: options.dfm:829
+msgid "Prefill empty date/time fields with current date/time"
+msgstr "Töltse ki az üres dátum/idő mezőket aktuális dátummal/idővel"
+
+msgid "Click on column headers toggles sorting"
+msgstr ""
+
+#. optionsform..pagecontrolMain..tabData..chkRememberFilters..Caption
+#: options.dfm:838
+msgid "Remember filters, sorting and column selection across sessions"
+msgstr "Emlékezzen a szűrőkre, a leválogatásra és az oszlopválasztásra a munkamenetben"
+
+#. Preferences > Data
+msgid "Show values in foreign key columns"
+msgstr "Látszik az érték a külső kulcs oszlopban"
+
+#. Preferences checkbox
+msgid "Incremental search through typing"
+msgstr ""
+
+msgid ""
+"Connected table has too many rows. Foreign key drop-down is limited to %d "
+"items."
+msgstr "A csatlakoztatott táblázat túl sok sort tartalmaz. Az idegen kulcs legördülő menü csak az %d elemekre korlátozódik"
+
+#. optionsform..pagecontrolMain..tabShortcuts..Caption
+#: options.dfm:843
+msgid "Shortcuts"
+msgstr "Parancsikonok"
+
+#. optionsform..pagecontrolMain..tabShortcuts..lblShortcut1..Caption
+#: options.dfm:858
+msgid "Shortcut:"
+msgstr "Parancsikon:"
+
+#. optionsform..pagecontrolMain..tabShortcuts..lblShortcutHint..Caption
+#: options.dfm:867
+msgid "Please select a shortcut item in the tree."
+msgstr "Válaszd ki a parancsikont az elemhez a fában"
+
+#. optionsform..pagecontrolMain..tabShortcuts..lblShortcut2..Caption
+#: options.dfm:876
+msgid "Secondary shortcut:"
+msgstr "Másodlagos parancsikon:"
+
+#. optionsform..btnApply..Caption
+#. frmSyncDB..btnApply..Caption
+#: options.dfm:954 syncdb.dfm:153
+msgid "Apply"
+msgstr "Alkalmaz"
+
+#. optionsform..btnRestoreDefaults..Caption
+#: options.dfm:965
+msgid "Restore defaults"
+msgstr "Vissza az alapbeállítás"
+
+#. printlistForm..Caption
+#: printlist.dfm:5
+msgid "Print List..."
+msgstr "Nyomtató lista..."
+
+#. printlistForm..lblSelect..Caption
+#: printlist.dfm:30
+msgid "&Select printer:"
+msgstr "Kivála&sztott nyomtató:"
+
+#. printlistForm..btnConfigure..Caption
+#: printlist.dfm:47
+msgid "Configure"
+msgstr "Beállítás"
+
+#. printlistForm..btnPrint..Caption
+#: printlist.dfm:68
+msgid "Print"
+msgstr "Nyomtatás"
+
+#. printlistForm..chkPrintHeader..Caption
+#: printlist.dfm:80
+msgid "Print column headers"
+msgstr "Nyomtatja az oszlop címkéket"
+
+#. frmRoutineEditor..lblSQLcode..Caption
+#: routine_editor.dfm:17
+msgid "Routine body:"
+msgstr "Eljárás törzse:"
+
+#. frmRoutineEditor..lblDisabledWhy..Caption
+#: routine_editor.dfm:26
+msgid "You have no privilege to this routine."
+msgstr "Nincs jogosultsága az eljáráshoz."
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblType..Caption
+#: routine_editor.dfm:134
+msgid "&Type:"
+msgstr "&Típus:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblReturns..Caption
+#: routine_editor.dfm:142
+msgid "&Returns:"
+msgstr "Visszaté&rési érték:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblSQL..Caption
+#: routine_editor.dfm:150
+msgid "&Data access:"
+msgstr "A&dat hozzáférés:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblSecurity..Caption
+#: routine_editor.dfm:158
+msgid "SQL Se&curity:"
+msgstr "SQL biztonság:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblComment..Caption
+#: routine_editor.dfm:166
+msgid "&Comment:"
+msgstr "&Megjegyzés:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblDefiner..Caption
+#: routine_editor.dfm:174
+msgid "De&finer:"
+msgstr "Létrehozó:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..chkDeterministic..Caption
+#: routine_editor.dfm:182
+msgid "&Deterministic"
+msgstr "Determinisztikus"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..editName..TextHint
+#: routine_editor.dfm:241
+msgid "Enter routine name"
+msgstr "Írja be az eljárás nevét"
+
+#. frmRoutineEditor..PageControlMain..tabParameters..Caption
+#: routine_editor.dfm:257
+msgid "Parameters"
+msgstr "Paraméterek"
+
+#. frmRoutineEditor..PageControlMain..tabParameters..listParameters......WideText
+#: routine_editor.dfm:310
+msgid "Context"
+msgstr "Összefüggés"
+
+#. frmRoutineEditor..PageControlMain..tabParameters..tlbParameters..btnMoveUpParam..Caption
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnMoveUpIndex..Hint
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnMoveUpColumn..Hint
+#. frmTableEditor..popupColumns..menuMoveUpColumn..Caption
+#: routine_editor.dfm:354 table_editor.dfm:482 table_editor.dfm:733
+#: table_editor.dfm:823
+msgid "Move up"
+msgstr "Mozgasd fel"
+
+#. frmRoutineEditor..PageControlMain..tabParameters..tlbParameters..btnMoveDownParam..Caption
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnMoveDownIndex..Hint
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnMoveDownColumn..Hint
+#. frmTableEditor..popupColumns..menuMoveDownColumn..Caption
+#: routine_editor.dfm:363 table_editor.dfm:491 table_editor.dfm:741
+#: table_editor.dfm:829
+msgid "Move down"
+msgstr "Mozgasd le"
+
+#. frmSearchReplace..Caption
+#: searchreplace.dfm:5
+msgid "Search and replace text"
+msgstr "Szöveg keresése, cseréje"
+
+#. frmSearchReplace..lblSearch..Caption
+#: searchreplace.dfm:30
+msgid "&Text to find:"
+msgstr "Kerese&tt szöveg: "
+
+#. frmSearchReplace..lblReplaceHint..Caption
+#: searchreplace.dfm:38
+msgid "Replacement can have \\n for new lines and \\t for tabs"
+msgstr "Cserélje a \\n-t új sorra, \\t-t tabulátorra"
+
+#. frmSearchReplace..btnReplaceAll..Caption
+#: searchreplace.dfm:58
+msgid "Replace &all"
+msgstr "&Mindent cserél"
+
+msgid "Search in:"
+msgstr "Keres itt:"
+
+#. frmSearchReplace..chkReplace..Caption
+#: searchreplace.dfm:67
+msgid "&Replace:"
+msgstr "Cse&rél:"
+
+#. frmSearchReplace..comboSearch..TextHint
+#: searchreplace.dfm:79
+msgid "Enter text to find ..."
+msgstr "Írja be a keresendő szöveget ..."
+
+#. frmSearchReplace..comboReplace..TextHint
+#: searchreplace.dfm:91
+msgid "Enter replacement pattern ..."
+msgstr "Adja meg a csere mintát ..."
+
+#. frmSearchReplace..grpOptions..Caption
+#: searchreplace.dfm:100
+msgid "&Options"
+msgstr "Beállítások"
+
+#. frmSearchReplace..grpOptions..chkCaseSensitive..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabFind..chkCaseSensitive..Caption
+#: searchreplace.dfm:107 tabletools.dfm:302
+msgid "Case sensitive"
+msgstr "Nagybetű érzékeny"
+
+#. frmSearchReplace..grpOptions..chkWholeWords..Caption
+#: searchreplace.dfm:115
+msgid "Whole words"
+msgstr "Egész szavak"
+
+#. frmSearchReplace..grpOptions..chkRegularExpression..Caption
+#: searchreplace.dfm:123
+msgid "Regular expression"
+msgstr "Reguláris kifejezés"
+
+#. frmSearchReplace..grpOptions..chkPromptOnReplace..Caption
+#: searchreplace.dfm:134
+msgid "Prompt on replace"
+msgstr "Prompt a cserénél"
+
+#. frmSearchReplace..grpDirection..Caption
+#: searchreplace.dfm:144
+msgid "&Direction"
+msgstr "Irány"
+
+#. frmSearchReplace..grpDirection....Items.Strings
+#: searchreplace.dfm:147
+msgid "&Forward"
+msgstr "Előre"
+
+#. frmSearchReplace..grpDirection....Items.Strings
+#: searchreplace.dfm:148
+msgid "&Backward"
+msgstr "Hátra"
+
+#. frmSearchReplace..grpOrigin..Caption
+#: searchreplace.dfm:157
+msgid "Or&igin"
+msgstr "Kezdet"
+
+#. frmSearchReplace..grpOrigin....Items.Strings
+#: searchreplace.dfm:160
+msgid "From cursor"
+msgstr "Kurzortól"
+
+#. frmSearchReplace..grpOrigin....Items.Strings
+#: searchreplace.dfm:161
+msgid "Entire scope"
+msgstr "Teljes terület"
+
+#. frmSearchReplace..grpScope..Caption
+#: searchreplace.dfm:170
+msgid "&Scope"
+msgstr "Terület"
+
+#. frmSearchReplace..grpScope....Items.Strings
+#: searchreplace.dfm:174
+msgid "Selection"
+msgstr "Kijelölés"
+
+#. Search and replace dialog
+msgid "Result grid"
+msgstr "Eredmény rács"
+
+#. Search and replace dialog
+msgid "SQL editor"
+msgstr "SQL szerkesztő"
+
+#. Search and replace dialog
+msgid "Data Grid"
+msgstr "Adat rács"
+
+#. frmSelectDBObject..Caption
+#: selectdbobject.dfm:4
+msgid "Select database object ..."
+msgstr "Adatbázis objektum kiválasztása ..."
+
+#. frmSelectDBObject..lblSelect..Caption
+#: selectdbobject.dfm:30
+msgid "Select database, table or column:"
+msgstr "Adatbázis, tábla, nézet vagy oszlop kiválasztása:"
+
+#. frmSelectDBObject..lblCustom..Caption
+#: selectdbobject.dfm:38
+msgid "... or wildcard database (% and _ allowed):"
+msgstr "... vagy helyettes adatbázis (% és _ engedélyezve):"
+
+#. frmSelectDBObject..editDb..TextHint
+#: selectdbobject.dfm:108
+msgid "database"
+msgstr "adatbázis"
+
+#. frmSQLhelp..Caption
+#: sqlhelp.dfm:4
+msgid "Integrated SQL-help"
+msgstr "Beépített SQL súgó"
+
+#. frmSQLhelp..btnSearchOnline..Caption
+#: sqlhelp.dfm:29
+msgid "Search online"
+msgstr "Keresés online"
+
+#. frmSQLhelp..pnlMain..pnlRight..lblDescription..Caption
+#: sqlhelp.dfm:154
+msgid "Description:"
+msgstr "Leírás:"
+
+#. frmSQLhelp..pnlMain..pnlRight..lblExample..Caption
+#: sqlhelp.dfm:182
+msgid "Example:"
+msgstr "Példa:"
+
+#. frmSyncDB..lblSource..Caption
+#: syncdb.dfm:29
+msgid "Select source database or table(s):"
+msgstr "Forrás adatbázis vagy tábla(ák) választása:"
+
+#. frmSyncDB..lblDifferences..Caption
+#: syncdb.dfm:36
+msgid "Differences:"
+msgstr "Eltérések:"
+
+#. frmSyncDB..grpTarget..Caption
+#: syncdb.dfm:78
+msgid "Target database or table"
+msgstr "Cél adatbázis vagy tábla"
+
+#. frmSyncDB..grpTarget..lblTargetServer..Caption
+#: syncdb.dfm:88
+msgid "Server:"
+msgstr "Szerver:"
+
+#. frmSyncDB..btnAnalyze..Caption
+#: syncdb.dfm:166
+msgid "Analyze"
+msgstr "Analízis"
+
+#. frmSyncDB..grpOptions..radioOptionsStructure..Caption
+#: syncdb.dfm:185
+msgid "Structure"
+msgstr "Struktúra"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:118
+msgid "Length/Set"
+msgstr "Hossz/adat készlet"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:125
+msgid "Unsigned"
+msgstr "Pozitív"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:132
+msgid "Allow NULL"
+msgstr "NULL engedélyezve"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:137
+msgid "Zerofill"
+msgstr "Kitöltő nulla"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:161
+msgid "Expression"
+msgstr "Leírás"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:167
+msgid "Virtuality"
+msgstr "Virtuális"
+
+#. frmTableEditor..PageControlMain..tabBasic..Caption
+#: table_editor.dfm:183
+msgid "Basic"
+msgstr "Alap"
+
+#. frmTableEditor..PageControlMain..tabBasic..editName..TextHint
+#: table_editor.dfm:210
+msgid "Enter table name"
+msgstr "Írja be a tábla nevét"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblAutoinc..Caption
+#: table_editor.dfm:237
+msgid "Auto increment:"
+msgstr "Automatikus növelés:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblAvgRowLen..Caption
+#: table_editor.dfm:244
+msgid "Average row length:"
+msgstr "Átlag sor hossz:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblInsertMethod..Caption
+#: table_editor.dfm:251
+msgid "INSERT method:"
+msgstr "INSERT metódus:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblUnion..Caption
+#: table_editor.dfm:258
+msgid "Union tables:"
+msgstr "Egyesített táblák:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblMaxRows..Caption
+#: table_editor.dfm:265
+msgid "Maximum row count:"
+msgstr "Sor maximális száma:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblRowFormat..Caption
+#: table_editor.dfm:272
+msgid "Row format:"
+msgstr "Sor formátum:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblCollation..Caption
+#: table_editor.dfm:279
+msgid "Default collation:"
+msgstr "Alap illesztés:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblEngine..Caption
+#: table_editor.dfm:286
+msgid "Engine:"
+msgstr "Motor:"
+
+#. Server's default table engine (e.g.)
+msgid "Server default"
+msgstr "Szerver alapbeállítása"
+
+#. frmTableEditor..PageControlMain..tabOptions..chkChecksum..Caption
+#: table_editor.dfm:310
+msgid "Checksum for rows:"
+msgstr "Ellenőrző összeg a sorokhoz:"
+
+#. frmTableEditor..PageControlMain..tabOptions..chkCharsetConvert..Caption
+#: table_editor.dfm:379
+msgid "Convert data"
+msgstr "Adatok konvertálása:"
+
+#. frmTableEditor..PageControlMain..tabIndexes..Caption
+#: table_editor.dfm:385 copytable.pas:255
+msgid "Indexes"
+msgstr "Indexek"
+
+#. frmTableEditor..PageControlMain..tabIndexes..treeIndexes......WideText
+#: table_editor.dfm:431
+msgid "Type / Length"
+msgstr "Típus/hossz"
+
+#. frmTableEditor..PageControlMain..tabIndexes..treeIndexes......WideText
+#. frmView..rgAlgorithm..Caption
+#: table_editor.dfm:436 view.dfm:57
+msgid "Algorithm"
+msgstr "Algoritmus"
+
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnAddIndex..Hint
+#. frmTableEditor..popupIndexes..menuAddIndex..Caption
+#: table_editor.dfm:455 table_editor.dfm:753
+msgid "Add index"
+msgstr "Index hozzáadása"
+
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnRemoveIndex..Hint
+#: table_editor.dfm:464
+msgid "Remove index"
+msgstr "Index törlése"
+
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnClearIndexes..Hint
+#: table_editor.dfm:473
+msgid "Clear indexes"
+msgstr "Összes index törlése"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..Caption
+#: table_editor.dfm:499 copytable.pas:256
+msgid "Foreign keys"
+msgstr "Külső kulcs"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..pnlNoForeignKeys..listForeignKeys......WideText
+#: table_editor.dfm:581
+msgid "Key name"
+msgstr "Kulcs neve"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..pnlNoForeignKeys..listForeignKeys......WideText
+#: table_editor.dfm:593
+msgid "Reference table"
+msgstr "Referencia tábla"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..pnlNoForeignKeys..listForeignKeys......WideText
+#: table_editor.dfm:599
+msgid "Foreign columns"
+msgstr "Idegen oszlop"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..pnlNoForeignKeys..listForeignKeys......WideText
+#: table_editor.dfm:605
+msgid "On UPDATE"
+msgstr "Frissítéskor"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..pnlNoForeignKeys..listForeignKeys......WideText
+#: table_editor.dfm:611
+msgid "On DELETE"
+msgstr "Törléskor"
+
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnAddColumn..Hint
+#. frmTableEditor..popupIndexes..menuAddIndexColumn..Caption
+#. frmTableEditor..popupColumns..menuAddColumn..Caption
+#: table_editor.dfm:717 table_editor.dfm:759 table_editor.dfm:811
+msgid "Add column"
+msgstr "Oszlop hozzáadása"
+
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnRemoveColumn..Hint
+#. frmTableEditor..popupColumns..menuRemoveColumn..Caption
+#: table_editor.dfm:725 table_editor.dfm:817
+msgid "Remove column"
+msgstr "Oszlop törlése"
+
+#. frmTableEditor..popupColumns..menuCopyColumns..Caption
+#: table_editor.dfm:798
+msgid "Copy selected columns"
+msgstr "Kiválasztott oszlop másolása"
+
+#. grid export
+msgid "Copy selected rows"
+msgstr "Kiválasztott sorok másolása"
+
+#. grid export
+msgid "Copy selected rows in custom format"
+msgstr "Kiválasztott sor/ok/ egyedi formátumú másolása"
+
+#. frmTableEditor..popupColumns..menuPasteColumns..Caption
+#: table_editor.dfm:803
+msgid "Paste columns"
+msgstr "Oszlop beillesztése"
+
+#. frmTableEditor..popupColumns..menuCreateIndex..Caption
+#: table_editor.dfm:838
+msgid "Create new index"
+msgstr "Új index létrehozása"
+
+#. frmTableEditor..popupColumns..menuAddToIndex..Caption
+#: table_editor.dfm:842
+msgid "Add to index"
+msgstr "Hozzáadás index-hez"
+
+#. frmTableTools..Caption
+#: tabletools.dfm:4
+msgid "Table tools"
+msgstr "Tábla eszközök"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabMaintenance..lblOperation..Caption
+#: tabletools.dfm:166
+msgid "Operation:"
+msgstr "Művelet:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabMaintenance..lblOptions..Caption
+#: tabletools.dfm:173
+msgid "Options:"
+msgstr "Beállítások:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabFind..Caption
+#: tabletools.dfm:251
+msgid "Find text"
+msgstr "Szöveg keresése"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabFind..lblFindText..Caption
+#: tabletools.dfm:265
+msgid "Text to find:"
+msgstr "Keresett szöveg:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabFind..lblDataTypes..Caption
+#: tabletools.dfm:273
+msgid "Search in column types:"
+msgstr "Keresés oszloptípusokban:"
+
+msgid "Match type:"
+msgstr "Egyezés típusa:"
+
+msgid "Left and right wildcard"
+msgstr "Bal és jobb helyettesítő karakter"
+
+msgid "Exact match"
+msgstr "Pontos egyezés"
+
+msgid "Left wildcard"
+msgstr "Bal helyettesítő karakter"
+
+msgid "Right wildcard"
+msgstr "Jobb helyettesítő karakter"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..Caption
+#: tabletools.dfm:308
+msgid "SQL export"
+msgstr "SQL export"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..lblExportData..Caption
+#: tabletools.dfm:322
+msgid "Data:"
+msgstr "Adat:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..lblExportOutputType..Caption
+#: tabletools.dfm:329
+msgid "Output:"
+msgstr "Kimenet:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..lblExportDatabases..Caption
+#: tabletools.dfm:336
+msgid "Database(s):"
+msgstr "Adatbázis(ok):"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..lblExportTables..Caption
+#: tabletools.dfm:343
+msgid "Table(s):"
+msgstr "Tábla(ák):"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..btnExportOutputTargetSelect..Hint
+#: tabletools.dfm:357
+msgid "Browse filesystem"
+msgstr "Fájlrendszer böngészése"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..chkExportDatabasesCreate..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..chkExportTablesCreate..Caption
+#: tabletools.dfm:369 tabletools.dfm:396
+msgid "Create"
+msgstr "Létrehoz"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..chkExportDatabasesDrop..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..chkExportTablesDrop..Caption
+#: tabletools.dfm:378 tabletools.dfm:387
+msgid "Drop"
+msgstr "Eldob"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..chkBulkTableEditDatabase..Caption
+#: tabletools.dfm:445
+msgid "Move to database:"
+msgstr "Mozgatás adatbázisba:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..chkBulkTableEditResetAutoinc..Caption
+#: tabletools.dfm:464
+msgid "Reset auto increment value"
+msgstr "Automatikus növelés alaphelyzetbe:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..chkBulkTableEditCollation..Caption
+#: tabletools.dfm:472
+msgid "Change default collation:"
+msgstr "Alap illesztés cseréje:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..chkBulkTableEditEngine..Caption
+#: tabletools.dfm:491
+msgid "Change table engine:"
+msgstr "Tábla motor cseréje:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..chkBulkTableEditCharset..Caption
+#: tabletools.dfm:510
+msgid "Convert to charset:"
+msgstr "Karakterkészlet konvertálás: "
+
+#. frmTableTools..btnSeeResults..Caption
+#: tabletools.dfm:544
+msgid "See results"
+msgstr "Látszik az eredmény"
+
+#. frmTableTools..popupTree..menuCheckNone..Caption
+#: tabletools.dfm:555
+msgid "Check none"
+msgstr "Mind jelöletlen"
+
+#. frmTableTools..popupTree..menuCheckAll..Caption
+#: tabletools.dfm:559
+msgid "Check all"
+msgstr "Mindet bejelöl"
+
+#. frmTableTools..popupTree..menuCheckByType..Caption
+#: tabletools.dfm:563
+msgid "Check ..."
+msgstr "Jelöl ..."
+
+#. frmTextEditor..Caption
+#: texteditor.dfm:4
+msgid "Text editor"
+msgstr "Szövegszerkesztő"
+
+#. frmTextEditor..tlbStandard..btnLinebreaks..Caption
+#: texteditor.dfm:74
+msgid "Linebreaks"
+msgstr "Sortörés"
+
+#. frmTextEditor..tlbStandard..btnLoadText..Hint
+#. frmTextEditor..tlbStandard..btnLoadText..Caption
+#: texteditor.dfm:82 texteditor.dfm:83
+msgid "Load textfile"
+msgstr "Szövegfájl betöltése"
+
+#. frmTextEditor..popupLinebreaks..menuWindowsLB..Caption
+#: texteditor.dfm:109 texteditor.pas:133
+msgid "Windows linebreaks"
+msgstr "Windows sortörés"
+
+#. frmTextEditor..popupLinebreaks..menuUnixLB..Caption
+#: texteditor.dfm:114 texteditor.pas:134
+msgid "UNIX linebreaks"
+msgstr "UNIX sortörés"
+
+#. frmTextEditor..popupLinebreaks..menuMacLB..Caption
+#: texteditor.dfm:119 texteditor.pas:135
+msgid "Mac OS linebreaks"
+msgstr "Mac OS sortörés"
+
+#. frmTextEditor..popupLinebreaks..menuWideLB..Caption
+#: texteditor.dfm:124 texteditor.pas:136
+msgid "Unicode linebreaks"
+msgstr "Unicode sortörés"
+
+#. frmTextEditor..popupLinebreaks..menuMixedLB..Caption
+#: texteditor.dfm:129 texteditor.pas:137
+msgid "Mixed linebreaks"
+msgstr "Vegyes sortörés"
+
+#. frmTriggerEditor..lblTable..Caption
+#: trigger_editor.dfm:23
+msgid "On table:"
+msgstr "Táblában:"
+
+#. frmTriggerEditor..lblBody..Caption
+#: trigger_editor.dfm:30
+msgid "Trigger statement: (e.g. \"SET NEW.columnA = TRIM(OLD.columnA)\""
+msgstr "Trigger utasítás: (pl: \"SET NEW.columnA = TRIM(OLD.columnA)\""
+
+#. frmTriggerEditor..lblEvent..Caption
+#: trigger_editor.dfm:37
+msgid "Event:"
+msgstr "Esemény:"
+
+#. frmTriggerEditor..lblDefiner..Caption
+#. frmView..lblDefiner..Caption
+#: trigger_editor.dfm:44 view.dfm:40
+msgid "Definer:"
+msgstr "Létrehozó:"
+
+#. frmTriggerEditor..editName..TextHint
+#: trigger_editor.dfm:53
+msgid "Enter trigger name"
+msgstr "Írja be a trigger nevét"
+
+#. frmUpdateCheck..groupBuild..Caption
+#: updatecheck.dfm:52
+msgid "Nightly build"
+msgstr "Aktuális kiadás"
+
+#. frmUpdateCheck..groupBuild..btnBuild..Caption
+#: updatecheck.dfm:63
+msgid "Download nightly build"
+msgstr "Letölti az aktuális kiadást"
+
+msgid "No build updates for 32 bit version"
+msgstr "Nincs frissítés a 32 bites verzióhoz"
+
+#. frmUpdateCheck..groupRelease..Caption
+#: updatecheck.dfm:90
+msgid "Official release"
+msgstr "Hivatalos kiadás"
+
+#. frmUpdateCheck..groupRelease..btnRelease..Caption
+#: updatecheck.dfm:102
+msgid "Download new release"
+msgstr "Új kiadás letöltése"
+
+#. UserManagerForm..Caption
+#: usermanager.dfm:5
+msgid "User Manager"
+msgstr "Felhasználó kezelés"
+
+#. UserManagerForm..pnlLeft..lblUsers..Caption
+#: usermanager.dfm:97
+msgid "&Select user account:"
+msgstr "Felhasználó hozzáférés kiválasztása:"
+
+#. UserManagerForm..pnlLeft..listUsers......WideText
+#: usermanager.dfm:131
+msgid "Username"
+msgstr "Felhasználónév"
+
+#. UserManagerForm..pnlLeft..ToolBar1..btnCloneUser..Caption
+#: usermanager.dfm:162
+msgid "Clone"
+msgstr "Klón"
+
+#. UserManagerForm..pnlRight..tlbObjects..Label1..Caption
+#: usermanager.dfm:206
+msgid "Allow access to:"
+msgstr "Hozzáfér a következőkhöz:"
+
+#. UserManagerForm..pnlRight..tlbObjects..btnAddObject..Hint
+#: usermanager.dfm:213
+msgid "Add object ..."
+msgstr "Objektum hozzáadása ..."
+
+#. UserManagerForm..pnlRight..tlbObjects..btnAddObject..Caption
+#: usermanager.dfm:214
+msgid "Add object"
+msgstr "Objektum hozzáadása"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..Caption
+#: usermanager.dfm:252
+msgid "Credentials"
+msgstr "Meghatalmazás"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..lblUsername..Caption
+#: usermanager.dfm:265
+msgid "User &name:"
+msgstr "Felhasználó&név:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..lblFromHost..Caption
+#: usermanager.dfm:272
+msgid "From &host:"
+msgstr "Hozzáférés helye:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..lblRepeatPassword..Caption
+#: usermanager.dfm:288
+msgid "Repeat password:"
+msgstr "Jelszó ismétlése:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..editPassword..RightButton.Hint
+#: usermanager.dfm:310
+msgid "Select random password"
+msgstr "Véletlen jelszó kiválasztása"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabLimitations..Caption
+#: usermanager.dfm:340
+msgid "Limitations"
+msgstr "Limitáció"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabLimitations..lblMaxQueries..Caption
+#: usermanager.dfm:354
+msgid "Queries per hour:"
+msgstr "Kérések óránként:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabLimitations..lblMaxUpdates..Caption
+#: usermanager.dfm:361
+msgid "Updates per hour:"
+msgstr "Módosítások óránként:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabLimitations..lblMaxConnections..Caption
+#: usermanager.dfm:368
+msgid "Connections per hour:"
+msgstr "Kapcsolatok óránként:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabLimitations..lblMaxUserConnections..Caption
+#: usermanager.dfm:375
+msgid "Simultaneous connections:"
+msgstr "Egyidejű kapcsolat:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..lblCipher..Caption
+#: usermanager.dfm:482
+msgid "&Cipher:"
+msgstr "Rejtjel:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..lblIssuer..Caption
+#: usermanager.dfm:490
+msgid "&Issuer:"
+msgstr "Kibocsátó:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..lblSubject..Caption
+#: usermanager.dfm:498
+msgid "&Subject:"
+msgstr "Tárgy:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..lblSSL..Caption
+#: usermanager.dfm:506
+msgid "&Require SSL:"
+msgstr "Kötelező SSL:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..comboSSL....Items.Strings
+#: usermanager.dfm:548
+msgid "No SSL or X509 requirements"
+msgstr "Nincs SSL vagy X509 követelmény"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..comboSSL....Items.Strings
+#: usermanager.dfm:549
+msgid "Only permit SSL-encrypted connections"
+msgstr "Csak SSL-titkosított kapcsolatokat engedélyezzen"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..comboSSL....Items.Strings
+#: usermanager.dfm:550
+msgid "X509 (certificate, issuer and subject do not matter)"
+msgstr "X509 (tanúsítvány, kibocsátó és tárgy nem számít)"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..comboSSL....Items.Strings
+#: usermanager.dfm:551
+msgid "Specify requirements..."
+msgstr "Adja meg a követelményeket ..."
+
+#. UserManagerForm..menuHost..menuHost1..Caption
+#: usermanager.dfm:573
+msgid "Access from server location only"
+msgstr "Hozzáférés csak a kiszolgáló helyéről"
+
+#. UserManagerForm..menuHost..menuHost2..Caption
+#: usermanager.dfm:578
+msgid "Local network: 192.168.%"
+msgstr "Helyi hálózat: 192.168.%"
+
+#. UserManagerForm..menuHost..menuHost3..Caption
+#: usermanager.dfm:583
+msgid "Local network: 10.122.%"
+msgstr "Helyi hálózat: 10.122.%"
+
+#. UserManagerForm..menuHost..menuHostLocal4..Caption
+#: usermanager.dfm:588
+msgid "Access from everywhere"
+msgstr "Hozzáférés mindenhonnan"
+
+#. UserManagerForm..menuPassword..menuPassword1..Caption
+#: usermanager.dfm:601
+msgid "6 characters"
+msgstr "6 karakter"
+
+#. UserManagerForm..menuPassword..menuPassword2..Caption
+#: usermanager.dfm:609
+msgid "8 characters"
+msgstr "8 karakter"
+
+#. UserManagerForm..menuPassword..menuPassword3..Caption
+#: usermanager.dfm:617
+msgid "10 characters"
+msgstr "10 karakter"
+
+#. UserManagerForm..menuPassword..menuPassword4..Caption
+#: usermanager.dfm:625
+msgid "12 characters"
+msgstr "12 karakter"
+
+#. UserManagerForm..menuPassword..menuPassword5..Caption
+#: usermanager.dfm:633
+msgid "30 characters"
+msgstr "30 karakter"
+
+#. frmView..lblSelect..Caption
+#: view.dfm:22
+msgid "Select statement:"
+msgstr "Kijelölés kiválasztása:"
+
+#. frmView..lblDisabledWhy..Caption
+#: view.dfm:31
+msgid "You need the SHOW VIEW privilege in order to edit a view."
+msgstr "A nézet szerkesztéséhez szüksége van a SHOW VIEW jogosultságra."
+
+#. frmView..editName..TextHint
+#: view.dfm:49
+msgid "Enter view name"
+msgstr "Adja meg a nézet nevét"
+
+#. frmView..rgCheck..Caption
+#: view.dfm:131
+msgid "Check option for updates"
+msgstr "Ellenőrizze a frissítések beállítását"
+
+#. frmView..rgCheck....Items.Strings
+#: view.dfm:134
+msgid "None"
+msgstr "Semmi"
+
+#: about.pas:73
+msgid "Compiled on:"
+msgstr "Összeállítva:"
+
+msgid "Environment:"
+msgstr "Környezet:"
+
+#: bineditor.pas:175 texteditor.pas:259
+msgid "Apply modifications?"
+msgstr "Változtatások alkalmazása?"
+
+#: connections.pas:347
+msgid "Enter new session name ..."
+msgstr "Adja meg az munkamenet nevét ..."
+
+#: connections.pas:351
+msgid "Clone session ..."
+msgstr "Munkamenet klónozása ..."
+
+#: connections.pas:351
+msgid "New session name:"
+msgstr "Új munkamenet neve:"
+
+#: connections.pas:386
+msgid "Imported sessions could not be detected. Restarting %s may solve that."
+msgstr "Az importált munkamenet nem található. Az %s újraindítása megoldhatja ezt."
+
+#: connections.pas:440
+msgid "Delete session \"%s\"?"
+msgstr "Törli a munkamenetet \"%s\"?"
+
+#: connections.pas:649 connections.pas:821
+msgid "Session \"%s\" already exists!"
+msgstr "A \"%s\" munkamenet már foglalt!"
+
+msgid ""
+"If you want to change the case of a session name, you need to rename it "
+"before doing the actual case change."
+msgstr "Ha meg szeretnéd változtatni a munkamenet nevét, akkor a művelet előtt kell átnevezni."
+
+#: connections.pas:658
+msgid "Error while moving registry key: %s"
+msgstr "Hiba a rendszerleíró kulcs mozgatása közben:%s"
+
+#: connections.pas:707
+msgid ""
+"New here? In order to connect to a server, you have to create a so called "
+"\"session\" at first. Just click the \"New\" button on the bottom left to "
+"create your first session. Give it a friendly name (e.g. \"Local DB "
+"server\") so you'll recall it the next time you start %s."
+msgstr "Új itt? A szerverhez való csatlakozáshoz először létre kell hoznia egy úgynevezett \"munkamenetet\". Az első munkamenet létrehozásához kattintson a bal alsó sarkában található \"Új\" gombra. Adjon meg egy nevet (pl. \"Helyi DB-kiszolgáló\"), így a következő alkalommal, amikor bejelentkezik, megtalálja."
+
+#: connections.pas:711
+msgid ""
+"Please click a session on the left list to edit parameters, doubleclick to "
+"open it."
+msgstr "Kattintson a bal oldali listán lévő munkamenetre a paraméterek szerkesztéséhez, kattintson duplán a megnyitásához."
+
+#: connections.pas:759
+msgid "unknown or never"
+msgstr "ismeretlen, vagy soha"
+
+#: connections.pas:789
+msgid "Successful connects:"
+msgstr "Sikeres kapcsolatok:"
+
+#: connections.pas:791
+msgid "Unsuccessful connects:"
+msgstr "Sikertelen kapcsolatok:"
+
+#: connections.pas:954
+msgid "Save modifications?"
+msgstr "Módosítások mentése?"
+
+#: connections.pas:954
+msgid "Settings for \"%s\" were changed."
+msgstr "A \"%s\" beállításai megváltoztak."
+
+#: connections.pas:984
+msgid "Socket name:"
+msgstr "Socket neve:"
+
+#: connections.pas:1049
+msgid "Executables"
+msgstr "Végrehajtható"
+
+#: connections.pas:1051
+msgid "PuTTY private key"
+msgstr "PuTTY privát kulcs"
+
+#: connections.pas:1053
+msgid "Privacy Enhanced Mail certificates"
+msgstr "Továbbfejlesztett Mail adatvédelmi tanúsítványok"
+
+#: connections.pas:1053
+msgid "Certificates"
+msgstr "Tanusítványok"
+
+#: copytable.pas:138
+msgid "Neither table nor view: %s"
+msgstr "Sem tábla, sem nézet"
+
+#: copytable.pas:257
+msgid "Data (%s rows)"
+msgstr "Adat (%s sor)"
+
+#: copytable.pas:376
+msgid "Target table exists. Drop it and overwrite?"
+msgstr "A cél tábla már létezik! Eldobjuk a meglévőt és felülírjuk?"
+
+#: copytable.pas:384
+msgid "Generating SQL code ..."
+msgstr "SQL kód generálása ..."
+
+#: copytable.pas:475
+msgid "Creating table ..."
+msgstr "Tábla létrehozása ..."
+
+#: createdatabase.pas:98
+msgid "Alter database ..."
+msgstr "Adatbázis módosítás ..."
+
+#: createdatabase.pas:196
+msgid "Creating database \"%s\" failed."
+msgstr "A \"%s\" adatbázist nem sikerült létrehozni."
+
+#: createdatabase.pas:220
+msgid "Database \"%s\" contains stored routine(s), which cannot be moved."
+msgstr "Adatbázis tartalmazza a \"%s\"  tárolt eljárást(okat), amely nem lehet mozgatni."
+
+#: createdatabase.pas:226
+msgid "Database \"%s\" exists and has objects with same names as in \"%s\""
+msgstr "A \"%s\" létezik és van olyan objektuma, melynek a neve \"%s\"."
+
+#: createdatabase.pas:236
+msgid ""
+"Database \"%s\" exists. But it does not contain objects with same names as "
+"in \"%s\", so it's uncritical to move everything. Move all objects to "
+"\"%s\"?"
+msgstr "A \"%s\" adatbázis létezik. De nem tartalmaz olyan neveket, amelyek azonos nevekkel rendelkeznek, mint a \"%s\", így mindent el kell mozdítani. Minden objektum mozgatása a \"%s\"-ba?"
+
+#: createdatabase.pas:265
+msgid "Altering database \"%s\" failed."
+msgstr "Nem sikerült módosítani a \"%s\" adatbázist."
+
+#: data_sorting.pas:161
+msgid "Toggle the sort direction for this column."
+msgstr "Bekapcsolja az oszlop rendezési irányát."
+
+#: data_sorting.pas:174
+msgid "Drops sorting by this column."
+msgstr "Törli az oszlop rendezési irányát."
+
+#: dbconnection.pas:669
+msgid "Error: Session \"%s\" not found in registry."
+msgstr "Hiba: Nem található a \"%s\" munkamenet."
+
+#: dbconnection.pas:680
+msgid "Unsupported \"NetType\" value (%d) found in settings for session \"%s\"."
+msgstr "\"NetType\" értéket (%d) találtam a(z) \"%s\" munkamenet beállításaiban."
+
+#: dbconnection.pas:681
+msgid "Loaded as MySQL/MariaDB session."
+msgstr "Betöltve mint MySQL/MariaDB munkamenet."
+
+#. Comes into SQL log when assigning dll procedures from libmysql.dll
+#: dbconnection.pas:1038
+msgid "Assign procedure \"%s\""
+msgstr "Az eljárás hozzárendelése \"%s\""
+
+#: dbconnection.pas:1047
+msgid ""
+"Your %s is incompatible to %s, or your system is missing a dependent "
+"library."
+msgstr "A %s nem kompatibilis a %s rendszerrel, vagy hiányzik a függő könyvtár."
+
+#: dbconnection.pas:1121
+msgid "SSL parameters successfully set."
+msgstr "Az SSL paraméterek sikeresen beállítva."
+
+#: dbconnection.pas:1151
+msgid "Attempt to create SSH process, waiting %ds for response ..."
+msgstr ""
+
+#. Plink connection
+msgid "Error creating I/O pipes"
+msgstr "Hiba Az I/O csatorna létrehozásakor"
+
+#. PLink connection
+msgid "Error reading I/O pipes"
+msgstr "Hiba az I/O csatorna olvasásakor"
+
+#. Plink connection
+msgid "SSH command cancelled"
+msgstr ""
+
+#: dbconnection.pas:1162
+msgid "SSH exited unexpected. Command line was: %s"
+msgstr ""
+
+#: dbconnection.pas:1165
+msgid "Could not execute SSH command: %s"
+msgstr ""
+
+#. Plink connection
+msgid "Could not execute SSH command: Port %d already in use."
+msgstr ""
+
+#. Plink connection
+msgid "Port #%d in use. Checking if #%d is available..."
+msgstr "A # %d port foglalt. Ellenőrizze ha # %d engedélyezve van-e"
+
+msgid ""
+"Connection closed immediately after it was established. This is mostly caused by an \"%s\" server variable which has errors in itself, or your user account does not have the required privileges for it to run.\n"
+"\n"
+"You may ask someone with SUPER privileges\n"
+"* either to fix the \"%s\" variable,\n"
+"* or to grant you missing privileges."
+msgstr "A kapcsolat azonnal lezárult, miután létrehozta. Ezt leginkább egy \"%s\" szerver változó okozza, amely önmagában hibákat okoz, vagy a felhasználó fiókja nem rendelkezik a szükséges jogosultságokkal ahhoz, hogy futhassa.\nKérjen meg valakit, aki SUPER jogosultságokkal rendelkezik, hogy a.\n* a \"%s\" változó javítsa,\n* vagy a szükséges jogosultságot megadja."
+
+#: dbconnection.pas:1207 dbconnection.pas:1316
+msgid "Connected. Thread-ID: %d"
+msgstr "Törölve! Szál-ID: %d"
+
+#: dbconnection.pas:1286
+msgid "On Wine, you can try to install MDAC:"
+msgstr "A Wine-ban megpróbálhatja telepíteni az MDAC-t:"
+
+#: dbconnection.pas:1343
+msgid "OLE DB property \"%s\": %s"
+msgstr "OLE DB tulajdonság \"%s\" : %s"
+
+#: dbconnection.pas:1389
+msgid "Loading library file %s ..."
+msgstr "A %s  könyvtári fájl betöltése ..."
+
+msgid "Trying to load library with full path: %s"
+msgstr "A betöltendő könyvtári fájl teljes elérési útja:"
+
+#. DLL loading fails on one procedure
+msgid "Library error in %s: Could not find procedure address for \"%s\""
+msgstr "Könyvtár hiba %s: Nem található a \"%s\" eljárás címe."
+
+msgid "Library %s could not be loaded. Please select a different one."
+msgstr "%s könyvtár nem tölthető be. Kérlek, válassz másikat."
+
+#. DLL loading failed entirely
+msgid "Library %s seems unusable. Please select a different one."
+msgstr "%s könyvtár használhatatlan. Kérlek, válassz másikat."
+
+#: dbconnection.pas:1392
+msgid ""
+"Please launch %s from the directory where you have installed it. Or just "
+"reinstall %s."
+msgstr "Kérem indítsa újra a %s abból a könyvtárból, melybe telepítette. Vagy telepítse újra."
+
+msgid "Internal error %d: %s"
+msgstr "Belső hiba %d : %s"
+
+#: dbconnection.pas:1430
+msgid "Login to %s:"
+msgstr "Bejelentkezés %s:"
+
+#: dbconnection.pas:1442
+msgid "Connecting to %s via %s, username %s, using password: %s ..."
+msgstr "Kapcsolódva %s a/az %s, felhasználónév: %s, használt jelszó: %s ..."
+
+#: dbconnection.pas:1582
+msgid "Closing SSH process #%d ..."
+msgstr ""
+
+#: dbconnection.pas:1600 dbconnection.pas:1706
+msgid "Waiting for running query to finish ..."
+msgstr "Várakozás a futó lekérdezés befejezésére ..."
+
+#: dbconnection.pas:1654 dbconnection.pas:1749
+msgid "Database \"%s\" selected"
+msgstr "\"%s\"  adatbázis kiválasztva"
+
+#: dbconnection.pas:1820
+msgid "Unhandled list node type in %s.%s"
+msgstr "Kezeletlen lista csomópont típusa %s. %s"
+
+#: dbconnection.pas:2193
+msgid "Database names not available due to missing privileges for user %s."
+msgstr "Az adatbázis nem áll rendelkezésre a %s felhasználó hiányzó jogosultságai miatt "
+
+#: dbconnection.pas:2625
+msgid ""
+"The server did not return a non-zero value for the %s variable. Assuming %s "
+"now."
+msgstr "A kiszolgáló nem adott vissza nulla értéket a %s változónak. %sfeltételezve."
+
+#: dbconnection.pas:2757
+msgid "Not implemented for this DBMS"
+msgstr "Ez a DBMS esetében nem került végrehajtásra"
+
+#: dbconnection.pas:3180
+msgid "Real Hostname"
+msgstr "Valódi állomásnév"
+
+#: dbconnection.pas:3181 tabletools.pas:1199
+msgid "Server OS"
+msgstr "Szerver OS"
+
+#: dbconnection.pas:3182 tabletools.pas:1198
+msgid "Server version"
+msgstr "Szerver verzió"
+
+#: dbconnection.pas:3183
+msgid "Connection port"
+msgstr "Kapcsolódó port"
+
+#: dbconnection.pas:3184
+msgid "Compressed protocol"
+msgstr "Tömörítési protokol"
+
+#: dbconnection.pas:3185
+msgid "Unicode enabled"
+msgstr "Unicode engedélyezve"
+
+#: dbconnection.pas:3186
+msgid "SSL enabled"
+msgstr "SSL engedélyezve"
+
+#: dbconnection.pas:3191
+msgid "Client version (%s)"
+msgstr "Kliens verzió (%s)"
+
+#: dbconnection.pas:3494
+msgid "Regular expression did not match the VIEW code in %s: %s"
+msgstr "A reguláris kifejezés nem található a nézet kódjában %s : %s"
+
+#: dbconnection.pas:3909
+msgid "Unknown data type for column #%d - %s: %d"
+msgstr "Ismeretlen adat típus a %d oszlopban - %s : %d"
+
+#: dbconnection.pas:4144
+msgid "Column \"%s\" not available."
+msgstr "Az \"%s\" oszlop nem érhető el."
+
+#: dbconnection.pas:4577
+msgid "Internal error: Cannot post modifications before editing was prepared."
+msgstr "Belső hiba: Nem tudja elküldeni módosításokat a szerkesztés előtt készítettünk."
+
+#: dbconnection.pas:4781
+msgid "More than one table involved."
+msgstr "Egytől több táblázat érintett."
+
+#: dbconnection.pas:4788 dbconnection.pas:4812
+msgid "Could not determine name of table."
+msgstr "Nem sikerült meghatározni a tábla nevét."
+
+#: dbconnection.pas:4859
+msgid "Column #%d has an undefined origin: %s"
+msgstr "A # %d oszlop meghatározatlan eredetű: %s"
+
+#: dbconnection.pas:4877
+msgid "Cannot compose WHERE clause - column missing: %s"
+msgstr "A WHERE záradékot nem lehet összeállítani - az oszlop hiányzik: %s"
+
+#: dbconnection.pas:5043
+msgid "Unknown, should never appear"
+msgstr "Ismeretlen, sohasem jelenik meg."
+
+#: dbconnection.pas:5316
+msgid "Unsupported type (%d) in %s."
+msgstr "A (%d) típus nem támogatott a %s-ban."
+
+#. editvar.pas
+msgid "\"%s\" is a read only variable, not editable"
+msgstr "\"%s\" csak olvasható változó, nem szerkeszthető"
+
+#: editvar.pas:90
+msgid "Could not find %s variable in internal mapping."
+msgstr "Nem található a %s változót a belső térképben."
+
+#: exportgrid.pas:73
+msgid "Excel CSV"
+msgstr "Excel CSV"
+
+#: exportgrid.pas:345
+msgid "Selection (%s rows, %s)"
+msgstr "Kijelölés (%s sor, %s)"
+
+#: exportgrid.pas:346
+msgid "Complete (%s rows, %s)"
+msgstr "Teljes (%s sor, %s)"
+
+#: exportgrid.pas:422
+msgid "File exists"
+msgstr "A fájl létezik"
+
+msgid "File does not exist: %s"
+msgstr "A fájl nem létezik: %s"
+
+#: exportgrid.pas:422
+msgid "Overwrite file %s?"
+msgstr "Felülírja a %s fájlt?"
+
+#: exportgrid.pas:595
+msgid "Exporting row %s of %s (%d%%, %s)"
+msgstr "%s sor exportálása a %s-ból (%d %%, %s)"
+
+#: exportgrid.pas:790
+msgid "Freeing data..."
+msgstr "Adatok felszabadítása ..."
+
+#: grideditlinks.pas:218
+msgid ""
+"Wrong constructor called: %s.%s. Instead, please call the overloaded version"
+" %s.%s."
+msgstr "Rossz konstruktor hívás: %s.%s. Helyette hívja a túlterhelt verziót %s.%s."
+
+#: grideditlinks.pas:1022
+msgid "Edit text in popup editor ..."
+msgstr "Szöveg szerkesztése a felbukkanó szerkesztőben ..."
+
+#: grideditlinks.pas:1156
+msgid "No default value"
+msgstr "Nincs alapérték"
+
+# grideditlinks.pas:1165
+# TODO: rephrase
+# msgid "Custom:"
+# msgstr "Custom:"
+#: helpers.pas:1045
+msgid "days"
+msgstr "nap"
+
+#: helpers.pas:1728
+msgid "%s month ago"
+msgstr "%s hónappal ezelőtt"
+
+#: helpers.pas:1728
+msgid "%s months ago"
+msgstr "%s hónapja"
+
+#: helpers.pas:1728
+msgid "%s day ago"
+msgstr "%snappal ezelőtt"
+
+#: helpers.pas:1728
+msgid "%s days ago"
+msgstr "%s napja"
+
+#: helpers.pas:1728
+msgid "%s hour ago"
+msgstr "%s órával ezelőtt"
+
+#: helpers.pas:1728
+msgid "%s hours ago"
+msgstr "%s órája"
+
+#: helpers.pas:1728
+msgid "%s minute ago"
+msgstr "%s perccel ezelőtt"
+
+#: helpers.pas:1728
+msgid "%s minutes ago"
+msgstr "%s perce"
+
+#: helpers.pas:1728
+msgid "less than a minute ago"
+msgstr "kevesebb, mint egy perce"
+
+#: helpers.pas:1922
+msgid "Initializing editor ..."
+msgstr "A szerkesztő inicializálása ..."
+
+#: helpers.pas:1964
+msgid "Save modified %s \"%s\"?"
+msgstr "Menti a módosítást %s \"%s\"?"
+
+#: helpers.pas:1966
+msgid "Save new %s?"
+msgstr "Újként menti %s?"
+
+#: helpers.pas:2821
+msgid "Could not open %s (%s)"
+msgstr "%s (%s) nem nyitható meg"
+
+msgid "Could not open %s (%s) - trying again without SSL..."
+msgstr "%s (%s) nem nyitható meg - próbálja újra SSL nélkül..."
+
+#: helpers.pas:2829
+msgid "Server did not send required \"Content-Length\" header: %s"
+msgstr "A kiszolgáló nem küldött kötelező \"Content-Length\" fejlécet: %s"
+
+#: helpers.pas:2837
+msgid "Got HTTP status %d from %s"
+msgstr "HTTP állapot %d a %s-ból."
+
+#: helpers.pas:3251
+msgid "No path set, won't delete root key %s"
+msgstr "Nincs beállított útvonal, nem törli a root kulcsot %s"
+
+#: helpers.pas:3266
+msgid "No path set, won't move root key %s"
+msgstr "Nincs beállított útvonal, nem mozgatja a root kulcsot %s"
+
+#: helpers.pas:3332
+msgid "Attempt to read session setting without session path"
+msgstr "Kísérlet a munkamenet olvasására a munkamenet útvonalon kívül."
+
+#: helpers.pas:3406
+msgid "Attempt to write session setting without session path"
+msgstr "Kísérlet a munkamenet írására a munkamenet útvonalon kívül."
+
+#: insertfiles.pas:488
+msgid "%u files, %s, %u files selected."
+msgstr "%u fájlok, %s, %u fájl kiválasztva."
+
+#: loaddata.pas:176
+msgid "Let server/database decide"
+msgstr "Legyen a szerver/adatbázis döntés"
+
+#: loaddata.pas:315
+msgid ""
+"Your file was imported but the server returned %s warnings and/or notes. See"
+" the log panel for details."
+msgstr "A fájl importálva, de a szerver figyelmeztetéseket és/vagy megjegyzéseket adott vissza. Részleteket lásd a naplópanelen."
+
+#: loaddata.pas:321
+msgid "No rows were imported"
+msgstr "Nem került sor importálására."
+
+#: loaddata.pas:322
+msgid "This can have several causes:"
+msgstr "Ennek több oka lehet:"
+
+#: loaddata.pas:323
+msgid " - File is empty"
+msgstr "- A fájl üres"
+
+#: loaddata.pas:324
+msgid " - Wrong file encoding was selected or detected"
+msgstr "- Helytelen fájlkódolás került kiválasztásra vagy észlelésre"
+
+#: loaddata.pas:325
+msgid " - Field and/or line terminator do not fit to the file contents"
+msgstr "- A mező és/vagy a sor elválasztó nem illeszkedik a fájl tartalmához"
+
+#: loaddata.pas:428
+msgid "Importing textfile, row %s, %d%%"
+msgstr "Szöveg fájl importálva, %s sor, %d %%"
+
+#: loaddata.pas:532
+msgid "Reading textfile (%s) ..."
+msgstr "Szöveg fájl beolvasva (%s) ..."
+
+#: loaddata.pas:588
+msgid "CSV files"
+msgstr "CSV fájl"
+
+#: loaddata.pas:588
+msgid "Text files"
+msgstr "Szöveg fájl"
+
+#: main.pas:1181
+msgid ""
+"Tables have been flushed and read lock acquired. Perform backup or snapshot "
+"of table data files now. Press OK to unlock when done..."
+msgstr "A táblák kiürítve, és olvasva a szerzett zárolások. Készítsen biztonsági másolatot vagy pillanatfelvételt a tábla adatfájljairól. Nyoma meg az OK-t a zárolás feloldásához ..."
+
+#: main.pas:1496
+msgid "Show next %s rows ..."
+msgstr "Mutatja a következő %s sort ..."
+
+#: main.pas:1497
+msgid "About %s"
+msgstr "%s névjegye"
+
+#: main.pas:1582
+msgid "Auto detect (may fail)"
+msgstr "Automatikus észlelés (sikertelen lehet)"
+
+#: main.pas:2071
+msgid "Export %s settings to file ..."
+msgstr "A %s beállításainak exportálása fájlba ..."
+
+#: main.pas:2078
+msgid "Settings successfully exported to %s"
+msgstr "Beállítások sikeresen exportálva %s"
+
+#: main.pas:2092
+msgid "Import %s settings from file ..."
+msgstr "A %s beállításainak importálása ..."
+
+#: main.pas:2093
+msgid "Registry dump, deprecated"
+msgstr "A rendszerleíró mentése elavult."
+
+#: main.pas:2101
+msgid "Settings successfully restored from %s"
+msgstr "A beállítások sikeresen visszaállítva a %s fájlból"
+
+#. Automatic export of portable settings
+msgid "Portable settings file written, with %d changes."
+msgstr "Hordozható beállító fájl elkészült, %d cserélve."
+
+msgid ""
+"Switching to read-only mode. Settings won't be saved. Use the command line "
+"parameter %s to use a custom file path."
+msgstr "Átkapcsolás csak olvasható módra. A beállítások nem kerülnek mentésre. Használd a %s parancssori paramétert az egyéni fájl elérési út használatához."
+
+#: main.pas:2142
+msgid "Splitting SQL queries ..."
+msgstr "SQL lekérdezés felbontása ..."
+
+#. Query execution
+msgid "Run unsafe queries without a WHERE clause?"
+msgstr "Futtassa a nem biztonságos lekérdezéseket WHERE záradék nélkül?"
+
+#. Query execution
+msgid "Checking queries for unsafe UPDATEs/DELETEs ..."
+msgstr "A nem biztonságos UPDATE / DELETE lekérdezések ellenőrzése ..."
+
+#. Query execution
+msgid ""
+"Your query contains UPDATEs and/or DELETEs without a WHERE clause. Please "
+"confirm that you know what you''re doing."
+msgstr "A lekérdezés tartalmaz  UPDATE és/vagy a DELETE értékeket WHERE záradék nélkül. Kérem erősítse meg, biztosan tudja mit csinál?"
+
+#: main.pas:2166
+msgid ""
+"Query profiling requires %s or later, and the server must not be configured "
+"with %s."
+msgstr "Lekérdezésprofilozás szükséges %s vagy később, és a kiszolgáló nem konfigurálható %s."
+
+#: main.pas:2185
+msgid "query"
+msgstr "lekérdezés"
+
+msgid "queries"
+msgstr "lekérdezések"
+
+#: main.pas:2186
+msgid "queries #%s to #%s"
+msgstr "lekérdezések # %s - # %s-ból"
+
+#: main.pas:2187
+msgid "Executing %s of %s ..."
+msgstr "Végrehajtva %s %s-ból ..."
+
+#: main.pas:2203
+msgid "Setting up result grid(s) ..."
+msgstr "Az eredmény rács(ok) beállítása ..."
+
+#: main.pas:2220
+msgid "Result"
+msgstr "Eredmény"
+
+msgid "Affected rows"
+msgstr "Érintett sorok"
+
+#: main.pas:2310
+msgid "Found rows"
+msgstr "Talált sorok"
+
+#: main.pas:2310
+msgid "Warnings"
+msgstr "Figyelmeztetés"
+
+#: main.pas:2310
+msgid "Duration for"
+msgstr "Időtartam"
+
+#. duration for x "of" y queries
+msgid "of"
+msgstr "ból"
+
+#. seconds
+msgid "sec."
+msgstr "mp."
+
+#. Transport over the net. Used for logging query duration.
+msgid "network"
+msgstr "hálózat"
+
+#: main.pas:2346
+msgid "Your query produced %s warnings."
+msgstr "A lekérdezésed %s figyelmeztetést adott."
+
+#: main.pas:2351
+msgid "Warnings from last query:"
+msgstr "Az utolsó lekérdezés figyelmeztetése: "
+
+#: main.pas:2352
+msgid "First %s warnings:"
+msgstr "Az első %s figyelmeztetés:"
+
+#: main.pas:2361
+msgid "Show all warnings in a new query tab?"
+msgstr "Minden figyelmeztetés megjelenítése egy új lapon?"
+
+#: main.pas:2364
+msgid ""
+"The server variable %s is currently set to %d, so you won't see all "
+"warnings."
+msgstr "A %s szerver változó be van állítva %d-ra, így nem látja az összes figyelmeztetést."
+
+#: main.pas:2379
+msgid "Updating query history ..."
+msgstr "Lekérdezés történet frissítve ..."
+
+#: main.pas:2557
+msgid "Loading contents into image viewer ..."
+msgstr "Tartalom betöltése képnézegetőbe ..."
+
+#: main.pas:2558
+msgid "Loading ..."
+msgstr "Betöltés ..."
+
+#: main.pas:2611
+msgid "No image detected, %s"
+msgstr "Nincs kép, %s "
+
+#: main.pas:2711
+msgid "Drop Database \"%s\"?"
+msgstr "Törlöd a \"%s\" adatbázist?"
+
+#: main.pas:2711
+msgid "WARNING: You will lose all objects in database %s!"
+msgstr "FIGYELMEZTETÉS: Minden adat és objektum törlődik a %s adatbázisból!"
+
+#: main.pas:2753
+msgid "Drop %d object(s) in database \"%s\"?"
+msgstr "%d objektum törlése a(z) \"%s\" adatbázisból?"
+
+#: main.pas:2790
+msgid "Command line only works on MySQL connections."
+msgstr "A parancssor csak a MySQL kapcsolatokon működik."
+
+#: main.pas:2802
+msgid "You need to tell %s where your MySQL binaries reside, in %s > %s > %s."
+msgstr "Meg kell adni %s, hol találhatók a MySQL binárisok, %s > %s > %s."
+
+#: main.pas:2803
+msgid "Current setting is: \"%s\""
+msgstr "Aktuális beállítás: \"%s\""
+
+#: main.pas:2836
+msgid "Launching command line: %s"
+msgstr "Parancssori indítás: %s"
+
+#: main.pas:2916
+msgid "Opening large files"
+msgstr "Nagy fájlok megnyitása"
+
+#: main.pas:2917
+msgid "Selected files have a size of %s"
+msgstr "A kiválasztott fájlok mérete: %s"
+
+#: main.pas:2918
+msgid "File list"
+msgstr "Fájl lista"
+
+#: main.pas:2924
+msgid "Run file(s) directly"
+msgstr "Futtassa közvetlenül a fájlt(okat)"
+
+#: main.pas:2925
+msgid "... without loading into the editor"
+msgstr "... a szerkesztőbe való betöltés nélkül"
+
+#: main.pas:2928
+msgid "Load file(s) into the editor"
+msgstr "Fájl(ok) betöltése a szerkesztőbe"
+
+#: main.pas:2929
+msgid "Can cause large memory usage"
+msgstr "Nagy memóriahasználatot okozhat"
+
+#: main.pas:2937
+msgid "One or more of the selected files are larger than %s:"
+msgstr "Egy vagy több kiválasztott fájl nagyobb, mint:"
+
+#: main.pas:2940
+msgid ""
+"Just run these files to avoid loading them into the query-editor (= memory)?"
+msgstr "Csak futtassa a fájlokat, úgy, hogy ne töltse be a lekérdezés-szerkesztőbe (= memória)?"
+
+#: main.pas:2941
+msgid "Press"
+msgstr "Nyomd"
+
+#: main.pas:2942
+msgid "  [Yes] to run file(s) without loading it into the editor"
+msgstr "[Igen] a fájl(ok) futtatása anélkül, hogy betöltené azt a szerkesztőbe"
+
+#: main.pas:2943
+msgid "  [No] to load file(s) into the query editor"
+msgstr "[Nem] a fájl(ok) betöltése a szerkesztőbe"
+
+#: main.pas:2944
+msgid "  [Cancel] to cancel file opening."
+msgstr "[Mégsem] a fájl megnyitás megszakítása"
+
+#: main.pas:2945
+msgid "Execute query file(s)?"
+msgstr "Futtatja a lekérdezés fájlt(okat)?"
+
+msgid "%s file(s) processed, in %s"
+msgstr "%s fájl feldolgozva a %s-bó(ő)l"
+
+#: main.pas:2968
+msgid "Could not load file(s):"
+msgstr "Nem sikerült betölteni a fájlt(okat):"
+
+msgid "File \"%s\" executed, with %s queries and %s affected rows"
+msgstr "\"%s\" fájl feldolgozva, %s parancs alapján %s sor volt érintett"
+
+msgid "File \"%s\" partially executed, with %s queries and %s affected rows"
+msgstr "\"%s\" fájl részlegesen feldolgozva, %s parancs alapján %s sor volt érintett"
+
+msgid "Could not open file %s"
+msgstr "%s fájlt nem lehet megnyitni!"
+
+#: main.pas:3088
+msgid "Startup script file not found: %s"
+msgstr "Indító script nem található:"
+
+#: main.pas:3102
+msgid "SSL not used."
+msgstr "SSL nem használható."
+
+#: main.pas:3103
+msgid ""
+"Your SSL settings were not accepted by the server, or the server does not "
+"support any SSL configuration."
+msgstr "Az SSL-beállításokat a kiszolgáló nem fogadta el, vagy a kiszolgáló nem támogatja az SSL-konfigurációt."
+
+#: main.pas:3127
+msgid "No rows selected"
+msgstr "Nincs sor kiválasztva"
+
+#: main.pas:3127
+msgid "Please select one or more rows to delete them."
+msgstr "Kérem válasszon egy, vagy több sort a törléshez."
+
+#: main.pas:3136
+msgid "Delete %s row(s)?"
+msgstr "Töröl %s sort?"
+
+#: main.pas:3136
+msgid "Deleting row #%s of %s ..."
+msgstr "%s sor törlése a %s-bó(ő)l ..."
+
+#: main.pas:3146
+msgid "Clean up ..."
+msgstr "Takarítás..."
+
+#: main.pas:3163 main.pas:3909 main.pas:7878
+msgid "Grid editing error"
+msgstr "Rács szerkesztési hiba"
+
+#: main.pas:3227
+msgid "No table(s) selected."
+msgstr "Nincs adattábla kiválasztva"
+
+#: main.pas:3228
+msgid "Empty %d table(s) and/or view(s)?"
+msgstr "Valóban ürítsük a(z) %d kiválasztott táblát, nézetet?"
+
+#: main.pas:3285
+msgid "No stored procedure selected."
+msgstr "Nincs tárolt eljárás kiválasztva."
+
+#: main.pas:3285
+msgid "Please select one or more stored function(s) or routine(s)."
+msgstr "Kérem válasszon ki egy vagy több beépített függvényt vagy eljárást."
+
+#: main.pas:3304
+msgid "Parameter"
+msgstr "Paraméterek"
+
+#: main.pas:3389
+msgid "Searching ..."
+msgstr "Keresés ..."
+
+#: main.pas:3399
+msgid "Text \"%s\" replaced %s times."
+msgstr "\"%s\" szöveg cserélve %s alkalommal."
+
+#: main.pas:3403
+msgid "Text \"%s\" not found."
+msgstr "A \"%s\" szöveg nem található."
+
+#: main.pas:3412
+msgid "Replace this occurrence of \"%s\"?"
+msgstr "Cserélje ki ezt az eseményt \"%s\"?"
+
+#: main.pas:3513
+msgid "SQL help not available."
+msgstr "SQL súgó nem érhető el."
+
+#: main.pas:3513
+msgid "HELP <keyword> requires %s or newer."
+msgstr "<keyword> súgó szükséges %s, vagy újabb!"
+
+#: main.pas:3531 routine_editor.pas:474
+msgid "Overwrite \"%s\"?"
+msgstr "Felülírjam a \"%s\"?"
+
+#: main.pas:3531
+msgid "This file is already open in query tab #%d."
+msgstr "Ez a fájl a %d lapon már meg van nyitva."
+
+#: main.pas:3575
+msgid "Save snippet"
+msgstr "Töredék mentése."
+
+#: main.pas:3669
+msgid "Remove absent files"
+msgstr "Távolítsa el a hiányzó fájlokat"
+
+#: main.pas:3674
+msgid "Clear file list"
+msgstr "Fájl lista törlése."
+
+#: main.pas:3775
+msgid "Set delimiter"
+msgstr "Elválasztó beállítása."
+
+#: main.pas:3775
+msgid "SQL statement delimiter (default is \";\"):"
+msgstr "SQL utasítás elválasztó (alapértelmezett \";\"):"
+
+#: main.pas:3798
+msgid "Empty value."
+msgstr "Üres érték."
+
+#: main.pas:3803
+msgid "Start-of-comment tokens or string literal markers are not allowed."
+msgstr "A megjegyzésjelzők vagy a karakterlánc-jelölők nem engedélyezettek."
+
+#: main.pas:3806
+msgid "Error setting delimiter to \"%s\": %s"
+msgstr "Hiba az \"%s\"  elválasztó beállításakor: %s"
+
+#: main.pas:3811
+msgid "Delimiter changed to %s"
+msgstr "Elválasztó cserélve %s-re"
+
+#: main.pas:4058
+msgid "large SQL query (%s), snipped at %s characters"
+msgstr "Nagy SQL lekérdezés (%s), csonkolja %s karakternél."
+
+#: main.pas:4094
+msgid "Error writing to session log file."
+msgstr "Hiba a munkamenet naplófájl írásakor."
+
+#: main.pas:4094 main.pas:6415
+msgid "Logging is disabled now."
+msgstr "A naplózás most le van tiltva."
+
+#: main.pas:4309
+msgid "Fetching rows ..."
+msgstr "Sorok lehívása ..."
+
+#: main.pas:4322
+msgid "Data in this table will be read-only."
+msgstr "A tábla adatai csak olvashatóak."
+
+#: main.pas:4332
+msgid "Setting up columns ..."
+msgstr "Oszlopok beállítása ..."
+
+#: main.pas:4390 main.pas:4389
+msgid ""
+"Browsing is currently limited to a maximum of %s rows. To see more rows, "
+"increase this maximum in %s > %s > %s."
+msgstr "A böngészés jelenleg maximum %s sorra korlátozódik. Ha több sort szeretne látni, növelje ennek maximumát %s > %s > %s."
+
+#: main.pas:4439
+msgid "rows total"
+msgstr "sor összesen"
+
+#: main.pas:4439
+msgid "approximately"
+msgstr "hozzávetőleg"
+
+#: main.pas:4439
+msgid "limited to"
+msgstr "korlátozva"
+
+#: main.pas:4442
+msgid "all rows match to filter"
+msgstr "minden sor illeszkedik a szűréshez"
+
+#: main.pas:4442
+msgid "rows match to filter"
+msgstr "sor illeszkedik a szűréshez"
+
+#: main.pas:4558
+msgid "Displaying objects from \"%s\" ..."
+msgstr "\"%s\"  objektumainak megjelenítése ..."
+
+#: main.pas:4784
+msgid "Ignoring own process id #%d when trying to kill it."
+msgstr "A folyamat %d azonosítójának figyelmen kívül hagyása, amikor megpróbálja lezárni."
+
+#: main.pas:5158
+msgid "Uptime"
+msgstr "Üzemidő: "
+
+#: main.pas:5158 connections.pas:762
+msgid "unknown"
+msgstr "ismeretlen"
+
+#. Give the user some hint what he can do with his SSL related connection
+#. error
+msgid ""
+"You could try the default library %s in your session settings. (Current: %s)"
+msgstr ""
+
+#: main.pas:5261
+msgid "Specify filter-value..."
+msgstr "Szűrőérték megadása ..."
+
+#: main.pas:5308
+msgid "Refresh list every ... second(s):"
+msgstr "A lista frissítése ... másodpercenként:"
+
+#: main.pas:5315
+msgid "Seconds must be between 0 and %d."
+msgstr "A másodperceknek 0 és %d között kell lenniük."
+
+#: main.pas:5410
+msgid "Unspecified source control in drag'n drop operation!"
+msgstr "Meghatározatlan forrás szabály a drag'n drop műveletben!"
+
+#: main.pas:5783
+msgid "Fetching distinct values ..."
+msgstr "Különböző értékek lekérése"
+
+#: main.pas:5819
+msgid "UNIX Timestamp"
+msgstr "UNIX időbélyeg"
+
+#: main.pas:5824
+msgid "Default value"
+msgstr "Alapértelmezett érték"
+
+msgid "Table node \"%s\" not found in tree."
+msgstr "A \"%s\" tábla csomópont nem található a fában."
+
+#: main.pas:6090
+msgid "Delete snippet file?"
+msgstr "Töröljem a töredék fájlt?"
+
+#: main.pas:6099
+msgid "Failed deleting %s"
+msgstr "Nem sikerült törölni a %s"
+
+#: main.pas:6153
+msgid "Clear query history?"
+msgstr "Törölje a lekérdezési előzményeket?"
+
+#: main.pas:6153
+msgid "%s history items will be deleted."
+msgstr "%sa történés elemei törlődnek. "
+
+#: main.pas:6415
+msgid "Error opening session log file"
+msgstr "Hiba a munkamenet naplófájljának megnyitásakor"
+
+#: main.pas:6418
+msgid "Writing to session log file now: %s"
+msgstr "Írás munkamenet naplófájlba most: %s"
+
+#: main.pas:6427
+msgid "Writing to session log file disabled now"
+msgstr "Le van tiltva a munkamenet-naplófájl írása"
+
+#: main.pas:6577
+msgid "Please select a process with a running query"
+msgstr "Válasszon egy folyamatot egy futó lekérdezéssel"
+
+#: main.pas:6990
+msgid "Reading Databases..."
+msgstr "Adatbázisok olvasása..."
+
+#: main.pas:7005
+msgid "Reading objects ..."
+msgstr "Objektumok olvasása ..."
+
+#: main.pas:7192
+msgid "Entering session \"%s\""
+msgstr "Belépés a \"%s\" munkamenetbe"
+
+#: main.pas:7454
+msgid "Could not find node to focus."
+msgstr "Nem található a csomópont a fókuszáláshoz."
+
+#: main.pas:7870
+msgid "Could not load full row data."
+msgstr "Nem sikerült betölteni a teljes sor adatait."
+
+#: main.pas:8462
+msgid "Not available on %s"
+msgstr "Nem érhető el a %s"
+
+#: main.pas:9579
+msgid "Save changes to file %s ?"
+msgstr "Elmentsük a %s fájl módosítását?"
+
+#: main.pas:9581
+msgid "Save content of tab \"%s\"?"
+msgstr "Mentsük a \"%s\" lap tartalmát?"
+
+#: main.pas:9582
+msgid "Modified query"
+msgstr "Módosított lekérdezés"
+
+#: main.pas:9732
+msgid ""
+"Could not apply SynEdit keystroke shortcut \"%s\" (or secondary: \"%s\") to "
+"%s. %s. Please go to %s > %s > %s to change this settings."
+msgstr "Nem sikerült a SynEdit  \"%s\" billentyűparancs(vagy másodlagos: \"%s\") alkalmazása %s. %s.  Menjen a %s > %s > %s a beállítás megváltoztatásához."
+
+#: main.pas:9759
+msgid "Cannot reformat"
+msgstr "Nem lehet újra formázni"
+
+#: main.pas:9759
+msgid "Please select a non-readonly SQL editor first."
+msgstr "Először válasszon ki egy nem olvasható SQL-szerkesztőt."
+
+msgid "No SQL editor focused. ActiveControl is %s"
+msgstr "Nincs SQL-szerkesztő. Az ActiveControl %s van."
+
+#: main.pas:9768
+msgid "The current editor is empty."
+msgstr "Az aktuális szerkesztő üres."
+
+#: main.pas:9950
+msgid "Preventing second application instance - disabled in %s > %s > %s."
+msgstr "A második alkalmazáspéldány futtatásának megakadályozása - be van kapcsolva %s > %s > %s."
+
+#: main.pas:10047
+msgid "Sorting grid nodes ..."
+msgstr "Rács csomópontok rendezése ..."
+
+#: main.pas:10074
+msgid "Sorting cancelled."
+msgstr "Rendezés megszakítva."
+
+#: main.pas:10075
+msgid "Helper connection"
+msgstr "Segítő kapcsolat"
+
+#: main.pas:10375
+msgid "Parameters in %s"
+msgstr "Paraméterek %s-ben"
+
+#: main.pas:10376
+msgid "Columns in %s"
+msgstr "Oszlopok a %s"
+
+#: main.pas:10379
+msgid "SQL functions"
+msgstr "SQL függvények"
+
+#: main.pas:10380
+msgid "SQL keywords"
+msgstr "SQL kulcsszavak"
+
+#: main.pas:10382
+msgid "Query history"
+msgstr "Lekérdezés történet"
+
+#: main.pas:10384
+msgid "Query profile"
+msgstr "Lekérdezés profil"
+
+#: main.pas:11166
+msgid "Bind parameters"
+msgstr "Kötési paraméterek"
+
+#: main.pas:10404
+msgid "today"
+msgstr "ma"
+
+#: main.pas:10406
+msgid "yesterday"
+msgstr "tegnap"
+
+#: main.pas:11221
+msgid "Set value"
+msgstr "Érték beállítása"
+
+#: main.pas:10548
+msgid "Error with snippets directory: %s"
+msgstr "Hiba a töredékek könyvtárában: %s"
+
+#: main.pas:11463
+msgid "The query is too long to enable detection of bind parameters"
+msgstr "A lekérdezés túl hosszú ahhoz, hogy lehetővé tegye a kötési paraméterek észlelését"
+
+#: main.pas:10790
+msgid "Close file and query tab?"
+msgstr "Zárja be a fájlt és a lekérdezést?"
+
+#: main.pas:10790
+msgid "File was deleted from outside: %s"
+msgstr "A %s fájlt törölték a programon kívülről."
+
+#: main.pas:10822
+msgid "Reload file?"
+msgstr "Fájl újratöltése?"
+
+#: main.pas:10822
+msgid "File was modified from outside: %s"
+msgstr "A %s fájlt a programon kívülről módosították."
+
+#: main.pas:10845
+msgid "Loading file \"%s\" (%s) into query tab #%d"
+msgstr "A \"%s\" fájl (%s) betöltése a %d lekérdezés lapra."
+
+#: main.pas:10870
+msgid ""
+"This file contains mixed linebreaks. They have been converted to Windows "
+"linebreaks (CR+LF)."
+msgstr "Ez a fájl vegyes sortöréseket tartalmaz. Ezeket most Windows sortörésre (CR+LF) lettek konvertálva."
+
+#: main.pas:10891
+msgid "Saving file ..."
+msgstr "Fájl mentése ..."
+
+#: options.pas:386
+msgid "Active line background"
+msgstr "Aktív sor háttere"
+
+#. Preferences
+msgid "Brace matching color"
+msgstr "Szalagválasztó szín"
+
+#: options.pas:395
+msgid "SQL editing"
+msgstr "SQL szerkesztés"
+
+#: options.pas:527 tabletools.pas:1070
+msgid "Select output directory"
+msgstr "Kimeneti mappa kiválasztása"
+
+#: options.pas:545
+msgid "Find mysql.exe directory"
+msgstr "Mysql.exe mappájának keresése"
+
+#: options.pas:661
+msgid "Reset all preference options to default values?"
+msgstr "Állítsa vissza az összes beállítási beállítást az alapértelmezett értékekre?"
+
+#: options.pas:662
+msgid "This also applies to automatic settings, e.g. toolbar positions."
+msgstr "Vonatkozik az automatikus beállításokra is, pl. eszköztár pozíciói."
+
+#: routine_editor.pas:109
+msgid "Procedure (doesn't return a result)"
+msgstr "Eljárás (nincs visszatérési értéke)"
+
+#: routine_editor.pas:110
+msgid "Function (returns a result)"
+msgstr "Függvény (visszatérési értéke van)"
+
+#: routine_editor.pas:156 view.pas:70 trigger_editor.pas:89
+msgid "Current user (%s)"
+msgstr "Aktuális felhasználó (%s)"
+
+#: routine_editor.pas:157 view.pas:71 trigger_editor.pas:90
+msgid "Leave empty for current user (%s)"
+msgstr "Aktuális felhasználóhoz (%s) hagyjuk üresen"
+
+#: routine_editor.pas:411
+msgid ""
+"A stored function can only have IN parameters so context editing is blocked."
+msgstr "A tárolt funkció csak IN paraméterekkel rendelkezik, így az összefüggés szerkesztése blokkolva van."
+
+#: routine_editor.pas:474
+msgid "Routine \"%s\" already exists."
+msgstr "A \"%s\" rutin már létezik."
+
+msgid "Start of line"
+msgstr "Sor kezdete"
+
+msgid "End of line"
+msgstr "Sor vége"
+
+msgid "Any word char"
+msgstr "Bármely szó karakter"
+
+msgid "Any non-word char"
+msgstr "Bármely nem-szó karakter"
+
+msgid "Digit"
+msgstr "Számjegy"
+
+msgid "Any char except digits"
+msgstr "Minden karakter a számjegyek kivételével"
+
+msgid "Whitespace"
+msgstr "Szóköz"
+
+msgid "Any char except whitespaces"
+msgstr "Minden karakter szóközök kivételével"
+
+msgid "New line"
+msgstr "Új sor"
+
+msgid "Tabulator"
+msgstr "Tabulátor"
+
+msgid "Entire matched text"
+msgstr "Teljes egyező szöveg"
+
+msgid "Text from first captured group"
+msgstr "Szöveg az első csoportból"
+
+msgid "Text from second captured group"
+msgstr "Szöveg a második csoportból"
+
+msgid "Text from third captured group"
+msgstr "Szöveg a harmadik csoportból"
+
+msgid "Lowercase following char"
+msgstr "Kisbetűs karakter"
+
+msgid "Lowercase following block"
+msgstr "Kisbetűs szakasz"
+
+msgid "Uppercase following char"
+msgstr "Nagybetűs karakter"
+
+msgid "Uppercase following block"
+msgstr "Nagybetűs szakasz"
+
+#: sqlhelp.pas:140
+msgid "No help available for this keyword or no keyword was selected."
+msgstr "Ehhez a kulcsszóhoz nincs elérhető segítség, vagy nem lett kiválasztva kulcsszó."
+
+#: sqlhelp.pas:142
+msgid "No example available or no keyword was selected."
+msgstr "Nincs elérhető példa vagy nem lett kiválasztva kulcsszó."
+
+#: syncdb.pas:126
+msgid "Select server session ..."
+msgstr "Szerver munkamenet kiválasztása ..."
+
+#: syncdb.pas:153 syncdb.pas:182
+msgid "Same as source"
+msgstr "Ugyanaz, mint a forrás"
+
+#: syncdb.pas:427
+msgid "Create missing %s"
+msgstr "%s létrehozása hiányzik."
+
+#. TODO
+#: tabletools.pas:155
+msgid "Skipped"
+msgstr "Kihagyva"
+
+#. TODO
+#: tabletools.pas:156
+msgid "One big file"
+msgstr "Egy nagy fájl"
+
+#. TODO
+#: tabletools.pas:158
+msgid "Directory - one file per object in database subdirectories"
+msgstr "Könyvtár - fájl objektumonként az adatbázis-alkönyvtárakban"
+
+#. TODO
+#: tabletools.pas:161
+msgid "No data"
+msgstr "Nincs adat"
+
+#. TODO
+#: tabletools.pas:162
+msgid "truncate existing data"
+msgstr "a meglévő adatok csonkítása"
+
+#. TODO
+#: tabletools.pas:164
+msgid "do not update existing"
+msgstr "nem frissítik a meglévő adatokat"
+
+#. TODO
+#: tabletools.pas:165
+msgid "existing data"
+msgstr "meglévő adatok"
+
+#. Export SQL data
+msgid "Max INSERT size:"
+msgstr "Maximális INSERT méret:"
+
+#. Export SQL data
+msgid "KB (0 = Single INSERTs)"
+msgstr "KB (0 = INSERT egyenként)"
+
+#: tabletools.pas:192
+msgid "All data types"
+msgstr "Minden adattípus"
+
+#: tabletools.pas:370
+msgid "Selected objects size: %s"
+msgstr "A kiválasztott objektum mérete: %s"
+
+#: tabletools.pas:725
+msgid "%s%s doesn't have columns of selected type (%s)."
+msgstr "%s %snem rendelkezik kiválasztott típusú oszlopokkal ( %s)."
+
+#: tabletools.pas:850
+msgid "%s%% done"
+msgstr "%s%% elkészült."
+
+#: tabletools.pas:986
+msgid "Same as on source server"
+msgstr "Ugyanaz, mint a forráskiszolgálón"
+
+#: tabletools.pas:1046
+msgid "Processing cancelled by user, waiting for current object to finish ..."
+msgstr "A felhasználó megszakította a feldolgozást, várakozunk az aktuális objektum befejezésére..."
+
+#: tabletools.pas:1219
+msgid "Dumping database structure for %s"
+msgstr "Adatbázis struktúra mentése a %s."
+
+#: tabletools.pas:1242
+msgid "Dumping structure for %s %s.%s"
+msgstr "Struktúra mentése %s %s. %s"
+
+#: tabletools.pas:1283
+msgid "Creating temporary table to overcome VIEW dependency errors"
+msgstr "Ideiglenes tábla létrehozása a VIEW függőségi hibák lekezelésére"
+
+#: tabletools.pas:1298
+msgid "Removing temporary table and create final VIEW structure"
+msgstr "Ideiglenes tábla eltávolítása és a végső VIEW struktúra létrehozása"
+
+#: tabletools.pas:1361
+msgid "Data exporting was unselected."
+msgstr "Az adatok exportálása nem lett kiválasztva."
+
+#: tabletools.pas:1363
+msgid ""
+"Table data not exported because this is a %s table which holds its data in "
+"separate tables."
+msgstr "A tábla adatai nem exportáltak, mert ez egy olyan tábla, amely az adatokat külön táblában tartja."
+
+#: tabletools.pas:1368
+msgid "Dumping data for table %s.%s: %s"
+msgstr "Tábla adatainak mentése %s.%s: %s"
+
+#: tabletools.pas:1539
+msgid "Done"
+msgstr "Kész"
+
+#: tabletools.pas:1540
+msgid "Success"
+msgstr "Sikeres"
+
+#: tabletools.pas:1542
+msgid "Nothing to do"
+msgstr "Nincs mit tenni"
+
+#: tabletools.pas:1543
+msgid "Selected operations cannot be applied to a %s"
+msgstr "A kiválasztott műveletek nem alkalmazhatók a %s"
+
+#: tabletools.pas:1563
+msgid "Unhandled tree level"
+msgstr "Kezeletlen fa szint"
+
+msgid "Export finished"
+msgstr "Exportálás kész"
+
+msgid "%s finished"
+msgstr ""
+
+#: table_editor.pas:380
+msgid ""
+"%s Index \"%s\" does not contain any column. You can add columns using "
+"drag''n drop from the columns list."
+msgstr "A %sindex nem tartalmaz \"%s\" oszlopot. Az oszlopok listájából a drag''n drop segítségével oszlopokat adhat hozzá."
+
+#: table_editor.pas:476
+msgid "Composing ALTER statement ..."
+msgstr "Az ALTER utasítás elkészítése ..."
+
+#: table_editor.pas:1041
+msgid "No default"
+msgstr "Nincs alapértelmezett"
+
+#: table_editor.pas:1137
+msgid "Column \"%s\" already exists."
+msgstr "A(z) \"%s\" oszlop már létezik."
+
+#: table_editor.pas:1758
+msgid "Add duplicated column to index?"
+msgstr "Adjunk hozzá a duplikált oszlopot az indexhez?"
+
+#: table_editor.pas:1758
+msgid ""
+"Index \"%s\" already contains the column \"%s\". It is possible to add a "
+"column twice into a index, but total nonsense in practice."
+msgstr "Az \"%s\" index már tartalmazza az \"%s\"oszlopot. Lehetőség van egy oszlop duplikált felvételére egy indexbe, de a gyakorlatban teljes értelmetlen."
+
+#: table_editor.pas:1815
+msgid "The selected table engine (%s) does not support foreign keys."
+msgstr "A kiválasztott adatbázis motor (%s) nem támogatja a külső kulcsokat."
+
+#: table_editor.pas:1946
+msgid "Key already exists. Really create another identical one?"
+msgstr "A kulcs már létezik. Valóban létrehoz egy másikat?"
+
+#: table_editor.pas:1947
+msgid ""
+"This will increase disk usage and probably slow down queries on this table."
+msgstr "Ez növeli a lemezhasználatot, és valószínűleg lassítja a lekérdezéseket ezen a táblán."
+
+#: table_editor.pas:2056
+msgid "Please select a reference table before selecting foreign columns."
+msgstr "Kérjük, válasszon ki egy referencia táblát az idegen oszlopok kiválasztása előtt."
+
+#: table_editor.pas:2063
+msgid "Reference table \"%s\" seems to be missing, broken or non-accessible."
+msgstr "A \"%s\" referencia tábla hiányzik, hibás vagy nem elérhető."
+
+#: trigger_editor.pas:122
+msgid "Trigger definition not found!"
+msgstr "A trigger definíció hiányzik!"
+
+#: updatecheck.pas:76
+msgid "Initializing"
+msgstr "Inicializálás"
+
+#: updatecheck.pas:77
+msgid "Check for %s updates"
+msgstr "%s frissítésének ellenőrzése."
+
+#: updatecheck.pas:93
+msgid "Downloading check file"
+msgstr "Ellenőrző fájl letöltése"
+
+#: updatecheck.pas:95
+msgid "Reading check file"
+msgstr "Ellenőrző fájl olvasása"
+
+#: updatecheck.pas:100
+msgid "Error: Cannot determine current revision. Using a developer version?"
+msgstr "Hiba: Nem lehet meghatározni az aktuális verziót. Fejlesztői verzió használ?"
+
+#: updatecheck.pas:102
+msgid "Your %s is up-to-date (no update available)."
+msgstr "A %s verziód naprakész (nincs elérhető frissítés)"
+
+#: updatecheck.pas:104
+msgid "Updates available."
+msgstr "Frissítés elérhető."
+
+#. Update button on top right of main window
+msgid "Update available"
+msgstr "Frissítés elérhető"
+
+#: updatecheck.pas:147
+msgid "Version %s (yours: %s)"
+msgstr "Verzió %s (Az Öné: %s)"
+
+#: updatecheck.pas:148
+msgid "Released: %s"
+msgstr "Kiadva: %s"
+
+#: updatecheck.pas:152
+msgid "Download version %s (%s)"
+msgstr "%s (%s) verzió letöltése"
+
+#: updatecheck.pas:168
+msgid "Revision %d (yours: %d)"
+msgstr "Kiadás: %d (Öné: %d)"
+
+#: updatecheck.pas:170
+msgid "Compiled: %s (yours: %s)"
+msgstr "Fordítás időpontja: %s (Öné: %s)"
+
+#: updatecheck.pas:173
+msgid "Notes"
+msgstr "Jegyzetek"
+
+#: updatecheck.pas:174
+msgid "Download and install build %d"
+msgstr "%d verzió letöltése"
+
+#: updatecheck.pas:222
+msgid "Downloaded file not found: %s"
+msgstr "A letöltött fájl nincs meg: %s"
+
+#: updatecheck.pas:224
+msgid "Update in progress"
+msgstr "Módosítás folyamatban"
+
+#: updatecheck.pas:264
+msgid "Downloading: %s / %s"
+msgstr "Letöltés: %s / %s"
+
+#: usermanager.pas:435
+msgid "Save modified user?"
+msgstr "Menti a felhasználó módosításait?"
+
+#: usermanager.pas:511
+msgid "Starting the server without %s may solve this issue."
+msgstr "A %s szerver indítása a probléma nélkül megoldható."
+
+#: usermanager.pas:811
+msgid "This user has an empty password."
+msgstr "A felhasználónak üres jelszava van."
+
+#: usermanager.pas:813
+msgid ""
+"This user is inactive due to an invalid length of its encrypted password. "
+"Please fix that in the %s table."
+msgstr "Ez a felhasználó nem aktív a titkosított jelszó érvénytelen hossza miatt. Kérjük, javítsa ki azt a %s táblában."
+
+#: usermanager.pas:815
+msgid ""
+"This user is inactive due to having a host name, while the server runs with "
+"%s."
+msgstr "Ez a felhasználó állomásnév miatt inaktív, miközben a %s kiszolgáló fut."
+
+#: usermanager.pas:817
+msgid "This user is inactive due to some unknown reason."
+msgstr "Ez a felhasználó néhány ismeretlen ok miatt inaktív."
+
+#: usermanager.pas:926
+msgid "Global privileges"
+msgstr "Globális jogosultságok"
+
+#: usermanager.pas:1048
+msgid "Objects of type %s cannot be part of privileges."
+msgstr "A %s típusobjektumok nem képezhetik a kiváltságok részét."
+
+#: usermanager.pas:1054
+msgid "Selected object is already accessible."
+msgstr "A kiválasztott objektum már elérhető."
+
+#: usermanager.pas:1125
+msgid "User <%s@%s> already exists."
+msgstr "A <%s@%s> felhasználó már létezik."
+
+#: usermanager.pas:1130
+msgid "Repeated password does not match first one."
+msgstr "A  megismételt jelszó nem egyezik az elsővel."
+
+#: usermanager.pas:1155
+msgid "Unhandled privilege object: %s"
+msgstr "Kezeletlen jogosultság objektum: %s"
+
+#: usermanager.pas:1297
+msgid "Delete user %s@%s?"
+msgstr "Töröljük a(z) %s@%s felhasználót?"
+
+#. dbconnection.pas
+msgid "experimental"
+msgstr "kísérleti"
+
+#. dbconnection.pas
+msgid "Yes"
+msgstr "Igen"
+
+#. dbconnection.pas
+msgid "No"
+msgstr "Nem"
+
+#. dbconnection.pas
+msgid "Connected"
+msgstr "Kapcsolódva"
+
+#. Main form status bar
+msgid "Disconnected"
+msgstr "Lekapcsolódva"
+
+#. dbconnection.pas
+msgid "Threads"
+msgstr "Szálak"
+
+#. dbconnection.pas
+msgid "Open tables"
+msgstr "Táblák megnyitása"
+
+#. dbconnection.pas
+msgid "Slow queries"
+msgstr "Lassú lekérdezés"
+
+#. dbconnection.pas
+msgid "Queries per second avg"
+msgstr "Lekérdezések másodpercenkénti átlaga"
+
+#. searchreplace.pas
+msgid "Replace"
+msgstr "Felülírás"
+
+#. searchreplace.pas
+msgid "Find"
+msgstr "Keresés"
+
+#. dbconnection.pas
+msgid "Table"
+msgstr "Tábla"
+
+#. dbconnection.pas
+msgid "Tables"
+msgstr "Táblák"
+
+#. dbconnection.pas
+msgid "table"
+msgstr "tábla"
+
+#. dbconnection.pas
+msgid "tables"
+msgstr "táblák"
+
+#. dbconnection.pas
+msgid "View"
+msgstr "Nézet"
+
+#. dbconnection.pas
+msgid "Views"
+msgstr "Nézetek"
+
+#. dbconnection.pas
+msgid "view"
+msgstr "nézet"
+
+#. dbconnection.pas
+msgid "views"
+msgstr "nézetek"
+
+#. dbconnection.pas
+msgid "Function"
+msgstr "Függvény"
+
+#. dbconnection.pas
+msgid "Functions"
+msgstr "Függvények"
+
+#. dbconnection.pas
+msgid "function"
+msgstr "függvény"
+
+#. dbconnection.pas
+msgid "functions"
+msgstr "függvények"
+
+#. dbconnection.pas
+msgid "Procedure"
+msgstr "Eljárás"
+
+#. dbconnection.pas
+msgid "Procedures"
+msgstr "Eljárások"
+
+#. dbconnection.pas
+msgid "procedure"
+msgstr "eljárás"
+
+#. dbconnection.pas
+msgid "procedures"
+msgstr "eljárások"
+
+#. dbconnection.pas
+msgid "Trigger"
+msgstr "Trigger"
+
+#. dbconnection.pas
+msgid "Triggers"
+msgstr "Triggerek"
+
+#. dbconnection.pas
+msgid "trigger"
+msgstr "trigger"
+
+#. dbconnection.pas
+msgid "triggers"
+msgstr "triggerek"
+
+#. dbconnection.pas
+msgid "Event"
+msgstr "Esemény"
+
+#. dbconnection.pas
+msgid "Events"
+msgstr "Események"
+
+#. dbconnection.pas
+msgid "event"
+msgstr "esemény"
+
+#. dbconnection.pas
+msgid "events"
+msgstr "események"
+
+#. dbconnection.pas
+msgid "column"
+msgstr "oszlop"
+
+#. dbconnection.pas
+msgid "columns"
+msgstr "oszlopok"
+
+#. dbconnection.pas
+msgid "Column"
+msgstr "Oszlop"
+
+#. dbconnection.pas
+msgid "Columns"
+msgstr "Oszlopok"
+
+#. helpers.pas
+msgid "UnknownTable"
+msgstr "IsmeretlenTábla"
+
+#. tabletools.pas
+msgid "Execute"
+msgstr "Futtatás"
+
+#. tabletools.pas
+msgid "Export"
+msgstr "Exportálás"
+
+#. tabletools.pas
+msgid "Update"
+msgstr "Frissítés"
+
+#. tabletools.pas
+msgid "Directory"
+msgstr "Könyvtár"
+
+#. usermanager.pas
+msgid "Unnamed"
+msgstr "Névtelen"
+
+#. main.pas
+msgid "Snippets"
+msgstr "Töredékek"
+
+#. table_editor.pas
+msgid "Index"
+msgstr "Index"
+
+#. const.inc
+msgid "Unhandled tree node index"
+msgstr "Kezeletlen fa csomópont index"
+
+#. const.inc
+msgid ""
+"Selected columns don''t contain a sufficient set of key columns to allow "
+"editing. Please select primary or unique key columns, or just all columns."
+msgstr "A kiválasztott oszlopok nem tartalmaznak elegendő kulcsoszlopot a szerkesztés engedélyezéséhez. Kérjük, válassza ki az elsődleges vagy egyedi kulcsoszlopokat, vagy az összes oszlopot."
+
+#. const.inc
+msgid "Idle."
+msgstr "Tétlen"
+
+msgid "Server time: %s"
+msgstr "Szerver idő: %s"
+
+#. const.inc
+msgid "Unsupported by this server"
+msgstr "A szerver nem támogatja"
+
+#. const.inc
+msgid "Unsupported datatype for setting \"%s\""
+msgstr "Nem támogatott adattípus a \"%s\" beállításhoz"
+
+#. const.inc
+msgid "SQL Error (%d): %s"
+msgstr "SQL hiba (%d): %s"
+
+#. const.inc
+msgid "SQL Error (%d) in statement #%d: %s"
+msgstr "SQL hiba (%d) az utasításban #%d: %s"
+
+#. const.inc
+msgid "Unhandled connection type (%d)"
+msgstr "Kezeletlen kapcsolat típusa (%d)"
+
+#. const.inc
+msgid "Connection to %s closed at %s"
+msgstr "A %s kapcsolat lezárult %s"
+
+#. const.inc
+msgid "Column #%d not available. Query returned %d columns and %d rows."
+msgstr "A %d oszlop nem elérhető. A lekérdezés visszaadott %d oszlopot és %d sort."
+
+#: main.pas:1188
+msgid "Unhandled sender control: %s"
+msgstr "Kezeletlen küldővezérlés: %s"
+
+#. Message dialogs
+msgid "Error"
+msgstr "Hiba"
+
+#. Message dialogs
+msgid "Confirm"
+msgstr "Jóváhagy"
+
+#. Message dialogs
+msgid "Warning"
+msgstr "Figyelmeztetés"
+
+#. Message dialogs
+msgid "Information"
+msgstr "Információ"
+
+#. Message dialogs
+msgid "Abort"
+msgstr "Megszakítás"
+
+#. Message dialogs
+msgid "Retry"
+msgstr "Újra"
+
+#. Message dialogs
+msgid "Ignore"
+msgstr "Mellőzés"
+
+#. Message dialogs
+#. Data tab > Column selection > "All" checkbox
+msgid "All"
+msgstr "Mind"
+
+#. Message dialogs
+msgid "No to all"
+msgstr "Nem, egyiket sem"
+
+#. Message dialogs
+msgid "Yes to all"
+msgstr "Igen, mindet"
+
+#. Message dialogs
+msgid "Find some help on this error"
+msgstr "Keressen segítséget a hibáról"
+
+#. Table tools
+msgid "Allows the following replacement patterns:"
+msgstr "Engedélyezi a következő csere mintákat:"
+
+#. Table tools
+#. Data grid > Insert value
+msgid "Date and time"
+msgstr "Dátum és idő"
+
+#. Data grid > Insert value
+msgid "Date"
+msgstr "Dátum"
+
+#. Table tools
+msgid "Day of month"
+msgstr "Nap"
+
+#. Table tools
+msgid "Month"
+msgstr "Hónap"
+
+#. Table tools
+msgid "Year"
+msgstr "Év"
+
+#. Table tools
+msgid "Hour"
+msgstr "Óra"
+
+#. Table tools
+msgid "Minute"
+msgstr "Perc"
+
+#. Table tools
+msgid "Second"
+msgstr "Másodperc"
+
+#. Query tab close button
+msgid ""
+"Cannot close tab with running query. Please wait until query has finished."
+msgstr "Nem lehet bezárni a lapot a futó lekérdezéssel. Várjon, amíg a lekérdezés befejeződik."
+
+#. Tree context menu
+msgid "Tree style options"
+msgstr "Fa stílus beállítása"
+
+#. Tree context menu
+msgid "Auto expand on click"
+msgstr "Automatikusan kinyílik klikk-re."
+
+#. Session manager
+msgid "Advanced"
+msgstr "Haladó"
+
+#. Session manager
+msgid "Session in root folder"
+msgstr "Munkamenet a gyökér mappába"
+
+#. Session manager
+msgid "Session in selected folder"
+msgstr "Munkamenet az aktuális mappába"
+
+#. Session manager
+msgid "Folder in root folder"
+msgstr "Mappa a gyökér mappába"
+
+#. Session manager
+msgid "Folder in selected folder"
+msgstr "Mappa az aktuális mappába"
+
+#. Session manager
+msgid "More"
+msgstr "Több"
+
+#. MessageDialog()
+msgid "Missing \"No\" button in %() call"
+msgstr "Hiányzó \"Nem\" gomb %() hívásban"
+
+#. MessageDialog()
+msgid "Keep asking this question."
+msgstr "Továbbiakban is jelenjen meg ez a kérdés."
+
+msgid "Keep showing this dialog."
+msgstr "Továbbiakban is jelenjen meg ez az ablak."
+
+#. Table editor
+msgid "Foreign column count does not match source column count."
+msgstr "A külső oszlopszám nem egyezik meg a forrás oszlopszámmal."
+
+#. Table editor
+msgid ""
+"The selected foreign column do not match the source columns data type and "
+"unsigned flag. This will give you an error message when trying to save this "
+"change. Please compare yourself:"
+msgstr "A kiválasztott idegen oszlop nem egyezik meg a forrásoszlopok adattípusával és a nem aláírt jelző. Ez hibaüzenetet ad a módosítás mentésekor. Kérjük, hasonlítsa össze:"
+
+#. Table editor
+msgid "Foreign key mismatch"
+msgstr "A külső kulcs nem illeszkedik."
+
+#. Clear data tab filter
+msgid "Data filter for %s deleted"
+msgstr "A(z) %s adat szűrő törölve."
+
+#. Clear data tab filter
+msgid "Clear data tab filter"
+msgstr "Az adat lap szűrő törlése."
+
+msgid "Error when updating query history: %s"
+msgstr "Hiba a lekérdezési előzmények frissítésekor: %s"
+
+msgid "Could not find table or view %s.%s. Please refresh database tree."
+msgstr "Nem található táblázat vagy nézet %s.%s. Kérjük, frissítse az adatbázist."
+
+#. RunQueryFile
+msgid "Importing file %s"
+msgstr "Fájl importálása %s"
+
+#. RunQueryFile
+msgid "Reading next chunk from file..."
+msgstr "A következő darab olvasása fájlból ..."
+
+#. RunQueryFile
+msgid "Splitting queries..."
+msgstr "A lekérdezések felosztása ..."
+
+#. RunQueryFile
+msgid "Processing query #%s. %s"
+msgstr "A lekérdezés feldolgozása. %s%s"
+
+#. RunQueryFile
+msgid "Position in file: %s / %s. Affected rows: %s."
+msgstr "Pozíció a fájlban: %s/%s. Érintett sorok: %s."
+
+#. RunQueryFile
+msgid "Error while reading file \"%s\""
+msgstr "Hiba \"%s\" a fájl olvasása közben"
+
+#. RunQueryFile
+msgid ""
+"%s%% of your file has been processed, but there were %s errors when "
+"executing %s queries. Please check the SQL log panel for messages."
+msgstr "%s%%a fájl feldolgozása megtörtént, de hiba történt a %s lekérdezések végrehajtásakor. Kérjük, ellenőrizze az SQL naplóz az üzenetekhez."
+
+#. RunQueryFile
+msgid "Notice: You can disable the \"%s\" option to ignore such errors"
+msgstr "Figyelem: Az ilyen hibák figyelmen kívül hagyásához letilthatja az \"%s\" opciót"
+
+#. ReadTextFileChunk
+msgid ""
+"End of file block was cut within some multibyte character, at position %s. "
+"Increasing chunk size and retry reading..."
+msgstr "A fájlblokk végét néhány bites karakterben vágtuk le, %s  pozícióban. Növeli a darabszámot és próbálja újra olvasni ..."
+
+#. InitConnection, JumpList
+msgid "Recent sessions"
+msgstr "Legutóbbi munkamenetek"
+
+#. GetParentFormOrFrame
+msgid "Could not determine parent form of this %s"
+msgstr "Nem lehetett meghatározni a %s szülőjét"
+
+#. Button on update check dialog, appearing right after application start
+msgid "Skip"
+msgstr "Kihagy"
+
+#. Displayed in the query log, when connecting. E.g.: "Characterset: utf8"
+msgid "Characterset"
+msgstr "Karakterkészlet"
+
+#. Error happening when facing unknown native data types, mainly in PostgreSQL
+#. tables and routines.
+msgid "Unknown datatype oid #%0:d. Fall back to %1:s."
+msgstr "Ismeretlen adattípus oid #%0:d. Visszalépés  a %1:s."
+
+#. Error happening when facing unknown native data types, mainly in PostgreSQL
+#. tables and routines. Name of column or argument passed here as a hint for
+#. the user.
+msgid "Unknown datatype oid #%0:d for \"%1:s\". Fall back to %2:s."
+msgstr "Ismeretlen adattípus oid #%0:d mert \"%1:s\". Visszalépés a %2:s-re."
+
+#. Error happening when facing unknown named data types.
+msgid "Unknown datatype \"%0:s\" for \"%1:s\". Fall back to %2:s."
+msgstr "Ismeretlen adattípus \"%0:s\" mert \"%1:s\". Visszalépés a %2:s-re."
+
+#. Error happening when facing unknown named data types. Name of column or
+#. argument passed here as a hint for the user.
+msgid "Unknown datatype \"%0:s\". Fall back to %1:s."
+msgstr "Ismeretlen adattípus \"%0:s\". Visszalépés %1:s-re."
+
+msgid "GUID"
+msgstr "GUID"
+
+msgid "GUID without braces"
+msgstr "GUID zárójel nélkül"
+
+msgid "GUID lowercase"
+msgstr "Kisbetűs GUID"
+
+msgid "GUID lowercase without braces"
+msgstr "Kisbetűs GUID kapcsos zárójelek nélkül"
+
+msgid "Query timeout:"
+msgstr "Lekérdezés időkorlátja:"
+
+msgid "Ping every X seconds:"
+msgstr "Ping X mp-ként."
+
+msgid "Connection attempts:"
+msgstr "Csatlakozási kísérletek:"
+
+msgid "Pop up SQL text over result tabs"
+msgstr "Megjeleníti a SQL kérést az eredmény lap fülek felett."
+
+msgid "Same text background:"
+msgstr "Valamennyi szöveg háttere:"
+
+msgid "Default linebreak style:"
+msgstr "Alapértelmezett sortörés stílus:"
+
+msgid "Check"
+msgstr "Ellenőrzés"
+
+msgid "Optimize"
+msgstr "Optimalizálás"
+
+msgid "Repair"
+msgstr "Javítás"
+
+msgid "Integer"
+msgstr "Egész szám"
+
+msgid "Real"
+msgstr "Valós szám"
+
+msgid "Text"
+msgstr "Szöveg"
+
+msgid "Temporal (time)"
+msgstr "Időbeli (idő)"
+
+msgid "Spatial (geometry)"
+msgstr "Térbeli (geometria)"
+
+msgid "Other"
+msgstr "Egyéb"
+
+msgid "Single .sql file"
+msgstr "Egyetlen .sql fájl"
+
+msgid "ZIP compressed .sql file"
+msgstr "ZIP tömörített .sql fájl"
+
+msgid "Clipboard"
+msgstr "Vágólap"
+
+msgid "Server"
+msgstr "Szerver"
+
+msgid "Delete + insert (truncate existing data)"
+msgstr "DELETE + INSERT (meglévő adatok csonkítása)"
+
+msgid "Insert"
+msgstr "Beszúrás"
+
+msgid "Insert ignore (do not update existing)"
+msgstr "INSERT kihagyással (nem frissítik a meglévő adatokat)"
+
+msgid "Replace existing data"
+msgstr "A meglévő adatok cseréje"
+
+msgid "Flush"
+msgstr "Kiürítés"
+
+msgid "View changelog"
+msgstr "Változásnapló megtekintése"
+
+msgid "Become a donor of the %s project"
+msgstr "Legyen a %s projekt adományozója"
+
+msgid "Donate"
+msgstr "Támogatás"
+
+msgid "Send a donation"
+msgstr "Támogatás küldése"
+
+msgid "Donate to the %s project"
+msgstr "Támogassa a %s projektet."
+
+msgid "GUI font: *"
+msgstr "GUI betűtípus: *"
+
+msgid "Default system font"
+msgstr "Alap rendszer betűtípus"
+
+msgid "Doubleclick inserts node text"
+msgstr "Kattintson duplán a csomópont szövegére"
+
+msgid "Up"
+msgstr "Fel"
+
+msgid "Sel Up"
+msgstr "Lép fel"
+
+msgid "Scroll Up"
+msgstr "Léptet fel"
+
+msgid "Down"
+msgstr "Le"
+
+msgid "Sel Down"
+msgstr "Lép le"
+
+msgid "Scroll Down"
+msgstr "Léptet le"
+
+msgid "Left"
+msgstr "Bal"
+
+msgid "Sel Left"
+msgstr "Lép balra"
+
+msgid "Word Left"
+msgstr "Szó balra"
+
+msgid "Sel Word Left"
+msgstr "Lép egy szóval balra"
+
+msgid "Right"
+msgstr "Jobb"
+
+msgid "Sel Right"
+msgstr "Lép jobbra"
+
+msgid "Word Right"
+msgstr "Szóval jobbra"
+
+msgid "Sel Word Right"
+msgstr "Lép egy szóval jobbra"
+
+msgid "Page Down"
+msgstr "Lapozás lefelé"
+
+msgid "Sel Page Down"
+msgstr "Felfelé lépet egy lappal"
+
+msgid "Page Bottom"
+msgstr "Lapozás lefelé"
+
+msgid "Sel Page Bottom"
+msgstr "Lefelé léptet egy lappal"
+
+msgid "Page Up"
+msgstr "Oldalt fel"
+
+msgid "Sel Page Up"
+msgstr "Oldalt felfelé lép"
+
+msgid "Page Top"
+msgstr "Oldal teteje"
+
+msgid "Sel Page Top"
+msgstr "Oldal tetejére lép"
+
+msgid "Line Start"
+msgstr "Sor eleje"
+
+msgid "Sel Line Start"
+msgstr "Sor elejére lép"
+
+msgid "Editor Top"
+msgstr "Szerkesztő teteje"
+
+msgid "Sel Editor Top"
+msgstr "Szerkesztő tetejére lép"
+
+msgid "Line End"
+msgstr "Sor vége"
+
+msgid "Sel Line End"
+msgstr "Sor végére lép"
+
+msgid "Editor Bottom"
+msgstr "Szerkesztő alja"
+
+msgid "Sel Editor Bottom"
+msgstr "Szerkesztő aljára lép"
+
+msgid "Toggle Mode"
+msgstr "Váltás mód"
+
+msgid "Delete Char"
+msgstr "Karakter törlése"
+
+msgid "Delete Last Char"
+msgstr "Törli az utolsó karaktert"
+
+msgid "Delete Last Word"
+msgstr "Törli az utolsó szót"
+
+msgid "Line Break"
+msgstr "Sortörés"
+
+msgid "Tab"
+msgstr "Lap"
+
+msgid "Shift Tab"
+msgstr "Lap léptetése"
+
+msgid "Context Help"
+msgstr "Kontextus súgó"
+
+msgid "Select All"
+msgstr "Mind kiválasztása"
+
+msgid "Copy"
+msgstr "Másolás"
+
+msgid "Paste"
+msgstr "Beillesztés"
+
+msgid "Cut"
+msgstr "Kivágás"
+
+msgid "Block Indent"
+msgstr "Blokk beillesztése"
+
+msgid "Block Unindent"
+msgstr "Blokk kivágás"
+
+msgid "Insert Line"
+msgstr "Sor beszúrása"
+
+msgid "Delete Word"
+msgstr "Szó törlése"
+
+msgid "Delete Line"
+msgstr "Sor törlése"
+
+msgid "Delete E O L"
+msgstr "Törlés a sor végéig"
+
+msgid "Undo"
+msgstr "Visszavonás"
+
+msgid "Redo"
+msgstr "Újra"
+
+msgid "Goto Marker 0"
+msgstr "0 könyvjelzőre lép"
+
+msgid "Goto Marker 1"
+msgstr "1. könyvjelzőre lép"
+
+msgid "Goto Marker 2"
+msgstr "2. könyvjelzőre lép"
+
+msgid "Goto Marker 3"
+msgstr "3. könyvjelzőre lép"
+
+msgid "Goto Marker 4"
+msgstr "4. könyvjelzőre lép"
+
+msgid "Goto Marker 5"
+msgstr "5. könyvjelzőre lép"
+
+msgid "Goto Marker 6"
+msgstr "6. könyvjelzőre lép"
+
+msgid "Goto Marker 7"
+msgstr "7. könyvjelzőre lép"
+
+msgid "Goto Marker 8"
+msgstr "8. könyvjelzőre lép"
+
+msgid "Goto Marker 9"
+msgstr "9. könyvjelzőre lép"
+
+msgid "Set Marker 0"
+msgstr "0. könyvjelző beállítása"
+
+msgid "Set Marker 1"
+msgstr "1. könyvjelző beállítása"
+
+msgid "Set Marker 2"
+msgstr "2. könyvjelző beállítása"
+
+msgid "Set Marker 3"
+msgstr "3. könyvjelző beállítása"
+
+msgid "Set Marker 4"
+msgstr "4. könyvjelző beállítása"
+
+msgid "Set Marker 5"
+msgstr "5. könyvjelző beállítása"
+
+msgid "Set Marker 6"
+msgstr "6. könyvjelző beállítása"
+
+msgid "Set Marker 7"
+msgstr "7. könyvjelző beállítása"
+
+msgid "Set Marker 8"
+msgstr "8. könyvjelző beállítása"
+
+msgid "Set Marker 9"
+msgstr "9. könyvjelző beállítása"
+
+msgid "Normal Select"
+msgstr "Normál kijelölés"
+
+msgid "Column Select"
+msgstr "Oszlop kijelölés"
+
+msgid "Line Select"
+msgstr "Sor kijelölés"
+
+msgid "Match Bracket"
+msgstr "Zárójel párja"
+
+msgid "Upper Case Block"
+msgstr "Nagybetűs blokk"
+
+msgid "Lower Case Block"
+msgstr "Kisbetűs blokk"
+
+msgid "Fold All"
+msgstr "Mindent becsuk"
+
+msgid "Unfold All"
+msgstr "Mindent kinyit"
+
+msgid "Fold Nearest"
+msgstr "Hajtsa végre legközelebb"
+
+msgid "Unfold Nearest"
+msgstr "Nyissa ki legközelebb"
+
+msgid "Fold Level 1"
+msgstr "Végrehajtás 1. szint"
+
+msgid "Fold Level 2"
+msgstr "Végrehajtás 2. szint"
+
+msgid "Fold Level 3"
+msgstr "Végrehajtás 3. szint"
+
+msgid "Unfold Level 1"
+msgstr "Kinyitás 1. szint"
+
+msgid "Unfold Level 2"
+msgstr "Kinyitás 2. szint"
+
+msgid "Unfold Level 3"
+msgstr "Kinyitás 3. szint"
+
+msgid "Column data type %s requires a length/set"
+msgstr "Az oszlop adattípusa %s kötelező a hossz/készlet"
+
+msgid "Add comments"
+msgstr "Megjegyzés hozzáadás"
+
+msgid "Remove AUTO_INCREMENT clauses"
+msgstr "AUTO_INCREMENT kikötés eltávolítása"
+
+msgid "Remove DEFINER clauses"
+msgstr "DEFINER záradkékok törlése"
+
+msgid "%s%s missing."
+msgstr "Hibás %s %s."
+
+msgid "Filename or path contains illegal characters: \"%s\""
+msgstr "A fájlnév vagy az elérési út illegális karaktert tartalmaz: \"%s\""
+
+msgid "Please change your password"
+msgstr "Kérem változtasson jelszót"
+
+msgid "Error: Passwords do not match!"
+msgstr "Hiba: A jelszavak nem egyeznek!"
+
+msgid "New password:"
+msgstr "Új jelszó:"
+
+msgid "Type new password or select a suggestion"
+msgstr "Írja be az új jelszót, vagy jelöljön ki egy javaslatot"
+
+msgid "Repeat new password:"
+msgstr "Új jelszó megismétlése:"
+
+msgid "Retype password"
+msgstr "Gépelje be újra a jelszót"
+
+msgid "Change expired password"
+msgstr "A lejárt jelszó módosítása"
+
+msgid "Password strength:"
+msgstr "Jelszó erőssége:"
+
+#. Menu item for jumping to "Logging" tab in preferences window
+msgid "Logging preferences"
+msgstr "Naplózási beállítások"
+
+#. Menu item for jumping to "Data" tab in preferences window
+msgid "Data grid preferences"
+msgstr "Adat rács beállítások"
+
+#. Menu item with some sub items for configuring data grids
+msgid "Grid view options"
+msgstr "Rács nézet beállítása"
+
+msgid "Go to"
+msgstr "Menj"
+
+msgid "Database tree"
+msgstr "Adatbázis fa"
+
+msgid "Go to database tree"
+msgstr "Menj az adatbázis fához"
+
+msgid "Go to table filter"
+msgstr "Menj a tábla szűrőre"
+
+msgid "Switch to query/results"
+msgstr "Váltás lekérdezésre/eredményre."
+
+msgid "Multi column filter"
+msgstr "Több oszlopos szűrő"
+
+msgid "Tab 1"
+msgstr "1. lap"
+
+msgid "Go to tab 1"
+msgstr "Menj a 1. lapra"
+
+msgid "Tab 2"
+msgstr "2. lap"
+
+msgid "Go to tab 2"
+msgstr "Menj a 2. lapra"
+
+msgid "Tab 3"
+msgstr "3. lap"
+
+msgid "Go to tab 3"
+msgstr "Menj a 3. lapra"
+
+msgid "Tab 4"
+msgstr "4. lap"
+
+msgid "Go to tab 4"
+msgstr "Menj a 4. lapra"
+
+msgid "Tab 5"
+msgstr "5. lap"
+
+msgid "Go to tab 5"
+msgstr "Menj az 5. lapra"
+
+msgid ""
+"Reached maximum number of result tabs (%d). To display more results, "
+"increase setting in Preferences > SQL"
+msgstr "Az eredmény lapok maximális száma elérve (%d). További lapok megjelenítéséhez növelje a beállításokat a Beállítások > SQL lapon."
+
+msgid "Error when checking for updates: %s"
+msgstr "Hiba történt a frissítések ellenőrzése során: %s"
+
+msgid "Please update %s through the Microsoft Store."
+msgstr "Kérjük, frissítse a %s-t a Microsoft Store-on keresztül."
+
+#. Text in parentheses for detected linebreak style in popup text editor
+msgid "detected"
+msgstr "találva"
+
+msgid "Migrating snippet files to new folder: %s"
+msgstr "A töredékfájlok áthelyezése új mappába:"
+
+msgid "Successfully moved \"%s\" to \"%s\""
+msgstr "Mozgatás \"%s\"-ból \"%s\"-ba sikeres."
+
+msgid "Error: Could not move \"%s\" to \"%s\" (Error: %s)"
+msgstr "Hiba: nem lehet \"%s\"-ból \"%s\"-ba mozgatni (Hiba: %s)"
+
+msgid "Scaling font size from %d to %d."
+msgstr "A betűméret méretezése %d-ról %d-ra."
+
+msgid "Current custom settings"
+msgstr "Aktuális egyedi beállítások"
+
+msgid "Light"
+msgstr "Világos"
+
+msgid "Dark"
+msgstr "Sötét"
+
+msgid "Black"
+msgstr "Fekete"
+
+msgid "White"
+msgstr "Fehér"
+
+msgid "current value:"
+msgstr "aktuális érték:"
+
+msgid "No help available for this tab."
+msgstr "Nincs segítség engedélyezve ezen a lapon."
+
+msgid "%0:d out of %1:d matching. %2:d hidden."
+msgstr "%0:d kívül %1:d találva. %2:d rejtve."
+
+msgid "Style Theme: *"
+msgstr "Stílus téma: *"
+
+msgid "Icon pack:"
+msgstr "Ikon készlet:"
+
+msgid "Web search base url:"
+msgstr "Web keresés URL-je:"
+
+msgid "Used in footer of various message dialogs"
+msgstr "Különböző üzenetek párbeszédablakainak láblécében használatos"
+
+msgid ""
+"You should restart %s to apply changed critical settings, and to prevent "
+"unexpected behaviour."
+msgstr "Újra kell indítani a módosított kritikus beállítások alkalmazásához és a váratlan viselkedés megakadályozásához."
+
+msgid "App path: \"%s\""
+msgstr "Alkalmazás helye: \"%s\""
+
+msgid "Version: \"%s\""
+msgstr "Verzió: \"%s\""
+
+msgid "Theme: \"%s\""
+msgstr "Téma: \"%s\""
+
+msgid "Pixels per inch on current monitor: %d"
+msgstr "Pixel / inch az aktuális monitoron: %d"
+
+msgid "%s characters (max: %s), %s lines, cursor at %s"
+msgstr "%s karakterek (max: %s), %s sor, kurzor %s"
+
+msgid "Credits"
+msgstr "Készítők"
+
+msgid "Plugin directory %s could not be set."
+msgstr "Plugin mappa %snem állítható be."
+
+msgid "Background color:"
+msgstr "Háttérszín:"
+
+msgid "Hide database pattern:"
+msgstr "Adatbázis elrejtés mintája:"
+
+msgid "Backup file could not be deleted: %s"
+msgstr "A biztonsági mentés fájl nem törölhető: %s"
+
+msgid "Your code is saved anyway, as auto-restoring is activated."
+msgstr "A kódot mindenképpen elmenti, mivel az automatikus visszaállítás aktiválva van."
+
+#. Tab caption in preferences
+msgid "Files and tabs"
+msgstr "Fájlok és fülek"
+
+msgid "Reopen previously used SQL files and unsaved content in tabs *"
+msgstr "Nyissa meg a korábban használt SQL-fájlokat és a nem mentett tartalmat *"
+
+msgid "Storing tab setup failed"
+msgstr "A lapok beállítása sikertelen"
+
+msgid "Restoring tab setup failed"
+msgstr "A lapbeállítás visszaállítása sikertelen"
+
+msgid "Tabs won't be stored in this session."
+msgstr "A lapok nem kerülnek tárolásra ebben a munkamenetben."
+
+msgid "Installing %s might help. Please download from %s"
+msgstr "%s telepítési segédlet. Kérem töltse le a %s"
+
+msgid "Security issue: Using %s %s with insecure %s."
+msgstr "Biztonsági kockázat: Használja %s %s,  bizonytalan %s."
+
+msgid "You should install %s from %s"
+msgstr "Telepítse a %s %s-tól."
+
+msgid "Open URL"
+msgstr "URL megnyitása"
+
+msgid "Open URL in your webbrowser"
+msgstr "URL megnyitása böngészőben"
+
+msgid "Find database files..."
+msgstr "Adatbázis fájl keresése..."
+
+msgid "Add database files..."
+msgstr "Adatbázis fájl hozzáadása..."
+
+msgid "Detach database ..."
+msgstr "Adatbázis leválasztása"
+
+msgid "Detach attached database"
+msgstr "Csatolt adatbázis leválasztása"
+
+msgid "Attach database ..."
+msgstr "Adatbázis csatoltása"
+
+msgid "Attach new or existing database file"
+msgstr "Új vagy létező adatbázisfájl csatolása"
+
+msgid "Detach database \"%s\" from \"%s\" session?"
+msgstr "Leválasszuk a(z) \"%s\" adatbázist a(z) \"%s\" munkamenetről?"
+
+msgid "Note: The database file will not get deleted."
+msgstr "Megj.: az adatbázisfájl nem lesz törölve."
+
+msgid "Show SQL completion proposal"
+msgstr "SQL kódolás javaslatok megjelenítése"
+
+msgid "Find matches in the middle"
+msgstr ""
+
+msgid "Wait longer for sorting?"
+msgstr "Várjunk még a rendezésre?"
+
+msgid ""
+"Sort operation on grid containing more than %d rows can take longer. Do you "
+"want to wait for it?"
+msgstr "A rendezés sokáig tarthat ha több mint %d sort kezel. Megvárjuk?"
+
+msgid "Sort warning on grid rows:"
+msgstr "Figyelmeztetések rendezése a sorokhoz:"
+
+msgid "Size &Column to Fit"
+msgstr "Oszlop illesztése a tartalomhoz"
+
+msgid "Size &All Columns to Fit"
+msgstr "Összes oszlop illesztése a tartalomhoz"
+
+msgid "This view probably contains an error in its code."
+msgstr "A nézet kódja valószínűleg hibás."
+
+msgid "Rename query tab"
+msgstr "Fül átnevezése"
+
+msgid "Enter new name"
+msgstr "Új név"
+
+msgid "Analyzing %s rows..."
+msgstr "%s sor átvizsgálása..."
+
+msgid "New table"
+msgstr "Új tábla"
+
+msgid "Detect CSV layout"
+msgstr "CSV séma felismerése"
+
+msgid "Scan file..."
+msgstr "Fájl beolvasása..."
+
+msgid "Ok, create table"
+msgstr "OK, hozzuk létre a táblát"
+
+msgid "Current query is empty"
+msgstr "A jelenlegi lekérés üres"
+
+msgid "Please move the cursor inside the query you want to use."
+msgstr "Helyezzük a kurzort ahol a parancsot használni akarjuk."
+
+#. Keyboard shortcut settings
+msgid "Keyboard shortcut [%s] is already assigned to \"%s\"."
+msgstr "A billentyűparancs [%s] már tárítva van ehhez: \"%s\"."
+
+#. Keyboard shortcut settings
+msgid "Remove it there and assign to \"%s\" instead?"
+msgstr "Töröljük és hozzárendeljük inkább ehhez: \"%s\"?"
+
+msgid "Really auto-detect file encoding?"
+msgstr "Valóban automatikusan állítsuk be a fájl kódolását?"
+
+msgid ""
+"Auto detecting the encoding of a file is highly discouraged. You may "
+"experience data loss if the detection fails."
+msgstr "A fájl kódolásának automatikus beállítása nem ajánlott. Adatvesztést okozhat a sikertelen beállítás."
+
+msgid ""
+"To avoid this message select the correct encoding before pressing Open."
+msgstr "A hiba elkerülése érdekében válassza a megfelelő kódolást, mielőtt megnyitja a fájlt."
+
+msgid "keyword"
+msgstr "kulcsszó"
+
+msgid "Check constraints"
+msgstr "Megkötések ellenőrzése"
+
+msgid "Check clause"
+msgstr "Indok ellenőrzése"
+
+msgid "Log queries to file:"
+msgstr "Parancsok naplózása fájlba:"
+
+msgid "Logging disabled"
+msgstr "Naplózás tiltva"
+
+msgid "Editor commands"
+msgstr "Szerkesztő parancsok"
+
+msgid "Lowercase hexadecimal"
+msgstr "Kisbetűs hexadecimális"
+
+msgid "Update instructions"
+msgstr "Frissítési instrukciók"
+
+msgid "Download the portable package and extract it in %s"
+msgstr "Hordozható csomag letöltés és kitömörítése ide: %s"
+
+msgid "No area selected"
+msgstr "Nincs szakasz kiválasztva"
+
+msgid "Close all query tabs"
+msgstr "Minden lekérdezési fül bezárása"
+
+msgid "Close query tabs to the right"
+msgstr "Jobbra levő fülek bezárása"
+
+msgid "Copy mysqldump command"
+msgstr "mysqldump parancs másolása"
+
+msgid "Scaling controls to screen DPI: %d%%"
+msgstr ""
+
+msgid ""
+"Caution: Style \"%s\" selected and non-default DPI factor - be aware that "
+"some styles appear broken with high DPI settings!"
+msgstr ""
+
+msgid "Toggle visibility of all columns"
+msgstr ""
+
+msgid "Connection failed"
+msgstr "Nem sikerült kapcsolódni"
+
+msgid "Disable foreign key checks"
+msgstr ""
+
+msgid "Altering tables restricted. For details see %s"
+msgstr ""
+
+msgid "Foreign key not found for column \"%s\""
+msgstr ""
+
+msgid "Empty recent filters"
+msgstr ""
+
+msgid "Customize highlighter"
+msgstr "Kiemelő testreszabása"
+
+msgid "Example text"
+msgstr "Példa szöveg"
+
+msgid "Color picker"
+msgstr ""
+
+msgid "Style:"
+msgstr "Stílus:"
+
+msgid "Error in code formatting: %s"
+msgstr ""
+
+msgid "Auto-disabling wordwrap for large text"
+msgstr ""
+
+msgid ""
+"%d tab(s) took longer than expected to restore. Closing and reopening these "
+"should fix that: %s"
+msgstr ""
+
+msgid "Library:"
+msgstr "Könyvtár:"
+
+msgid "Move line up"
+msgstr ""
+
+msgid "Move line down"
+msgstr ""
+
+msgid "New query tab in background"
+msgstr ""
+
+msgid "Follow foreign key"
+msgstr ""
+
+msgid "Follow foreign key to the linked table"
+msgstr ""
+
+msgid "Copy with tabs to spaces"
+msgstr ""
+
+msgid "Connection properties"
+msgstr ""

@@ -33,6 +33,12 @@ int main(int argc, char *argv[])
     );
 #endif
 
+    // test translations TODO
+    //QTranslator translator;
+    //translator.load(":translations/meowsql_fr.qm");
+    //a.installTranslator(&translator);
+    // test translations
+
     meow::App app;
 
     meow::ui::main_window::Window w;

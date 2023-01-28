@@ -639,7 +639,7 @@ if(WIN32)
     )
 endif()
 
-qt5_add_resources(RESOURCE_FILES icons.qrc)
+qt5_add_resources(RESOURCE_FILES icons.qrc translations.qrc)
 
 if (WIN32)
     list(APPEND RESOURCE_FILES meowsql.rc)

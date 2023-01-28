@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/translations">
+        <file alias="meowsql_bg.qm">resources/translations/meowsql_bg.qm</file>
+        <file alias="meowsql_zh.qm">resources/translations/meowsql_zh.qm</file>
+        <file alias="meowsql_cs.qm">resources/translations/meowsql_cs.qm</file>
+        <file alias="meowsql_fr.qm">resources/translations/meowsql_fr.qm</file>
+        <file alias="meowsql_de.qm">resources/translations/meowsql_de.qm</file>
+        <file alias="meowsql_hu.qm">resources/translations/meowsql_hu.qm</file>
+        <file alias="meowsql_it.qm">resources/translations/meowsql_it.qm</file>
+        <file alias="meowsql_ko.qm">resources/translations/meowsql_ko.qm</file>
+        <file alias="meowsql_pt.qm">resources/translations/meowsql_pt.qm</file>
+        <file alias="meowsql_ro.qm">resources/translations/meowsql_ro.qm</file>
+        <file alias="meowsql_ru.qm">resources/translations/meowsql_ru.qm</file>
+        <file alias="meowsql_pt.qm">resources/translations/meowsql_pt.qm</file>
+        <file alias="meowsql_es.qm">resources/translations/meowsql_es.qm</file>
+        <file alias="meowsql_sv.qm">resources/translations/meowsql_sv.qm</file>
+    </qresource>
+</RCC>

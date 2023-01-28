@@ -818,7 +818,23 @@ WITH_LIBMYSQL_SOURCES { # TODO: rm
 
 }
 
+TRANSLATIONS += \
+    resources/translations/meowsql_bg.ts \ # Bulgarian
+    resources/translations/meowsql_zh.ts \ # Chinese
+    resources/translations/meowsql_cs.ts \ # Czech
+    resources/translations/meowsql_fr.ts \ # French
+    resources/translations/meowsql_de.ts \ # German
+    resources/translations/meowsql_hu.ts \ # Hungarian
+    resources/translations/meowsql_it.ts \ # Italian
+    resources/translations/meowsql_ko.ts \ # Korean
+    resources/translations/meowsql_pt.ts \ # Portuguese
+    resources/translations/meowsql_ro.ts \ # Romanian
+    resources/translations/meowsql_ru.ts \ # Russian
+    resources/translations/meowsql_es.ts \ # Spanish
+    resources/translations/meowsql_sv.ts   # Swedish
+
 RESOURCES += \
-    icons.qrc
+    icons.qrc \
+    translations.qrc
 
 win32:RC_ICONS += meowsqlico.ico

@@ -1,0 +1,6899 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Translators:
+# Aleksey Vyskubov <viskubov@gmail.com>, 2016
+# Alexey Fedorov <fedorov.hello@gmail.com>, 2020
+# Andrey Ivanov, 2022
+# Anton, 2021
+# Anton, 2019
+# Dmitry <bravosms@gmail.com>, 2012
+# Dmitriy Olshevskiy <olshevskiy87@bk.ru>, 2014
+# Dmitry <bravosms@gmail.com>, 2012
+# Dmitry Yakimenko, 2021
+# Doroshenko Igor <doroshenko.igor@gmail.com>, 2012
+# Doroshenko Igor <doroshenko.igor@gmail.com>, 2012
+# Katya Enders, 2021
+# Kirill <mkw@bk.ru>, 2013,2015,2019,2022
+# Lew Sand <lew.sand@yandex.com>, 2019
+# Kirill <mkw@bk.ru>, 2012-2013
+# Павел «mPolr» Монахов, 2012
+# neor <nil@neor.ru>, 2020
+# Dmitriy Olshevskiy <olshevskiy87@bk.ru>, 2014
+# Павел «mPolr» Монахов, 2012-2014
+# Slava Abakumov, 2020
+# Aleksey Vyskubov <viskubov@gmail.com>, 2013-2016
+# Vitaly Orekhov <7opex0@mail.ru>, 2021
+# Aleksey Vyskubov <viskubov@gmail.com>, 2016-2019
+# Павел «mPolr» Монахов, 2018
+# туки Форка <patseios@guideh.com>, 2019
+msgid ""
+msgstr ""
+"Project-Id-Version: HeidiSQL\n"
+"POT-Creation-Date: 2012-11-05 21:40\n"
+"PO-Revision-Date: 2012-11-09 10:37+0000\n"
+"Last-Translator: Kirill <mkw@bk.ru>, 2013,2015,2019,2022\n"
+"Language-Team: Russian (http://www.transifex.com/heidisql/heidisql/language/ru/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+"X-Generator: Poedit 3.2.2\n"
+
+#. AboutBox..Caption
+#: about.dfm:5
+msgid "About"
+msgstr "О программе"
+
+#. AboutBox..btnClose..Caption
+#. frmSQLhelp..ButtonClose..Caption
+#. frmSyncDB..btnClose..Caption
+#. frmTableTools..btnCloseOrCancel..Caption
+#. UserManagerForm..btnCancel..Caption
+#: about.dfm:316 sqlhelp.dfm:42 syncdb.dfm:141 tabletools.dfm:39
+#: usermanager.dfm:62
+msgid "Close"
+msgstr "Закрыть"
+
+#. Donate button in various dialogs
+msgid ""
+"Send an arbitrary amount as donation to the author - per PayPal (also "
+"supports credit cards)"
+msgstr "Отправьте произвольный платёж в качестве пожертвования автору через PayPal (кредитные карты также поддерживаются)"
+
+#. About dialog
+msgid "I have donated per following email address:"
+msgstr "Я пожертвовал со следующего электронного адреса:"
+
+#. About dialog
+msgid "Email address"
+msgstr "Адрес электронной почты"
+
+#. About dialog
+msgid "Thanks for donating!"
+msgstr "Спасибо за пожертвование!"
+
+#. About dialog
+msgid "Not a valid donor email address"
+msgstr "Некорректный адрес электронной почты жертвователя"
+
+#. About dialog
+msgid "Could not check donation state."
+msgstr "Не удалось проверить состояние пожертвования."
+
+#. frmBinEditor..Caption
+#: bineditor.dfm:4
+msgid "Binary editor"
+msgstr "Двоичный редактор"
+
+#. frmBinEditor..tlbStandard..btnWrap..Hint
+#. frmBinEditor..tlbStandard..btnWrap..Caption
+#. MainForm..ActionList1..actQueryWordWrap..Caption
+#. MainForm..ActionList1..actQueryWordWrap..Hint
+#. frmTextEditor..tlbStandard..btnWrap..Hint
+#. frmTextEditor..tlbStandard..btnWrap..Caption
+#: bineditor.dfm:66 bineditor.dfm:67 main.dfm:2317 main.dfm:2318
+#: texteditor.dfm:66 texteditor.dfm:67
+msgid "Wrap long lines"
+msgstr "Сворачивать длинные строки"
+
+msgid "Code folding"
+msgstr "Сворачивание кода"
+
+msgid "Enable code folding"
+msgstr "Включить сворачивание кода"
+
+msgid "Enable code folding in SQL editors"
+msgstr "Включить сворачивание кода в SQL редакторах"
+
+msgid "Insert region start marker"
+msgstr "Введите маркер начала области"
+
+msgid "Insert region end marker"
+msgstr "Введите маркер конца области"
+
+msgid "Fold selection"
+msgstr "Свернуть выделенное"
+
+#. frmBinEditor..tlbStandard..btnLoadBinary..Hint
+#. frmBinEditor..tlbStandard..btnLoadBinary..Caption
+#: bineditor.dfm:74 bineditor.dfm:75
+msgid "Load binary file"
+msgstr "Загрузить двоичный файл"
+
+#. frmBinEditor..tlbStandard..btnCancel..Hint
+#. frmBinEditor..tlbStandard..btnCancel..Caption
+#. frmClickFilter..btnCancel..Caption
+#. ColumnSelectionForm..pnlBevel..btnCancel..Caption
+#. connform..btnCancel..Caption
+#. CopyTableForm..btnCancel..Caption
+#. CreateDatabaseForm..btnCancel..Caption
+#. DataSortingForm..pnlBevel..btnCancel..Caption
+#. frmEditVariable..btnCancel..Caption
+#. frmExportGrid..btnCancel..Caption
+#. frmInsertFiles..btnCancel..Caption
+#. loaddataform..btnCancel..Caption
+#. optionsform..btnCancel..Caption
+#. printlistForm..btnCancel..Caption
+#. frmSearchReplace..btnCancel..Caption
+#. frmSelectDBObject..btnCancel..Caption
+#. frmTextEditor..tlbStandard..btnCancel..Hint
+#. frmTextEditor..tlbStandard..btnCancel..Caption
+#. frmUpdateCheck..btnCancel..Caption
+#: bineditor.dfm:82 bineditor.dfm:83 clickfilter.dfm:26
+#: column_selection.dfm:35 connections.dfm:72 copytable.dfm:64
+#: createdatabase.dfm:95 data_sorting.dfm:52 editvar.dfm:44 exportgrid.dfm:44
+#: insertfiles.dfm:47 loaddata.dfm:46 options.dfm:932 printlist.dfm:58
+#: searchreplace.dfm:48 selectdbobject.dfm:96 texteditor.dfm:90
+#: texteditor.dfm:91 updatecheck.dfm:41
+msgid "Cancel"
+msgstr "Отмена"
+
+#. frmBinEditor..tlbStandard..btnApply..Hint
+#. frmBinEditor..tlbStandard..btnApply..Caption
+#. frmTextEditor..tlbStandard..btnApply..Hint
+#. frmTextEditor..tlbStandard..btnApply..Caption
+#: bineditor.dfm:90 bineditor.dfm:91 texteditor.dfm:98 texteditor.dfm:99
+msgid "Apply changes"
+msgstr "Применить"
+
+#. frmClickFilter..btnOK..Caption
+#. ColumnSelectionForm..pnlBevel..btnOK..Caption
+#. CopyTableForm..btnOK..Caption
+#. CreateDatabaseForm..btnOK..Caption
+#. DataSortingForm..pnlBevel..btnOK..Caption
+#. frmEditVariable..btnOK..Caption
+#. frmExportGrid..btnOK..Caption
+#. optionsform..btnOK..Caption
+#. frmSearchReplace..btnOK..Caption
+#. frmSelectDBObject..btnOK..Caption
+#: clickfilter.dfm:35 column_selection.dfm:45 copytable.dfm:82
+#: createdatabase.dfm:83 data_sorting.dfm:38 editvar.dfm:31 exportgrid.dfm:31
+#: options.dfm:942 searchreplace.dfm:183 selectdbobject.dfm:83
+msgid "OK"
+msgstr "ОК"
+
+#. frmClickFilter..groupValue..radioString..Caption
+#. frmEditVariable..gbValue..lblString..Caption
+#: clickfilter.dfm:73 editvar.dfm:89
+msgid "String:"
+msgstr "Строка:"
+
+#. frmClickFilter..groupValue..radioExpression..Caption
+#: clickfilter.dfm:81
+msgid "Expression:"
+msgstr "Выражение:"
+
+#. frmClickFilter..groupConcatType..Caption
+#: clickfilter.dfm:91
+msgid "Append to current filter"
+msgstr "Добавить к текущему фильтру"
+
+#. frmClickFilter..groupConcatType....Items.Strings
+#: clickfilter.dfm:96
+msgid "Reset"
+msgstr "Сбросить"
+
+#. ColumnSelectionForm..pnlBevel..chkSelectAll..Caption
+#: column_selection.dfm:55
+msgid "Select / Deselect all"
+msgstr "Выбрать / Отменить все"
+
+#. ColumnSelectionForm..pnlBevel..chkSort..Caption
+#: column_selection.dfm:74
+msgid "Sort alphabetically"
+msgstr "Сортировать по алфавиту"
+
+#. ColumnSelectionForm
+msgid "Select columns"
+msgstr "Выберите столбцы"
+
+#. connform..Caption
+#. MainForm..ActionList1..actSessionManager..Caption
+#: connections.dfm:5 main.dfm:1871
+msgid "Session manager"
+msgstr "Менеджер сеансов"
+
+msgid "Session"
+msgstr "Сеанс"
+
+msgid "Custom color:"
+msgstr "Пользовательский цвет:"
+
+#. connform..btnSave..Caption
+#. connform..popupSessions..menuSave..Caption
+#. frmEventEditor..btnSave..Caption
+#. MainForm..ActionList1..actSaveSQL..Caption
+#. frmRoutineEditor..btnSave..Caption
+#. frmTableEditor..btnSave..Caption
+#. frmTriggerEditor..btnSave..Caption
+#. UserManagerForm..btnSave..Caption
+#. frmView..btnSave..Caption
+#: connections.dfm:49 connections.dfm:736 event_editor.dfm:77 main.dfm:2453
+#: routine_editor.dfm:35 table_editor.dfm:28 trigger_editor.dfm:104
+#: usermanager.dfm:74 view.dfm:120
+msgid "Save"
+msgstr "Сохранить"
+
+#. connform..btnOpen..Caption
+#: connections.dfm:59
+msgid "Open"
+msgstr "Открыть"
+
+#. connform..ListSessions......WideText
+#: connections.dfm:123
+msgid "Session name"
+msgstr "Имя сеанса"
+
+#. connform..ListSessions......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..Caption
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#. UserManagerForm..pnlLeft..listUsers......WideText
+#: connections.dfm:128 main.dfm:601 main.dfm:874 usermanager.dfm:136
+#: tabletools.pas:1197
+msgid "Host"
+msgstr "Хост"
+
+#. connform..ListSessions......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#: connections.dfm:133 main.dfm:869
+msgid "User"
+msgstr "Пользователь"
+
+#. connform..ListSessions......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: connections.dfm:138 main.dfm:1136 tabletools.pas:1200
+msgid "Version"
+msgstr "Версия"
+
+#. connform..ListSessions......WideText
+#: connections.dfm:143
+msgid "Last connect"
+msgstr "Последнее подключение"
+
+#. connform..ListSessions......WideText
+#: connections.dfm:150
+msgid "Counter"
+msgstr "Счётчик"
+
+#. connform..btnNew..Caption
+#: connections.dfm:159
+msgid "New"
+msgstr "Создать"
+
+#. connform..btnDelete..Caption
+#. connform..popupSessions..menuDelete..Caption
+#. UserManagerForm..pnlLeft..ToolBar1..btnDeleteUser..Caption
+#: connections.dfm:171 connections.dfm:748 usermanager.dfm:169
+msgid "Delete"
+msgstr "Удалить"
+
+#. connform..PageControlDetails..tabStart..Caption
+#: connections.dfm:190
+msgid "Start"
+msgstr "Начать"
+
+#. connform..PageControlDetails..tabStart..btnImportSettings..Caption
+#. MainForm..ActionList1..actImportSettings..Caption
+#: connections.dfm:212 main.dfm:2174
+msgid "Import settings file ..."
+msgstr "Импортировать файл настроек..."
+
+#. connform..PageControlDetails..tabSettings..Caption
+#. frmEventEditor..PageControlMain..tabSettings..Caption
+#: connections.dfm:219 event_editor.dfm:94
+msgid "Settings"
+msgstr "Настройки"
+
+#. connform..PageControlDetails..tabSettings..lblStartupScript..Caption
+#: connections.dfm:229
+msgid "Startup script:"
+msgstr "Стартовый сценарий:"
+
+#. connform..PageControlDetails..tabSettings..lblPort..Caption
+#: connections.dfm:237
+msgid "Port:"
+msgstr "Порт:"
+
+#. connform..PageControlDetails..tabSettings..lblPassword..Caption
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHPassword..Caption
+#: connections.dfm:245 connections.dfm:440
+msgid "Password:"
+msgstr "Пароль:"
+
+#. connform..PageControlDetails..tabSettings..lblHost..Caption
+#: connections.dfm:253 connections.pas:986
+msgid "Hostname / IP:"
+msgstr "Имя хоста / IP:"
+
+msgid "Database filename(s)"
+msgstr "Имена файлов баз(ы) данных"
+
+#. connform..PageControlDetails..tabSettings..lblUsername..Caption
+#: connections.dfm:261
+msgid "User:"
+msgstr "Пользователь:"
+
+#. connform..PageControlDetails..tabSettings..lblNetworkType..Caption
+#: connections.dfm:269
+msgid "Network type:"
+msgstr "Тип сети:"
+
+msgid "Network type"
+msgstr "Тип сети"
+
+msgid "Questions"
+msgstr "Вопросы"
+
+msgid "Opens"
+msgstr "Открыто"
+
+msgid "Flush tables"
+msgstr "Очистить таблицы"
+
+#. connform..PageControlDetails..tabSettings..lblDatabase..Caption
+#: connections.dfm:276
+msgid "Databases:"
+msgstr "Базы данных:"
+
+#. connform..PageControlDetails..tabSettings..chkCompressed..Caption
+#: connections.dfm:298
+msgid "Compressed client/server protocol"
+msgstr "Сжатый клиент/серверный протокол"
+
+#. connform..PageControlDetails..tabSettings..comboNetType..Text
+#. connform..PageControlDetails..tabSettings..comboNetType....Items.Strings
+#: connections.dfm:359 connections.dfm:362
+msgid "TCP/IP"
+msgstr "TCP/IP"
+
+#. connform..PageControlDetails..tabSettings..comboNetType....Items.Strings
+#: connections.dfm:363
+msgid "Named pipe"
+msgstr "Named pipe"
+
+#. connform..PageControlDetails..tabSettings..comboNetType....Items.Strings
+#. connform..PageControlDetails..tabSSHtunnel..Caption
+#: connections.dfm:364 connections.dfm:414
+msgid "SSH tunnel"
+msgstr "SSH-туннель"
+
+#. connform..PageControlDetails..tabSettings..comboDatabases..TextHint
+#: connections.dfm:374
+msgid "Separated by semicolon"
+msgstr "Разделяется точкой с запятой"
+
+msgid "Single database name"
+msgstr "Едининое название базы данных"
+
+#. connform..PageControlDetails..tabSettings..chkLoginPrompt..Caption
+#: connections.dfm:384
+msgid "Prompt for credentials"
+msgstr "Запрашивать учетные данные"
+
+#. connform..PageControlDetails..tabSettings..chkWindowsAuth..Caption
+#: connections.dfm:394
+msgid "Use Windows authentication"
+msgstr "Аутентификация Windows"
+
+#. connform..PageControlDetails..tabSettings..chkCleartextPluginEnabled..Caption
+#: connections.dfm:737
+msgid "Enable cleartext authentication"
+msgstr "Включить явную аутентификацию"
+
+#. connform..PageControlDetails..tabSettings..chkLocalTimeZone....Hint
+#: connections.dfm:406
+msgid ""
+"Use your client time zone in date/time SQL functions, e.g. NOW(), for MySQL "
+"4.1.3+"
+msgstr "Использовать часовой пояс клиента для функций времени, таких как NOW(), в MySQL 4.1.3+"
+
+#. connform..PageControlDetails..tabSettings..chkLocalTimeZone..Caption
+#: connections.dfm:408
+msgid "Use own client time zone"
+msgstr "Использовать свой часовой пояс клиента"
+
+#. Session > Advanced
+msgid "Get full table status"
+msgstr "Получать полные данные о состоянии таблиц"
+
+#. Session > Advanced
+msgid "Disable to speed up internal queries on databases with many tables"
+msgstr "Отключить для ускорения внутренних запросов в базах данных с большим количеством таблиц"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHLocalPort..Caption
+#: connections.dfm:424
+msgid "Local port:"
+msgstr "Локальный порт:"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHUser..Caption
+#: connections.dfm:432
+msgid "Username:"
+msgstr "Пользователь:"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHPlinkExe..Caption
+#: connections.dfm:448
+msgid "SSH executable:"
+msgstr ""
+
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHhost..Caption
+#: connections.dfm:455
+msgid "SSH host + port:"
+msgstr "SSH-хост + порт:"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblSSHkeyfile..Caption
+#: connections.dfm:463
+msgid "Private key file:"
+msgstr "Файл закрытого ключа:"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblDownloadPlink..Caption
+#: connections.dfm:473
+msgid "Download plink.exe"
+msgstr "Скачать plink.exe"
+
+#. connform..PageControlDetails..tabSSHtunnel..lblPlinkTimeout..Caption
+#: connections.dfm:487
+msgid "SSH timeout:"
+msgstr "SSH тайм-аут:"
+
+#. connform..PageControlDetails..tabSSHtunnel..editSSHUser..TextHint
+#: connections.dfm:508
+msgid "Your secure shell username"
+msgstr "Пользователь SSH"
+
+#. connform..PageControlDetails..tabSSHtunnel..editSSHPassword..TextHint
+#: connections.dfm:520
+msgid "Your secure shell password"
+msgstr "Пароль SSH"
+
+#. connform..PageControlDetails..tabSSHtunnel..editSSHPrivateKey..TextHint
+#: connections.dfm:571
+msgid "Private key / identify file"
+msgstr ""
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..Caption
+#: usermanager.dfm:468
+msgid "SSL options"
+msgstr "Опции SSL"
+
+#. connform..PageControlDetails..tabSSLOptions..lblSSLPrivateKey..Caption
+#: connections.dfm:606
+msgid "SSL private key:"
+msgstr "Закрытый ключ SSL:"
+
+#. connform..PageControlDetails..tabSSLOptions..lblSSLCACertificate..Caption
+#: connections.dfm:614
+msgid "SSL CA certificate:"
+msgstr "Сертификат SSL CA:"
+
+#. connform..PageControlDetails..tabSSLOptions..lblSSLCertificate..Caption
+#: connections.dfm:622
+msgid "SSL certificate:"
+msgstr "Cертификат SSL:"
+
+#. Session manager
+msgid "SSL cipher:"
+msgstr "Шифр SSL:"
+
+msgid "Path to key file"
+msgstr "Путь к файлу ключа"
+
+msgid "Path to certificate authority file"
+msgstr "Путь к сертификату центра авторизации"
+
+msgid "Path to certificate file"
+msgstr "Путь к файлу сертификата"
+
+msgid "List of permissible ciphers to use for SSL encryption"
+msgstr "Список допустимых шифров для SSL-шифрования"
+
+#. connform..PageControlDetails..tabSSLOptions..chkWantSSL..Caption
+#: connections.dfm:673
+msgid "Use SSL"
+msgstr "Использовать SSL"
+
+#. connform..PageControlDetails..tabStatistics..Caption
+#: connections.dfm:679
+msgid "Statistics"
+msgstr "Статистика"
+
+#. connform..PageControlDetails..tabStatistics..lblLastConnectLeft..Caption
+#: connections.dfm:689
+msgid "Last connect:"
+msgstr "Последний сеанс:"
+
+#. connform..PageControlDetails..tabStatistics..lblCounterLeft..Caption
+#: connections.dfm:696
+msgid "Counter:"
+msgstr "Счетчик:"
+
+#. connform..PageControlDetails..tabStatistics..lblCreatedLeft..Caption
+#: connections.dfm:703
+msgid "Created:"
+msgstr "Создано:"
+
+msgid "Rename"
+msgstr "Переименовать"
+
+#. MainForm..ActionList1..actSaveSQLAs..Caption
+msgid "Save as ..."
+msgstr "Сохранить как..."
+
+msgid "Duplicate / save as ..."
+msgstr "Дублировать / сохранить как..."
+
+#. connform..popupSessions..menuNewSession2..Caption
+#: connections.dfm:754
+msgid "New session"
+msgstr "Новый сеанс"
+
+#. connform..popupSessions..menuNewFolder2..Caption
+#: connections.dfm:759
+msgid "New folder"
+msgstr "Новая папка"
+
+#. connform..popupNew..menuNewFolder..Caption
+#: connections.dfm:786
+msgid "Folder"
+msgstr "Папка"
+
+#. CopyTableForm..Caption
+#: copytable.dfm:4
+msgid "Copy Table..."
+msgstr "Копировать таблицу ..."
+
+#. CopyTableForm..lblNewTablename..Caption
+#: copytable.dfm:32
+msgid "Copy \"%s\" to new db.table:"
+msgstr "Копировать \"%s\" в новую база_данных.таблица:"
+
+#. CopyTableForm..lblItems..Caption
+#: copytable.dfm:39
+msgid "Elements to create in new table:"
+msgstr "Элементы, создаваемые в новой таблице:"
+
+#. CopyTableForm..lblWhere..Caption
+#: copytable.dfm:47
+msgid "WHERE clause for data copying:"
+msgstr "Условие WHERE для копирования данных:"
+
+#. CopyTableForm..btnRecentFilters..Caption
+#. MainForm..popupFilter..menuRecentFilters..Caption
+#: copytable.dfm:145 main.dfm:9256
+msgid "Recent filters"
+msgstr "Недавние фильтры"
+
+#. Copy table dialog
+msgid "Please select the required index for the %s flag."
+msgstr "Пожалуйста, выберите требуемый индекс для флага %s."
+
+#. CreateDatabaseForm..Caption
+#: createdatabase.dfm:5 createdatabase.pas:92
+msgid "Create database ..."
+msgstr "Создать базу данных..."
+
+#. CreateDatabaseForm..lblDBName..Caption
+#. frmRoutineEditor..PageControlMain..tabOptions..lblName..Caption
+#: createdatabase.dfm:29 routine_editor.dfm:126
+msgid "&Name:"
+msgstr "&Имя:"
+
+#. CreateDatabaseForm..lblCollation..Caption
+#: createdatabase.dfm:45
+msgid "C&ollation:"
+msgstr "С&опоставление:"
+
+#. CreateDatabaseForm..editDBName..TextHint
+#: createdatabase.dfm:63
+msgid "Enter database name"
+msgstr "Введите имя базы данных"
+
+#. Create database dialog
+msgid "Servers default: %s"
+msgstr "По умолчанию: %s"
+
+#. DataSortingForm..pnlBevel..btnAddCol..Caption
+#: data_sorting.dfm:63
+msgid "Add Col"
+msgstr "Добавить"
+
+#. DataSortingForm..pnlBevel..btnReset..Caption
+#. MainForm..ActionList1..actDataResetSorting..Caption
+#: data_sorting.dfm:73 main.dfm:2462
+msgid "Reset sorting"
+msgstr "Сбросить сортировку"
+
+#. frmEditVariable..Caption
+#: editvar.dfm:4
+msgid "Edit server variable"
+msgstr "Редактировать серверную переменную"
+
+#. frmEditVariable..grpScope..Caption
+#: editvar.dfm:54
+msgid "Scope"
+msgstr "Область"
+
+#. frmEditVariable..grpScope..radioScopeSession..Caption
+#: editvar.dfm:61
+msgid "This session"
+msgstr "Текущий сеанс"
+
+#. frmEditVariable..grpScope..radioScopeGlobal..Caption
+#. frmSearchReplace..grpScope....Items.Strings
+#: editvar.dfm:69 searchreplace.dfm:173
+msgid "Global"
+msgstr "Глобальный"
+
+#. frmEditVariable..gbValue..Caption
+#: editvar.dfm:79
+msgid "name of variable"
+msgstr "имя переменной"
+
+#. frmEditVariable..gbValue..lblNumber..Caption
+#: editvar.dfm:96
+msgid "Number:"
+msgstr "Номер:"
+
+#. frmEditVariable..gbValue..lblEnum..Caption
+#: editvar.dfm:103
+msgid "Enumeration:"
+msgstr "Перечисление:"
+
+#. editvar.dfm
+msgid "Boolean:"
+msgstr "Логическое:"
+
+#. frmEditVariable..gbValue..radioBooleanOn..Caption
+#: editvar.dfm:117
+msgid "On"
+msgstr "Вкл"
+
+#. frmEditVariable..gbValue..radioBooleanOff..Caption
+#: editvar.dfm:125
+msgid "Off"
+msgstr "Выкл"
+
+#. frmEditVariable..btnHelp..Caption
+#. frmEventEditor..btnHelp..Caption
+#. frmRoutineEditor..btnHelp..Caption
+#. frmTableEditor..btnHelp..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabMaintenance..btnHelp..Caption
+#. frmTriggerEditor..btnHelp..Caption
+#. frmView..btnHelp..Caption
+#: editvar.dfm:172 event_editor.dfm:57 routine_editor.dfm:57
+#: table_editor.dfm:49 tabletools.dfm:245 trigger_editor.dfm:84 view.dfm:146
+msgid "Help"
+msgstr "Помощь"
+
+#. General help action
+msgid "General help"
+msgstr "Общая справка"
+
+#. General help action
+msgid "General online help document"
+msgstr "Общая справка по программе в интернете"
+
+#. frmEventEditor..lblBody..Caption
+#: event_editor.dfm:17
+msgid "Execution body:"
+msgstr "Тело запроса:"
+
+#. frmEventEditor..btnDiscard..Caption
+#. frmRoutineEditor..btnDiscard..Caption
+#. frmTableEditor..btnDiscard..Caption
+#. frmTriggerEditor..btnDiscard..Caption
+#. UserManagerForm..btnDiscard..Caption
+#. frmView..btnDiscard..Caption
+#: event_editor.dfm:67 routine_editor.dfm:46 table_editor.dfm:39
+#: trigger_editor.dfm:94 usermanager.dfm:562 view.dfm:110
+msgid "Discard"
+msgstr "Отмена"
+
+#. frmEventEditor..PageControlMain..tabSettings..lblName..Caption
+#. frmTableEditor..PageControlMain..tabBasic..lblName..Caption
+#. frmTriggerEditor..lblName..Caption
+#. frmView..lblName..Caption
+#: event_editor.dfm:104 table_editor.dfm:193 trigger_editor.dfm:15 view.dfm:15
+msgid "Name:"
+msgstr "Имя:"
+
+#. frmEventEditor..PageControlMain..tabSettings..lblComment..Caption
+#. frmTableEditor..PageControlMain..tabBasic..lblComment..Caption
+#: event_editor.dfm:112 table_editor.dfm:200
+msgid "Comment:"
+msgstr "Комментарий:"
+
+#. frmEventEditor..PageControlMain..tabSettings..editName..TextHint
+#: event_editor.dfm:122
+msgid "Enter event name ..."
+msgstr "Введите имя события…"
+
+#. frmEventEditor..PageControlMain..tabSettings..chkDropAfterExpiration..Caption
+#: event_editor.dfm:131
+msgid "Drop event after expiration"
+msgstr "Удалить событие по истечении"
+
+#. frmEventEditor..PageControlMain..tabSettings..grpState..Caption
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#: event_editor.dfm:150 main.dfm:892
+msgid "State"
+msgstr "Состояние"
+
+#. frmEventEditor..PageControlMain..tabScheduling..Caption
+#: event_editor.dfm:157
+msgid "Timing"
+msgstr "Тайминг"
+
+#. frmEventEditor..PageControlMain..tabScheduling..radioOnce..Caption
+#: event_editor.dfm:168
+msgid "Once, at:"
+msgstr "Один раз:"
+
+#. frmEventEditor..PageControlMain..tabScheduling..radioEvery..Caption
+#: event_editor.dfm:179
+msgid "Every"
+msgstr "Каждый"
+
+#. frmEventEditor..PageControlMain..tabScheduling..chkStarts..Caption
+#: event_editor.dfm:238
+msgid "Starts at:"
+msgstr "Начиная с:"
+
+#. frmEventEditor..PageControlMain..tabScheduling..chkEnds..Caption
+#: event_editor.dfm:247
+msgid "Ends at:"
+msgstr "Заканчивая:"
+
+#. frmEventEditor..PageControlMain..tabCREATEcode..Caption
+#. frmRoutineEditor..PageControlMain..tabCreateCode..Caption
+#. frmTableEditor..PageControlMain..tabCREATEcode..Caption
+#: event_editor.dfm:295 routine_editor.dfm:371 table_editor.dfm:617
+msgid "CREATE code"
+msgstr "Код CREATE"
+
+#. frmEventEditor..PageControlMain..tabALTERcode..Caption
+#. frmTableEditor..PageControlMain..tabALTERCode..Caption
+#: event_editor.dfm:331 table_editor.dfm:650
+msgid "ALTER code"
+msgstr "Код ALTER"
+
+#. Table editor
+msgid "Partitions"
+msgstr "Партиции"
+
+#. frmExportGrid..Caption
+#: exportgrid.dfm:5
+msgid "Export grid rows"
+msgstr "Экспорт строк"
+
+#. Grid context menu
+msgid "Copy as"
+msgstr "Копировать как"
+
+#. frmExportGrid..grpFormat..Caption
+#: exportgrid.dfm:54
+msgid "Output format"
+msgstr "Формат вывода"
+
+#. frmExportGrid..grpFormat....Items.Strings
+#: exportgrid.dfm:57
+msgid "Excel compatible"
+msgstr "Excel-совместимый"
+
+#. frmExportGrid..grpFormat....Items.Strings
+#: exportgrid.dfm:58
+msgid "Delimited text"
+msgstr "Текст с разделителями"
+
+#. frmExportGrid..grpFormat....Items.Strings
+#: exportgrid.dfm:59
+msgid "HTML table"
+msgstr "Tаблица HTML"
+
+#. frmExportGrid..grpFormat....Items.Strings
+#: exportgrid.dfm:64
+msgid "Wiki markup"
+msgstr "Wiki-разметка "
+
+#. frmExportGrid..grpSelection..Caption
+#: exportgrid.dfm:75
+msgid "Row selection"
+msgstr "Выбор строк"
+
+#. frmExportGrid..grpSelection....Items.Strings
+#: exportgrid.dfm:78
+msgid "Selected rows"
+msgstr "Выбранные строки"
+
+#. frmExportGrid..grpSelection....Items.Strings
+#: exportgrid.dfm:79
+msgid "All loaded rows"
+msgstr "Все загруженные строки"
+
+#. frmExportGrid..grpOutput..Caption
+#: exportgrid.dfm:88
+msgid "Output target"
+msgstr "Формат вывода"
+
+#. frmExportGrid..grpOutput..lblEncoding..Caption
+#. loaddataform..grpFilename..lblEncoding..Caption
+#: exportgrid.dfm:98 loaddata.dfm:77
+msgid "Encoding:"
+msgstr "Кодировка:"
+
+#. frmExportGrid..grpOutput..radioOutputCopyToClipboard..Caption
+#: exportgrid.dfm:106
+msgid "Copy to clipboard"
+msgstr "Копировать в буфер"
+
+#. frmExportGrid..grpOutput..radioOutputFile..Caption
+#. MainForm..ActionList1..actSessionManager..Category
+#. MainForm..ActionList1..actNewWindow..Category
+#. MainForm..ActionList1..actExitApplication..Category
+#. MainForm..ActionList1..actSelectTreeBackground..Category
+#. MainForm..ActionList1..actNewQueryTab..Category
+#. MainForm..ActionList1..actCloseQueryTab..Category
+#. MainForm..ActionList1..actDisconnect..Category
+#: exportgrid.dfm:118 main.dfm:1870 main.dfm:1877 main.dfm:1885 main.dfm:2367
+#: main.dfm:2407 main.dfm:2415 main.dfm:2532
+msgid "File"
+msgstr "Файл"
+
+#. frmExportGrid..grpOutput..editFilename..TextHint
+#: exportgrid.dfm:135
+msgid "Doubleclick to select file"
+msgstr "Двойной клик для выбора файла"
+
+#. frmExportGrid..grpOptions..Caption
+#. loaddataform..grpOptions..Caption
+#. frmRoutineEditor..PageControlMain..tabOptions..Caption
+#. frmSyncDB..grpOptions..Caption
+#. frmTableEditor..PageControlMain..tabOptions..Caption
+#: exportgrid.dfm:156 loaddata.dfm:195 routine_editor.dfm:116 syncdb.dfm:178
+#: table_editor.dfm:227
+msgid "Options"
+msgstr "Опции"
+
+#. frmExportGrid..grpOptions..lblSeparator..Caption
+#: exportgrid.dfm:166
+msgid "Field separator:"
+msgstr "Разделитель полей:"
+
+#. frmExportGrid..grpOptions..lblEncloser..Caption
+#: exportgrid.dfm:173
+msgid "Encloser:"
+msgstr "Заключить в:"
+
+#. frmExportGrid..grpOptions..lblTerminator..Caption
+#: exportgrid.dfm:180
+msgid "Line terminator:"
+msgstr "Разделитель строк:"
+
+msgid "NULL value:"
+msgstr "значение NULL:"
+
+#. frmExportGrid..grpOptions..chkIncludeColumnNames..Caption
+#: exportgrid.dfm:188
+msgid "Include column names"
+msgstr "Включить заголовки столбцов"
+
+#. frmExportGrid..grpOptions..chkIncludeAutoIncrement..Caption
+#: exportgrid.dfm:243
+msgid "Include auto increment column"
+msgstr "Включить столбец с нумерацией"
+
+#. frmExportGrid..grpOptions..chkIncludeQuery..Caption
+#: exportgrid.dfm:252
+msgid "Include SQL query"
+msgstr "Включить SQL-запрос"
+
+msgid "Remove linebreaks from contents"
+msgstr "Удалить переносы строк из контекста"
+
+#. frmExportGrid..popupCSVchar..menuCSVcomma..Caption
+#: exportgrid.dfm:266
+msgid "Comma"
+msgstr "Запятая"
+
+#. frmExportGrid..popupCSVchar..menuCSVsemicolon..Caption
+#: exportgrid.dfm:270
+msgid "Semicolon"
+msgstr "Точка с запятой"
+
+#. frmExportGrid..popupCSVchar..menuCSVsinglequote..Caption
+#: exportgrid.dfm:277
+msgid "Single quote"
+msgstr "Одинарная кавычка"
+
+#. frmExportGrid..popupCSVchar..menuCSVdoublequote..Caption
+#: exportgrid.dfm:281
+msgid "Double quote"
+msgstr "Двойная кавычка"
+
+#. frmExportGrid..popupCSVchar..menuCSVwinlinebreak..Caption
+#: exportgrid.dfm:288
+msgid "Windows linebreak"
+msgstr "Разделитель строк Windows"
+
+#. frmExportGrid..popupCSVchar..menuCSVunixlinebreak..Caption
+#: exportgrid.dfm:293
+msgid "UNIX linebreak"
+msgstr "Разделитель строк Unix"
+
+#. frmExportGrid..popupCSVchar..menuCSVmaclinebreak..Caption
+#: exportgrid.dfm:297
+msgid "Mac OS linebreak"
+msgstr "Разделитель строк Mac OS"
+
+#. frmExportGrid..popupCSVchar..menuCSVnul..Caption
+#: exportgrid.dfm:304
+msgid "NUL character"
+msgstr "Символ NUL"
+
+#. grid export
+msgid "Clipboard settings changed."
+msgstr "Настройки буфера обмена были изменены."
+
+#. grid export
+msgid "Save clipboard settings"
+msgstr "Сохр. настройки буфера"
+
+#. frmInsertFiles..Caption
+#: insertfiles.dfm:5
+msgid "Insert files..."
+msgstr "Вставить файлы..."
+
+#. frmInsertFiles..btnInsert..Caption
+#: insertfiles.dfm:33
+msgid "Import files"
+msgstr "Импорт файлов"
+
+#. frmInsertFiles..grpSelectObject..Caption
+#: insertfiles.dfm:57
+msgid "Target table and columns"
+msgstr "Целевая таблица и колонки"
+
+#. frmInsertFiles..grpSelectObject..lblTable..Caption
+#: insertfiles.dfm:67
+msgid "Database, table:"
+msgstr "База данных, таблица:"
+
+#. frmInsertFiles..grpSelectObject..lblFilecontents....Caption
+#: insertfiles.dfm:76
+msgid ""
+"Column values (Hint: Assign \"%filecontent%\" value to a BLOB or TEXT "
+"column)"
+msgstr "Значения столбцов (присвойте значение \"%filecontent%\" в BLOB или TEXT столбец)"
+
+#. frmInsertFiles..grpSelectObject..ListColumns......WideText
+#. frmRoutineEditor..PageControlMain..tabParameters..listParameters......WideText
+#. frmTableEditor..listColumns......WideText
+#: insertfiles.dfm:135 routine_editor.dfm:304 table_editor.dfm:112
+msgid "Datatype"
+msgstr "Тип данных"
+
+#. frmInsertFiles..grpSelectObject..ListColumns......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabVariables..ListVariables......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabStatus..ListStatus......WideText
+#: insertfiles.dfm:141 main.dfm:744 main.dfm:795
+msgid "Value"
+msgstr "Значение"
+
+#. frmInsertFiles..GroupBox2..Caption
+#: insertfiles.dfm:151
+msgid "Files to import"
+msgstr "Файлы для импорта"
+
+#. frmInsertFiles..GroupBox2..lblDropHint....Caption
+#: insertfiles.dfm:165
+msgid "Hint: You can drop files from your Windows Explorer onto the list."
+msgstr "Подсказка: Вы можете перетаскивать файлы из Проводника Windows в список."
+
+#. frmInsertFiles..GroupBox2..ListFiles......WideText
+#: insertfiles.dfm:214
+msgid "Filename"
+msgstr "Имя файла"
+
+#. frmInsertFiles..GroupBox2..ListFiles......WideText
+#: insertfiles.dfm:220
+msgid "Binary"
+msgstr "Двоичный"
+
+#. frmInsertFiles..GroupBox2..ListFiles......WideText
+#. MainForm..panelTop..pnlLeft..DBtree......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabDatabases..ListDatabases......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#. frmSelectDBObject..TreeDBO......WideText
+#. frmTableTools..pnlTop..TreeObjects......WideText
+#: insertfiles.dfm:226 main.dfm:453 main.dfm:655 main.dfm:1111
+#: selectdbobject.dfm:74 tabletools.dfm:105
+msgid "Size"
+msgstr "Размер"
+
+#. frmInsertFiles..GroupBox2..ToolBar1..btnAddFiles..Caption
+#. frmRoutineEditor..PageControlMain..tabParameters..tlbParameters..btnAddParam..Caption
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnAddIndex..Caption
+#. frmTableEditor..PageControlMain..tabForeignKeys..tlbForeignKeys..btnAddForeignKey..Caption
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnAddColumn..Caption
+#. UserManagerForm..pnlLeft..ToolBar1..btnAddUser..Caption
+#: insertfiles.dfm:244 routine_editor.dfm:329 table_editor.dfm:456
+#: table_editor.dfm:517 table_editor.dfm:718 usermanager.dfm:155
+msgid "Add"
+msgstr "Добавить"
+
+#. frmInsertFiles..GroupBox2..ToolBar1..btnRemoveFiles..Caption
+#. frmRoutineEditor..PageControlMain..tabParameters..tlbParameters..btnRemoveParam..Caption
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnRemoveIndex..Caption
+#. frmTableEditor..PageControlMain..tabForeignKeys..tlbForeignKeys..btnRemoveForeignKey..Caption
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnRemoveColumn..Caption
+#. frmTableEditor..popupIndexes..menuRemoveIndex..Caption
+#: insertfiles.dfm:251 routine_editor.dfm:337 table_editor.dfm:465
+#: table_editor.dfm:525 table_editor.dfm:726 table_editor.dfm:765
+msgid "Remove"
+msgstr "Удалить"
+
+#. frmInsertFiles..GroupBox2..ToolBar1..btnClearFiles..Caption
+#. MainForm..ActionList1..actClearQueryEditor..Caption
+#. MainForm..ActionList1..actClearFilterEditor..Caption
+#. MainForm..popupSqlLog..Clear2..Caption
+#. frmRoutineEditor..PageControlMain..tabParameters..tlbParameters..btnClearParams..Caption
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnClearIndexes..Caption
+#. frmTableEditor..PageControlMain..tabForeignKeys..tlbForeignKeys..btnClearForeignKeys..Caption
+#. frmTableEditor..popupIndexes..menuClearIndexes..Caption
+#: insertfiles.dfm:259 main.dfm:2290 main.dfm:2299 main.dfm:9005
+#: routine_editor.dfm:346 table_editor.dfm:474 table_editor.dfm:534
+#: table_editor.dfm:771
+msgid "Clear"
+msgstr "Очистить"
+
+#. frmInsertFiles..OpenDialog....Filter
+#: insertfiles.dfm:269
+msgid ""
+"All files (*.*)|*.*|Common images (*.jpg, *.gif, *.bmp, "
+"*.png)|*.jpg;*.gif;*.bmp;*.png"
+msgstr "Все файлы (*.*)|*.*|Изображения (*.jpg, *.gif, *.bmp, *.png)|*.jpg;*.gif;*.bmp;*.png"
+
+#. loaddataform..Caption
+#: loaddata.dfm:4
+msgid "Import text file"
+msgstr "Импортировать текстовый файл"
+
+#. loaddataform..btnImport..Caption
+#: loaddata.dfm:32
+msgid "Import!"
+msgstr "Импорт!"
+
+#. loaddataform..grpFilename..Caption
+#: loaddata.dfm:56
+msgid "Input file"
+msgstr "Входной файл"
+
+#. loaddataform..grpFilename..lblFilename..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..lblExportOutputTarget..Caption
+#: loaddata.dfm:68 tabletools.dfm:350
+msgid "Filename:"
+msgstr "Имя файла:"
+
+#. loaddataform..grpChars..Caption
+#: loaddata.dfm:112
+msgid "Control characters"
+msgstr "Управляющие символы"
+
+#. loaddataform..grpChars..lblFieldTerminater..Caption
+#: loaddata.dfm:122
+msgid "Fields terminated by"
+msgstr "Разделитель полей"
+
+#. loaddataform..grpChars..lblFieldEncloser..Caption
+#: loaddata.dfm:129
+msgid "Fields enclosed by"
+msgstr "Поля заключены в"
+
+#. loaddataform..grpChars..lblFieldEscaper..Caption
+#: loaddata.dfm:136
+msgid "Fields escaped by"
+msgstr "Экранировать"
+
+#. loaddataform..grpChars..lblLineTerminator..Caption
+#: loaddata.dfm:143
+msgid "Lines terminated by"
+msgstr "Разделитель строк"
+
+#. loaddataform..grpChars..chkFieldsEnclosedOptionally..Caption
+#: loaddata.dfm:175
+msgid "optionally"
+msgstr "опционально"
+
+#. loaddataform..grpOptions..lblIgnoreLinesCount..Caption
+#: loaddata.dfm:205
+msgid "lines"
+msgstr "строки"
+
+#. loaddataform..grpOptions..lblIgnoreLines..Caption
+#: loaddata.dfm:212
+msgid "Ignore first"
+msgstr "Игнорировать первую"
+
+#. loaddataform..grpOptions..chkLowPriority..Caption
+#: loaddata.dfm:238
+msgid "Low priority, avoid high server load"
+msgstr "Низкий приоритет, ниже нагрузка"
+
+#. loaddataform..grpOptions..chkLocalNumbers....Caption
+#: loaddata.dfm:252
+msgid "Input file contains local formatted numbers, e.g. 1.234,56 in Germany"
+msgstr "Числа в локальных форматах, например: 1.234,56 в Германии"
+
+#. loaddataform..grpOptions..chkTruncateTable..Caption
+#: loaddata.dfm:262
+msgid "Truncate destination table before import"
+msgstr "Очистка целевой таблицы перед импортом"
+
+#. loaddataform..grpDuplicates..Caption
+#: loaddata.dfm:272
+msgid "Handling of duplicate rows"
+msgstr "Обработка дубликатов"
+
+#. loaddataform..grpDuplicates....Items.Strings
+#: loaddata.dfm:275
+msgid "INSERT (may throw errors)"
+msgstr "INSERT (может вызвать ошибки)"
+
+#. loaddataform..grpDuplicates....Items.Strings
+#: loaddata.dfm:276
+msgid "INSERT IGNORE (duplicates)"
+msgstr "INSERT IGNORE (игнорировать)"
+
+#. loaddataform..grpDuplicates....Items.Strings
+#: loaddata.dfm:277
+msgid "REPLACE (duplicates)"
+msgstr "REPLACE (заменить)"
+
+#. loaddataform..grpParseMethod..Caption
+#: loaddata.dfm:286
+msgid "Method"
+msgstr "Метод"
+
+#. loaddataform..grpParseMethod....Items.Strings
+#: loaddata.dfm:289
+msgid "Server parses file contents (LOAD DATA)"
+msgstr "Сервер разбирает содержимое (LOAD DATA)"
+
+#. loaddataform..grpParseMethod....Items.Strings
+#: loaddata.dfm:290
+msgid "Client parses file contents"
+msgstr "Клиент разбирает содержимое"
+
+#. loaddataform..grpDestination..Caption
+#: loaddata.dfm:301
+msgid "Destination"
+msgstr "Назначение"
+
+#. loaddataform..grpDestination..lblDatabase..Caption
+#. frmSyncDB..grpTarget..lblTargetDatabase..Caption
+#: loaddata.dfm:311 syncdb.dfm:95
+msgid "Database:"
+msgstr "База данных:"
+
+#. loaddataform..grpDestination..lblTable..Caption
+#. frmSyncDB..grpTarget..lblTargetTable..Caption
+#: loaddata.dfm:318 syncdb.dfm:102
+msgid "Table:"
+msgstr "Таблица:"
+
+#. loaddataform..grpDestination..lblColumns..Caption
+#. frmTableEditor..pnlColumnsTop..Caption
+#. frmTableEditor..pnlColumnsTop..tlbColumns..Caption
+#: loaddata.dfm:325 table_editor.dfm:695 table_editor.dfm:709
+msgid "Columns:"
+msgstr "Столбцы:"
+
+#. CSV import
+msgid "Cannot truncate table"
+msgstr "Невозможно очистить таблицу"
+
+#. frmLogin..Caption
+#. frmLogin..btnOK..Caption
+#: loginform.dfm:5 loginform.dfm:29
+msgid "Login"
+msgstr "Логин"
+
+#. frmLogin..pnlBackground..lblUsername..Caption
+#: loginform.dfm:63
+msgid "&Username:"
+msgstr "&Пользователь:"
+
+#. frmLogin..pnlBackground..lblPassword..Caption
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..lblPassword..Caption
+#: loginform.dfm:72 usermanager.dfm:280
+msgid "&Password:"
+msgstr "&Пароль:"
+
+#. MainForm..Font.Name
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..pnlProcessViewBox..pnlProcessView..lblExplainProcess..Font.Name
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..pnlProcessViewBox..pnlProcessView..lblExplainProcessAnalyzer..Font.Name
+#. MainForm..ParameterCompletionProposal..TitleFont.Name
+#. frmTableEditor..listColumns......WideText
+#: main.dfm:10 main.dfm:930 main.dfm:947 main.dfm:9356 table_editor.dfm:143
+msgid "Default"
+msgstr "По умолчанию"
+
+#. MainForm..ControlBar1..ToolBarData..Caption
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..Caption
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..pnlDataTop..lblDataTop..Caption
+#. MainForm..ActionList1..actDataPreview..Category
+#. MainForm..ActionList1..actDataFirst..Category
+#. MainForm..ActionList1..actDataLast..Category
+#. MainForm..ActionList1..actDataInsert..Category
+#. MainForm..ActionList1..actDataDuplicateRow..Category
+#. MainForm..ActionList1..actDataDelete..Category
+#. MainForm..ActionList1..actDataPostChanges..Category
+#. MainForm..ActionList1..actDataCancelChanges..Category
+#. MainForm..ActionList1..actClearFilterEditor..Category
+#. MainForm..ActionList1..actApplyFilter..Category
+#. MainForm..ActionList1..actRemoveFilter..Category
+#. MainForm..ActionList1..actDataResetSorting..Category
+#. MainForm..ActionList1..actBlobAsText..Category
+#. MainForm..ActionList1..actDataShowNext..Category
+#. MainForm..ActionList1..actDataShowAll..Category
+#. MainForm..ActionList1..actDataSetNull..Category
+#. MainForm..ActionList1..actDataSaveBlobToFile..Category
+#. MainForm..ActionList1..actGridEditFunction..Category
+#. frmSyncDB..grpOptions..radioOptionsData..Caption
+#: main.dfm:223 main.dfm:1214 main.dfm:1247 main.dfm:2015 main.dfm:2060
+#: main.dfm:2068 main.dfm:2076 main.dfm:2085 main.dfm:2093 main.dfm:2102
+#: main.dfm:2111 main.dfm:2298 main.dfm:2354 main.dfm:2361 main.dfm:2461
+#: main.dfm:2478 main.dfm:2486 main.dfm:2494 main.dfm:2516 main.dfm:2525
+#: main.dfm:2582 options.dfm:599 syncdb.dfm:195
+msgid "Data"
+msgstr "Данные"
+
+#. Short and longer hint, separated by pipe
+#: main.dfm:384
+msgid ""
+"Database filter|A list of databases, separated by semicolon. Can contain "
+"regular expressions, e.g. \"mydb;test.*;project\\d+\"."
+msgstr "Фильтр баз данных|Список баз данных, разделенных точкой с запятой. Может содержать RegExp, например: \"mydb;test.*;project\\d+\"."
+
+#. MainForm..panelTop..pnlLeft..comboDBFilter..TextHint
+#: main.dfm:393
+msgid "Database filter"
+msgstr "Фильтр баз данных"
+
+#. Table filter box
+msgid "Table filter"
+msgstr "Фильтр таблиц"
+
+#. Table filter box hint, short and longer hint, separated by pipe
+msgid "Table filter|Can contain regular expressions, e.g. \"phpbb_\\d\""
+msgstr "Фильтр таблиц|Может содержать RegExp, например \"phpbb_\\d\""
+
+#. Tree favorites button
+msgid "Show only favorite tree items"
+msgstr "Отображать только избранные элементы дерева"
+
+msgid "Show only favorites"
+msgstr "Отображать только избранные"
+
+#. MainForm..panelTop..pnlLeft..DBtree......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#. frmRoutineEditor..PageControlMain..tabParameters..listParameters......WideText
+#. frmSelectDBObject..TreeDBO......WideText
+#. frmSyncDB..treeSource......WideText
+#. frmTableEditor..listColumns......WideText
+#. frmTableEditor..PageControlMain..tabIndexes..treeIndexes......WideText
+#: main.dfm:446 main.dfm:1101 routine_editor.dfm:298 selectdbobject.dfm:69
+#: syncdb.dfm:69 table_editor.dfm:106 table_editor.dfm:425
+msgid "Name"
+msgstr "Имя"
+
+#. MainForm..panelTop..pnlLeft..pnlPreview..lblPreviewTitle..Caption
+#: main.dfm:491
+msgid "Preview ..."
+msgstr "Просмотр..."
+
+#. MainForm..panelTop..pnlLeft..pnlPreview..ToolBarPreview..btnPreviewClose..Hint
+#: main.dfm:522
+msgid "Close preview"
+msgstr "Закрыть просмотр"
+
+#. MainForm..panelTop..pnlRight..pnlFilterVT..lblFilterVT..Caption
+#: main.dfm:552
+msgid "Filter:"
+msgstr "Фильтр:"
+
+#. MainForm..panelTop..pnlRight..pnlFilterVT..btnCloseFilterPanel..Hint
+#: main.dfm:566
+msgid "Hides the filter panel"
+msgstr "Скрыть панель фильтра"
+
+#. MainForm..panelTop..pnlRight..pnlFilterVT..editFilterVT..RightButton.Hint
+#: main.dfm:576
+msgid "Clear filter"
+msgstr "Очистить фильтр"
+
+#. Host > Databases tab
+#. Session manager > Settings tabs
+msgid "Databases"
+msgstr "Базы данных"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabDatabases..ListDatabases......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..Caption
+#. MainForm..ActionList1..actCopyTable..Category
+#. MainForm..ActionList1..actDropObjects..Category
+#. MainForm..ActionList1..actCreateView..Category
+#. MainForm..ActionList1..actCreateTable..Category
+#. MainForm..ActionList1..actEmptyTables..Category
+#. MainForm..ActionList1..actCreateDatabase..Category
+#. MainForm..ActionList1..actCreateDatabase..Caption
+#. MainForm..ActionList1..actCreateRoutine..Category
+#. MainForm..ActionList1..actCreateTrigger..Category
+#. MainForm..ActionList1..actRunRoutines..Category
+#. MainForm..ActionList1..actCreateEvent..Category
+#: main.dfm:650 main.dfm:1055 main.dfm:1968 main.dfm:2044 main.dfm:2052
+#: main.dfm:2120 main.dfm:2128 main.dfm:2137 main.dfm:2138 main.dfm:2400
+#: main.dfm:2445 main.dfm:2502 main.dfm:2508
+msgid "Database"
+msgstr "База данных"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabDatabases..ListDatabases......WideText
+#: main.dfm:659
+msgid "Items"
+msgstr "Объекты"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabDatabases..ListDatabases......WideText
+#: main.dfm:663
+msgid "Last modification"
+msgstr "Последнее изменение"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabDatabases..ListDatabases......WideText
+#: main.dfm:692
+msgid "Default collation"
+msgstr "Сопоставление по-умолчанию"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabVariables..Caption
+#: main.dfm:697
+msgid "Variables"
+msgstr "Переменные"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabVariables..ListVariables......WideText
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabStatus..ListStatus......WideText
+#: main.dfm:739 main.dfm:789
+msgid "Variable"
+msgstr "Переменная"
+
+#. MainForm..ActionList1..actFlushHosts..Caption
+msgid "Hosts"
+msgstr "Хосты"
+
+#. MainForm..ActionList1..actFlushLogs..Caption
+msgid "Logs"
+msgstr "Журналы"
+
+#. MainForm..ActionList1..actFlushPrivileges..Caption
+msgid "Privileges"
+msgstr "Разрешения"
+
+#. MainForm..ActionList1..actFlushTableswithreadlock..Caption
+msgid "Tables with read lock"
+msgstr "Таблицы с блокировкой чтения"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabStatus..Caption
+#. MainForm..ActionList1..actFlushStatus..Caption
+#: main.dfm:749 main.dfm:2216
+msgid "Status"
+msgstr "Состояние"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabStatus..ListStatus......WideText
+#: main.dfm:801
+msgid "Avg per hour"
+msgstr "Сред. за час"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabStatus..ListStatus......WideText
+#: main.dfm:807
+msgid "Avg per second"
+msgstr "Сред. за секунду"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..Caption
+#: main.dfm:812
+msgid "Processes"
+msgstr "Процессы"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#: main.dfm:879
+msgid "DB"
+msgstr "БД"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#: main.dfm:884
+msgid "Command"
+msgstr "Команда"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#. Data grid > Insert value
+#: main.dfm:888
+msgid "Time"
+msgstr "Время"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..ListProcesses......WideText
+#: main.dfm:897
+msgid "Info"
+msgstr "Информация"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..pnlProcessViewBox..pnlProcessView..Caption
+#: main.dfm:916
+msgid "Process SQL:"
+msgstr "Обработать SQL:"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..pnlProcessViewBox..pnlProcessView..lblExplainProcess..Hint
+#: main.dfm:924
+msgid "Analyze this query"
+msgstr "Анализировать запрос"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabProcessList..pnlProcessViewBox..pnlProcessView..lblExplainProcessAnalyzer..Hint
+#: main.dfm:941
+msgid "Analyze this query on MariaDB.org"
+msgstr "Анализировать запрос на MariaDB.org"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..Caption
+#: main.dfm:984
+msgid "Command-Statistics"
+msgstr "Статистика команд"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..ListCommandStats......WideText
+#: main.dfm:1025
+msgid "Command-type"
+msgstr "Тип команды"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..ListCommandStats......WideText
+#: main.dfm:1031
+msgid "Total count"
+msgstr "Общее число"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..ListCommandStats......WideText
+#: main.dfm:1037
+msgid "Average per hour"
+msgstr "Среднее за час"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..ListCommandStats......WideText
+#: main.dfm:1043
+msgid "Average per second"
+msgstr "Среднее за секунду"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabHost..PageControlHost..tabCommandStats..ListCommandStats......WideText
+#: main.dfm:1048
+msgid "Percentage"
+msgstr "Процентаж"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1106
+msgid "Rows"
+msgstr "Строк"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1116 tabletools.pas:1201
+msgid "Created"
+msgstr "Создано"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1121
+msgid "Updated"
+msgstr "Обновлено"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1126
+msgid "Engine"
+msgstr "Движок"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#. frmTableEditor..listColumns......WideText
+#: main.dfm:1131 table_editor.dfm:149
+msgid "Comment"
+msgstr "Комментарий"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1142
+msgid "Row format"
+msgstr "Формат строки"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1149
+msgid "Avg row length"
+msgstr "Сред. длина строки"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1156
+msgid "Max data length"
+msgstr "Максимальная длина данных"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1163
+msgid "Index length"
+msgstr "Длина индекса"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1170
+msgid "Data free"
+msgstr "Очистка данных"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1177
+msgid "Auto increment"
+msgstr "Автоинкремент"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1183
+msgid "Check time"
+msgstr "Время проверки"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#. frmTableEditor..listColumns......WideText
+#: main.dfm:1189 table_editor.dfm:155
+msgid "Collation"
+msgstr "Сопоставление"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1195
+msgid "Checksum"
+msgstr "Контрольная сумма"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1201
+msgid "Create options"
+msgstr "Опции создания"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabDatabase..ListTables......WideText
+#: main.dfm:1205
+msgid "Type"
+msgstr "Тип"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..lblSorryNoData..Caption
+#: main.dfm:1223
+msgid "No data available for this item."
+msgstr "Данные по этому элементу недоступны."
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..pnlDataTop..tlbDataButtons..tbtnDataSorting..Caption
+#: main.dfm:1289
+msgid "Sorting"
+msgstr "Сортировка"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..pnlDataTop..tlbDataButtons..tbtnDataFilter..Caption
+#. frmSQLhelp..pnlMain..pnlLeft..editFilter..TextHint
+#: main.dfm:1307 sqlhelp.dfm:93
+msgid "Filter"
+msgstr "Фильтр"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..pnlFilter..lblTableFilter..Caption
+#: main.dfm:1331
+msgid "Create multi column filter:"
+msgstr "Мультистолбцовый фильтр:"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabData..pnlFilter..lblRecentFilters..Caption
+#: main.dfm:1338
+msgid "Recent filters:"
+msgstr "Недавние фильтры:"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabQuery..Caption
+#: main.dfm:1461
+msgid "Query"
+msgstr "Запрос"
+
+#. MainForm..panelTop..pnlRight..PageControlMain..tabQuery..pnlQueryMemo..treeQueryHelpers......WideText
+#: main.dfm:1584
+msgid "Attributes"
+msgstr "Атрибуты"
+
+#. MainForm..MainMenu1..File1..Caption
+#: main.dfm:1679
+msgid "&File"
+msgstr "&Файл"
+
+#. MainForm..MainMenu1..File1..Hint
+#: main.dfm:1680
+msgid "File related commands"
+msgstr "Команды, относящиеся к меню \"Файл\""
+
+#. MainForm..MainMenu1..File1..menuConnectTo..Caption
+#: main.dfm:1686
+msgid "Connect to"
+msgstr "Соединиться с…"
+
+#. MainForm..MainMenu1..Edit1..Caption
+#: main.dfm:1718
+msgid "&Edit"
+msgstr "&Редактировать"
+
+#. MainForm..MainMenu1..Edit1..Hint
+#: main.dfm:1719
+msgid "Edit commands"
+msgstr "Команды, относящиеся к меню \"Правка\""
+
+#. MainForm..MainMenu1..Search1..Caption
+#. frmSQLhelp..pnlMain..pnlLeft..editFilter..LeftButton.Hint
+#: main.dfm:1747 sqlhelp.dfm:88
+msgid "Search"
+msgstr "Поиск"
+
+#. MainForm..MainMenu1..Extra1..Caption
+#: main.dfm:1762
+msgid "&Tools"
+msgstr "Инстру&менты"
+
+#. MainForm..MainMenu1..Help1..Caption
+#: main.dfm:1837
+msgid "&Help"
+msgstr "&Справка"
+
+#. MainForm..MainMenu1..Help1..Hint
+#: main.dfm:1838
+msgid "Help topics"
+msgstr "Разделы справки"
+
+#. MainForm..ActionList1..actSessionManager..Hint
+#: main.dfm:1872
+msgid "Display session manager"
+msgstr "Открыть менеджер сеансов"
+
+#. MainForm..ActionList1..actNewWindow..Caption
+#: main.dfm:1878
+msgid "New &window"
+msgstr "Новое &окно"
+
+#. MainForm..ActionList1..actNewWindow..Hint
+#: main.dfm:1879
+msgid "New window..."
+msgstr "Новое окно..."
+
+#. MainForm..ActionList1..actExitApplication..Caption
+#: main.dfm:1886
+msgid "E&xit"
+msgstr "В&ыход"
+
+#. Short and longer hint, separated by pipe
+msgid "Exit|Exit application"
+msgstr "Выход|Выход из программы"
+
+#. MainForm..ActionList1..actCopy..Category
+#. MainForm..ActionList1..actPaste..Category
+#. MainForm..ActionList1..actCut..Category
+#. MainForm..ActionList1..actUndo..Category
+#. MainForm..ActionList1..actAboutBox..Category
+#. MainForm..ActionList1..actPrintList..Category
+#. MainForm..ActionList1..actRefresh..Category
+#. MainForm..ActionList1..actWebDownloadpage..Category
+#. MainForm..ActionList1..actWebForum..Category
+#. MainForm..ActionList1..actWebChangelog..Category
+#. MainForm..ActionList1..actReadme..Category
+#. MainForm..ActionList1..actSelectAll..Category
+#. MainForm..ActionList1..actSelectInverse..Category
+#. MainForm..ActionList1..actFilterPanel..Category
+#. MainForm..ActionList1..actCancelOperation..Category
+#. MainForm..ActionList1..actLogHorizontalScrollbar..Category
+#. MainForm..ActionList1..actGroupObjects..Category
+#: main.dfm:1892 main.dfm:1900 main.dfm:1915 main.dfm:1923 main.dfm:1930
+#: main.dfm:1960 main.dfm:2152 main.dfm:2227 main.dfm:2234 main.dfm:2241
+#: main.dfm:2248 main.dfm:2392 main.dfm:2423 main.dfm:2430 main.dfm:2554
+#: main.dfm:2590 main.dfm:2596
+msgid "Various"
+msgstr "Прочее"
+
+#. MainForm..ActionList1..actCopy..Caption
+#: main.dfm:1893
+msgid "&Copy"
+msgstr "&Копировать"
+
+#. Short and longer hint, separated by pipe
+msgid "Copy|Copy to Clipboard"
+msgstr "Копировать|Копировать в буфер"
+
+#. MainForm..ActionList1..actPaste..Caption
+#: main.dfm:1901
+msgid "&Paste"
+msgstr "&Вставить"
+
+#. Short and longer hint, separated by pipe
+msgid "Paste|Paste from Clipboard"
+msgstr "Вставить|Вставить из буфера обмена"
+
+#. MainForm..ActionList1..actUserManager..Category
+#. MainForm..ActionList1..actMaintenance..Category
+#. MainForm..ActionList1..actFindTextOnServer..Category
+#. MainForm..ActionList1..actSQLhelp..Category
+#. MainForm..ActionList1..actPreferences..Category
+#. MainForm..ActionList1..actFlushHosts..Category
+#. MainForm..ActionList1..actFlushLogs..Category
+#. MainForm..ActionList1..actFlushPrivileges..Category
+#. MainForm..ActionList1..actFlushTables..Category
+#. MainForm..ActionList1..actFlushTableswithreadlock..Category
+#. MainForm..ActionList1..actFlushStatus..Category
+#. MainForm..ActionList1..actUpdateCheck..Category
+#. MainForm..ActionList1..actPreviousTab..Category
+#. MainForm..ActionList1..actNextTab..Category
+#. MainForm..ActionList1..actBulkTableEdit..Category
+#. MainForm..ActionList1..actLaunchCommandline..Category
+#: main.dfm:1908 main.dfm:1937 main.dfm:1944 main.dfm:2144 main.dfm:2179
+#: main.dfm:2185 main.dfm:2191 main.dfm:2197 main.dfm:2203 main.dfm:2209
+#: main.dfm:2215 main.dfm:2221 main.dfm:2374 main.dfm:2383 main.dfm:2439
+#: main.dfm:2576
+msgid "Tools"
+msgstr "Инструменты"
+
+#. MainForm..ActionList1..actUserManager..Caption
+#: main.dfm:1909
+msgid "User manager"
+msgstr "Управление пользователями"
+
+#. MainForm..ActionList1..actUserManager..Hint
+#: main.dfm:1910
+msgid "Manage user authentication and privileges"
+msgstr "Управление аутентификацией пользователей и привилегиями"
+
+#. MainForm..ActionList1..actCut..Caption
+#: main.dfm:1916
+msgid "Cu&t"
+msgstr "В&ырезать"
+
+#. Short and longer hint, separated by pipe
+msgid "Cut|Cuts the selection and puts it on the Clipboard"
+msgstr "Вырезать|Вырезать выделенное и поместить в буфер обмена"
+
+#. MainForm..ActionList1..actUndo..Caption
+#: main.dfm:1924
+msgid "&Undo"
+msgstr "Отме&на"
+
+#. Short and longer hint, separated by pipe
+msgid "Undo|Revert last modification"
+msgstr ""
+
+#. MainForm..ActionList1..actAboutBox..Caption
+#: main.dfm:1931
+msgid "About..."
+msgstr "О программе..."
+
+#. MainForm..ActionList1..actAboutBox..Hint
+#: main.dfm:1932
+msgid "About this application"
+msgstr "Об этой программе"
+
+#. MainForm..ActionList1..actMaintenance..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabMaintenance..Caption
+#: main.dfm:1938 tabletools.dfm:152
+msgid "Maintenance"
+msgstr "Обслуживание"
+
+#. MainForm..ActionList1..actMaintenance..Hint
+#: main.dfm:1939
+msgid "Optimize, repair and analyse tables"
+msgstr "Оптимизация, восстановление и анализ таблиц"
+
+#. MainForm..ActionList1..actFindTextOnServer..Caption
+#: main.dfm:1945
+msgid "Find text on server"
+msgstr "Найти текст на сервере"
+
+#. MainForm..ActionList1..actFindTextOnServer..Hint
+#: main.dfm:1946
+msgid "Searches selected tables for text occurences"
+msgstr "Поиск текста в выбранных таблицах"
+
+#. MainForm..ActionList1..actExportData..Category
+#. MainForm..ActionList1..actInsertFiles..Category
+#. MainForm..ActionList1..actExportTables..Category
+#. MainForm..ActionList1..actImportCSV..Category
+#. MainForm..ActionList1..actExportSettings..Category
+#. MainForm..ActionList1..actImportSettings..Category
+#. MainForm..ActionList1..actSynchronizeDatabase..Category
+#: main.dfm:1952 main.dfm:2023 main.dfm:2029 main.dfm:2160 main.dfm:2167
+#: main.dfm:2173 main.dfm:2570
+msgid "Export/Import"
+msgstr "Экспорт/Импорт"
+
+#. MainForm..ActionList1..actExportData..Hint
+#: main.dfm:1955
+msgid "Export rows to file or copy to clipboard, in various formats"
+msgstr "Экспортировать строки в файл или скопировать в буфер обмена, в различных форматах"
+
+#. MainForm..ActionList1..actPrintList..Caption
+#: main.dfm:1961
+msgid "Print..."
+msgstr "Печать..."
+
+#. MainForm..ActionList1..actPrintList..Hint
+#: main.dfm:1962
+msgid "Print List or Data"
+msgstr "Печать списка или данных"
+
+#. MainForm..ActionList1..actCopyTable..Caption
+#: main.dfm:1969
+msgid "Table copy"
+msgstr "Копировать таблицу"
+
+#. MainForm..ActionList1..actCopyTable..Hint
+#: main.dfm:1971
+msgid "Create a base table copy of this table or view"
+msgstr "Создать копию таблицы или представления"
+
+#. MainForm..ActionList1..actExecuteQuery..Category
+#. MainForm..ActionList1..actExecuteSelection..Category
+#. MainForm..ActionList1..actExecuteCurrentQuery..Category
+#. MainForm..ActionList1..actExplainCurrentQuery..Category
+#. MainForm..ActionList1..actExplainAnalyzeCurrentQuery..Category
+#. MainForm..ActionList1..actLoadSQL..Category
+#. MainForm..ActionList1..actSaveSQLAs..Category
+#. MainForm..ActionList1..actSaveSQLselection..Category
+#. MainForm..ActionList1..actSaveSQLSnippet..Category
+#. MainForm..ActionList1..actSaveSQLSelectionSnippet..Category
+#. MainForm..ActionList1..actClearQueryEditor..Category
+#. MainForm..ActionList1..actQueryStopOnErrors..Category
+#. MainForm..ActionList1..actQueryWordWrap..Category
+#. MainForm..ActionList1..actQueryFind..Category
+#. MainForm..ActionList1..actQueryReplace..Category
+#. MainForm..ActionList1..actQueryFindAgain..Category
+#. MainForm..ActionList1..actSetDelimiter..Category
+#. MainForm..ActionList1..actSaveSQL..Category
+#. MainForm..ActionList1..actReformatSQL..Category
+#. MainForm..ActionList1..actBatchInOneGo..Category
+#. MainForm..ActionList1..actSingleQueries..Category
+#. MainForm..ActionList1..actToggleComment..Category
+#. optionsform..pagecontrolMain..tabSQL..Caption
+#: main.dfm:1976 main.dfm:1985 main.dfm:1994 main.dfm:2003 main.dfm:2009
+#: main.dfm:2036 main.dfm:2255 main.dfm:2264 main.dfm:2273 main.dfm:2281
+#: main.dfm:2289 main.dfm:2306 main.dfm:2315 main.dfm:2323 main.dfm:2331
+#: main.dfm:2339 main.dfm:2346 main.dfm:2452 main.dfm:2468 main.dfm:2538
+#: main.dfm:2546 main.dfm:2563 options.dfm:343
+msgid "SQL"
+msgstr "SQL"
+
+#. MainForm..ActionList1..actExecuteQuery..Caption
+#: main.dfm:1977
+msgid "Run"
+msgstr "Выполнить"
+
+#. MainForm..ActionList1..actExecuteQuery..Hint
+#: main.dfm:1979
+msgid "Execute SQL...|Execute SQL-query/queries..."
+msgstr "Выполнить SQL...|Выполнить SQL-запрос/запросы..."
+
+#. MainForm..ActionList1..actExecuteSelection..Caption
+#: main.dfm:1986
+msgid "Run Selection"
+msgstr "Выполнить выбранное"
+
+#. MainForm..ActionList1..actExecuteSelection..Hint
+#: main.dfm:1988
+msgid "Execute selected SQL...|Execute selected SQL-query/queries..."
+msgstr "Выполнить выбранный SQL...|Выполнить выбранный SQL-запрос/запросы..."
+
+#. MainForm..ActionList1..actExecuteCurrentQuery..Caption
+#: main.dfm:1995
+msgid "Run current query"
+msgstr "Выполнить текущий запрос"
+
+#. Short and longer hint, separated by pipe
+msgid "Run current query|Run currently focused SQL query"
+msgstr "Выполнить текущий запрос|Выполнить SQL запрос под курсором"
+
+#. MainForm..ActionList1..actExplainCurrentQuery..Caption
+#: main.dfm:2004
+msgid "Explain current query"
+msgstr "Explain текущего запроса"
+
+#. MainForm..ActionList1..actExplainCurrentQuery..Hint
+#: main.dfm:2005
+msgid "Run EXPLAIN <current query> and show results"
+msgstr "Выполнить EXPLAIN <current query> и показать результаты"
+
+#. MainForm..ActionList1..actExplainAnalyzeCurrentQuery..Caption
+#: main.dfm:2010
+msgid "Explain analyzer for current query"
+msgstr "Explain для текущего запроса"
+
+#. MainForm..ActionList1..actExplainAnalyzeCurrentQuery..Hint
+#: main.dfm:2011
+msgid "Run EXPLAIN <current query> and send results to MariaDB.org"
+msgstr "Выполнить EXPLAIN <current query> и отправить результат в MariaDB.org"
+
+#. MainForm..ActionList1..actDataPreview..Caption
+#: main.dfm:2016
+msgid "Image preview"
+msgstr "Просмотр картинки"
+
+#. MainForm..ActionList1..actDataPreview..Hint
+#: main.dfm:2017
+msgid "Preview image contents from BLOB cells"
+msgstr "Предпросмотр изображения из BLOB-ячеек"
+
+#. MainForm..ActionList1..actInsertFiles..Caption
+#: main.dfm:2024
+msgid "Insert files into TEXT/BLOB fields..."
+msgstr "Вставить файлы в поля TEXT/BLOB..."
+
+#. MainForm..ActionList1..actExportTables..Caption
+#: main.dfm:2030
+msgid "Export database as SQL"
+msgstr "Экспорт базы данных в SQL"
+
+#. MainForm..ActionList1..actExportTables..Hint
+#: main.dfm:2031
+msgid "Dump database objects to an SQL file"
+msgstr "Дамп объектов базы данных в файл SQL"
+
+#. MainForm..ActionList1..actLoadSQL..Caption
+#. MainForm..ActionList1..actLoadSQL..Hint
+#: main.dfm:2037 main.dfm:2038
+msgid "Load SQL file..."
+msgstr "Загрузить SQL файл..."
+
+msgid "Run SQL file..."
+msgstr "Выполнить SQL-файл…"
+
+msgid "Run SQL file(s) directly, without loading into the editor"
+msgstr "Выполнить SQL-файл(ы) напрямую, без загрузки в редактор"
+
+#. MainForm..ActionList1..actDropObjects..Caption
+#: main.dfm:2045
+msgid "Drop ..."
+msgstr "Уничтожить..."
+
+#. MainForm..ActionList1..actDropObjects..Hint
+#: main.dfm:2047
+msgid "Deletes tables, views, procedures and functions"
+msgstr "Удалить таблицы, отображения, процедуры и функции"
+
+#. MainForm..ActionList1..actCreateView..Hint
+#: main.dfm:2055
+msgid "Create view ..."
+msgstr "Создать представление..."
+
+#. MainForm..ActionList1..actDataFirst..Caption
+#: main.dfm:2061
+msgid "&First"
+msgstr "&Первый"
+
+#. MainForm..ActionList1..actDataFirst..Hint
+#: main.dfm:2063
+msgid "First"
+msgstr "Первый"
+
+#. MainForm..ActionList1..actDataLast..Caption
+#: main.dfm:2069
+msgid "&Last"
+msgstr "&Последний"
+
+#. MainForm..ActionList1..actDataLast..Hint
+#: main.dfm:2071
+msgid "Last"
+msgstr "Последний"
+
+#. MainForm..ActionList1..actDataInsert..Caption
+#: main.dfm:2077
+msgid "&Insert row"
+msgstr "&Вставить строку"
+
+#. MainForm..ActionList1..actDataInsert..Hint
+#: main.dfm:2079
+msgid "Insert row into table"
+msgstr "Вставьте строку в таблицу"
+
+#. Result grid context menu
+msgid "Duplicate row without keys"
+msgstr "Дублировать строку без ключей"
+
+#. "keys" are actually "primary and unique keys", which is too long for a
+#. context menu
+msgid "Duplicate row with keys"
+msgstr "Дублировать строку с ключами"
+
+#. MainForm..ActionList1..actDataDelete..Caption
+#: main.dfm:2094
+msgid "&Delete selected row(s)"
+msgstr "&Удалить выбранную строку(и)"
+
+#. MainForm..ActionList1..actDataDelete..Hint
+#: main.dfm:2096
+msgid "Delete selected row(s)"
+msgstr "Удалить выбранную строку(и)"
+
+#. MainForm..ActionList1..actDataPostChanges..Caption
+#: main.dfm:2103
+msgid "P&ost"
+msgstr "П&ослать"
+
+#. MainForm..ActionList1..actDataPostChanges..Hint
+#: main.dfm:2105
+msgid "Post"
+msgstr "Применить"
+
+#. MainForm..ActionList1..actDataCancelChanges..Caption
+#. MainForm..ActionList1..actDataCancelChanges..Hint
+#: main.dfm:2112 main.dfm:2114
+msgid "Cancel editing"
+msgstr "Отменить редактирование"
+
+#. MainForm..ActionList1..actCreateTable..Hint
+#: main.dfm:2123
+msgid "Create new table in selected database"
+msgstr "Создать новую таблицу в выбранной базе данных"
+
+#. MainForm..ActionList1..actEmptyTables..Caption
+#: main.dfm:2129
+msgid "Empty table(s) ..."
+msgstr "Очистить таблицу(ы)..."
+
+#. MainForm..ActionList1..actEmptyTables..Hint
+#: main.dfm:2131
+msgid "Delete all rows in selected table(s)"
+msgstr "Удалить все строки в выбранной таблиц(е)"
+
+#. MainForm..ActionList1..actCreateDatabase..Hint
+#: main.dfm:2139
+msgid "Create a new, blank database"
+msgstr "Создать новую, пустую базу данных"
+
+#. MainForm..ActionList1..actSQLhelp..Caption
+#: main.dfm:2145
+msgid "SQL help"
+msgstr "Справка по SQL"
+
+#. MainForm..ActionList1..actSQLhelp..Hint
+#: main.dfm:2146
+msgid "SQL help browser"
+msgstr "Просмотр справки по SQL"
+
+#. MainForm..ActionList1..actRefresh..Caption
+#. MainForm..ActionList1..actRefresh..Hint
+#: main.dfm:2153 main.dfm:2154
+msgid "Refresh"
+msgstr "Обновить"
+
+#. Full table status refresh
+msgid "Full status refresh"
+msgstr "Полное обновление статуса"
+
+msgid "Get full statistics refresh on table data. Slow on InnoDB tables!"
+msgstr "Получить полное обновление статистики по данным таблицы. Медленно на таблицах InnoDB!"
+
+#. MainForm..ActionList1..actImportCSV..Caption
+#: main.dfm:2161
+msgid "Import CSV file..."
+msgstr "Импорт CSV файла…"
+
+#. MainForm..ActionList1..actImportCSV..Hint
+#: main.dfm:2162
+msgid "Import a CSV or tab delimited file"
+msgstr "Импорт CSV-файла или текста, разделённого табуляцией"
+
+#. MainForm..ActionList1..actExportSettings..Caption
+#: main.dfm:2168
+msgid "Export settings file ..."
+msgstr "Экспорт файла настроек..."
+
+#. MainForm..ActionList1..actPreferences..Caption
+#. optionsform..Caption
+#: main.dfm:2180 options.dfm:5
+msgid "Preferences"
+msgstr "Настройки"
+
+#. MainForm..ActionList1..actUpdateCheck..Caption
+#. frmUpdateCheck..Caption
+#: main.dfm:2222 updatecheck.dfm:5
+msgid "Check for updates ..."
+msgstr "Проверить обновления..."
+
+#. MainForm..ActionList1..actWebDownloadpage..Caption
+#: main.dfm:2228
+msgid "Download page"
+msgstr "Страница загрузки"
+
+#. MainForm..ActionList1..actWebForum..Caption
+#: main.dfm:2235
+msgid "Support forum"
+msgstr "Форум"
+
+#. MainForm..ActionList1..actWebChangelog..Caption
+#: main.dfm:2242
+msgid "Changelog"
+msgstr "Журнал изменений"
+
+#. MainForm..ActionList1..actReadme..Caption
+#: main.dfm:2249
+msgid "Readme"
+msgstr "Файл Readme"
+
+#. MainForm..ActionList1..actReadme..Hint
+#: main.dfm:2250
+msgid "Open readme file"
+msgstr "Показать файл Readme"
+
+#. MainForm..ActionList1..actSaveSQLAs..Hint
+#: main.dfm:2258
+msgid "Save SQL to a textfile"
+msgstr "Сохранить SQL в текстовый файл"
+
+#. MainForm..ActionList1..actSaveSQLselection..Caption
+#: main.dfm:2265
+msgid "Save selection to file ..."
+msgstr "Сохранить выделенное в файл..."
+
+#. MainForm..ActionList1..actSaveSQLselection..Hint
+#: main.dfm:2267
+msgid "Save selected text to a file"
+msgstr "Сохранить выделенный текст в файл"
+
+#. MainForm..ActionList1..actSaveSQLSnippet..Caption
+#. MainForm..ActionList1..actSaveSQLSnippet..Hint
+#: main.dfm:2274 main.dfm:2276
+msgid "Save as snippet ..."
+msgstr "Сохранить как сниппет..."
+
+#. MainForm..ActionList1..actSaveSQLSelectionSnippet..Caption
+#: main.dfm:2282
+msgid "Save selection as snippet ..."
+msgstr "Сохранить выделенное как сниппет..."
+
+#. MainForm..ActionList1..actSaveSQLSelectionSnippet..Hint
+#: main.dfm:2284
+msgid "Save selected text as snippet ..."
+msgstr "Сохранить выделенный текст как сниппет..."
+
+#. MainForm..ActionList1..actClearQueryEditor..Hint
+#: main.dfm:2292
+msgid "Clear query editor"
+msgstr "Очистить редактор запросов"
+
+#. MainForm..ActionList1..actClearFilterEditor..Hint
+#: main.dfm:2300
+msgid "Clear filter editor"
+msgstr "Очистить редактор фильтра"
+
+#. MainForm..ActionList1..actQueryStopOnErrors..Caption
+#. MainForm..ActionList1..actQueryStopOnErrors..Hint
+#: main.dfm:2308 main.dfm:2310
+msgid "Stop on errors in batch mode"
+msgstr "Останавливаться при ошибках в пакетном режиме"
+
+#. MainForm..ActionList1..actQueryFind..Caption
+#. MainForm..ActionList1..actQueryFind..Hint
+#: main.dfm:2324 main.dfm:2325
+msgid "Find text ..."
+msgstr "Найти текст..."
+
+#. MainForm..ActionList1..actQueryReplace..Caption
+#. MainForm..ActionList1..actQueryReplace..Hint
+#: main.dfm:2332 main.dfm:2333
+msgid "Replace text ..."
+msgstr "Заменить текст..."
+
+#. MainForm..ActionList1..actQueryFindAgain..Caption
+#: main.dfm:2340
+msgid "Find or replace again"
+msgstr "Найти или заменить снова"
+
+#. MainForm..ActionList1..actSetDelimiter..Caption
+#. MainForm..ActionList1..actSetDelimiter..Hint
+#: main.dfm:2347 main.dfm:2349
+msgid "Set delimiter used in SQL execution"
+msgstr "Установить разделитель SQL-запросов"
+
+#. MainForm..ActionList1..actApplyFilter..Caption
+#: main.dfm:2355
+msgid "Apply filter"
+msgstr "Фильтровать"
+
+#. MainForm..ActionList1..actRemoveFilter..Caption
+#: main.dfm:2362
+msgid "Remove filter"
+msgstr "Убрать фильтр"
+
+#. MainForm..ActionList1..actPreviousTab..Caption
+#: main.dfm:2376
+msgid "&Previous tab"
+msgstr "Предыдущая вкладка"
+
+#. Short and longer hint, separated by pipe
+msgid "Previous tab|Go back to the previous tab"
+msgstr "Предыдущая вкладка|Вернуться к предыдущей вкладке"
+
+#. MainForm..ActionList1..actNextTab..Caption
+#: main.dfm:2385
+msgid "&Next tab"
+msgstr "Следующая вкладка"
+
+#. Short and longer hint, separated by pipe
+msgid "Next tab|Go to the next tab"
+msgstr "Следующая вкладка|Перейти на следующую вкладку"
+
+#. Main menu: Tools
+msgid "Previous result tab"
+msgstr "Предыдущая вкладка результатов"
+
+#. Main menu: Tools
+msgid "Next result tab"
+msgstr "Следующая вкладка результатов"
+
+#. MainForm..ActionList1..actSelectAll..Caption
+#: main.dfm:2393
+msgid "Select all"
+msgstr "Выбрать все"
+
+#. Short and longer hint, separated by pipe
+msgid "Select all|Select all items or text"
+msgstr "Выбрать все|Выбрать все объекты или текст"
+
+msgid "Stored procedure"
+msgstr "Хранимая процедура"
+
+msgid "Create stored procedure"
+msgstr "Создать хранимую функцию"
+
+msgid "Stored function"
+msgstr "Сохраненная функция"
+
+msgid "Create stored function"
+msgstr "Создать хранимую функцию"
+
+#. MainForm..ActionList1..actNewQueryTab..Caption
+#: main.dfm:2408
+msgid "New query tab"
+msgstr "Новая вкладка"
+
+#. MainForm..ActionList1..actNewQueryTab..Hint
+#: main.dfm:2409
+msgid "Open a blank query tab"
+msgstr "Открыть пустую вкладку"
+
+#. MainForm..ActionList1..actCloseQueryTab..Caption
+#. MainForm..popupMainTabs..menuCloseTab..Caption
+#: main.dfm:2416 main.dfm:9289
+msgid "Close query tab"
+msgstr "Закрыть вкладку"
+
+#. MainForm..ActionList1..actSelectInverse..Caption
+#: main.dfm:2424
+msgid "Invert selection"
+msgstr "Инвертировать выбор"
+
+#. MainForm..ActionList1..actFilterPanel..Caption
+#: main.dfm:2432
+msgid "Filter panel"
+msgstr "Панель фильтра"
+
+#. MainForm..ActionList1..actFilterPanel..Hint
+#: main.dfm:2433
+msgid "Activates the filter panel"
+msgstr "Активирует панель фильтра"
+
+#. MainForm..ActionList1..actBulkTableEdit..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..Caption
+#: main.dfm:2440 tabletools.dfm:431
+msgid "Bulk table editor"
+msgstr "Массовый редактор таблиц"
+
+#. MainForm..ActionList1..actCreateTrigger..Hint
+#: main.dfm:2447
+msgid "Create a trigger"
+msgstr "Создать триггер"
+
+#. Error when reading trigger definition from SHOW CREATE TRIGGER
+msgid "Result from previous query does not contain expected pattern: %s"
+msgstr "Результат предыдущего запроса не содержит ожидаемый шаблон: %s"
+
+#. MainForm..ActionList1..actSaveSQL..Hint
+#: main.dfm:2455
+msgid "Save SQL to file"
+msgstr "Сохранить SQL в файл"
+
+#. MainForm..ActionList1..actReformatSQL..Caption
+#: main.dfm:2469
+msgid "Reformat SQL"
+msgstr "Переформатировать SQL"
+
+#. MainForm..ActionList1..actReformatSQL....Hint
+#: main.dfm:2472
+msgid ""
+"Automatically reformat disordered SQL in active editor to make it more "
+"readable"
+msgstr "Автоматически переформатировать неупорядоченный SQL в активном редакторе, чтобы сделать его более читабельным"
+
+#. MainForm..ActionList1..actBlobAsText..Caption
+#. MainForm..ActionList1..actBlobAsText..Hint
+#: main.dfm:2480 main.dfm:2481
+msgid "View binary data as text (instead of HEX)"
+msgstr "Просмотр двоичных данных в виде текста (вместо HEX)"
+
+#. MainForm..ActionList1..actDataShowNext..Caption
+#: main.dfm:2487
+msgid "Next"
+msgstr "Далее"
+
+#. MainForm..ActionList1..actDataShowNext..Hint
+#: main.dfm:2488
+msgid "Next X rows"
+msgstr "Следующие X строк"
+
+#. MainForm..ActionList1..actDataShowAll..Caption
+#: main.dfm:2495
+msgid "Show all"
+msgstr "Показать все"
+
+#. MainForm..ActionList1..actDataShowAll..Hint
+#: main.dfm:2496
+msgid "Show all rows"
+msgstr "Показать все строки"
+
+#. MainForm..ActionList1..actRunRoutines..Caption
+#: main.dfm:2503
+msgid "Run routine(s) ..."
+msgstr "Выполнить процедуру(ы)..."
+
+#. MainForm..ActionList1..actCreateEvent..Hint
+#: main.dfm:2511
+msgid "Create new event in selected database"
+msgstr "Создать новое событие в выбранной базе данных"
+
+#. MainForm..ActionList1..actDataSetNull..Hint
+#: main.dfm:2519
+msgid "Set focused cell to NULL"
+msgstr "Установить значение выбранной ячейки в NULL"
+
+#. MainForm..ActionList1..actDataSaveBlobToFile..Caption
+#: main.dfm:2526
+msgid "Save BLOB to file ..."
+msgstr "Сохранить BLOB в файл..."
+
+#. MainForm..ActionList1..actDataSaveBlobToFile..Hint
+#: main.dfm:2527
+msgid "Save contents to local file ..."
+msgstr "Сохранить содержимое в локальный файл..."
+
+#. MainForm..ActionList1..actDisconnect..Caption
+#: main.dfm:2533
+msgid "Disconnect"
+msgstr "Разъединить "
+
+#. Disconnect hint
+msgid "Close selected database connection"
+msgstr "Закрыть подключение к выбранной базе данных"
+
+#. MainForm..ActionList1..actBatchInOneGo..Caption
+#: main.dfm:2540
+msgid "Send batch in one go"
+msgstr "Посылать пакет за один раз"
+
+#. MainForm..ActionList1..actBatchInOneGo..Hint
+#: main.dfm:2542
+msgid "Send up to max_allowed_packet batch at once"
+msgstr "Отправить до max_allowed_packet за раз"
+
+#. MainForm..ActionList1..actSingleQueries..Caption
+#: main.dfm:2548
+msgid "Send queries one by one"
+msgstr "Посылать запросы по одному"
+
+#. MainForm..ActionList1..actCancelOperation..Caption
+#. MainForm..ActionList1..actCancelOperation..Hint
+#: main.dfm:2555 main.dfm:2557
+msgid "Cancel running operation"
+msgstr "Отменить текущую операцию"
+
+#. MainForm..ActionList1..actToggleComment..Caption
+#: main.dfm:2564
+msgid "Un/comment"
+msgstr "Рас/комментировать"
+
+#. MainForm..ActionList1..actToggleComment..Hint
+#: main.dfm:2565
+msgid "Makes selected SQL a comment or removes comment chars"
+msgstr "Оборачивает выделение в скобки комментария"
+
+#. MainForm..ActionList1..actSynchronizeDatabase..Caption
+#: main.dfm:2571
+msgid "Synchronize database"
+msgstr "Синхронизировать базу данных"
+
+#. MainForm..ActionList1..actLaunchCommandline..Caption
+#: main.dfm:2577
+msgid "Launch command line"
+msgstr "Запустить командную строку"
+
+#. MainForm..ActionList1..actGridEditFunction..Caption
+#: main.dfm:2583
+msgid "SQL function"
+msgstr "SQL функция"
+
+#. MainForm..ActionList1..actGridEditFunction..Hint
+#: main.dfm:2584
+msgid "Insert SQL function call in this grid cell, e.g. NOW()"
+msgstr "Вставить вызов SQL-функции в поле, например NOW()"
+
+#. MainForm..ActionList1..actLogHorizontalScrollbar..Caption
+#: main.dfm:2592
+msgid "Horizontal scrollbar"
+msgstr "Горизонтальная прокрутка"
+
+#. MainForm..ActionList1..actGroupObjects..Caption
+#: main.dfm:2598
+msgid "Group objects by type"
+msgstr "Группировать по типу"
+
+#. MainForm..popupDB..menuEditObject..Caption
+#: main.dfm:8573
+msgid "Edit"
+msgstr "Редактировать"
+
+#. MainForm..popupDB..menuEditObject..Hint
+#: main.dfm:8574
+msgid "Edit selected object"
+msgstr "Редактировать выбранный объект"
+
+#. MainForm..popupDB..menuCreateObject..Caption
+#: main.dfm:8589
+msgid "Create new"
+msgstr "Создать"
+
+#. MainForm..popupDB..menuTreeExpandAll..Caption
+#: main.dfm:8632
+msgid "Expand all"
+msgstr "Развернуть все"
+
+#. MainForm..popupDB..menuTreeCollapseAll..Caption
+#: main.dfm:8637
+msgid "Collapse all"
+msgstr "Свернуть все"
+
+#. MainForm..popupDB..menuShowSizeColumn..Caption
+#: main.dfm:8646
+msgid "Display size of objects"
+msgstr "Показывать размер объектов"
+
+#. MainForm..popupHost..menuFetchDBitems..Caption
+#: main.dfm:8674
+msgid "Fetch database items"
+msgstr "Получить элементы базы данных"
+
+#. MainForm..popupHost..Kill1..Caption
+#: main.dfm:8679
+msgid "Kill Process(es)..."
+msgstr "Убить процесс(ы) ..."
+
+#. MainForm..popupHost..menuEditVariable..Caption
+#: main.dfm:8686
+msgid "Edit ..."
+msgstr "Редактировать..."
+
+#. MainForm..popupHost..menuExplainProcess..Caption
+#: main.dfm:8692
+msgid "EXPLAIN query"
+msgstr "EXPLAIN запроса"
+
+#. MainForm..popupHost..menuExplainProcess..Hint
+#: main.dfm:8694
+msgid "Analyze selected process SQL"
+msgstr "Анализ текущего SQL процесса"
+
+#. MainForm..popupHost..menuExplainAnalyzer..Caption
+#: main.dfm:8699
+msgid "EXPLAIN analyzer on MariaDB.org"
+msgstr "EXPLAIN анализатор на MariaDB.org"
+
+#. MainForm..popupHost..menuExplainAnalyzer..Hint
+#: main.dfm:8701
+msgid "Pass EXPLAIN output to MariaDB's analyzer webpage"
+msgstr "Отправить EXPLAIN анализ на веб-портал MariaDB"
+
+#: tabletools.pas:1061 main.pas:2855 connections.pas:1047
+msgid "SQL files"
+msgstr "SQL-файлы"
+
+#: tabletools.pas:1061 main.pas:2855 main.pas:2653 bineditor.pas:146
+#: connections.pas:1047 connections.pas:1049 exportgrid.pas:274
+msgid "All files"
+msgstr "Все файлы"
+
+#. SQL export dialog
+msgid "ZIP files"
+msgstr "ZIP-файлы"
+
+#. SQL export dialog
+msgid "Compressing"
+msgstr "Сжатие"
+
+#. MainForm..popupDataGrid..DataInsertValue..Caption
+#: main.dfm:8757
+msgid "Insert value"
+msgstr "Вставить значение"
+
+#. Data grid context menu
+msgid "This is a UNIX timestamp column"
+msgstr "Это столбец UNIX timestamp"
+
+#. MainForm..popupDataGrid..DataInsertValue..DataDateTime..Hint
+#: main.dfm:8773
+msgid "Insert datetime-value"
+msgstr "Вставить дату и время"
+
+#. MainForm..popupDataGrid..DataInsertValue..DataDate..Hint
+#: main.dfm:8779
+msgid "Insert date-value"
+msgstr "Вставить дату"
+
+#. MainForm..popupDataGrid..DataInsertValue..DataTime..Hint
+#: main.dfm:8785
+msgid "Insert time-value"
+msgstr "Вставить время"
+
+#. MainForm..popupDataGrid..DataInsertValue..DataYear..Hint
+#: main.dfm:8791
+msgid "Insert year-value"
+msgstr "Вставить год"
+
+#. MainForm..popupDataGrid..DataInsertValue..DataUNIXtimestamp..Hint
+#: main.dfm:8797
+msgid "Insert UNIX timestamp"
+msgstr "Вставить Unix Timestamp"
+
+#. MainForm..popupDataGrid..menuQuickFilter..Caption
+#: main.dfm:8841
+msgid "Quick Filter"
+msgstr "Быстрый фильтр"
+
+#. MainForm..popupDataGrid..menuQuickFilter..QFvalues..Caption
+#: main.dfm:8883
+msgid "More values ..."
+msgstr "Больше значений..."
+
+#. Quick filters - more values
+msgid "Table too large (>%s), avoiding long running SELECT query"
+msgstr "Таблица слишком большая (>%s), попытка избежать длительного запроса SELECT"
+
+msgid "Quick filter: Column = Focused"
+msgstr "Быстрый фильтр: Столбец = Выделено"
+
+msgid "Quick filter: Column != Focused"
+msgstr "Быстрый фильтр: Столбец != Выделено"
+
+msgid "Quick filter: Column > Focused"
+msgstr "Быстрый фильтр: Столбец > Выделено"
+
+msgid "Quick filter: Column < Focused"
+msgstr "Быстрый фильтр: Столбец < Выделено"
+
+msgid "Quick filter: Column LIKE Focused%"
+msgstr "Быстрый фильтр: Столбец LIKE Выделено%"
+
+msgid "Quick filter: Column LIKE %Focused"
+msgstr "Быстрый фильтр: столбец LIKE %F сфокусированный"
+
+msgid "Quick filter: Column LIKE %Focused%"
+msgstr "Быстрый фильтр: столбец LIKE %F сфокусированный на %"
+
+msgid "Quick filter: Column = Prompt"
+msgstr "Быстрый фильтр: Cтолбец = Подсказка"
+
+msgid "Quick filter: Column != Prompt"
+msgstr "Быстрый фильтр: Cтолбец != Подсказка"
+
+msgid "Quick filter: Column > Prompt"
+msgstr "Быстрый фильтр: Столбец > Подсказка"
+
+msgid "Quick filter: Column < Prompt"
+msgstr "Быстрый фильтр: Cтолбец < Подсказка"
+
+msgid "Quick filter: Column LIKE %Prompt%"
+msgstr "Быстрый фильтр: столбец LIKE %Prompt%"
+
+msgid "Quick filter: Column IS NULL"
+msgstr "Быстрый фильтр: столбец ПУСТОЙ"
+
+msgid "Quick filter: Column IS NOT NULL"
+msgstr "Быстрый фильтр: столбец НЕ ПУСТОЙ"
+
+msgid "Quick filter: Column = Clipboard"
+msgstr "Быстрый фильтр: столбец = буфер обмена"
+
+msgid "Quick filter: Column != Clipboard"
+msgstr "Быстрый фильтр: Cтолбец != Буфер обмена"
+
+msgid "Quick filter: Column > Clipboard"
+msgstr "Быстрый фильтр: столбец > буфер обмена"
+
+msgid "Quick filter: Column < Clipboard"
+msgstr "Быстрый фильтр: столбец < буфер обмена"
+
+msgid "Quick filter: Column LIKE %Clipboard%"
+msgstr "Быстрый фильтр: столбец LIKE %буфер обмена%"
+
+msgid "Quick filter: Column IN (Clipboard)"
+msgstr "Быстрый фильтр: столбец IN (буфер обмена)"
+
+#. MainForm..popupSqlLog..Copylinetonewquerytab1..Caption
+#: main.dfm:9000
+msgid "Copy line to new query tab"
+msgstr "Копировать строку в новую вкладку"
+
+#. Action: Save SynMemo to textfile
+msgid "Save as textfile..."
+msgstr "Сохранить как текстовый файл..."
+
+#. Action: Save SynMemo to textfile
+msgid "Save contents to a textfile"
+msgstr "Сохранить содержимое в текстовый файл"
+
+#. MainForm..popupSqlLog..menuLogToFile..Caption
+#: main.dfm:9022
+msgid "Log to file"
+msgstr "Писать журнал в файл"
+
+#. MainForm..popupSqlLog..menuOpenLogFolder..Caption
+#: main.dfm:9026
+msgid "Open log folder ..."
+msgstr "Открыть каталог журналов..."
+
+#. MainForm..popupQuery..menuQueryExplain..Caption
+#: main.dfm:9105
+msgid "Explain"
+msgstr "Explain"
+
+#. MainForm..popupQuery..menuQueryInsertFunction..Caption
+#. MainForm..popupFilter..menuFilterInsertFunction..Caption
+#: main.dfm:9175 main.dfm:9261
+msgid "Insert function"
+msgstr "Вставить функцию"
+
+#. MainForm..popupQueryHelpers..menuInsertSnippetAtCursor..Caption
+#: main.dfm:9184
+msgid "Insert at cursor"
+msgstr "Вставить в позицию курсора"
+
+#. MainForm..popupQueryHelpers..menuLoadSnippet..Caption
+#: main.dfm:9191
+msgid "Load"
+msgstr "Загрузить"
+
+#. MainForm..popupQueryHelpers..menuDeleteSnippet..Caption
+#: main.dfm:9197
+msgid "Delete ..."
+msgstr "Удалить..."
+
+#. MainForm..popupQueryHelpers..menuExplore..Caption
+#: main.dfm:9204
+msgid "Explore folder"
+msgstr "Навигация по каталогу"
+
+#. MainForm..popupQueryHelpers..menuClearQueryHistory..Caption
+#: main.dfm:9213
+msgid "Clear query history ..."
+msgstr "Очистить историю запросов..."
+
+#. MainForm..popupQueryHelpers..menuQueryHelpersGenerateInsert..Caption
+#: main.dfm:9218
+msgid "Generate %s ..."
+msgstr "Генерировать %s..."
+
+#. MainForm..popupRefresh..menuAutoRefresh..Caption
+#: main.dfm:9270 main.pas:5308
+msgid "Auto refresh"
+msgstr "Автоматическое обновление"
+
+#. MainForm..popupRefresh..menuAutoRefreshSetInterval..Caption
+#: main.dfm:9275
+msgid "Set interval ..."
+msgstr "Установить интервал..."
+
+#. optionsform..pagecontrolMain..tabMisc..Caption
+#: options.dfm:35
+msgid "General"
+msgstr "Общие"
+
+#. Preferences
+msgid "Custom snippets directory:"
+msgstr "Пользовательская директория сниппетов:"
+
+#. optionsform..pagecontrolMain..tabMisc..lblMySQLBinaries..Caption
+#: options.dfm:48
+msgid "MySQL command line programs:"
+msgstr "Консольные программы MySQL:"
+
+#. Language selector
+#: preferences dialog
+msgid "Application language: *"
+msgstr "Язык приложения: *"
+
+#. Default in language selector
+#: preferences dialog
+msgid "Auto detect (%s)"
+msgstr "Авто определение(%s)"
+
+#. optionsform..pagecontrolMain..tabMisc..chkAutoReconnect..Caption
+#: options.dfm:57
+msgid "Automatically reconnect to previously opened sessions on startup"
+msgstr "Автоматически подключаться к ранее открытым сеансам при запуске"
+
+#. optionsform..pagecontrolMain..tabMisc..chkRestoreLastDB..Caption
+#: options.dfm:67
+msgid "Restore last used database on startup"
+msgstr "Восстанавливать последнюю используемую БД при запуске"
+
+#. optionsform..pagecontrolMain..tabMisc..chkUpdatecheck....Caption
+#: options.dfm:81
+msgid "Check for updates each [day]:"
+msgstr "Проверять обновления каждые [дней]:"
+
+msgid "0 = on each application start"
+msgstr "0 = при запуске приложения"
+
+#. optionsform..pagecontrolMain..tabMisc..chkUpdateCheckBuilds..Caption
+#: options.dfm:116
+msgid "Also check for updated nightly builds"
+msgstr "Проверять обновления ночных сборок"
+
+#. optionsform..pagecontrolMain..tabMisc..chkDoStatistics....Caption
+#: options.dfm:130
+msgid "Send usage statistics"
+msgstr "Отправлять статистику использования"
+
+msgid ""
+"This option, if enabled, will cause HeidiSQL to ping heidisql.com at most "
+"once every month.  This is used to count the used HeidiSQL and server "
+"versions."
+msgstr "Эта опция позволит HeidiSQL отправлять пинг на heidisql.com максимум раз в месяц. Это используется для подсчёта используемых версий HeidiSQL и серверов БД."
+
+msgid "Use Ctrl+Mousewheel for zooming"
+msgstr "Используйте Ctrl+колёсико мыши для масштабирования"
+
+#. optionsform..pagecontrolMain..tabMisc..chkAllowMultiInstances..Caption
+#: options.dfm:141
+msgid "Allow multiple application instances"
+msgstr "Разрешить запуск нескольких копий программы"
+
+#. optionsform..pagecontrolMain..tabMisc..chkColorBars..Caption
+#: options.dfm:151
+msgid "Display bars in various list columns"
+msgstr "Отображать индикаторы в колонках"
+
+#. optionsform..pagecontrolMain..tabLogging..Caption
+#: options.dfm:184
+msgid "Logging"
+msgstr "Журналирование"
+
+#. optionsform..pagecontrolMain..tabLogging..Label4..Caption
+#: options.dfm:198
+msgid "Log last"
+msgstr "Писать последние"
+
+#. optionsform..pagecontrolMain..tabLogging..lblLogLinesHint..Caption
+#: options.dfm:205
+msgid "lines in SQL log"
+msgstr "строк в журнал SQL"
+
+#. optionsform..pagecontrolMain..tabLogging..lblLogSnipHint..Caption
+#: options.dfm:212
+msgid "characters  (0 = no snipping)"
+msgstr "знаков (0 = не обрезать)"
+
+#. optionsform..pagecontrolMain..tabLogging..lblLogSnip..Caption
+#: options.dfm:219
+msgid "Snip SQL log lines to"
+msgstr "Обрезать строки журнала SQL до"
+
+#. optionsform..pagecontrolMain..tabLogging..lblLogLevel..Caption
+#: options.dfm:226
+msgid "Log events:"
+msgstr "Журнал событий:"
+
+#. optionsform..pagecontrolMain..tabLogging..chkLogToFile..Caption
+#: options.dfm:276
+msgid "Write SQL log to file"
+msgstr "Писать журнал SQL в файл"
+
+#. A category for messages or queries, used for the log panel
+msgid "Errors"
+msgstr "Ошибки"
+
+#. A category for messages or queries, used for the log panel
+msgid "User-generated SQL queries"
+msgstr "Пользовательские SQL-запросы"
+
+#. A category for messages or queries, used for the log panel
+msgid "Internal SQL queries"
+msgstr "Внутренние SQL-запросы"
+
+#. A category for messages or queries, used for the log panel
+msgid "Import/script queries"
+msgstr "Импорт/запросы скриптов"
+
+#. A category for messages or queries, used for the log panel
+msgid "Information messages"
+msgstr "Информационные сообщения"
+
+#. A category for messages or queries, used for the log panel
+msgid "Debug messages"
+msgstr "Отладочные сообщения"
+
+#. Preferences
+msgid "Enable query history"
+msgstr "Включить историю запросов"
+
+msgid "days to keep queries before removing them"
+msgstr "дней хранить запросы перед удалением"
+
+msgid "Add timestamp to all log messages"
+msgstr ""
+
+#. optionsform..pagecontrolMain..tabSQL..lblFont..Caption
+#: options.dfm:357
+msgid "Editor font:"
+msgstr "Шрифт редактора:"
+
+#. optionsform..pagecontrolMain..tabSQL..Label1..Caption
+#: options.dfm:372
+msgid "Tab width:"
+msgstr "Ширина табуляции:"
+
+#. optionsform..pagecontrolMain..tabSQL..lblMaxQueryResults..Caption
+#: options.dfm:379
+msgid "Maximum result sets:"
+msgstr "Максимальный количество выборок:"
+
+msgid "Auto completion proposal:"
+msgstr ""
+
+msgid "Enable"
+msgstr "Включен"
+
+msgid "Auto uppercase reserved words and functions"
+msgstr "Приводить к верхнему регистру зарезервированные слова и функции"
+
+#. optionsform..pagecontrolMain..tabSQL..chkTabsToSpaces..Caption
+#: options.dfm:427
+msgid "Tabs to spaces"
+msgstr "Табуляция пробелами"
+
+#. optionsform..pagecontrolMain..tabSQL..chkAskFileSave..Caption
+#: options.dfm:455
+msgid "Prompt to save modified files on tab close"
+msgstr "Запрос на сохранение измененных файлов при закрытии вкладки"
+
+msgid "Close tab on doubleclick and middleclick"
+msgstr "Закрыть вкладку по двойному или среднему клику"
+
+msgid "Show query warnings dialog"
+msgstr "Показать диалог с предупрежденями запроса"
+
+#. optionsform..pagecontrolMain..tabHighlighter..Caption
+#: options.dfm:483
+msgid "Highlighter"
+msgstr "Подсветка"
+
+#. optionsform..pagecontrolMain..tabHighlighter..lblSQLColElement..Caption
+#: options.dfm:497
+msgid "Element:"
+msgstr "Элемент:"
+
+#. optionsform..pagecontrolMain..tabHighlighter..lblSQLColForeground..Caption
+#: options.dfm:505
+msgid "Foreground:"
+msgstr "Цвет:"
+
+#. optionsform..pagecontrolMain..tabHighlighter..lblSQLColBackground..Caption
+#: options.dfm:513
+msgid "Background:"
+msgstr "Фон:"
+
+#. optionsform..pagecontrolMain..tabHighlighter..chkSQLBold..Caption
+#: options.dfm:520
+msgid "Bold"
+msgstr "Жирный"
+
+#. optionsform..pagecontrolMain..tabHighlighter..chkSQLItalic..Caption
+#: options.dfm:530
+msgid "Italic"
+msgstr "Курсив"
+
+msgid "Size:"
+msgstr "Размер:"
+
+msgid "Colors preset:"
+msgstr "Предустановка цветов:"
+
+#. optionsform..pagecontrolMain..tabData..lblMaxColWidth..Caption
+#: options.dfm:613
+msgid "Maximum column width:"
+msgstr "Максимальный размер столбца :"
+
+#. optionsform..pagecontrolMain..tabData..lblDataFont..Caption
+#: options.dfm:628
+msgid "Font:"
+msgstr "Шрифт:"
+
+#. optionsform..pagecontrolMain..tabData..lblMaxTotalRows..Caption
+#: options.dfm:636
+msgid "Rows per page and maximum:"
+msgstr "Строк на странице и максимум:"
+
+#. optionsform..pagecontrolMain..tabData..lblGridRowsLinecount..Caption
+#: options.dfm:643
+msgid "Lines of text in grid rows:"
+msgstr "Количество строк в ячейках таблиц с результатами:"
+
+#. optionsform..pagecontrolMain..tabData..lblGridTextColors..Caption
+#: options.dfm:650
+msgid "Grid text colors:"
+msgstr "Цвета текста в таблице:"
+
+#. optionsform..pagecontrolMain..tabData..lblNullBackground..Caption
+#: options.dfm:657
+msgid "NULL background:"
+msgstr "NULL фон:"
+
+msgid "Use \"None\" to disable"
+msgstr "Используйте \"Нет\" для отключения"
+
+#. Preferences
+msgid "Grid formatting"
+msgstr "Форматирование сетки"
+
+#. Preferences
+msgid "Data editors"
+msgstr "Редакторы данных"
+
+#. Preferences > Grid formatting
+msgid "Alternating row background:"
+msgstr "Фон чередующихся строк:"
+
+msgid "Max decimal zeros for floats:"
+msgstr ""
+
+msgid "Set to -1 to keep all zeros"
+msgstr ""
+
+#. Preferences > Grid formatting
+msgid "Local number format"
+msgstr "Числа в региональном формате"
+
+#. optionsform..pagecontrolMain..tabData..chkEditorBinary..Caption
+#: options.dfm:789
+msgid "Enable popup BLOB/HEX editor"
+msgstr "BLOB/HEX редактор в отдельном окне"
+
+#. optionsform..pagecontrolMain..tabData..chkEditorDatetime..Caption
+#: options.dfm:799
+msgid "Enable inplace date/time editor"
+msgstr "Включить встроенный редактор даты-времени"
+
+#. optionsform..pagecontrolMain..tabData..chkEditorEnum..Caption
+#: options.dfm:809
+msgid "Enable ENUM pulldown editor"
+msgstr "Выпадающий список в ENUM-полях"
+
+#. optionsform..pagecontrolMain..tabData..chkEditorSet..Caption
+#: options.dfm:819
+msgid "Enable SET checkbox editor"
+msgstr "Список флажков в SET-полях"
+
+#. optionsform..pagecontrolMain..tabData..chkPrefillDateTime..Caption
+#: options.dfm:829
+msgid "Prefill empty date/time fields with current date/time"
+msgstr "Подставлять текущее время в пустые поля дата-время "
+
+msgid "Click on column headers toggles sorting"
+msgstr ""
+
+#. optionsform..pagecontrolMain..tabData..chkRememberFilters..Caption
+#: options.dfm:838
+msgid "Remember filters, sorting and column selection across sessions"
+msgstr "Запоминать фильтры, сортировки и колонки между сеансами"
+
+#. Preferences > Data
+msgid "Show values in foreign key columns"
+msgstr "Отображать значения в столбцах внешних ключей"
+
+#. Preferences checkbox
+msgid "Incremental search through typing"
+msgstr ""
+
+msgid ""
+"Connected table has too many rows. Foreign key drop-down is limited to %d "
+"items."
+msgstr "Tаблица имеет слишком много строк. Cписок внешних ключей ограничен  %d элементами."
+
+#. optionsform..pagecontrolMain..tabShortcuts..Caption
+#: options.dfm:843
+msgid "Shortcuts"
+msgstr "Горячие клавиши"
+
+#. optionsform..pagecontrolMain..tabShortcuts..lblShortcut1..Caption
+#: options.dfm:858
+msgid "Shortcut:"
+msgstr "Сочетание клавиш:"
+
+#. optionsform..pagecontrolMain..tabShortcuts..lblShortcutHint..Caption
+#: options.dfm:867
+msgid "Please select a shortcut item in the tree."
+msgstr "Пожалуйста выберите действие в дереве."
+
+#. optionsform..pagecontrolMain..tabShortcuts..lblShortcut2..Caption
+#: options.dfm:876
+msgid "Secondary shortcut:"
+msgstr "Второе сочетание клавиш:"
+
+#. optionsform..btnApply..Caption
+#. frmSyncDB..btnApply..Caption
+#: options.dfm:954 syncdb.dfm:153
+msgid "Apply"
+msgstr "Применить"
+
+#. optionsform..btnRestoreDefaults..Caption
+#: options.dfm:965
+msgid "Restore defaults"
+msgstr "Значения по умолчанию"
+
+#. printlistForm..Caption
+#: printlist.dfm:5
+msgid "Print List..."
+msgstr "Печатать список..."
+
+#. printlistForm..lblSelect..Caption
+#: printlist.dfm:30
+msgid "&Select printer:"
+msgstr "&Принтер:"
+
+#. printlistForm..btnConfigure..Caption
+#: printlist.dfm:47
+msgid "Configure"
+msgstr "Настроить"
+
+#. printlistForm..btnPrint..Caption
+#: printlist.dfm:68
+msgid "Print"
+msgstr "Печать"
+
+#. printlistForm..chkPrintHeader..Caption
+#: printlist.dfm:80
+msgid "Print column headers"
+msgstr "Печатать заголовки столбцов"
+
+#. frmRoutineEditor..lblSQLcode..Caption
+#: routine_editor.dfm:17
+msgid "Routine body:"
+msgstr "Тело процедуры:"
+
+#. frmRoutineEditor..lblDisabledWhy..Caption
+#: routine_editor.dfm:26
+msgid "You have no privilege to this routine."
+msgstr "У вас нет прав на эту процедуру."
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblType..Caption
+#: routine_editor.dfm:134
+msgid "&Type:"
+msgstr "&Тип:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblReturns..Caption
+#: routine_editor.dfm:142
+msgid "&Returns:"
+msgstr "Возв&ращает:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblSQL..Caption
+#: routine_editor.dfm:150
+msgid "&Data access:"
+msgstr "Доступ:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblSecurity..Caption
+#: routine_editor.dfm:158
+msgid "SQL Se&curity:"
+msgstr "&Безопасность:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblComment..Caption
+#: routine_editor.dfm:166
+msgid "&Comment:"
+msgstr "&Комментарий:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..lblDefiner..Caption
+#: routine_editor.dfm:174
+msgid "De&finer:"
+msgstr "&Владелец:"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..chkDeterministic..Caption
+#: routine_editor.dfm:182
+msgid "&Deterministic"
+msgstr "&Детерминированная процедура"
+
+#. frmRoutineEditor..PageControlMain..tabOptions..editName..TextHint
+#: routine_editor.dfm:241
+msgid "Enter routine name"
+msgstr "Введите имя процедуры"
+
+#. frmRoutineEditor..PageControlMain..tabParameters..Caption
+#: routine_editor.dfm:257
+msgid "Parameters"
+msgstr "Параметры"
+
+#. frmRoutineEditor..PageControlMain..tabParameters..listParameters......WideText
+#: routine_editor.dfm:310
+msgid "Context"
+msgstr "Контекст"
+
+#. frmRoutineEditor..PageControlMain..tabParameters..tlbParameters..btnMoveUpParam..Caption
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnMoveUpIndex..Hint
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnMoveUpColumn..Hint
+#. frmTableEditor..popupColumns..menuMoveUpColumn..Caption
+#: routine_editor.dfm:354 table_editor.dfm:482 table_editor.dfm:733
+#: table_editor.dfm:823
+msgid "Move up"
+msgstr "Вверх"
+
+#. frmRoutineEditor..PageControlMain..tabParameters..tlbParameters..btnMoveDownParam..Caption
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnMoveDownIndex..Hint
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnMoveDownColumn..Hint
+#. frmTableEditor..popupColumns..menuMoveDownColumn..Caption
+#: routine_editor.dfm:363 table_editor.dfm:491 table_editor.dfm:741
+#: table_editor.dfm:829
+msgid "Move down"
+msgstr "Вниз"
+
+#. frmSearchReplace..Caption
+#: searchreplace.dfm:5
+msgid "Search and replace text"
+msgstr "Найти и заменить"
+
+#. frmSearchReplace..lblSearch..Caption
+#: searchreplace.dfm:30
+msgid "&Text to find:"
+msgstr "&Найти:"
+
+#. frmSearchReplace..lblReplaceHint..Caption
+#: searchreplace.dfm:38
+msgid "Replacement can have \\n for new lines and \\t for tabs"
+msgstr "Можно использовать \\n для новой строки и \\t для табуляции"
+
+#. frmSearchReplace..btnReplaceAll..Caption
+#: searchreplace.dfm:58
+msgid "Replace &all"
+msgstr "Заменить &все"
+
+msgid "Search in:"
+msgstr "Искать в:"
+
+#. frmSearchReplace..chkReplace..Caption
+#: searchreplace.dfm:67
+msgid "&Replace:"
+msgstr "&Заменить:"
+
+#. frmSearchReplace..comboSearch..TextHint
+#: searchreplace.dfm:79
+msgid "Enter text to find ..."
+msgstr "Введите текст для поиска…"
+
+#. frmSearchReplace..comboReplace..TextHint
+#: searchreplace.dfm:91
+msgid "Enter replacement pattern ..."
+msgstr "Введите шаблон замены..."
+
+#. frmSearchReplace..grpOptions..Caption
+#: searchreplace.dfm:100
+msgid "&Options"
+msgstr "&Опции"
+
+#. frmSearchReplace..grpOptions..chkCaseSensitive..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabFind..chkCaseSensitive..Caption
+#: searchreplace.dfm:107 tabletools.dfm:302
+msgid "Case sensitive"
+msgstr "Учитывать регистр"
+
+#. frmSearchReplace..grpOptions..chkWholeWords..Caption
+#: searchreplace.dfm:115
+msgid "Whole words"
+msgstr "Целые слова"
+
+#. frmSearchReplace..grpOptions..chkRegularExpression..Caption
+#: searchreplace.dfm:123
+msgid "Regular expression"
+msgstr "Регулярное выражение"
+
+#. frmSearchReplace..grpOptions..chkPromptOnReplace..Caption
+#: searchreplace.dfm:134
+msgid "Prompt on replace"
+msgstr "Спрашивать при замене"
+
+#. frmSearchReplace..grpDirection..Caption
+#: searchreplace.dfm:144
+msgid "&Direction"
+msgstr "&Направление"
+
+#. frmSearchReplace..grpDirection....Items.Strings
+#: searchreplace.dfm:147
+msgid "&Forward"
+msgstr "&Вперед"
+
+#. frmSearchReplace..grpDirection....Items.Strings
+#: searchreplace.dfm:148
+msgid "&Backward"
+msgstr "&Назад"
+
+#. frmSearchReplace..grpOrigin..Caption
+#: searchreplace.dfm:157
+msgid "Or&igin"
+msgstr "Откуда искать"
+
+#. frmSearchReplace..grpOrigin....Items.Strings
+#: searchreplace.dfm:160
+msgid "From cursor"
+msgstr "Под курсором"
+
+#. frmSearchReplace..grpOrigin....Items.Strings
+#: searchreplace.dfm:161
+msgid "Entire scope"
+msgstr "Вся область"
+
+#. frmSearchReplace..grpScope..Caption
+#: searchreplace.dfm:170
+msgid "&Scope"
+msgstr "&Область"
+
+#. frmSearchReplace..grpScope....Items.Strings
+#: searchreplace.dfm:174
+msgid "Selection"
+msgstr "Выделенное"
+
+#. Search and replace dialog
+msgid "Result grid"
+msgstr "Сетка с результатом"
+
+#. Search and replace dialog
+msgid "SQL editor"
+msgstr "Редактор SQL"
+
+#. Search and replace dialog
+msgid "Data Grid"
+msgstr "Сетка с данными"
+
+#. frmSelectDBObject..Caption
+#: selectdbobject.dfm:4
+msgid "Select database object ..."
+msgstr "Выберите объект базы данных..."
+
+#. frmSelectDBObject..lblSelect..Caption
+#: selectdbobject.dfm:30
+msgid "Select database, table or column:"
+msgstr "Выберите базу данных, таблицу или столбец:"
+
+#. frmSelectDBObject..lblCustom..Caption
+#: selectdbobject.dfm:38
+msgid "... or wildcard database (% and _ allowed):"
+msgstr "... или выберите базу данных (можно использовать % and _):"
+
+#. frmSelectDBObject..editDb..TextHint
+#: selectdbobject.dfm:108
+msgid "database"
+msgstr "база данных"
+
+#. frmSQLhelp..Caption
+#: sqlhelp.dfm:4
+msgid "Integrated SQL-help"
+msgstr "Встроенная справка по SQL"
+
+#. frmSQLhelp..btnSearchOnline..Caption
+#: sqlhelp.dfm:29
+msgid "Search online"
+msgstr "Поиск в интернете"
+
+#. frmSQLhelp..pnlMain..pnlRight..lblDescription..Caption
+#: sqlhelp.dfm:154
+msgid "Description:"
+msgstr "Описание:"
+
+#. frmSQLhelp..pnlMain..pnlRight..lblExample..Caption
+#: sqlhelp.dfm:182
+msgid "Example:"
+msgstr "Пример:"
+
+#. frmSyncDB..lblSource..Caption
+#: syncdb.dfm:29
+msgid "Select source database or table(s):"
+msgstr "Выберите сходную базу данных или таблицу(ы):"
+
+#. frmSyncDB..lblDifferences..Caption
+#: syncdb.dfm:36
+msgid "Differences:"
+msgstr "Различия:"
+
+#. frmSyncDB..grpTarget..Caption
+#: syncdb.dfm:78
+msgid "Target database or table"
+msgstr "Целевая база данных или таблица"
+
+#. frmSyncDB..grpTarget..lblTargetServer..Caption
+#: syncdb.dfm:88
+msgid "Server:"
+msgstr "Сервер:"
+
+#. frmSyncDB..btnAnalyze..Caption
+#: syncdb.dfm:166
+msgid "Analyze"
+msgstr "Анализ"
+
+#. frmSyncDB..grpOptions..radioOptionsStructure..Caption
+#: syncdb.dfm:185
+msgid "Structure"
+msgstr "Структура"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:118
+msgid "Length/Set"
+msgstr "Длина/Значения"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:125
+msgid "Unsigned"
+msgstr "Беззнаковое"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:132
+msgid "Allow NULL"
+msgstr "Разрешить NULL"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:137
+msgid "Zerofill"
+msgstr "Zerofill"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:161
+msgid "Expression"
+msgstr "Выражение"
+
+#. frmTableEditor..listColumns......WideText
+#: table_editor.dfm:167
+msgid "Virtuality"
+msgstr "Виртуальность"
+
+#. frmTableEditor..PageControlMain..tabBasic..Caption
+#: table_editor.dfm:183
+msgid "Basic"
+msgstr "Основной"
+
+#. frmTableEditor..PageControlMain..tabBasic..editName..TextHint
+#: table_editor.dfm:210
+msgid "Enter table name"
+msgstr "Введите имя таблицы"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblAutoinc..Caption
+#: table_editor.dfm:237
+msgid "Auto increment:"
+msgstr "Автоинкремент:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblAvgRowLen..Caption
+#: table_editor.dfm:244
+msgid "Average row length:"
+msgstr "Средняя длина строки:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblInsertMethod..Caption
+#: table_editor.dfm:251
+msgid "INSERT method:"
+msgstr "Метод INSERT:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblUnion..Caption
+#: table_editor.dfm:258
+msgid "Union tables:"
+msgstr "Объединение таблиц:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblMaxRows..Caption
+#: table_editor.dfm:265
+msgid "Maximum row count:"
+msgstr "Макс. количество строк:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblRowFormat..Caption
+#: table_editor.dfm:272
+msgid "Row format:"
+msgstr "Формат строк:"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblCollation..Caption
+#: table_editor.dfm:279
+msgid "Default collation:"
+msgstr "Сопоставление (умолч):"
+
+#. frmTableEditor..PageControlMain..tabOptions..lblEngine..Caption
+#: table_editor.dfm:286
+msgid "Engine:"
+msgstr "Тип таблицы:"
+
+#. Server's default table engine (e.g.)
+msgid "Server default"
+msgstr "По умолчанию для сервера"
+
+#. frmTableEditor..PageControlMain..tabOptions..chkChecksum..Caption
+#: table_editor.dfm:310
+msgid "Checksum for rows:"
+msgstr "Контрольная сумма для строк:"
+
+#. frmTableEditor..PageControlMain..tabOptions..chkCharsetConvert..Caption
+#: table_editor.dfm:379
+msgid "Convert data"
+msgstr "Преобр. данных"
+
+#. frmTableEditor..PageControlMain..tabIndexes..Caption
+#: table_editor.dfm:385 copytable.pas:255
+msgid "Indexes"
+msgstr "Индексы"
+
+#. frmTableEditor..PageControlMain..tabIndexes..treeIndexes......WideText
+#: table_editor.dfm:431
+msgid "Type / Length"
+msgstr "Тип / Длина"
+
+#. frmTableEditor..PageControlMain..tabIndexes..treeIndexes......WideText
+#. frmView..rgAlgorithm..Caption
+#: table_editor.dfm:436 view.dfm:57
+msgid "Algorithm"
+msgstr "Алгоритм"
+
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnAddIndex..Hint
+#. frmTableEditor..popupIndexes..menuAddIndex..Caption
+#: table_editor.dfm:455 table_editor.dfm:753
+msgid "Add index"
+msgstr "Добавить"
+
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnRemoveIndex..Hint
+#: table_editor.dfm:464
+msgid "Remove index"
+msgstr "Удалить"
+
+#. frmTableEditor..PageControlMain..tabIndexes..tlbIndexes..btnClearIndexes..Hint
+#: table_editor.dfm:473
+msgid "Clear indexes"
+msgstr "Очистить"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..Caption
+#: table_editor.dfm:499 copytable.pas:256
+msgid "Foreign keys"
+msgstr "Внешние ключи"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..pnlNoForeignKeys..listForeignKeys......WideText
+#: table_editor.dfm:581
+msgid "Key name"
+msgstr "Имя ключа"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..pnlNoForeignKeys..listForeignKeys......WideText
+#: table_editor.dfm:593
+msgid "Reference table"
+msgstr "Справочная таблица"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..pnlNoForeignKeys..listForeignKeys......WideText
+#: table_editor.dfm:599
+msgid "Foreign columns"
+msgstr "Внешние cтолбцы"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..pnlNoForeignKeys..listForeignKeys......WideText
+#: table_editor.dfm:605
+msgid "On UPDATE"
+msgstr "При UPDATE"
+
+#. frmTableEditor..PageControlMain..tabForeignKeys..pnlNoForeignKeys..listForeignKeys......WideText
+#: table_editor.dfm:611
+msgid "On DELETE"
+msgstr "При DELETE"
+
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnAddColumn..Hint
+#. frmTableEditor..popupIndexes..menuAddIndexColumn..Caption
+#. frmTableEditor..popupColumns..menuAddColumn..Caption
+#: table_editor.dfm:717 table_editor.dfm:759 table_editor.dfm:811
+msgid "Add column"
+msgstr "Добавить столбец"
+
+#. frmTableEditor..pnlColumnsTop..tlbColumns..btnRemoveColumn..Hint
+#. frmTableEditor..popupColumns..menuRemoveColumn..Caption
+#: table_editor.dfm:725 table_editor.dfm:817
+msgid "Remove column"
+msgstr "Удалить столбец"
+
+#. frmTableEditor..popupColumns..menuCopyColumns..Caption
+#: table_editor.dfm:798
+msgid "Copy selected columns"
+msgstr "Копировать выбранные столбцы"
+
+#. grid export
+msgid "Copy selected rows"
+msgstr "Копировать выбранные строки"
+
+#. grid export
+msgid "Copy selected rows in custom format"
+msgstr "Копировать выбранные строки в настроенном ранее формате"
+
+#. frmTableEditor..popupColumns..menuPasteColumns..Caption
+#: table_editor.dfm:803
+msgid "Paste columns"
+msgstr "Вставить столбцы"
+
+#. frmTableEditor..popupColumns..menuCreateIndex..Caption
+#: table_editor.dfm:838
+msgid "Create new index"
+msgstr "Создать новый индекс"
+
+#. frmTableEditor..popupColumns..menuAddToIndex..Caption
+#: table_editor.dfm:842
+msgid "Add to index"
+msgstr "Добавить в индекс"
+
+#. frmTableTools..Caption
+#: tabletools.dfm:4
+msgid "Table tools"
+msgstr "Массовый редактор таблиц"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabMaintenance..lblOperation..Caption
+#: tabletools.dfm:166
+msgid "Operation:"
+msgstr "Операция:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabMaintenance..lblOptions..Caption
+#: tabletools.dfm:173
+msgid "Options:"
+msgstr "Опции:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabFind..Caption
+#: tabletools.dfm:251
+msgid "Find text"
+msgstr "Найти текст"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabFind..lblFindText..Caption
+#: tabletools.dfm:265
+msgid "Text to find:"
+msgstr "Текст для поиска:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabFind..lblDataTypes..Caption
+#: tabletools.dfm:273
+msgid "Search in column types:"
+msgstr "Искать в столбцах типа:"
+
+msgid "Match type:"
+msgstr "Тип соответствия:"
+
+msgid "Left and right wildcard"
+msgstr "Левая и правая подстановочные"
+
+msgid "Exact match"
+msgstr "Точное соответствие"
+
+msgid "Left wildcard"
+msgstr "Левая подстановочная"
+
+msgid "Right wildcard"
+msgstr "Правая подстановочная"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..Caption
+#: tabletools.dfm:308
+msgid "SQL export"
+msgstr "Экспорт SQL"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..lblExportData..Caption
+#: tabletools.dfm:322
+msgid "Data:"
+msgstr "Данные:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..lblExportOutputType..Caption
+#: tabletools.dfm:329
+msgid "Output:"
+msgstr "Вывод:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..lblExportDatabases..Caption
+#: tabletools.dfm:336
+msgid "Database(s):"
+msgstr "База(ы) данных:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..lblExportTables..Caption
+#: tabletools.dfm:343
+msgid "Table(s):"
+msgstr "Таблица(ы):"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..btnExportOutputTargetSelect..Hint
+#: tabletools.dfm:357
+msgid "Browse filesystem"
+msgstr "Обзор"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..chkExportDatabasesCreate..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..chkExportTablesCreate..Caption
+#: tabletools.dfm:369 tabletools.dfm:396
+msgid "Create"
+msgstr "Создать"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..chkExportDatabasesDrop..Caption
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabSQLexport..chkExportTablesDrop..Caption
+#: tabletools.dfm:378 tabletools.dfm:387
+msgid "Drop"
+msgstr "Уничтожить"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..chkBulkTableEditDatabase..Caption
+#: tabletools.dfm:445
+msgid "Move to database:"
+msgstr "Переместить в базу данных"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..chkBulkTableEditResetAutoinc..Caption
+#: tabletools.dfm:464
+msgid "Reset auto increment value"
+msgstr "Сбросить значение счётчика"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..chkBulkTableEditCollation..Caption
+#: tabletools.dfm:472
+msgid "Change default collation:"
+msgstr "Сопоставление по умолчанию:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..chkBulkTableEditEngine..Caption
+#: tabletools.dfm:491
+msgid "Change table engine:"
+msgstr "Изменить тип таблиц:"
+
+#. frmTableTools..pnlTop..pnlRight..tabsTools..tabBulkTableEdit..chkBulkTableEditCharset..Caption
+#: tabletools.dfm:510
+msgid "Convert to charset:"
+msgstr "Преобразовать в кодировку:"
+
+#. frmTableTools..btnSeeResults..Caption
+#: tabletools.dfm:544
+msgid "See results"
+msgstr "Просмотреть результаты"
+
+#. frmTableTools..popupTree..menuCheckNone..Caption
+#: tabletools.dfm:555
+msgid "Check none"
+msgstr "Отменить выбор"
+
+#. frmTableTools..popupTree..menuCheckAll..Caption
+#: tabletools.dfm:559
+msgid "Check all"
+msgstr "Выбрать все"
+
+#. frmTableTools..popupTree..menuCheckByType..Caption
+#: tabletools.dfm:563
+msgid "Check ..."
+msgstr "Проверить…"
+
+#. frmTextEditor..Caption
+#: texteditor.dfm:4
+msgid "Text editor"
+msgstr "Текстовый редактор"
+
+#. frmTextEditor..tlbStandard..btnLinebreaks..Caption
+#: texteditor.dfm:74
+msgid "Linebreaks"
+msgstr "Переносы строк"
+
+#. frmTextEditor..tlbStandard..btnLoadText..Hint
+#. frmTextEditor..tlbStandard..btnLoadText..Caption
+#: texteditor.dfm:82 texteditor.dfm:83
+msgid "Load textfile"
+msgstr "Загрузить текстовый файл"
+
+#. frmTextEditor..popupLinebreaks..menuWindowsLB..Caption
+#: texteditor.dfm:109 texteditor.pas:133
+msgid "Windows linebreaks"
+msgstr "Переносы строк как в Windows"
+
+#. frmTextEditor..popupLinebreaks..menuUnixLB..Caption
+#: texteditor.dfm:114 texteditor.pas:134
+msgid "UNIX linebreaks"
+msgstr "Переносы строк как в UNIX"
+
+#. frmTextEditor..popupLinebreaks..menuMacLB..Caption
+#: texteditor.dfm:119 texteditor.pas:135
+msgid "Mac OS linebreaks"
+msgstr "Переносы строк как в Mac OS"
+
+#. frmTextEditor..popupLinebreaks..menuWideLB..Caption
+#: texteditor.dfm:124 texteditor.pas:136
+msgid "Unicode linebreaks"
+msgstr "Переносы строк Unicode"
+
+#. frmTextEditor..popupLinebreaks..menuMixedLB..Caption
+#: texteditor.dfm:129 texteditor.pas:137
+msgid "Mixed linebreaks"
+msgstr "Смешанные переносы строк"
+
+#. frmTriggerEditor..lblTable..Caption
+#: trigger_editor.dfm:23
+msgid "On table:"
+msgstr "На таблице:"
+
+#. frmTriggerEditor..lblBody..Caption
+#: trigger_editor.dfm:30
+msgid "Trigger statement: (e.g. \"SET NEW.columnA = TRIM(OLD.columnA)\""
+msgstr "Выражение триггера: (например, \"SET NEW.columnA = TRIM(OLD.columnA)\""
+
+#. frmTriggerEditor..lblEvent..Caption
+#: trigger_editor.dfm:37
+msgid "Event:"
+msgstr "Событие:"
+
+#. frmTriggerEditor..lblDefiner..Caption
+#. frmView..lblDefiner..Caption
+#: trigger_editor.dfm:44 view.dfm:40
+msgid "Definer:"
+msgstr "Владелец:"
+
+#. frmTriggerEditor..editName..TextHint
+#: trigger_editor.dfm:53
+msgid "Enter trigger name"
+msgstr "Введите имя триггера"
+
+#. frmUpdateCheck..groupBuild..Caption
+#: updatecheck.dfm:52
+msgid "Nightly build"
+msgstr "Ночная сборка"
+
+#. frmUpdateCheck..groupBuild..btnBuild..Caption
+#: updatecheck.dfm:63
+msgid "Download nightly build"
+msgstr "Загрузить ночную сборку"
+
+msgid "No build updates for 32 bit version"
+msgstr "Нет новых сборок для 32-битной версии"
+
+#. frmUpdateCheck..groupRelease..Caption
+#: updatecheck.dfm:90
+msgid "Official release"
+msgstr "Официальный выпуск"
+
+#. frmUpdateCheck..groupRelease..btnRelease..Caption
+#: updatecheck.dfm:102
+msgid "Download new release"
+msgstr "Загрузить новый выпуск"
+
+#. UserManagerForm..Caption
+#: usermanager.dfm:5
+msgid "User Manager"
+msgstr "Редактор пользователей"
+
+#. UserManagerForm..pnlLeft..lblUsers..Caption
+#: usermanager.dfm:97
+msgid "&Select user account:"
+msgstr "&Выберите учетную запись:"
+
+#. UserManagerForm..pnlLeft..listUsers......WideText
+#: usermanager.dfm:131
+msgid "Username"
+msgstr "Пользователь"
+
+#. UserManagerForm..pnlLeft..ToolBar1..btnCloneUser..Caption
+#: usermanager.dfm:162
+msgid "Clone"
+msgstr "Дублировать"
+
+#. UserManagerForm..pnlRight..tlbObjects..Label1..Caption
+#: usermanager.dfm:206
+msgid "Allow access to:"
+msgstr "Разрешить доступ к:"
+
+#. UserManagerForm..pnlRight..tlbObjects..btnAddObject..Hint
+#: usermanager.dfm:213
+msgid "Add object ..."
+msgstr "Добавить объект..."
+
+#. UserManagerForm..pnlRight..tlbObjects..btnAddObject..Caption
+#: usermanager.dfm:214
+msgid "Add object"
+msgstr "Добавить объект"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..Caption
+#: usermanager.dfm:252
+msgid "Credentials"
+msgstr "Полномочия"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..lblUsername..Caption
+#: usermanager.dfm:265
+msgid "User &name:"
+msgstr "Имя п&ользователя:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..lblFromHost..Caption
+#: usermanager.dfm:272
+msgid "From &host:"
+msgstr "Хост:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..lblRepeatPassword..Caption
+#: usermanager.dfm:288
+msgid "Repeat password:"
+msgstr "Повторите пароль:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabCredentials..editPassword..RightButton.Hint
+#: usermanager.dfm:310
+msgid "Select random password"
+msgstr "Выбрать случайный пароль"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabLimitations..Caption
+#: usermanager.dfm:340
+msgid "Limitations"
+msgstr "Ограничения"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabLimitations..lblMaxQueries..Caption
+#: usermanager.dfm:354
+msgid "Queries per hour:"
+msgstr "Запросов в час:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabLimitations..lblMaxUpdates..Caption
+#: usermanager.dfm:361
+msgid "Updates per hour:"
+msgstr "Обновлений в час:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabLimitations..lblMaxConnections..Caption
+#: usermanager.dfm:368
+msgid "Connections per hour:"
+msgstr "Соединений в час:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabLimitations..lblMaxUserConnections..Caption
+#: usermanager.dfm:375
+msgid "Simultaneous connections:"
+msgstr "Одновремен. подключений:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..lblCipher..Caption
+#: usermanager.dfm:482
+msgid "&Cipher:"
+msgstr "&Шифр:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..lblIssuer..Caption
+#: usermanager.dfm:490
+msgid "&Issuer:"
+msgstr "&Эмитент:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..lblSubject..Caption
+#: usermanager.dfm:498
+msgid "&Subject:"
+msgstr "&Субъект:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..lblSSL..Caption
+#: usermanager.dfm:506
+msgid "&Require SSL:"
+msgstr "&Требовать SSL:"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..comboSSL....Items.Strings
+#: usermanager.dfm:548
+msgid "No SSL or X509 requirements"
+msgstr "Нет требований SSL или X509"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..comboSSL....Items.Strings
+#: usermanager.dfm:549
+msgid "Only permit SSL-encrypted connections"
+msgstr "Разрешить только подключения с SSL-шифрованием"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..comboSSL....Items.Strings
+#: usermanager.dfm:550
+msgid "X509 (certificate, issuer and subject do not matter)"
+msgstr "X509 (сертификат, эмитент и субъект не имеет значения)"
+
+#. UserManagerForm..pnlRight..PageControlSettings..tabSSL..comboSSL....Items.Strings
+#: usermanager.dfm:551
+msgid "Specify requirements..."
+msgstr "Указать требования..."
+
+#. UserManagerForm..menuHost..menuHost1..Caption
+#: usermanager.dfm:573
+msgid "Access from server location only"
+msgstr "Доступ только с сервера"
+
+#. UserManagerForm..menuHost..menuHost2..Caption
+#: usermanager.dfm:578
+msgid "Local network: 192.168.%"
+msgstr "Локальная сеть: 192.168.%"
+
+#. UserManagerForm..menuHost..menuHost3..Caption
+#: usermanager.dfm:583
+msgid "Local network: 10.122.%"
+msgstr "Локальная сеть: 10.122.%"
+
+#. UserManagerForm..menuHost..menuHostLocal4..Caption
+#: usermanager.dfm:588
+msgid "Access from everywhere"
+msgstr "Доступ из любого места"
+
+#. UserManagerForm..menuPassword..menuPassword1..Caption
+#: usermanager.dfm:601
+msgid "6 characters"
+msgstr "6 символов"
+
+#. UserManagerForm..menuPassword..menuPassword2..Caption
+#: usermanager.dfm:609
+msgid "8 characters"
+msgstr "8 символов"
+
+#. UserManagerForm..menuPassword..menuPassword3..Caption
+#: usermanager.dfm:617
+msgid "10 characters"
+msgstr "10 символов"
+
+#. UserManagerForm..menuPassword..menuPassword4..Caption
+#: usermanager.dfm:625
+msgid "12 characters"
+msgstr "12 символов"
+
+#. UserManagerForm..menuPassword..menuPassword5..Caption
+#: usermanager.dfm:633
+msgid "30 characters"
+msgstr "30 символов"
+
+#. frmView..lblSelect..Caption
+#: view.dfm:22
+msgid "Select statement:"
+msgstr "Выберите выражение:"
+
+#. frmView..lblDisabledWhy..Caption
+#: view.dfm:31
+msgid "You need the SHOW VIEW privilege in order to edit a view."
+msgstr "Вы должны иметь доступ SHOW VIEW для того, чтобы изменить представление."
+
+#. frmView..editName..TextHint
+#: view.dfm:49
+msgid "Enter view name"
+msgstr "Введите имя представления"
+
+#. frmView..rgCheck..Caption
+#: view.dfm:131
+msgid "Check option for updates"
+msgstr "Способы обновления"
+
+#. frmView..rgCheck....Items.Strings
+#: view.dfm:134
+msgid "None"
+msgstr "Нет"
+
+#: about.pas:73
+msgid "Compiled on:"
+msgstr "Дата сборки:"
+
+msgid "Environment:"
+msgstr "Окружение:"
+
+#: bineditor.pas:175 texteditor.pas:259
+msgid "Apply modifications?"
+msgstr "Применить изменения?"
+
+#: connections.pas:347
+msgid "Enter new session name ..."
+msgstr "Введите новое имя сеанса..."
+
+#: connections.pas:351
+msgid "Clone session ..."
+msgstr "Дублировать сеанс..."
+
+#: connections.pas:351
+msgid "New session name:"
+msgstr "Имя сеанса:"
+
+#: connections.pas:386
+msgid "Imported sessions could not be detected. Restarting %s may solve that."
+msgstr "Импортированные сеансы не могут быть обнаружены. Перезапуск %s может решить эту проблему."
+
+#: connections.pas:440
+msgid "Delete session \"%s\"?"
+msgstr "Удалить сеанс \"%s\"?"
+
+#: connections.pas:649 connections.pas:821
+msgid "Session \"%s\" already exists!"
+msgstr "Сеанс \"%s\" уже существует!"
+
+msgid ""
+"If you want to change the case of a session name, you need to rename it "
+"before doing the actual case change."
+msgstr "Если вы хотите изменить регистр имени сеанса, вам необходимо переименовать его, прежде чем выполнять фактическое изменение регистра."
+
+#: connections.pas:658
+msgid "Error while moving registry key: %s"
+msgstr "Ошибка при перемещении ключа реестра: %s"
+
+#: connections.pas:707
+msgid ""
+"New here? In order to connect to a server, you have to create a so called "
+"\"session\" at first. Just click the \"New\" button on the bottom left to "
+"create your first session. Give it a friendly name (e.g. \"Local DB "
+"server\") so you'll recall it the next time you start %s."
+msgstr "Вы новичок? Для того, чтобы подключиться к серверу, вы должны создать так называемый «сеанс». Просто нажмите на кнопку «Создать» в левом нижнем углу, чтобы создать свой первый сеанс. Дайте ему понятное имя (например, «Локальный сервер»), при следующем запуске %s вы просто выберете его из списка."
+
+#: connections.pas:711
+msgid ""
+"Please click a session on the left list to edit parameters, doubleclick to "
+"open it."
+msgstr "Выберите сеанс в списке слева для редактирования или откройте его при помощи двойного щелчка."
+
+#: connections.pas:759
+msgid "unknown or never"
+msgstr "неизвестно или никогда"
+
+#: connections.pas:789
+msgid "Successful connects:"
+msgstr "Успешных соединений:"
+
+#: connections.pas:791
+msgid "Unsuccessful connects:"
+msgstr "Неудачных соединений:"
+
+#: connections.pas:954
+msgid "Save modifications?"
+msgstr "Сохранить изменения?"
+
+#: connections.pas:954
+msgid "Settings for \"%s\" were changed."
+msgstr "Настройки \"%s\" были изменены."
+
+#: connections.pas:984
+msgid "Socket name:"
+msgstr "Имя сокета:"
+
+#: connections.pas:1049
+msgid "Executables"
+msgstr "Исполняемые"
+
+#: connections.pas:1051
+msgid "PuTTY private key"
+msgstr "Закрытый ключ PuTTY "
+
+#: connections.pas:1053
+msgid "Privacy Enhanced Mail certificates"
+msgstr "Сертификаты Privacy Enhanced Mail"
+
+#: connections.pas:1053
+msgid "Certificates"
+msgstr "Сертификаты"
+
+#: copytable.pas:138
+msgid "Neither table nor view: %s"
+msgstr "Не является ни таблицей, ни представлением: %s"
+
+#: copytable.pas:257
+msgid "Data (%s rows)"
+msgstr "Данные (%s строк)"
+
+#: copytable.pas:376
+msgid "Target table exists. Drop it and overwrite?"
+msgstr "Целевая таблица существует. Удалить её и переписать?"
+
+#: copytable.pas:384
+msgid "Generating SQL code ..."
+msgstr "Генерация кода SQL..."
+
+#: copytable.pas:475
+msgid "Creating table ..."
+msgstr "Создание таблицы..."
+
+#: createdatabase.pas:98
+msgid "Alter database ..."
+msgstr "Изменение базы данных..."
+
+#: createdatabase.pas:196
+msgid "Creating database \"%s\" failed."
+msgstr "Не удалось создать базу данных «%s»."
+
+#: createdatabase.pas:220
+msgid "Database \"%s\" contains stored routine(s), which cannot be moved."
+msgstr "База данных «%s» содержит хранимые процедуры, которые не могут быть перенесены."
+
+#: createdatabase.pas:226
+msgid "Database \"%s\" exists and has objects with same names as in \"%s\""
+msgstr "База данных «%s» существует и содержит объекты с такими же именами как в «%s»"
+
+#: createdatabase.pas:236
+msgid ""
+"Database \"%s\" exists. But it does not contain objects with same names as "
+"in \"%s\", so it's uncritical to move everything. Move all objects to "
+"\"%s\"?"
+msgstr "База данных «%s» существует. Но она не содержит объекты с такими же именами, как в «%s», так что возможно перенести всё. Переместить все объекты «%s»?"
+
+#: createdatabase.pas:265
+msgid "Altering database \"%s\" failed."
+msgstr "Изменение базы данных «%s» не удалось."
+
+#: data_sorting.pas:161
+msgid "Toggle the sort direction for this column."
+msgstr "Переключить направление сортировки для этого столбца."
+
+#: data_sorting.pas:174
+msgid "Drops sorting by this column."
+msgstr "Сбросить сортировку по этому столбцу."
+
+#: dbconnection.pas:669
+msgid "Error: Session \"%s\" not found in registry."
+msgstr "Ошибка: Сеанс «%s» не найден в реестре."
+
+#: dbconnection.pas:680
+msgid "Unsupported \"NetType\" value (%d) found in settings for session \"%s\"."
+msgstr "Неподдерживаемое значение \"NetType\"  (%d) найдено в настройках сессии \"%s\"."
+
+#: dbconnection.pas:681
+msgid "Loaded as MySQL/MariaDB session."
+msgstr "Загрузить как  MySQL/MariaDB сессию."
+
+#. Comes into SQL log when assigning dll procedures from libmysql.dll
+#: dbconnection.pas:1038
+msgid "Assign procedure \"%s\""
+msgstr "Назначить процедуру «%s»"
+
+#: dbconnection.pas:1047
+msgid ""
+"Your %s is incompatible to %s, or your system is missing a dependent "
+"library."
+msgstr "Ваша %s не совместима с %s или в системе отсутствует необходимая библиотека."
+
+#: dbconnection.pas:1121
+msgid "SSL parameters successfully set."
+msgstr "Параметры SSL успешно установлены."
+
+#: dbconnection.pas:1151
+msgid "Attempt to create SSH process, waiting %ds for response ..."
+msgstr ""
+
+#. Plink connection
+msgid "Error creating I/O pipes"
+msgstr "Ошибка создания пайпа"
+
+#. PLink connection
+msgid "Error reading I/O pipes"
+msgstr "Ошибка чтения пайпа"
+
+#. Plink connection
+msgid "SSH command cancelled"
+msgstr ""
+
+#: dbconnection.pas:1162
+msgid "SSH exited unexpected. Command line was: %s"
+msgstr ""
+
+#: dbconnection.pas:1165
+msgid "Could not execute SSH command: %s"
+msgstr ""
+
+#. Plink connection
+msgid "Could not execute SSH command: Port %d already in use."
+msgstr ""
+
+#. Plink connection
+msgid "Port #%d in use. Checking if #%d is available..."
+msgstr "Используется порт #%d. Проверка доступности порта #%d..."
+
+msgid ""
+"Connection closed immediately after it was established. This is mostly caused by an \"%s\" server variable which has errors in itself, or your user account does not have the required privileges for it to run.\n"
+"\n"
+"You may ask someone with SUPER privileges\n"
+"* either to fix the \"%s\" variable,\n"
+"* or to grant you missing privileges."
+msgstr "Соединение было закрыто сразу после того, как было установлено. Чаще всего это происходит из-за переменной сервера «%s», которая сама по себе имеет ошибочное значение или текущий пользователь не имеет достаточных привилегий.\n\nВы можете попросить кого-либо, имеющего привилегии SUPER\n* или исправить значение переменной «%s»,\n* или дать необходимые привилегии текущему пользователю."
+
+#: dbconnection.pas:1207 dbconnection.pas:1316
+msgid "Connected. Thread-ID: %d"
+msgstr "Соединено. Идентификатор процесса: %d"
+
+#: dbconnection.pas:1286
+msgid "On Wine, you can try to install MDAC:"
+msgstr "Под Wine вы можете попробовать установить MDAC:"
+
+#: dbconnection.pas:1343
+msgid "OLE DB property \"%s\": %s"
+msgstr "Свойство OLE DB «%s»: %s"
+
+#: dbconnection.pas:1389
+msgid "Loading library file %s ..."
+msgstr "Загрузка файла библиотеки %s..."
+
+msgid "Trying to load library with full path: %s"
+msgstr "Попытка загрузить библиотеку по полному пути: %s"
+
+#. DLL loading fails on one procedure
+msgid "Library error in %s: Could not find procedure address for \"%s\""
+msgstr "Ошибка библиотеки %s: Не удалось найти адрес процедуры «%s»"
+
+msgid "Library %s could not be loaded. Please select a different one."
+msgstr "Невозможно загрузить библиотеку %s. Пожалуйста, выберите другую."
+
+#. DLL loading failed entirely
+msgid "Library %s seems unusable. Please select a different one."
+msgstr "Невозможно использовать библиотеку %s . Пожалуйста, выберите другую."
+
+#: dbconnection.pas:1392
+msgid ""
+"Please launch %s from the directory where you have installed it. Or just "
+"reinstall %s."
+msgstr "Пожалуйста, запустите из каталога %s, где вы его установили. Или просто переустановите %s."
+
+msgid "Internal error %d: %s"
+msgstr "Внутренняя ошибка %d: %s"
+
+#: dbconnection.pas:1430
+msgid "Login to %s:"
+msgstr "Вход в %s:"
+
+#: dbconnection.pas:1442
+msgid "Connecting to %s via %s, username %s, using password: %s ..."
+msgstr "Подключение к %s с помощью %s, с именем пользователя %s, используя пароль: %s…"
+
+#: dbconnection.pas:1582
+msgid "Closing SSH process #%d ..."
+msgstr ""
+
+#: dbconnection.pas:1600 dbconnection.pas:1706
+msgid "Waiting for running query to finish ..."
+msgstr "Ожидание завершения выполняющегося запроса..."
+
+#: dbconnection.pas:1654 dbconnection.pas:1749
+msgid "Database \"%s\" selected"
+msgstr "Выбрана база данных «%s»"
+
+#: dbconnection.pas:1820
+msgid "Unhandled list node type in %s.%s"
+msgstr "Необрабатываемый тип элемента списка в %s.%s"
+
+#: dbconnection.pas:2193
+msgid "Database names not available due to missing privileges for user %s."
+msgstr "Имена баз данных не доступны из-за отсутствующих привилегий для пользователя %s."
+
+#: dbconnection.pas:2625
+msgid ""
+"The server did not return a non-zero value for the %s variable. Assuming %s "
+"now."
+msgstr "Сервер не вернул ненулевое значение для переменной %s. Предполагаем %s."
+
+#: dbconnection.pas:2757
+msgid "Not implemented for this DBMS"
+msgstr "Не реализовано для этой системы управления базами данных"
+
+#: dbconnection.pas:3180
+msgid "Real Hostname"
+msgstr "Реальное имя сервера"
+
+#: dbconnection.pas:3181 tabletools.pas:1199
+msgid "Server OS"
+msgstr "Операционная система"
+
+#: dbconnection.pas:3182 tabletools.pas:1198
+msgid "Server version"
+msgstr "Версия сервера"
+
+#: dbconnection.pas:3183
+msgid "Connection port"
+msgstr "Порт соединения"
+
+#: dbconnection.pas:3184
+msgid "Compressed protocol"
+msgstr "Сжатый протокол"
+
+#: dbconnection.pas:3185
+msgid "Unicode enabled"
+msgstr "Unicode включен"
+
+#: dbconnection.pas:3186
+msgid "SSL enabled"
+msgstr "SSL включен"
+
+#: dbconnection.pas:3191
+msgid "Client version (%s)"
+msgstr "Версия клиента (%s)"
+
+#: dbconnection.pas:3494
+msgid "Regular expression did not match the VIEW code in %s: %s"
+msgstr "Регулярное выражение не соответствует коду представления в %s: %s"
+
+#: dbconnection.pas:3909
+msgid "Unknown data type for column #%d - %s: %d"
+msgstr "Неизвестный тип данных для столбца № %d - %s: %d"
+
+#: dbconnection.pas:4144
+msgid "Column \"%s\" not available."
+msgstr "Столбец «%s» недоступен."
+
+#: dbconnection.pas:4577
+msgid "Internal error: Cannot post modifications before editing was prepared."
+msgstr "Внутренняя ошибка:  Невозможно отправить изменения перед правкой."
+
+#: dbconnection.pas:4781
+msgid "More than one table involved."
+msgstr "Вовлечено более одной таблицы."
+
+#: dbconnection.pas:4788 dbconnection.pas:4812
+msgid "Could not determine name of table."
+msgstr "Невозможно определить имя таблицы."
+
+#: dbconnection.pas:4859
+msgid "Column #%d has an undefined origin: %s"
+msgstr "Столбец № %d имеет неопределённое происхождение: %s"
+
+#: dbconnection.pas:4877
+msgid "Cannot compose WHERE clause - column missing: %s"
+msgstr "Невозможно составить выражение WHERE — столбец отсутствует: %s"
+
+#: dbconnection.pas:5043
+msgid "Unknown, should never appear"
+msgstr "Неизвестно, возникать не должно совсем"
+
+#: dbconnection.pas:5316
+msgid "Unsupported type (%d) in %s."
+msgstr "Неподдерживаемый тип (%d) в %s."
+
+#. editvar.pas
+msgid "\"%s\" is a read only variable, not editable"
+msgstr "Переменная «%s» только для чтения, нередактируемая"
+
+#: editvar.pas:90
+msgid "Could not find %s variable in internal mapping."
+msgstr "Невозможно найти переменную %s во внутреннем отображении."
+
+#: exportgrid.pas:73
+msgid "Excel CSV"
+msgstr "Excel CSV"
+
+#: exportgrid.pas:345
+msgid "Selection (%s rows, %s)"
+msgstr "Выделение (%s строк, %s)"
+
+#: exportgrid.pas:346
+msgid "Complete (%s rows, %s)"
+msgstr "Весь список (%s строк, %s)"
+
+#: exportgrid.pas:422
+msgid "File exists"
+msgstr "Файл существует"
+
+msgid "File does not exist: %s"
+msgstr "Файл не найден: %s"
+
+#: exportgrid.pas:422
+msgid "Overwrite file %s?"
+msgstr "Заменить файл %s?"
+
+#: exportgrid.pas:595
+msgid "Exporting row %s of %s (%d%%, %s)"
+msgstr "Экспорт строки %s из %s (%d%%, %s)"
+
+#: exportgrid.pas:790
+msgid "Freeing data..."
+msgstr "Освобождение данных..."
+
+#: grideditlinks.pas:218
+msgid ""
+"Wrong constructor called: %s.%s. Instead, please call the overloaded version"
+" %s.%s."
+msgstr "Вызван неправильный конструктор: %s.%s. Вместо этого, пожалуйста, вызовите перегруженную версию %s.%s."
+
+#: grideditlinks.pas:1022
+msgid "Edit text in popup editor ..."
+msgstr "Редактирование текста в отдельном окне..."
+
+#: grideditlinks.pas:1156
+msgid "No default value"
+msgstr "Нет значения по умолчанию"
+
+# grideditlinks.pas:1165
+# TODO: rephrase
+# msgid "Custom:"
+# msgstr "Custom:"
+#: helpers.pas:1045
+msgid "days"
+msgstr "дней"
+
+#: helpers.pas:1728
+msgid "%s month ago"
+msgstr "%s месяц назад"
+
+#: helpers.pas:1728
+msgid "%s months ago"
+msgstr "%s месяцев назад"
+
+#: helpers.pas:1728
+msgid "%s day ago"
+msgstr "%s день назад"
+
+#: helpers.pas:1728
+msgid "%s days ago"
+msgstr "%s дней назад"
+
+#: helpers.pas:1728
+msgid "%s hour ago"
+msgstr "%s час назад"
+
+#: helpers.pas:1728
+msgid "%s hours ago"
+msgstr "%s часов назад"
+
+#: helpers.pas:1728
+msgid "%s minute ago"
+msgstr "%s минуту назад"
+
+#: helpers.pas:1728
+msgid "%s minutes ago"
+msgstr "%s минут назад"
+
+#: helpers.pas:1728
+msgid "less than a minute ago"
+msgstr "меньше минуты назад"
+
+#: helpers.pas:1922
+msgid "Initializing editor ..."
+msgstr "Инициализация редактора..."
+
+#: helpers.pas:1964
+msgid "Save modified %s \"%s\"?"
+msgstr "Сохранить изменения %s «%s»?"
+
+#: helpers.pas:1966
+msgid "Save new %s?"
+msgstr "Сохранить новый %s?"
+
+#: helpers.pas:2821
+msgid "Could not open %s (%s)"
+msgstr "Невозможно открыть %s (%s)"
+
+msgid "Could not open %s (%s) - trying again without SSL..."
+msgstr "Невозможно открыть %s (%s): повтор операции без SSL..."
+
+#: helpers.pas:2829
+msgid "Server did not send required \"Content-Length\" header: %s"
+msgstr "Сервер не отправил необходимый заголовок «Content-Length»: %s"
+
+#: helpers.pas:2837
+msgid "Got HTTP status %d from %s"
+msgstr "Получен HTTP-статус %d от %s"
+
+#: helpers.pas:3251
+msgid "No path set, won't delete root key %s"
+msgstr "Путь не установлен, корневой ключ %s не может быть удалён "
+
+#: helpers.pas:3266
+msgid "No path set, won't move root key %s"
+msgstr "Путь не установлен, корневой ключ %s не может быть перемещён"
+
+#: helpers.pas:3332
+msgid "Attempt to read session setting without session path"
+msgstr "Попытка прочитать настройки сеанса без пути сеанса"
+
+#: helpers.pas:3406
+msgid "Attempt to write session setting without session path"
+msgstr "Попытка записать настройки сеанса без пути сеанса"
+
+#: insertfiles.pas:488
+msgid "%u files, %s, %u files selected."
+msgstr "%u файлов, %s, %u файлов выбрано."
+
+#: loaddata.pas:176
+msgid "Let server/database decide"
+msgstr "По выбору сервера/базы данных"
+
+#: loaddata.pas:315
+msgid ""
+"Your file was imported but the server returned %s warnings and/or notes. See"
+" the log panel for details."
+msgstr "Файл был импортирован, но сервер вернул %s предупреждений и/или замечаний. Подробнее смотри в панели журнала."
+
+#: loaddata.pas:321
+msgid "No rows were imported"
+msgstr "Строки не были импортированы"
+
+#: loaddata.pas:322
+msgid "This can have several causes:"
+msgstr "Это может произойти по нескольким причинам:"
+
+#: loaddata.pas:323
+msgid " - File is empty"
+msgstr " - Файл пуст"
+
+#: loaddata.pas:324
+msgid " - Wrong file encoding was selected or detected"
+msgstr "- Выбрана или определена неправильная кодировка файла"
+
+#: loaddata.pas:325
+msgid " - Field and/or line terminator do not fit to the file contents"
+msgstr " - Разделитель полей и/или строк не соответствует содержимому файла"
+
+#: loaddata.pas:428
+msgid "Importing textfile, row %s, %d%%"
+msgstr "Импорт текстового файла, строка %s, %d%%"
+
+#: loaddata.pas:532
+msgid "Reading textfile (%s) ..."
+msgstr "Чтение текстового файла (%s) ..."
+
+#: loaddata.pas:588
+msgid "CSV files"
+msgstr "CSV-файлы"
+
+#: loaddata.pas:588
+msgid "Text files"
+msgstr "Текстовые файлы"
+
+#: main.pas:1181
+msgid ""
+"Tables have been flushed and read lock acquired. Perform backup or snapshot "
+"of table data files now. Press OK to unlock when done..."
+msgstr "Таблицы были очищены, и возникла блокировка чтения. Выполните резервирование или снимок файлов с данными таблиц. Нажмите OK для разблокировки после завершения..."
+
+#: main.pas:1496
+msgid "Show next %s rows ..."
+msgstr "Показать следующие %s строк..."
+
+#: main.pas:1497
+msgid "About %s"
+msgstr "О программе %s"
+
+#: main.pas:1582
+msgid "Auto detect (may fail)"
+msgstr "Автоопределение (может не сработать)"
+
+#: main.pas:2071
+msgid "Export %s settings to file ..."
+msgstr "Экспорт настроек %s в файл..."
+
+#: main.pas:2078
+msgid "Settings successfully exported to %s"
+msgstr "Настройки успешно экспортированы в %s"
+
+#: main.pas:2092
+msgid "Import %s settings from file ..."
+msgstr "Импорт настроек %s из файла..."
+
+#: main.pas:2093
+msgid "Registry dump, deprecated"
+msgstr "Дамп реестра, устарело"
+
+#: main.pas:2101
+msgid "Settings successfully restored from %s"
+msgstr "Настройки успешно восстановлены из %s"
+
+#. Automatic export of portable settings
+msgid "Portable settings file written, with %d changes."
+msgstr "Файл портируемых настроек записан, сделано %d изменений."
+
+msgid ""
+"Switching to read-only mode. Settings won't be saved. Use the command line "
+"parameter %s to use a custom file path."
+msgstr "Переключение в режим \"только для чтения\"\". Настройки не будут сохранены. Задайте консольный параметр %s, чтобы использовать пользовательский путь к файлу."
+
+#: main.pas:2142
+msgid "Splitting SQL queries ..."
+msgstr "Разбивка SQL-запросов..."
+
+#. Query execution
+msgid "Run unsafe queries without a WHERE clause?"
+msgstr "Запустить небезопасные запросы без выражения WHERE?"
+
+#. Query execution
+msgid "Checking queries for unsafe UPDATEs/DELETEs ..."
+msgstr "Проверка запросов на небезопасные UPDATE/DELETE…"
+
+#. Query execution
+msgid ""
+"Your query contains UPDATEs and/or DELETEs without a WHERE clause. Please "
+"confirm that you know what you''re doing."
+msgstr "Ваш запрос содержит UPDATE и/или DELETE без выражения WHERE. Пожалуйста, подтвердите, что вы уверены в том, что вы делаете."
+
+#: main.pas:2166
+msgid ""
+"Query profiling requires %s or later, and the server must not be configured "
+"with %s."
+msgstr "Профилирование запросов требует %s или новее. Также, сервер не должен быть настроен с %s."
+
+#: main.pas:2185
+msgid "query"
+msgstr "запрос"
+
+msgid "queries"
+msgstr "запросов"
+
+#: main.pas:2186
+msgid "queries #%s to #%s"
+msgstr "запросы с № %s по № %s"
+
+#: main.pas:2187
+msgid "Executing %s of %s ..."
+msgstr "Выполнение %s из %s ..."
+
+#: main.pas:2203
+msgid "Setting up result grid(s) ..."
+msgstr "Настройка сетки(ок)..."
+
+#: main.pas:2220
+msgid "Result"
+msgstr "Результат"
+
+msgid "Affected rows"
+msgstr "Затронуто строк"
+
+#: main.pas:2310
+msgid "Found rows"
+msgstr "Найденные строки"
+
+#: main.pas:2310
+msgid "Warnings"
+msgstr "Предупреждения"
+
+#: main.pas:2310
+msgid "Duration for"
+msgstr "Длительность "
+
+#. duration for x "of" y queries
+msgid "of"
+msgstr "из"
+
+#. seconds
+msgid "sec."
+msgstr "сек."
+
+#. Transport over the net. Used for logging query duration.
+msgid "network"
+msgstr "сеть"
+
+#: main.pas:2346
+msgid "Your query produced %s warnings."
+msgstr "Ваш запрос произвел %s предупреждений."
+
+#: main.pas:2351
+msgid "Warnings from last query:"
+msgstr "Предупреждения последнего запроса:"
+
+#: main.pas:2352
+msgid "First %s warnings:"
+msgstr "Первые %s предупреждений:"
+
+#: main.pas:2361
+msgid "Show all warnings in a new query tab?"
+msgstr "Показать все предупреждения в новой вкладке запроса?"
+
+#: main.pas:2364
+msgid ""
+"The server variable %s is currently set to %d, so you won't see all "
+"warnings."
+msgstr "Серверная переменная %s выставлена в %d, поэтому вы не увидите всех предупреждений."
+
+#: main.pas:2379
+msgid "Updating query history ..."
+msgstr "Обновление истории запросов..."
+
+#: main.pas:2557
+msgid "Loading contents into image viewer ..."
+msgstr "Загрузка содержимого в модуль просмотра изображений..."
+
+#: main.pas:2558
+msgid "Loading ..."
+msgstr "Загрузка..."
+
+#: main.pas:2611
+msgid "No image detected, %s"
+msgstr "Изображение не найдено, %s"
+
+#: main.pas:2711
+msgid "Drop Database \"%s\"?"
+msgstr "Удалить базу данных «%s»?"
+
+#: main.pas:2711
+msgid "WARNING: You will lose all objects in database %s!"
+msgstr "ВНИМАНИЕ: Вы потеряете все объекты в базе данных %s!"
+
+#: main.pas:2753
+msgid "Drop %d object(s) in database \"%s\"?"
+msgstr "Удалить %d объект(ов) в базе данных «%s»?"
+
+#: main.pas:2790
+msgid "Command line only works on MySQL connections."
+msgstr "Командная строка работает только с соединениями MySQL."
+
+#: main.pas:2802
+msgid "You need to tell %s where your MySQL binaries reside, in %s > %s > %s."
+msgstr "Вы должны указать %s, где находятся бинарные файлы MySQL, в %s > %s > %s."
+
+#: main.pas:2803
+msgid "Current setting is: \"%s\""
+msgstr "Текущая настройка: «%s»"
+
+#: main.pas:2836
+msgid "Launching command line: %s"
+msgstr "Запуск командной строки: %s"
+
+#: main.pas:2916
+msgid "Opening large files"
+msgstr "Открытие больших файлов"
+
+#: main.pas:2917
+msgid "Selected files have a size of %s"
+msgstr "Выбранные файлы имеют размер %s"
+
+#: main.pas:2918
+msgid "File list"
+msgstr "Список файлов"
+
+#: main.pas:2924
+msgid "Run file(s) directly"
+msgstr "Выполнять файл(ы) сразу"
+
+#: main.pas:2925
+msgid "... without loading into the editor"
+msgstr "... без загрузки в редактор"
+
+#: main.pas:2928
+msgid "Load file(s) into the editor"
+msgstr "Загрузить файл(ы) в редактор"
+
+#: main.pas:2929
+msgid "Can cause large memory usage"
+msgstr "Может вызвать повышенное использование памяти"
+
+#: main.pas:2937
+msgid "One or more of the selected files are larger than %s:"
+msgstr "Один или больше выбранных файлов больше чем %s:"
+
+#: main.pas:2940
+msgid ""
+"Just run these files to avoid loading them into the query-editor (= memory)?"
+msgstr "Запустить эти файлы сразу, не загружая в редактор (= память)?"
+
+#: main.pas:2941
+msgid "Press"
+msgstr "Нажмите"
+
+#: main.pas:2942
+msgid "  [Yes] to run file(s) without loading it into the editor"
+msgstr "[Да], чтобы выполнить файл(ы) без загрузки в редактор"
+
+#: main.pas:2943
+msgid "  [No] to load file(s) into the query editor"
+msgstr "[Нет], чтобы загрузить файл(ы) в редактор запросов"
+
+#: main.pas:2944
+msgid "  [Cancel] to cancel file opening."
+msgstr "[Отмена] для отмены открытия файла."
+
+#: main.pas:2945
+msgid "Execute query file(s)?"
+msgstr "Выполнить файл(ы) запросов?"
+
+msgid "%s file(s) processed, in %s"
+msgstr "%s файл (ов) обработан, из %s"
+
+#: main.pas:2968
+msgid "Could not load file(s):"
+msgstr "Невозможно загрузить файл(ы):"
+
+msgid "File \"%s\" executed, with %s queries and %s affected rows"
+msgstr "Файл \"%s\" обработан, с %s запросами и %s затронутыми строками"
+
+msgid "File \"%s\" partially executed, with %s queries and %s affected rows"
+msgstr "Файл \"%s\" частично обработан, с %s запросами и %s затронутыми строками"
+
+msgid "Could not open file %s"
+msgstr "Невозможно открыть файл %s"
+
+#: main.pas:3088
+msgid "Startup script file not found: %s"
+msgstr "Файл сценария запуска не найден: %s"
+
+#: main.pas:3102
+msgid "SSL not used."
+msgstr "SSL не используется."
+
+#: main.pas:3103
+msgid ""
+"Your SSL settings were not accepted by the server, or the server does not "
+"support any SSL configuration."
+msgstr "Ваши настройки SSL не были приняты сервером или сервер не поддерживает шифрование SSL."
+
+#: main.pas:3127
+msgid "No rows selected"
+msgstr "Нет выбранных строк"
+
+#: main.pas:3127
+msgid "Please select one or more rows to delete them."
+msgstr "Выберите одну или несколько строк для удаления."
+
+#: main.pas:3136
+msgid "Delete %s row(s)?"
+msgstr "Удалить %s строк(и)?"
+
+#: main.pas:3136
+msgid "Deleting row #%s of %s ..."
+msgstr "Удаление строки № %s из %s..."
+
+#: main.pas:3146
+msgid "Clean up ..."
+msgstr "Очистка..."
+
+#: main.pas:3163 main.pas:3909 main.pas:7878
+msgid "Grid editing error"
+msgstr "Ошибка редактирования сетки"
+
+#: main.pas:3227
+msgid "No table(s) selected."
+msgstr "Нет выбранных таблиц(ы)."
+
+#: main.pas:3228
+msgid "Empty %d table(s) and/or view(s)?"
+msgstr "Очистить %d таблицу(ы) и/или представление(й)?"
+
+#: main.pas:3285
+msgid "No stored procedure selected."
+msgstr "Хранимая процедура не выбрана."
+
+#: main.pas:3285
+msgid "Please select one or more stored function(s) or routine(s)."
+msgstr "Пожалуйста, выберите одну или несколько функций или процедур."
+
+#: main.pas:3304
+msgid "Parameter"
+msgstr "Параметр"
+
+#: main.pas:3389
+msgid "Searching ..."
+msgstr "Поиск..."
+
+#: main.pas:3399
+msgid "Text \"%s\" replaced %s times."
+msgstr "Текст \"%s\" заменен %s раз."
+
+#: main.pas:3403
+msgid "Text \"%s\" not found."
+msgstr "Текст «%s» не найден."
+
+#: main.pas:3412
+msgid "Replace this occurrence of \"%s\"?"
+msgstr "Заменить это вхождение «%s»?"
+
+#: main.pas:3513
+msgid "SQL help not available."
+msgstr "Справка по SQL недоступна."
+
+#: main.pas:3513
+msgid "HELP <keyword> requires %s or newer."
+msgstr "HELP <keyword> требует %s или новее."
+
+#: main.pas:3531 routine_editor.pas:474
+msgid "Overwrite \"%s\"?"
+msgstr "Перезаписать «%s»?"
+
+#: main.pas:3531
+msgid "This file is already open in query tab #%d."
+msgstr "Этот файл уже открыт во вкладке запроса № %d."
+
+#: main.pas:3575
+msgid "Save snippet"
+msgstr "Сохранить заготовку"
+
+#: main.pas:3669
+msgid "Remove absent files"
+msgstr "Удалить несуществующие файлы"
+
+#: main.pas:3674
+msgid "Clear file list"
+msgstr "Очистить список файлов"
+
+#: main.pas:3775
+msgid "Set delimiter"
+msgstr "Установить разделитель"
+
+#: main.pas:3775
+msgid "SQL statement delimiter (default is \";\"):"
+msgstr "Разделитель операторов SQL (по умолчанию — «;»)"
+
+#: main.pas:3798
+msgid "Empty value."
+msgstr "Пустое значение."
+
+#: main.pas:3803
+msgid "Start-of-comment tokens or string literal markers are not allowed."
+msgstr "Токены начала комментария или строковые маркеры недопустимы."
+
+#: main.pas:3806
+msgid "Error setting delimiter to \"%s\": %s"
+msgstr "Ошибка при смене разделителя на «%s»: %s"
+
+#: main.pas:3811
+msgid "Delimiter changed to %s"
+msgstr "Разделитель изменен на %s"
+
+#: main.pas:4058
+msgid "large SQL query (%s), snipped at %s characters"
+msgstr "большой запрос SQL (%s), ограничен %s символами"
+
+#: main.pas:4094
+msgid "Error writing to session log file."
+msgstr "Ошибка записи в сеансовый файл журнала."
+
+#: main.pas:4094 main.pas:6415
+msgid "Logging is disabled now."
+msgstr "Журналирование отключено."
+
+#: main.pas:4309
+msgid "Fetching rows ..."
+msgstr "Извлечение строк..."
+
+#: main.pas:4322
+msgid "Data in this table will be read-only."
+msgstr "Данные в этой таблице будут только для чтения."
+
+#: main.pas:4332
+msgid "Setting up columns ..."
+msgstr "Настройка столбцов..."
+
+#: main.pas:4390 main.pas:4389
+msgid ""
+"Browsing is currently limited to a maximum of %s rows. To see more rows, "
+"increase this maximum in %s > %s > %s."
+msgstr "В настоящий момент отображение результата ограничено %s строками. Чтобы увидеть больше строк, увеличьте эту настройку в %s > %s > %s."
+
+#: main.pas:4439
+msgid "rows total"
+msgstr "строк"
+
+#: main.pas:4439
+msgid "approximately"
+msgstr "приблизительно"
+
+#: main.pas:4439
+msgid "limited to"
+msgstr "показано"
+
+#: main.pas:4442
+msgid "all rows match to filter"
+msgstr "все строки, соответствующие фильтру"
+
+#: main.pas:4442
+msgid "rows match to filter"
+msgstr "строк в выборке"
+
+#: main.pas:4558
+msgid "Displaying objects from \"%s\" ..."
+msgstr "Отображение объектов из «%s»..."
+
+#: main.pas:4784
+msgid "Ignoring own process id #%d when trying to kill it."
+msgstr "Пропуск собственного ID процесса #%d при попытке его завершения."
+
+#: main.pas:5158
+msgid "Uptime"
+msgstr "Время работы"
+
+#: main.pas:5158 connections.pas:762
+msgid "unknown"
+msgstr "неизвестно"
+
+#. Give the user some hint what he can do with his SSL related connection
+#. error
+msgid ""
+"You could try the default library %s in your session settings. (Current: %s)"
+msgstr ""
+
+#: main.pas:5261
+msgid "Specify filter-value..."
+msgstr "Укажите значение фильтра..."
+
+#: main.pas:5308
+msgid "Refresh list every ... second(s):"
+msgstr "Обновлять список каждые ... секунд(ы):"
+
+#: main.pas:5315
+msgid "Seconds must be between 0 and %d."
+msgstr "Секунды должны быть между 0 и %d."
+
+#: main.pas:5410
+msgid "Unspecified source control in drag'n drop operation!"
+msgstr "Неуказанный элемент управления в операции перетаскивания!"
+
+#: main.pas:5783
+msgid "Fetching distinct values ..."
+msgstr "Извлечение определённых значений..."
+
+#: main.pas:5819
+msgid "UNIX Timestamp"
+msgstr "UNIX Timestamp"
+
+#: main.pas:5824
+msgid "Default value"
+msgstr "Значение по умолчанию"
+
+msgid "Table node \"%s\" not found in tree."
+msgstr "Узел таблицы «%s» не найден в дереве."
+
+#: main.pas:6090
+msgid "Delete snippet file?"
+msgstr "Удалить файл заготовки?"
+
+#: main.pas:6099
+msgid "Failed deleting %s"
+msgstr "Не удалось удалить %s"
+
+#: main.pas:6153
+msgid "Clear query history?"
+msgstr "Очистить историю запросов?"
+
+#: main.pas:6153
+msgid "%s history items will be deleted."
+msgstr "%s записей истории будет удалено."
+
+#: main.pas:6415
+msgid "Error opening session log file"
+msgstr "Ошибка открытия сеансового файла журнала"
+
+#: main.pas:6418
+msgid "Writing to session log file now: %s"
+msgstr "Запись в сеансовый файл журнала: %s"
+
+#: main.pas:6427
+msgid "Writing to session log file disabled now"
+msgstr "Запись в сеансовый файл журнала сейчас отключена"
+
+#: main.pas:6577
+msgid "Please select a process with a running query"
+msgstr "Пожалуйста, выберите процесс с запущенным запросом"
+
+#: main.pas:6990
+msgid "Reading Databases..."
+msgstr "Чтение баз данных..."
+
+#: main.pas:7005
+msgid "Reading objects ..."
+msgstr "Чтение объектов..."
+
+#: main.pas:7192
+msgid "Entering session \"%s\""
+msgstr "Открытие сеанса «%s»"
+
+#: main.pas:7454
+msgid "Could not find node to focus."
+msgstr "Не удалось найти узел."
+
+#: main.pas:7870
+msgid "Could not load full row data."
+msgstr "Не удалось загрузить данные полностью."
+
+#: main.pas:8462
+msgid "Not available on %s"
+msgstr "Недоступно на %s"
+
+#: main.pas:9579
+msgid "Save changes to file %s ?"
+msgstr "Сохранить изменения в файле %s?"
+
+#: main.pas:9581
+msgid "Save content of tab \"%s\"?"
+msgstr "Сохранить содержимое вкладки «%s»?"
+
+#: main.pas:9582
+msgid "Modified query"
+msgstr "Изменённый запрос"
+
+#: main.pas:9732
+msgid ""
+"Could not apply SynEdit keystroke shortcut \"%s\" (or secondary: \"%s\") to "
+"%s. %s. Please go to %s > %s > %s to change this settings."
+msgstr "Невозможно применить сочетание клавиш SynEdit «%s» (или: «%s») к %s. %s. Пожалуйста, измените это в настройках %s > %s > %s."
+
+#: main.pas:9759
+msgid "Cannot reformat"
+msgstr "Не удалось переформатировать"
+
+#: main.pas:9759
+msgid "Please select a non-readonly SQL editor first."
+msgstr "Пожалуйста, выберите редактор запросов не только для чтения."
+
+msgid "No SQL editor focused. ActiveControl is %s"
+msgstr "SQL редактор не активен, выбран %s"
+
+#: main.pas:9768
+msgid "The current editor is empty."
+msgstr "Текущий редактор пуст."
+
+#: main.pas:9950
+msgid "Preventing second application instance - disabled in %s > %s > %s."
+msgstr "Предотвращение повторного запуска приложения - отключено в %s > %s > %s."
+
+#: main.pas:10047
+msgid "Sorting grid nodes ..."
+msgstr "Сортировка узлов сетки..."
+
+#: main.pas:10074
+msgid "Sorting cancelled."
+msgstr "Сортировка отменена."
+
+#: main.pas:10075
+msgid "Helper connection"
+msgstr "Вспомогательное подключение"
+
+#: main.pas:10375
+msgid "Parameters in %s"
+msgstr "Параметры в %s"
+
+#: main.pas:10376
+msgid "Columns in %s"
+msgstr "Столбцы %s"
+
+#: main.pas:10379
+msgid "SQL functions"
+msgstr "Функции SQL"
+
+#: main.pas:10380
+msgid "SQL keywords"
+msgstr "Ключевые слова SQL"
+
+#: main.pas:10382
+msgid "Query history"
+msgstr "История запросов"
+
+#: main.pas:10384
+msgid "Query profile"
+msgstr "Профилирование запроса"
+
+#: main.pas:11166
+msgid "Bind parameters"
+msgstr "Привязать параметры"
+
+#: main.pas:10404
+msgid "today"
+msgstr "сегодня"
+
+#: main.pas:10406
+msgid "yesterday"
+msgstr "вчера"
+
+#: main.pas:11221
+msgid "Set value"
+msgstr "Установить значение"
+
+#: main.pas:10548
+msgid "Error with snippets directory: %s"
+msgstr "Ошибка с папкой заготовок: %s"
+
+#: main.pas:11463
+msgid "The query is too long to enable detection of bind parameters"
+msgstr "Слишком длинный запрос для включения обнаружения привязанных параметров"
+
+#: main.pas:10790
+msgid "Close file and query tab?"
+msgstr "Закрыть файл и вкладку запроса?"
+
+#: main.pas:10790
+msgid "File was deleted from outside: %s"
+msgstr "Файл был удалён: %s"
+
+#: main.pas:10822
+msgid "Reload file?"
+msgstr "Перезагрузить файл?"
+
+#: main.pas:10822
+msgid "File was modified from outside: %s"
+msgstr "Файл был изменён снаружи: %s"
+
+#: main.pas:10845
+msgid "Loading file \"%s\" (%s) into query tab #%d"
+msgstr "Загрузка файла «%s» (%s) во вкладку запроса № %d"
+
+#: main.pas:10870
+msgid ""
+"This file contains mixed linebreaks. They have been converted to Windows "
+"linebreaks (CR+LF)."
+msgstr "Этот файл содержит разрывы строк разных видов. Они были преобразованы в разрывы строк Windows (CR+LF)."
+
+#: main.pas:10891
+msgid "Saving file ..."
+msgstr "Сохранение файла…"
+
+#: options.pas:386
+msgid "Active line background"
+msgstr "Фон активной строки"
+
+#. Preferences
+msgid "Brace matching color"
+msgstr "Цвет подсветки парных скобок"
+
+#: options.pas:395
+msgid "SQL editing"
+msgstr "Редактор SQL"
+
+#: options.pas:527 tabletools.pas:1070
+msgid "Select output directory"
+msgstr "Выбрать директорию"
+
+#: options.pas:545
+msgid "Find mysql.exe directory"
+msgstr "Найти папку с mysql.exe"
+
+#: options.pas:661
+msgid "Reset all preference options to default values?"
+msgstr "Сброс всех значений к значениям по умолчанию?"
+
+#: options.pas:662
+msgid "This also applies to automatic settings, e.g. toolbar positions."
+msgstr "Это также относится к автоматическим настройкам, таким как расположение панелей инструментов."
+
+#: routine_editor.pas:109
+msgid "Procedure (doesn't return a result)"
+msgstr "Процедура (не возвращает результат)"
+
+#: routine_editor.pas:110
+msgid "Function (returns a result)"
+msgstr "Функция (возвращает результат)"
+
+#: routine_editor.pas:156 view.pas:70 trigger_editor.pas:89
+msgid "Current user (%s)"
+msgstr "Текущий пользователь (%s)"
+
+#: routine_editor.pas:157 view.pas:71 trigger_editor.pas:90
+msgid "Leave empty for current user (%s)"
+msgstr "Оставить пустым для текущего пользователя (%s)"
+
+#: routine_editor.pas:411
+msgid ""
+"A stored function can only have IN parameters so context editing is blocked."
+msgstr "Хранимая функция может иметь только входящие параметры, поэтому встроенное редактирование заблокировано."
+
+#: routine_editor.pas:474
+msgid "Routine \"%s\" already exists."
+msgstr "Процедура «%s» уже существует."
+
+msgid "Start of line"
+msgstr "Начало строки"
+
+msgid "End of line"
+msgstr "Конец строки"
+
+msgid "Any word char"
+msgstr "Любая буква"
+
+msgid "Any non-word char"
+msgstr "Любая не буква"
+
+msgid "Digit"
+msgstr "Цифра"
+
+msgid "Any char except digits"
+msgstr "Любой символ кроме цифры"
+
+msgid "Whitespace"
+msgstr "Пробел"
+
+msgid "Any char except whitespaces"
+msgstr "Любой символ кроме пробела"
+
+msgid "New line"
+msgstr "Новая строка"
+
+msgid "Tabulator"
+msgstr "Табуляция"
+
+msgid "Entire matched text"
+msgstr "Весь найденный текст"
+
+msgid "Text from first captured group"
+msgstr "Текст из первой захваченной группы"
+
+msgid "Text from second captured group"
+msgstr "Текст из второй захваченной группы"
+
+msgid "Text from third captured group"
+msgstr "Текст из третьей захваченной группы"
+
+msgid "Lowercase following char"
+msgstr "Нижний регистр после символа"
+
+msgid "Lowercase following block"
+msgstr "Нижний регистр следующий блок"
+
+msgid "Uppercase following char"
+msgstr "Заглавные буквы после символа"
+
+msgid "Uppercase following block"
+msgstr "Следующий блок в верхнем регистре"
+
+#: sqlhelp.pas:140
+msgid "No help available for this keyword or no keyword was selected."
+msgstr "Справка по этому ключевому слову недоступна или выбрано не ключевое слово."
+
+#: sqlhelp.pas:142
+msgid "No example available or no keyword was selected."
+msgstr "Нет доступных примеров или выбрано не ключевое слово."
+
+#: syncdb.pas:126
+msgid "Select server session ..."
+msgstr "Выберите сеанс сервера..."
+
+#: syncdb.pas:153 syncdb.pas:182
+msgid "Same as source"
+msgstr "Как в источнике"
+
+#: syncdb.pas:427
+msgid "Create missing %s"
+msgstr "Создать недостающий %s"
+
+#. TODO
+#: tabletools.pas:155
+msgid "Skipped"
+msgstr "Пропущено"
+
+#. TODO
+#: tabletools.pas:156
+msgid "One big file"
+msgstr "Один большой файл"
+
+#. TODO
+#: tabletools.pas:158
+msgid "Directory - one file per object in database subdirectories"
+msgstr "Папка - один файл на объект в подпапке базы данных"
+
+#. TODO
+#: tabletools.pas:161
+msgid "No data"
+msgstr "Нет данных"
+
+#. TODO
+#: tabletools.pas:162
+msgid "truncate existing data"
+msgstr "обрезать существующие данные"
+
+#. TODO
+#: tabletools.pas:164
+msgid "do not update existing"
+msgstr "не обновлять существующие данные"
+
+#. TODO
+#: tabletools.pas:165
+msgid "existing data"
+msgstr "существующие данные"
+
+#. Export SQL data
+msgid "Max INSERT size:"
+msgstr "Макс. размер INSERT:"
+
+#. Export SQL data
+msgid "KB (0 = Single INSERTs)"
+msgstr "КБ (0 = Один INSERT)"
+
+#: tabletools.pas:192
+msgid "All data types"
+msgstr "Все типы данных"
+
+#: tabletools.pas:370
+msgid "Selected objects size: %s"
+msgstr "Размер выбранных объектов: %s"
+
+#: tabletools.pas:725
+msgid "%s%s doesn't have columns of selected type (%s)."
+msgstr "%s%s не имеет столбцов выбранного типа (%s)."
+
+#: tabletools.pas:850
+msgid "%s%% done"
+msgstr "%s%% завершено"
+
+#: tabletools.pas:986
+msgid "Same as on source server"
+msgstr "Как на исходном сервере"
+
+#: tabletools.pas:1046
+msgid "Processing cancelled by user, waiting for current object to finish ..."
+msgstr "Обработка отменена пользователем; ожидание окончания обработки текущего объекта..."
+
+#: tabletools.pas:1219
+msgid "Dumping database structure for %s"
+msgstr "Дамп структуры базы данных %s"
+
+#: tabletools.pas:1242
+msgid "Dumping structure for %s %s.%s"
+msgstr "Дамп структуры для %s %s.%s"
+
+#: tabletools.pas:1283
+msgid "Creating temporary table to overcome VIEW dependency errors"
+msgstr "Создание временной таблицы для обработки ошибок зависимостей представлений"
+
+#: tabletools.pas:1298
+msgid "Removing temporary table and create final VIEW structure"
+msgstr "Удаление временной таблицы и создание окончательной структуры представления"
+
+#: tabletools.pas:1361
+msgid "Data exporting was unselected."
+msgstr "Экспортируемые данные не выделены."
+
+#: tabletools.pas:1363
+msgid ""
+"Table data not exported because this is a %s table which holds its data in "
+"separate tables."
+msgstr "Данные таблицы %s не были экспортированы, потому что это таблица, которая хранит свои данные в разных таблицах."
+
+#: tabletools.pas:1368
+msgid "Dumping data for table %s.%s: %s"
+msgstr "Дамп данных таблицы %s.%s: %s"
+
+#: tabletools.pas:1539
+msgid "Done"
+msgstr "Готово"
+
+#: tabletools.pas:1540
+msgid "Success"
+msgstr "Успешно"
+
+#: tabletools.pas:1542
+msgid "Nothing to do"
+msgstr "Нечего делать"
+
+#: tabletools.pas:1543
+msgid "Selected operations cannot be applied to a %s"
+msgstr "Выбранные операции не могут быть применены к %s"
+
+#: tabletools.pas:1563
+msgid "Unhandled tree level"
+msgstr "Необрабатываемый уровень дерева"
+
+msgid "Export finished"
+msgstr "Экспорт завершен"
+
+msgid "%s finished"
+msgstr "%s выполнено"
+
+#: table_editor.pas:380
+msgid ""
+"%s Index \"%s\" does not contain any column. You can add columns using "
+"drag''n drop from the columns list."
+msgstr "%s Индекс «%s» не содержит столбцов. Вы можете добавить столбцы, используя перетаскивание из списка столбцов."
+
+#: table_editor.pas:476
+msgid "Composing ALTER statement ..."
+msgstr "Составление выражение ALTER..."
+
+#: table_editor.pas:1041
+msgid "No default"
+msgstr "Нет значения по умолчанию"
+
+#: table_editor.pas:1137
+msgid "Column \"%s\" already exists."
+msgstr "Столбец «%s» уже существует."
+
+#: table_editor.pas:1758
+msgid "Add duplicated column to index?"
+msgstr "Добавить повторяющийся столбец в индекс?"
+
+#: table_editor.pas:1758
+msgid ""
+"Index \"%s\" already contains the column \"%s\". It is possible to add a "
+"column twice into a index, but total nonsense in practice."
+msgstr "Индекс «%s» уже содержит столбец «%s». Дважды добавить столбец в индекс возможно, но это полная бессмыслица на практике."
+
+#: table_editor.pas:1815
+msgid "The selected table engine (%s) does not support foreign keys."
+msgstr "Выбранный тип таблицы (%s) не поддерживает внешние ключи."
+
+#: table_editor.pas:1946
+msgid "Key already exists. Really create another identical one?"
+msgstr "Ключ уже существует. Создать ещё один такой же?"
+
+#: table_editor.pas:1947
+msgid ""
+"This will increase disk usage and probably slow down queries on this table."
+msgstr "Это увеличит количество используемого места на диске и, возможно, замедлит обработку запросов к этой таблице."
+
+#: table_editor.pas:2056
+msgid "Please select a reference table before selecting foreign columns."
+msgstr "Пожалуйста, выберите таблицу-справочник перед выбором внешних столбцов."
+
+#: table_editor.pas:2063
+msgid "Reference table \"%s\" seems to be missing, broken or non-accessible."
+msgstr "Таблица-справочник «%s» отсутствует, повреждена или недоступна."
+
+#: trigger_editor.pas:122
+msgid "Trigger definition not found!"
+msgstr "Объявление триггера не найдено!"
+
+#: updatecheck.pas:76
+msgid "Initializing"
+msgstr "Инициализация"
+
+#: updatecheck.pas:77
+msgid "Check for %s updates"
+msgstr "Проверка обновлений %s"
+
+#: updatecheck.pas:93
+msgid "Downloading check file"
+msgstr "Загрузка проверочного файла"
+
+#: updatecheck.pas:95
+msgid "Reading check file"
+msgstr "Чтение проверочного файла"
+
+#: updatecheck.pas:100
+msgid "Error: Cannot determine current revision. Using a developer version?"
+msgstr "Ошибка: Невозможно определить текущую версию. Используете версию для разработчиков?"
+
+#: updatecheck.pas:102
+msgid "Your %s is up-to-date (no update available)."
+msgstr "Ваша версия %s обновлена (нет доступных обновлений)."
+
+#: updatecheck.pas:104
+msgid "Updates available."
+msgstr "Доступны обновления."
+
+#. Update button on top right of main window
+msgid "Update available"
+msgstr "Доступно обновление"
+
+#: updatecheck.pas:147
+msgid "Version %s (yours: %s)"
+msgstr "Версия %s (у вас: %s)"
+
+#: updatecheck.pas:148
+msgid "Released: %s"
+msgstr "Выпущена: %s"
+
+#: updatecheck.pas:152
+msgid "Download version %s (%s)"
+msgstr "Скачать версию %s (%s)"
+
+#: updatecheck.pas:168
+msgid "Revision %d (yours: %d)"
+msgstr "Ревизия %d (у вас: %d)"
+
+#: updatecheck.pas:170
+msgid "Compiled: %s (yours: %s)"
+msgstr "Дата сборки: %s (у вас: %s)"
+
+#: updatecheck.pas:173
+msgid "Notes"
+msgstr "Пояснения"
+
+#: updatecheck.pas:174
+msgid "Download and install build %d"
+msgstr "Скачать и установить сборку %d"
+
+#: updatecheck.pas:222
+msgid "Downloaded file not found: %s"
+msgstr "Загруженный файл не найден: %s"
+
+#: updatecheck.pas:224
+msgid "Update in progress"
+msgstr "Выполняется обновление"
+
+#: updatecheck.pas:264
+msgid "Downloading: %s / %s"
+msgstr "Загрузка: %s / %s"
+
+#: usermanager.pas:435
+msgid "Save modified user?"
+msgstr "Сохранить изменённого пользователя?"
+
+#: usermanager.pas:511
+msgid "Starting the server without %s may solve this issue."
+msgstr "Запуск сервера без %s может решить эту проблему."
+
+#: usermanager.pas:811
+msgid "This user has an empty password."
+msgstr "Этот пользователь не имеет пароля."
+
+#: usermanager.pas:813
+msgid ""
+"This user is inactive due to an invalid length of its encrypted password. "
+"Please fix that in the %s table."
+msgstr "Этот пользователь не активен из-за неправильной длины его зашифрованного пароля. Пожалуйста, исправьте это в таблице %s."
+
+#: usermanager.pas:815
+msgid ""
+"This user is inactive due to having a host name, while the server runs with "
+"%s."
+msgstr "Этот пользователь неактивен из-за того, что у него указан адрес сервера, тогда как сервер работает на %s."
+
+#: usermanager.pas:817
+msgid "This user is inactive due to some unknown reason."
+msgstr "Этот пользователь неактивен по какой-то неизвестной причине."
+
+#: usermanager.pas:926
+msgid "Global privileges"
+msgstr "Глобальные разрешения"
+
+#: usermanager.pas:1048
+msgid "Objects of type %s cannot be part of privileges."
+msgstr "На объекты типа %s не могут быть установлены разрешения."
+
+#: usermanager.pas:1054
+msgid "Selected object is already accessible."
+msgstr "Выбранный объект уже доступен."
+
+#: usermanager.pas:1125
+msgid "User <%s@%s> already exists."
+msgstr "Пользователь <%s@%s> уже существует."
+
+#: usermanager.pas:1130
+msgid "Repeated password does not match first one."
+msgstr "Пароли не совпадают."
+
+#: usermanager.pas:1155
+msgid "Unhandled privilege object: %s"
+msgstr "Необрабатываемый объект разрешений: %s"
+
+#: usermanager.pas:1297
+msgid "Delete user %s@%s?"
+msgstr "Удалить пользователя %s@%s?"
+
+#. dbconnection.pas
+msgid "experimental"
+msgstr "экспериментально"
+
+#. dbconnection.pas
+msgid "Yes"
+msgstr "Да"
+
+#. dbconnection.pas
+msgid "No"
+msgstr "Нет"
+
+#. dbconnection.pas
+msgid "Connected"
+msgstr "Подключено"
+
+#. Main form status bar
+msgid "Disconnected"
+msgstr "Отключенно"
+
+#. dbconnection.pas
+msgid "Threads"
+msgstr "Потоки"
+
+#. dbconnection.pas
+msgid "Open tables"
+msgstr "Открыть таблицы"
+
+#. dbconnection.pas
+msgid "Slow queries"
+msgstr "Медленные запросы"
+
+#. dbconnection.pas
+msgid "Queries per second avg"
+msgstr "Среднее число запросов в сек."
+
+#. searchreplace.pas
+msgid "Replace"
+msgstr "Заменить"
+
+#. searchreplace.pas
+msgid "Find"
+msgstr "Найти"
+
+#. dbconnection.pas
+msgid "Table"
+msgstr "Таблица"
+
+#. dbconnection.pas
+msgid "Tables"
+msgstr "Таблицы"
+
+#. dbconnection.pas
+msgid "table"
+msgstr "таблица"
+
+#. dbconnection.pas
+msgid "tables"
+msgstr "таблицы"
+
+#. dbconnection.pas
+msgid "View"
+msgstr "Представление"
+
+#. dbconnection.pas
+msgid "Views"
+msgstr "Представления"
+
+#. dbconnection.pas
+msgid "view"
+msgstr "представление"
+
+#. dbconnection.pas
+msgid "views"
+msgstr "представления"
+
+#. dbconnection.pas
+msgid "Function"
+msgstr "Функция"
+
+#. dbconnection.pas
+msgid "Functions"
+msgstr "Функции"
+
+#. dbconnection.pas
+msgid "function"
+msgstr "функция"
+
+#. dbconnection.pas
+msgid "functions"
+msgstr "функции"
+
+#. dbconnection.pas
+msgid "Procedure"
+msgstr "Процедура"
+
+#. dbconnection.pas
+msgid "Procedures"
+msgstr "Процедуры"
+
+#. dbconnection.pas
+msgid "procedure"
+msgstr "процедура"
+
+#. dbconnection.pas
+msgid "procedures"
+msgstr "процедуры"
+
+#. dbconnection.pas
+msgid "Trigger"
+msgstr "Триггер"
+
+#. dbconnection.pas
+msgid "Triggers"
+msgstr "Триггеры"
+
+#. dbconnection.pas
+msgid "trigger"
+msgstr "триггер"
+
+#. dbconnection.pas
+msgid "triggers"
+msgstr "триггеры"
+
+#. dbconnection.pas
+msgid "Event"
+msgstr "Событие"
+
+#. dbconnection.pas
+msgid "Events"
+msgstr "События"
+
+#. dbconnection.pas
+msgid "event"
+msgstr "событие"
+
+#. dbconnection.pas
+msgid "events"
+msgstr "события"
+
+#. dbconnection.pas
+msgid "column"
+msgstr "столбец"
+
+#. dbconnection.pas
+msgid "columns"
+msgstr "столбцы"
+
+#. dbconnection.pas
+msgid "Column"
+msgstr "Столбец"
+
+#. dbconnection.pas
+msgid "Columns"
+msgstr "Столбцы"
+
+#. helpers.pas
+msgid "UnknownTable"
+msgstr "НеизвестнаяТаблица"
+
+#. tabletools.pas
+msgid "Execute"
+msgstr "Выполнить"
+
+#. tabletools.pas
+msgid "Export"
+msgstr "Экспорт"
+
+#. tabletools.pas
+msgid "Update"
+msgstr "Обновить"
+
+#. tabletools.pas
+msgid "Directory"
+msgstr "Папка"
+
+#. usermanager.pas
+msgid "Unnamed"
+msgstr "Безымянный"
+
+#. main.pas
+msgid "Snippets"
+msgstr "Заготовки"
+
+#. table_editor.pas
+msgid "Index"
+msgstr "Индекс"
+
+#. const.inc
+msgid "Unhandled tree node index"
+msgstr "Необрабатываемый номер элемента узла дерева"
+
+#. const.inc
+msgid ""
+"Selected columns don''t contain a sufficient set of key columns to allow "
+"editing. Please select primary or unique key columns, or just all columns."
+msgstr "Выбранные столбцы не содержат достаточного набора ключевых столбцов для разрешения редактирования. Пожалуйста, выберите столбцы с главным или уникальным ключом или просто все столбцы."
+
+#. const.inc
+msgid "Idle."
+msgstr "Ожидание."
+
+msgid "Server time: %s"
+msgstr "Серверное время: %s"
+
+#. const.inc
+msgid "Unsupported by this server"
+msgstr "Не поддерживается этим сервером"
+
+#. const.inc
+msgid "Unsupported datatype for setting \"%s\""
+msgstr "Неподдерживаемый тип данных для параметра «%s»"
+
+#. const.inc
+msgid "SQL Error (%d): %s"
+msgstr "Ошибка SQL (%d): %s"
+
+#. const.inc
+msgid "SQL Error (%d) in statement #%d: %s"
+msgstr "Ошибка SQL (%d) в выражении № %d: %s"
+
+#. const.inc
+msgid "Unhandled connection type (%d)"
+msgstr "Необрабатываемый тип подключения (%d)"
+
+#. const.inc
+msgid "Connection to %s closed at %s"
+msgstr "Подключение к %s закрыто в %s"
+
+#. const.inc
+msgid "Column #%d not available. Query returned %d columns and %d rows."
+msgstr "Столбец № %d недоступен. Запрос вернул %d столбцов и %d строк."
+
+#: main.pas:1188
+msgid "Unhandled sender control: %s"
+msgstr "Необрабатываемый элемент управления: %s"
+
+#. Message dialogs
+msgid "Error"
+msgstr "Ошибка"
+
+#. Message dialogs
+msgid "Confirm"
+msgstr "Подтверждение"
+
+#. Message dialogs
+msgid "Warning"
+msgstr "Предупреждение"
+
+#. Message dialogs
+msgid "Information"
+msgstr "Информация"
+
+#. Message dialogs
+msgid "Abort"
+msgstr "Отмена"
+
+#. Message dialogs
+msgid "Retry"
+msgstr "Повтор"
+
+#. Message dialogs
+msgid "Ignore"
+msgstr "Игнорировать"
+
+#. Message dialogs
+#. Data tab > Column selection > "All" checkbox
+msgid "All"
+msgstr "Все"
+
+#. Message dialogs
+msgid "No to all"
+msgstr "Нет для всех"
+
+#. Message dialogs
+msgid "Yes to all"
+msgstr "Да для всех"
+
+#. Message dialogs
+msgid "Find some help on this error"
+msgstr "Помощь по этой ошибке"
+
+#. Table tools
+msgid "Allows the following replacement patterns:"
+msgstr "Допустимы следующие шаблоны замены:"
+
+#. Table tools
+#. Data grid > Insert value
+msgid "Date and time"
+msgstr "Дата и время"
+
+#. Data grid > Insert value
+msgid "Date"
+msgstr "Дата"
+
+#. Table tools
+msgid "Day of month"
+msgstr "День месяца"
+
+#. Table tools
+msgid "Month"
+msgstr "Месяц"
+
+#. Table tools
+msgid "Year"
+msgstr "Год"
+
+#. Table tools
+msgid "Hour"
+msgstr "Час"
+
+#. Table tools
+msgid "Minute"
+msgstr "Минута"
+
+#. Table tools
+msgid "Second"
+msgstr "Секунда"
+
+#. Query tab close button
+msgid ""
+"Cannot close tab with running query. Please wait until query has finished."
+msgstr "Невозможно закрыть вкладку с выполняющимся запросом. Дождитесь окончания выполнения запроса."
+
+#. Tree context menu
+msgid "Tree style options"
+msgstr "Настройки стиля дерева"
+
+#. Tree context menu
+msgid "Auto expand on click"
+msgstr "Раскрывать при нажатии"
+
+#. Session manager
+msgid "Advanced"
+msgstr "Дополнительно"
+
+#. Session manager
+msgid "Session in root folder"
+msgstr "Сеанс в корневой папке"
+
+#. Session manager
+msgid "Session in selected folder"
+msgstr "Сеанс в выбранной папке"
+
+#. Session manager
+msgid "Folder in root folder"
+msgstr "Папку в корне"
+
+#. Session manager
+msgid "Folder in selected folder"
+msgstr "Папку в выбранной папке"
+
+#. Session manager
+msgid "More"
+msgstr "Подробнее"
+
+#. MessageDialog()
+msgid "Missing \"No\" button in %() call"
+msgstr "Отсутствует кнопка «Нет» в вызове %()"
+
+#. MessageDialog()
+msgid "Keep asking this question."
+msgstr "Продолжайте задавать этот вопрос."
+
+msgid "Keep showing this dialog."
+msgstr "Показывать этот диалог."
+
+#. Table editor
+msgid "Foreign column count does not match source column count."
+msgstr "Количество столбцов во внешней таблице не соответствует количеству столбцов в источнике."
+
+#. Table editor
+msgid ""
+"The selected foreign column do not match the source columns data type and "
+"unsigned flag. This will give you an error message when trying to save this "
+"change. Please compare yourself:"
+msgstr "Выбранный внешний столбец не соответствует типу данных и флагу знаковости исходного столбца. При сохранении изменений возникла ошибка. Пожалуйста, сравните:"
+
+#. Table editor
+msgid "Foreign key mismatch"
+msgstr "Несоответствие внешнего ключа"
+
+#. Clear data tab filter
+msgid "Data filter for %s deleted"
+msgstr "Фильтр по данным %s удалён"
+
+#. Clear data tab filter
+msgid "Clear data tab filter"
+msgstr "Очистить фильтр по данным"
+
+msgid "Error when updating query history: %s"
+msgstr "Ошибка при обновлении истории запросов: %s"
+
+msgid "Could not find table or view %s.%s. Please refresh database tree."
+msgstr "Невозможно найти таблицу или представление %s.%s. Пожалуйста, обновите дерево базы данных."
+
+#. RunQueryFile
+msgid "Importing file %s"
+msgstr "Импорт файла %s"
+
+#. RunQueryFile
+msgid "Reading next chunk from file..."
+msgstr "Чтение следующей части файла…"
+
+#. RunQueryFile
+msgid "Splitting queries..."
+msgstr "Разбивка на запросы…"
+
+#. RunQueryFile
+msgid "Processing query #%s. %s"
+msgstr "Обработка запроса № %s. %s"
+
+#. RunQueryFile
+msgid "Position in file: %s / %s. Affected rows: %s."
+msgstr "Позиция в файле: %s / %s. Затронуто %s строк."
+
+#. RunQueryFile
+msgid "Error while reading file \"%s\""
+msgstr "Ошибка чтения файла «%s»"
+
+#. RunQueryFile
+msgid ""
+"%s%% of your file has been processed, but there were %s errors when "
+"executing %s queries. Please check the SQL log panel for messages."
+msgstr "%s%% файла было обработано, обнаружено %s ошибок при обработке %s запросов. Проверьте панель журнала на наличие сообщений об ошибках."
+
+#. RunQueryFile
+msgid "Notice: You can disable the \"%s\" option to ignore such errors"
+msgstr "Внимание: Вы можете выключить опцию «%s», чтобы пропускать такие ошибки"
+
+#. ReadTextFileChunk
+msgid ""
+"End of file block was cut within some multibyte character, at position %s. "
+"Increasing chunk size and retry reading..."
+msgstr "Конец файлового блока был обрезан из-за некоторого количества многобайтных символов в позиции %s. Увеличение размера куска и повтор чтения…"
+
+#. InitConnection, JumpList
+msgid "Recent sessions"
+msgstr "Недавние сеансы"
+
+#. GetParentFormOrFrame
+msgid "Could not determine parent form of this %s"
+msgstr "Невозможно определить родительскую форму %s"
+
+#. Button on update check dialog, appearing right after application start
+msgid "Skip"
+msgstr "Пропустить"
+
+#. Displayed in the query log, when connecting. E.g.: "Characterset: utf8"
+msgid "Characterset"
+msgstr "Кодировка"
+
+#. Error happening when facing unknown native data types, mainly in PostgreSQL
+#. tables and routines.
+msgid "Unknown datatype oid #%0:d. Fall back to %1:s."
+msgstr "Неизвестный идентификатор типа данных #%0:d. Будет использоваться %1:s."
+
+#. Error happening when facing unknown native data types, mainly in PostgreSQL
+#. tables and routines. Name of column or argument passed here as a hint for
+#. the user.
+msgid "Unknown datatype oid #%0:d for \"%1:s\". Fall back to %2:s."
+msgstr "Неизвестный идентификатор типа данных #%0:d для \"%1:s\". Будет использоваться %2:s."
+
+#. Error happening when facing unknown named data types.
+msgid "Unknown datatype \"%0:s\" for \"%1:s\". Fall back to %2:s."
+msgstr "Неизвестный тип данных \"%0:s\" для \"%1:s\". Будет использоваться %2:s."
+
+#. Error happening when facing unknown named data types. Name of column or
+#. argument passed here as a hint for the user.
+msgid "Unknown datatype \"%0:s\". Fall back to %1:s."
+msgstr "Неизвестный тип данных \"%0:s\". Будет использоваться %1:s."
+
+msgid "GUID"
+msgstr "GUID"
+
+msgid "GUID without braces"
+msgstr "GUID без скобок"
+
+msgid "GUID lowercase"
+msgstr "GUID в нижнем регистре"
+
+msgid "GUID lowercase without braces"
+msgstr "GUID в нижем регистре без скобок"
+
+msgid "Query timeout:"
+msgstr "Тайм-аут запроса:"
+
+msgid "Ping every X seconds:"
+msgstr "Пинг каждые X секунд:"
+
+msgid "Connection attempts:"
+msgstr "Попыток подключения:"
+
+msgid "Pop up SQL text over result tabs"
+msgstr "Показывать текст запроса над вкладками с результатами"
+
+msgid "Same text background:"
+msgstr "Доп. фоновый текст:"
+
+msgid "Default linebreak style:"
+msgstr "Стиль переносов строк по умолчанию:"
+
+msgid "Check"
+msgstr "Проверить"
+
+msgid "Optimize"
+msgstr "Оптимизировать"
+
+msgid "Repair"
+msgstr "Восстановить"
+
+msgid "Integer"
+msgstr "Целочисленное"
+
+msgid "Real"
+msgstr "Вещественное"
+
+msgid "Text"
+msgstr "Текст"
+
+msgid "Temporal (time)"
+msgstr "Временной (дата-время)"
+
+msgid "Spatial (geometry)"
+msgstr "Пространственный (геометрия)"
+
+msgid "Other"
+msgstr "Другой"
+
+msgid "Single .sql file"
+msgstr "Один SQL-файл"
+
+msgid "ZIP compressed .sql file"
+msgstr "Сжатый SQL-файл (ZIP)"
+
+msgid "Clipboard"
+msgstr "Буфер обмена"
+
+msgid "Server"
+msgstr "Сервер"
+
+msgid "Delete + insert (truncate existing data)"
+msgstr "Удаление + вставка (уничтожить существующие данные)"
+
+msgid "Insert"
+msgstr "Вставить"
+
+msgid "Insert ignore (do not update existing)"
+msgstr "Insert ignore (не обновлять существующие данные) "
+
+msgid "Replace existing data"
+msgstr "Заменить существующие данные"
+
+msgid "Flush"
+msgstr "Очистить"
+
+msgid "View changelog"
+msgstr "Просмотреть список изменений"
+
+msgid "Become a donor of the %s project"
+msgstr "Стать жертвователем проекта %s"
+
+msgid "Donate"
+msgstr "Пожертвовать"
+
+msgid "Send a donation"
+msgstr "Отправить пожертвование"
+
+msgid "Donate to the %s project"
+msgstr "Пожертвовать проекту %s"
+
+msgid "GUI font: *"
+msgstr "GUI шрифт: *"
+
+msgid "Default system font"
+msgstr "Системный шрифт"
+
+msgid "Doubleclick inserts node text"
+msgstr "Двойной щелчок вставляет текст в узел"
+
+msgid "Up"
+msgstr "Вверх"
+
+msgid "Sel Up"
+msgstr "Выделение вверх"
+
+msgid "Scroll Up"
+msgstr "Прокрутка наверх"
+
+msgid "Down"
+msgstr "Вниз"
+
+msgid "Sel Down"
+msgstr "Выделение вниз"
+
+msgid "Scroll Down"
+msgstr "Прокрутка вниз"
+
+msgid "Left"
+msgstr "Налево"
+
+msgid "Sel Left"
+msgstr "Выделение налево"
+
+msgid "Word Left"
+msgstr "На слово влево"
+
+msgid "Sel Word Left"
+msgstr "Выделить слово слева"
+
+msgid "Right"
+msgstr "Направо"
+
+msgid "Sel Right"
+msgstr "Выделение направо"
+
+msgid "Word Right"
+msgstr "На слово вправо"
+
+msgid "Sel Word Right"
+msgstr "Выделить слово справа"
+
+msgid "Page Down"
+msgstr "На страницу вниз"
+
+msgid "Sel Page Down"
+msgstr "Выделить от начала страницы"
+
+msgid "Page Bottom"
+msgstr "На страницу вверх"
+
+msgid "Sel Page Bottom"
+msgstr "Выделить до конца страницы"
+
+msgid "Page Up"
+msgstr "На страницу наверх"
+
+msgid "Sel Page Up"
+msgstr "Выделить страницу сверху"
+
+msgid "Page Top"
+msgstr "Верх страницы"
+
+msgid "Sel Page Top"
+msgstr "Выделить до верха страницы"
+
+msgid "Line Start"
+msgstr "Начало строки"
+
+msgid "Sel Line Start"
+msgstr "Выделить до начала строки"
+
+msgid "Editor Top"
+msgstr "Начало окна редактора"
+
+msgid "Sel Editor Top"
+msgstr "Выделить до начала окна редактора"
+
+msgid "Line End"
+msgstr "Конец строки"
+
+msgid "Sel Line End"
+msgstr "Выделить до конца строки"
+
+msgid "Editor Bottom"
+msgstr "Низ окна редактирования"
+
+msgid "Sel Editor Bottom"
+msgstr "Выделение до конца редактора"
+
+msgid "Toggle Mode"
+msgstr "Переключить режим"
+
+msgid "Delete Char"
+msgstr "Удалить символ"
+
+msgid "Delete Last Char"
+msgstr "Удалить последний символ"
+
+msgid "Delete Last Word"
+msgstr "Удалить последнее слово"
+
+msgid "Line Break"
+msgstr "Разрыв строки"
+
+msgid "Tab"
+msgstr "Табуляция"
+
+msgid "Shift Tab"
+msgstr "Shift Tab"
+
+msgid "Context Help"
+msgstr "Контекстная справка"
+
+msgid "Select All"
+msgstr "Выделить все"
+
+msgid "Copy"
+msgstr "Копировать"
+
+msgid "Paste"
+msgstr "Вставить"
+
+msgid "Cut"
+msgstr "Вырезать"
+
+msgid "Block Indent"
+msgstr "Сделать отступ"
+
+msgid "Block Unindent"
+msgstr "Убрать отступ"
+
+msgid "Insert Line"
+msgstr "Вставить строку"
+
+msgid "Delete Word"
+msgstr "Удалить слово"
+
+msgid "Delete Line"
+msgstr "Удалить строку"
+
+msgid "Delete E O L"
+msgstr "Удалить символ конца строки"
+
+msgid "Undo"
+msgstr "Отменить"
+
+msgid "Redo"
+msgstr "Вернуть"
+
+msgid "Goto Marker 0"
+msgstr "Перейти к маркеру 0"
+
+msgid "Goto Marker 1"
+msgstr "Перейти к маркеру 1"
+
+msgid "Goto Marker 2"
+msgstr "Перейти к маркеру 2"
+
+msgid "Goto Marker 3"
+msgstr "Перейти к маркеру 3"
+
+msgid "Goto Marker 4"
+msgstr "Перейти к маркеру 4"
+
+msgid "Goto Marker 5"
+msgstr "Перейти к маркеру 5"
+
+msgid "Goto Marker 6"
+msgstr "Перейти к маркеру 6"
+
+msgid "Goto Marker 7"
+msgstr "Перейти к маркеру 7"
+
+msgid "Goto Marker 8"
+msgstr "Перейти к маркеру 8"
+
+msgid "Goto Marker 9"
+msgstr "Перейти к маркеру 9"
+
+msgid "Set Marker 0"
+msgstr "Установить маркер 0"
+
+msgid "Set Marker 1"
+msgstr "Установить маркер 1"
+
+msgid "Set Marker 2"
+msgstr "Установить маркер 2"
+
+msgid "Set Marker 3"
+msgstr "Установить маркер 3"
+
+msgid "Set Marker 4"
+msgstr "Установить маркер 4"
+
+msgid "Set Marker 5"
+msgstr "Установить маркер 5"
+
+msgid "Set Marker 6"
+msgstr "Установить маркер 6"
+
+msgid "Set Marker 7"
+msgstr "Установить маркер 7"
+
+msgid "Set Marker 8"
+msgstr "Установить маркер 8"
+
+msgid "Set Marker 9"
+msgstr "Установить маркер 9"
+
+msgid "Normal Select"
+msgstr "Нормальное выделение"
+
+msgid "Column Select"
+msgstr "Выделение по столбцам"
+
+msgid "Line Select"
+msgstr "Выделение по строкам"
+
+msgid "Match Bracket"
+msgstr "Парная скобка"
+
+msgid "Upper Case Block"
+msgstr "Преобразовать блок в верхний регистр"
+
+msgid "Lower Case Block"
+msgstr "Преобразовать блок в нижний регистр"
+
+msgid "Fold All"
+msgstr "Скрыть все"
+
+msgid "Unfold All"
+msgstr "Развернуть все"
+
+msgid "Fold Nearest"
+msgstr "Свернуть Соседние"
+
+msgid "Unfold Nearest"
+msgstr "Развернуть Соседние"
+
+msgid "Fold Level 1"
+msgstr "Свернуть Уровень 1"
+
+msgid "Fold Level 2"
+msgstr "Свернуть Уровень 2"
+
+msgid "Fold Level 3"
+msgstr "Свернуть Уровень 3"
+
+msgid "Unfold Level 1"
+msgstr "Развернуть Уровень 1"
+
+msgid "Unfold Level 2"
+msgstr "Развернуть Уровень 2"
+
+msgid "Unfold Level 3"
+msgstr "Развернуть Уровень 3"
+
+msgid "Column data type %s requires a length/set"
+msgstr "Тип данных %s требует указания длины/списка значений "
+
+msgid "Add comments"
+msgstr "Добавить комментарии"
+
+msgid "Remove AUTO_INCREMENT clauses"
+msgstr "Удалить правила AUTO_INCREMENT"
+
+msgid "Remove DEFINER clauses"
+msgstr "Удалить DEFINER условия"
+
+msgid "%s%s missing."
+msgstr "%s%s отсутствует."
+
+msgid "Filename or path contains illegal characters: \"%s\""
+msgstr "Имя файла или путь содержит недопустимые символы: «%s»"
+
+msgid "Please change your password"
+msgstr "Пожалуйста, измените свой пароль"
+
+msgid "Error: Passwords do not match!"
+msgstr "Ошибка: пароли не совпадают!"
+
+msgid "New password:"
+msgstr "Новый пароль:"
+
+msgid "Type new password or select a suggestion"
+msgstr "Введите новый пароль или выберите из предложенных"
+
+msgid "Repeat new password:"
+msgstr "Повторите новый пароль:"
+
+msgid "Retype password"
+msgstr "Повторите введённый пароль"
+
+msgid "Change expired password"
+msgstr "Сменить просроченный пароль"
+
+msgid "Password strength:"
+msgstr "Надёжность пароля:"
+
+#. Menu item for jumping to "Logging" tab in preferences window
+msgid "Logging preferences"
+msgstr "Настройки журналирования"
+
+#. Menu item for jumping to "Data" tab in preferences window
+msgid "Data grid preferences"
+msgstr "Настройки сетки"
+
+#. Menu item with some sub items for configuring data grids
+msgid "Grid view options"
+msgstr "Настройки отображения данных"
+
+msgid "Go to"
+msgstr "Переход"
+
+msgid "Database tree"
+msgstr "Дерево базы данных"
+
+msgid "Go to database tree"
+msgstr "Перейти к дереву базы данных"
+
+msgid "Go to table filter"
+msgstr "Перейти к фильтру таблиц"
+
+msgid "Switch to query/results"
+msgstr "Переключиться на запрос/результаты"
+
+msgid "Multi column filter"
+msgstr "Многостолбцовый фильтр"
+
+msgid "Tab 1"
+msgstr "Вкладка 1"
+
+msgid "Go to tab 1"
+msgstr "Перейти на вкладку 1"
+
+msgid "Tab 2"
+msgstr "Вкладка 2"
+
+msgid "Go to tab 2"
+msgstr "Перейти на вкладку 2"
+
+msgid "Tab 3"
+msgstr "Вкладка 3"
+
+msgid "Go to tab 3"
+msgstr "Перейти на вкладку 3"
+
+msgid "Tab 4"
+msgstr "Вкладка 4"
+
+msgid "Go to tab 4"
+msgstr "Перейти на вкладку 4"
+
+msgid "Tab 5"
+msgstr "Вкладка 5"
+
+msgid "Go to tab 5"
+msgstr "Перейти на вкладку 5"
+
+msgid ""
+"Reached maximum number of result tabs (%d). To display more results, "
+"increase setting in Preferences > SQL"
+msgstr "Достигнуто максимальное количество вкладок с результатом (%d). Чтобы отобразить больше результатов, увеличьте значение в Настройки > SQL"
+
+msgid "Error when checking for updates: %s"
+msgstr "Ошибка при проверке обновлений: %s"
+
+msgid "Please update %s through the Microsoft Store."
+msgstr "Пожалуйста, обновите %s через Microsoft Store."
+
+#. Text in parentheses for detected linebreak style in popup text editor
+msgid "detected"
+msgstr "обнаружено"
+
+msgid "Migrating snippet files to new folder: %s"
+msgstr "Перенос файлов сниппетов в новую папку: %s"
+
+msgid "Successfully moved \"%s\" to \"%s\""
+msgstr "Успешно перемещено \"%s\" в \"%s\""
+
+msgid "Error: Could not move \"%s\" to \"%s\" (Error: %s)"
+msgstr "Ошибка: Не удалось переместить \"%s\" в \"%s\" (Ошибка: %s)"
+
+msgid "Scaling font size from %d to %d."
+msgstr "Масштабирование размера шрифта от %d до %d."
+
+msgid "Current custom settings"
+msgstr "Текущие пользовательские настройки"
+
+msgid "Light"
+msgstr "Светлый"
+
+msgid "Dark"
+msgstr "Темный"
+
+msgid "Black"
+msgstr "Черный"
+
+msgid "White"
+msgstr "Белый"
+
+msgid "current value:"
+msgstr "текущее значение:"
+
+msgid "No help available for this tab."
+msgstr "Для этой вкладки нет справки."
+
+msgid "%0:d out of %1:d matching. %2:d hidden."
+msgstr "%0:d из %1:d найденных. %2:d скрыто."
+
+msgid "Style Theme: *"
+msgstr "Стиль Темы:*"
+
+msgid "Icon pack:"
+msgstr "Набор иконок:"
+
+msgid "Web search base url:"
+msgstr "Базовый URL веб-поиска:"
+
+msgid "Used in footer of various message dialogs"
+msgstr "Используется в нижней части различных диалоговых сообщений"
+
+msgid ""
+"You should restart %s to apply changed critical settings, and to prevent "
+"unexpected behaviour."
+msgstr "Вам следует перезапустить %s, чтобы сохранить изменения важных параметров и предотвратить непредвиденное поведение."
+
+msgid "App path: \"%s\""
+msgstr "Путь к приложению: \"%s\""
+
+msgid "Version: \"%s\""
+msgstr "Версия: \"%s\""
+
+msgid "Theme: \"%s\""
+msgstr "Тема: \"%s\""
+
+msgid "Pixels per inch on current monitor: %d"
+msgstr "Пикселей на дюйм для данного монитора: %d"
+
+msgid "%s characters (max: %s), %s lines, cursor at %s"
+msgstr "%s символов (максимум: %s), %s строк, курсор на %s"
+
+msgid "Credits"
+msgstr "Благодарности"
+
+msgid "Plugin directory %s could not be set."
+msgstr "Невозможно задать каталог плагина %s."
+
+msgid "Background color:"
+msgstr "Фоновый цвет:"
+
+msgid "Hide database pattern:"
+msgstr "Скрыть базы по шаблону: "
+
+msgid "Backup file could not be deleted: %s"
+msgstr "Файл резервной копии не может быть удален: %s"
+
+msgid "Your code is saved anyway, as auto-restoring is activated."
+msgstr "Ваш код будет сохранен в любом случае, так как включено автоматическое восстановление."
+
+#. Tab caption in preferences
+msgid "Files and tabs"
+msgstr "Файлы и вкладки"
+
+msgid "Reopen previously used SQL files and unsaved content in tabs *"
+msgstr "Повторно открыть ранее использовавшиеся SQL файлы и несохраненный контент на вкладках *"
+
+msgid "Storing tab setup failed"
+msgstr "Ошибка при сохранении настроек вкладки"
+
+msgid "Restoring tab setup failed"
+msgstr "Не удалось восстановить настройки вкладки"
+
+msgid "Tabs won't be stored in this session."
+msgstr "Вкладки не могут быть сохранены в этом сеансе."
+
+msgid "Installing %s might help. Please download from %s"
+msgstr "Установка %s может помочь. Пожалуйста, загрузите с %s"
+
+msgid "Security issue: Using %s %s with insecure %s."
+msgstr "Проблема безопасности: использование %s %s с небезопасным %s."
+
+msgid "You should install %s from %s"
+msgstr "Вы должны установить %s с %s"
+
+msgid "Open URL"
+msgstr "Открыть URL"
+
+msgid "Open URL in your webbrowser"
+msgstr "Открыть URL в вашем веб-браузере"
+
+msgid "Find database files..."
+msgstr "Найти файлы базы данных..."
+
+msgid "Add database files..."
+msgstr "Добавить файлы баз данных ..."
+
+msgid "Detach database ..."
+msgstr "Открепить базу данных ..."
+
+msgid "Detach attached database"
+msgstr "Открепить прикрепленную базу данных"
+
+msgid "Attach database ..."
+msgstr "Прикрепить базу данных ..."
+
+msgid "Attach new or existing database file"
+msgstr "Прикрепить новый или существующий файл базы данных"
+
+msgid "Detach database \"%s\" from \"%s\" session?"
+msgstr "Открепить базу данных \"%s\" от сессии \"%s\"?"
+
+msgid "Note: The database file will not get deleted."
+msgstr "Заметка: файл базы данных не будет удален."
+
+msgid "Show SQL completion proposal"
+msgstr "Показывать авто завершение SQL"
+
+msgid "Find matches in the middle"
+msgstr ""
+
+msgid "Wait longer for sorting?"
+msgstr "Подождать еще сортировку?"
+
+msgid ""
+"Sort operation on grid containing more than %d rows can take longer. Do you "
+"want to wait for it?"
+msgstr "Сортировка таблицы содержащей более, чем %d строк может быть продолжительной. Вы согласны подождать ?"
+
+msgid "Sort warning on grid rows:"
+msgstr "Предупреждение при сортировке по строкам:"
+
+msgid "Size &Column to Fit"
+msgstr "Размер &Столбца по Ширине"
+
+msgid "Size &All Columns to Fit"
+msgstr "Размер &Столбцов по Ширине"
+
+msgid "This view probably contains an error in its code."
+msgstr "Это view, вероятно, содержит ошибку в коде."
+
+msgid "Rename query tab"
+msgstr "Переименовать вкладку запроса"
+
+msgid "Enter new name"
+msgstr "Введите новое имя"
+
+msgid "Analyzing %s rows..."
+msgstr "Анализ %s строк ..."
+
+msgid "New table"
+msgstr "Новая таблица"
+
+msgid "Detect CSV layout"
+msgstr "Определить структуру CSV "
+
+msgid "Scan file..."
+msgstr "Сканировать файл ..."
+
+msgid "Ok, create table"
+msgstr "Ok, создать таблицу"
+
+msgid "Current query is empty"
+msgstr "Текущий запрос не задан"
+
+msgid "Please move the cursor inside the query you want to use."
+msgstr "Пожалуйста, переместите курсор в запрос, который Вы хотите использовать."
+
+#. Keyboard shortcut settings
+msgid "Keyboard shortcut [%s] is already assigned to \"%s\"."
+msgstr "\"Горячая клавиша\" [%s] уже задана для  \"%s\"."
+
+#. Keyboard shortcut settings
+msgid "Remove it there and assign to \"%s\" instead?"
+msgstr "Убрать и вместо этого назначить \"%s\"?"
+
+msgid "Really auto-detect file encoding?"
+msgstr "Действительно хотите использовать автоматическое определение кодировки файлов? "
+
+msgid ""
+"Auto detecting the encoding of a file is highly discouraged. You may "
+"experience data loss if the detection fails."
+msgstr "Настоятельно не рекомендуется автоматическое определение кодировки файла. Если обнаружение не удастся, Вы можете потерять данные. "
+
+msgid ""
+"To avoid this message select the correct encoding before pressing Open."
+msgstr "Чтобы избежать появления этого сообщения, выберите правильную кодировку перед нажатием Открыть. "
+
+msgid "keyword"
+msgstr "ключевое слово"
+
+msgid "Check constraints"
+msgstr "Проверить ограничения"
+
+msgid "Check clause"
+msgstr "Проверить пункт"
+
+msgid "Log queries to file:"
+msgstr "Записать запросы в файл: "
+
+msgid "Logging disabled"
+msgstr "Логирование отключено "
+
+msgid "Editor commands"
+msgstr "Команды редактора"
+
+msgid "Lowercase hexadecimal"
+msgstr "Строчные шестнадцатеричные"
+
+msgid "Update instructions"
+msgstr "Инструкции по обновлению"
+
+msgid "Download the portable package and extract it in %s"
+msgstr "Скачать портативный пакет и распаковать его в %s"
+
+msgid "No area selected"
+msgstr "Область не выбрана"
+
+msgid "Close all query tabs"
+msgstr "Закрыть все вкладки запросов"
+
+msgid "Close query tabs to the right"
+msgstr "Закрыть вкладки запросов справа"
+
+msgid "Copy mysqldump command"
+msgstr "Скопировать команду mysqldump"
+
+msgid "Scaling controls to screen DPI: %d%%"
+msgstr ""
+
+msgid ""
+"Caution: Style \"%s\" selected and non-default DPI factor - be aware that "
+"some styles appear broken with high DPI settings!"
+msgstr ""
+
+msgid "Toggle visibility of all columns"
+msgstr ""
+
+msgid "Connection failed"
+msgstr "Ошибка подключения"
+
+msgid "Disable foreign key checks"
+msgstr ""
+
+msgid "Altering tables restricted. For details see %s"
+msgstr ""
+
+msgid "Foreign key not found for column \"%s\""
+msgstr ""
+
+msgid "Empty recent filters"
+msgstr "Очистить недавние фильтры"
+
+msgid "Customize highlighter"
+msgstr ""
+
+msgid "Example text"
+msgstr "Пример"
+
+msgid "Color picker"
+msgstr ""
+
+msgid "Style:"
+msgstr "Стиль:"
+
+msgid "Error in code formatting: %s"
+msgstr ""
+
+msgid "Auto-disabling wordwrap for large text"
+msgstr ""
+
+msgid ""
+"%d tab(s) took longer than expected to restore. Closing and reopening these "
+"should fix that: %s"
+msgstr ""
+
+msgid "Library:"
+msgstr ""
+
+msgid "Move line up"
+msgstr ""
+
+msgid "Move line down"
+msgstr ""
+
+msgid "New query tab in background"
+msgstr ""
+
+msgid "Follow foreign key"
+msgstr ""
+
+msgid "Follow foreign key to the linked table"
+msgstr ""
+
+msgid "Copy with tabs to spaces"
+msgstr ""
+
+msgid "Connection properties"
+msgstr ""
