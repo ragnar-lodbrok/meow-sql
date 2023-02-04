@@ -9,6 +9,7 @@ class App;
 
 class Actions : public QObject
 {
+    Q_OBJECT // tr()
 public:
     Actions(App * app);
 

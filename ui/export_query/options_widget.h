@@ -14,6 +14,7 @@ namespace export_query {
 
 class OptionsWidget : public QWidget
 {
+    Q_OBJECT
 public:
     explicit OptionsWidget(presenters::ExportQueryPresenter * presenter,
                            QWidget * parent = nullptr);

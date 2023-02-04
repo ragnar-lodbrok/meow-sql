@@ -13,6 +13,7 @@ class TableColumns;
 // Intent: Tools widget for table columns widget
 class TableColumnsTools : public QWidget
 {
+    Q_OBJECT
 public:
     explicit TableColumnsTools(TableColumns * parent);
 

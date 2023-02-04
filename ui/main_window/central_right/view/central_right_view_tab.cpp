@@ -83,7 +83,7 @@ void ViewTab::createWidgets()
 
     // security -------------------------
 
-    _securityLabel = new QLabel(tr("SQL security:"));
+    _securityLabel = new QLabel(tr("SQL Security:"));
     mainGridLayout->addWidget(_securityLabel, 1, 2);
 
     _securityComboBox = new QComboBox();

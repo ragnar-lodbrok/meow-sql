@@ -11,6 +11,7 @@ namespace session_manager {
 
 class SSHTunnelTab : public QWidget
 {
+    Q_OBJECT // for tr()
 public:
 
     explicit SSHTunnelTab(QWidget *parent = nullptr);

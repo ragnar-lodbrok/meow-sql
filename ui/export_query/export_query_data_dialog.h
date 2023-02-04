@@ -20,6 +20,7 @@ class OptionsWidget;
 
 class Dialog : public QDialog
 {
+    Q_OBJECT
 public:
     Dialog();
     void setData(models::BaseDataTableModel * model,

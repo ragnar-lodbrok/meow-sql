@@ -16,8 +16,8 @@ namespace models {
 
 class DatabaseEntitiesTableModel : public QAbstractTableModel
 {
+    Q_OBJECT
 public:
-
     enum class Columns {
         Name = 0,
         Rows,

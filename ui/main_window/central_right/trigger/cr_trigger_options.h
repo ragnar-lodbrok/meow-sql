@@ -13,6 +13,7 @@ namespace central_right {
 
 class TriggerOptions : public QWidget
 {
+    Q_OBJECT
 public:
     TriggerOptions(presenters::TriggerForm * form,
                    QWidget *parent = nullptr);

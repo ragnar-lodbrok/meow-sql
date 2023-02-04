@@ -16,6 +16,7 @@ namespace central_right {
 
 class RoutineBody : public QWidget
 {
+    Q_OBJECT
 public:
     RoutineBody(presenters::RoutineForm * form,
                 QWidget * parent = nullptr);

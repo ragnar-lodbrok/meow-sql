@@ -140,10 +140,10 @@ void UserQuery::onQueriesFinished()
     int totalCount = queryTotalCount();
     int successCount = querySuccessCount();
 
-    QString durationAndCountStr = QString("Duration for %1 ").arg(successCount);
+    QString durationAndCountStr = QObject::tr("Duration for %1 ").arg(successCount);
 
     if (successCount != totalCount) {
-        durationAndCountStr += QString("of %1 ").arg(totalCount);
+        durationAndCountStr += QObject::tr("of %1 ").arg(totalCount);
     }
 
     if (queryTotalCount() == 1) {
@@ -152,13 +152,13 @@ void UserQuery::onQueriesFinished()
         durationAndCountStr += QObject::tr("queries");
     }
 
-    durationAndCountStr += QString(" %1 sec.").arg(
+    durationAndCountStr += QObject::tr(" %1 sec.").arg(
                 helpers::formatAsSeconds(execDuration()));
 
     std::chrono::milliseconds networkDuration = this->networkDuration();
 
     if (networkDuration.count() > 0) {
-        durationAndCountStr += QString(" (+%1 sec. network)").arg(
+        durationAndCountStr += QObject::tr(" (+%1 sec. network)").arg(
                     helpers::formatAsSeconds(networkDuration));
     }
 

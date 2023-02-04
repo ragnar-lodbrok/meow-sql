@@ -16,6 +16,7 @@ namespace models {
 
 class UserPrivilegesModel : public QAbstractItemModel
 {
+    Q_OBJECT
 public:
     explicit UserPrivilegesModel(presenters::UserManagementForm * form);
     virtual ~UserPrivilegesModel() override;

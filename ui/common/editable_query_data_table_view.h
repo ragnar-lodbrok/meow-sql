@@ -12,6 +12,7 @@ class BaseDataTableModel;
 
 class EditableQueryDataTableView : public TableView
 {
+    Q_OBJECT
 public:
     EditableQueryDataTableView(models::BaseDataTableModel * model,
                                QWidget * parent = nullptr);

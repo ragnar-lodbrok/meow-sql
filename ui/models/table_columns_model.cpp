@@ -563,7 +563,7 @@ int TableColumnsModel::columnWidth(int column) const
     case Columns::Unsigned:
         return 100;
     case Columns::AllowNull:
-        return 100;
+        return 130;
     case Columns::Zerofill:
         return 100;
     case Columns::Default:

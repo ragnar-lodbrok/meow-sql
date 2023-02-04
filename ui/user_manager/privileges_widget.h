@@ -19,6 +19,7 @@ class Window;
 
 class PrivilegesWidget : public QWidget
 {
+    Q_OBJECT
 public:
     explicit PrivilegesWidget(presenters::UserManagementForm * form,
                               Window * window);

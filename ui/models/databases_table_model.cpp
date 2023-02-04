@@ -173,9 +173,13 @@ int DatabasesTableModel::columnWidth(int column) const
 {
     switch (static_cast<Columns>(column)) {
     case Columns::Database:
-    case Columns::LastModification:
-    case Columns::DefaultCollation:
+    case Columns::Views:
+    case Columns::Procedures:
         return 150;
+    case Columns::LastModification:
+        return 180;
+    case Columns::DefaultCollation:
+        return 240;
     default:
         return 80;
     }

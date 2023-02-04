@@ -253,14 +253,14 @@ QVector<QPair<QString, QString>> ExportQueryPresenter::optionValues() const
         {"\\t",     tr("Tab") + " [\\t]"},
         {",",       tr("Comma") + " [,]"},
         {";",       tr("Semicolon") + " [;]"},
-        {"sep1",    tr("-")},
+        {"sep1",    "-"},
         {"'",       tr("Single quote") + " [']"},
         {"\"",      tr("Double quote") + " [\"]"},
-        {"sep2",    tr("-")},
+        {"sep2",    "-"},
         {"\\r\\n",  tr("Windows linebreaks") + " [\\r\\n]"},
         {"\\n",     tr("Unix linebreaks") + " [\\n]"},
         {"\\r",     tr("Old macOS linebreaks") + " [\\r]"},
-        {"sep3",    tr("-")},
+        {"sep3",    "-"},
         {QString(), tr("Empty string")},
     };
 

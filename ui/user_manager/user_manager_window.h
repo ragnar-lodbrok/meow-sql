@@ -23,6 +23,7 @@ class RightWidget;
 
 class Window : public QDialog
 {
+    Q_OBJECT
 public:
     Window(main_window::Window * mainWindow,
            db::SessionEntity * session);

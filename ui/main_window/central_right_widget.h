@@ -20,6 +20,7 @@ namespace main_window {
 
 class CentralRightWidget : public QWidget
 {
+    Q_OBJECT
 public:
     explicit CentralRightWidget(QWidget *parent = nullptr);
 

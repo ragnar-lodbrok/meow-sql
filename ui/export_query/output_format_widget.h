@@ -14,6 +14,7 @@ namespace export_query {
 
 class OutputFormatWidget : public QWidget
 {
+    Q_OBJECT
 public:
     explicit OutputFormatWidget(presenters::ExportQueryPresenter * presenter,
                                 QWidget *parent = nullptr);

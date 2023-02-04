@@ -14,6 +14,7 @@ namespace user_manager {
 
 class CredentialsTab : public QWidget
 {
+    Q_OBJECT
 public:
     explicit CredentialsTab(presenters::UserManagementForm * form,
                             QWidget * parent = nullptr);

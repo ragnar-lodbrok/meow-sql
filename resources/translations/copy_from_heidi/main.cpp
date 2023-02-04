@@ -50,6 +50,8 @@ QString getTranslation(QString source,
     // Sometimes we use ` and ' while heidi uses "
     // TODO: use "
 
+    // TODO: remove ":" at the end and try again
+
     if (tr.isNull()) {
         source.replace('\'', '"');
         tr = translationsMap.value(source);

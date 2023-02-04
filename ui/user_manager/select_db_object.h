@@ -11,6 +11,7 @@ namespace user_manager {
 
 class SelectDbObject : public QDialog
 {
+    Q_OBJECT
 public:
     SelectDbObject(meow::db::SessionEntity * session);
 

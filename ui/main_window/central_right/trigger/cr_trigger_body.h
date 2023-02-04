@@ -18,6 +18,7 @@ namespace central_right {
 
 class TriggerBody : public QWidget
 {
+    Q_OBJECT
 public:
     TriggerBody(presenters::TriggerForm * form,
                 QWidget * parent = nullptr);

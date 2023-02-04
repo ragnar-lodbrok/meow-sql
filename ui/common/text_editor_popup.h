@@ -13,6 +13,7 @@ namespace ui {
 
 class TextEditorPopup : public QDialog
 {
+    Q_OBJECT
 public:
     TextEditorPopup();
 

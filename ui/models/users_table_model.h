@@ -17,8 +17,8 @@ namespace models {
 
 class UsersTableModel : public QAbstractTableModel
 {
+    Q_OBJECT
 public:
-
     enum class Columns {
         Username = 0,
         Host,

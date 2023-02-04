@@ -13,6 +13,7 @@ namespace central_right {
 
 class ViewTab : public BaseRootTab
 {
+    Q_OBJECT
 public:
     explicit ViewTab(QWidget * parent = nullptr);
 

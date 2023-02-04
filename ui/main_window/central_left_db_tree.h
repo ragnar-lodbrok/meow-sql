@@ -14,6 +14,7 @@ namespace main_window {
 
 class DbTree : public QTreeView
 {
+    Q_OBJECT
 public:
     explicit DbTree(QWidget * parent = nullptr);
     virtual ~DbTree() override {}

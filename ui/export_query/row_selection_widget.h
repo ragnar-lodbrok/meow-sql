@@ -14,6 +14,7 @@ namespace export_query {
 
 class RowSelectionWidget : public QWidget
 {
+    Q_OBJECT
 public:
     explicit RowSelectionWidget(presenters::ExportQueryPresenter * presenter,
                                 QWidget *parent = nullptr);

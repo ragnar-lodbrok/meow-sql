@@ -13,7 +13,7 @@ Window::Window(meow::ui::main_window::Window * mainWindow)
     _saveConfirmCanceled(false)
 {
 
-    setMinimumSize(QSize(800, 400));
+    setMinimumSize(QSize(820, 400));
     setWindowTitle(tr("Session manager"));
 
     createMainLayout();

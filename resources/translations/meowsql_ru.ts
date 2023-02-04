@@ -36,7 +36,7 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../db/mysql/mysql_user_manager.cpp" line="84"/>
         <source>No password hash column available</source>
-        <translation type="unfinished"></translation>
+        <translation>Отсутствует столбец хеша пароля</translation>
     </message>
     <message>
         <location filename="../../db/routine_editor.cpp" line="44"/>
@@ -46,17 +46,17 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../db/user_query/user_query.cpp" line="128"/>
         <source>Affected rows: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Затронуто строк: %1</translation>
     </message>
     <message>
         <location filename="../../db/user_query/user_query.cpp" line="132"/>
         <source>Found rows: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Найденно строк: %1</translation>
     </message>
     <message>
         <location filename="../../db/user_query/user_query.cpp" line="136"/>
         <source>Warnings: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Предупреждения: %1</translation>
     </message>
     <message>
         <location filename="../../db/user_query/user_query.cpp" line="150"/>
@@ -74,27 +74,27 @@ You may ask someone with SUPER privileges
         <location filename="../../ssh/plink_ssh_tunnel.cpp" line="357"/>
         <location filename="../../ssh/ssh_tunnel_factory.cpp" line="43"/>
         <source>SSH Tunnel failed: </source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка SSH туннеля: </translation>
     </message>
     <message>
         <location filename="../../ssh/openssh_tunnel.cpp" line="128"/>
         <source>Failed to start `ssh` process</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка запуска процесса `ssh`</translation>
     </message>
     <message>
         <location filename="../../ssh/openssh_tunnel.cpp" line="130"/>
         <source>Error in `ssh` process</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка в процессе `ssh`</translation>
     </message>
     <message>
         <location filename="../../ssh/openssh_tunnel.cpp" line="251"/>
         <source>Could not execute ssh: Port %1 already in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно выполнить комманду ssh: port %1 уже используется.</translation>
     </message>
     <message>
         <location filename="../../ssh/plink_ssh_tunnel.cpp" line="162"/>
         <source>Could not execute PLink: Port %1 already in use.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно выполнить комманду PLink: port %1 уже используется.</translation>
     </message>
     <message>
         <location filename="../../ssh/plink_ssh_tunnel.cpp" line="206"/>
@@ -104,12 +104,12 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../ssh/plink_ssh_tunnel.cpp" line="252"/>
         <source>Could not execute PLink: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно выполнить комманду PLink</translation>
     </message>
     <message>
         <location filename="../../ssh/plink_ssh_tunnel.cpp" line="280"/>
         <source>PLink exited unexpected.</source>
-        <translation type="unfinished"></translation>
+        <translation>PLink неожиданно завершился.</translation>
     </message>
     <message>
         <location filename="../../ssh/plink_ssh_tunnel.cpp" line="392"/>
@@ -129,12 +129,12 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../ui/main_window/central_left_db_tree.cpp" line="175"/>
         <source>Drop %1 object(s) in database &quot;%2&quot;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить %1 объект(а/ов) в базе &quot;%2&quot;?</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_left_db_tree.cpp" line="222"/>
         <source>Truncate %1 table(s) and/or view(s)?</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить %1 таблицу(ы) и/или представление(я)?</translation>
     </message>
     <message>
         <location filename="../../ui/models/data_table_model.cpp" line="526"/>
@@ -197,7 +197,7 @@ You may ask someone with SUPER privileges
         <location filename="../../ui/presenters/central_right_widget_model.cpp" line="218"/>
         <location filename="../../ui/presenters/central_right_widget_model.cpp" line="236"/>
         <source>Untitled</source>
-        <translation type="unfinished"></translation>
+        <translation>Без названия</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/central_right_widget_model.cpp" line="189"/>
@@ -236,43 +236,43 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../ui/presenters/editable_data_context_menu_presenter.cpp" line="59"/>
         <source>Date and time: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата и время: %1</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/editable_data_context_menu_presenter.cpp" line="62"/>
         <source>Date: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата: %1</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/editable_data_context_menu_presenter.cpp" line="65"/>
         <source>Time: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Время: %1</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/editable_data_context_menu_presenter.cpp" line="68"/>
         <source>Year: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Год: %1</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/editable_data_context_menu_presenter.cpp" line="71"/>
         <source>UNIX Timestamp: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>UNIX Timestamp: %1</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/export_database_form.cpp" line="47"/>
         <source>All databases</source>
-        <translation type="unfinished"></translation>
+        <translation>Все базы данных</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="26"/>
         <source>All files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Все файлы (*)</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="241"/>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="246"/>
         <source>(%1 rows)</source>
-        <translation type="unfinished"></translation>
+        <translation>(%1 строк)</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/routine_info_widget_model.cpp" line="17"/>
@@ -318,12 +318,12 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../ui/user_manager/user_manager_window.cpp" line="159"/>
         <source>Delete user %1?</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить пользователя %1?</translation>
     </message>
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_csv.h" line="20"/>
         <source>CSV</source>
-        <translation type="unfinished"></translation>
+        <translation>CSV</translation>
     </message>
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_html_table.h" line="21"/>
@@ -333,47 +333,47 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_json.h" line="23"/>
         <source>JSON</source>
-        <translation type="unfinished"></translation>
+        <translation>JSON</translation>
     </message>
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_latex.h" line="20"/>
         <source>LaTeX</source>
-        <translation type="unfinished"></translation>
+        <translation>LaTeX</translation>
     </message>
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_markdown.h" line="20"/>
         <source>Markdown Here</source>
-        <translation type="unfinished"></translation>
+        <translation>Markdown Here</translation>
     </message>
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_php_array.h" line="20"/>
         <source>PHP Array</source>
-        <translation type="unfinished"></translation>
+        <translation>PHP Array</translation>
     </message>
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_sql_deletes_replaces.h" line="21"/>
         <source>SQL DELETEs/INSERTs</source>
-        <translation type="unfinished"></translation>
+        <translation>SQL DELETEs/INSERTs</translation>
     </message>
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_sql_inserts.h" line="19"/>
         <source>SQL INSERTs</source>
-        <translation type="unfinished"></translation>
+        <translation>>SQL INSERTs</translation>
     </message>
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_sql_replaces.h" line="19"/>
         <source>SQL REPLACEs</source>
-        <translation type="unfinished"></translation>
+        <translation>SQL REPLACEs</translation>
     </message>
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_wiki.h" line="20"/>
         <source>Wiki markup</source>
-        <translation>Wiki-разметка </translation>
+        <translation>Wiki-разметка</translation>
     </message>
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_xml.h" line="20"/>
         <source>XML</source>
-        <translation type="unfinished"></translation>
+        <translation>XML</translation>
     </message>
 </context>
 <context>
@@ -422,7 +422,7 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../app/actions.cpp" line="70"/>
         <source>&amp;Insert row</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Вставить строку</translation>
     </message>
     <message>
         <location filename="../../app/actions.cpp" line="72"/>
@@ -432,7 +432,7 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../app/actions.cpp" line="76"/>
         <source>&amp;Delete selected row(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Удалить выбранную строку(и)</translation>
     </message>
     <message>
         <location filename="../../app/actions.cpp" line="78"/>
@@ -442,7 +442,7 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../app/actions.cpp" line="82"/>
         <source>P&amp;ost</source>
-        <translation type="unfinished"></translation>
+        <translation>Отправить</translation>
     </message>
     <message>
         <location filename="../../app/actions.cpp" line="86"/>
@@ -452,7 +452,7 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../app/actions.cpp" line="90"/>
         <source>NULL</source>
-        <translation type="unfinished"></translation>
+        <translation>NULL</translation>
     </message>
     <message>
         <location filename="../../app/actions.cpp" line="91"/>
@@ -492,7 +492,7 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../app/actions.cpp" line="129"/>
         <source>Clear query log</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить лог запросов</translation>
     </message>
     <message>
         <location filename="../../app/actions.cpp" line="134"/>
@@ -511,7 +511,7 @@ You may ask someone with SUPER privileges
         <location filename="../../ssh/plink_ssh_tunnel.cpp" line="446"/>
         <location filename="../../ssh/plink_ssh_tunnel.cpp" line="467"/>
         <source>PLink:</source>
-        <translation type="unfinished"></translation>
+        <translation>PLink:</translation>
     </message>
 </context>
 <context>
@@ -527,7 +527,7 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../ui/common/table_cell_line_edit.cpp" line="18"/>
         <source>...</source>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../../ui/common/table_cell_line_edit.cpp" line="24"/>
@@ -545,7 +545,7 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../ui/common/table_column_default_editor.cpp" line="43"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользовательский</translation>
     </message>
 </context>
 <context>
@@ -563,17 +563,17 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../ui/common/text_editor_popup.cpp" line="127"/>
         <source>Windows linebreaks [\r\n]</source>
-        <translation type="unfinished"></translation>
+        <translation>Переносы строк как в Windows [\r\n]</translation>
     </message>
     <message>
         <location filename="../../ui/common/text_editor_popup.cpp" line="131"/>
         <source>Unix linebreaks [\n]</source>
-        <translation type="unfinished"></translation>
+        <translation>Переносы строк как в UNIX [\n]</translation>
     </message>
     <message>
         <location filename="../../ui/common/text_editor_popup.cpp" line="135"/>
         <source>Old macOS linebreaks [\r]</source>
-        <translation type="unfinished"></translation>
+        <translation>Переносы строк как в старом macOS [\r]</translation>
     </message>
     <message>
         <location filename="../../ui/common/text_editor_popup.cpp" line="139"/>
@@ -608,17 +608,17 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../ui/common/text_editor_popup.cpp" line="206"/>
         <source>%1 characters</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 символов</translation>
     </message>
     <message>
         <location filename="../../ui/common/text_editor_popup.cpp" line="208"/>
         <source>(max: %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>(макс: %1)</translation>
     </message>
     <message>
         <location filename="../../ui/common/text_editor_popup.cpp" line="211"/>
         <source>%1 lines</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 строк</translation>
     </message>
 </context>
 <context>
@@ -642,19 +642,22 @@ You may ask someone with SUPER privileges
         <location filename="../../ui/edit_database/dialog.cpp" line="122"/>
         <source>Creating database &apos;%1&apos; failed.
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось создать базу данных «%1».
+%2</translation>
     </message>
     <message>
         <location filename="../../ui/edit_database/dialog.cpp" line="123"/>
         <source>Altering database &apos;%1&apos; failed.
 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменение базы данных «%s» не удалось.
+%2</translation>
     </message>
     <message>
         <location filename="../../ui/edit_database/dialog.cpp" line="150"/>
         <source>Database &apos;%1&apos; already exists.
 Move all objects from &apos;%2&apos; to &apos;%1&apos;?</source>
-        <translation type="unfinished"></translation>
+        <translation>База данных &apos;%1&apos; уже существует.
+Перенести все объекты из &apos;%2&apos; в &apos;%1&apos;?</translation>
     </message>
 </context>
 <context>
@@ -681,7 +684,8 @@ Move all objects from &apos;%2&apos; to &apos;%1&apos;?</source>
         <location filename="../../ui/export_database/export_dialog.cpp" line="86"/>
         <source>Export failed.
 See logs for details.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка экспорта.
+Подробности смотрите в логах.</translation>
     </message>
 </context>
 <context>
@@ -713,7 +717,7 @@ See logs for details.</source>
         <location filename="../../ui/export_database/top_widget.cpp" line="123"/>
         <location filename="../../ui/export_database/top_widget.cpp" line="143"/>
         <source>Drop</source>
-        <translation>Уничтожить</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../../ui/export_database/top_widget.cpp" line="117"/>
@@ -723,17 +727,17 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/export_database/top_widget.cpp" line="137"/>
         <source>Trigger(s):</source>
-        <translation type="unfinished"></translation>
+        <translation>Триггер(ы)</translation>
     </message>
     <message>
         <location filename="../../ui/export_database/top_widget.cpp" line="157"/>
         <source>Dump:</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспортировать:</translation>
     </message>
     <message>
         <location filename="../../ui/export_database/top_widget.cpp" line="160"/>
         <source>Routines</source>
-        <translation type="unfinished"></translation>
+        <translation>Процедуры</translation>
     </message>
     <message>
         <location filename="../../ui/export_database/top_widget.cpp" line="163"/>
@@ -743,12 +747,12 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/export_database/top_widget.cpp" line="178"/>
         <source>Disable column statistics (mysqldump v8+)</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключить статистику столбцов (mysqldump v8+)</translation>
     </message>
     <message>
         <location filename="../../ui/export_database/top_widget.cpp" line="296"/>
         <source>SQL files (*.sql);;All files (*.*)</source>
-        <translation type="unfinished"></translation>
+        <translation>SQL файлы (*.sql);;Все файлы (*.*)</translation>
     </message>
 </context>
 <context>
@@ -853,7 +857,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/export_query/row_selection_widget.cpp" line="62"/>
         <source>Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Полностью</translation>
     </message>
 </context>
 <context>
@@ -867,7 +871,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_left_widget.cpp" line="51"/>
         <source>A list of databases, separated by |. Can contain regular expressions, e.g. &quot;mydb|test.*|project\d+&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Список баз, разделенных символом |. Может содержать регулярные выражения, н-р &quot;mydb|test.*|project\d+&quot;.</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_left_widget.cpp" line="61"/>
@@ -878,7 +882,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_left_widget.cpp" line="65"/>
         <source>Can contain regular expressions, e.g. &quot;phpbb_\d&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Может содержать регулярные выражения, н-р &quot;phpbb_\d&quot;</translation>
     </message>
 </context>
 <context>
@@ -909,7 +913,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_left_db_tree.cpp" line="150"/>
         <source>Drop ...</source>
-        <translation>Уничтожить...</translation>
+        <translation>Удалить...</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_left_db_tree.cpp" line="152"/>
@@ -919,7 +923,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_left_db_tree.cpp" line="208"/>
         <source>Truncate table(s) ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить таблицу(ы)</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_left_db_tree.cpp" line="210"/>
@@ -959,12 +963,12 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_left_db_tree.cpp" line="291"/>
         <source>Stored routine</source>
-        <translation type="unfinished"></translation>
+        <translation>Хранимая процедура</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_left_db_tree.cpp" line="293"/>
         <source>Create stored procedure or function</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать хранимую процедуру или функцию</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_left_db_tree.cpp" line="302"/>
@@ -987,7 +991,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/main_window_status_bar.cpp" line="25"/>
         <source>SQL Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Журнал SQL</translation>
     </message>
 </context>
 <context>
@@ -1094,22 +1098,22 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/global_filter_widget.cpp" line="27"/>
         <source>Wildcard pattern</source>
-        <translation type="unfinished"></translation>
+        <translation>Поиск по шаблону</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/global_filter_widget.cpp" line="41"/>
         <source>Use rich Perl-like regular expressions</source>
-        <translation type="unfinished"></translation>
+        <translation>Используйте расширенные регулярные выражения, подобные Perl</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/global_filter_widget.cpp" line="80"/>
         <source>%1 out of %2 matching. %3 hidden.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 из %2 найденных. %3 скрыто.</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/global_filter_widget.cpp" line="90"/>
         <source>All %1 matching.</source>
-        <translation type="unfinished"></translation>
+        <translation>Все %1 совпадают.</translation>
     </message>
 </context>
 <context>
@@ -1135,12 +1139,12 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/query/cr_query_panel.cpp" line="52"/>
         <source>Execute SQL (F9)</source>
-        <translation type="unfinished"></translation>
+        <translation>Выполнить SQL (F9)</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/query/cr_query_panel.cpp" line="53"/>
         <source>Execute SQL-query/queries...</source>
-        <translation type="unfinished"></translation>
+        <translation>Выполнить SQL-запрос/запросы...</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/query/cr_query_panel.cpp" line="60"/>
@@ -1151,7 +1155,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/query/cr_query_panel.cpp" line="62"/>
         <source>Run currently focused SQL query</source>
-        <translation type="unfinished"></translation>
+        <translation>Выполнить выбранный SQL-запрос</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/query/cr_query_panel.cpp" line="70"/>
@@ -1162,7 +1166,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/query/cr_query_panel.cpp" line="71"/>
         <source>Cancel running operation (Esc)</source>
-        <translation type="unfinished"></translation>
+        <translation>Отменить текущую операцию (Esc)</translation>
     </message>
 </context>
 <context>
@@ -1306,17 +1310,12 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="66"/>
         <source>Algorithm:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="86"/>
-        <source>SQL security:</source>
-        <translation type="unfinished"></translation>
+        <translation>Алгоритм:</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="106"/>
         <source>Check option for updates:</source>
-        <translation type="unfinished"></translation>
+        <translation>Способы обновления:</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="126"/>
@@ -1354,27 +1353,27 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/routine/cr_routine_info_options_tab.cpp" line="80"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Type:</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/routine/cr_routine_info_options_tab.cpp" line="112"/>
         <source>Data access:</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступ:</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/routine/cr_routine_info_options_tab.cpp" line="133"/>
         <source>Returns:</source>
-        <translation type="unfinished"></translation>
+        <translation>Возвращает:</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/routine/cr_routine_info_options_tab.cpp" line="152"/>
         <source>SQL Security:</source>
-        <translation type="unfinished"></translation>
+        <translation>SQL Security:</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/routine/cr_routine_info_options_tab.cpp" line="173"/>
         <source>Deterministic</source>
-        <translation type="unfinished"></translation>
+        <translation>Детерминированная процедура</translation>
     </message>
 </context>
 <context>
@@ -1463,7 +1462,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/table/cr_table_info_options_tab.cpp" line="127"/>
         <source>Checksum for rows</source>
-        <translation type="unfinished"></translation>
+        <translation>Контрольная сумма для строк</translation>
     </message>
 </context>
 <context>
@@ -1506,7 +1505,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/table/cr_table_indexes_tools.cpp" line="49"/>
         <source>Remove item</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить элемент</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/table/cr_table_indexes_tools.cpp" line="55"/>
@@ -1643,7 +1642,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/models/routine_parameters_model.cpp" line="71"/>
         <source>#</source>
-        <translation type="unfinished"></translation>
+        <translation>#</translation>
     </message>
     <message>
         <location filename="../../ui/models/routine_parameters_model.cpp" line="74"/>
@@ -1862,13 +1861,6 @@ See logs for details.</source>
         <translation>Точка с запятой</translation>
     </message>
     <message>
-        <location filename="../../ui/presenters/export_query_presenter.cpp" line="256"/>
-        <location filename="../../ui/presenters/export_query_presenter.cpp" line="259"/>
-        <location filename="../../ui/presenters/export_query_presenter.cpp" line="263"/>
-        <source>-</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="257"/>
         <source>Single quote</source>
         <translation>Одинарная кавычка</translation>
@@ -1886,22 +1878,22 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="261"/>
         <source>Unix linebreaks</source>
-        <translation type="unfinished"></translation>
+        <translation>Переносы строк как в UNIX</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="262"/>
         <source>Old macOS linebreaks</source>
-        <translation type="unfinished"></translation>
+        <translation>Переносы строк как в старом macOS</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="264"/>
         <source>Empty string</source>
-        <translation type="unfinished"></translation>
+        <translation>Пустая строка</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="452"/>
         <source>File exists. Overwrite file %1?</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл уже существует. Переписать %1?</translation>
     </message>
 </context>
 <context>
@@ -1919,7 +1911,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/presenters/routine_form.cpp" line="127"/>
         <source>UNKNOWN</source>
-        <translation type="unfinished"></translation>
+        <translation>Неизвестный</translation>
     </message>
 </context>
 <context>
@@ -1967,22 +1959,22 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/presenters/user_management_form.cpp" line="247"/>
         <source>%1 or more characters long</source>
-        <translation type="unfinished"></translation>
+        <translation>длиной %1 или более символов</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/user_management_form.cpp" line="250"/>
         <source>%1 mixed case character(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 символ(а) смешанного регистра</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/user_management_form.cpp" line="253"/>
         <source>%1 number(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 число(а)</translation>
     </message>
     <message>
         <location filename="../../ui/presenters/user_management_form.cpp" line="256"/>
         <source>%1 special character(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 специальный символ</translation>
     </message>
 </context>
 <context>
@@ -1995,17 +1987,17 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/session_manager/ssh_tunnel_tab.cpp" line="51"/>
         <source>SSH username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользователь SSH</translation>
     </message>
     <message>
         <location filename="../../ui/session_manager/ssh_tunnel_tab.cpp" line="69"/>
         <source>SSH password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Пароль SSH:</translation>
     </message>
     <message>
         <location filename="../../ui/session_manager/ssh_tunnel_tab.cpp" line="75"/>
         <source>Keep empty for key based auth</source>
-        <translation type="unfinished"></translation>
+        <translation>Оставьте пустым для авторизации по ключу</translation>
     </message>
     <message>
         <location filename="../../ui/session_manager/ssh_tunnel_tab.cpp" line="91"/>
@@ -2089,7 +2081,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/session_manager/start_tab.cpp" line="42"/>
         <source>New here? In order to connect to a server, you have to create a so called &quot;session&quot; at first. Just click the &quot;New&quot; button on the bottom left to create your first session. Give it a friendly name (e.g. &quot;Local DB server&quot;) so you&apos;ll recall it the next time you start %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы новичок? Для того, чтобы подключиться к серверу, вы должны создать так называемый «сеанс». Просто нажмите на кнопку «Создать» в левом нижнем углу, чтобы создать свой первый сеанс. Дайте ему понятное имя (например, «Локальный сервер»), при следующем запуске %1 вы просто выберете его из списка.</translation>
     </message>
 </context>
 <context>
@@ -2102,7 +2094,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/session_manager/window.cpp" line="32"/>
         <source>Session name can&apos;t be empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя сеанса не может быть пустым</translation>
     </message>
     <message>
         <location filename="../../ui/session_manager/window.cpp" line="37"/>
@@ -2150,12 +2142,12 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/user_manager/credentials_tab.cpp" line="21"/>
         <source>User name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя пользователя:</translation>
     </message>
     <message>
         <location filename="../../ui/user_manager/credentials_tab.cpp" line="34"/>
         <source>From host:</source>
-        <translation type="unfinished"></translation>
+        <translation>Хост:</translation>
     </message>
     <message>
         <location filename="../../ui/user_manager/credentials_tab.cpp" line="47"/>
@@ -2173,7 +2165,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/user_manager/left_widget.cpp" line="26"/>
         <source>Select user account:</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите учетную запись:</translation>
     </message>
     <message>
         <location filename="../../ui/user_manager/left_widget.cpp" line="69"/>
@@ -2219,7 +2211,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/user_manager/select_db_object.cpp" line="60"/>
         <source>... or wildcard database (% and _ allowed):</source>
-        <translation>... или выберите базу данных (можно использовать % and _):</translation>
+        <translation>... или выберите базу данных (можно использовать % и _):</translation>
     </message>
 </context>
 <context>

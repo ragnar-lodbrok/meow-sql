@@ -17,6 +17,7 @@ class BottomWidget;
 
 class Dialog : public QDialog
 {
+    Q_OBJECT
 public:
     explicit Dialog(presenters::ExportDatabaseForm * form);
 

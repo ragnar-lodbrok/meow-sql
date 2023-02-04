@@ -192,6 +192,7 @@ int DatabaseEntitiesTableModel::columnWidth(int column) const
     case Columns::Name:
         return 240;
     case Columns::Collation:
+    case Columns::Comment:
         return 140;
     case Columns::Created:
     case Columns::Updated:

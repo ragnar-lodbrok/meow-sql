@@ -16,6 +16,7 @@ namespace routine_info {
 
 class OptionsTab : public QWidget
 {
+    Q_OBJECT
 public:
     explicit OptionsTab(presenters::RoutineForm * form,
                         QWidget *parent = nullptr);
