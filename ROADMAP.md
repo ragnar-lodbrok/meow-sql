@@ -22,8 +22,6 @@ Query results filter
 
 Connection password encryption
 
-Translations
-
 Query: 3rd party syntax highlighter
 
 Query: autocomplete
@@ -61,6 +59,12 @@ Data Grid: insert files into text/blob fields
 Query: progress
 
 Data Grid: advanced sorting/query result sorting
+
+## 0.4.18
+
+Data Grid: export grid rows (more formats)
+
+Translations: added 9 languages (partially imported from HeidiSQL), help needed.
 
 ## 0.4.17
 
