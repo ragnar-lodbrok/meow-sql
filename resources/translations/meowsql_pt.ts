@@ -395,6 +395,76 @@ Pode pedir a alguém com privilégios SUPER:
         <source>XML</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../app/language.h" line="27"/>
+        <source>Bulgarian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="28"/>
+        <source>Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="29"/>
+        <source>Czech</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="30"/>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="31"/>
+        <source>French</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="32"/>
+        <source>German</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="33"/>
+        <source>Hungarian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="34"/>
+        <source>Italian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="35"/>
+        <source>Korean</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="36"/>
+        <source>Portuguese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="37"/>
+        <source>Romanian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="38"/>
+        <source>Russian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="39"/>
+        <source>Spanish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="40"/>
+        <source>Swedish</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>meow::Actions</name>
@@ -527,7 +597,7 @@ Pode pedir a alguém com privilégios SUPER:
     <message>
         <location filename="../../app/actions.cpp" line="140"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferências</translation>
     </message>
 </context>
 <context>
@@ -1331,7 +1401,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="66"/>
         <source>Algorithm:</source>
-        <translation type="unfinished"></translation>
+        <translation>Algoritmo:</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="86"/>
@@ -1341,7 +1411,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="106"/>
         <source>Check option for updates:</source>
-        <translation type="unfinished"></translation>
+        <translation>Marcar opção para actualizações:</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="126"/>
@@ -1379,7 +1449,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/routine/cr_routine_info_options_tab.cpp" line="80"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo:</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/routine/cr_routine_info_options_tab.cpp" line="112"/>
@@ -1870,6 +1940,42 @@ See logs for details.</source>
     </message>
 </context>
 <context>
+    <name>meow::ui::preferences::Dialog</name>
+    <message>
+        <location filename="../../ui/preferences/preferences_dialog.cpp" line="12"/>
+        <source>Preferences</source>
+        <translation>Preferências</translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferences/preferences_dialog.cpp" line="43"/>
+        <source>OK</source>
+        <translation>Aceitar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferences/preferences_dialog.cpp" line="44"/>
+        <source>Cancel</source>
+        <translation>Cancelar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferences/preferences_dialog.cpp" line="45"/>
+        <source>Apply</source>
+        <translation>Aplicar</translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferences/preferences_dialog.cpp" line="70"/>
+        <source>General</source>
+        <translation>Geral</translation>
+    </message>
+</context>
+<context>
+    <name>meow::ui::preferences::GeneralTab</name>
+    <message>
+        <location filename="../../ui/preferences/general_tab.cpp" line="32"/>
+        <source>Application language: *</source>
+        <translation>Idioma da aplicação: *</translation>
+    </message>
+</context>
+<context>
     <name>meow::ui::presenters::ExportQueryPresenter</name>
     <message>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="253"/>
@@ -1920,6 +2026,14 @@ See logs for details.</source>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="452"/>
         <source>File exists. Overwrite file %1?</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>meow::ui::presenters::PreferencesPresenter</name>
+    <message>
+        <location filename="../../ui/presenters/preferences_presenter.cpp" line="69"/>
+        <source>You should restart %1 to apply changed critical settings, and to prevent unexpected behaviour.</source>
+        <translation>Deve reiniciar %1 para aplicar definições críticas alteradas e prevenir comportamentos inesperados.</translation>
     </message>
 </context>
 <context>

@@ -50,7 +50,14 @@ QString getTranslation(QString source,
     // Sometimes we use ` and ' while heidi uses "
     // TODO: use "
 
-    // TODO: remove ":" at the end and try again
+    // Sometime Heidi uses ":" at the end and and we don't
+    if (tr.isNull() && source.endsWith(":")) {
+        QString newSource = source.left(source.length() - 1);
+        tr = translationsMap.value(newSource);
+        if (!tr.isNull()) {
+            tr += ":";
+        }
+    }
 
     if (tr.isNull()) {
         source.replace('\'', '"');
@@ -205,8 +212,23 @@ int main(int argc, char *argv[])
     Q_UNUSED(argc);
     Q_UNUSED(argv);
 
-    copy("./heidisql_zh.ts",
-         "./meowsql_zh.ts");
+    QString prefixPath = "./";
+
+    copy(prefixPath + "heidisql_bg.ts", prefixPath + "meowsql_bg.ts");
+    copy(prefixPath + "heidisql_zh.ts", prefixPath + "meowsql_zh.ts");
+    copy(prefixPath + "heidisql_cs.ts", prefixPath + "meowsql_cs.ts");
+    copy(prefixPath + "heidisql_fr.ts", prefixPath + "meowsql_fr.ts");
+    copy(prefixPath + "heidisql_de.ts", prefixPath + "meowsql_de.ts");
+    copy(prefixPath + "heidisql_hu.ts", prefixPath + "meowsql_hu.ts");
+    copy(prefixPath + "heidisql_it.ts", prefixPath + "meowsql_it.ts");
+    copy(prefixPath + "heidisql_ko.ts", prefixPath + "meowsql_ko.ts");
+    copy(prefixPath + "heidisql_pt.ts", prefixPath + "meowsql_pt.ts");
+    copy(prefixPath + "heidisql_ro.ts", prefixPath + "meowsql_ro.ts");
+    copy(prefixPath + "heidisql_ru.ts", prefixPath + "meowsql_ru.ts");
+    copy(prefixPath + "heidisql_pt.ts", prefixPath + "meowsql_pt.ts");
+    copy(prefixPath + "heidisql_es.ts", prefixPath + "meowsql_es.ts");
+    copy(prefixPath + "heidisql_sv.ts", prefixPath + "meowsql_sv.ts");
+
 
     return 0;
 }

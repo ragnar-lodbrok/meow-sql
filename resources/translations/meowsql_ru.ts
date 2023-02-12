@@ -61,12 +61,12 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../db/user_query/user_query.cpp" line="143"/>
         <source>Duration for %1 </source>
-        <translation type="unfinished"></translation>
+        <translation>Длительность для %1 </translation>
     </message>
     <message>
         <location filename="../../db/user_query/user_query.cpp" line="146"/>
         <source>of %1 </source>
-        <translation type="unfinished"></translation>
+        <translation>из %1 </translation>
     </message>
     <message>
         <location filename="../../db/user_query/user_query.cpp" line="150"/>
@@ -81,12 +81,12 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../db/user_query/user_query.cpp" line="155"/>
         <source> %1 sec.</source>
-        <translation type="unfinished"></translation>
+        <translation> %1 сек.</translation>
     </message>
     <message>
         <location filename="../../db/user_query/user_query.cpp" line="161"/>
         <source> (+%1 sec. network)</source>
-        <translation type="unfinished"></translation>
+        <translation> (+%1 сек. сеть)</translation>
     </message>
     <message>
         <location filename="../../ssh/libssh_tunnel.cpp" line="112"/>
@@ -395,6 +395,76 @@ You may ask someone with SUPER privileges
         <source>XML</source>
         <translation>XML</translation>
     </message>
+    <message>
+        <location filename="../../app/language.h" line="27"/>
+        <source>Bulgarian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="28"/>
+        <source>Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="29"/>
+        <source>Czech</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="30"/>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="31"/>
+        <source>French</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="32"/>
+        <source>German</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="33"/>
+        <source>Hungarian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="34"/>
+        <source>Italian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="35"/>
+        <source>Korean</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="36"/>
+        <source>Portuguese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="37"/>
+        <source>Romanian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="38"/>
+        <source>Russian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="39"/>
+        <source>Spanish</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../app/language.h" line="40"/>
+        <source>Swedish</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>meow::Actions</name>
@@ -527,7 +597,7 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../app/actions.cpp" line="140"/>
         <source>Preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки</translation>
     </message>
 </context>
 <context>
@@ -1340,7 +1410,7 @@ See logs for details.</source>
     <message>
         <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="86"/>
         <source>SQL Security:</source>
-        <translation type="unfinished">SQL Security:</translation>
+        <translation>SQL Security:</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="106"/>
@@ -1874,6 +1944,42 @@ See logs for details.</source>
     </message>
 </context>
 <context>
+    <name>meow::ui::preferences::Dialog</name>
+    <message>
+        <location filename="../../ui/preferences/preferences_dialog.cpp" line="12"/>
+        <source>Preferences</source>
+        <translation>Настройки</translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferences/preferences_dialog.cpp" line="43"/>
+        <source>OK</source>
+        <translation>ОК</translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferences/preferences_dialog.cpp" line="44"/>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferences/preferences_dialog.cpp" line="45"/>
+        <source>Apply</source>
+        <translation>Применить</translation>
+    </message>
+    <message>
+        <location filename="../../ui/preferences/preferences_dialog.cpp" line="70"/>
+        <source>General</source>
+        <translation>Общие</translation>
+    </message>
+</context>
+<context>
+    <name>meow::ui::preferences::GeneralTab</name>
+    <message>
+        <location filename="../../ui/preferences/general_tab.cpp" line="32"/>
+        <source>Application language: *</source>
+        <translation>Язык приложения: *</translation>
+    </message>
+</context>
+<context>
     <name>meow::ui::presenters::ExportQueryPresenter</name>
     <message>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="253"/>
@@ -1924,6 +2030,14 @@ See logs for details.</source>
         <location filename="../../ui/presenters/export_query_presenter.cpp" line="452"/>
         <source>File exists. Overwrite file %1?</source>
         <translation>Файл уже существует. Переписать %1?</translation>
+    </message>
+</context>
+<context>
+    <name>meow::ui::presenters::PreferencesPresenter</name>
+    <message>
+        <location filename="../../ui/presenters/preferences_presenter.cpp" line="69"/>
+        <source>You should restart %1 to apply changed critical settings, and to prevent unexpected behaviour.</source>
+        <translation>Вам следует перезапустить %1, чтобы сохранить изменения важных параметров и предотвратить непредвиденное поведение.</translation>
     </message>
 </context>
 <context>
