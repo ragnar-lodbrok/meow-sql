@@ -64,7 +64,7 @@ Data Grid: advanced sorting/query result sorting
 
 Data Grid: export grid rows (more formats)
 
-Translations: added 9 languages (partially imported from HeidiSQL), help needed.
+Translations: added 13 languages (partially imported from HeidiSQL), help needed.
 
 ## 0.4.17
 
