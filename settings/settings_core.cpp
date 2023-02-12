@@ -5,7 +5,7 @@ namespace settings {
 
 Core::Core()
 {
-
+    _userPreferences.load();
 }
 
 } // namespace meow

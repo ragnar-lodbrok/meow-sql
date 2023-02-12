@@ -9,11 +9,15 @@ App::App()
     , _dbConnectionParamsManager()
     , _dbConnectionsManager(db::ConnectionsManager::create())
     , _settingsCore()
-    , _actions(this) // after settings
 {
     g_app = this;
     _dbConnectionParamsManager.load();
     _dbConnectionsManager->init();
+}
+
+App::~App()
+{
+    delete _actions;
 }
 
 db::ConnectionParamsManager * App::dbConnectionParamsManager()

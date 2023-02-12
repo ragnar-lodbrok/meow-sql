@@ -59,6 +59,16 @@ You may ask someone with SUPER privileges
         <translation>Предупреждения: %1</translation>
     </message>
     <message>
+        <location filename="../../db/user_query/user_query.cpp" line="143"/>
+        <source>Duration for %1 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../db/user_query/user_query.cpp" line="146"/>
+        <source>of %1 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../db/user_query/user_query.cpp" line="150"/>
         <source>query</source>
         <translation>запрос</translation>
@@ -67,6 +77,16 @@ You may ask someone with SUPER privileges
         <location filename="../../db/user_query/user_query.cpp" line="152"/>
         <source>queries</source>
         <translation>запросов</translation>
+    </message>
+    <message>
+        <location filename="../../db/user_query/user_query.cpp" line="155"/>
+        <source> %1 sec.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../db/user_query/user_query.cpp" line="161"/>
+        <source> (+%1 sec. network)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../ssh/libssh_tunnel.cpp" line="112"/>
@@ -117,22 +137,22 @@ You may ask someone with SUPER privileges
         <translation>Ошибка чтения пайпа</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="165"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="170"/>
         <source>Drop Database &quot;%1&quot;?</source>
         <translation>Удалить базу данных «%1»?</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="169"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="174"/>
         <source>WARNING: You will lose all objects in database %1!</source>
         <translation>ВНИМАНИЕ: Вы потеряете все объекты в базе данных %1!</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="175"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="180"/>
         <source>Drop %1 object(s) in database &quot;%2&quot;?</source>
         <translation>Удалить %1 объект(а/ов) в базе &quot;%2&quot;?</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="222"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="227"/>
         <source>Truncate %1 table(s) and/or view(s)?</source>
         <translation>Очистить %1 таблицу(ы) и/или представление(я)?</translation>
     </message>
@@ -358,7 +378,7 @@ You may ask someone with SUPER privileges
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_sql_inserts.h" line="19"/>
         <source>SQL INSERTs</source>
-        <translation>>SQL INSERTs</translation>
+        <translation>&gt;SQL INSERTs</translation>
     </message>
     <message>
         <location filename="../../utils/exporting/query_data_export_formats/format_sql_replaces.h" line="19"/>
@@ -503,6 +523,11 @@ You may ask someone with SUPER privileges
         <location filename="../../app/actions.cpp" line="135"/>
         <source>Dump database objects to an SQL file</source>
         <translation>Дамп объектов базы данных в файл SQL</translation>
+    </message>
+    <message>
+        <location filename="../../app/actions.cpp" line="140"/>
+        <source>Preferences</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -901,87 +926,87 @@ See logs for details.</source>
         <translation>Создать</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="123"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="128"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="124"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="129"/>
         <source>Edit selected object</source>
         <translation>Редактировать выбранный объект</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="150"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="155"/>
         <source>Drop ...</source>
         <translation>Удалить...</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="152"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="157"/>
         <source>Deletes tables, views, procedures and functions</source>
         <translation>Удалить таблицы, отображения, процедуры и функции</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="208"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="213"/>
         <source>Truncate table(s) ...</source>
         <translation>Очистить таблицу(ы)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="210"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="215"/>
         <source>Delete all rows in selected table(s)</source>
         <translation>Удалить все строки в выбранной таблиц(е)</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="253"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="258"/>
         <source>Database</source>
         <translation>База данных</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="254"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="259"/>
         <source>Create a new, blank database</source>
         <translation>Создать новую, пустую базу данных</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="269"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="274"/>
         <source>Table</source>
         <translation>Таблица</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="271"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="276"/>
         <source>Create new table in selected database</source>
         <translation>Создать новую таблицу в выбранной базе данных</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="280"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="285"/>
         <source>View</source>
         <translation>Представление</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="282"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="287"/>
         <source>Create view ...</source>
         <translation>Создать представление...</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="291"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="296"/>
         <source>Stored routine</source>
         <translation>Хранимая процедура</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="293"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="298"/>
         <source>Create stored procedure or function</source>
         <translation>Создать хранимую процедуру или функцию</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="302"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="307"/>
         <source>Trigger</source>
         <translation>Триггер</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="304"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="309"/>
         <source>Create a trigger</source>
         <translation>Создать триггер</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="342"/>
+        <location filename="../../ui/main_window/central_left_db_tree.cpp" line="347"/>
         <source>Refresh</source>
         <translation>Обновить</translation>
     </message>
@@ -997,27 +1022,27 @@ See logs for details.</source>
 <context>
     <name>meow::ui::main_window::Window</name>
     <message>
-        <location filename="../../ui/main_window/main_window.cpp" line="171"/>
+        <location filename="../../ui/main_window/main_window.cpp" line="180"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/main_window.cpp" line="172"/>
+        <location filename="../../ui/main_window/main_window.cpp" line="181"/>
         <source>Edit</source>
         <translation>Редактировать</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/main_window.cpp" line="173"/>
+        <location filename="../../ui/main_window/main_window.cpp" line="182"/>
         <source>Search</source>
         <translation>Поиск</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/main_window.cpp" line="174"/>
+        <location filename="../../ui/main_window/main_window.cpp" line="183"/>
         <source>Tools</source>
         <translation>Инструменты</translation>
     </message>
     <message>
-        <location filename="../../ui/main_window/main_window.cpp" line="175"/>
+        <location filename="../../ui/main_window/main_window.cpp" line="184"/>
         <source>Help</source>
         <translation>Помощь</translation>
     </message>
@@ -1311,6 +1336,11 @@ See logs for details.</source>
         <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="66"/>
         <source>Algorithm:</source>
         <translation>Алгоритм:</translation>
+    </message>
+    <message>
+        <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="86"/>
+        <source>SQL Security:</source>
+        <translation type="unfinished">SQL Security:</translation>
     </message>
     <message>
         <location filename="../../ui/main_window/central_right/view/central_right_view_tab.cpp" line="106"/>

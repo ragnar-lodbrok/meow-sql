@@ -134,6 +134,11 @@ void Actions::createActions(App * app)
                               tr("Export database as SQL"), this);
     _exportDatabase->setStatusTip(tr("Dump database objects to an SQL file"));
 
+    // -------------------------------------------------------------------------
+
+    _preferences = new QAction(QIcon(":/icons/wrench_orange.png"),
+                              tr("Preferences"), this);
+
 }
 
 } // namespace meow

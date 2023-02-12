@@ -60,6 +60,7 @@ set(HEADER_FILES
     app/actions.h
     app/app.h
     app/log.h
+    app/language.h
     db/collation_fetcher.h
     db/common.h
     db/connection.h
@@ -128,6 +129,7 @@ set(HEADER_FILES
     settings/settings_icons.h
     settings/settings_text.h
     settings/data_editors.h
+    settings/general.h
     settings/queries_storage.h
     settings/query_data_export_storage.h
     settings/table_filters_storage.h
@@ -234,6 +236,8 @@ set(HEADER_FILES
     ui/models/user_privileges_model.h
     ui/models/variables_table_model.h
     ui/models/session_objects_tree_model.h
+    ui/preferences/general_tab.h
+    ui/preferences/preferences_dialog.h
     ui/presenters/central_right_host_widget_model.h
     ui/presenters/central_right_widget_model.h
     ui/presenters/central_right_data_filter_form.h
@@ -245,6 +249,7 @@ set(HEADER_FILES
     ui/presenters/editable_data_context_menu_presenter.h
     ui/presenters/export_database_form.h
     ui/presenters/export_query_presenter.h
+    ui/presenters/preferences_presenter.h
     ui/presenters/routine_form.h
     ui/presenters/select_db_object_form.h
     ui/presenters/table_info_form.h
@@ -360,6 +365,7 @@ set(SOURCE_FILES
     settings/settings_icons.cpp
     settings/settings_text.cpp
     settings/data_editors.cpp
+    settings/general.cpp
     settings/queries_storage.cpp
     settings/query_data_export_storage.cpp
     settings/table_filters_storage.cpp
@@ -461,6 +467,8 @@ set(SOURCE_FILES
     ui/models/user_privileges_model.cpp
     ui/models/variables_table_model.cpp
     ui/models/session_objects_tree_model.cpp
+    ui/preferences/general_tab.cpp
+    ui/preferences/preferences_dialog.cpp
     ui/presenters/central_right_host_widget_model.cpp
     ui/presenters/central_right_widget_model.cpp
     ui/presenters/central_right_data_filter_form.cpp
@@ -472,6 +480,7 @@ set(SOURCE_FILES
     ui/presenters/editable_data_context_menu_presenter.cpp
     ui/presenters/export_database_form.cpp
     ui/presenters/export_query_presenter.cpp
+    ui/presenters/preferences_presenter.cpp
     ui/presenters/routine_form.cpp
     ui/presenters/select_db_object_form.cpp
     ui/presenters/table_info_form.cpp

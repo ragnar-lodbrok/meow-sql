@@ -40,13 +40,15 @@ private:
 
     Q_SLOT void sessionManagerDialogCanceled();
 
-    Q_SLOT void onDisconnectAction(bool checked);
+    Q_SLOT void onDisconnectAction();
 
-    Q_SLOT void onSessionManagerAction(bool checked);
+    Q_SLOT void onSessionManagerAction();
 
     Q_SLOT void onUserManagerAction();
 
-    Q_SLOT void onGlobalRefresh(bool checked);
+    Q_SLOT void onPreferencesAction();
+
+    Q_SLOT void onGlobalRefresh();
 
     Q_SLOT void onUserManagerFinished();
 

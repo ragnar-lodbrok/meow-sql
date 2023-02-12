@@ -3,6 +3,7 @@
 #include "helpers/logger.h"
 #include "ui/session_manager/window.h"
 #include "ui/user_manager/user_manager_window.h"
+#include "ui/preferences/preferences_dialog.h"
 #include "app/app.h"
 #include "db/exception.h"
 
@@ -54,6 +55,11 @@ Window::Window(QWidget *parent)
             &QAction::triggered,
             this,
             &Window::onUserManagerAction);
+
+    connect(meow::app()->actions()->preferences(),
+            &QAction::triggered,
+            this,
+            &Window::onPreferencesAction);
 
     connect(meow::app()->actions()->globalRefresh(),
             &QAction::triggered,
@@ -117,9 +123,8 @@ void Window::sessionManagerDialogCanceled()
     }
 }
 
-void Window::onDisconnectAction(bool checked)
+void Window::onDisconnectAction()
 {
-    Q_UNUSED(checked);
     try {
         meow::app()->dbConnectionsManager()->closeActiveConnection();
     } catch(meow::db::Exception & ex) {
@@ -131,9 +136,8 @@ void Window::onDisconnectAction(bool checked)
     }
 }
 
-void Window::onSessionManagerAction(bool checked)
+void Window::onSessionManagerAction()
 {
-    Q_UNUSED(checked);
     showSessionManagerDialog();
 }
 
@@ -155,9 +159,14 @@ void Window::onUserManagerAction()
     userManagerWindow->loadData();
 }
 
-void Window::onGlobalRefresh(bool checked)
+void Window::onPreferencesAction()
 {
-    Q_UNUSED(checked);
+    meow::ui::preferences::Dialog preferencesDialog(meow::app()->settings());
+    preferencesDialog.exec();
+}
+
+void Window::onGlobalRefresh()
+{
     _centralWidget->onGlobalRefresh();
 }
 

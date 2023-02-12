@@ -41,6 +41,8 @@ public:
 
     QAction * exportDatabase() const { return _exportDatabase; }
 
+    QAction * preferences() const { return _preferences; }
+
 private:
 
     void createActions(App * app);
@@ -65,6 +67,7 @@ private:
     QAction * _logClear;
 
     QAction * _exportDatabase;
+    QAction * _preferences;
 };
 
 } // namespace meow

@@ -94,6 +94,11 @@ void DbTree::contextMenuEvent(QContextMenuEvent * event)
         menu.addAction(meow::app()->actions()->userManager());
     }
 
+    // ------------------
+    menu.addSeparator();
+    // temp until global menu added:
+    menu.addAction(meow::app()->actions()->preferences());
+
     menu.exec(event->globalPos());
 }
 

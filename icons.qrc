@@ -100,7 +100,7 @@
         <file>resources/icons/delimiter.png</file>
         <file>resources/icons/execute_selection.png</file>
         <file alias="execute_line.png">resources/icons/execute_line.png</file>
-        <file>resources/icons/wrench_orange.png</file>
+        <file alias="wrench_orange.png">resources/icons/wrench_orange.png</file>
         <file alias="wordwrap.png">resources/icons/wordwrap.png</file>
         <file>resources/icons/view_highlight.png</file>
         <file>resources/icons/view_edit.png</file>

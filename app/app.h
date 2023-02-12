@@ -16,12 +16,18 @@ class App
 {
 public:
     App();
+    ~App();
     db::ConnectionParamsManager * dbConnectionParamsManager();
     db::ConnectionsManager * dbConnectionsManager();
 
     meow::settings::Core * settings() { return &_settingsCore; }
 
-    Actions * actions() { return &_actions; }
+    Actions * actions() {
+        if (!_actions) {
+            _actions = new Actions(this);
+        }
+        return _actions;
+    }
 
     Log * log() { return &_log; }
 
@@ -34,7 +40,7 @@ private:
 
     meow::settings::Core _settingsCore;
 
-    Actions _actions;
+    Actions * _actions = nullptr;
 };
 
 App * app();

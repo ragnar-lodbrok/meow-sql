@@ -94,7 +94,23 @@ Mac OS:
 
 This project is licensed under the GPL 2.0 License
 
+## Translations
+
+If you want to translate MeowSQL to your language, open corresponding `resources/translations/meowsql_*.ts` file.
+
+Use either Qt Linguist or in any text editor remove (` type="unfinished"`) from translation section:
+
+`<translation type="unfinished">ADD TRANSLATION HERE</translation>`
+
+Then create merge request (see also resources/translations/README.txt).
+
 ## Acknowledgments
 * HeidiSQL developers - now on [github](https://github.com/HeidiSQL/HeidiSQL)
 * [peek](https://github.com/phw/peek) was used for GIF recording
 * [linuxdeployqt](https://github.com/probonopd/linuxdeployqt) was used for AppImage creation
+
+## Donation
+* One time (any amount + message): https://www.donationalerts.com/r/ragnar_lodbro
+* Recurring: https://boosty.to/ragnar_lodbro
+* Recurring: https://patreon.com/ragnar_lodbrok
+
