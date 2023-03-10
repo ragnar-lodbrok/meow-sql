@@ -42,8 +42,7 @@ int main(int argc, char *argv[])
     }
 
     meow::ui::main_window::Window w;
-    w.show();
-
+    
     w.showSessionManagerDialog();
 
     return a.exec();
