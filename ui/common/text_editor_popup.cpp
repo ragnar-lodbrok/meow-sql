@@ -64,7 +64,7 @@ void TextEditorPopup::createWidgets()
     _toolbar = new QToolBar();
     _toolbar->setFloatable(false);
 #ifdef Q_OS_MAC
-    _dataToolBar->setStyle(QStyleFactory::create("windows"));
+    _toolbar->setStyle(QStyleFactory::create("windows"));
 #endif
 
     _toolbar->addAction(_wordWrapAction);
