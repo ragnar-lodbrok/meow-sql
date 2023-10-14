@@ -113,4 +113,7 @@ Then create merge request (see also resources/translations/README.txt).
 * One time (any amount + message): https://www.donationalerts.com/r/ragnar_lodbro
 * Recurring: https://boosty.to/ragnar_lodbro
 * Recurring: https://patreon.com/ragnar_lodbrok
+* BTC: 1Ce8eJmJNDUxHdnqQGfgBVkLzixSBhEsaC
+* USDT: TCyFuko2mxtduRc9SgPkZtPWUk7cPz3vZt
+* TON: UQCinAVCbNfOxvOfsyBjtmKrZoQr6t1tQ5A-XLS3XwJanTwr
 
